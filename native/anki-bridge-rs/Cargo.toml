@@ -1,0 +1,18 @@
+[package]
+name = "anki-bridge-rs"
+version = "0.1.0"
+edition = "2021"
+description = "C ABI Protobuf bridge wrapping ankitects/anki rslib for Flanki (Flutter)"
+
+[lib]
+name = "anki_bridge"
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+prost = "0.13"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
