@@ -1,0 +1,54 @@
+﻿{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flanki (Windows Desktop)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "windows"
+    },
+    {
+      "name": "Flanki (Chrome Web)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "chrome"
+    },
+    {
+      "name": "Flanki (Edge Web)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "edge"
+    },
+    {
+      "name": "Flanki (Windows - Profile Mode)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "windows",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Flanki (Windows - Release Mode)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "windows",
+      "flutterMode": "release"
+    },
+    {
+      "name": "Flutter: Run All Tests",
+      "request": "launch",
+      "type": "dart",
+      "program": "test/"
+    },
+    {
+      "name": "Flutter: Run Current Test File",
+      "request": "launch",
+      "type": "dart",
+      "program": "${file}"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../ui/widgets/mobile_scaffold.dart';
+import '../../ui/widgets/adaptive_scaffold.dart';
 import '../../ui/screens/decks/decks_screen.dart';
 import '../../ui/screens/browser/card_browser_screen.dart';
 import '../../ui/screens/stats/stats_screen.dart';
@@ -19,7 +19,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return MobileScaffold(navigationShell: navigationShell);
+          return AdaptiveScaffold(navigationShell: navigationShell);
         },
         branches: [
           StatefulShellBranch(

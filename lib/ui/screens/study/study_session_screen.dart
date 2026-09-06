@@ -205,7 +205,61 @@ class StudySessionScreen extends HookConsumerWidget {
       return fsrsService.previewIntervals(currentCard, l10n: l10n);
     }, [currentCard?.id, currentCard?.stability, currentCard?.difficulty, currentCard?.reps, l10n]);
 
-    return Scaffold(
+    final shortcuts = <ShortcutActivator, VoidCallback>{
+      const SingleActivator(LogicalKeyboardKey.space): () {
+        if (!sessionState.isFlipped) {
+          handleFlip();
+        } else {
+          handleRate(ReviewRating.good);
+        }
+      },
+      const SingleActivator(LogicalKeyboardKey.enter): () {
+        if (!sessionState.isFlipped) {
+          handleFlip();
+        } else {
+          handleRate(ReviewRating.good);
+        }
+      },
+      const SingleActivator(LogicalKeyboardKey.digit1): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.again);
+      },
+      const SingleActivator(LogicalKeyboardKey.numpad1): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.again);
+      },
+      const SingleActivator(LogicalKeyboardKey.digit2): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.hard);
+      },
+      const SingleActivator(LogicalKeyboardKey.numpad2): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.hard);
+      },
+      const SingleActivator(LogicalKeyboardKey.digit3): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.good);
+      },
+      const SingleActivator(LogicalKeyboardKey.numpad3): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.good);
+      },
+      const SingleActivator(LogicalKeyboardKey.digit4): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.easy);
+      },
+      const SingleActivator(LogicalKeyboardKey.numpad4): () {
+        if (sessionState.isFlipped) handleRate(ReviewRating.easy);
+      },
+      const SingleActivator(LogicalKeyboardKey.keyZ, control: true): () {
+        if (sessionState.canUndo) handleUndo();
+      },
+      const SingleActivator(LogicalKeyboardKey.keyZ): () {
+        if (sessionState.canUndo) handleUndo();
+      },
+      const SingleActivator(LogicalKeyboardKey.escape): () {
+        context.pop();
+      },
+    };
+
+    return CallbackShortcuts(
+      bindings: shortcuts,
+      child: Focus(
+        autofocus: true,
+        child: Scaffold(
       headers: [
         AppBar(
           leading: [
@@ -302,28 +356,31 @@ class StudySessionScreen extends HookConsumerWidget {
                         ..rotateY(angle);
 
                       return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                          child: Transform(
-                            alignment: Alignment.center,
-                            transform: matrix,
-                            child: isUnder
-                                ? Transform(
-                                    alignment: Alignment.center,
-                                    transform: Matrix4.identity()..rotateY(math.pi),
-                                    child: _CardBackView(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 760, maxHeight: 680),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                            child: Transform(
+                              alignment: Alignment.center,
+                              transform: matrix,
+                              child: isUnder
+                                  ? Transform(
+                                      alignment: Alignment.center,
+                                      transform: Matrix4.identity()..rotateY(math.pi),
+                                      child: _CardBackView(
+                                        card: currentCard,
+                                        theme: theme,
+                                        typedAnswer: userTypedAnswer.value,
+                                      ),
+                                    )
+                                  : _CardFrontView(
                                       card: currentCard,
                                       theme: theme,
                                       typedAnswer: userTypedAnswer.value,
+                                      onAnswerChanged: (v) => userTypedAnswer.value = v,
+                                      onSubmitAnswer: handleFlip,
                                     ),
-                                  )
-                                : _CardFrontView(
-                                    card: currentCard,
-                                    theme: theme,
-                                    typedAnswer: userTypedAnswer.value,
-                                    onAnswerChanged: (v) => userTypedAnswer.value = v,
-                                    onSubmitAnswer: handleFlip,
-                                  ),
+                            ),
                           ),
                         ),
                       );
@@ -335,55 +392,64 @@ class StudySessionScreen extends HookConsumerWidget {
               // Bottom Action Area
               SafeArea(
                 top: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: sessionState.isFlipped
-                      ? Row(
-                          children: [
-                            Expanded(
-                              child: _RatingButton(
-                                label: l10n.ratingAgain,
-                                interval: intervals[ReviewRating.again] ?? '< 10m',
-                                backgroundColor: m.Colors.red.shade600,
-                                onTap: () => handleRate(ReviewRating.again),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 760),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      child: sessionState.isFlipped
+                          ? Row(
+                              children: [
+                                Expanded(
+                                  child: _RatingButton(
+                                    label: l10n.ratingAgain,
+                                    shortcutHint: '1',
+                                    interval: intervals[ReviewRating.again] ?? '< 10m',
+                                    backgroundColor: m.Colors.red.shade600,
+                                    onTap: () => handleRate(ReviewRating.again),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: _RatingButton(
+                                    label: l10n.ratingHard,
+                                    shortcutHint: '2',
+                                    interval: intervals[ReviewRating.hard] ?? '1d',
+                                    backgroundColor: m.Colors.orange.shade700,
+                                    onTap: () => handleRate(ReviewRating.hard),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: _RatingButton(
+                                    label: l10n.ratingGood,
+                                    shortcutHint: '3',
+                                    interval: intervals[ReviewRating.good] ?? '4d',
+                                    backgroundColor: m.Colors.blue.shade600,
+                                    onTap: () => handleRate(ReviewRating.good),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: _RatingButton(
+                                    label: l10n.ratingEasy,
+                                    shortcutHint: '4',
+                                    interval: intervals[ReviewRating.easy] ?? '12d',
+                                    backgroundColor: m.Colors.green.shade600,
+                                    onTap: () => handleRate(ReviewRating.easy),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SizedBox(
+                              width: double.infinity,
+                              child: PrimaryButton(
+                                onPressed: handleFlip,
+                                child: Text('${l10n.tapToFlip}  [Space]'),
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: _RatingButton(
-                                label: l10n.ratingHard,
-                                interval: intervals[ReviewRating.hard] ?? '1d',
-                                backgroundColor: m.Colors.orange.shade700,
-                                onTap: () => handleRate(ReviewRating.hard),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: _RatingButton(
-                                label: l10n.ratingGood,
-                                interval: intervals[ReviewRating.good] ?? '4d',
-                                backgroundColor: m.Colors.blue.shade600,
-                                onTap: () => handleRate(ReviewRating.good),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: _RatingButton(
-                                label: l10n.ratingEasy,
-                                interval: intervals[ReviewRating.easy] ?? '12d',
-                                backgroundColor: m.Colors.green.shade600,
-                                onTap: () => handleRate(ReviewRating.easy),
-                              ),
-                            ),
-                          ],
-                        )
-                      : SizedBox(
-                          width: double.infinity,
-                          child: PrimaryButton(
-                            onPressed: handleFlip,
-                            child: Text(l10n.tapToFlip),
-                          ),
-                        ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -396,7 +462,9 @@ class StudySessionScreen extends HookConsumerWidget {
             ),
         ],
       ),
-    );
+    ),
+  ),
+);
   }
 }
 
@@ -544,12 +612,14 @@ class _CardBackView extends StatelessWidget {
 class _RatingButton extends HookWidget {
   final String label;
   final String interval;
+  final String? shortcutHint;
   final m.Color backgroundColor;
   final VoidCallback onTap;
 
   const _RatingButton({
     required this.label,
     required this.interval,
+    this.shortcutHint,
     required this.backgroundColor,
     required this.onTap,
   });
@@ -558,51 +628,78 @@ class _RatingButton extends HookWidget {
   Widget build(BuildContext context) {
     final isPressed = useState(false);
 
-    return GestureDetector(
-      onTapDown: (_) => isPressed.value = true,
-      onTapUp: (_) => isPressed.value = false,
-      onTapCancel: () => isPressed.value = false,
-      onTap: onTap,
-      child: AnimatedScale(
-        scale: isPressed.value ? 0.94 : 1.0,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeOutCubic,
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 48),
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: backgroundColor.withValues(alpha: 0.25),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  color: m.Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTapDown: (_) => isPressed.value = true,
+        onTapUp: (_) => isPressed.value = false,
+        onTapCancel: () => isPressed.value = false,
+        onTap: onTap,
+        child: AnimatedScale(
+          scale: isPressed.value ? 0.94 : 1.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOutCubic,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 48),
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: backgroundColor.withValues(alpha: 0.25),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
                 ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                interval,
-                style: TextStyle(
-                  color: m.Colors.white.withValues(alpha: 0.85),
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        color: m.Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    if (shortcutHint != null) ...[
+                      const SizedBox(width: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                        decoration: BoxDecoration(
+                          color: m.Colors.black.withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          shortcutHint!,
+                          style: const TextStyle(
+                            color: m.Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 2),
+                Text(
+                  interval,
+                  style: TextStyle(
+                    color: m.Colors.white.withValues(alpha: 0.85),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

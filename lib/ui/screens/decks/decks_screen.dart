@@ -432,93 +432,125 @@ class DecksScreen extends HookConsumerWidget {
       ],
       child: Stack(
         children: [
-          ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
-              // Daily Goal & Streak Hero Card
-              Card(
-                filled: true,
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 960),
+              child: ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  // Daily Goal & Streak Hero Card
+                  Card(
+                    filled: true,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Icon(
-                              LucideIcons.flame,
-                              color: m.Colors.deepOrange,
-                              size: 22,
+                            Row(
+                              children: [
+                                const Icon(
+                                  LucideIcons.flame,
+                                  color: m.Colors.deepOrange,
+                                  size: 22,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  l10n.streakDaysBadge(stats.streakDays),
+                                  style: theme.typography.h4.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 6),
                             Text(
-                              l10n.streakDaysBadge(stats.streakDays),
-                              style: theme.typography.h4.copyWith(
-                                fontWeight: FontWeight.w700,
+                              l10n.targetRetentionBadge,
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.foreground.withValues(
+                                  alpha: 0.65,
+                                ),
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
                         ),
-                        Text(
-                          l10n.targetRetentionBadge,
-                          style: theme.typography.xSmall.copyWith(
-                            color: theme.colorScheme.foreground.withValues(
-                              alpha: 0.65,
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _StatMiniBox(
+                                label: l10n.dueCards,
+                                value: '$totalDue',
+                                color: totalDue > 0
+                                    ? theme.colorScheme.destructive
+                                    : theme.colorScheme.foreground,
+                                icon: LucideIcons.clock,
+                              ),
                             ),
-                            fontWeight: FontWeight.w500,
-                          ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _StatMiniBox(
+                                label: l10n.newCards,
+                                value: '$totalNew',
+                                color: theme.colorScheme.primary,
+                                icon: LucideIcons.sparkles,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _StatMiniBox(
-                            label: l10n.dueCards,
-                            value: '$totalDue',
-                            color: totalDue > 0
-                                ? theme.colorScheme.destructive
-                                : theme.colorScheme.foreground,
-                            icon: LucideIcons.clock,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _StatMiniBox(
-                            label: l10n.newCards,
-                            value: '$totalNew',
-                            color: theme.colorScheme.primary,
-                            icon: LucideIcons.sparkles,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Clean Native Zinc Search Bar
-              TextField(
-                features: [
-                  InputFeature.leading(
-                    Icon(
-                      LucideIcons.search,
-                      size: 18,
-                      color: theme.colorScheme.mutedForeground,
                     ),
                   ),
-                ],
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 10,
-                ),
-                placeholder: Text(l10n.searchDecks),
-                onChanged: (val) => searchQuery.value = val,
-              ),
+                  const SizedBox(height: 16),
+
+                  // Search Bar + Desktop Toolbar
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          features: [
+                            InputFeature.leading(
+                              Icon(
+                                LucideIcons.search,
+                                size: 18,
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ],
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          placeholder: Text(l10n.searchDecks),
+                          onChanged: (val) => searchQuery.value = val,
+                        ),
+                      ),
+                      if (MediaQuery.sizeOf(context).width >= 768) ...[
+                        const SizedBox(width: 12),
+                        PrimaryButton(
+                          size: ButtonSize.small,
+                          leading: const Icon(LucideIcons.plus, size: 16),
+                          onPressed: openCreateDeckModal,
+                          child: Text(l10n.addNewDeck),
+                        ),
+                        const SizedBox(width: 8),
+                        OutlineButton(
+                          size: ButtonSize.small,
+                          leading: const Icon(LucideIcons.fileUp, size: 16),
+                          onPressed: handleApkgImport,
+                          child: Text(l10n.importApkg),
+                        ),
+                        const SizedBox(width: 8),
+                        GhostButton(
+                          size: ButtonSize.small,
+                          leading: const Icon(LucideIcons.zap, size: 16),
+                          onPressed: openCramModal,
+                          child: Text(l10n.customStudy),
+                        ),
+                      ],
+                    ],
+                  ),
               const SizedBox(height: 20),
 
               // Header Section: clean title & total count
@@ -601,9 +633,11 @@ class DecksScreen extends HookConsumerWidget {
               ), // Space for bottom navigation bar and floating speed dial
             ],
           ),
+        ),
+      ),
 
-          // Scrim backdrop when speed dial is open
-          if (isDialOpen.value)
+          // Scrim backdrop when speed dial is open (mobile only)
+          if (isDialOpen.value && MediaQuery.sizeOf(context).width < 768)
             Positioned.fill(
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
@@ -612,27 +646,28 @@ class DecksScreen extends HookConsumerWidget {
               ),
             ),
 
-          // Floating Speed Dial Button
-          Positioned(
-            bottom: 24,
-            right: 20,
-            child: _DeckSpeedDial(
-              isOpen: isDialOpen.value,
-              onToggle: () => isDialOpen.value = !isDialOpen.value,
-              onCreateDeck: () {
-                isDialOpen.value = false;
-                openCreateDeckModal();
-              },
-              onImportApkg: () {
-                isDialOpen.value = false;
-                handleApkgImport();
-              },
-              onCram: () {
-                isDialOpen.value = false;
-                openCramModal();
-              },
+          // Floating Speed Dial Button (mobile only)
+          if (MediaQuery.sizeOf(context).width < 768)
+            Positioned(
+              bottom: 24,
+              right: 20,
+              child: _DeckSpeedDial(
+                isOpen: isDialOpen.value,
+                onToggle: () => isDialOpen.value = !isDialOpen.value,
+                onCreateDeck: () {
+                  isDialOpen.value = false;
+                  openCreateDeckModal();
+                },
+                onImportApkg: () {
+                  isDialOpen.value = false;
+                  handleApkgImport();
+                },
+                onCram: () {
+                  isDialOpen.value = false;
+                  openCramModal();
+                },
+              ),
             ),
-          ),
         ],
       ),
     );

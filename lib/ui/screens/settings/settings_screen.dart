@@ -118,9 +118,12 @@ class SettingsScreen extends HookConsumerWidget {
           title: Text(l10n.settingsTitle),
         ),
       ],
-      child: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
           // AnkiWeb Account Card
           Text(
             l10n.accountAndSync,
@@ -418,7 +421,9 @@ class SettingsScreen extends HookConsumerWidget {
           const SizedBox(height: 110),
         ],
       ),
-    );
+    ),
+  ),
+);
   }
 }
 

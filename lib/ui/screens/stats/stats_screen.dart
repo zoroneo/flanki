@@ -27,9 +27,12 @@ class StatsScreen extends HookConsumerWidget {
           title: Text(l10n.statsTitle),
         ),
       ],
-      child: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 880),
+          child: ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
           // Retention & FSRS Overview Card
           Card(
             filled: true,
@@ -162,7 +165,9 @@ class StatsScreen extends HookConsumerWidget {
           const SizedBox(height: 110), // Safe scroll clearance for bottom navigation
         ],
       ),
-    );
+    ),
+  ),
+);
   }
 }
 

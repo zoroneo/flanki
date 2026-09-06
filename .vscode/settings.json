@@ -1,0 +1,33 @@
+﻿{
+  "dart.flutterSdkPath": ".fvm/versions/stable",
+  "dart.flutterSdkPaths": [
+    ".fvm/versions"
+  ],
+  "search.exclude": {
+    "**/.fvm": true,
+    "**/build": true,
+    "**/.dart_tool": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true,
+    "**/build/**": true,
+    "**/.dart_tool/**": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "Dart-Code.dart-code",
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      100
+    ],
+    "editor.selectionHighlight": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  }
+}

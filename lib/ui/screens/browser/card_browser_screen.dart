@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +9,7 @@ import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
 import '../study/widgets/card_action_sheet.dart';
+import '../study/widgets/rich_card_content.dart';
 
 class CardBrowserScreen extends HookConsumerWidget {
   const CardBrowserScreen({super.key});
@@ -25,6 +25,18 @@ class CardBrowserScreen extends HookConsumerWidget {
       text: browserState.searchQuery,
     );
     final filteredCards = browserState.filteredCards;
+
+    // Desktop selected card ID state
+    final selectedCardId = useState<String?>(null);
+
+    // Auto-select first card if selection is invalid or null on desktop
+    if (filteredCards.isNotEmpty &&
+        (selectedCardId.value == null ||
+            !filteredCards.any((c) => c.id == selectedCardId.value))) {
+      selectedCardId.value = filteredCards.first.id;
+    } else if (filteredCards.isEmpty) {
+      selectedCardId.value = null;
+    }
 
     const pageSize = 30;
     final displayedCount = useState(pageSize);
@@ -70,381 +82,775 @@ class CardBrowserScreen extends HookConsumerWidget {
 
     final topPadding = MediaQuery.paddingOf(context).top;
 
-    return Scaffold(
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          if (notification.metrics.pixels >=
-              notification.metrics.maxScrollExtent - 200) {
-            if (displayedCount.value < filteredCards.length) {
-              displayedCount.value = (displayedCount.value + pageSize).clamp(
-                0,
-                filteredCards.length,
-              );
-            }
-          }
-          return false;
-        },
-        child: m.NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverPersistentHeader(
-                pinned: true,
-                floating: true,
-                delegate: _SearchHeaderDelegate(
-                  topPadding: topPadding,
-                  theme: theme,
-                  titleRow: AppBar(
-                    backgroundColor: m.Colors.transparent,
-                    useSafeArea: false,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    title: Text(l10n.navBrowser),
-                    trailing: [
-                      IconButton.ghost(
-                        size: ButtonSize.small,
-                        icon: const Icon(LucideIcons.plus, size: 20),
-                        onPressed: () => context.push('/editor'),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isDesktop = constraints.maxWidth >= 900;
+
+        if (isDesktop) {
+          final currentSelectedCard = filteredCards.cast<CardModel?>().firstWhere(
+            (c) => c?.id == selectedCardId.value,
+            orElse: () => filteredCards.isNotEmpty ? filteredCards.first : null,
+          );
+
+          return Scaffold(
+            child: Row(
+              children: [
+                // Left Column: Search, Filters & Card Table (Width: 420px)
+                SizedBox(
+                  width: 420,
+                  child: Column(
+                    children: [
+                      // Desktop Search Bar
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: searchController,
+                                placeholder: Text(l10n.searchCardsPlaceholder),
+                                onChanged: (val) => browserNotifier.setSearchQuery(val),
+                                features: [
+                                  InputFeature.leading(
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4, right: 6),
+                                      child: Icon(
+                                        LucideIcons.search,
+                                        size: 16,
+                                        color: theme.colorScheme.mutedForeground,
+                                      ),
+                                    ),
+                                  ),
+                                  if (browserState.searchQuery.isNotEmpty)
+                                    InputFeature.trailing(
+                                      IconButton.ghost(
+                                        size: ButtonSize.small,
+                                        icon: const Icon(LucideIcons.x, size: 14),
+                                        onPressed: () {
+                                          searchController.clear();
+                                          browserNotifier.setSearchQuery('');
+                                        },
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            PrimaryButton(
+                              size: ButtonSize.small,
+                              leading: const Icon(LucideIcons.plus, size: 16),
+                              child: const Text('Thêm thẻ'),
+                              onPressed: () => context.push('/editor'),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Filter Chips
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        child: Row(
+                          children: [
+                            _FilterChip(
+                              label: '${l10n.filterAll} • ${browserState.allCards.length}',
+                              isSelected: browserState.filterType == CardFilterType.all,
+                              onTap: () => browserNotifier.setFilterType(CardFilterType.all),
+                            ),
+                            const SizedBox(width: 6),
+                            _FilterChip(
+                              label: l10n.filterDue,
+                              isSelected: browserState.filterType == CardFilterType.due,
+                              onTap: () => browserNotifier.setFilterType(CardFilterType.due),
+                            ),
+                            const SizedBox(width: 6),
+                            _FilterChip(
+                              label: l10n.filterNew,
+                              isSelected: browserState.filterType == CardFilterType.newCard,
+                              onTap: () => browserNotifier.setFilterType(CardFilterType.newCard),
+                            ),
+                            const SizedBox(width: 6),
+                            _FilterChip(
+                              label: l10n.filterFlagged,
+                              isSelected: browserState.filterType == CardFilterType.flagged,
+                              onTap: () => browserNotifier.setFilterType(CardFilterType.flagged),
+                            ),
+                            const SizedBox(width: 6),
+                            _FilterChip(
+                              label: l10n.filterSuspended,
+                              isSelected: browserState.filterType == CardFilterType.suspended,
+                              onTap: () => browserNotifier.setFilterType(CardFilterType.suspended),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(height: 12),
+
+                      // Cards List
+                      Expanded(
+                        child: filteredCards.isEmpty
+                            ? Center(
+                                child: Text(
+                                  l10n.noCardsFound,
+                                  style: theme.typography.small.copyWith(
+                                    color: theme.colorScheme.mutedForeground,
+                                  ),
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: filteredCards.length,
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                itemBuilder: (context, index) {
+                                  final card = filteredCards[index];
+                                  final isSelected = card.id == selectedCardId.value;
+
+                                  return _DesktopCardRowItem(
+                                    card: card,
+                                    isSelected: isSelected,
+                                    onTap: () => selectedCardId.value = card.id,
+                                  );
+                                },
+                              ),
                       ),
                     ],
-                  ),
-                  searchBox: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 2, 16, 4),
-                    child: TextField(
-                      controller: searchController,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
-                      ),
-                      placeholder: Text(l10n.searchCardsPlaceholder),
-                      onChanged: (val) => browserNotifier.setSearchQuery(val),
-                      features: [
-                        InputFeature.leading(
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4, right: 6),
-                            child: Icon(
-                              LucideIcons.search,
-                              size: 16,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
-                          ),
-                        ),
-                        if (browserState.searchQuery.isNotEmpty)
-                          InputFeature.trailing(
-                            IconButton.ghost(
-                              size: ButtonSize.small,
-                              icon: const Icon(LucideIcons.x, size: 14),
-                              onPressed: () {
-                                searchController.clear();
-                                browserNotifier.setSearchQuery('');
-                              },
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  filterRow: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        _FilterChip(
-                          label:
-                              '${l10n.filterAll} • ${browserState.allCards.length}',
-                          isSelected:
-                              browserState.filterType == CardFilterType.all,
-                          onTap: () =>
-                              browserNotifier.setFilterType(CardFilterType.all),
-                        ),
-                        const SizedBox(width: 8),
-                        _FilterChip(
-                          label: l10n.filterDue,
-                          isSelected:
-                              browserState.filterType == CardFilterType.due,
-                          onTap: () =>
-                              browserNotifier.setFilterType(CardFilterType.due),
-                        ),
-                        const SizedBox(width: 8),
-                        _FilterChip(
-                          label: l10n.filterNew,
-                          isSelected:
-                              browserState.filterType == CardFilterType.newCard,
-                          onTap: () => browserNotifier.setFilterType(
-                            CardFilterType.newCard,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        _FilterChip(
-                          label: l10n.filterFlagged,
-                          isSelected:
-                              browserState.filterType == CardFilterType.flagged,
-                          onTap: () => browserNotifier.setFilterType(
-                            CardFilterType.flagged,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        _FilterChip(
-                          label: l10n.filterSuspended,
-                          isSelected:
-                              browserState.filterType ==
-                              CardFilterType.suspended,
-                          onTap: () => browserNotifier.setFilterType(
-                            CardFilterType.suspended,
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 6)),
-            ];
-          },
-          body: filteredCards.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        LucideIcons.inbox,
-                        size: 48,
-                        color: theme.colorScheme.mutedForeground,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        l10n.noCardsFound,
-                        style: theme.typography.small.copyWith(
-                          color: theme.colorScheme.mutedForeground,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                  itemCount: visibleCount + (hasMore ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index >= visibleCount) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        child: Center(
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                        ),
-                      );
-                    }
-                    final card = filteredCards[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Dismissible(
-                        key: ValueKey(card.id),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.destructive,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
+
+                const VerticalDivider(width: 1),
+
+                // Right Column: Instant Live Preview & Actions Panel
+                Expanded(
+                  child: filteredCards.isEmpty || currentSelectedCard == null
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
-                                m.Icons.delete_outline,
-                                color: m.Colors.white,
-                                size: 20,
+                              Icon(
+                                LucideIcons.mousePointerClick,
+                                size: 48,
+                                color: theme.colorScheme.mutedForeground,
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(height: 12),
                               Text(
-                                l10n.delete,
-                                style: const TextStyle(
-                                  color: m.Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 13,
+                                'Chọn thẻ bên trái để xem và sửa chi tiết',
+                                style: theme.typography.xSmall.copyWith(
+                                  color: theme.colorScheme.mutedForeground,
                                 ),
                               ),
                             ],
                           ),
+                        )
+                      : _DesktopCardDetailPane(
+                          card: currentSelectedCard,
+                          browserNotifier: browserNotifier,
                         ),
-                        onDismissed: (direction) {
-                          browserNotifier.deleteCard(card.id);
-                          showToast(
-                            context: context,
-                            builder: (toastCtx, overlay) {
-                              return SurfaceCard(
-                                child: Basic(
-                                  title: Text(l10n.cardDeleted),
-                                  subtitle: Text(
-                                    card.front,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  leading: const Icon(
-                                    m.Icons.delete_outline,
-                                    color: m.Colors.red,
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
+                ),
+              ],
+            ),
+          );
+        }
+
+        // Mobile Layout (< 900px): Preserves NestedScrollView with Bottom Sheet
+        return Scaffold(
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              if (notification.metrics.pixels >=
+                  notification.metrics.maxScrollExtent - 200) {
+                if (displayedCount.value < filteredCards.length) {
+                  displayedCount.value = (displayedCount.value + pageSize).clamp(
+                    0,
+                    filteredCards.length,
+                  );
+                }
+              }
+              return false;
+            },
+            child: m.NestedScrollView(
+              floatHeaderSlivers: true,
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverPersistentHeader(
+                    pinned: true,
+                    floating: true,
+                    delegate: _SearchHeaderDelegate(
+                      topPadding: topPadding,
+                      theme: theme,
+                      titleRow: AppBar(
+                        backgroundColor: m.Colors.transparent,
+                        useSafeArea: false,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        title: Text(l10n.navBrowser),
+                        trailing: [
+                          IconButton.ghost(
+                            size: ButtonSize.small,
+                            icon: const Icon(LucideIcons.plus, size: 20),
+                            onPressed: () => context.push('/editor'),
+                          ),
+                        ],
+                      ),
+                      searchBox: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 2, 16, 4),
+                        child: TextField(
+                          controller: searchController,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          placeholder: Text(l10n.searchCardsPlaceholder),
+                          onChanged: (val) => browserNotifier.setSearchQuery(val),
+                          features: [
+                            InputFeature.leading(
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4, right: 6),
+                                child: Icon(
+                                  LucideIcons.search,
+                                  size: 16,
+                                  color: theme.colorScheme.mutedForeground,
+                                ),
+                              ),
+                            ),
+                            if (browserState.searchQuery.isNotEmpty)
+                              InputFeature.trailing(
+                                IconButton.ghost(
+                                  size: ButtonSize.small,
+                                  icon: const Icon(LucideIcons.x, size: 14),
+                                  onPressed: () {
+                                    searchController.clear();
+                                    browserNotifier.setSearchQuery('');
+                                  },
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      filterRow: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            _FilterChip(
+                              label:
+                                  '${l10n.filterAll} • ${browserState.allCards.length}',
+                              isSelected:
+                                  browserState.filterType == CardFilterType.all,
+                              onTap: () =>
+                                  browserNotifier.setFilterType(CardFilterType.all),
+                            ),
+                            const SizedBox(width: 8),
+                            _FilterChip(
+                              label: l10n.filterDue,
+                              isSelected:
+                                  browserState.filterType == CardFilterType.due,
+                              onTap: () =>
+                                  browserNotifier.setFilterType(CardFilterType.due),
+                            ),
+                            const SizedBox(width: 8),
+                            _FilterChip(
+                              label: l10n.filterNew,
+                              isSelected:
+                                  browserState.filterType == CardFilterType.newCard,
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.newCard,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            _FilterChip(
+                              label: l10n.filterFlagged,
+                              isSelected:
+                                  browserState.filterType == CardFilterType.flagged,
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.flagged,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            _FilterChip(
+                              label: l10n.filterSuspended,
+                              isSelected:
+                                  browserState.filterType ==
+                                  CardFilterType.suspended,
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.suspended,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 6)),
+                ];
+              },
+              body: filteredCards.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            LucideIcons.inbox,
+                            size: 48,
+                            color: theme.colorScheme.mutedForeground,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            l10n.noCardsFound,
+                            style: theme.typography.small.copyWith(
+                              color: theme.colorScheme.mutedForeground,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: visibleCount + (hasMore ? 1 : 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemBuilder: (context, index) {
+                        if (index == visibleCount) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 24),
+                              child: OutlineButton(
+                                size: ButtonSize.small,
+                                child: Text(l10n.more),
+                                onPressed: () {
+                                  displayedCount.value =
+                                      (displayedCount.value + pageSize).clamp(
+                                        0,
+                                        filteredCards.length,
+                                      );
+                                },
+                              ),
+                            ),
+                          );
+                        }
+
+                        final card = filteredCards[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Card(
+                            filled: true,
+                            padding: EdgeInsets.zero,
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () => openCardDetail(card),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(14),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      GhostButton(
-                                        size: ButtonSize.small,
-                                        onPressed: () {
-                                          overlay.close();
-                                          browserNotifier.addCard(card);
-                                        },
-                                        child: Text(
-                                          l10n.undo,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: theme.colorScheme.primary,
+                                      if (card.hasFlag) ...[
+                                        Container(
+                                          width: 8,
+                                          height: 8,
+                                          margin: const EdgeInsets.only(top: 5, right: 10),
+                                          decoration: BoxDecoration(
+                                            color: CardActionSheet.ankiFlagColors[card.flag] ?? m.Colors.grey,
+                                            shape: BoxShape.circle,
                                           ),
                                         ),
-                                      ),
-                                      IconButton.ghost(
-                                        icon: const Icon(
-                                          m.Icons.close,
-                                          size: 14,
+                                      ],
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              card.front,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: theme.colorScheme.foreground,
+                                                decoration: card.isSuspended ? TextDecoration.lineThrough : null,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              card.back,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: theme.colorScheme.mutedForeground,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  l10n.deckPrefix(card.deckId),
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: theme.colorScheme.mutedForeground,
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Text(
+                                                  card.intervalDays > 0
+                                                      ? l10n.intervalBadge(card.intervalDays)
+                                                      : l10n.newBadge,
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: card.intervalDays > 0 ? theme.colorScheme.primary : m.Colors.green,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        onPressed: () => overlay.close(),
                                       ),
                                     ],
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                        },
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () => openCardDetail(card),
-                          child: Opacity(
-                            opacity: card.isSuspended ? 0.6 : 1.0,
-                            child: Card(
-                              padding: const EdgeInsets.all(14),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Flag or suspend indicator
-                                  Container(
-                                    width: 4,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      color: card.hasFlag
-                                          ? (CardActionSheet.ankiFlagColors[card
-                                                    .flag] ??
-                                                m.Colors.grey)
-                                          : (card.isSuspended
-                                                ? m.Colors.grey
-                                                : theme.colorScheme.border),
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                card.front,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: theme.typography.semiBold
-                                                    .copyWith(
-                                                      decoration:
-                                                          card.isSuspended
-                                                          ? TextDecoration
-                                                                .lineThrough
-                                                          : null,
-                                                    ),
-                                              ),
-                                            ),
-                                            if (card.noteType == NoteType.cloze)
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 5,
-                                                      vertical: 1.5,
-                                                    ),
-                                                decoration: BoxDecoration(
-                                                  color: theme
-                                                      .colorScheme
-                                                      .primary
-                                                      .withValues(alpha: 0.1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                ),
-                                                child: const Text(
-                                                  'Cloze',
-                                                  style: TextStyle(
-                                                    fontSize: 9,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          card.back,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: theme.typography.xSmall
-                                              .copyWith(
-                                                color: theme
-                                                    .colorScheme
-                                                    .mutedForeground,
-                                              ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              l10n.deckPrefix(card.deckId),
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                color: theme
-                                                    .colorScheme
-                                                    .mutedForeground,
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              card.intervalDays > 0
-                                                  ? l10n.intervalBadge(
-                                                      card.intervalDays,
-                                                    )
-                                                  : l10n.newBadge,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w600,
-                                                color: card.intervalDays > 0
-                                                    ? theme.colorScheme.primary
-                                                    : m.Colors.green,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
                           ),
+                        );
+                      },
+                    ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Desktop Master-Detail Row Item
+// ---------------------------------------------------------------------------
+
+class _DesktopCardRowItem extends StatelessWidget {
+  final CardModel card;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _DesktopCardRowItem({
+    required this.card,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 6),
+      decoration: BoxDecoration(
+        color: isSelected
+            ? theme.colorScheme.primary.withValues(alpha: 0.1)
+            : theme.colorScheme.card,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
+          width: isSelected ? 1.5 : 1.0,
+        ),
+      ),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    if (card.hasFlag)
+                      Container(
+                        width: 7,
+                        height: 7,
+                        margin: const EdgeInsets.only(right: 8),
+                        decoration: BoxDecoration(
+                          color: CardActionSheet.ankiFlagColors[card.flag] ?? m.Colors.grey,
+                          shape: BoxShape.circle,
                         ),
                       ),
-                    );
-                  },
+                    Expanded(
+                      child: Text(
+                        card.front,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                          color: theme.colorScheme.foreground,
+                          decoration: card.isSuspended ? TextDecoration.lineThrough : null,
+                        ),
+                      ),
+                    ),
+                    if (card.isSuspended)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        decoration: BoxDecoration(
+                          color: m.Colors.orange.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'Suspended',
+                          style: TextStyle(fontSize: 9, color: m.Colors.orange, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                  ],
                 ),
+                const SizedBox(height: 4),
+                Text(
+                  card.back,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: theme.colorScheme.mutedForeground,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Desktop Card Detail & Live Preview Pane
+// ---------------------------------------------------------------------------
+
+class _DesktopCardDetailPane extends StatelessWidget {
+  final CardModel card;
+  final CardBrowserNotifier browserNotifier;
+
+  const _DesktopCardDetailPane({
+    required this.card,
+    required this.browserNotifier,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      children: [
+        // Top Action Bar for Card
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.background,
+            border: Border(bottom: BorderSide(color: theme.colorScheme.border)),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  card.deckId,
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: theme.colorScheme.primary),
+                ),
+              ),
+              const SizedBox(width: 8),
+              if (card.noteType == NoteType.cloze)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.muted,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Text('Cloze Deletion', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                ),
+
+              const Spacer(),
+
+              // Quick Actions
+              OutlineButton(
+                size: ButtonSize.small,
+                leading: Icon(
+                  card.isSuspended ? LucideIcons.play : LucideIcons.pause,
+                  size: 14,
+                ),
+                child: Text(card.isSuspended ? 'Bỏ tạm dừng' : 'Tạm dừng'),
+                onPressed: () => browserNotifier.toggleCardSuspend(card.id),
+              ),
+              const SizedBox(width: 8),
+              DestructiveButton(
+                size: ButtonSize.small,
+                leading: const Icon(LucideIcons.trash2, size: 14),
+                child: const Text('Xóa'),
+                onPressed: () => browserNotifier.deleteCard(card.id),
+              ),
+            ],
+          ),
+        ),
+
+        // Scrollable Card Content Preview
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 720),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Front Label
+                    Row(
+                      children: [
+                        const Icon(LucideIcons.fileQuestion, size: 16),
+                        const SizedBox(width: 8),
+                        Text(
+                          'MẶT TRƯỚC / CÂU HỎI',
+                          style: theme.typography.xSmall.copyWith(
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                            color: theme.colorScheme.mutedForeground,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    SurfaceCard(
+                      padding: const EdgeInsets.all(20),
+                      child: RichCardContent(
+                        content: card.front,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Back Label
+                    Row(
+                      children: [
+                        const Icon(LucideIcons.circleCheck, size: 16),
+                        const SizedBox(width: 8),
+                        Text(
+                          'MẶT SAU / ĐÁP ÁN',
+                          style: theme.typography.xSmall.copyWith(
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                            color: theme.colorScheme.mutedForeground,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    SurfaceCard(
+                      padding: const EdgeInsets.all(20),
+                      child: RichCardContent(
+                        content: card.back,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // FSRS Metrics Grid
+                    Text(
+                      'FSRS THUẬT TOÁN & LỊCH ÔN TẬP',
+                      style: theme.typography.xSmall.copyWith(
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
+                        color: theme.colorScheme.mutedForeground,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _MetricCard(
+                            title: 'Stability (Độ bền)',
+                            value: '${card.stability.toStringAsFixed(1)}d',
+                            icon: LucideIcons.shieldCheck,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _MetricCard(
+                            title: 'Difficulty (Độ khó)',
+                            value: '${card.difficulty.toStringAsFixed(1)} / 10',
+                            icon: LucideIcons.brain,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _MetricCard(
+                            title: 'Interval (Khoảng cách)',
+                            value: '${card.intervalDays}d',
+                            icon: LucideIcons.calendar,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _MetricCard(
+                            title: 'Lặp / Quên',
+                            value: '${card.reps} / ${card.lapses}',
+                            icon: LucideIcons.rotateCw,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MetricCard extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+
+  const _MetricCard({
+    required this.title,
+    required this.value,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.card,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: theme.colorScheme.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 14, color: theme.colorScheme.mutedForeground),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 10, color: theme.colorScheme.mutedForeground),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+          ),
+        ],
       ),
     );
   }
@@ -533,7 +939,6 @@ class _SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Stack(
         clipBehavior: Clip.hardEdge,
         children: [
-          // Title & Action Buttons (AppBar): fade out and slide up as you scroll
           Positioned(
             top: topPadding - (shrinkOffset * 0.8),
             left: 0,
@@ -544,7 +949,6 @@ class _SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
               child: titleRow,
             ),
           ),
-          // Search box: smoothly glides up into the top bar under status bar
           Positioned(
             top: currentTop,
             left: 0,
@@ -552,7 +956,6 @@ class _SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
             height: _searchHeight,
             child: searchBox,
           ),
-          // Filter row: stays pinned directly below search box
           Positioned(
             top: currentTop + _searchHeight,
             left: 0,
@@ -560,7 +963,6 @@ class _SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
             height: _filterHeight,
             child: filterRow,
           ),
-          // Subtle border divider when collapsed
           if (borderAlpha > 0)
             Positioned(
               left: 0,

@@ -64,7 +64,8 @@ void main() {
       const flds1 = 'Ephemeral (adj)\x1fPhù du, sớm nở tối tàn\x1fTồn tại trong thời gian ngắn';
       const flds2 = '{{c1::Concurrency}} is not parallelism\x1fRob Pike quote';
 
-      final tempDbPath = '/tmp/test_col_${DateTime.now().microsecondsSinceEpoch}.anki2';
+      final tempDir = io.Directory.systemTemp.createTempSync('flanki_test_apkg_');
+      final tempDbPath = '${tempDir.path}${io.Platform.pathSeparator}test_col_${DateTime.now().microsecondsSinceEpoch}.anki2';
       final tempDbFile = sqlite3.open(tempDbPath);
       tempDbFile.execute('''
         CREATE TABLE col (id integer primary key, decks text, models text);
@@ -94,6 +95,7 @@ void main() {
       final dbBytes = Uint8List.fromList(io.File(tempDbPath).readAsBytesSync());
       try {
         io.File(tempDbPath).deleteSync();
+        tempDir.deleteSync(recursive: true);
       } catch (_) {}
 
       // 2. Package into .apkg ZIP archive

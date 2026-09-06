@@ -372,44 +372,47 @@ class _AudioPlayButton extends HookWidget {
         ? '${filename.substring(0, 22)}...'
         : filename;
 
-    return m.InkWell(
-      onTap: handlePlay,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: isPlaying.value
-              ? theme.colorScheme.primary.withValues(alpha: 0.15)
-              : theme.colorScheme.muted,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: handlePlay,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
             color: isPlaying.value
-                ? theme.colorScheme.primary
-                : theme.colorScheme.border.withValues(alpha: 0.5),
-            width: 1,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isPlaying.value ? LucideIcons.volumeX : LucideIcons.volume2,
-              size: 16,
+                ? theme.colorScheme.primary.withValues(alpha: 0.15)
+                : theme.colorScheme.muted,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
               color: isPlaying.value
                   ? theme.colorScheme.primary
-                  : theme.colorScheme.foreground,
+                  : theme.colorScheme.border.withValues(alpha: 0.5),
+              width: 1,
             ),
-            const SizedBox(width: 6),
-            Text(
-              displayName,
-              style: theme.typography.xSmall.copyWith(
-                fontWeight: FontWeight.w600,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                isPlaying.value ? LucideIcons.volumeX : LucideIcons.volume2,
+                size: 16,
                 color: isPlaying.value
                     ? theme.colorScheme.primary
                     : theme.colorScheme.foreground,
               ),
-            ),
-          ],
+              const SizedBox(width: 6),
+              Text(
+                displayName,
+                style: theme.typography.xSmall.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: isPlaying.value
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.foreground,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

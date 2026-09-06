@@ -1,0 +1,50 @@
+﻿{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Flutter: Pub Get",
+      "type": "shell",
+      "command": "fvm flutter pub get",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Build Runner: Build (Delete Conflicts)",
+      "type": "shell",
+      "command": "fvm dart run build_runner build --delete-conflicting-outputs",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Build Runner: Watch",
+      "type": "shell",
+      "command": "fvm dart run build_runner watch --delete-conflicting-outputs",
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "Flutter: Run Tests",
+      "type": "shell",
+      "command": "fvm flutter test",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Dart: Analyze",
+      "type": "shell",
+      "command": "fvm dart analyze",
+      "problemMatcher": [
+        "$dart-analyzer"
+      ]
+    }
+  ]
+}
