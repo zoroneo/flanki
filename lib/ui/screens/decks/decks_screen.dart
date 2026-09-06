@@ -1,17 +1,26 @@
 import '../../../core/sync/anki_web_sync_service.dart';
+
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
+
 import '../../../core/importer/apkg_importer_service.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
+
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
+import '../../../core/notifiers/stats_notifier.dart';
 import '../../../core/auth/auth_notifier.dart';
+import '../../../core/models/deck.dart';
+import '../auth/anki_web_auth_sheet.dart';
 import 'widgets/custom_study_modal.dart';
+import 'widgets/create_deck_modal.dart';
 
 class DecksScreen extends HookConsumerWidget {
   const DecksScreen({super.key});
@@ -22,11 +31,21 @@ class DecksScreen extends HookConsumerWidget {
     final decks = ref.watch(deckListProvider);
     final deckNotifier = ref.read(deckListProvider.notifier);
     final authState = ref.watch(authNotifierProvider);
+    final stats = ref.watch(statsNotifierProvider);
     final l10n = context.l10n;
 
     // Hooks: Search query and filter state
     final searchQuery = useState('');
     final isSyncing = useState(false);
+    final isDialOpen = useState(false);
+
+    useEffect(() {
+      Future.microtask(() {
+        deckNotifier.refresh();
+        ref.read(statsNotifierProvider.notifier).refresh();
+      });
+      return null;
+    }, const []);
 
     final filteredDecks = decks.where((d) {
       if (searchQuery.value.isEmpty) return true;
@@ -34,13 +53,42 @@ class DecksScreen extends HookConsumerWidget {
           d.description.toLowerCase().contains(searchQuery.value.toLowerCase());
     }).toList();
 
+    // Filter unique decks by title to avoid duplicates in UI
+    final Map<String, DeckModel> uniqueTitleDecks = {};
+    for (final d in filteredDecks) {
+      final key = d.title.trim().toLowerCase();
+      if (!uniqueTitleDecks.containsKey(key) ||
+          (d.totalCount > (uniqueTitleDecks[key]?.totalCount ?? 0))) {
+        uniqueTitleDecks[key] = d;
+      }
+    }
+    final deduplicatedFilteredDecks = uniqueTitleDecks.values.toList();
+
+    // Group hierarchical decks (e.g. "Parent::Child" from .apkg imports)
+    final Map<String, List<DeckModel>> groupedMap = {};
+    final List<DeckModel> standaloneDecks = [];
+
+    for (final deck in deduplicatedFilteredDecks) {
+      if (deck.title.contains('::')) {
+        final parts = deck.title.split('::');
+        final parentName = parts.sublist(0, parts.length - 1).join(' › ');
+        groupedMap.putIfAbsent(parentName, () => []).add(deck);
+      } else {
+        standaloneDecks.add(deck);
+      }
+    }
+
+    for (final parent in groupedMap.keys) {
+      standaloneDecks.removeWhere((d) => d.title == parent);
+    }
+
     final totalDue = decks.fold<int>(0, (sum, d) => sum + d.dueCount);
     final totalNew = decks.fold<int>(0, (sum, d) => sum + d.newCount);
 
     Future<void> handleSyncTap() async {
       if (!authState.isAuthenticated || authState.hostKey == null) {
-        context.push('/auth');
-        return;
+        final loggedIn = await AnkiWebAuthSheet.show(context);
+        if (loggedIn != true) return;
       }
 
       isSyncing.value = true;
@@ -58,22 +106,29 @@ class DecksScreen extends HookConsumerWidget {
             ref.read(authNotifierProvider.notifier).recordSyncSuccess();
 
             if (syncResult.decks.isNotEmpty) {
-              deckNotifier.addDecks(syncResult.decks);
+              await deckNotifier.addDecks(syncResult.decks);
             }
             if (syncResult.cards.isNotEmpty) {
-              ref.read(cardBrowserProvider.notifier).addCards(syncResult.cards);
+              await ref
+                  .read(cardBrowserProvider.notifier)
+                  .addCards(syncResult.cards);
             }
+            await deckNotifier.refresh();
 
+            if (!context.mounted) return;
             showToast(
               context: context,
               builder: (context, overlay) {
                 return SurfaceCard(
                   child: Basic(
-                    title: const Text('Đồng bộ thành công'),
+                    title: Text(l10n.syncCompleted),
                     subtitle: Text(syncResult.message),
-                    leading: const Icon(m.Icons.cloud_done_rounded, color: m.Colors.green),
+                    leading: const Icon(
+                      LucideIcons.cloud,
+                      color: m.Colors.green,
+                    ),
                     trailing: IconButton.ghost(
-                      icon: const Icon(m.Icons.close),
+                      icon: const Icon(LucideIcons.x),
                       onPressed: () => overlay.close(),
                     ),
                   ),
@@ -86,11 +141,14 @@ class DecksScreen extends HookConsumerWidget {
               builder: (context, overlay) {
                 return SurfaceCard(
                   child: Basic(
-                    title: const Text('Đồng bộ thất bại'),
+                    title: Text(l10n.syncFailed),
                     subtitle: Text(syncResult.message),
-                    leading: const Icon(m.Icons.cloud_off_rounded, color: m.Colors.red),
+                    leading: const Icon(
+                      LucideIcons.cloudOff,
+                      color: m.Colors.red,
+                    ),
                     trailing: IconButton.ghost(
-                      icon: const Icon(m.Icons.close),
+                      icon: const Icon(LucideIcons.x),
                       onPressed: () => overlay.close(),
                     ),
                   ),
@@ -107,11 +165,14 @@ class DecksScreen extends HookConsumerWidget {
             builder: (context, overlay) {
               return SurfaceCard(
                 child: Basic(
-                  title: const Text('Lỗi đồng bộ'),
+                  title: Text(l10n.syncError),
                   subtitle: Text(e.toString()),
-                  leading: const Icon(m.Icons.error_outline_rounded, color: m.Colors.red),
+                  leading: const Icon(
+                    LucideIcons.circleAlert,
+                    color: m.Colors.red,
+                  ),
                   trailing: IconButton.ghost(
-                    icon: const Icon(m.Icons.close),
+                    icon: const Icon(LucideIcons.x),
                     onPressed: () => overlay.close(),
                   ),
                 ),
@@ -125,18 +186,53 @@ class DecksScreen extends HookConsumerWidget {
     Future<void> handleApkgImport() async {
       try {
         final result = await FilePicker.pickFiles(
-          type: FileType.custom,
-          allowedExtensions: ['apkg', 'zip'],
+          type: FileType.any,
           withData: true,
         );
 
         if (result == null || result.files.isEmpty) return;
 
-        final fileBytes = result.files.first.bytes ??
-            (result.files.first.path != null ? File(result.files.first.path!).readAsBytesSync() : null);
+        final selectedFile = result.files.first;
+        final ext =
+            (selectedFile.extension ??
+                    (selectedFile.name.contains('.')
+                        ? selectedFile.name.split('.').last
+                        : ''))
+                .toLowerCase();
+
+        if (ext != 'apkg' && ext != 'zip' && ext != 'colpkg') {
+          if (context.mounted) {
+            showToast(
+              context: context,
+              builder: (context, overlay) {
+                return SurfaceCard(
+                  child: Basic(
+                    title: Text(l10n.importApkgError),
+                    subtitle: const Text('Vui lòng chọn file .apkg hoặc .zip'),
+                    leading: const Icon(
+                      LucideIcons.circleAlert,
+                      color: m.Colors.red,
+                    ),
+                    trailing: IconButton.ghost(
+                      icon: const Icon(LucideIcons.x),
+                      onPressed: () => overlay.close(),
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+          return;
+        }
+
+        final fileBytes =
+            selectedFile.bytes ??
+            (selectedFile.path != null
+                ? File(selectedFile.path!).readAsBytesSync()
+                : null);
 
         if (fileBytes == null) {
-          throw const FormatException('Không thể đọc dữ liệu file .apkg.');
+          throw const FormatException('File data unreadable');
         }
 
         final importer = ApkgImporterService();
@@ -155,11 +251,20 @@ class DecksScreen extends HookConsumerWidget {
             builder: (context, overlay) {
               return SurfaceCard(
                 child: Basic(
-                  title: const Text('Import .apkg thành công!'),
-                  subtitle: Text('Đã nạp ${importResult.decks.length} bộ thẻ, ${importResult.cards.length} thẻ (${importResult.mediaCount} files media).'),
-                  leading: const Icon(m.Icons.check_circle_rounded, color: m.Colors.green),
+                  title: Text(l10n.importApkgSuccess),
+                  subtitle: Text(
+                    l10n.importApkgSuccessDesc(
+                      importResult.decks.length,
+                      importResult.cards.length,
+                      importResult.mediaCount,
+                    ),
+                  ),
+                  leading: const Icon(
+                    LucideIcons.circleCheck,
+                    color: m.Colors.green,
+                  ),
                   trailing: IconButton.ghost(
-                    icon: const Icon(m.Icons.close),
+                    icon: const Icon(LucideIcons.x),
                     onPressed: () => overlay.close(),
                   ),
                 ),
@@ -174,11 +279,14 @@ class DecksScreen extends HookConsumerWidget {
             builder: (context, overlay) {
               return SurfaceCard(
                 child: Basic(
-                  title: const Text('Lỗi Import .apkg'),
+                  title: Text(l10n.importApkgError),
                   subtitle: Text(e.toString()),
-                  leading: const Icon(m.Icons.error_outline_rounded, color: m.Colors.red),
+                  leading: const Icon(
+                    LucideIcons.circleAlert,
+                    color: m.Colors.red,
+                  ),
                   trailing: IconButton.ghost(
-                    icon: const Icon(m.Icons.close),
+                    icon: const Icon(LucideIcons.x),
                     onPressed: () => overlay.close(),
                   ),
                 ),
@@ -192,24 +300,33 @@ class DecksScreen extends HookConsumerWidget {
     void openCramModal() {
       m.showModalBottomSheet(
         context: context,
+        useRootNavigator: false,
         backgroundColor: m.Colors.transparent,
         isScrollControlled: true,
         builder: (ctx) {
           return m.Material(
             type: m.MaterialType.transparency,
             child: CustomStudyModal(
-              onStartCram: (name, tag, limit) {
-                deckNotifier.createCramDeck(name: name, filterTag: tag, cardLimit: limit);
+              onStartCram: (name, tag, limit, mode) {
+                deckNotifier.createCramDeck(
+                  name: name,
+                  filterTag: tag,
+                  cardLimit: limit,
+                  mode: mode,
+                );
                 showToast(
                   context: context,
                   builder: (context, overlay) {
                     return SurfaceCard(
                       child: Basic(
-                        title: const Text('Đã tạo Cram Deck'),
-                        subtitle: Text('Đã lọc $limit thẻ ôn cấp tốc (#$tag).'),
-                        leading: const Icon(m.Icons.bolt_rounded, color: m.Colors.amber),
+                        title: Text(l10n.cramDeckCreated),
+                        subtitle: Text(l10n.cramDeckCreatedDesc(limit, tag)),
+                        leading: const Icon(
+                          LucideIcons.zap,
+                          color: m.Colors.amber,
+                        ),
                         trailing: IconButton.ghost(
-                          icon: const Icon(m.Icons.close),
+                          icon: const Icon(LucideIcons.x),
                           onPressed: () => overlay.close(),
                         ),
                       ),
@@ -223,16 +340,56 @@ class DecksScreen extends HookConsumerWidget {
       );
     }
 
+    void openCreateDeckModal() {
+      CreateDeckModal.show(
+        context,
+        existingDeckNames: decks.map((d) => d.title).toList(),
+        onCreateDeck: (name, description) {
+          final newDeck = DeckModel(
+            id: 'deck_${DateTime.now().millisecondsSinceEpoch}',
+            title: name,
+            description: description,
+            dueCount: 0,
+            newCount: 0,
+            totalCount: 0,
+            lastStudied: null,
+          );
+          deckNotifier.addDeck(newDeck);
+          showToast(
+            context: context,
+            builder: (context, overlay) {
+              return SurfaceCard(
+                child: Basic(
+                  title: Text(l10n.deckCreatedSuccess),
+                  subtitle: Text(l10n.deckCreatedSuccessDesc(name)),
+                  leading: const Icon(
+                    LucideIcons.circleCheck,
+                    color: m.Colors.green,
+                  ),
+                  trailing: IconButton.ghost(
+                    icon: const Icon(LucideIcons.x),
+                    onPressed: () => overlay.close(),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      );
+    }
+
     return Scaffold(
       headers: [
         AppBar(
           title: Row(
             children: [
-              const Icon(m.Icons.bolt_rounded, size: 22),
+              const Icon(LucideIcons.zap, size: 20),
               const SizedBox(width: 8),
               Text(
                 'Flanki',
-                style: theme.typography.h3.copyWith(fontWeight: FontWeight.w700),
+                style: theme.typography.h3.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(width: 8),
               Container(
@@ -254,166 +411,228 @@ class DecksScreen extends HookConsumerWidget {
           ),
           trailing: [
             // AnkiWeb sync button
-            OutlineButton(
+            GhostButton(
               onPressed: isSyncing.value ? null : handleSyncTap,
+              size: ButtonSize.small,
               leading: isSyncing.value
-                  ? const SizedBox(
-                      width: 14,
-                      height: 14,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
+                  ? m.Center(child: CircularProgressIndicator(strokeWidth: 2))
                   : Icon(
                       authState.isAuthenticated
-                          ? m.Icons.cloud_done_outlined
-                          : m.Icons.cloud_outlined,
+                          ? LucideIcons.cloud
+                          : LucideIcons.cloud,
                       size: 16,
                       color: authState.isAuthenticated ? m.Colors.green : null,
                     ),
               child: Text(
-                authState.isAuthenticated ? 'Đã liên kết' : 'Sync AnkiWeb',
+                authState.isAuthenticated ? l10n.linkedBadge : l10n.syncBadge,
               ),
             ),
           ],
         ),
       ],
-      child: ListView(
-        padding: const EdgeInsets.all(16.0),
+      child: Stack(
         children: [
-          // Daily Goal & Streak Hero Card
-          Card(
-            filled: true,
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
+              // Daily Goal & Streak Hero Card
+              Card(
+                filled: true,
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(
-                          m.Icons.local_fire_department_rounded,
-                          color: m.Colors.deepOrange,
-                          size: 24,
+                        Row(
+                          children: [
+                            const Icon(
+                              LucideIcons.flame,
+                              color: m.Colors.deepOrange,
+                              size: 22,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              l10n.streakDaysBadge(stats.streakDays),
+                              style: theme.typography.h4.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 6),
                         Text(
-                          '14 Ngày Streak',
-                          style: theme.typography.h4.copyWith(fontWeight: FontWeight.w700),
+                          l10n.targetRetentionBadge,
+                          style: theme.typography.xSmall.copyWith(
+                            color: theme.colorScheme.foreground.withValues(
+                              alpha: 0.65,
+                            ),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ],
                     ),
-                    Text(
-                      'Mục tiêu 85% nhớ',
-                      style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _StatMiniBox(
+                            label: l10n.dueCards,
+                            value: '$totalDue',
+                            color: totalDue > 0
+                                ? theme.colorScheme.destructive
+                                : theme.colorScheme.foreground,
+                            icon: LucideIcons.clock,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _StatMiniBox(
+                            label: l10n.newCards,
+                            value: '$totalNew',
+                            color: theme.colorScheme.primary,
+                            icon: LucideIcons.sparkles,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _StatMiniBox(
-                        label: l10n.dueCards,
-                        value: '$totalDue',
-                        color: totalDue > 0 ? theme.colorScheme.destructive : theme.colorScheme.foreground,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _StatMiniBox(
-                        label: l10n.newCards,
-                        value: '$totalNew',
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Search Bar with leading icon
-          Card(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            child: Row(
-              children: [
-                Icon(m.Icons.search_rounded, size: 18, color: theme.colorScheme.mutedForeground),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextField(
-                    placeholder: Text(l10n.searchDecks),
-                    onChanged: (val) => searchQuery.value = val,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Header Section with Cram Mode & Import
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${l10n.navDecks} (${filteredDecks.length})',
-                style: theme.typography.semiBold,
               ),
-              Row(
-                children: [
-                  GhostButton(
-                    onPressed: openCramModal,
-                    leading: const Icon(m.Icons.bolt_rounded, size: 16, color: m.Colors.amber),
-                    child: const Text('Cram'),
+              const SizedBox(height: 16),
+
+              // Clean Native Zinc Search Bar
+              TextField(
+                features: [
+                  InputFeature.leading(
+                    Icon(
+                      LucideIcons.search,
+                      size: 18,
+                      color: theme.colorScheme.mutedForeground,
+                    ),
                   ),
-                  const SizedBox(width: 4),
-                  GhostButton(
-                    onPressed: handleApkgImport,
-                    leading: const Icon(m.Icons.file_upload_outlined, size: 16),
-                    child: Text(l10n.importApkg),
+                ],
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 10,
+                ),
+                placeholder: Text(l10n.searchDecks),
+                onChanged: (val) => searchQuery.value = val,
+              ),
+              const SizedBox(height: 20),
+
+              // Header Section: clean title & total count
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${l10n.navDecks} (${filteredDecks.length})',
+                    style: theme.typography.semiBold,
                   ),
                 ],
               ),
+              const SizedBox(height: 12),
+
+              // Deck list
+              if (filteredDecks.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Icon(
+                          LucideIcons.searchX,
+                          size: 48,
+                          color: theme.colorScheme.mutedForeground,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          l10n.noDecksFound,
+                          style: theme.typography.small.copyWith(
+                            color: theme.colorScheme.mutedForeground,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        PrimaryButton(
+                          onPressed: openCreateDeckModal,
+                          leading: const Icon(LucideIcons.plus, size: 16),
+                          child: Text(l10n.addNewDeck),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else ...[
+                // 1. Render Grouped Decks (e.g. from APKG imports with "Parent::Child" hierarchy)
+                ...groupedMap.entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: _GroupedDeckCard(
+                      parentName: entry.key,
+                      subdecks: entry.value,
+                      autoExpand: searchQuery.value.isNotEmpty,
+                      onStudyDeck: (deckId) {
+                        context.push('/decks/$deckId/study');
+                      },
+                    ),
+                  );
+                }),
+
+                // 2. Render Standalone Decks
+                ...standaloneDecks.map((deck) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: _MobileDeckCard(
+                      deckId: deck.id,
+                      title: deck.title,
+                      description: deck.description,
+                      dueCount: deck.dueCount,
+                      newCount: deck.newCount,
+                      totalCount: deck.totalCount,
+                      onStudy: () {
+                        context.push('/decks/${deck.id}/study');
+                      },
+                    ),
+                  );
+                }),
+              ],
+              const SizedBox(
+                height: 120,
+              ), // Space for bottom navigation bar and floating speed dial
             ],
           ),
-          const SizedBox(height: 12),
 
-          // Deck list
-          if (filteredDecks.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40),
-              child: Center(
-                child: Column(
-                  children: [
-                    Icon(m.Icons.search_off_rounded, size: 48, color: theme.colorScheme.mutedForeground),
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.noDecksFound,
-                      style: theme.typography.small.copyWith(color: theme.colorScheme.mutedForeground),
-                    ),
-                  ],
-                ),
+          // Scrim backdrop when speed dial is open
+          if (isDialOpen.value)
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => isDialOpen.value = false,
+                child: Container(color: m.Colors.black.withValues(alpha: 0.35)),
               ),
-            )
-          else
-            ...filteredDecks.map((deck) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: _MobileDeckCard(
-                  deckId: deck.id,
-                  title: deck.title,
-                  description: deck.description,
-                  dueCount: deck.dueCount,
-                  newCount: deck.newCount,
-                  totalCount: deck.totalCount,
-                  onStudy: () {
-                    context.push('/decks/${deck.id}/study');
-                  },
-                ),
-              );
-            }),
-          const SizedBox(height: 80), // Space for bottom navigation bar
+            ),
+
+          // Floating Speed Dial Button
+          Positioned(
+            bottom: 24,
+            right: 20,
+            child: _DeckSpeedDial(
+              isOpen: isDialOpen.value,
+              onToggle: () => isDialOpen.value = !isDialOpen.value,
+              onCreateDeck: () {
+                isDialOpen.value = false;
+                openCreateDeckModal();
+              },
+              onImportApkg: () {
+                isDialOpen.value = false;
+                handleApkgImport();
+              },
+              onCram: () {
+                isDialOpen.value = false;
+                openCramModal();
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -424,35 +643,50 @@ class _StatMiniBox extends StatelessWidget {
   final String label;
   final String value;
   final m.Color color;
+  final IconData icon;
 
   const _StatMiniBox({
     required this.label,
     required this.value,
     required this.color,
+    required this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: theme.colorScheme.background,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: theme.colorScheme.border),
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(label, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: color,
-            ),
+          Icon(icon, size: 20, color: color),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: color,
+                  height: 1.1,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: color.withValues(alpha: 0.8),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -486,117 +720,645 @@ class _MobileDeckCard extends StatelessWidget {
     // Parse Hierarchical deck title (Parent::Child)
     final parts = title.split('::');
     final hasHierarchy = parts.length > 1;
-    final parentPath = hasHierarchy ? parts.sublist(0, parts.length - 1).join(' › ') : null;
+    final parentPath = hasHierarchy
+        ? parts.sublist(0, parts.length - 1).join(' › ')
+        : null;
     final leafName = parts.last;
     final isCram = title.contains('Cram');
 
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onStudy,
+      child: Card(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: isCram
+                        ? m.Colors.amber.withValues(alpha: 0.15)
+                        : theme.colorScheme.muted,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    isCram ? LucideIcons.zap : LucideIcons.folder,
+                    size: 20,
+                    color: isCram
+                        ? m.Colors.amber
+                        : theme.colorScheme.foreground,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (parentPath != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2.0),
+                          child: Text(
+                            parentPath,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: theme.colorScheme.mutedForeground,
+                            ),
+                          ),
+                        ),
+                      Text(
+                        leafName,
+                        style: theme.typography.h4.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colorScheme.mutedForeground,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Wrap(
+                    spacing: 6,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      if (dueCount > 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.destructive.withValues(
+                              alpha: 0.15,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            '$dueCount ${context.l10n.dueCards}',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: theme.colorScheme.destructive,
+                            ),
+                          ),
+                        ),
+                      if (newCount > 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary.withValues(
+                              alpha: 0.15,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            '$newCount ${context.l10n.newCards}',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      Text(
+                        context.l10n.cardsCount(totalCount),
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colorScheme.mutedForeground,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                PrimaryButton(
+                  onPressed: onStudy,
+                  size: ButtonSize.small,
+                  leading: const Icon(LucideIcons.play, size: 14),
+                  child: Text(context.l10n.studyNow),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupedDeckCard extends HookWidget {
+  final String parentName;
+  final List<DeckModel> subdecks;
+  final bool autoExpand;
+  final void Function(String deckId) onStudyDeck;
+
+  const _GroupedDeckCard({
+    required this.parentName,
+    required this.subdecks,
+    required this.autoExpand,
+    required this.onStudyDeck,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isExpanded = useState(autoExpand);
+
+    useEffect(() {
+      if (autoExpand) {
+        isExpanded.value = true;
+      }
+      return null;
+    }, [autoExpand]);
+
+    final totalDue = subdecks.fold<int>(0, (sum, d) => sum + d.dueCount);
+    final totalNew = subdecks.fold<int>(0, (sum, d) => sum + d.newCount);
+    final totalCards = subdecks.fold<int>(0, (sum, d) => sum + d.totalCount);
+
+    final targetStudyDeck = subdecks.firstWhere(
+      (d) => d.dueCount > 0,
+      orElse: () => subdecks.firstWhere(
+        (d) => d.newCount > 0,
+        orElse: () => subdecks.first,
+      ),
+    );
+
     return Card(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: isCram
-                      ? m.Colors.amber.withValues(alpha: 0.15)
-                      : theme.colorScheme.muted,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  isCram ? m.Icons.bolt_rounded : m.Icons.folder_outlined,
-                  size: 24,
-                  color: isCram ? m.Colors.amber : theme.colorScheme.foreground,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (parentPath != null)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 2.0),
-                        child: Text(
-                          parentPath,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                      ),
-                    Text(
-                      leafName,
-                      style: theme.typography.h4.copyWith(fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              isExpanded.value = !isExpanded.value;
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (dueCount > 0)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      margin: const EdgeInsets.only(right: 6),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.destructive.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        '$dueCount ${context.l10n.dueCards}',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: theme.colorScheme.destructive,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                      ),
-                    ),
-                  if (newCount > 0)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      margin: const EdgeInsets.only(right: 6),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        '$newCount ${context.l10n.newCards}',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
+                        child: Icon(
+                          isExpanded.value
+                              ? LucideIcons.folderOpen
+                              : LucideIcons.folder,
+                          size: 20,
                           color: theme.colorScheme.primary,
                         ),
                       ),
-                    ),
-                  Text(
-                    context.l10n.cardsCount(totalCount),
-                    style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.secondary,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                '${subdecks.length} bộ thẻ con',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.secondaryForeground,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              parentName,
+                              style: theme.typography.h4.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Được import từ gói Anki .apkg',
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton.ghost(
+                        size: ButtonSize.small,
+                        icon: AnimatedRotation(
+                          turns: isExpanded.value ? 0.5 : 0.0,
+                          duration: const Duration(milliseconds: 200),
+                          child: const Icon(LucideIcons.chevronDown, size: 18),
+                        ),
+                        onPressed: () {
+                          isExpanded.value = !isExpanded.value;
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Wrap(
+                          spacing: 6,
+                          runSpacing: 4,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            if (totalDue > 0)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.destructive
+                                      .withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  '$totalDue ${context.l10n.dueCards}',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    color: theme.colorScheme.destructive,
+                                  ),
+                                ),
+                              ),
+                            if (totalNew > 0)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primary.withValues(
+                                    alpha: 0.15,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  '$totalNew ${context.l10n.newCards}',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                              ),
+                            Text(
+                              context.l10n.cardsCount(totalCards),
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      PrimaryButton(
+                        onPressed: () => onStudyDeck(targetStudyDeck.id),
+                        size: ButtonSize.small,
+                        leading: const Icon(LucideIcons.play, size: 14),
+                        child: Text(context.l10n.studyNow),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              PrimaryButton(
-                onPressed: onStudy,
-                leading: const Icon(m.Icons.play_arrow_rounded, size: 16),
-                child: Text(context.l10n.studyNow),
+            ),
+          ),
+          if (isExpanded.value) ...[
+            Divider(height: 1, color: theme.colorScheme.border),
+            Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.muted.withValues(alpha: 0.25),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(8),
+                ),
               ),
-            ],
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                itemCount: subdecks.length,
+                separatorBuilder: (context, index) => Divider(
+                  height: 1,
+                  indent: 44,
+                  endIndent: 16,
+                  color: theme.colorScheme.border.withValues(alpha: 0.4),
+                ),
+                itemBuilder: (context, index) {
+                  final deck = subdecks[index];
+                  final leafName = deck.title.split('::').last;
+
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => onStudyDeck(deck.id),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            LucideIcons.fileText,
+                            size: 16,
+                            color: theme.colorScheme.mutedForeground,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              leafName,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.foreground,
+                              ),
+                            ),
+                          ),
+                          Wrap(
+                            spacing: 6,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              if (deck.dueCount > 0)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.destructive
+                                        .withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    '${deck.dueCount} ôn',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                      color: theme.colorScheme.destructive,
+                                    ),
+                                  ),
+                                ),
+                              if (deck.newCount > 0)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary.withValues(
+                                      alpha: 0.15,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    '${deck.newCount} mới',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  ),
+                                ),
+                              Text(
+                                '${deck.totalCount} thẻ',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: theme.colorScheme.mutedForeground,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton.ghost(
+                            size: ButtonSize.small,
+                            icon: const Icon(LucideIcons.play, size: 14),
+                            onPressed: () => onStudyDeck(deck.id),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _DeckSpeedDial extends HookWidget {
+  final bool isOpen;
+  final VoidCallback onToggle;
+  final VoidCallback onCreateDeck;
+  final VoidCallback onImportApkg;
+  final VoidCallback onCram;
+
+  const _DeckSpeedDial({
+    required this.isOpen,
+    required this.onToggle,
+    required this.onCreateDeck,
+    required this.onImportApkg,
+    required this.onCram,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final controller = useAnimationController(
+      duration: const Duration(milliseconds: 200),
+    );
+
+    useEffect(() {
+      if (isOpen) {
+        controller.forward();
+      } else {
+        controller.reverse();
+      }
+      return null;
+    }, [isOpen]);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        if (isOpen || controller.value > 0)
+          AnimatedBuilder(
+            animation: controller,
+            builder: (context, _) {
+              final p = controller.value;
+              return Opacity(
+                opacity: p.clamp(0.0, 1.0),
+                child: Transform.translate(
+                  offset: Offset(0, 12 * (1 - p)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      _SpeedDialOption(
+                        icon: LucideIcons.folderPlus,
+                        iconColor: m.Colors.green,
+                        label: 'Tạo bộ thẻ mới',
+                        onTap: onCreateDeck,
+                      ),
+                      const SizedBox(height: 12),
+                      _SpeedDialOption(
+                        icon: LucideIcons.upload,
+                        iconColor: m.Colors.blue,
+                        label: 'Nạp file Anki (.apkg)',
+                        onTap: onImportApkg,
+                      ),
+                      const SizedBox(height: 12),
+                      _SpeedDialOption(
+                        icon: LucideIcons.zap,
+                        iconColor: m.Colors.amber,
+                        label: 'Học cấp tốc (Cram)',
+                        onTap: onCram,
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        GestureDetector(
+          onTap: onToggle,
+          child: Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.35),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(
+              child: AnimatedRotation(
+                turns: isOpen ? 0.125 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  LucideIcons.plus,
+                  color: theme.colorScheme.primaryForeground,
+                  size: 26,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SpeedDialOption extends StatelessWidget {
+  final IconData icon;
+  final m.Color iconColor;
+  final String label;
+  final VoidCallback onTap;
+
+  const _SpeedDialOption({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.card,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: theme.colorScheme.border, width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: m.Colors.black.withValues(alpha: 0.12),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.cardForeground,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.card,
+              shape: BoxShape.circle,
+              border: Border.all(color: theme.colorScheme.border, width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: m.Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Center(child: Icon(icon, color: iconColor, size: 20)),
           ),
         ],
       ),

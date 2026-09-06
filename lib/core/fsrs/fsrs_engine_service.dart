@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:fsrs/fsrs.dart' as fsrs;
+import '../../l10n/generated/app_localizations.dart';
 import '../models/card.dart';
 
 /// Service wrapping package:fsrs to manage spaced repetition scheduling.
@@ -39,17 +40,18 @@ class FsrsEngineService {
   }
 
   /// Calculates next interval labels for all 4 ratings (Again, Hard, Good, Easy)
-  Map<int, String> previewIntervals(CardModel card) {
+  Map<ReviewRating, String> previewIntervals(CardModel card, {AppLocalizations? l10n}) {
     final now = DateTime.now().toUtc();
     final fsrsCard = toFsrsCard(card);
 
-    final results = <int, String>{};
+    final results = <ReviewRating, String>{};
     for (final rating in [
       fsrs.Rating.again,
       fsrs.Rating.hard,
       fsrs.Rating.good,
       fsrs.Rating.easy,
     ]) {
+      final reviewRating = ReviewRating.fromValue(rating.value);
       try {
         final outcome = scheduler.reviewCard(
           fsrsCard,
@@ -57,20 +59,20 @@ class FsrsEngineService {
           reviewDateTime: now,
         );
         final diff = outcome.card.due.difference(now);
-        results[rating.value] = formatInterval(diff);
+        results[reviewRating] = formatInterval(diff, l10n: l10n);
       } catch (_) {
-        results[rating.value] = _fallbackInterval(rating.value);
+        results[reviewRating] = _fallbackInterval(reviewRating);
       }
     }
     return results;
   }
 
-  /// Applies user review rating (1: Again, 2: Hard, 3: Good, 4: Easy)
+  /// Applies user review rating (Again, Hard, Good, Easy)
   /// and returns an updated CardModel with calculated FSRS stability, difficulty, due date.
-  CardModel scheduleReview(CardModel card, int ratingValue) {
+  CardModel scheduleReview(CardModel card, ReviewRating ratingEnum) {
     final now = DateTime.now().toUtc();
     final fsrsCard = toFsrsCard(card);
-    final rating = fsrs.Rating.fromValue(ratingValue);
+    final rating = fsrs.Rating.fromValue(ratingEnum.value);
 
     final outcome = scheduler.reviewCard(
       fsrsCard,
@@ -82,7 +84,7 @@ class FsrsEngineService {
     final intervalDuration = newCard.due.difference(now);
     final intervalDays = math.max(1, intervalDuration.inDays);
 
-    final isAgain = ratingValue == 1;
+    final isAgain = ratingEnum == ReviewRating.again;
 
     return card.copyWith(
       stability: newCard.stability ?? card.stability,
@@ -96,42 +98,40 @@ class FsrsEngineService {
   }
 
   /// Formats a duration into Anki-style interval strings: < 10m, 1d, 4d, 1.2m, etc.
-  static String formatInterval(Duration duration) {
+  static String formatInterval(Duration duration, {AppLocalizations? l10n}) {
     if (duration.inMinutes < 60) {
       final mins = duration.inMinutes <= 1 ? 1 : duration.inMinutes;
-      return '$mins phút';
+      return l10n != null ? l10n.intervalMinutes(mins) : '$mins phút';
     } else if (duration.inHours < 24) {
       final hours = duration.inHours;
-      return '$hours giờ';
+      return l10n != null ? l10n.intervalHours(hours) : '$hours giờ';
     } else if (duration.inDays < 30) {
       final days = duration.inDays;
-      return '$days ngày';
+      return l10n != null ? l10n.intervalDays(days) : '$days ngày';
     } else if (duration.inDays < 365) {
       final months = (duration.inDays / 30).toStringAsFixed(1);
       final clean = months.endsWith('.0')
           ? months.substring(0, months.length - 2)
           : months;
-      return '$clean tháng';
+      return l10n != null ? l10n.intervalMonths(clean) : '$clean tháng';
     } else {
       final years = (duration.inDays / 365).toStringAsFixed(1);
       final clean =
           years.endsWith('.0') ? years.substring(0, years.length - 2) : years;
-      return '$clean năm';
+      return l10n != null ? l10n.intervalYears(clean) : '$clean năm';
     }
   }
 
-  static String _fallbackInterval(int rating) {
+  static String _fallbackInterval(ReviewRating rating) {
     switch (rating) {
-      case 1:
-        return '< 10 phút';
-      case 2:
-        return '1 ngày';
-      case 3:
-        return '4 ngày';
-      case 4:
-        return '12 ngày';
-      default:
-        return '1 ngày';
+      case ReviewRating.again:
+        return '< 10m';
+      case ReviewRating.hard:
+        return '1d';
+      case ReviewRating.good:
+        return '4d';
+      case ReviewRating.easy:
+        return '12d';
     }
   }
 }

@@ -52,10 +52,19 @@ dependencies:
   sqlite3: ^3.5.2
   path: ^1.9.1
   file_picker: ^11.0.3
+  lucide_icons_flutter: ^3.1.18
+  google_fonts: ^8.2.1
+  drift: ^2.24.2
+  drift_flutter: ^0.3.1
+  audioplayers: ^6.1.0
+  flutter_widget_from_html_core: ^0.15.2
+  collection: ^1.19.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  drift_dev: ^2.24.2
+  build_runner: ^2.4.14
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

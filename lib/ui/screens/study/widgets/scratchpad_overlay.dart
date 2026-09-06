@@ -116,7 +116,7 @@ class ScratchpadOverlay extends HookWidget {
                     const SizedBox(width: 8),
                     // Clear canvas button
                     IconButton.ghost(
-                      icon: const Icon(m.Icons.delete_outline_rounded, size: 18),
+                      icon: const Icon(LucideIcons.trash2, size: 18),
                       onPressed: () {
                         lines.value = [];
                         currentPoints.value = [];
@@ -124,7 +124,7 @@ class ScratchpadOverlay extends HookWidget {
                     ),
                     // Close whiteboard
                     IconButton.ghost(
-                      icon: const Icon(m.Icons.close_rounded, size: 18),
+                      icon: const Icon(LucideIcons.x, size: 18),
                       onPressed: onClose,
                     ),
                   ],

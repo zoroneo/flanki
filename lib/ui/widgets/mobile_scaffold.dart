@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../core/localization/locale_notifier.dart';
 import '../../core/notifiers/deck_notifier.dart';
+import '../../core/notifiers/card_browser_notifier.dart';
+import '../../core/notifiers/stats_notifier.dart';
 import '../../core/auth/auth_notifier.dart';
 
 class MobileScaffold extends HookConsumerWidget {
@@ -15,8 +17,15 @@ class MobileScaffold extends HookConsumerWidget {
     required this.navigationShell,
   });
 
-  void _onTap(int index) {
+  void _onTap(int index, WidgetRef ref) {
     HapticFeedback.selectionClick();
+    if (index == 0) {
+      ref.read(deckListProvider.notifier).refresh();
+    } else if (index == 1) {
+      ref.read(cardBrowserProvider.notifier).refresh();
+    } else if (index == 2) {
+      ref.read(statsNotifierProvider.notifier).refresh();
+    }
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,
@@ -52,42 +61,43 @@ class MobileScaffold extends HookConsumerWidget {
             ),
             child: SafeArea(
               top: false,
+              bottom: true,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _BottomNavItem(
-                      icon: m.Icons.style_outlined,
-                      activeIcon: m.Icons.style_rounded,
+                      icon: LucideIcons.layers,
+                      activeIcon: LucideIcons.layers2,
                       label: l10n.navDecks,
                       isSelected: currentIndex == 0,
                       badgeCount: totalDue > 0 ? totalDue : null,
-                      onTap: () => _onTap(0),
+                      onTap: () => _onTap(0, ref),
                     ),
                     _BottomNavItem(
-                      icon: m.Icons.search_rounded,
-                      activeIcon: m.Icons.manage_search_rounded,
+                      icon: LucideIcons.search,
+                      activeIcon: LucideIcons.fileSearch,
                       label: l10n.navBrowser,
                       isSelected: currentIndex == 1,
-                      onTap: () => _onTap(1),
+                      onTap: () => _onTap(1, ref),
                     ),
                     _BottomNavItem(
-                      icon: m.Icons.analytics_outlined,
-                      activeIcon: m.Icons.analytics_rounded,
+                      icon: LucideIcons.chartColumn,
+                      activeIcon: LucideIcons.chartNoAxesCombined,
                       label: l10n.navStats,
                       isSelected: currentIndex == 2,
-                      onTap: () => _onTap(2),
+                      onTap: () => _onTap(2, ref),
                     ),
                     _BottomNavItem(
-                      icon: m.Icons.tune_outlined,
-                      activeIcon: m.Icons.tune_rounded,
+                      icon: LucideIcons.settings,
+                      activeIcon: LucideIcons.settings2,
                       label: l10n.navSettings,
                       isSelected: currentIndex == 3,
                       indicatorColor: authState.isAuthenticated
                           ? m.Colors.green
                           : null,
-                      onTap: () => _onTap(3),
+                      onTap: () => _onTap(3, ref),
                     ),
                   ],
                 ),
@@ -101,8 +111,8 @@ class MobileScaffold extends HookConsumerWidget {
 }
 
 class _BottomNavItem extends StatelessWidget {
-  final m.IconData icon;
-  final m.IconData activeIcon;
+  final IconData icon;
+  final IconData activeIcon;
   final String label;
   final bool isSelected;
   final int? badgeCount;
@@ -129,23 +139,33 @@ class _BottomNavItem extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Container(
+        constraints: const BoxConstraints(minWidth: 56, minHeight: 48),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Icon(
-                  isSelected ? activeIcon : icon,
-                  size: 22,
-                  color: color,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? theme.colorScheme.primary.withValues(alpha: 0.12)
+                        : m.Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(
+                    isSelected ? activeIcon : icon,
+                    size: 22,
+                    color: color,
+                  ),
                 ),
                 if (badgeCount != null)
                   Positioned(
-                    top: -4,
-                    right: -10,
+                    top: -2,
+                    right: 2,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 5,
@@ -154,24 +174,29 @@ class _BottomNavItem extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: theme.colorScheme.destructive,
                         borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: theme.colorScheme.background,
+                          width: 1.5,
+                        ),
                       ),
                       child: Text(
-                        '$badgeCount',
+                        badgeCount! > 99 ? '99+' : '$badgeCount',
                         style: const TextStyle(
                           color: m.Colors.white,
                           fontSize: 10,
                           fontWeight: FontWeight.w700,
+                          height: 1.1,
                         ),
                       ),
                     ),
                   ),
                 if (indicatorColor != null)
                   Positioned(
-                    bottom: 0,
-                    right: -2,
+                    bottom: 2,
+                    right: 6,
                     child: Container(
-                      width: 7,
-                      height: 7,
+                      width: 8,
+                      height: 8,
                       decoration: BoxDecoration(
                         color: indicatorColor,
                         shape: BoxShape.circle,
@@ -184,7 +209,7 @@ class _BottomNavItem extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 3),
             Text(
               label,
               style: TextStyle(

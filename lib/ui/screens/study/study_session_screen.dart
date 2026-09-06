@@ -9,8 +9,10 @@ import '../../../core/notifiers/study_session_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/models/card.dart';
 import '../../../core/fsrs/fsrs_engine_service.dart';
+import '../../../core/localization/locale_notifier.dart';
 import 'widgets/scratchpad_overlay.dart';
 import 'widgets/card_action_sheet.dart';
+import 'widgets/rich_card_content.dart';
 
 class StudySessionScreen extends HookConsumerWidget {
   final String deckId;
@@ -23,13 +25,16 @@ class StudySessionScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final sessionState = ref.watch(studySessionProvider);
     final sessionNotifier = ref.read(studySessionProvider.notifier);
     final deckNotifier = ref.read(deckListProvider.notifier);
 
     // Initialize deck on enter
     useEffect(() {
-      sessionNotifier.init(deckId);
+      Future.microtask(() {
+        sessionNotifier.init(deckId);
+      });
       return null;
     }, [deckId]);
 
@@ -43,6 +48,15 @@ class StudySessionScreen extends HookConsumerWidget {
 
     // Scratchpad (Whiteboard) visibility state
     final isWhiteboardOpen = useState<bool>(false);
+
+    // User-typed answer state for interactive cards
+    final userTypedAnswer = useState<String>('');
+
+    // Clear typed answer when moving to a new card
+    useEffect(() {
+      userTypedAnswer.value = '';
+      return null;
+    }, [sessionState.currentCard?.id]);
 
     // Sync animation with state
     useEffect(() {
@@ -61,7 +75,7 @@ class StudySessionScreen extends HookConsumerWidget {
       }
     }
 
-    void handleRate(int rating) {
+    void handleRate(ReviewRating rating) {
       HapticFeedback.mediumImpact();
       deckNotifier.recordStudyProgress(deckId);
       dragOffset.value = 0.0;
@@ -77,11 +91,11 @@ class StudySessionScreen extends HookConsumerWidget {
           builder: (context, overlay) {
             return SurfaceCard(
               child: Basic(
-                title: const Text('Đã hoàn tác'),
-                subtitle: const Text('Khôi phục thẻ vừa đánh giá.'),
-                leading: const Icon(m.Icons.undo_rounded, size: 18),
+                title: Text(l10n.undoSuccessTitle),
+                subtitle: Text(l10n.undoSuccessDesc),
+                leading: const Icon(LucideIcons.undo2, size: 18),
                 trailing: IconButton.ghost(
-                  icon: const Icon(m.Icons.close),
+                  icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
                 ),
               ),
@@ -97,6 +111,7 @@ class StudySessionScreen extends HookConsumerWidget {
 
       m.showModalBottomSheet(
         context: context,
+        useRootNavigator: false,
         backgroundColor: m.Colors.transparent,
         isScrollControlled: true,
         builder: (ctx) {
@@ -108,9 +123,18 @@ class StudySessionScreen extends HookConsumerWidget {
               onBury: () => sessionNotifier.buryCurrentCard(),
               onSuspend: () => sessionNotifier.suspendCurrentCard(),
               onEdit: (f, b) => sessionNotifier.editCurrentCard(f, b),
+              onDelete: () => sessionNotifier.deleteCurrentCard(),
             ),
           );
         },
+      );
+    }
+
+    if (sessionState.deckId != deckId) {
+      return const Scaffold(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
 
@@ -120,11 +144,11 @@ class StudySessionScreen extends HookConsumerWidget {
           AppBar(
             leading: [
               IconButton.ghost(
-                icon: const Icon(m.Icons.close_rounded),
+                icon: const Icon(LucideIcons.x),
                 onPressed: () => context.pop(),
               ),
             ],
-            title: const Text('Hoàn thành'),
+            title: Text(l10n.studyCompleteTitle),
           ),
         ],
         child: Center(
@@ -140,32 +164,32 @@ class StudySessionScreen extends HookConsumerWidget {
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
-                    m.Icons.check_circle_rounded,
+                    LucideIcons.checkCheck,
                     size: 64,
                     color: m.Colors.green,
                   ),
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'Tuyệt vời! Bạn đã hoàn thành',
+                  l10n.studyCompleteTitle,
                   style: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Đã hoàn thành ${sessionState.completedCount} thẻ trong phiên học này với thuật toán FSRS.',
+                  l10n.studyCompleteDesc(sessionState.completedCount),
                   style: theme.typography.small.copyWith(color: theme.colorScheme.mutedForeground),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
                 PrimaryButton(
                   onPressed: () => context.pop(),
-                  child: const Text('Quay lại danh sách bộ thẻ'),
+                  child: Text(l10n.backToDecks),
                 ),
                 const SizedBox(height: 12),
                 GhostButton(
                   onPressed: () => sessionNotifier.restart(),
-                  child: const Text('Ôn lại lần nữa'),
+                  child: Text(l10n.studyAgain),
                 ),
               ],
             ),
@@ -177,16 +201,16 @@ class StudySessionScreen extends HookConsumerWidget {
     final currentCard = sessionState.currentCard;
     final fsrsService = useMemoized(() => FsrsEngineService());
     final intervals = useMemoized(() {
-      if (currentCard == null) return <int, String>{};
-      return fsrsService.previewIntervals(currentCard);
-    }, [currentCard?.id, currentCard?.stability, currentCard?.difficulty, currentCard?.reps]);
+      if (currentCard == null) return <ReviewRating, String>{};
+      return fsrsService.previewIntervals(currentCard, l10n: l10n);
+    }, [currentCard?.id, currentCard?.stability, currentCard?.difficulty, currentCard?.reps, l10n]);
 
     return Scaffold(
       headers: [
         AppBar(
           leading: [
             IconButton.ghost(
-              icon: const Icon(m.Icons.arrow_back_ios_new_rounded, size: 18),
+              icon: const Icon(LucideIcons.chevronLeft, size: 18),
               onPressed: () => context.pop(),
             ),
           ],
@@ -194,7 +218,7 @@ class StudySessionScreen extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Thẻ còn lại: ${sessionState.queue.length + (currentCard != null ? 1 : 0)}',
+                l10n.cardsRemaining(sessionState.queue.length + (currentCard != null ? 1 : 0)),
                 style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
               ),
               if (currentCard != null && currentCard.hasFlag) ...[
@@ -203,7 +227,7 @@ class StudySessionScreen extends HookConsumerWidget {
                   width: 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: CardActionSheet.ankiFlagColors[currentCard.flag - 1],
+                    color: CardActionSheet.ankiFlagColors[currentCard.flag] ?? m.Colors.grey,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -214,16 +238,14 @@ class StudySessionScreen extends HookConsumerWidget {
             // Undo button
             if (sessionState.canUndo)
               IconButton.ghost(
-                icon: const Icon(m.Icons.undo_rounded, size: 20),
+                icon: const Icon(LucideIcons.undo2, size: 20),
                 onPressed: handleUndo,
               ),
 
             // Whiteboard / Scratchpad toggle
             IconButton.ghost(
               icon: Icon(
-                isWhiteboardOpen.value
-                    ? m.Icons.draw_rounded
-                    : m.Icons.draw_outlined,
+                LucideIcons.pencil,
                 size: 20,
                 color: isWhiteboardOpen.value ? theme.colorScheme.primary : null,
               ),
@@ -234,7 +256,7 @@ class StudySessionScreen extends HookConsumerWidget {
 
             // Card Actions (Flag, Bury, Suspend, Edit)
             IconButton.ghost(
-              icon: const Icon(m.Icons.more_vert_rounded, size: 20),
+              icon: const Icon(LucideIcons.ellipsisVertical, size: 20),
               onPressed: openCardActions,
             ),
           ],
@@ -261,9 +283,9 @@ class StudySessionScreen extends HookConsumerWidget {
                   onHorizontalDragEnd: (details) {
                     if (sessionState.isFlipped && !isWhiteboardOpen.value) {
                       if (dragOffset.value < -80) {
-                        handleRate(1);
+                        handleRate(ReviewRating.again);
                       } else if (dragOffset.value > 80) {
-                        handleRate(3);
+                        handleRate(ReviewRating.good);
                       } else {
                         dragOffset.value = 0.0;
                       }
@@ -292,11 +314,15 @@ class StudySessionScreen extends HookConsumerWidget {
                                     child: _CardBackView(
                                       card: currentCard,
                                       theme: theme,
+                                      typedAnswer: userTypedAnswer.value,
                                     ),
                                   )
                                 : _CardFrontView(
                                     card: currentCard,
                                     theme: theme,
+                                    typedAnswer: userTypedAnswer.value,
+                                    onAnswerChanged: (v) => userTypedAnswer.value = v,
+                                    onSubmitAnswer: handleFlip,
                                   ),
                           ),
                         ),
@@ -316,37 +342,37 @@ class StudySessionScreen extends HookConsumerWidget {
                           children: [
                             Expanded(
                               child: _RatingButton(
-                                label: 'Again',
-                                interval: intervals[1] ?? '< 10p',
+                                label: l10n.ratingAgain,
+                                interval: intervals[ReviewRating.again] ?? '< 10m',
                                 backgroundColor: m.Colors.red.shade600,
-                                onTap: () => handleRate(1),
+                                onTap: () => handleRate(ReviewRating.again),
                               ),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: _RatingButton(
-                                label: 'Hard',
-                                interval: intervals[2] ?? '1 ngày',
+                                label: l10n.ratingHard,
+                                interval: intervals[ReviewRating.hard] ?? '1d',
                                 backgroundColor: m.Colors.orange.shade700,
-                                onTap: () => handleRate(2),
+                                onTap: () => handleRate(ReviewRating.hard),
                               ),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: _RatingButton(
-                                label: 'Good',
-                                interval: intervals[3] ?? '4 ngày',
+                                label: l10n.ratingGood,
+                                interval: intervals[ReviewRating.good] ?? '4d',
                                 backgroundColor: m.Colors.blue.shade600,
-                                onTap: () => handleRate(3),
+                                onTap: () => handleRate(ReviewRating.good),
                               ),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: _RatingButton(
-                                label: 'Easy',
-                                interval: intervals[4] ?? '12 ngày',
+                                label: l10n.ratingEasy,
+                                interval: intervals[ReviewRating.easy] ?? '12d',
                                 backgroundColor: m.Colors.green.shade600,
-                                onTap: () => handleRate(4),
+                                onTap: () => handleRate(ReviewRating.easy),
                               ),
                             ),
                           ],
@@ -355,7 +381,7 @@ class StudySessionScreen extends HookConsumerWidget {
                           width: double.infinity,
                           child: PrimaryButton(
                             onPressed: handleFlip,
-                            child: const Text('Chạm để lật thẻ (Lật đáp án)'),
+                            child: Text(l10n.tapToFlip),
                           ),
                         ),
                 ),
@@ -377,62 +403,78 @@ class StudySessionScreen extends HookConsumerWidget {
 class _CardFrontView extends StatelessWidget {
   final CardModel? card;
   final ThemeData theme;
+  final String? typedAnswer;
+  final ValueChanged<String>? onAnswerChanged;
+  final VoidCallback? onSubmitAnswer;
 
-  const _CardFrontView({required this.card, required this.theme});
+  const _CardFrontView({
+    required this.card,
+    required this.theme,
+    this.typedAnswer,
+    this.onAnswerChanged,
+    this.onSubmitAnswer,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Card(
       padding: const EdgeInsets.all(28),
       child: SizedBox(
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.muted,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'CÂU HỎI',
-                    style: theme.typography.xSmall.copyWith(
-                      color: theme.colorScheme.mutedForeground,
-                      letterSpacing: 1.1,
-                    ),
-                  ),
-                ),
-                if (card != null && card!.hasFlag) ...[
-                  const SizedBox(width: 8),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Container(
-                    width: 8,
-                    height: 8,
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: CardActionSheet.ankiFlagColors[card!.flag - 1],
-                      shape: BoxShape.circle,
+                      color: theme.colorScheme.muted,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      l10n.studyQuestion,
+                      style: theme.typography.xSmall.copyWith(
+                        color: theme.colorScheme.mutedForeground,
+                        letterSpacing: 1.1,
+                      ),
                     ),
                   ),
+                  if (card != null && card!.hasFlag) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ],
                 ],
-              ],
-            ),
-            const SizedBox(height: 36),
-            Text(
-              card?.front ?? '',
-              style: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 36),
-            Text(
-              'Chạm vào màn hình để lật thẻ',
-              style: theme.typography.xSmall.copyWith(
-                color: theme.colorScheme.mutedForeground,
               ),
-            ),
-          ],
+              const SizedBox(height: 28),
+              RichCardContent(
+                content: card?.front ?? '',
+                autoPlayAudio: true,
+                typedAnswer: typedAnswer,
+                onAnswerChanged: onAnswerChanged,
+                onSubmitAnswer: onSubmitAnswer,
+                textStyle: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 28),
+              Text(
+                l10n.tapToFlip,
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -442,11 +484,18 @@ class _CardFrontView extends StatelessWidget {
 class _CardBackView extends StatelessWidget {
   final CardModel? card;
   final ThemeData theme;
+  final String? typedAnswer;
 
-  const _CardBackView({required this.card, required this.theme});
+  const _CardBackView({
+    required this.card,
+    required this.theme,
+    this.typedAnswer,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Card(
       padding: const EdgeInsets.all(28),
       child: SizedBox(
@@ -462,7 +511,7 @@ class _CardBackView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  'ĐÁP ÁN',
+                  l10n.studyAnswer,
                   style: theme.typography.xSmall.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w700,
@@ -470,25 +519,16 @@ class _CardBackView extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
-              Text(
-                card?.front ?? '',
-                style: theme.typography.lead.copyWith(
-                  color: theme.colorScheme.mutedForeground,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 12),
-              const Divider(),
-              const SizedBox(height: 16),
-              Text(
-                card?.back ?? '',
-                style: theme.typography.h3.copyWith(fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
+              const SizedBox(height: 20),
+              RichCardContent(
+                content: card?.back ?? '',
+                autoPlayAudio: true,
+                typedAnswer: typedAnswer,
+                textStyle: theme.typography.h3.copyWith(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 28),
               Text(
-                'Vuốt trái: Again • Vuốt phải: Good',
+                l10n.swipeHint,
                 style: theme.typography.xSmall.copyWith(
                   color: theme.colorScheme.mutedForeground,
                 ),
@@ -501,7 +541,7 @@ class _CardBackView extends StatelessWidget {
   }
 }
 
-class _RatingButton extends StatelessWidget {
+class _RatingButton extends HookWidget {
   final String label;
   final String interval;
   final m.Color backgroundColor;
@@ -516,34 +556,54 @@ class _RatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPressed = useState(false);
+
     return GestureDetector(
+      onTapDown: (_) => isPressed.value = true,
+      onTapUp: (_) => isPressed.value = false,
+      onTapCancel: () => isPressed.value = false,
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                color: m.Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
+      child: AnimatedScale(
+        scale: isPressed.value ? 0.94 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeOutCubic,
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 48),
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: backgroundColor.withValues(alpha: 0.25),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
               ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              interval,
-              style: TextStyle(
-                color: m.Colors.white.withValues(alpha: 0.8),
-                fontSize: 10,
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  color: m.Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Text(
+                interval,
+                style: TextStyle(
+                  color: m.Colors.white.withValues(alpha: 0.85),
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

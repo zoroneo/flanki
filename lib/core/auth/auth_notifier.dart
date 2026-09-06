@@ -102,4 +102,16 @@ class AuthNotifier extends Notifier<AuthState> {
       state = state.copyWith(lastSyncedAt: now);
     }
   }
+
+  void clearError() {
+    if (state.status == AuthStatus.error) {
+      state = state.isAuthenticated
+          ? AuthState.authenticated(
+              email: state.email ?? '',
+              hostKey: state.hostKey ?? '',
+              lastSyncedAt: state.lastSyncedAt,
+            )
+          : const AuthState.unauthenticated();
+    }
+  }
 }

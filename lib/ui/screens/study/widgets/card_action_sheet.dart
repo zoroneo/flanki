@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 
 class CardActionSheet extends HookWidget {
   final CardModel card;
-  final ValueChanged<int> onSetFlag;
+  final ValueChanged<CardFlag> onSetFlag;
   final VoidCallback onBury;
   final VoidCallback onSuspend;
   final void Function(String front, String back) onEdit;
+  final VoidCallback? onDelete;
 
   const CardActionSheet({
     super.key,
@@ -17,21 +19,23 @@ class CardActionSheet extends HookWidget {
     required this.onBury,
     required this.onSuspend,
     required this.onEdit,
+    this.onDelete,
   });
 
-  static const ankiFlagColors = [
-    m.Colors.red, // 1
-    m.Colors.orange, // 2
-    m.Colors.green, // 3
-    m.Colors.blue, // 4
-    m.Colors.pink, // 5
-    m.Colors.cyan, // 6
-    m.Colors.purple, // 7
-  ];
+  static const ankiFlagColors = {
+    CardFlag.red: m.Colors.red,
+    CardFlag.orange: m.Colors.orange,
+    CardFlag.green: m.Colors.green,
+    CardFlag.blue: m.Colors.blue,
+    CardFlag.pink: m.Colors.pink,
+    CardFlag.turquoise: m.Colors.cyan,
+    CardFlag.purple: m.Colors.purple,
+  };
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final isEditing = useState(false);
     final frontController = useTextEditingController(text: card.front);
     final backController = useTextEditingController(text: card.back);
@@ -63,16 +67,16 @@ class CardActionSheet extends HookWidget {
               const SizedBox(height: 16),
 
               if (isEditing.value) ...[
-                Text('Sửa nội dung thẻ', style: theme.typography.h4),
+                Text(l10n.editCardContent, style: theme.typography.h4),
                 const SizedBox(height: 16),
-                Text('MẶT TRƯỚC', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                Text(l10n.frontSide, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
                 const SizedBox(height: 6),
                 TextField(
                   controller: frontController,
                   maxLines: 3,
                 ),
                 const SizedBox(height: 14),
-                Text('MẶT SAU', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                Text(l10n.backSide, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
                 const SizedBox(height: 6),
                 TextField(
                   controller: backController,
@@ -84,7 +88,7 @@ class CardActionSheet extends HookWidget {
                   children: [
                     GhostButton(
                       onPressed: () => isEditing.value = false,
-                      child: const Text('Hủy'),
+                      child: Text(l10n.cancel),
                     ),
                     const SizedBox(width: 8),
                     PrimaryButton(
@@ -92,7 +96,7 @@ class CardActionSheet extends HookWidget {
                         onEdit(frontController.text, backController.text);
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Lưu thay đổi'),
+                      child: Text(l10n.saveChanges),
                     ),
                   ],
                 ),
@@ -101,7 +105,7 @@ class CardActionSheet extends HookWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Tùy Chọn Thẻ Học', style: theme.typography.h4),
+                    Text(l10n.cardActionTitle, style: theme.typography.h4),
                     if (card.tags.isNotEmpty)
                       Wrap(
                         spacing: 4,
@@ -121,7 +125,7 @@ class CardActionSheet extends HookWidget {
                 const SizedBox(height: 16),
 
                 // 7 Anki Flag Selectors
-                Text('CẮM CỜ ĐÁNH DẤU (7 MÀU ANKI)', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                Text(l10n.flagSelector, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,41 +133,58 @@ class CardActionSheet extends HookWidget {
                     // Clear flag option
                     GestureDetector(
                       onTap: () {
-                        onSetFlag(0);
+                        onSetFlag(CardFlag.none);
                         Navigator.of(context).pop();
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.muted,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(m.Icons.flag_outlined, size: 18, color: theme.colorScheme.mutedForeground),
-                      ),
-                    ),
-                    ...List.generate(7, (i) {
-                      final flagNum = i + 1;
-                      final isSelected = card.flag == flagNum;
-                      final c = ankiFlagColors[i];
-
-                      return GestureDetector(
-                        onTap: () {
-                          onSetFlag(flagNum);
-                          Navigator.of(context).pop();
-                        },
+                        width: 44,
+                        height: 44,
+                        alignment: Alignment.center,
                         child: Container(
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
-                            color: c.withValues(alpha: isSelected ? 1.0 : 0.25),
                             shape: BoxShape.circle,
-                            border: isSelected
-                                ? Border.all(color: theme.colorScheme.foreground, width: 2)
-                                : Border.all(color: c, width: 1),
+                            border: Border.all(
+                              color: card.flag == CardFlag.none ? theme.colorScheme.foreground : theme.colorScheme.border,
+                              width: card.flag == CardFlag.none ? 2 : 1,
+                            ),
                           ),
-                          child: isSelected
-                              ? const Icon(m.Icons.check, size: 16, color: m.Colors.white)
-                              : null,
+                          child: Icon(
+                            LucideIcons.ban,
+                            size: 16,
+                            color: card.flag == CardFlag.none ? theme.colorScheme.foreground : theme.colorScheme.mutedForeground,
+                          ),
+                        ),
+                      ),
+                    ),
+                    ...CardFlag.values.where((f) => f != CardFlag.none).map((flag) {
+                      final isSelected = card.flag == flag;
+                      final c = ankiFlagColors[flag] ?? m.Colors.grey;
+
+                      return GestureDetector(
+                        onTap: () {
+                          onSetFlag(flag);
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: c,
+                              shape: BoxShape.circle,
+                              border: isSelected
+                                  ? Border.all(color: theme.colorScheme.foreground, width: 2.5)
+                                  : Border.all(color: c, width: 1.5),
+                            ),
+                            child: isSelected
+                                ? const Icon(LucideIcons.check, size: 16, color: m.Colors.white)
+                                : null,
+                          ),
                         ),
                       );
                     }),
@@ -180,8 +201,8 @@ class CardActionSheet extends HookWidget {
                           onBury();
                           Navigator.of(context).pop();
                         },
-                        leading: const Icon(m.Icons.schedule_rounded, size: 16),
-                        child: const Text('Hoãn thẻ (Bury)'),
+                        leading: const Icon(LucideIcons.clock, size: 16),
+                        child: Text(l10n.buryCard),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -191,8 +212,8 @@ class CardActionSheet extends HookWidget {
                           onSuspend();
                           Navigator.of(context).pop();
                         },
-                        leading: const Icon(m.Icons.pause_circle_outline_rounded, size: 16),
-                        child: const Text('Tạm dừng (Suspend)'),
+                        leading: const Icon(LucideIcons.pause, size: 16),
+                        child: Text(l10n.suspendCard),
                       ),
                     ),
                   ],
@@ -200,9 +221,42 @@ class CardActionSheet extends HookWidget {
                 const SizedBox(height: 10),
                 OutlineButton(
                   onPressed: () => isEditing.value = true,
-                  leading: const Icon(m.Icons.edit_note_rounded, size: 18),
-                  child: const Text('Chỉnh sửa nội dung thẻ on-the-fly'),
+                  leading: const Icon(LucideIcons.filePenLine, size: 16),
+                  child: Text(l10n.editCardContent),
                 ),
+                if (onDelete != null) ...[
+                  const SizedBox(height: 10),
+                  DestructiveButton(
+                    onPressed: () async {
+                      final confirmed = await m.showDialog<bool>(
+                        context: context,
+                        builder: (dialogCtx) {
+                          return m.AlertDialog(
+                            title: Text(l10n.deleteCardTitle),
+                            content: Text(l10n.deleteCardConfirm),
+                            actions: [
+                              OutlineButton(
+                                onPressed: () => Navigator.of(dialogCtx).pop(false),
+                                child: Text(l10n.cancel),
+                              ),
+                              DestructiveButton(
+                                onPressed: () => Navigator.of(dialogCtx).pop(true),
+                                child: Text(l10n.delete),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      if (confirmed == true && context.mounted) {
+                        Navigator.of(context).pop();
+                        onDelete?.call();
+                      }
+                    },
+                    leading: const Icon(LucideIcons.trash2, size: 16),
+                    child: Text(l10n.deleteCard),
+                  ),
+                ],
                 const SizedBox(height: 20),
 
                 // FSRS Technical Card Stats

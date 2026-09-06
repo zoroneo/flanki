@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:flanki/core/fsrs/fsrs_engine_service.dart';
+import 'package:flanki/core/importer/anki_template_engine.dart';
 import 'package:flanki/core/importer/apkg_importer_service.dart';
 import 'package:flanki/core/models/card.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,13 +24,13 @@ void main() {
       );
 
       final intervals = fsrsService.previewIntervals(card);
-      expect(intervals.containsKey(1), isTrue); // Again
-      expect(intervals.containsKey(2), isTrue); // Hard
-      expect(intervals.containsKey(3), isTrue); // Good
-      expect(intervals.containsKey(4), isTrue); // Easy
+      expect(intervals.containsKey(ReviewRating.again), isTrue); // Again
+      expect(intervals.containsKey(ReviewRating.hard), isTrue); // Hard
+      expect(intervals.containsKey(ReviewRating.good), isTrue); // Good
+      expect(intervals.containsKey(ReviewRating.easy), isTrue); // Easy
 
-      expect(intervals[1], isNotEmpty);
-      expect(intervals[4], isNotEmpty);
+      expect(intervals[ReviewRating.again], isNotEmpty);
+      expect(intervals[ReviewRating.easy], isNotEmpty);
     });
 
     test('scheduleReview calculates increased stability and intervals on Good/Easy', () {
@@ -44,7 +45,7 @@ void main() {
         intervalDays: 2,
       );
 
-      final reviewedCard = fsrsService.scheduleReview(card, 3); // Good
+      final reviewedCard = fsrsService.scheduleReview(card, ReviewRating.good); // Good
 
       expect(reviewedCard.reps, equals(2));
       expect(reviewedCard.stability, greaterThan(0));
@@ -100,6 +101,8 @@ void main() {
       archive.addFile(ArchiveFile('collection.anki2', dbBytes.length, dbBytes));
       final mediaJson = utf8.encode('{"0": "sample_audio.mp3"}');
       archive.addFile(ArchiveFile('media', mediaJson.length, mediaJson));
+      final audioBytes = utf8.encode('mock_audio_data');
+      archive.addFile(ArchiveFile('0', audioBytes.length, audioBytes));
 
       final apkgBytes = Uint8List.fromList(ZipEncoder().encode(archive));
 
@@ -111,8 +114,110 @@ void main() {
       expect(result.decks.first.title, equals('English::IELTS Prep'));
       expect(result.cards.length, equals(2));
       expect(result.cards.first.front, contains('Ephemeral'));
-      expect(result.cards.last.noteType, equals('cloze'));
+      expect(result.cards.first.stability, equals(4.0));
+      expect(result.cards.first.difficulty, inInclusiveRange(1.0, 10.0));
+      expect(result.cards.last.stability, equals(0.0));
+      expect(result.cards.last.noteType, equals(NoteType.cloze));
       expect(result.mediaCount, equals(1));
+    });
+
+    test('formatInterval formats minutes, hours, days without l10n', () {
+      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10)), '10 phút');
+      expect(FsrsEngineService.formatInterval(const Duration(hours: 3)), '3 giờ');
+      expect(FsrsEngineService.formatInterval(const Duration(days: 4)), '4 ngày');
+    });
+  });
+
+  group('AnkiTemplateEngine Tests', () {
+    test('renders Mustache fields, conditionals, and FrontSide', () {
+      const model = AnkiModel(
+        id: 1,
+        name: '4000 Essential English Words',
+        fieldNames: ['Word', 'Phonetic', 'Meaning', 'Example', 'Audio', 'Image'],
+        templates: [
+          AnkiTemplate(
+            ord: 0,
+            name: 'Card 1',
+            qfmt: '{{Word}}<br>{{#Phonetic}}[{{Phonetic}}]{{/Phonetic}}<br>{{Audio}}',
+            afmt: '{{FrontSide}}\n<hr id=answer>\n{{Meaning}}<br><i>{{Example}}</i><br>{{Image}}',
+          ),
+        ],
+      );
+
+      final rendered = AnkiTemplateEngine.renderCard(
+        model: model,
+        cardOrd: 0,
+        fieldValues: [
+          'abandon',
+          '/əˈbændən/',
+          'to leave someone or something',
+          'He had to abandon his car.',
+          '[sound:abandon.mp3]',
+          '<img src="abandon.jpg">',
+        ],
+      );
+
+      expect(rendered.front, contains('abandon'));
+      expect(rendered.front, contains('[/əˈbændən/]'));
+      expect(rendered.front, contains('[sound:abandon.mp3]'));
+
+      expect(rendered.back, contains('abandon'));
+      expect(rendered.back, contains('to leave someone or something'));
+      expect(rendered.back, contains('He had to abandon his car.'));
+      expect(rendered.back, contains('<img src="abandon.jpg">'));
+      // FrontSide in back should not repeat [sound:abandon.mp3]
+      expect(rendered.back, isNot(contains('[sound:abandon.mp3]')));
+    });
+
+    test('renders Cloze deletion on front and back', () {
+      const model = AnkiModel(
+        id: 2,
+        name: 'Cloze Model',
+        fieldNames: ['Text', 'Extra'],
+        templates: [
+          AnkiTemplate(
+            ord: 0,
+            name: 'Cloze 1',
+            qfmt: '{{cloze:Text}}',
+            afmt: '{{cloze:Text}}<br>{{Extra}}',
+          ),
+        ],
+      );
+
+      final rendered = AnkiTemplateEngine.renderCard(
+        model: model,
+        cardOrd: 0,
+        fieldValues: [
+          'Canberra was founded in {{c1::1913::year}} as a planned city.',
+          'Capital of Australia',
+        ],
+      );
+
+      expect(rendered.front, contains('[year]'));
+      expect(rendered.front, isNot(contains('1913')));
+
+      expect(rendered.back, contains('1913'));
+      expect(rendered.back, contains('Capital of Australia'));
+    });
+
+    test('fallback combines all multi-fields without losing images or audio', () {
+      final rendered = AnkiTemplateEngine.renderCard(
+        model: null,
+        cardOrd: 0,
+        fieldValues: [
+          'Word',
+          'Phonetic',
+          'Meaning',
+          '<img src="sample.png">',
+          '[sound:sample.mp3]',
+        ],
+      );
+
+      expect(rendered.front, equals('Word'));
+      expect(rendered.back, contains('Phonetic'));
+      expect(rendered.back, contains('Meaning'));
+      expect(rendered.back, contains('<img src="sample.png">'));
+      expect(rendered.back, contains('[sound:sample.mp3]'));
     });
   });
 }

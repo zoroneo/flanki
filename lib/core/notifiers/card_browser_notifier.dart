@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/card.dart';
+import '../storage/database_service.dart';
+import 'deck_notifier.dart';
 
 enum CardFilterType {
   all,
@@ -23,6 +25,7 @@ class CardBrowserState {
   });
 
   List<CardModel> get filteredCards {
+    final now = DateTime.now();
     return allCards.where((card) {
       // Deck filter
       if (selectedDeckId != null && card.deckId != selectedDeckId) {
@@ -34,7 +37,8 @@ class CardBrowserState {
         case CardFilterType.all:
           break;
         case CardFilterType.due:
-          if (card.due == null && card.intervalDays == 0) return false;
+          if (card.due == null) return false;
+          if (card.due!.isAfter(now)) return false;
           break;
         case CardFilterType.newCard:
           if (card.reps > 0) return false;
@@ -83,88 +87,13 @@ final cardBrowserProvider =
 class CardBrowserNotifier extends Notifier<CardBrowserState> {
   @override
   CardBrowserState build() {
-    // Initial sample collection data matching Anki structure
-    final sampleCards = [
-      CardModel(
-        id: 'c1',
-        deckId: 'deck-toeic-600',
-        front: 'Abundant (adj)',
-        back: 'Dồi dào, phong phú, thừa thãi\n\nVí dụ: Fish are abundant in this lake.',
-        hint: 'Nhiều hơn mức bình thường',
-        tags: ['vocabulary', 'toeic', 'c1'],
-        intervalDays: 1,
-        stability: 2.1,
-        difficulty: 3.4,
-        reps: 2,
-        flag: 1, // Red
-        createdAt: DateTime.now().subtract(const Duration(days: 3)),
-      ),
-      CardModel(
-        id: 'c2',
-        deckId: 'deck-flutter-rust',
-        front: 'FSRS (Free Spaced Repetition Scheduler)',
-        back: 'Thuật toán lặp lại ngắt quãng thế hệ mới dựa trên mô hình DSR (Difficulty, Stability, Retrievability) tối ưu hơn SM-2.',
-        hint: 'Thuật toán học tập lõi của Anki hiện đại',
-        tags: ['algorithm', 'anki', 'fsrs'],
-        intervalDays: 3,
-        stability: 4.8,
-        difficulty: 4.1,
-        reps: 4,
-        flag: 4, // Blue
-        createdAt: DateTime.now().subtract(const Duration(days: 5)),
-      ),
-      CardModel(
-        id: 'c3',
-        deckId: 'deck-oxford-4000',
-        front: 'Pragmatic (adj)',
-        back: 'Thực dụng, thực tế, giải quyết vấn đề dựa trên hiệu quả thực tiễn thay vì lý thuyết suông.',
-        hint: 'Từ trái nghĩa với idealistic',
-        tags: ['philosophy', 'vocabulary'],
-        intervalDays: 5,
-        stability: 7.2,
-        difficulty: 2.9,
-        reps: 5,
-        createdAt: DateTime.now().subtract(const Duration(days: 10)),
-      ),
-      CardModel(
-        id: 'c4',
-        deckId: 'deck-flutter-rust',
-        front: 'Zero-cost Abstraction (Rust)',
-        back: 'Những gì bạn không dùng thì không phải trả giá; những gì bạn dùng thì bạn không thể tự viết tay tốt hơn compiler tối ưu.',
-        hint: 'Nguyên lý cốt lõi của Bjarne Stroustrup & Rust',
-        tags: ['rust', 'programming'],
-        intervalDays: 7,
-        stability: 11.5,
-        difficulty: 5.0,
-        reps: 8,
-        flag: 3, // Green
-        createdAt: DateTime.now().subtract(const Duration(days: 14)),
-      ),
-      CardModel(
-        id: 'c5',
-        deckId: 'deck-toeic-600',
-        front: '{{c1::Acquire}} (verb)',
-        back: 'Đạt được, thu được, học được (kỹ năng/kiến thức)\n\nVí dụ: She acquired a good knowledge of English.',
-        noteType: 'cloze',
-        tags: ['cloze', 'toeic'],
-        intervalDays: 0,
-        reps: 0, // New card
-        createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      ),
-      CardModel(
-        id: 'c6',
-        deckId: 'deck-toeic-600',
-        front: 'Obsolete (adj)',
-        back: 'Lỗi thời, không còn được sử dụng',
-        tags: ['toeic'],
-        isSuspended: true, // Suspended card
-        intervalDays: 0,
-        reps: 1,
-        createdAt: DateTime.now().subtract(const Duration(days: 20)),
-      ),
-    ];
+    final cards = DatabaseService.instance.getAllCards();
+    return CardBrowserState(allCards: cards);
+  }
 
-    return CardBrowserState(allCards: sampleCards);
+  void refresh() {
+    final cards = DatabaseService.instance.getAllCards();
+    state = state.copyWith(allCards: cards);
   }
 
   void setSearchQuery(String query) {
@@ -179,48 +108,52 @@ class CardBrowserNotifier extends Notifier<CardBrowserState> {
     state = state.copyWith(selectedDeckId: deckId);
   }
 
-  void addCards(List<CardModel> cards) {
-    state = state.copyWith(allCards: [...cards, ...state.allCards]);
+  Future<void> addCards(List<CardModel> cards) async {
+    await DatabaseService.instance.saveCards(cards);
+    refresh();
+    await ref.read(deckListProvider.notifier).refresh();
   }
 
-  void addCard(CardModel card) {
-    state = state.copyWith(allCards: [card, ...state.allCards]);
+  Future<void> addCard(CardModel card) async {
+    await DatabaseService.instance.saveCard(card);
+    refresh();
+    await ref.read(deckListProvider.notifier).refresh();
   }
 
-  void updateCard(CardModel updatedCard) {
-    state = state.copyWith(
-      allCards: state.allCards.map((c) {
-        return c.id == updatedCard.id ? updatedCard : c;
-      }).toList(),
-    );
+  Future<void> updateCard(CardModel updatedCard) async {
+    await DatabaseService.instance.saveCard(updatedCard);
+    refresh();
+    await ref.read(deckListProvider.notifier).refresh();
   }
 
-  void toggleCardSuspend(String cardId) {
-    state = state.copyWith(
-      allCards: state.allCards.map((c) {
-        if (c.id == cardId) {
-          return c.copyWith(isSuspended: !c.isSuspended);
-        }
-        return c;
-      }).toList(),
-    );
+  Future<void> toggleCardSuspend(String cardId) async {
+    final card = state.allCards.firstWhere((c) => c.id == cardId);
+    final updated = card.copyWith(isSuspended: !card.isSuspended);
+    await DatabaseService.instance.saveCard(updated);
+    refresh();
+    await ref.read(deckListProvider.notifier).refresh();
   }
 
-  void setCardFlag(String cardId, int flagColor) {
-    state = state.copyWith(
-      allCards: state.allCards.map((c) {
-        if (c.id == cardId) {
-          final newFlag = (c.flag == flagColor) ? 0 : flagColor;
-          return c.copyWith(flag: newFlag);
-        }
-        return c;
-      }).toList(),
-    );
+  Future<void> toggleCardBury(String cardId) async {
+    final card = state.allCards.firstWhere((c) => c.id == cardId);
+    final updated = card.copyWith(isBuried: !card.isBuried);
+    await DatabaseService.instance.saveCard(updated);
+    refresh();
+    await ref.read(deckListProvider.notifier).refresh();
   }
 
-  void deleteCard(String cardId) {
-    state = state.copyWith(
-      allCards: state.allCards.where((c) => c.id != cardId).toList(),
-    );
+  Future<void> setCardFlag(String cardId, CardFlag flagColor) async {
+    final card = state.allCards.firstWhere((c) => c.id == cardId);
+    final newFlag = (card.flag == flagColor) ? CardFlag.none : flagColor;
+    final updated = card.copyWith(flag: newFlag);
+    await DatabaseService.instance.saveCard(updated);
+    refresh();
+    await ref.read(deckListProvider.notifier).refresh();
+  }
+
+  Future<void> deleteCard(String cardId) async {
+    await DatabaseService.instance.deleteCard(cardId);
+    refresh();
+    await ref.read(deckListProvider.notifier).refresh();
   }
 }

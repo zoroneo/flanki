@@ -1,11 +1,65 @@
+enum NoteType {
+  basic('basic'),
+  cloze('cloze'),
+  reversed('reversed');
+
+  final String value;
+  const NoteType(this.value);
+
+  static NoteType fromString(String? val) {
+    return NoteType.values.firstWhere(
+      (e) => e.value == val,
+      orElse: () => NoteType.basic,
+    );
+  }
+}
+
+enum CardFlag {
+  none(0),
+  red(1),
+  orange(2),
+  green(3),
+  blue(4),
+  pink(5),
+  turquoise(6),
+  purple(7);
+
+  final int value;
+  const CardFlag(this.value);
+
+  static CardFlag fromValue(int? val) {
+    return CardFlag.values.firstWhere(
+      (e) => e.value == val,
+      orElse: () => CardFlag.none,
+    );
+  }
+}
+
+enum ReviewRating {
+  again(1),
+  hard(2),
+  good(3),
+  easy(4);
+
+  final int value;
+  const ReviewRating(this.value);
+
+  static ReviewRating fromValue(int val) {
+    return ReviewRating.values.firstWhere(
+      (e) => e.value == val,
+      orElse: () => ReviewRating.again,
+    );
+  }
+}
+
 class CardModel {
   final String id;
   final String deckId;
   final String front;
   final String back;
   final String? hint;
-  final String noteType; // 'basic', 'cloze', 'reversed'
-  final int flag; // 0: None, 1: Red, 2: Orange, 3: Green, 4: Blue, 5: Pink, 6: Turquoise, 7: Purple
+  final NoteType noteType;
+  final CardFlag flag;
   final bool isSuspended;
   final bool isBuried;
   final List<String> tags;
@@ -24,8 +78,8 @@ class CardModel {
     required this.front,
     required this.back,
     this.hint,
-    this.noteType = 'basic',
-    this.flag = 0,
+    this.noteType = NoteType.basic,
+    this.flag = CardFlag.none,
     this.isSuspended = false,
     this.isBuried = false,
     this.tags = const [],
@@ -39,7 +93,7 @@ class CardModel {
     this.createdAt,
   });
 
-  bool get hasFlag => flag > 0 && flag <= 7;
+  bool get hasFlag => flag != CardFlag.none;
 
   CardModel copyWith({
     String? id,
@@ -47,8 +101,8 @@ class CardModel {
     String? front,
     String? back,
     String? hint,
-    String? noteType,
-    int? flag,
+    NoteType? noteType,
+    CardFlag? flag,
     bool? isSuspended,
     bool? isBuried,
     List<String>? tags,

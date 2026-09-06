@@ -1,6 +1,10 @@
 import '../fsrs/fsrs_engine_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/card.dart';
+import '../storage/database_service.dart';
+import 'card_browser_notifier.dart';
+import 'deck_notifier.dart';
+import 'stats_notifier.dart';
 
 class StudySessionSnapshot {
   final List<CardModel> queue;
@@ -42,7 +46,27 @@ class StudySessionState {
   bool get canUndo => history.isNotEmpty;
 
   factory StudySessionState.initial(String deckId) {
-    final cards = _getCardsForDeck(deckId);
+    if (deckId.isEmpty) {
+      return const StudySessionState(
+        deckId: '',
+        queue: [],
+        currentCard: null,
+        isFlipped: false,
+        completedCount: 0,
+        initialCount: 0,
+        isFinished: true,
+        history: [],
+      );
+    }
+
+    final List<CardModel> cards;
+    if (deckId.startsWith('cram')) {
+      // Custom Study / Cram Deck: query matching cards
+      cards = DatabaseService.instance.getCustomStudyQueue(deckId: deckId, limit: 50);
+    } else {
+      cards = DatabaseService.instance.getStudyQueue(deckId, limit: 50);
+    }
+
     return StudySessionState(
       deckId: deckId,
       queue: cards.skip(1).toList(),
@@ -57,59 +81,6 @@ class StudySessionState {
 
   double get progress =>
       initialCount == 0 ? 1.0 : completedCount / initialCount;
-
-  static List<CardModel> _getCardsForDeck(String deckId) {
-    return [
-      CardModel(
-        id: 'c1',
-        deckId: deckId,
-        front: 'Abundant (adj)',
-        back: 'Dồi dào, phong phú, thừa thãi\n\nVí dụ: Fish are abundant in this lake.',
-        hint: 'Nhiều hơn mức bình thường',
-        tags: ['vocabulary', 'toeic', 'c1'],
-        intervalDays: 1,
-        stability: 2.1,
-        difficulty: 3.4,
-        reps: 2,
-      ),
-      CardModel(
-        id: 'c2',
-        deckId: deckId,
-        front: 'FSRS (Free Spaced Repetition Scheduler)',
-        back: 'Thuật toán lặp lại ngắt quãng thế hệ mới dựa trên mô hình DSR (Difficulty, Stability, Retrievability) tối ưu hơn SM-2.',
-        hint: 'Thuật toán học tập lõi của Anki hiện đại',
-        tags: ['algorithm', 'anki', 'fsrs'],
-        intervalDays: 3,
-        stability: 4.8,
-        difficulty: 4.1,
-        reps: 4,
-      ),
-      CardModel(
-        id: 'c3',
-        deckId: deckId,
-        front: 'Pragmatic (adj)',
-        back: 'Thực dụng, thực tế, giải quyết vấn đề dựa trên hiệu quả thực tiễn thay vì lý thuyết suông.',
-        hint: 'Từ trái nghĩa với idealistic',
-        tags: ['philosophy', 'vocabulary'],
-        intervalDays: 5,
-        stability: 7.2,
-        difficulty: 2.9,
-        reps: 5,
-      ),
-      CardModel(
-        id: 'c4',
-        deckId: deckId,
-        front: 'Zero-cost Abstraction (Rust)',
-        back: 'Những gì bạn không dùng thì không phải trả giá; những gì bạn dùng thì bạn không thể tự viết tay tốt hơn compiler tối ưu.',
-        hint: 'Nguyên lý cốt lõi của Bjarne Stroustrup & Rust',
-        tags: ['rust', 'programming'],
-        intervalDays: 7,
-        stability: 11.5,
-        difficulty: 5.0,
-        reps: 8,
-      ),
-    ];
-  }
 }
 
 final studySessionProvider =
@@ -120,7 +91,7 @@ final studySessionProvider =
 class StudySessionNotifier extends Notifier<StudySessionState> {
   @override
   StudySessionState build() {
-    return StudySessionState.initial('default');
+    return StudySessionState.initial('');
   }
 
   void init(String deckId) {
@@ -144,27 +115,44 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     }
   }
 
-  void rateCard(int rating) {
-    if (state.currentCard == null) return;
+  void rateCard(ReviewRating rating) {
+    final current = state.currentCard;
+    if (current == null) return;
 
-    // Push current snapshot to history stack for Undo
+    // 1. Push snapshot to history for Undo
     final snapshot = StudySessionSnapshot(
       queue: List<CardModel>.from(state.queue),
-      currentCard: state.currentCard,
+      currentCard: current,
       isFlipped: state.isFlipped,
       completedCount: state.completedCount,
       isFinished: state.isFinished,
     );
     final updatedHistory = [...state.history, snapshot];
 
-    // Compute updated card with FSRS scheduling
+    // 2. FSRS Spaced Repetition calculation
     final fsrsService = FsrsEngineService();
-    final scheduledCard = fsrsService.scheduleReview(state.currentCard!, rating);
+    final scheduledCard = fsrsService.scheduleReview(current, rating);
+
+    // 3. Persist card updates and record Review Log into SQLite
+    DatabaseService.instance.saveCard(scheduledCard);
+    DatabaseService.instance.insertReviewLog(
+      cardId: scheduledCard.id,
+      rating: rating,
+      reviewTime: DateTime.now(),
+      scheduledDays: scheduledCard.intervalDays,
+      elapsedDays: current.lastStudied != null
+          ? DateTime.now().difference(current.lastStudied!).inDays
+          : 0,
+    );
+
+    ref.read(statsNotifierProvider.notifier).refresh();
+    ref.read(deckListProvider.notifier).refresh();
+    ref.read(cardBrowserProvider.notifier).refresh();
 
     final remainingQueue = List<CardModel>.from(state.queue);
     final finishedCount = state.completedCount + 1;
 
-    if (rating == 1) {
+    if (rating == ReviewRating.again) {
       // Re-queue card to end of queue for relearning
       remainingQueue.add(scheduledCard);
     }
@@ -195,12 +183,20 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     }
   }
 
-  /// Undo the last rating and restore previous card state
   bool undo() {
     if (!state.canUndo) return false;
 
     final historyList = List<StudySessionSnapshot>.from(state.history);
     final lastSnapshot = historyList.removeLast();
+
+    // Revert card state in DB if needed
+    if (lastSnapshot.currentCard != null) {
+      DatabaseService.instance.saveCard(lastSnapshot.currentCard!);
+    }
+
+    ref.read(statsNotifierProvider.notifier).refresh();
+    ref.read(deckListProvider.notifier).refresh();
+    ref.read(cardBrowserProvider.notifier).refresh();
 
     state = StudySessionState(
       deckId: state.deckId,
@@ -215,13 +211,16 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     return true;
   }
 
-  /// Toggle flag (0: None, 1..7: Anki 7 colors)
-  void toggleFlag(int flagColor) {
+  void toggleFlag(CardFlag flagColor) {
     if (state.currentCard == null) return;
     final currentFlag = state.currentCard!.flag;
-    final newFlag = (currentFlag == flagColor) ? 0 : flagColor;
+    final newFlag = (currentFlag == flagColor) ? CardFlag.none : flagColor;
 
     final updatedCard = state.currentCard!.copyWith(flag: newFlag);
+    DatabaseService.instance.saveCard(updatedCard);
+    ref.read(deckListProvider.notifier).refresh();
+    ref.read(cardBrowserProvider.notifier).refresh();
+
     state = StudySessionState(
       deckId: state.deckId,
       queue: state.queue,
@@ -234,25 +233,44 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     );
   }
 
-  /// Bury current card (postpone until tomorrow)
   void buryCurrentCard() {
     if (state.currentCard == null) return;
+    final buriedCard = state.currentCard!.copyWith(isBuried: true);
+    DatabaseService.instance.saveCard(buriedCard);
+    ref.read(deckListProvider.notifier).refresh();
+    ref.read(cardBrowserProvider.notifier).refresh();
     _skipCurrentCard();
   }
 
-  /// Suspend current card (disable until un-suspended)
   void suspendCurrentCard() {
     if (state.currentCard == null) return;
+    final suspendedCard = state.currentCard!.copyWith(isSuspended: true);
+    DatabaseService.instance.saveCard(suspendedCard);
+    ref.read(deckListProvider.notifier).refresh();
+    ref.read(cardBrowserProvider.notifier).refresh();
     _skipCurrentCard();
   }
 
-  /// Edit card front and back directly in session
+  void deleteCurrentCard() {
+    if (state.currentCard == null) return;
+    final cardId = state.currentCard!.id;
+    DatabaseService.instance.deleteCard(cardId);
+    ref.read(deckListProvider.notifier).refresh();
+    ref.read(cardBrowserProvider.notifier).refresh();
+    ref.read(statsNotifierProvider.notifier).refresh();
+    _skipCurrentCard();
+  }
+
   void editCurrentCard(String front, String back) {
     if (state.currentCard == null) return;
     final updatedCard = state.currentCard!.copyWith(
       front: front,
       back: back,
     );
+    DatabaseService.instance.saveCard(updatedCard);
+    ref.read(deckListProvider.notifier).refresh();
+    ref.read(cardBrowserProvider.notifier).refresh();
+
     state = StudySessionState(
       deckId: state.deckId,
       queue: state.queue,

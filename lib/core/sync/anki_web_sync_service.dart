@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../importer/apkg_importer_service.dart';
@@ -59,31 +60,34 @@ class AnkiWebSyncService {
     try {
       // 1. Check meta / collection status
       final metaUri = Uri.parse('$_syncHost/sync/meta');
-      await _client.post(
-        metaUri,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'Anki/2.1.57 (7b1f3c3a)',
-        },
-        body: {
-          'k': hostKey,
-          'v': 'anki,2.1.57,mac:darwin',
-        },
-      ).timeout(const Duration(seconds: 15));
+      final metaReq = http.MultipartRequest('POST', metaUri);
+      metaReq.headers['User-Agent'] = 'Anki/2.1.57 (7b1f3c3a)';
+      metaReq.fields['c'] = '0';
+      metaReq.fields['k'] = hostKey;
+      metaReq.fields['data'] = jsonEncode({
+        'v': 10,
+        'cv': 'anki,2.1.57,mac:darwin',
+      });
+      final metaStreamed = await _client.send(metaReq).timeout(const Duration(seconds: 15));
+      final metaResponse = await http.Response.fromStream(metaStreamed);
+
+      if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
+        return AnkiWebSyncResult.fail('Phiên đăng nhập AnkiWeb đã hết hạn. Vui lòng đăng nhập lại.');
+      } else if (metaResponse.statusCode >= 400) {
+        return AnkiWebSyncResult.fail(
+          'Lỗi máy chủ AnkiWeb (${metaResponse.statusCode}): ${metaResponse.reasonPhrase ?? "Lỗi không xác định"}',
+        );
+      }
 
       // 2. Download collection package from sync server
       final downloadUri = Uri.parse('$_syncHost/sync/download');
-      final downloadResponse = await _client.post(
-        downloadUri,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'Anki/2.1.57 (7b1f3c3a)',
-        },
-        body: {
-          'k': hostKey,
-          'v': 'anki,2.1.57,mac:darwin',
-        },
-      ).timeout(const Duration(seconds: 30));
+      final downloadReq = http.MultipartRequest('POST', downloadUri);
+      downloadReq.headers['User-Agent'] = 'Anki/2.1.57 (7b1f3c3a)';
+      downloadReq.fields['c'] = '0';
+      downloadReq.fields['k'] = hostKey;
+      downloadReq.fields['data'] = '{}';
+      final downloadStreamed = await _client.send(downloadReq).timeout(const Duration(seconds: 30));
+      final downloadResponse = await http.Response.fromStream(downloadStreamed);
 
       if (downloadResponse.statusCode == 200 && downloadResponse.bodyBytes.isNotEmpty) {
         final bytes = downloadResponse.bodyBytes;
@@ -99,8 +103,11 @@ class AnkiWebSyncService {
         );
       } else if (downloadResponse.statusCode == 403 || downloadResponse.statusCode == 401) {
         return AnkiWebSyncResult.fail('Phiên đăng nhập AnkiWeb đã hết hạn. Vui lòng đăng nhập lại.');
+      } else if (downloadResponse.statusCode >= 400) {
+        return AnkiWebSyncResult.fail(
+          'Lỗi máy chủ AnkiWeb (${downloadResponse.statusCode}): ${downloadResponse.reasonPhrase ?? "Lỗi không xác định"}',
+        );
       } else {
-        // When AnkiWeb requires specific binary protocol handshake or collection is already up-to-date
         return AnkiWebSyncResult.ok(
           message: 'Dữ liệu bộ thẻ đã được đồng bộ khớp với AnkiWeb Cloud.',
         );

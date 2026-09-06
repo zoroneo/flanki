@@ -27,6 +27,7 @@ Chào mừng đến với Knowledge Vault của dự án **Flanki** — Ứng d�
 - [[01-Architecture/01-Rust-FFI-Bridge|01. C ABI Bridge & Giao Tiếp Đa Nền Tảng (Rust FFI)]]
 - [[01-Architecture/02-Protobuf-RPC-Contract|02. Hợp Đồng Bản Tin Protobuf RPC (Protobuf Contract)]]
 - [[01-Architecture/03-Cross-Platform-Strategy|03. Chiến Lược Hỗ Trợ Đa Nền Tảng (Desktop & Mobile)]]
+- [[01-Architecture/04-Pure-Dart-Engine-Architecture|04. Kiến Trúc Pure Dart Core Engine & Reactive Storage]]
 
 ### 02. Trải Nghiệm Người Dùng & Thiết Kế (UI / UX)
 - [[02-UI-UX/01-Shadcn-Design-Tokens|01. Hệ Thống Design Tokens & shadcn_flutter]]

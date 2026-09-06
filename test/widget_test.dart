@@ -1,8 +1,27 @@
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/main.dart';
+import 'package:flanki/core/storage/database_service.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  late Directory tempDir;
+
+  setUp(() async {
+    tempDir = Directory.systemTemp.createTempSync('flanki_widget_test_');
+    await DatabaseService.instance.init(
+      customPath: '${tempDir.path}/test_widget.db',
+    );
+  });
+
+  tearDown(() {
+    DatabaseService.instance.close();
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
+
   testWidgets('FlankiApp smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(
       const ProviderScope(

@@ -51,50 +51,286 @@
   "languageSubtitle": "Choose app display language",
   "languageEnglish": "English",
   "languageVietnamese": "Tiếng Việt",
-  "languageSystem": "System Default",
+  "languageSystem": "System",
   "languageChanged": "Language changed successfully",
 
   "appearance": "Appearance",
   "appearanceSubtitle": "Theme and visual customization",
   "themeDark": "Dark",
   "themeLight": "Light",
-  "themeSystem": "System",
+  "themeSystem": "System Default",
 
-  "spacedRepetitionAlgorithm": "SPACED REPETITION (SRS)",
-  "enableFsrs": "Enable FSRS v4.5",
-  "fsrsSubtitle": "Modern spaced repetition algorithm superior to Anki''s classic SM-2.",
+  "spacedRepetitionAlgorithm": "SPACED REPETITION ENGINE",
+  "enableFsrs": "Enable FSRS v5",
+  "fsrsSubtitle": "Optimized retention algorithm based on Difficulty, Stability, and Retrievability.",
 
-  "aboutSection": "ABOUT",
-  "appVersion": "Version",
+  "aboutSection": "ABOUT FLANKI",
+  "appVersion": "App Version",
 
-  "cardBrowserTitle": "Card Browser",
-  "searchCardsPlaceholder": "Search by keyword, tag...",
+  "searchCardsPlaceholder": "Search questions, answers, or tags...",
   "filterAll": "All",
   "filterDue": "Due",
   "filterNew": "New",
-  "cardsCount": "{count, plural, =0{0 cards} =1{1 card} other{{count} cards}}",
+  "filterFlagged": "Flagged",
+  "filterSuspended": "Suspended",
+  "noCardsFound": "No cards found",
+  "cardsCount": "{count, plural, =1{1 card} other{{count} cards}}",
   "@cardsCount": {
-    "description": "Pluralized cards count",
     "placeholders": {
       "count": {
-        "type": "num"
+        "type": "int",
+        "format": "compact"
       }
     }
   },
 
-  "showAnswer": "Show Answer",
   "ratingAgain": "Again",
   "ratingHard": "Hard",
   "ratingGood": "Good",
   "ratingEasy": "Easy",
-  "studySessionComplete": "Congratulations! You have finished studying for now.",
-  "backToDecks": "Back to Decks",
 
-  "authTitle": "AnkiWeb Login",
-  "authEmail": "AnkiWeb Email",
+  "studySessionComplete": "Congratulations! You have completed today''s study session.",
+  "studyCompleteTitle": "Great job! You finished",
+  "studyCompleteDesc": "Completed {count} cards in this session with FSRS algorithm.",
+  "@studyCompleteDesc": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backToDecks": "Back to decks",
+
+  "authTitle": "Log in to AnkiWeb",
+  "authEmail": "Email",
   "authPassword": "Password",
-  "authLoginButton": "Log In",
+  "authLoginButton": "Log in",
   "authLoggingIn": "Logging in...",
-  "authSuccess": "Login successful!",
-  "authFailed": "Login failed. Please check your credentials."
+  "authSuccess": "Logged in successfully!",
+  "authFailed": "Login failed. Please check your credentials.",
+
+  "statsTitle": "Stats & Progress",
+  "retentionRate": "RETENTION RATE",
+  "targetReached": "Target reached",
+  "targetSuffix": "/ 85% target",
+  "reviewedToday": "Reviewed today",
+  "reviewedDiff": "Cards reviewed",
+  "studyTime": "Study time",
+  "studyTimePerCard": "~15s per card",
+  "studyHistory": "Study history",
+  "streakDays": "{days} day streak",
+  "@streakDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "less": "Less",
+  "more": "More",
+
+  "studyQuestion": "QUESTION",
+  "studyAnswer": "ANSWER",
+  "tapToFlip": "Tap screen to flip card",
+  "swipeHint": "Swipe left: Again • Swipe right: Good",
+  "cardsRemaining": "Cards left: {count}",
+  "@cardsRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "studyAgain": "Study again",
+
+  "cardActionTitle": "Card Options",
+  "flagSelector": "MARK WITH FLAG",
+  "buryCard": "Bury card",
+  "suspendCard": "Suspend",
+  "editCardContent": "Edit card content",
+  "saveChanges": "Save changes",
+  "cancel": "Cancel",
+  "frontSide": "FRONT",
+  "backSide": "BACK",
+
+  "addCardTitle": "Add New Card",
+  "saveCard": "Save card",
+  "noteType": "NOTE TYPE",
+  "deckLabel": "DECK",
+  "extraNotes": "NOTES",
+  "tagsLabel": "TAGS",
+  "addTagPlaceholder": "Add tag (e.g. toeic, grammar)...",
+
+  "cramModeTitle": "Custom Cram Study",
+  "cramModeDesc": "Create an ad-hoc session filtered by tags or flags. Does not affect original FSRS schedules.",
+  "filterMode": "CARD FILTER",
+  "byTag": "By Tag",
+  "flaggedCards": "Flagged",
+  "reviewAhead": "Review Ahead",
+  "cardLimit": "CARD LIMIT",
+  "startCram": "Start cram session",
+  "cramDeckCreated": "Cram Deck Created",
+  "cramDeckCreatedDesc": "Filtered {count} cards for cram study (#{tag}).",
+  "@cramDeckCreatedDesc": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "streakDaysBadge": "{count} Day Streak",
+  "@streakDaysBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "targetRetentionBadge": "Target 85% retention",
+  "cramTagInputLabel": "TAG NAME TO STUDY",
+  "cardsCountUnit": "{count} cards",
+  "@cardsCountUnit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cramButton": "Cram",
+  "linkedBadge": "Linked",
+  "syncBadge": "Sync",
+  "syncError": "Sync Error",
+  "importApkgSuccess": "Import .apkg Successful",
+  "importApkgSuccessDesc": "Imported {decks} decks, {cards} cards ({media} media files).",
+  "@importApkgSuccessDesc": {
+    "placeholders": {
+      "decks": {"type": "int"},
+      "cards": {"type": "int"},
+      "media": {"type": "int"}
+    }
+  },
+  "importApkgError": "Import .apkg Error",
+  "undoSuccessTitle": "Undone",
+  "undoSuccessDesc": "Restored previous card rating.",
+  "addCard": "Add Card",
+  "missingContent": "Missing Content",
+  "missingContentDesc": "Please enter question/front content.",
+  "cardCreatedSuccess": "Card Created",
+  "cardCreatedSuccessDesc": "Added card to deck.",
+  "basicNoteType": "Basic",
+  "basicNoteSubtitle": "Question / Answer",
+  "clozeNoteType": "Cloze",
+  "clozeNoteSubtitle": "Fill in the blank",
+  "reversedNoteType": "Reversed",
+  "reversedNoteSubtitle": "Two-way card",
+  "clozeTextLabel": "TEXT",
+  "frontPlaceholder": "Enter question, vocabulary or concept...",
+  "clozePlaceholder": "The capital of France is '{{'c1::Paris'}}'.",
+  "backPlaceholder": "Enter explanation, examples...",
+  "authScreenTitle": "AnkiWeb Account",
+  "authHeaderTitle": "AnkiWeb Sync",
+  "authHeaderDesc": "Log in to your AnkiWeb account to synchronize decks, FSRS schedules, and study progress across devices.",
+  "authEmailLabel": "ANKIWEB EMAIL",
+  "authPasswordLabel": "PASSWORD",
+  "authPasswordPlaceholder": "Enter password...",
+  "authSubmitButton": "Log In & Start Sync",
+  "authSubmitting": "Authenticating...",
+  "authMissingInfoTitle": "Missing Credentials",
+  "authMissingInfoDesc": "Please provide both AnkiWeb email and password.",
+  "authSuccessToastTitle": "Login Successful",
+  "authSuccessToastDesc": "Linked account {email} with Flanki.",
+  "@authSuccessToastDesc": {
+    "placeholders": {
+      "email": {"type": "String"}
+    }
+  },
+  "authGuestMode": "Try Offline",
+  "authSecurityNote": "Security: Flanki stores only your session HostKey securely on device, never your raw password.",
+  "intervalMinutes": "{count}m",
+  "@intervalMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "intervalHours": "{count}h",
+  "@intervalHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "intervalDays": "{count}d",
+  "@intervalDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "intervalMonths": "{count}mo",
+  "@intervalMonths": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "intervalYears": "{count}y",
+  "@intervalYears": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "deckPrefix": "Deck: {deck}",
+  "@deckPrefix": {
+    "placeholders": {
+      "deck": {"type": "String"}
+    }
+  },
+  "intervalBadge": "{days}d interval",
+  "@intervalBadge": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "newBadge": "New",
+  "studyMinutesUnit": "{count}m",
+  "@studyMinutesUnit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "targetNotReached": "In progress",
+  "targetRetentionRate": "Target {rate}",
+  "@targetRetentionRate": {
+    "placeholders": {
+      "rate": {"type": "String"}
+    }
+  },
+  "algorithmLabel": "Algorithm",
+  "themeZinc": "Zinc Theme",
+  "ankiRustCore": "Anki Rust Core",
+  "createDeckTitle": "Create Deck",
+  "createDeckDesc": "Create a new deck to organize your flashcards.",
+  "deckNameLabel": "DECK NAME",
+  "deckNamePlaceholder": "e.g. English::Vocabulary",
+  "deckDescLabel": "DESCRIPTION (OPTIONAL)",
+  "deckDescPlaceholder": "Short description of this deck...",
+  "deckCreatedSuccess": "Deck Created",
+  "deckCreatedSuccessDesc": "Deck \"{name}\" has been created.",
+  "@deckCreatedSuccessDesc": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deckNameRequired": "Please enter a deck name.",
+  "deckAlreadyExists": "A deck with this name already exists.",
+  "deleteCard": "Delete Card",
+  "deleteCardTitle": "Delete Card",
+  "deleteCardConfirm": "Are you sure you want to delete this card? This action cannot be undone.",
+  "cardDeleted": "Card deleted",
+  "undo": "Undo",
+  "delete": "Delete",
+  "sm2Subtitle": "Traditional SM-2 algorithm"
 }
+

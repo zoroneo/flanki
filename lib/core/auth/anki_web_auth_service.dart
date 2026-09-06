@@ -38,17 +38,17 @@ class AnkiWebAuthService {
 
     try {
       final uri = Uri.parse('$_syncHost/sync/hostKey');
-      final response = await _client.post(
-        uri,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'Flanki Mobile/1.0 (Anki Sync Protocol)',
-        },
-        body: {
-          'u': cleanUsername,
-          'p': password,
-        },
-      ).timeout(const Duration(seconds: 15));
+      final request = http.MultipartRequest('POST', uri);
+      request.headers['User-Agent'] = 'Anki/2.1.57 (7b1f3c3a)';
+      request.fields['c'] = '0';
+      request.fields['data'] = jsonEncode({
+        'u': cleanUsername,
+        'p': password,
+      });
+
+      final streamedResponse =
+          await _client.send(request).timeout(const Duration(seconds: 15));
+      final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
         final body = response.body.trim();

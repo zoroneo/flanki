@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart' as m;
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import '../../../core/localization/locale_notifier.dart';
+import '../../../core/notifiers/stats_notifier.dart';
 
 class StatsScreen extends HookConsumerWidget {
   const StatsScreen({super.key});
@@ -8,11 +11,20 @@ class StatsScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
+    final stats = ref.watch(statsNotifierProvider);
+
+    useEffect(() {
+      Future.microtask(() => ref.read(statsNotifierProvider.notifier).refresh());
+      return null;
+    }, const []);
+
+    final retentionPercentStr = '${(stats.retentionRate * 100).toStringAsFixed(1)}%';
 
     return Scaffold(
       headers: [
         AppBar(
-          title: const Text('Thống Kê & Tiến Độ'),
+          title: Text(l10n.statsTitle),
         ),
       ],
       child: ListView(
@@ -28,22 +40,23 @@ class StatsScreen extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('TỶ LỆ GHI NHỚ (RETENTION)', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: m.Colors.green.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Text(
-                        'Đạt mục tiêu',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: m.Colors.green,
+                    Text(l10n.retentionRate, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                    if (stats.totalReviews > 0)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: (stats.retentionRate >= 0.85 ? m.Colors.green : m.Colors.orange).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          stats.retentionRate >= 0.85 ? l10n.targetReached : l10n.targetNotReached,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: stats.retentionRate >= 0.85 ? m.Colors.green : m.Colors.orange,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -52,7 +65,7 @@ class StatsScreen extends HookConsumerWidget {
                   textBaseline: TextBaseline.alphabetic,
                   children: [
                     Text(
-                      '88.4%',
+                      retentionPercentStr,
                       style: theme.typography.h1.copyWith(
                         fontWeight: FontWeight.w800,
                         letterSpacing: -1,
@@ -60,14 +73,14 @@ class StatsScreen extends HookConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '/ 85% mong muốn (FSRS v5)',
+                      l10n.targetSuffix,
                       style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 Progress(
-                  progress: 0.884,
+                  progress: stats.retentionRate,
                 ),
               ],
             ),
@@ -79,19 +92,19 @@ class StatsScreen extends HookConsumerWidget {
             children: [
               Expanded(
                 child: _MetricCard(
-                  label: 'Đã ôn hôm nay',
-                  value: '42',
-                  subtitle: '+12 so với hôm qua',
-                  icon: m.Icons.task_alt_rounded,
+                  label: l10n.reviewedToday,
+                  value: '${stats.reviewedToday}',
+                  subtitle: l10n.reviewedDiff,
+                  icon: LucideIcons.checkCheck,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _MetricCard(
-                  label: 'Thời gian học',
-                  value: '18p',
-                  subtitle: '~25.7s mỗi thẻ',
-                  icon: m.Icons.timer_outlined,
+                  label: l10n.studyTime,
+                  value: l10n.studyMinutesUnit(stats.studyTimeMinutes),
+                  subtitle: l10n.studyTimePerCard,
+                  icon: LucideIcons.timer,
                 ),
               ),
             ],
@@ -107,17 +120,30 @@ class StatsScreen extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Lịch Sử Hoạt Động (Heatmap)', style: theme.typography.semiBold),
-                    Text('14 ngày liên tục', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                    Expanded(
+                      child: Text(
+                        l10n.studyHistory,
+                        style: theme.typography.semiBold,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      l10n.streakDays(stats.streakDays),
+                      style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                _HeatmapGrid(theme: theme),
+                _HeatmapGrid(
+                  theme: theme,
+                  levels: stats.heatmapLevels,
+                ),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('Ít', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                    Text(l10n.less, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
                     const SizedBox(width: 6),
                     _HeatmapDot(level: 0, theme: theme),
                     const SizedBox(width: 4),
@@ -127,13 +153,13 @@ class StatsScreen extends HookConsumerWidget {
                     const SizedBox(width: 4),
                     _HeatmapDot(level: 3, theme: theme),
                     const SizedBox(width: 6),
-                    Text('Nhiều', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                    Text(l10n.more, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
                   ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 110), // Safe scroll clearance for bottom navigation
         ],
       ),
     );
@@ -144,7 +170,7 @@ class _MetricCard extends StatelessWidget {
   final String label;
   final String value;
   final String subtitle;
-  final m.IconData icon;
+  final IconData icon;
 
   const _MetricCard({
     required this.label,
@@ -176,20 +202,15 @@ class _MetricCard extends StatelessWidget {
 
 class _HeatmapGrid extends StatelessWidget {
   final ThemeData theme;
+  final List<List<int>> levels;
 
-  const _HeatmapGrid({required this.theme});
+  const _HeatmapGrid({
+    required this.theme,
+    required this.levels,
+  });
 
   @override
   Widget build(BuildContext context) {
-    // 5 weeks x 7 days sample grid
-    final levels = [
-      [0, 1, 2, 3, 2, 3, 1],
-      [1, 2, 0, 3, 3, 2, 2],
-      [2, 3, 1, 2, 1, 3, 3],
-      [3, 2, 3, 1, 2, 2, 3],
-      [2, 3, 3, 3, 2, 3, 2],
-    ];
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: levels.map((week) {
@@ -219,11 +240,12 @@ class _HeatmapDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = theme.brightness == Brightness.dark;
     final colors = [
       theme.colorScheme.muted,
-      m.Colors.green.shade200,
-      m.Colors.green.shade500,
-      m.Colors.green.shade800,
+      isDark ? m.Colors.green.shade900 : m.Colors.green.shade200,
+      isDark ? m.Colors.green.shade600 : m.Colors.green.shade500,
+      isDark ? m.Colors.green.shade400 : m.Colors.green.shade800,
     ];
 
     return Container(

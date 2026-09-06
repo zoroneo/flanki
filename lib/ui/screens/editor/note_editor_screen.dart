@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import '../../../core/localization/locale_notifier.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/models/card.dart';
@@ -13,18 +14,19 @@ class NoteEditorScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final decks = ref.watch(deckListProvider);
     final browserNotifier = ref.read(cardBrowserProvider.notifier);
 
     // Hooks for note input
-    final noteType = useState<String>('basic'); // 'basic', 'cloze', 'reversed'
+    final noteType = useState<NoteType>(NoteType.basic);
     final selectedDeckId = useState<String>(
-      decks.isNotEmpty ? decks.first.id : 'deck-toeic-600',
+      decks.isNotEmpty ? decks.first.id : '',
     );
     final frontController = useTextEditingController();
     final backController = useTextEditingController();
     final tagInputController = useTextEditingController();
-    final tags = useState<List<String>>(['vocabulary']);
+    final tags = useState<List<String>>([]);
 
     void insertCloze(int index) {
       final text = frontController.text;
@@ -72,11 +74,11 @@ class NoteEditorScreen extends HookConsumerWidget {
           builder: (context, overlay) {
             return SurfaceCard(
               child: Basic(
-                title: const Text('Thiếu nội dung'),
-                subtitle: const Text('Vui lòng nhập nội dung câu hỏi/mặt trước.'),
-                leading: const Icon(m.Icons.warning_amber_rounded, color: m.Colors.orange),
+                title: Text(l10n.missingContent),
+                subtitle: Text(l10n.missingContentDesc),
+                leading: const Icon(LucideIcons.triangleAlert, color: m.Colors.orange),
                 trailing: IconButton.ghost(
-                  icon: const Icon(m.Icons.close),
+                  icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
                 ),
               ),
@@ -86,9 +88,13 @@ class NoteEditorScreen extends HookConsumerWidget {
         return;
       }
 
+      final deckId = selectedDeckId.value.isNotEmpty
+          ? selectedDeckId.value
+          : (decks.isNotEmpty ? decks.first.id : 'default');
+
       final newCard = CardModel(
         id: 'card-${DateTime.now().millisecondsSinceEpoch}',
-        deckId: selectedDeckId.value,
+        deckId: deckId,
         front: front,
         back: back,
         noteType: noteType.value,
@@ -103,11 +109,11 @@ class NoteEditorScreen extends HookConsumerWidget {
         builder: (context, overlay) {
           return SurfaceCard(
             child: Basic(
-              title: const Text('Đã tạo thẻ mới'),
-              subtitle: Text('Đã thêm thẻ vào bộ "${selectedDeckId.value}".'),
-              leading: const Icon(m.Icons.check_circle, color: m.Colors.green),
+              title: Text(l10n.cardCreatedSuccess),
+              subtitle: Text(l10n.cardCreatedSuccessDesc),
+              leading: const Icon(LucideIcons.check, color: m.Colors.green),
               trailing: IconButton.ghost(
-                icon: const Icon(m.Icons.close),
+                icon: const Icon(LucideIcons.x),
                 onPressed: () => overlay.close(),
               ),
             ),
@@ -123,54 +129,56 @@ class NoteEditorScreen extends HookConsumerWidget {
         AppBar(
           leading: [
             IconButton.ghost(
-              icon: const Icon(m.Icons.close_rounded),
+              icon: const Icon(LucideIcons.x),
               onPressed: () => context.pop(),
             ),
           ],
-          title: const Text('Thêm Thẻ Mới'),
+          title: Text(l10n.addCardTitle),
           trailing: [
             PrimaryButton(
               onPressed: handleSave,
-              leading: const Icon(m.Icons.check_rounded, size: 16),
-              child: const Text('Lưu thẻ'),
+              size: ButtonSize.small,
+              leading: const Icon(LucideIcons.check, size: 15),
+              child: Text(l10n.saveCard),
             ),
           ],
         ),
       ],
       child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Note Type Selector
-            Text('LOẠI THẺ (NOTE TYPE)', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+            Text(l10n.noteType, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
             const SizedBox(height: 8),
             Row(
               children: [
                 Expanded(
                   child: _TypeSelectButton(
-                    label: 'Basic',
-                    subtitle: 'Câu hỏi / Đáp án',
-                    isSelected: noteType.value == 'basic',
-                    onTap: () => noteType.value = 'basic',
+                    label: l10n.basicNoteType,
+                    subtitle: l10n.basicNoteSubtitle,
+                    isSelected: noteType.value == NoteType.basic,
+                    onTap: () => noteType.value = NoteType.basic,
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: _TypeSelectButton(
-                    label: 'Cloze',
-                    subtitle: 'Điền vào chỗ trống',
-                    isSelected: noteType.value == 'cloze',
-                    onTap: () => noteType.value = 'cloze',
+                    label: l10n.clozeNoteType,
+                    subtitle: l10n.clozeNoteSubtitle,
+                    isSelected: noteType.value == NoteType.cloze,
+                    onTap: () => noteType.value = NoteType.cloze,
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: _TypeSelectButton(
-                    label: 'Reversed',
-                    subtitle: 'Đảo 2 chiều',
-                    isSelected: noteType.value == 'reversed',
-                    onTap: () => noteType.value = 'reversed',
+                    label: l10n.reversedNoteType,
+                    subtitle: l10n.reversedNoteSubtitle,
+                    isSelected: noteType.value == NoteType.reversed,
+                    onTap: () => noteType.value = NoteType.reversed,
                   ),
                 ),
               ],
@@ -178,31 +186,29 @@ class NoteEditorScreen extends HookConsumerWidget {
             const SizedBox(height: 20),
 
             // Deck Selection
-            Text('BỘ THẺ (DECK)', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+            Text(l10n.deckLabel, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
             const SizedBox(height: 8),
-            Card(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-              child: m.DropdownButtonHideUnderline(
-                child: m.DropdownButton<String>(
-                  value: selectedDeckId.value,
-                  isExpanded: true,
-                  dropdownColor: theme.colorScheme.background,
-                  items: decks.map((deck) {
-                    return m.DropdownMenuItem<String>(
-                      value: deck.id,
-                      child: Text(
-                        deck.title,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: theme.colorScheme.foreground,
-                        ),
+            Select<String>(
+              value: selectedDeckId.value.isNotEmpty
+                  ? selectedDeckId.value
+                  : (decks.isNotEmpty ? decks.first.id : null),
+              placeholder: Text(l10n.deckLabel),
+              onChanged: (val) {
+                if (val != null) selectedDeckId.value = val;
+              },
+              itemBuilder: (context, item) {
+                final match = decks.where((d) => d.id == item);
+                return Text(match.isNotEmpty ? match.first.title : item);
+              },
+              popup: (context) => SelectPopup(
+                items: SelectItemList(
+                  children: [
+                    for (final deck in decks)
+                      SelectItemButton(
+                        value: deck.id,
+                        child: Text(deck.title),
                       ),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) selectedDeckId.value = val;
-                  },
+                  ],
                 ),
               ),
             ),
@@ -213,10 +219,10 @@ class NoteEditorScreen extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  noteType.value == 'cloze' ? 'VĂN BẢN (TEXT WITH CLOZE)' : 'MẶT TRƯỚC (CÂU HỎI)',
+                  noteType.value == NoteType.cloze ? l10n.clozeTextLabel : l10n.frontSide,
                   style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
                 ),
-                if (noteType.value == 'cloze')
+                if (noteType.value == NoteType.cloze)
                   Row(
                     children: [
                       GhostButton(
@@ -232,58 +238,52 @@ class NoteEditorScreen extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Card(
-              padding: const EdgeInsets.all(12),
-              child: TextField(
-                controller: frontController,
-                placeholder: Text(
-                  noteType.value == 'cloze'
-                      ? 'The capital of France is {{c1::Paris}}.'
-                      : 'Nhập câu hỏi, từ vựng hoặc khái niệm...',
-                ),
-                maxLines: 4,
+            TextField(
+              controller: frontController,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              placeholder: Text(
+                noteType.value == NoteType.cloze
+                    ? l10n.clozePlaceholder
+                    : l10n.frontPlaceholder,
               ),
+              maxLines: 4,
             ),
             const SizedBox(height: 20),
 
             // Back Field / Extra Notes
             Text(
-              noteType.value == 'cloze' ? 'CHÚ THÍCH THÊM (EXTRA)' : 'MẶT SAU (ĐÁP ÁN & GIẢI THÍCH)',
+              noteType.value == NoteType.cloze ? l10n.extraNotes : l10n.backSide,
               style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
             ),
             const SizedBox(height: 8),
-            Card(
-              padding: const EdgeInsets.all(12),
-              child: TextField(
-                controller: backController,
-                placeholder: const Text('Nhập giải nghĩa chi tiết, ví dụ minh họa...'),
-                maxLines: 5,
-              ),
+            TextField(
+              controller: backController,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              placeholder: Text(l10n.backPlaceholder),
+              maxLines: 5,
             ),
             const SizedBox(height: 24),
 
             // Tags section
-            Text('THẺ PHÂN LOẠI (TAGS)', style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+            Text(l10n.tagsLabel, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
             const SizedBox(height: 8),
             Card(
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: tagInputController,
-                          placeholder: const Text('Thêm tag (ví dụ: toeic, grammar)...'),
-                          onSubmitted: (_) => handleAddTag(),
+                  TextField(
+                    controller: tagInputController,
+                    placeholder: Text(l10n.addTagPlaceholder),
+                    features: [
+                      InputFeature.trailing(
+                        IconButton.ghost(
+                          icon: const Icon(LucideIcons.plus, size: 16),
+                          onPressed: handleAddTag,
                         ),
                       ),
-                      IconButton.ghost(
-                        icon: const Icon(m.Icons.add, size: 18),
-                        onPressed: handleAddTag,
-                      ),
                     ],
+                    onSubmitted: (_) => handleAddTag(),
                   ),
                   if (tags.value.isNotEmpty) ...[
                     const SizedBox(height: 12),
@@ -306,7 +306,7 @@ class NoteEditorScreen extends HookConsumerWidget {
                                 onTap: () {
                                   tags.value = tags.value.where((x) => x != t).toList();
                                 },
-                                child: const Icon(m.Icons.close, size: 12),
+                                child: const Icon(LucideIcons.x, size: 12),
                               ),
                             ],
                           ),
