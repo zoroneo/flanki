@@ -1,0 +1,100 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flanki",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "navDecks": "Decks",
+  "navBrowser": "Browser",
+  "navStats": "Stats",
+  "navSettings": "Settings",
+
+  "searchDecks": "Search decks...",
+  "studyNow": "Study Now",
+  "customStudy": "Custom Study",
+  "addNewDeck": "Add New Deck",
+  "importApkg": "Import .apkg",
+  "syncAnkiWeb": "Sync AnkiWeb",
+  "dueCards": "Due",
+  "newCards": "New",
+  "learningCards": "Learning",
+  "totalCards": "Total Cards",
+  "noDecksFound": "No decks found. Create one or import from AnkiWeb!",
+  "syncing": "Syncing...",
+  "syncCompleted": "Sync completed successfully",
+  "syncFailed": "Sync failed",
+
+  "settingsTitle": "Settings & Configuration",
+  "accountAndSync": "ACCOUNT & SYNC",
+  "linkedAnkiWeb": "Linked with AnkiWeb",
+  "notLinkedAnkiWeb": "Not linked to AnkiWeb",
+  "loginToSyncHint": "Log in to sync cards and progress with the cloud.",
+  "readyToSync": "Ready to sync",
+  "syncedAt": "Synced at: {time}",
+  "@syncedAt": {
+    "description": "Time of last sync",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "14:30"
+      }
+    }
+  },
+  "logout": "Log out",
+  "loggedOut": "Logged out",
+  "logoutSubtitle": "Secure session token removed from device.",
+  "connectAnkiWeb": "Connect AnkiWeb Account",
+  "connectAnkiWebSubtitle": "Two-way sync for flashcards and learning progress with Anki servers.",
+
+  "appPreferences": "APP PREFERENCES",
+  "language": "Language",
+  "languageSubtitle": "Choose app display language",
+  "languageEnglish": "English",
+  "languageVietnamese": "Tiếng Việt",
+  "languageSystem": "System Default",
+  "languageChanged": "Language changed successfully",
+
+  "appearance": "Appearance",
+  "appearanceSubtitle": "Theme and visual customization",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "themeSystem": "System",
+
+  "spacedRepetitionAlgorithm": "SPACED REPETITION (SRS)",
+  "enableFsrs": "Enable FSRS v4.5",
+  "fsrsSubtitle": "Modern spaced repetition algorithm superior to Anki''s classic SM-2.",
+
+  "aboutSection": "ABOUT",
+  "appVersion": "Version",
+
+  "cardBrowserTitle": "Card Browser",
+  "searchCardsPlaceholder": "Search by keyword, tag...",
+  "filterAll": "All",
+  "filterDue": "Due",
+  "filterNew": "New",
+  "cardsCount": "{count, plural, =0{0 cards} =1{1 card} other{{count} cards}}",
+  "@cardsCount": {
+    "description": "Pluralized cards count",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+
+  "showAnswer": "Show Answer",
+  "ratingAgain": "Again",
+  "ratingHard": "Hard",
+  "ratingGood": "Good",
+  "ratingEasy": "Easy",
+  "studySessionComplete": "Congratulations! You have finished studying for now.",
+  "backToDecks": "Back to Decks",
+
+  "authTitle": "AnkiWeb Login",
+  "authEmail": "AnkiWeb Email",
+  "authPassword": "Password",
+  "authLoginButton": "Log In",
+  "authLoggingIn": "Logging in...",
+  "authSuccess": "Login successful!",
+  "authFailed": "Login failed. Please check your credentials."
+}

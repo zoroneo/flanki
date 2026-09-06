@@ -78,3 +78,14 @@ migrate_working_dir/
 
 # Rust build outputs
 native/**/target/
+
+# Anki Packages and Databases
+*.apkg
+*.anki2
+*.anki21
+*.colpkg
+
+# Local environment & secrets
+.env
+.env.*
+!.env.example
