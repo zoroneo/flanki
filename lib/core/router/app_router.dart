@@ -6,6 +6,7 @@ import '../../ui/screens/auth/anki_web_auth_screen.dart';
 import '../../ui/screens/browser/card_browser_screen.dart';
 import '../../ui/screens/decks/decks_screen.dart';
 import '../../ui/screens/editor/note_editor_screen.dart';
+import '../../ui/screens/settings/licenses_screen.dart';
 import '../../ui/screens/settings/settings_screen.dart';
 import '../../ui/screens/stats/stats_screen.dart';
 import '../../ui/screens/study/study_session_screen.dart';
@@ -82,6 +83,12 @@ final appRouterProvider = Provider<GoRouter>(
           path: '/editor',
           name: 'editor',
           builder: (context, state) => const NoteEditorScreen(),
+        ),
+        GoRoute(
+          parentNavigatorKey: rootNavigatorKey,
+          path: '/licenses',
+          name: 'licenses',
+          builder: (context, state) => const LicensesScreen(),
         ),
         GoRoute(
           parentNavigatorKey: rootNavigatorKey,

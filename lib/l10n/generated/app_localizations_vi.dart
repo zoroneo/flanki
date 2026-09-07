@@ -163,6 +163,20 @@ class AppLocalizationsVi extends AppLocalizations {
   String get openSourceLicenses => 'Giấy phép mã nguồn mở';
 
   @override
+  String get searchLicensesPlaceholder => 'Tìm kiếm gói thư viện...';
+
+  @override
+  String thirdPartyLicenses(int count) {
+    return 'Thư viện bên thứ ba ($count)';
+  }
+
+  @override
+  String get noLicensesFound => 'Không tìm thấy thư viện phù hợp';
+
+  @override
+  String get licenseCopied => 'Đã sao chép nội dung giấy phép';
+
+  @override
   String get searchCardsPlaceholder => 'Tìm câu hỏi, câu trả lời hoặc tag...';
 
   @override

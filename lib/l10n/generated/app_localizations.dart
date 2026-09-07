@@ -392,6 +392,30 @@ abstract class AppLocalizations {
   /// **'Open Source Licenses'**
   String get openSourceLicenses;
 
+  /// No description provided for @searchLicensesPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search packages...'**
+  String get searchLicensesPlaceholder;
+
+  /// No description provided for @thirdPartyLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Third-Party Packages ({count})'**
+  String thirdPartyLicenses(int count);
+
+  /// No description provided for @noLicensesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching packages found'**
+  String get noLicensesFound;
+
+  /// No description provided for @licenseCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'License copied to clipboard'**
+  String get licenseCopied;
+
   /// No description provided for @searchCardsPlaceholder.
   ///
   /// In en, this message translates to:

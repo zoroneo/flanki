@@ -67,6 +67,17 @@
   "aboutSection": "ABOUT FLANKI",
   "appVersion": "App Version",
   "openSourceLicenses": "Open Source Licenses",
+  "searchLicensesPlaceholder": "Search packages...",
+  "thirdPartyLicenses": "Third-Party Packages ({count})",
+  "@thirdPartyLicenses": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noLicensesFound": "No matching packages found",
+  "licenseCopied": "License copied to clipboard",
 
   "searchCardsPlaceholder": "Search questions, answers, or tags...",
   "filterAll": "All",

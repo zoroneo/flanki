@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -867,28 +868,7 @@ class SettingsScreen extends HookConsumerWidget {
                     const Divider(),
                     _ClickableInfoRow(
                       label: l10n.openSourceLicenses,
-                      onTap: () {
-                        final isDark =
-                            theme.colorScheme.brightness == Brightness.dark;
-                        Navigator.of(context).push(
-                          m.MaterialPageRoute<void>(
-                            builder: (ctx) => m.Theme(
-                              data: isDark
-                                  ? m.ThemeData.dark().copyWith(
-                                      scaffoldBackgroundColor:
-                                          const Color(0xFF18181B),
-                                    )
-                                  : m.ThemeData.light(),
-                              child: m.LicensePage(
-                                applicationName: 'Flanki',
-                                applicationVersion: 'v${AppConfig.version}',
-                                applicationLegalese:
-                                    'Copyright © 2026 ZoroNeo. All rights reserved.',
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: () => context.push('/licenses'),
                     ),
                   ],
                 ),

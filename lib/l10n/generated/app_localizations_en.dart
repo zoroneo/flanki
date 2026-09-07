@@ -163,6 +163,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openSourceLicenses => 'Open Source Licenses';
 
   @override
+  String get searchLicensesPlaceholder => 'Search packages...';
+
+  @override
+  String thirdPartyLicenses(int count) {
+    return 'Third-Party Packages ($count)';
+  }
+
+  @override
+  String get noLicensesFound => 'No matching packages found';
+
+  @override
+  String get licenseCopied => 'License copied to clipboard';
+
+  @override
   String get searchCardsPlaceholder => 'Search questions, answers, or tags...';
 
   @override
