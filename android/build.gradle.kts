@@ -18,6 +18,11 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(":app")
 }
+subprojects {
+    if (project.name == "file_picker") {
+        pluginManager.apply("org.jetbrains.kotlin.android")
+    }
+}
 
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
