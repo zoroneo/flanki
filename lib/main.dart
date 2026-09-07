@@ -140,18 +140,25 @@ class FlankiApp extends ConsumerWidget {
         child: ComponentTheme<PrimaryButtonTheme>(
           data: PrimaryButtonTheme(
             textStyle: (context, states, value) => value.copyWith(
-              height: 1.35,
+              height: 1.2,
               leadingDistribution: TextLeadingDistribution.even,
             ),
           ),
           child: ComponentTheme<OutlineButtonTheme>(
             data: OutlineButtonTheme(
               textStyle: (context, states, value) => value.copyWith(
-                height: 1.35,
+                height: 1.2,
                 leadingDistribution: TextLeadingDistribution.even,
               ),
             ),
-            child: Listener(
+            child: ComponentTheme<GhostButtonTheme>(
+              data: GhostButtonTheme(
+                textStyle: (context, states, value) => value.copyWith(
+                  height: 1.2,
+                  leadingDistribution: TextLeadingDistribution.even,
+                ),
+              ),
+              child: Listener(
               behavior: HitTestBehavior.translucent,
               onPointerDown: (event) {
                 final currentFocus = FocusManager.instance.primaryFocus;
@@ -174,7 +181,8 @@ class FlankiApp extends ConsumerWidget {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 }
 
