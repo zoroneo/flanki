@@ -345,7 +345,6 @@ class StudySessionScreen extends HookConsumerWidget {
               // Main Card Container with 3D Flip & Horizontal Gesture
               Expanded(
                 child: GestureDetector(
-                  onTap: handleFlip,
                   onHorizontalDragUpdate: (details) {
                     if (sessionState.isFlipped && !isWhiteboardOpen.value) {
                       dragOffset.value += details.primaryDelta ?? 0;
@@ -377,26 +376,28 @@ class StudySessionScreen extends HookConsumerWidget {
                           constraints: const BoxConstraints(maxWidth: 760),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            child: Transform(
-                              alignment: Alignment.center,
-                              transform: matrix,
-                              child: isUnder
-                                  ? Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.identity()..rotateY(math.pi),
-                                      child: _CardBackView(
+                            child: SizedBox.expand(
+                              child: Transform(
+                                alignment: Alignment.center,
+                                transform: matrix,
+                                child: isUnder
+                                    ? Transform(
+                                        alignment: Alignment.center,
+                                        transform: Matrix4.identity()..rotateY(math.pi),
+                                        child: _CardBackView(
+                                          card: currentCard,
+                                          theme: theme,
+                                          typedAnswer: userTypedAnswer.value,
+                                        ),
+                                      )
+                                    : _CardFrontView(
                                         card: currentCard,
                                         theme: theme,
                                         typedAnswer: userTypedAnswer.value,
+                                        onAnswerChanged: (v) => userTypedAnswer.value = v,
+                                        onSubmitAnswer: handleFlip,
                                       ),
-                                    )
-                                  : _CardFrontView(
-                                      card: currentCard,
-                                      theme: theme,
-                                      typedAnswer: userTypedAnswer.value,
-                                      onAnswerChanged: (v) => userTypedAnswer.value = v,
-                                      onSubmitAnswer: handleFlip,
-                                    ),
+                              ),
                             ),
                           ),
                         ),
@@ -505,60 +506,68 @@ class _CardFrontView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Card(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-      child: SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.muted,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      l10n.studyQuestion,
-                      style: theme.typography.xSmall.copyWith(
-                        color: theme.colorScheme.mutedForeground,
-                        letterSpacing: 1.1,
-                      ),
-                    ),
+      clipBehavior: Clip.antiAlias,
+      padding: EdgeInsets.zero,
+      child: SizedBox.expand(
+        child: ClipRRect(
+          borderRadius: theme.borderRadiusLg,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                clipBehavior: Clip.antiAlias,
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: math.max(0.0, constraints.maxHeight - 40),
                   ),
-                  if (card != null && card!.hasFlag) ...[
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
-                        shape: BoxShape.circle,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.muted,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              l10n.studyQuestion,
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                                letterSpacing: 1.1,
+                              ),
+                            ),
+                          ),
+                          if (card != null && card!.hasFlag) ...[
+                            const SizedBox(width: 8),
+                            Container(
+                              width: 8,
+                              height: 8,
+                              decoration: BoxDecoration(
+                                color: CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
-                    ),
-                  ],
-                ],
-              ),
-              const SizedBox(height: 18),
-              RichCardContent(
-                content: card?.front ?? '',
-                autoPlayAudio: true,
-                typedAnswer: typedAnswer,
-                onAnswerChanged: onAnswerChanged,
-                onSubmitAnswer: onSubmitAnswer,
-                textStyle: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                l10n.tapToFlip,
-                style: theme.typography.xSmall.copyWith(
-                  color: theme.colorScheme.mutedForeground,
+                      const SizedBox(height: 18),
+                      RichCardContent(
+                        content: card?.front ?? '',
+                        autoPlayAudio: true,
+                        typedAnswer: typedAnswer,
+                        onAnswerChanged: onAnswerChanged,
+                        onSubmitAnswer: onSubmitAnswer,
+                        textStyle: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -582,43 +591,51 @@ class _CardBackView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Card(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-      child: SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  l10n.studyAnswer,
-                  style: theme.typography.xSmall.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.1,
+      clipBehavior: Clip.antiAlias,
+      padding: EdgeInsets.zero,
+      child: SizedBox.expand(
+        child: ClipRRect(
+          borderRadius: theme.borderRadiusLg,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                clipBehavior: Clip.antiAlias,
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: math.max(0.0, constraints.maxHeight - 40),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          l10n.studyAnswer,
+                          style: theme.typography.xSmall.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.1,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      RichCardContent(
+                        content: card?.back ?? '',
+                        autoPlayAudio: true,
+                        typedAnswer: typedAnswer,
+                        textStyle: theme.typography.h3.copyWith(fontWeight: FontWeight.w500),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 18),
-              RichCardContent(
-                content: card?.back ?? '',
-                autoPlayAudio: true,
-                typedAnswer: typedAnswer,
-                textStyle: theme.typography.h3.copyWith(fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                l10n.swipeHint,
-                style: theme.typography.xSmall.copyWith(
-                  color: theme.colorScheme.mutedForeground,
-                ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

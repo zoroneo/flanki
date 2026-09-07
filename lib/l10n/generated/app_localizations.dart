@@ -164,6 +164,12 @@ abstract class AppLocalizations {
   /// **'Sync AnkiWeb'**
   String get syncAnkiWeb;
 
+  /// No description provided for @sync.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync'**
+  String get sync;
+
   /// No description provided for @dueCards.
   ///
   /// In en, this message translates to:
@@ -647,7 +653,7 @@ abstract class AppLocalizations {
   /// No description provided for @tapToFlip.
   ///
   /// In en, this message translates to:
-  /// **'Tap screen to flip card'**
+  /// **'Show Answer'**
   String get tapToFlip;
 
   /// No description provided for @swipeHint.
@@ -1421,7 +1427,7 @@ abstract class AppLocalizations {
   /// No description provided for @dartCoreEngine.
   ///
   /// In en, this message translates to:
-  /// **'Dart Core (Drift SQLite)'**
+  /// **'Dart (Drift SQLite)'**
   String get dartCoreEngine;
 
   /// No description provided for @submitAnswer.

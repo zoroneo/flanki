@@ -43,6 +43,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get syncAnkiWeb => 'Đồng bộ AnkiWeb';
 
   @override
+  String get sync => 'Đồng bộ';
+
+  @override
   String get dueCards => 'Cần ôn';
 
   @override
@@ -306,7 +309,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get studyAnswer => 'ĐÁP ÁN';
 
   @override
-  String get tapToFlip => 'Chạm vào màn hình để lật thẻ';
+  String get tapToFlip => 'Hiển thị đáp án';
 
   @override
   String get swipeHint => 'Vuốt trái: Again • Vuốt phải: Good';
@@ -743,7 +746,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get repsAndLapsesLabel => 'Lặp / Quên';
 
   @override
-  String get dartCoreEngine => 'Nhân Dart (Drift SQLite)';
+  String get dartCoreEngine => 'Dart (Drift SQLite)';
 
   @override
   String get submitAnswer => 'Kiểm tra';

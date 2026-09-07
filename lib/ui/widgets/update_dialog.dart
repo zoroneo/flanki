@@ -14,7 +14,10 @@ class UpdateDialog extends ConsumerWidget {
     required this.updateInfo,
   });
 
+  static VoidCallback? onDismissActiveToast;
+
   static Future<void> show(BuildContext context, UpdateInfo info) {
+    onDismissActiveToast?.call();
     return m.showDialog(
       context: context,
       builder: (context) => m.Dialog(

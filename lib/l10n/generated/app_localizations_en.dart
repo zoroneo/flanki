@@ -43,6 +43,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get syncAnkiWeb => 'Sync AnkiWeb';
 
   @override
+  String get sync => 'Sync';
+
+  @override
   String get dueCards => 'Due';
 
   @override
@@ -311,7 +314,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get studyAnswer => 'ANSWER';
 
   @override
-  String get tapToFlip => 'Tap screen to flip card';
+  String get tapToFlip => 'Show Answer';
 
   @override
   String get swipeHint => 'Swipe left: Again • Swipe right: Good';
@@ -747,7 +750,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get repsAndLapsesLabel => 'Reps / Lapses';
 
   @override
-  String get dartCoreEngine => 'Dart Core (Drift SQLite)';
+  String get dartCoreEngine => 'Dart (Drift SQLite)';
 
   @override
   String get submitAnswer => 'Submit';

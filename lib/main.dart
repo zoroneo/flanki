@@ -85,9 +85,28 @@ class FlankiApp extends ConsumerWidget {
     final currentLocale = ref.watch(localeNotifierProvider);
     final themeMode = ref.watch(themeNotifierProvider);
 
+    final baseTextStyle = GoogleFonts.beVietnamPro(
+      textStyle: const TextStyle(
+        height: 1.35,
+        leadingDistribution: TextLeadingDistribution.even,
+      ),
+    );
+
     final typography = const Typography.geist().copyWith(
-      sans: () => GoogleFonts.beVietnamPro(),
-      mono: () => GoogleFonts.jetBrainsMono(),
+      sans: () => baseTextStyle,
+      mono: () => GoogleFonts.jetBrainsMono(
+        textStyle: const TextStyle(
+          height: 1.35,
+          leadingDistribution: TextLeadingDistribution.even,
+        ),
+      ),
+      xSmall: () => baseTextStyle.copyWith(fontSize: 12),
+      small: () => baseTextStyle.copyWith(fontSize: 14),
+      base: () => baseTextStyle.copyWith(fontSize: 16),
+      large: () => baseTextStyle.copyWith(fontSize: 18),
+      xLarge: () => baseTextStyle.copyWith(fontSize: 20),
+      p: () => baseTextStyle.copyWith(fontSize: 16),
+      textSmall: () => baseTextStyle.copyWith(fontSize: 14),
     );
 
     return ShadcnApp.router(
@@ -114,25 +133,46 @@ class FlankiApp extends ConsumerWidget {
         radius: 0.5,
         typography: typography,
       ),
-      builder: (context, child) => Listener(
-        behavior: HitTestBehavior.translucent,
-        onPointerDown: (event) {
-          final currentFocus = FocusManager.instance.primaryFocus;
-          if (currentFocus != null && currentFocus.hasFocus) {
-            final renderBox =
-                currentFocus.context?.findRenderObject() as RenderBox?;
-            if (renderBox != null && renderBox.hasSize) {
-              final position = renderBox.localToGlobal(Offset.zero);
-              final bounds = position & renderBox.size;
-              if (!bounds.contains(event.position)) {
-                currentFocus.unfocus();
-              }
-            } else {
-              currentFocus.unfocus();
-            }
-          }
-        },
-        child: _AppUpdateWrapper(child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => ComponentTheme<TextFieldTheme>(
+        data: const TextFieldTheme(
+          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        ),
+        child: ComponentTheme<PrimaryButtonTheme>(
+          data: PrimaryButtonTheme(
+            textStyle: (context, states, value) => value.copyWith(
+              height: 1.35,
+              leadingDistribution: TextLeadingDistribution.even,
+            ),
+          ),
+          child: ComponentTheme<OutlineButtonTheme>(
+            data: OutlineButtonTheme(
+              textStyle: (context, states, value) => value.copyWith(
+                height: 1.35,
+                leadingDistribution: TextLeadingDistribution.even,
+              ),
+            ),
+            child: Listener(
+              behavior: HitTestBehavior.translucent,
+              onPointerDown: (event) {
+                final currentFocus = FocusManager.instance.primaryFocus;
+                if (currentFocus != null && currentFocus.hasFocus) {
+                  final renderBox =
+                      currentFocus.context?.findRenderObject() as RenderBox?;
+                  if (renderBox != null && renderBox.hasSize) {
+                    final position = renderBox.localToGlobal(Offset.zero);
+                    final bounds = position & renderBox.size;
+                    if (!bounds.contains(event.position)) {
+                      currentFocus.unfocus();
+                    }
+                  } else {
+                    currentFocus.unfocus();
+                  }
+                }
+              },
+              child: _AppUpdateWrapper(child: child ?? const SizedBox.shrink()),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -148,9 +188,17 @@ class _AppUpdateWrapper extends ConsumerStatefulWidget {
 
 class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
     with WidgetsBindingObserver {
+  ToastOverlay? _activeUpdateToast;
+
+  void _dismissToast() {
+    _activeUpdateToast?.close();
+    _activeUpdateToast = null;
+  }
+
   @override
   void initState() {
     super.initState();
+    UpdateDialog.onDismissActiveToast = _dismissToast;
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       UpdatePoller.start(ref);
@@ -226,6 +274,10 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
 
   @override
   void dispose() {
+    if (UpdateDialog.onDismissActiveToast == _dismissToast) {
+      UpdateDialog.onDismissActiveToast = null;
+    }
+    _dismissToast();
     NotificationService.instance.stopDesktopScheduler();
     WidgetsBinding.instance.removeObserver(this);
     UpdatePoller.stop();
@@ -234,7 +286,7 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<StudySettings>(studySettingsProvider, (_, _) {
+    ref.listen<StudySettings>(studySettingsProvider, (previous, current) {
       _syncNotifications();
     });
     ref.listen<Locale?>(localeNotifierProvider, (_, nextLocale) {
@@ -255,16 +307,18 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
           previous?.status != UpdateStatus.available &&
           current.updateInfo != null) {
         final info = current.updateInfo!;
-        showToast(
+        _dismissToast();
+        _activeUpdateToast = showToast(
           context: context,
+          showDuration: const Duration(seconds: 20),
           builder: (context, overlay) {
             final theme = Theme.of(context);
             final l10n = AppLocalizations.of(context)!;
             return SurfaceCard(
-              child: Padding(
+              child: Container(
+                width: 380,
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       LucideIcons.circleArrowUp,
@@ -272,27 +326,41 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
                       color: theme.colorScheme.primary,
                     ),
                     const SizedBox(width: 12),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.updateBannerTitle(info.latestVersion),
-                          style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          l10n.updateBannerSubtitle,
-                          style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.updateBannerTitle(info.latestVersion),
+                            style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            l10n.updateBannerSubtitle,
+                            style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 10),
                     PrimaryButton(
+                      size: ButtonSize.small,
                       onPressed: () {
-                        overlay.close();
+                        _dismissToast();
                         UpdateDialog.show(context, info);
                       },
                       child: Text(l10n.updateAction),
+                    ),
+                    const SizedBox(width: 4),
+                    IconButton.ghost(
+                      size: ButtonSize.small,
+                      icon: const Icon(LucideIcons.x, size: 14),
+                      onPressed: _dismissToast,
                     ),
                   ],
                 ),

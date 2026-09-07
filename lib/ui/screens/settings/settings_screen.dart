@@ -262,13 +262,12 @@ class SettingsScreen extends HookConsumerWidget {
                     const SizedBox(height: 12),
                     if (authState.isAuthenticated) ...[
                       SizedBox(
-                        height: 38,
+                        height: 42,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Expanded(
                               child: OutlineButton(
-                                alignment: Alignment.center,
                                 onPressed: () async {
                                   await authNotifier.logout();
                                   if (context.mounted) {
@@ -289,58 +288,41 @@ class SettingsScreen extends HookConsumerWidget {
                                     );
                                   }
                                 },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      LucideIcons.logOut,
-                                      size: 16,
-                                      color: theme.colorScheme.destructive,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      l10n.logout,
-                                      style: TextStyle(
-                                        color: theme.colorScheme.destructive,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
+                                leading: Icon(
+                                  LucideIcons.logOut,
+                                  size: 16,
+                                  color: theme.colorScheme.destructive,
+                                ),
+                                child: Text(
+                                  l10n.logout,
+                                  style: TextStyle(
+                                    color: theme.colorScheme.destructive,
+                                  ),
+                                  overflow: TextOverflow.visible,
                                 ),
                               ),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: PrimaryButton(
-                                alignment: Alignment.center,
                                 onPressed: isSyncing.value ? null : handleSync,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    isSyncing.value
-                                        ? const SizedBox(
-                                            width: 16,
-                                            height: 16,
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                            ),
-                                          )
-                                        : const Icon(
-                                            LucideIcons.refreshCw,
-                                            size: 16,
-                                          ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      isSyncing.value
-                                          ? l10n.syncing
-                                          : l10n.syncAnkiWeb,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
+                                leading: isSyncing.value
+                                    ? const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const Icon(
+                                        LucideIcons.refreshCw,
+                                        size: 16,
+                                      ),
+                                child: Text(
+                                  isSyncing.value
+                                      ? l10n.syncing
+                                      : l10n.sync,
+                                  overflow: TextOverflow.visible,
                                 ),
                               ),
                             ),
@@ -350,18 +332,13 @@ class SettingsScreen extends HookConsumerWidget {
                     ] else
                       SizedBox(
                         width: double.infinity,
-                        height: 38,
+                        height: 42,
                         child: PrimaryButton(
-                          alignment: Alignment.center,
                           onPressed: () => AnkiWebAuthSheet.show(context),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(LucideIcons.logIn, size: 16),
-                              const SizedBox(width: 8),
-                              Text(l10n.connectAnkiWeb),
-                            ],
+                          leading: const Icon(LucideIcons.logIn, size: 16),
+                          child: Text(
+                            l10n.connectAnkiWeb,
+                            overflow: TextOverflow.visible,
                           ),
                         ),
                       ),
@@ -864,12 +841,9 @@ class SettingsScreen extends HookConsumerWidget {
                     _InfoRow(
                       label: l10n.appearance,
                       value: switch (themeMode) {
-                        ThemeMode.light =>
-                          '${l10n.themeLight} (${l10n.themeZinc})',
-                        ThemeMode.dark =>
-                          '${l10n.themeDark} (${l10n.themeZinc})',
-                        ThemeMode.system =>
-                          '${l10n.themeSystem} (${l10n.themeZinc})',
+                        ThemeMode.light => l10n.themeLight,
+                        ThemeMode.dark => l10n.themeDark,
+                        ThemeMode.system => l10n.themeSystem,
                       },
                     ),
                     const Divider(),
@@ -935,7 +909,7 @@ class _LanguageOptionButton extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
@@ -951,10 +925,11 @@ class _LanguageOptionButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.visible,
             style: theme.typography.small.copyWith(
               fontSize: 12,
+              height: 1.35,
+              leadingDistribution: TextLeadingDistribution.even,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
               color: isSelected
                   ? theme.colorScheme.primaryForeground
@@ -979,19 +954,16 @@ class _InfoRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            flex: 4,
-            child: Text(
-              label,
-              style: theme.typography.small.copyWith(
-                color: theme.colorScheme.mutedForeground,
-              ),
+          Text(
+            label,
+            style: theme.typography.small.copyWith(
+              color: theme.colorScheme.mutedForeground,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           Expanded(
-            flex: 5,
             child: Text(
               value,
               textAlign: TextAlign.end,

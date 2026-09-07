@@ -15,6 +15,7 @@
   "addNewDeck": "Add New Deck",
   "importApkg": "Import .apkg",
   "syncAnkiWeb": "Sync AnkiWeb",
+  "sync": "Sync",
   "dueCards": "Due",
   "newCards": "New",
   "learningCards": "Learning",
@@ -152,7 +153,7 @@
 
   "studyQuestion": "QUESTION",
   "studyAnswer": "ANSWER",
-  "tapToFlip": "Tap screen to flip card",
+  "tapToFlip": "Show Answer",
   "swipeHint": "Swipe left: Again • Swipe right: Good",
   "cardsRemaining": "Cards left: {count}",
   "@cardsRemaining": {
@@ -415,7 +416,7 @@
   "fsrsScheduleTitle": "FSRS ALGORITHM & SCHEDULE",
   "intervalLabel": "Interval",
   "repsAndLapsesLabel": "Reps / Lapses",
-  "dartCoreEngine": "Dart Core (Drift SQLite)",
+  "dartCoreEngine": "Dart (Drift SQLite)",
   "submitAnswer": "Submit",
   "showAnswer": "Show Answer",
   "hideAnswer": "Hide Answer",

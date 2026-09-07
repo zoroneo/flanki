@@ -43,19 +43,17 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
     // Clear stale auth error on modal open and close
     useEffect(() {
       Future.microtask(() {
-        ref.read(authNotifierProvider.notifier).clearError();
+        authNotifier.clearError();
       });
       return () {
-        ref.read(authNotifierProvider.notifier).clearError();
+        authNotifier.clearError();
       };
     }, const []);
 
     // Clear error dynamically as soon as user types
     useEffect(() {
       void clearOnType() {
-        if (ref.read(authNotifierProvider).status == AuthStatus.error) {
-          ref.read(authNotifierProvider.notifier).clearError();
-        }
+        authNotifier.clearError();
       }
 
       emailController.addListener(clearOnType);

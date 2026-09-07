@@ -139,7 +139,7 @@ class RichCardContent extends HookWidget {
                             child: Image.file(
                               file,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, _, _) => _buildMissingMediaBadge(theme, filename),
+                              errorBuilder: (_, __, ___) => _buildMissingMediaBadge(theme, filename),
                             ),
                           ),
                         ),
@@ -249,14 +249,15 @@ class _TypeAnswerInputBox extends HookWidget {
     final controller = useTextEditingController(text: initialValue);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400),
         child: TextField(
           controller: controller,
           autofocus: false,
           placeholder: Text(l10n.typeAnswerPlaceholder),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          clipBehavior: Clip.none,
+          padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
           features: [
             InputFeature.leading(
               Padding(

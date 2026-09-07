@@ -555,7 +555,7 @@ class DecksScreen extends HookConsumerWidget {
 
                   // Search Bar + Desktop Toolbar
                   SizedBox(
-                    height: 38,
+                    height: 42,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
