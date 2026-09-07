@@ -222,22 +222,29 @@ void main(List<String> args) async {
     print('\x1B[1;34m==> Pushing to origin...\x1B[0m');
     final pushCommitCode = await _runCommand('git', ['push', 'origin', 'HEAD']);
     if (pushCommitCode != 0) {
-      _error('Failed to push commits to origin.');
+      _error('Failed to push commits to origin (network issue/timeout).');
+      _printManualPushInstructions(newSemver);
       exit(1);
     }
     final pushTagCode = await _runCommand('git', ['push', 'origin', 'v$newSemver']);
     if (pushTagCode != 0) {
-      _error('Failed to push tag v$newSemver to origin.');
+      _error('Failed to push tag v$newSemver to origin (network issue/timeout).');
+      _printManualPushInstructions(newSemver);
       exit(1);
     }
     print('\x1B[32m✔ Pushed commit & tag to origin!\x1B[0m');
     print('\x1B[1;35m🚀 GitHub Actions workflow has been triggered.\x1B[0m');
     print('Track release progress: https://github.com/zoroneo/flanki/actions\n');
   } else {
-    print('\n\x1B[33mTag v$newSemver created locally. To publish later, run:\x1B[0m');
-    print('  git push origin HEAD');
-    print('  git push origin v$newSemver\n');
+    _printManualPushInstructions(newSemver);
   }
+}
+
+void _printManualPushInstructions(String semver) {
+  print('\n\x1B[33mTag v$semver is created locally. To push and trigger CI/CD, run:\x1B[0m');
+  print('  git push origin HEAD');
+  print('  git push origin v$semver');
+  print('  (hoặc: make release-push)\n');
 }
 
 Future<int> _runCommand(String executable, List<String> args) async {

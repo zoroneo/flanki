@@ -130,3 +130,7 @@ clean-all: clean ## Clean Flutter build cache, .dart_tool, and build output
 release: ## Auto bump version, test, tag and push (e.g. make release [v=1.0.3] [ARGS=--push])
 	$(DART) run tool/release.dart $(v) $(ARGS)
 
+release-push: ## Retry pushing release commits and tags to origin
+	git push origin HEAD
+	git push origin --tags
+
