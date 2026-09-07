@@ -1,17 +1,8 @@
-# flanki
+# Flanki
 
-A new Flutter project.
+Modern cross-platform spaced repetition flashcard app built with Flutter, powered by FSRS v5 & SM-2, with seamless AnkiWeb synchronization.
 
-## Getting Started
+## License
 
-This project is a starting point for a Flutter application.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

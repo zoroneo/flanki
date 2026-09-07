@@ -54,6 +54,7 @@
 
   "aboutSection": "THÔNG TIN HỆ THỐNG",
   "appVersion": "Phiên bản ứng dụng",
+  "openSourceLicenses": "Giấy phép mã nguồn mở",
 
   "searchCardsPlaceholder": "Tìm câu hỏi, câu trả lời hoặc tag...",
   "filterAll": "Tất cả",

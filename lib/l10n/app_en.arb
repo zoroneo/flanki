@@ -66,6 +66,7 @@
 
   "aboutSection": "ABOUT FLANKI",
   "appVersion": "App Version",
+  "openSourceLicenses": "Open Source Licenses",
 
   "searchCardsPlaceholder": "Search questions, answers, or tags...",
   "filterAll": "All",

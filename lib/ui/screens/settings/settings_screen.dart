@@ -864,6 +864,32 @@ class SettingsScreen extends HookConsumerWidget {
                         }
                       },
                     ),
+                    const Divider(),
+                    _ClickableInfoRow(
+                      label: l10n.openSourceLicenses,
+                      onTap: () {
+                        final isDark =
+                            theme.colorScheme.brightness == Brightness.dark;
+                        Navigator.of(context).push(
+                          m.MaterialPageRoute<void>(
+                            builder: (ctx) => m.Theme(
+                              data: isDark
+                                  ? m.ThemeData.dark().copyWith(
+                                      scaffoldBackgroundColor:
+                                          const Color(0xFF18181B),
+                                    )
+                                  : m.ThemeData.light(),
+                              child: m.LicensePage(
+                                applicationName: 'Flanki',
+                                applicationVersion: 'v${AppConfig.version}',
+                                applicationLegalese:
+                                    'Copyright © 2026 ZoroNeo. All rights reserved.',
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -1081,3 +1107,43 @@ class _VersionInfoRow extends StatelessWidget {
     );
   }
 }
+
+class _ClickableInfoRow extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _ClickableInfoRow({
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: theme.typography.small.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                ),
+              ),
+            ),
+            Icon(
+              LucideIcons.chevronRight,
+              size: 16,
+              color: theme.colorScheme.mutedForeground,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

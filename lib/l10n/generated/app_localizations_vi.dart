@@ -160,6 +160,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get appVersion => 'Phiên bản ứng dụng';
 
   @override
+  String get openSourceLicenses => 'Giấy phép mã nguồn mở';
+
+  @override
   String get searchCardsPlaceholder => 'Tìm câu hỏi, câu trả lời hoặc tag...';
 
   @override

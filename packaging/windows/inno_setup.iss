@@ -1,4 +1,4 @@
-﻿#ifndef MyAppVersion
+#ifndef MyAppVersion
 #define MyAppVersion "1.0.0"
 #endif
 
@@ -16,6 +16,7 @@ DisableProgramGroupPage=yes
 OutputDir=..\..\
 OutputBaseFilename=flanki-setup-windows
 SetupIconFile=..\..\windows\runner\resources\app_icon.ico
+LicenseFile=..\..\LICENSE
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern

@@ -160,6 +160,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appVersion => 'App Version';
 
   @override
+  String get openSourceLicenses => 'Open Source Licenses';
+
+  @override
   String get searchCardsPlaceholder => 'Search questions, answers, or tags...';
 
   @override

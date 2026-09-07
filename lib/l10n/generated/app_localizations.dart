@@ -386,6 +386,12 @@ abstract class AppLocalizations {
   /// **'App Version'**
   String get appVersion;
 
+  /// No description provided for @openSourceLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Source Licenses'**
+  String get openSourceLicenses;
+
   /// No description provided for @searchCardsPlaceholder.
   ///
   /// In en, this message translates to:
