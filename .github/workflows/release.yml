@@ -148,7 +148,7 @@ jobs:
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | tr -d '\r\n ' | base64 -d > android/app/upload-keystore.jks
+          python3 -c "import base64, os; open('android/app/upload-keystore.jks', 'wb').write(base64.b64decode(os.environ['ANDROID_KEYSTORE_BASE64'].strip()))"
           cat <<EOF > android/key.properties
           storePassword=$ANDROID_KEYSTORE_PASSWORD
           keyPassword=$ANDROID_KEY_PASSWORD
