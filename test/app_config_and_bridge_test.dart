@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flanki/core/anki_bridge.dart';
 import 'package:flanki/core/config/app_config.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,9 +7,19 @@ void main() {
   group('AppConfig Tests', () {
     test('AppConfig constants match application specification and pubspec', () {
       expect(AppConfig.appName, equals('Flanki'));
-      expect(AppConfig.version, equals('1.0.2'));
-      expect(AppConfig.buildNumber, equals(3));
-      expect(AppConfig.fullVersion, equals('1.0.2+3'));
+      expect(AppConfig.version, matches(RegExp(r'^\d+\.\d+\.\d+$')));
+      expect(AppConfig.buildNumber, isPositive);
+      expect(
+        AppConfig.fullVersion,
+        equals('${AppConfig.version}+${AppConfig.buildNumber}'),
+      );
+
+      final pubspecFile = File('pubspec.yaml');
+      if (pubspecFile.existsSync()) {
+        final content = pubspecFile.readAsStringSync();
+        expect(content, contains('version: ${AppConfig.fullVersion}'));
+      }
+
       expect(AppConfig.defaultNewCardsPerDay, equals(20));
       expect(AppConfig.defaultReviewsPerDay, equals(100));
       expect(AppConfig.defaultCramLimit, equals(50));
