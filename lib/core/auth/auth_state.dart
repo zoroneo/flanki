@@ -1,3 +1,5 @@
+import 'anki_web_auth_service.dart';
+
 enum AuthStatus {
   unauthenticated,
   authenticating,
@@ -10,6 +12,7 @@ class AuthState {
   final String? email;
   final String? hostKey;
   final String? errorMessage;
+  final AuthErrorCode? errorCode;
   final DateTime? lastSyncedAt;
 
   const AuthState({
@@ -17,6 +20,7 @@ class AuthState {
     this.email,
     this.hostKey,
     this.errorMessage,
+    this.errorCode,
     this.lastSyncedAt,
   });
 
@@ -37,10 +41,11 @@ class AuthState {
           lastSyncedAt: lastSyncedAt,
         );
 
-  const AuthState.error(String message, {String? email})
+  const AuthState.error(String message, {String? email, AuthErrorCode? errorCode})
       : this(
           status: AuthStatus.error,
           errorMessage: message,
+          errorCode: errorCode,
           email: email,
         );
 
@@ -52,6 +57,7 @@ class AuthState {
     String? email,
     String? hostKey,
     String? errorMessage,
+    AuthErrorCode? errorCode,
     DateTime? lastSyncedAt,
   }) {
     return AuthState(
@@ -59,6 +65,7 @@ class AuthState {
       email: email ?? this.email,
       hostKey: hostKey ?? this.hostKey,
       errorMessage: errorMessage ?? this.errorMessage,
+      errorCode: errorCode ?? this.errorCode,
       lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
     );
   }

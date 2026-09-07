@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'dart:math' as math;
 import 'dart:typed_data';
+import 'dart:ui' show Locale;
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
+import '../../l10n/generated/app_localizations.dart';
 import '../storage/media_storage_service.dart';
 import 'anki_web_config.dart';
 
@@ -47,12 +50,25 @@ class AnkiWebMediaSyncService {
 
   final http.Client _client;
   final AnkiWebConfig _config;
+  final AppLocalizations? _customL10n;
 
   AnkiWebMediaSyncService({
     http.Client? client,
     AnkiWebConfig? config,
+    AppLocalizations? l10n,
   })  : _client = client ?? http.Client(),
-        _config = config ?? const AnkiWebConfig();
+        _config = config ?? const AnkiWebConfig(),
+        _customL10n = l10n;
+
+  AppLocalizations get l10n {
+    if (_customL10n != null) return _customL10n;
+    try {
+      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      return lookupAppLocalizations(Locale(code));
+    } catch (_) {
+      return lookupAppLocalizations(const Locale('vi'));
+    }
+  }
 
   /// Executes full media synchronization with AnkiWeb:
   /// 1. POST /msync/begin -> receives serverUsn & sessionKey
@@ -75,13 +91,13 @@ class AnkiWebMediaSyncService {
       final beginRes = await http.Response.fromStream(beginStreamed);
 
       if (beginRes.statusCode >= 400) {
-        return MediaSyncResult.fail('Lỗi msync/begin (${beginRes.statusCode}): ${beginRes.reasonPhrase}');
+        return MediaSyncResult.fail(l10n.syncServerError(beginRes.statusCode, beginRes.reasonPhrase ?? ''));
       }
 
       final beginJson = jsonDecode(utf8.decode(beginRes.bodyBytes)) as Map<String, dynamic>;
       final err = beginJson['err'] as String?;
       if (err != null && err.isNotEmpty) {
-        return MediaSyncResult.fail('Lỗi AnkiWeb msync/begin: $err');
+        return MediaSyncResult.fail(l10n.syncMediaError(err));
       }
 
       final beginData = beginJson['data'] as Map<String, dynamic>? ?? {};
@@ -99,14 +115,14 @@ class AnkiWebMediaSyncService {
       final changesRes = await http.Response.fromStream(changesStreamed);
 
       if (changesRes.statusCode >= 400) {
-        return MediaSyncResult.fail('Lỗi msync/mediaChanges (${changesRes.statusCode}): ${changesRes.reasonPhrase}');
+        return MediaSyncResult.fail(l10n.syncServerError(changesRes.statusCode, changesRes.reasonPhrase ?? ''));
       }
 
       final changesJson = jsonDecode(utf8.decode(changesRes.bodyBytes)) as Map<String, dynamic>;
       final changesData = changesJson['data'];
       if (changesData is! List) {
         return MediaSyncResult.ok(
-          message: 'Không có thay đổi media mới.',
+          message: l10n.syncNoMediaChanges,
           serverUsn: serverUsn,
         );
       }
@@ -130,7 +146,7 @@ class AnkiWebMediaSyncService {
       if (filesToDownload.isEmpty) {
         onProgress?.call(0, 0);
         return MediaSyncResult.ok(
-          message: 'Tất cả media đã được cập nhật.',
+          message: l10n.syncAllMediaUpToDate,
           downloadedCount: 0,
           serverUsn: serverUsn,
         );
@@ -160,18 +176,18 @@ class AnkiWebMediaSyncService {
           onProgress?.call(downloadedCount, totalFiles);
         } else {
           return MediaSyncResult.fail(
-            'Lỗi tải media batch ($i-$end): ${downloadRes.statusCode} ${downloadRes.reasonPhrase}',
+            l10n.syncMediaBatchError('$i-$end', downloadRes.statusCode, downloadRes.reasonPhrase ?? ''),
           );
         }
       }
 
       return MediaSyncResult.ok(
-        message: 'Đã tải thành công $downloadedCount tệp media từ AnkiWeb.',
+        message: l10n.syncMediaDownloadedSuccess(downloadedCount),
         downloadedCount: downloadedCount,
         serverUsn: serverUsn,
       );
     } catch (e) {
-      return MediaSyncResult.fail('Lỗi đồng bộ media AnkiWeb: $e');
+      return MediaSyncResult.fail(l10n.syncMediaError(e.toString()));
     }
   }
 

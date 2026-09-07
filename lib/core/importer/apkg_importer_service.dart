@@ -6,6 +6,7 @@ import 'package:archive/archive.dart';
 import 'package:sqlite3/sqlite3.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
+import '../storage/database_service.dart';
 import '../storage/media_storage_service.dart';
 import 'anki_template_engine.dart';
 
@@ -24,11 +25,19 @@ class ApkgImportResult {
 /// Service to parse Anki .apkg export packages (ZIP archive containing collection.anki2 + media).
 class ApkgImporterService {
   /// Parses .apkg binary bytes into Flanki DeckModels and CardModels.
-  ApkgImportResult importApkgBytes(Uint8List apkgBytes) {
+  ApkgImportResult importApkgBytes(
+    Uint8List apkgBytes, {
+    String? defaultDeckDescription,
+  }) {
     // If the data is raw SQLite database directly (e.g. from AnkiWeb full sync download)
     if (apkgBytes.length >= 16 &&
         utf8.decode(apkgBytes.sublist(0, 15), allowMalformed: true) == 'SQLite format 3') {
-      return _parseWithTempDb(apkgBytes, 0);
+      DatabaseService.instance.saveSyncTemplateBytes(apkgBytes);
+      return _parseWithTempDb(
+        apkgBytes,
+        0,
+        defaultDeckDescription: defaultDeckDescription,
+      );
     }
 
     final archive = ZipDecoder().decodeBytes(apkgBytes);
@@ -69,14 +78,23 @@ class ApkgImporterService {
     }
 
     if (colFile == null) {
-      throw const FormatException('Tệp .apkg không hợp lệ: Không tìm thấy collection.anki2');
+      throw const FormatException('Invalid .apkg package: collection.anki2 not found');
     }
 
     final dbBytes = Uint8List.fromList(colFile.content as List<int>);
-    return _parseWithTempDb(dbBytes, mediaCount);
+    DatabaseService.instance.saveSyncTemplateBytes(dbBytes);
+    return _parseWithTempDb(
+      dbBytes,
+      mediaCount,
+      defaultDeckDescription: defaultDeckDescription,
+    );
   }
 
-  ApkgImportResult _parseWithTempDb(Uint8List dbBytes, int mediaCount) {
+  ApkgImportResult _parseWithTempDb(
+    Uint8List dbBytes,
+    int mediaCount, {
+    String? defaultDeckDescription,
+  }) {
     final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
     final tempDbFile = File('${tempDir.path}/collection.anki2');
     tempDbFile.writeAsBytesSync(dbBytes);
@@ -110,7 +128,9 @@ class ApkgImporterService {
             DeckModel(
               id: 'deck-$id',
               title: name,
-              description: desc.isNotEmpty ? desc : 'Được import từ gói Anki .apkg',
+              description: desc.isNotEmpty
+                  ? desc
+                  : (defaultDeckDescription ?? 'Imported from Anki package .apkg'),
               dueCount: 0,
               newCount: 0,
               totalCount: 0,

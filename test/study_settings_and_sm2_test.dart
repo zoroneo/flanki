@@ -111,6 +111,12 @@ void main() {
       expect(settings.desiredRetention, equals(0.90));
       expect(settings.newCardsPerDay, equals(20));
       expect(settings.maxReviewsPerDay, equals(100));
+      expect(settings.reminderEnabled, isTrue);
+      expect(settings.reminderHour, equals(20));
+      expect(settings.reminderMinute, equals(0));
+      expect(settings.streakSaverEnabled, isTrue);
+      expect(settings.minimizeToTrayOnClose, isTrue);
+      expect(settings.launchAtStartup, isFalse);
     });
 
     test('StudySettings toMap and fromMap serialization roundtrips correctly', () {
@@ -119,6 +125,12 @@ void main() {
         desiredRetention: 0.85,
         newCardsPerDay: 30,
         maxReviewsPerDay: 200,
+        reminderEnabled: false,
+        reminderHour: 21,
+        reminderMinute: 30,
+        streakSaverEnabled: false,
+        minimizeToTrayOnClose: false,
+        launchAtStartup: true,
       );
 
       final map = original.toMap();
@@ -128,11 +140,20 @@ void main() {
       expect(restored.desiredRetention, equals(0.85));
       expect(restored.newCardsPerDay, equals(30));
       expect(restored.maxReviewsPerDay, equals(200));
+      expect(restored.reminderEnabled, isFalse);
+      expect(restored.reminderHour, equals(21));
+      expect(restored.reminderMinute, equals(30));
+      expect(restored.streakSaverEnabled, isFalse);
+      expect(restored.minimizeToTrayOnClose, isFalse);
+      expect(restored.launchAtStartup, isTrue);
 
       final jsonStr = jsonEncode(map);
       final decodedMap = jsonDecode(jsonStr) as Map<String, dynamic>;
       final fromDecoded = StudySettings.fromMap(decodedMap);
       expect(fromDecoded.newCardsPerDay, equals(30));
+      expect(fromDecoded.reminderHour, equals(21));
+      expect(fromDecoded.minimizeToTrayOnClose, isFalse);
+      expect(fromDecoded.launchAtStartup, isTrue);
     });
   });
 

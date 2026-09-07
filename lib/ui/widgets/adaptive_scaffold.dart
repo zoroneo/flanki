@@ -253,11 +253,11 @@ class _DesktopSidebar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'AnkiWeb Sync',
+                          l10n.syncAnkiWeb,
                           style: theme.typography.xSmall.copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          isAuthenticated ? 'Connected' : 'Offline Mode',
+                          isAuthenticated ? l10n.connected : l10n.offlineMode,
                           style: TextStyle(
                             fontSize: 10,
                             color: theme.colorScheme.mutedForeground,

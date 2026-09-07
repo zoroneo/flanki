@@ -19,6 +19,8 @@ import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/notifiers/stats_notifier.dart';
 import '../../../core/auth/auth_notifier.dart';
 import '../../../core/models/deck.dart';
+import '../../../core/storage/database_service.dart';
+import '../../widgets/sync_conflict_dialog.dart';
 import '../../widgets/sync_progress_toast.dart';
 import '../auth/anki_web_auth_sheet.dart';
 import 'widgets/custom_study_modal.dart';
@@ -95,10 +97,45 @@ class DecksScreen extends HookConsumerWidget {
       }
 
       isSyncing.value = true;
+      final syncService = AnkiWebSyncService(
+        messages: SyncProgressMessages.fromL10n(l10n),
+      );
+
+      final lastSyncTime = authState.lastSyncedAt;
+      final hasLocalChanges = DatabaseService.instance.hasLocalChangesSince(lastSyncTime);
+
+      final check = await syncService.checkSyncStatus(
+        hostKey: authState.hostKey!,
+        lastSyncTime: lastSyncTime,
+        hasLocalChanges: hasLocalChanges,
+      );
+
+      SyncConflictChoice? choice;
+      if (check.action == SyncActionRequired.conflict) {
+        if (!context.mounted) {
+          isSyncing.value = false;
+          return;
+        }
+        choice = await SyncConflictDialog.show(
+          context,
+          localLastSync: check.localLastSync,
+          serverMod: check.serverMod,
+        );
+        if (choice == null) {
+          isSyncing.value = false;
+          return;
+        }
+      }
+
+      final shouldUpload = choice == SyncConflictChoice.upload ||
+          (choice == null && check.action == SyncActionRequired.upload);
+
       final statusNotifier = ValueNotifier<SyncProgressStatus>(
         SyncProgressStatus(
           title: l10n.syncAnkiWeb,
-          message: 'Đang chuẩn bị kết nối...',
+          message: shouldUpload
+              ? l10n.preparingUpload
+              : l10n.connectingToAnkiWeb,
           progress: 0.05,
         ),
       );
@@ -111,19 +148,33 @@ class DecksScreen extends HookConsumerWidget {
         );
       }
 
-      final syncService = AnkiWebSyncService();
-
       try {
-        final syncResult = await syncService.syncCollection(
-          hostKey: authState.hostKey!,
-          onProgress: (stage, progress) {
-            statusNotifier.value = SyncProgressStatus(
-              title: l10n.syncAnkiWeb,
-              message: stage,
-              progress: progress,
-            );
-          },
-        );
+        final AnkiWebSyncResult syncResult;
+        if (shouldUpload) {
+          final dbBytes = await DatabaseService.instance.exportToAnki2Db();
+          syncResult = await syncService.uploadCollection(
+            hostKey: authState.hostKey!,
+            dbBytes: dbBytes,
+            onProgress: (stage, progress) {
+              statusNotifier.value = SyncProgressStatus(
+                title: l10n.syncAnkiWeb,
+                message: stage,
+                progress: progress,
+              );
+            },
+          );
+        } else {
+          syncResult = await syncService.syncCollection(
+            hostKey: authState.hostKey!,
+            onProgress: (stage, progress) {
+              statusNotifier.value = SyncProgressStatus(
+                title: l10n.syncAnkiWeb,
+                message: stage,
+                progress: progress,
+              );
+            },
+          );
+        }
 
         if (context.mounted) {
           if (syncResult.success) {
@@ -228,7 +279,10 @@ class DecksScreen extends HookConsumerWidget {
         }
 
         final importer = ApkgImporterService();
-        final importResult = importer.importApkgBytes(fileBytes);
+        final importResult = importer.importApkgBytes(
+          fileBytes,
+          defaultDeckDescription: l10n.importedDeckDefaultDesc,
+        );
 
         if (importResult.decks.isNotEmpty) {
           deckNotifier.addDecks(importResult.decks);
@@ -305,6 +359,7 @@ class DecksScreen extends HookConsumerWidget {
                   filterTag: tag,
                   cardLimit: limit,
                   mode: mode,
+                  description: l10n.cramDeckDefaultDesc,
                 );
                 showToast(
                   context: context,

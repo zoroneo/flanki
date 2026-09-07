@@ -9,6 +9,12 @@ void main() {
       expect(AppConfig.version, equals('1.0.0'));
       expect(AppConfig.buildNumber, equals(1));
       expect(AppConfig.fullVersion, equals('1.0.0+1'));
+      expect(AppConfig.defaultNewCardsPerDay, equals(20));
+      expect(AppConfig.defaultReviewsPerDay, equals(100));
+      expect(AppConfig.defaultCramLimit, equals(50));
+      expect(AppConfig.defaultDesiredRetention, equals(0.90));
+      expect(AppConfig.defaultReminderHour, equals(20));
+      expect(AppConfig.defaultReminderMinute, equals(0));
     });
   });
 

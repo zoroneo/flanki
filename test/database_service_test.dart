@@ -1,15 +1,24 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sqlite3/sqlite3.dart';
 import 'package:flanki/core/storage/database_service.dart';
 import 'package:flanki/core/models/card.dart';
 import 'package:flanki/core/models/deck.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late Directory tempDir;
   late String dbPath;
 
   setUp(() async {
     tempDir = Directory.systemTemp.createTempSync('flanki_test_db_');
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (MethodCall methodCall) async => tempDir.path,
+    );
     dbPath = '${tempDir.path}/test_flanki.db';
     await DatabaseService.instance.init(customPath: dbPath);
   });
@@ -122,6 +131,34 @@ void main() {
     expect(count, equals(1));
   });
 
+  test('DatabaseService getCustomStudyQueue falls back to registered deck totalCount when parsedLimit is absent', () async {
+    const legacyCramDeck = DeckModel(
+      id: 'cram_flagged_all',
+      title: 'Legacy Cram',
+      description: '',
+      dueCount: 75,
+      newCount: 0,
+      totalCount: 75,
+    );
+    await DatabaseService.instance.saveDeck(legacyCramDeck);
+
+    final cards = List.generate(
+      75,
+      (i) => CardModel(
+        id: 'flagged_$i',
+        deckId: 'legacy_src',
+        front: 'Front $i',
+        back: 'Back $i',
+        flag: CardFlag.red,
+      ),
+    );
+    await DatabaseService.instance.saveCards(cards);
+
+    final queue = DatabaseService.instance.getCustomStudyQueue(deckId: 'cram_flagged_all');
+    // It should yield all 75 cards from totalCount instead of being capped at default 50
+    expect(queue.length, equals(75));
+  });
+
   test('DatabaseService recalculateAllDeckCounts updates counts excluding suspended/buried cards', () async {
     const deck = DeckModel(
       id: 'd_recalc',
@@ -166,5 +203,64 @@ void main() {
     expect(mathDeck.totalCount, equals(3));
     expect(mathDeck.newCount, equals(1)); // mc1 (mc3 is suspended)
     expect(mathDeck.dueCount, equals(1)); // mc2
+  });
+
+  test('DatabaseService exportToAnkiDatabase correctly parses both native Flanki card IDs and Anki c_ IDs into revlog', () async {
+    const deck = DeckModel(
+      id: 'd_export_test',
+      title: 'Export Test',
+      description: '',
+      dueCount: 0,
+      newCount: 0,
+      totalCount: 0,
+    );
+    await DatabaseService.instance.saveDeck(deck);
+
+    // Native Flanki card id and Anki imported card id
+    final nativeCard = CardModel(
+      id: 'card-1709812345678',
+      deckId: 'd_export_test',
+      front: 'Front 1',
+      back: 'Back 1',
+    );
+    final ankiCard = CardModel(
+      id: 'c_998877',
+      deckId: 'd_export_test',
+      front: 'Front 2',
+      back: 'Back 2',
+    );
+    await DatabaseService.instance.saveCards([nativeCard, ankiCard]);
+
+    await DatabaseService.instance.insertReviewLog(
+      cardId: 'card-1709812345678',
+      rating: ReviewRating.good,
+      reviewTime: DateTime.now().subtract(const Duration(hours: 1)),
+      scheduledDays: 1,
+      elapsedDays: 0,
+    );
+    await DatabaseService.instance.insertReviewLog(
+      cardId: 'c_998877',
+      rating: ReviewRating.easy,
+      reviewTime: DateTime.now(),
+      scheduledDays: 4,
+      elapsedDays: 1,
+    );
+
+    final bytes = await DatabaseService.instance.exportToAnki2Db();
+    expect(bytes.isNotEmpty, isTrue);
+
+    final exportedDbFile = File('${tempDir.path}/exported_anki.db');
+    exportedDbFile.writeAsBytesSync(bytes);
+
+    final exportedDb = sqlite3.open(exportedDbFile.path);
+    try {
+      final rows = exportedDb.select('SELECT cid FROM revlog ORDER BY cid ASC');
+      final cids = rows.map((r) => r['cid'] as int).toList();
+
+      expect(cids.contains(998877), isTrue);
+      expect(cids.contains(1709812345678), isTrue);
+    } finally {
+      exportedDb.close();
+    }
   });
 }

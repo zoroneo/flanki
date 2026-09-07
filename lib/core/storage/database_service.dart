@@ -3,6 +3,9 @@ import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqlite3/sqlite3.dart';
+import '../config/app_config.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
 import 'app_database.dart';
@@ -115,8 +118,8 @@ class DatabaseService {
         .where((c) => c.deckId == deckId && !c.isSuspended && !c.isBuried);
 
     if (newLimit != null || reviewLimit != null) {
-      final maxNew = newLimit ?? 20;
-      final maxReview = reviewLimit ?? 100;
+      final maxNew = newLimit ?? AppConfig.defaultNewCardsPerDay;
+      final maxReview = reviewLimit ?? AppConfig.defaultReviewsPerDay;
 
       final dueCards = eligible
           .where((c) => c.reps > 0 && c.due != null && c.due!.isBefore(now))
@@ -135,7 +138,7 @@ class DatabaseService {
       return queue;
     }
 
-    final effectiveLimit = limit ?? 50;
+    final effectiveLimit = limit ?? AppConfig.defaultCramLimit;
     return eligible
         .where((c) {
           if (c.reps == 0) return true; // New card
@@ -167,18 +170,25 @@ class DatabaseService {
   /// Query cards for ad-hoc Custom Study / Cram session based on deckId parameters.
   List<CardModel> getCustomStudyQueue({
     required String deckId,
-    int limit = 50,
+    int? limit,
   }) {
     // Format: cram_<mode>_<tag>_<limit>_<timestamp>
     final parts = deckId.split('_');
     final mode = parts.length > 1 ? parts[1] : '';
     final rawTag = parts.length > 2 ? parts[2] : '';
     final tag = Uri.decodeComponent(rawTag);
+    final parsedLimit = parts.length > 3 ? int.tryParse(parts[3]) : null;
+
+    final deckCount = _cachedDecks.firstWhereOrNull((d) => d.id == deckId)?.totalCount;
+    final effectiveLimit = parsedLimit ??
+        (deckCount != null && deckCount > 0 ? deckCount : null) ??
+        limit ??
+        AppConfig.defaultCramLimit;
 
     final available = _cachedCards.where((c) => !c.isSuspended).toList();
 
     if (mode == 'flagged' || deckId.contains('flagged')) {
-      return available.where((c) => c.hasFlag).take(limit).toList();
+      return available.where((c) => c.hasFlag).take(effectiveLimit).toList();
     } else if (mode == 'ahead' || mode == 'reviewAhead' || deckId.contains('ahead')) {
       // Review ahead: prioritize cards with earliest due dates
       final list = List<CardModel>.from(available)
@@ -187,15 +197,15 @@ class DatabaseService {
           if (b.due == null) return -1;
           return a.due!.compareTo(b.due!);
         });
-      return list.take(limit).toList();
+      return list.take(effectiveLimit).toList();
     } else if (tag.isNotEmpty && tag != 'all') {
       return available
           .where((c) => c.tags.any((t) => t.toLowerCase() == tag.toLowerCase()))
-          .take(limit)
+          .take(effectiveLimit)
           .toList();
     }
 
-    return available.take(limit).toList();
+    return available.take(effectiveLimit).toList();
   }
 
   /// Counts the total matching cards for a custom study filter.
@@ -552,6 +562,176 @@ class DatabaseService {
       lastStudied: row.lastStudied,
       createdAt: row.createdAt,
     );
+  }
+
+  /// Checks if any cards or review logs have been added or updated after [lastSyncTime].
+  bool hasLocalChangesSince(DateTime? lastSyncTime) {
+    if (lastSyncTime == null) {
+      return _cachedCards.isNotEmpty || _cachedReviewLogs.isNotEmpty;
+    }
+    final hasReviewedCard = _cachedCards.any((c) =>
+        (c.lastStudied != null && c.lastStudied!.isAfter(lastSyncTime)) ||
+        (c.createdAt != null && c.createdAt!.isAfter(lastSyncTime)));
+    if (hasReviewedCard) return true;
+
+    return _cachedReviewLogs.any((l) => l.reviewTime.isAfter(lastSyncTime));
+  }
+
+  /// Persists downloaded SQLite bytes from AnkiWeb as the sync template.
+  Future<void> saveSyncTemplateBytes(Uint8List bytes) async {
+    try {
+      final supportDir = await getApplicationSupportDirectory();
+      final file = File('${supportDir.path}/sync_template.anki2');
+      await file.writeAsBytes(bytes, flush: true);
+    } catch (_) {}
+  }
+
+  /// Exports local collection and review logs to a valid SQLite collection.anki2 binary.
+  Future<Uint8List> exportToAnki2Db() async {
+    final supportDir = await getApplicationSupportDirectory();
+    final templateFile = File('${supportDir.path}/sync_template.anki2');
+    final tempDir = Directory.systemTemp.createTempSync('flanki_export_');
+    final targetDbFile = File('${tempDir.path}/collection.anki2');
+
+    try {
+      if (templateFile.existsSync()) {
+        templateFile.copySync(targetDbFile.path);
+      }
+
+      final db = sqlite3.open(targetDbFile.path);
+      try {
+        db.execute('''
+          CREATE TABLE IF NOT EXISTS col (
+            id integer primary key,
+            crt integer,
+            mod integer,
+            scm integer,
+            ver integer,
+            dty integer,
+            usn integer,
+            ls integer,
+            conf text,
+            models text,
+            decks text,
+            dconf text,
+            tags text
+          );
+          CREATE TABLE IF NOT EXISTS notes (
+            id integer primary key,
+            guid text,
+            mid integer,
+            mod integer,
+            usn integer,
+            tags text,
+            flds text,
+            sfld integer,
+            csum integer,
+            flags integer,
+            data text
+          );
+          CREATE TABLE IF NOT EXISTS cards (
+            id integer primary key,
+            nid integer,
+            did integer,
+            ord integer,
+            mod integer,
+            usn integer,
+            type integer,
+            queue integer,
+            due integer,
+            ivl integer,
+            factor integer,
+            reps integer,
+            lapses integer,
+            left integer,
+            odue integer,
+            odid integer,
+            flags integer,
+            data text
+          );
+          CREATE TABLE IF NOT EXISTS revlog (
+            id integer primary key,
+            cid integer,
+            usn integer,
+            ease integer,
+            ivl integer,
+            lastIvl integer,
+            factor integer,
+            time integer,
+            type integer
+          );
+          CREATE TABLE IF NOT EXISTS graves (
+            usn integer not null,
+            oid integer not null,
+            type integer not null
+          );
+        ''');
+
+        final nowSec = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+        // Update or insert col row
+        final colCount = db.select('SELECT count(*) as cnt FROM col').first['cnt'] as int;
+        if (colCount == 0) {
+          db.execute('''
+            INSERT INTO col (id, crt, mod, scm, ver, dty, usn, ls, conf, models, decks, dconf, tags)
+            VALUES (1, ?, ?, ?, 11, 0, 0, 0, '{}', '{}', '{}', '{}', '{}')
+          ''', [nowSec, nowSec, nowSec]);
+        } else {
+          db.execute('UPDATE col SET mod = ?, usn = usn + 1', [nowSec]);
+        }
+
+        // Update cards scheduling state
+        for (final card in _cachedCards) {
+          final cid = int.tryParse(card.id.replaceAll(RegExp(r'\D'), '')) ?? card.id.hashCode.abs();
+          if (cid == 0) continue;
+
+          final factor = (card.difficulty > 0)
+              ? ((3.0 - (card.difficulty - 1.0) / 9.0 * 1.7) * 1000).toInt().clamp(1300, 3000)
+              : 2500;
+
+          final cardModSec = (card.lastStudied ?? card.createdAt ?? DateTime.now()).millisecondsSinceEpoch ~/ 1000;
+          final dueDays = card.due != null ? card.due!.difference(DateTime.now()).inDays : card.intervalDays;
+
+          db.execute('''
+            UPDATE cards SET
+              ivl = ?,
+              factor = ?,
+              reps = ?,
+              lapses = ?,
+              due = ?,
+              mod = ?,
+              usn = -1
+            WHERE id = ?
+          ''', [card.intervalDays, factor, card.reps, card.lapses, dueDays, cardModSec, cid]);
+        }
+
+        // Insert review logs
+        for (final log in _cachedReviewLogs) {
+          final cid = int.tryParse(log.cardId.replaceAll(RegExp(r'\D'), '')) ?? log.cardId.hashCode.abs();
+          if (cid == 0) continue;
+
+          final logId = log.reviewTime.millisecondsSinceEpoch;
+          final ease = log.rating.value;
+          final ivl = log.scheduledDays;
+          final lastIvl = log.elapsedDays;
+
+          db.execute('''
+            INSERT OR IGNORE INTO revlog (id, cid, usn, ease, ivl, lastIvl, factor, time, type)
+            VALUES (?, ?, -1, ?, ?, ?, 2500, 0, 1)
+          ''', [logId, cid, ease, ivl, lastIvl]);
+        }
+
+        db.execute('PRAGMA integrity_check;');
+      } finally {
+        db.close();
+      }
+
+      return targetDbFile.readAsBytesSync();
+    } finally {
+      try {
+        tempDir.deleteSync(recursive: true);
+      } catch (_) {}
+    }
   }
 
   Future<void> close() async {

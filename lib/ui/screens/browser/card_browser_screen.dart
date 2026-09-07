@@ -149,7 +149,7 @@ class CardBrowserScreen extends HookConsumerWidget {
                             PrimaryButton(
                               size: ButtonSize.small,
                               leading: const Icon(LucideIcons.plus, size: 16),
-                              child: const Text('Thêm thẻ'),
+                              child: Text(l10n.addCardButton),
                               onPressed: () => context.push('/editor'),
                             ),
                           ],
@@ -734,9 +734,9 @@ class _DesktopCardDetailPane extends HookWidget {
                     color: theme.colorScheme.muted,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Text('Cloze Deletion',
+                  child: Text(l10n.clozeDeletion,
                       style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                          const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                 ),
 
               const Spacer(),

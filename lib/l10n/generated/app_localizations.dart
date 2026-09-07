@@ -1417,6 +1417,588 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Syncing media files...'**
   String get syncingMedia;
+
+  /// No description provided for @addCardButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Card'**
+  String get addCardButton;
+
+  /// No description provided for @clozeDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloze Deletion'**
+  String get clozeDeletion;
+
+  /// No description provided for @connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get connected;
+
+  /// No description provided for @offlineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Mode'**
+  String get offlineMode;
+
+  /// No description provided for @syncConflictTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb Sync Conflict'**
+  String get syncConflictTitle;
+
+  /// No description provided for @syncConflictDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Both this device and AnkiWeb have new study progress or card changes since the last sync. The system cannot automatically merge two independent sessions.'**
+  String get syncConflictDesc;
+
+  /// No description provided for @previousSyncLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous sync:'**
+  String get previousSyncLabel;
+
+  /// No description provided for @ankiWebUpdateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb update:'**
+  String get ankiWebUpdateLabel;
+
+  /// No description provided for @selectVersionToKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select which version of data you want to keep:'**
+  String get selectVersionToKeep;
+
+  /// No description provided for @uploadToCloudTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload to AnkiWeb (Overwrite Cloud)'**
+  String get uploadToCloudTitle;
+
+  /// No description provided for @uploadToCloudDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep all progress and review history on this device and overwrite AnkiWeb Cloud.'**
+  String get uploadToCloudDesc;
+
+  /// No description provided for @downloadFromCloudTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download from AnkiWeb (Overwrite Device)'**
+  String get downloadFromCloudTitle;
+
+  /// No description provided for @downloadFromCloudDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Download all data from AnkiWeb Cloud and replace the local data on this device.'**
+  String get downloadFromCloudDesc;
+
+  /// No description provided for @unknownTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknownTime;
+
+  /// No description provided for @preparingUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing to upload to AnkiWeb...'**
+  String get preparingUpload;
+
+  /// No description provided for @connectingToAnkiWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to AnkiWeb...'**
+  String get connectingToAnkiWeb;
+
+  /// No description provided for @updateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available'**
+  String get updateAvailable;
+
+  /// No description provided for @updateChangelog.
+  ///
+  /// In en, this message translates to:
+  /// **'Release Notes:'**
+  String get updateChangelog;
+
+  /// No description provided for @downloadingUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading update installer...'**
+  String get downloadingUpdate;
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
+
+  /// No description provided for @openDownloadPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Download Page'**
+  String get openDownloadPage;
+
+  /// No description provided for @restartAndInstall.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart & Update'**
+  String get restartAndInstall;
+
+  /// No description provided for @downloadAndInstall.
+  ///
+  /// In en, this message translates to:
+  /// **'Download & Update'**
+  String get downloadAndInstall;
+
+  /// Title of update banner toast
+  ///
+  /// In en, this message translates to:
+  /// **'A new update is available (v{version})'**
+  String updateBannerTitle(String version);
+
+  /// No description provided for @updateBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Click to view details and update'**
+  String get updateBannerSubtitle;
+
+  /// No description provided for @updateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateAction;
+
+  /// No description provided for @checkingForUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get checkingForUpdates;
+
+  /// New version badge
+  ///
+  /// In en, this message translates to:
+  /// **'New v{version}'**
+  String newVersionBadge(String version);
+
+  /// No description provided for @latestVersionStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to date'**
+  String get latestVersionStatus;
+
+  /// No description provided for @checkForUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get checkForUpdates;
+
+  /// No description provided for @cramDeckDefaultDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Cram study deck without affecting primary FSRS schedule.'**
+  String get cramDeckDefaultDesc;
+
+  /// No description provided for @importedDeckDefaultDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported from Anki package .apkg'**
+  String get importedDeckDefaultDesc;
+
+  /// No description provided for @authEmailPasswordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Email and password cannot be empty.'**
+  String get authEmailPasswordEmpty;
+
+  /// No description provided for @authInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect AnkiWeb email or password.'**
+  String get authInvalidCredentials;
+
+  /// No description provided for @authTooManyAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many login attempts. Please try again in a few minutes.'**
+  String get authTooManyAttempts;
+
+  /// No description provided for @authServerResponseInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid response from AnkiWeb server.'**
+  String get authServerResponseInvalid;
+
+  /// No description provided for @authNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot connect to AnkiWeb server. Please check your network: {error}'**
+  String authNetworkError(String error);
+
+  /// No description provided for @authUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb connection error: {error}'**
+  String authUnknownError(String error);
+
+  /// No description provided for @syncConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to AnkiWeb...'**
+  String get syncConnecting;
+
+  /// No description provided for @syncDownloadingCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading collection data from AnkiWeb...'**
+  String get syncDownloadingCollection;
+
+  /// No description provided for @syncProcessingData.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing cards & saving database...'**
+  String get syncProcessingData;
+
+  /// No description provided for @syncCheckingMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking media files (images & audio)...'**
+  String get syncCheckingMedia;
+
+  /// No description provided for @syncDownloadingMediaProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading media ({downloaded}/{total})...'**
+  String syncDownloadingMediaProgress(int downloaded, int total);
+
+  /// No description provided for @syncCompressingUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Compressing and preparing upload to AnkiWeb...'**
+  String get syncCompressingUpload;
+
+  /// No description provided for @syncUploadingCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading data to AnkiWeb Cloud...'**
+  String get syncUploadingCloud;
+
+  /// No description provided for @syncUploadComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload complete!'**
+  String get syncUploadComplete;
+
+  /// No description provided for @syncSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb session expired. Please log in again.'**
+  String get syncSessionExpired;
+
+  /// No description provided for @syncNoInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection.'**
+  String get syncNoInternet;
+
+  /// No description provided for @syncConflictDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Conflict detected: Both AnkiWeb and this device have new study data.'**
+  String get syncConflictDetected;
+
+  /// No description provided for @trayOpenFlanki.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Flanki'**
+  String get trayOpenFlanki;
+
+  /// No description provided for @trayStudyNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Study Now'**
+  String get trayStudyNow;
+
+  /// No description provided for @trayExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit Flanki'**
+  String get trayExit;
+
+  /// No description provided for @notificationDailyChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Study Reminder'**
+  String get notificationDailyChannelName;
+
+  /// No description provided for @notificationDailyChannelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily flashcard study reminders'**
+  String get notificationDailyChannelDesc;
+
+  /// No description provided for @notificationDailyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to study with Flanki! 🦉'**
+  String get notificationDailyTitle;
+
+  /// No description provided for @notificationDailyBodyDue.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} cards waiting for review today. Review now to remember longer!'**
+  String notificationDailyBodyDue(int count);
+
+  /// No description provided for @notificationDailyBodyGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Spend 5 minutes a day with Flanki to keep your memory sharp!'**
+  String get notificationDailyBodyGeneric;
+
+  /// No description provided for @notificationStreakChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak Saver'**
+  String get notificationStreakChannelName;
+
+  /// No description provided for @notificationStreakChannelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent reminder before midnight to protect your study streak'**
+  String get notificationStreakChannelDesc;
+
+  /// No description provided for @notificationStreakTitleActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your {count}-day streak! 🔥'**
+  String notificationStreakTitleActive(int count);
+
+  /// No description provided for @notificationStreakTitleInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'\'t studied today! ⏳'**
+  String get notificationStreakTitleInactive;
+
+  /// No description provided for @notificationStreakBodyActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Only a few hours left before midnight! Study for 3 minutes to keep your streak.'**
+  String get notificationStreakBodyActive;
+
+  /// No description provided for @notificationStreakBodyInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Spend a few minutes before the day ends to start a new streak!'**
+  String get notificationStreakBodyInactive;
+
+  /// No description provided for @notificationTestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Flanki: Test Notification 🚀'**
+  String get notificationTestTitle;
+
+  /// No description provided for @notificationTestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification system is working properly!'**
+  String get notificationTestBody;
+
+  /// No description provided for @settingsStudyReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'STUDY REMINDERS'**
+  String get settingsStudyReminders;
+
+  /// No description provided for @settingsDailyReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Study Reminder'**
+  String get settingsDailyReminder;
+
+  /// No description provided for @settingsDailyReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified on time to build and keep your flashcard study habit'**
+  String get settingsDailyReminderSubtitle;
+
+  /// No description provided for @settingsReminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder Time'**
+  String get settingsReminderTime;
+
+  /// No description provided for @settingsStreakSaver.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak Saver 🔥'**
+  String get settingsStreakSaver;
+
+  /// No description provided for @settingsStreakSaverSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent reminder before midnight if not yet studied. Automatically dismissed if studied today.'**
+  String get settingsStreakSaverSubtitle;
+
+  /// No description provided for @settingsMinimizeToTray.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimize to System Tray'**
+  String get settingsMinimizeToTray;
+
+  /// No description provided for @settingsMinimizeToTraySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing the window (X) minimizes Flanki to tray to keep background reminder timers active.'**
+  String get settingsMinimizeToTraySubtitle;
+
+  /// No description provided for @settingsLaunchAtStartup.
+  ///
+  /// In en, this message translates to:
+  /// **'Launch at System Startup'**
+  String get settingsLaunchAtStartup;
+
+  /// No description provided for @settingsLaunchAtStartupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically start Flanki in background when logging into your computer.'**
+  String get settingsLaunchAtStartupSubtitle;
+
+  /// No description provided for @settingsTestNotificationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification sent!'**
+  String get settingsTestNotificationSent;
+
+  /// No description provided for @settingsTestNotificationCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your system notification center or desktop toast.'**
+  String get settingsTestNotificationCheck;
+
+  /// No description provided for @settingsTestNotificationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Notification Now'**
+  String get settingsTestNotificationButton;
+
+  /// No description provided for @syncSuccessWithMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully downloaded {deckCount} decks, {cardCount} cards{media} from AnkiWeb.'**
+  String syncSuccessWithMedia(int deckCount, int cardCount, String media);
+
+  /// No description provided for @syncMediaCountPart.
+  ///
+  /// In en, this message translates to:
+  /// **' and {count} media files'**
+  String syncMediaCountPart(int count);
+
+  /// No description provided for @syncMediaSyncedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully synced {count} media files from AnkiWeb.'**
+  String syncMediaSyncedSuccess(int count);
+
+  /// No description provided for @syncCollectionAndMediaUpToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Deck collection and media are already in sync with AnkiWeb Cloud.'**
+  String get syncCollectionAndMediaUpToDate;
+
+  /// No description provided for @syncFirstTime.
+  ///
+  /// In en, this message translates to:
+  /// **'First-time initial sync.'**
+  String get syncFirstTime;
+
+  /// No description provided for @syncLocalChangesToPush.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has new study progress ready to push to AnkiWeb.'**
+  String get syncLocalChangesToPush;
+
+  /// No description provided for @syncRemoteChangesToPull.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb has newer study progress from another device ready to pull.'**
+  String get syncRemoteChangesToPull;
+
+  /// No description provided for @syncAlreadyFullySynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Data between this device and AnkiWeb is already fully synchronized.'**
+  String get syncAlreadyFullySynced;
+
+  /// No description provided for @syncUploadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully uploaded all collection data & review history to AnkiWeb Cloud.'**
+  String get syncUploadSuccess;
+
+  /// No description provided for @syncNoMediaChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'No new media changes.'**
+  String get syncNoMediaChanges;
+
+  /// No description provided for @syncAllMediaUpToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'All media files are up to date.'**
+  String get syncAllMediaUpToDate;
+
+  /// No description provided for @syncMediaDownloadedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully downloaded {count} media files from AnkiWeb.'**
+  String syncMediaDownloadedSuccess(int count);
+
+  /// No description provided for @syncServerError.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb server error ({statusCode}): {message}'**
+  String syncServerError(int statusCode, String message);
+
+  /// No description provided for @syncCheckStatusServerError.
+  ///
+  /// In en, this message translates to:
+  /// **'Server status check error ({statusCode}).'**
+  String syncCheckStatusServerError(int statusCode);
+
+  /// No description provided for @syncCheckError.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync check error: {error}'**
+  String syncCheckError(String error);
+
+  /// No description provided for @syncUploadError.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb upload error: {error}'**
+  String syncUploadError(String error);
+
+  /// No description provided for @syncMediaError.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb media sync error: {error}'**
+  String syncMediaError(String error);
+
+  /// No description provided for @syncMediaBatchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Media batch download error ({range}): {statusCode} {message}'**
+  String syncMediaBatchError(String range, int statusCode, String message);
+
+  /// No description provided for @syncCollectionError.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb sync error: {error}'**
+  String syncCollectionError(String error);
 }
 
 class _AppLocalizationsDelegate

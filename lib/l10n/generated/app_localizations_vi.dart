@@ -739,4 +739,358 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get syncingMedia => 'Đang tải tệp media...';
+
+  @override
+  String get addCardButton => 'Thêm thẻ';
+
+  @override
+  String get clozeDeletion => 'Thẻ điền khuyết (Cloze)';
+
+  @override
+  String get connected => 'Đã kết nối';
+
+  @override
+  String get offlineMode => 'Chế độ Ngoại tuyến';
+
+  @override
+  String get syncConflictTitle => 'Xung đột đồng bộ AnkiWeb';
+
+  @override
+  String get syncConflictDesc =>
+      'Cả thiết bị này và AnkiWeb đều có dữ liệu học tập hoặc thay đổi thẻ mới kể từ lần đồng bộ trước. Hệ thống không thể gộp tự động hai phiên làm việc độc lập.';
+
+  @override
+  String get previousSyncLabel => 'Lần đồng bộ trước:';
+
+  @override
+  String get ankiWebUpdateLabel => 'Cập nhật trên AnkiWeb:';
+
+  @override
+  String get selectVersionToKeep =>
+      'Vui lòng chọn bản dữ liệu bạn muốn giữ lại:';
+
+  @override
+  String get uploadToCloudTitle => 'Đẩy lên AnkiWeb (Ghi đè đám mây)';
+
+  @override
+  String get uploadToCloudDesc =>
+      'Giữ toàn bộ tiến độ và lịch sử học của máy này để ghi đè lên AnkiWeb Cloud.';
+
+  @override
+  String get downloadFromCloudTitle => 'Tải về từ AnkiWeb (Ghi đè thiết bị)';
+
+  @override
+  String get downloadFromCloudDesc =>
+      'Lấy toàn bộ dữ liệu từ AnkiWeb Cloud về và thay thế dữ liệu trên máy này.';
+
+  @override
+  String get unknownTime => 'Chưa rõ';
+
+  @override
+  String get preparingUpload => 'Đang chuẩn bị tải lên AnkiWeb...';
+
+  @override
+  String get connectingToAnkiWeb => 'Đang kết nối tới AnkiWeb...';
+
+  @override
+  String get updateAvailable => 'Có bản cập nhật mới';
+
+  @override
+  String get updateChangelog => 'Nội dung cập nhật:';
+
+  @override
+  String get downloadingUpdate => 'Đang tải bản cài đặt...';
+
+  @override
+  String get later => 'Để sau';
+
+  @override
+  String get openDownloadPage => 'Mở trang tải về';
+
+  @override
+  String get restartAndInstall => 'Khởi động lại & Cập nhật';
+
+  @override
+  String get downloadAndInstall => 'Tải & Cập nhật';
+
+  @override
+  String updateBannerTitle(String version) {
+    return 'Có bản cập nhật mới (v$version)';
+  }
+
+  @override
+  String get updateBannerSubtitle => 'Nhấn để xem chi tiết và cập nhật';
+
+  @override
+  String get updateAction => 'Cập nhật';
+
+  @override
+  String get checkingForUpdates => 'Đang kiểm tra...';
+
+  @override
+  String newVersionBadge(String version) {
+    return 'Bản mới v$version';
+  }
+
+  @override
+  String get latestVersionStatus => 'Mới nhất';
+
+  @override
+  String get checkForUpdates => 'Kiểm tra';
+
+  @override
+  String get cramDeckDefaultDesc =>
+      'Bộ thẻ ôn tập đột xuất (Custom Study) không ảnh hưởng lịch FSRS chính.';
+
+  @override
+  String get importedDeckDefaultDesc => 'Được import từ gói Anki .apkg';
+
+  @override
+  String get authEmailPasswordEmpty => 'Email và mật khẩu không được để trống.';
+
+  @override
+  String get authInvalidCredentials =>
+      'Email hoặc mật khẩu AnkiWeb không chính xác.';
+
+  @override
+  String get authTooManyAttempts =>
+      'Quá nhiều lần thử đăng nhập. Vui lòng thử lại sau ít phút.';
+
+  @override
+  String get authServerResponseInvalid =>
+      'Phản hồi không hợp lệ từ máy chủ AnkiWeb.';
+
+  @override
+  String authNetworkError(String error) {
+    return 'Không thể kết nối máy chủ AnkiWeb. Vui lòng kiểm tra mạng: $error';
+  }
+
+  @override
+  String authUnknownError(String error) {
+    return 'Lỗi kết nối AnkiWeb: $error';
+  }
+
+  @override
+  String get syncConnecting => 'Đang kết nối AnkiWeb...';
+
+  @override
+  String get syncDownloadingCollection =>
+      'Đang tải dữ liệu bộ thẻ từ AnkiWeb...';
+
+  @override
+  String get syncProcessingData => 'Đang xử lý thẻ & lưu cơ sở dữ liệu...';
+
+  @override
+  String get syncCheckingMedia => 'Đang kiểm tra tệp media (ảnh & âm thanh)...';
+
+  @override
+  String syncDownloadingMediaProgress(int downloaded, int total) {
+    return 'Đang tải media ($downloaded/$total)...';
+  }
+
+  @override
+  String get syncCompressingUpload => 'Đang nén và chuẩn bị tải lên AnkiWeb...';
+
+  @override
+  String get syncUploadingCloud => 'Đang tải dữ liệu lên AnkiWeb Cloud...';
+
+  @override
+  String get syncUploadComplete => 'Tải lên hoàn tất!';
+
+  @override
+  String get syncSessionExpired =>
+      'Phiên đăng nhập AnkiWeb đã hết hạn. Vui lòng đăng nhập lại.';
+
+  @override
+  String get syncNoInternet => 'Không có kết nối mạng internet.';
+
+  @override
+  String get syncConflictDetected =>
+      'Phát hiện xung đột: Cả AnkiWeb và thiết bị này đều có dữ liệu học tập mới.';
+
+  @override
+  String get trayOpenFlanki => 'Mở Flanki';
+
+  @override
+  String get trayStudyNow => 'Ôn tập ngay';
+
+  @override
+  String get trayExit => 'Thoát hoàn toàn';
+
+  @override
+  String get notificationDailyChannelName => 'Nhắc nhở học tập';
+
+  @override
+  String get notificationDailyChannelDesc =>
+      'Thông báo nhắc nhở lịch học flashcard hàng ngày';
+
+  @override
+  String get notificationDailyTitle => 'Đến giờ học Flanki! 🦉';
+
+  @override
+  String notificationDailyBodyDue(int count) {
+    return 'Bạn có $count thẻ đang chờ ôn tập hôm nay. Ôn ngay để nhớ lâu!';
+  }
+
+  @override
+  String get notificationDailyBodyGeneric =>
+      'Dành 5 phút mỗi ngày cùng Flanki để duy trì phản xạ từ vựng nào!';
+
+  @override
+  String get notificationStreakChannelName => 'Cứu chuỗi Streak';
+
+  @override
+  String get notificationStreakChannelDesc =>
+      'Cảnh báo khẩn cấp trước nửa đêm để bảo vệ chuỗi học tập';
+
+  @override
+  String notificationStreakTitleActive(int count) {
+    return 'Cứu chuỗi $count ngày của bạn! 🔥';
+  }
+
+  @override
+  String get notificationStreakTitleInactive => 'Hôm nay bạn chưa học! ⏳';
+
+  @override
+  String get notificationStreakBodyActive =>
+      'Chỉ còn ít giờ trước nửa đêm! Ôn 3 phút để giữ chuỗi học liên tiếp.';
+
+  @override
+  String get notificationStreakBodyInactive =>
+      'Dành chút thời gian trước khi kết thúc ngày để tạo chuỗi học mới.';
+
+  @override
+  String get notificationTestTitle => 'Flanki: Kiểm tra thông báo 🚀';
+
+  @override
+  String get notificationTestBody =>
+      'Hệ thống thông báo hoạt động chính xác theo chuẩn Duolingo!';
+
+  @override
+  String get settingsStudyReminders => 'NHẮC NHỞ HỌC TẬP';
+
+  @override
+  String get settingsDailyReminder => 'Nhắc nhở học hàng ngày';
+
+  @override
+  String get settingsDailyReminderSubtitle =>
+      'Thông báo đúng giờ để duy trì thói quen học flashcard';
+
+  @override
+  String get settingsReminderTime => 'Thời gian nhắc nhở';
+
+  @override
+  String get settingsStreakSaver => 'Cứu chuỗi Streak 🔥';
+
+  @override
+  String get settingsStreakSaverSubtitle =>
+      'Cảnh báo khẩn cấp trước nửa đêm nếu chưa học. Tự động hủy nếu đã ôn tập hôm nay.';
+
+  @override
+  String get settingsMinimizeToTray => 'Thu nhỏ xuống khay hệ thống (Tray)';
+
+  @override
+  String get settingsMinimizeToTraySubtitle =>
+      'Bấm nút đóng (X) sẽ ẩn app xuống khay hệ thống để duy trì bộ đếm nhắc nhở.';
+
+  @override
+  String get settingsLaunchAtStartup => 'Khởi động cùng máy tính';
+
+  @override
+  String get settingsLaunchAtStartupSubtitle =>
+      'Tự động chạy ngầm Flanki khi đăng nhập máy tính.';
+
+  @override
+  String get settingsTestNotificationSent => 'Đã gửi thông báo thử nghiệm!';
+
+  @override
+  String get settingsTestNotificationCheck =>
+      'Kiểm tra thanh thông báo hệ thống.';
+
+  @override
+  String get settingsTestNotificationButton => 'Thử nghiệm thông báo ngay';
+
+  @override
+  String syncSuccessWithMedia(int deckCount, int cardCount, String media) {
+    return 'Đã tải thành công $deckCount bộ thẻ, $cardCount thẻ$media từ AnkiWeb.';
+  }
+
+  @override
+  String syncMediaCountPart(int count) {
+    return ' và $count tệp media';
+  }
+
+  @override
+  String syncMediaSyncedSuccess(int count) {
+    return 'Đã đồng bộ thành công $count tệp media từ AnkiWeb.';
+  }
+
+  @override
+  String get syncCollectionAndMediaUpToDate =>
+      'Dữ liệu bộ thẻ và media đã khớp với AnkiWeb Cloud.';
+
+  @override
+  String get syncFirstTime => 'Lần đồng bộ đầu tiên.';
+
+  @override
+  String get syncLocalChangesToPush =>
+      'Thiết bị này có tiến độ học mới cần đẩy lên AnkiWeb.';
+
+  @override
+  String get syncRemoteChangesToPull =>
+      'AnkiWeb có tiến độ học mới từ thiết bị khác cần kéo về.';
+
+  @override
+  String get syncAlreadyFullySynced =>
+      'Dữ liệu giữa thiết bị và AnkiWeb đã đồng bộ hoàn toàn.';
+
+  @override
+  String get syncUploadSuccess =>
+      'Đã tải thành công toàn bộ dữ liệu & lịch sử học lên AnkiWeb Cloud.';
+
+  @override
+  String get syncNoMediaChanges => 'Không có thay đổi media mới.';
+
+  @override
+  String get syncAllMediaUpToDate => 'Tất cả media đã được cập nhật.';
+
+  @override
+  String syncMediaDownloadedSuccess(int count) {
+    return 'Đã tải thành công $count tệp media từ AnkiWeb.';
+  }
+
+  @override
+  String syncServerError(int statusCode, String message) {
+    return 'Lỗi máy chủ AnkiWeb ($statusCode): $message';
+  }
+
+  @override
+  String syncCheckStatusServerError(int statusCode) {
+    return 'Lỗi kiểm tra trạng thái máy chủ ($statusCode).';
+  }
+
+  @override
+  String syncCheckError(String error) {
+    return 'Lỗi kiểm tra đồng bộ: $error';
+  }
+
+  @override
+  String syncUploadError(String error) {
+    return 'Lỗi tải lên AnkiWeb: $error';
+  }
+
+  @override
+  String syncMediaError(String error) {
+    return 'Lỗi đồng bộ media AnkiWeb: $error';
+  }
+
+  @override
+  String syncMediaBatchError(String range, int statusCode, String message) {
+    return 'Lỗi tải media batch ($range): $statusCode $message';
+  }
+
+  @override
+  String syncCollectionError(String error) {
+    return 'Lỗi đồng bộ AnkiWeb: $error';
+  }
 }

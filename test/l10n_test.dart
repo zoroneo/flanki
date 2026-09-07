@@ -36,6 +36,9 @@ void main() {
       expect(l10nEn.createDeckTitle, 'Create Deck');
       expect(l10nEn.deckCreatedSuccess, 'Deck Created');
       expect(l10nEn.deckCreatedSuccessDesc('Test'), 'Deck "Test" has been created.');
+      expect(l10nEn.trayOpenFlanki, 'Open Flanki');
+      expect(l10nEn.trayStudyNow, 'Study Now');
+      expect(l10nEn.trayExit, 'Quit Flanki');
     });
 
     test('Vietnamese translations load correctly', () async {
@@ -59,6 +62,9 @@ void main() {
       expect(l10nVi.createDeckTitle, 'Tạo bộ thẻ');
       expect(l10nVi.deckCreatedSuccess, 'Đã tạo bộ thẻ');
       expect(l10nVi.deckCreatedSuccessDesc('Test'), 'Bộ thẻ "Test" đã được tạo thành công.');
+      expect(l10nVi.trayOpenFlanki, 'Mở Flanki');
+      expect(l10nVi.trayStudyNow, 'Ôn tập ngay');
+      expect(l10nVi.trayExit, 'Thoát hoàn toàn');
     });
 
     test('LocaleNotifier can update and reset state', () async {

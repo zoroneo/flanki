@@ -106,4 +106,25 @@ native/**/target/
 !.env.example
 
 # FVM Version Cache
-.fvm/
+.fvm/flutter_sdk
+
+# Desktop Release & Packaging outputs
+flanki-*.zip
+flanki-*.tar.gz
+flanki-*.exe
+flanki-*.dmg
+flanki-*.AppImage
+flanki-*.deb
+packaging/**/Output/
+
+# Mobile release binaries
+*.apk
+*.aab
+*.ipa
+
+# OS specific files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+*.user
+*.suo

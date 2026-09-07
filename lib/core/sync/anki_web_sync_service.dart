@@ -1,11 +1,78 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' show Locale;
 import 'package:http/http.dart' as http;
 import 'anki_web_config.dart';
+import 'anki_web_media_sync_service.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../importer/apkg_importer_service.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
-import 'anki_web_media_sync_service.dart';
+
+class SyncProgressMessages {
+  final String connecting;
+  final String downloadingCollection;
+  final String processingData;
+  final String checkingMedia;
+  final String compressingUpload;
+  final String uploadingCloud;
+  final String uploadComplete;
+  final String sessionExpired;
+  final String noInternet;
+  final String conflictDetected;
+
+  const SyncProgressMessages({
+    this.connecting = 'Connecting to AnkiWeb...',
+    this.downloadingCollection = 'Downloading collection data from AnkiWeb...',
+    this.processingData = 'Processing cards & saving database...',
+    this.checkingMedia = 'Checking media files (images & audio)...',
+    this.compressingUpload = 'Compressing and preparing upload to AnkiWeb...',
+    this.uploadingCloud = 'Uploading data to AnkiWeb Cloud...',
+    this.uploadComplete = 'Upload complete!',
+    this.sessionExpired = 'AnkiWeb session expired. Please log in again.',
+    this.noInternet = 'No internet connection.',
+    this.conflictDetected = 'Conflict detected: Both AnkiWeb and this device have new study data.',
+  });
+
+  factory SyncProgressMessages.fromL10n(AppLocalizations l10n) {
+    return SyncProgressMessages(
+      connecting: l10n.syncConnecting,
+      downloadingCollection: l10n.syncDownloadingCollection,
+      processingData: l10n.syncProcessingData,
+      checkingMedia: l10n.syncCheckingMedia,
+      compressingUpload: l10n.syncCompressingUpload,
+      uploadingCloud: l10n.syncUploadingCloud,
+      uploadComplete: l10n.syncUploadComplete,
+      sessionExpired: l10n.syncSessionExpired,
+      noInternet: l10n.syncNoInternet,
+      conflictDetected: l10n.syncConflictDetected,
+    );
+  }
+}
+
+enum SyncActionRequired {
+  noChange,
+  download,
+  upload,
+  conflict,
+}
+
+class SyncStatusCheckResult {
+  final SyncActionRequired action;
+  final String message;
+  final DateTime? serverMod;
+  final DateTime? localLastSync;
+  final bool hasLocalChanges;
+
+  const SyncStatusCheckResult({
+    required this.action,
+    required this.message,
+    this.serverMod,
+    this.localLastSync,
+    this.hasLocalChanges = false,
+  });
+}
 
 class AnkiWebSyncResult {
   final bool success;
@@ -50,18 +117,38 @@ class AnkiWebSyncService {
   final http.Client _client;
   final AnkiWebConfig _config;
   final AnkiWebMediaSyncService _mediaSyncService;
+  final SyncProgressMessages _messages;
+  final AppLocalizations? _l10n;
 
   AnkiWebSyncService({
     http.Client? client,
     AnkiWebConfig? config,
     AnkiWebMediaSyncService? mediaSyncService,
+    SyncProgressMessages? messages,
+    AppLocalizations? l10n,
   })  : _client = client ?? http.Client(),
         _config = config ?? const AnkiWebConfig(),
+        _l10n = l10n,
+        _messages = messages ??
+            (l10n != null
+                ? SyncProgressMessages.fromL10n(l10n)
+                : const SyncProgressMessages()),
         _mediaSyncService = mediaSyncService ??
             AnkiWebMediaSyncService(
               client: client,
               config: config,
+              l10n: l10n,
             );
+
+  AppLocalizations get l10n {
+    if (_l10n != null) return _l10n;
+    try {
+      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      return lookupAppLocalizations(Locale(code));
+    } catch (_) {
+      return lookupAppLocalizations(const Locale('vi'));
+    }
+  }
 
   /// Synchronizes media files (images, audio) via /msync/ protocol.
   Future<MediaSyncResult> syncMedia({
@@ -88,7 +175,7 @@ class AnkiWebSyncService {
     void Function(int downloaded, int total)? onMediaProgress,
   }) async {
     try {
-      onProgress?.call('Đang kết nối AnkiWeb...', 0.1);
+      onProgress?.call(_messages.connecting, 0.1);
 
       // 1. Check meta / collection status
       final metaUri = Uri.parse('${_config.syncHost}/sync/meta');
@@ -104,15 +191,15 @@ class AnkiWebSyncService {
       final metaResponse = await http.Response.fromStream(metaStreamed);
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
-        return AnkiWebSyncResult.fail('Phiên đăng nhập AnkiWeb đã hết hạn. Vui lòng đăng nhập lại.');
+        return AnkiWebSyncResult.fail(_messages.sessionExpired);
       } else if (metaResponse.statusCode >= 400) {
         return AnkiWebSyncResult.fail(
-          'Lỗi máy chủ AnkiWeb (${metaResponse.statusCode}): ${metaResponse.reasonPhrase ?? "Lỗi không xác định"}',
+          l10n.syncServerError(metaResponse.statusCode, metaResponse.reasonPhrase ?? ''),
         );
       }
 
       // 2. Download collection package from sync server
-      onProgress?.call('Đang tải dữ liệu bộ thẻ từ AnkiWeb...', 0.3);
+      onProgress?.call(_messages.downloadingCollection, 0.3);
       final downloadUri = Uri.parse('${_config.syncHost}/sync/download');
       final downloadReq = http.MultipartRequest('POST', downloadUri);
       downloadReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
@@ -123,7 +210,7 @@ class AnkiWebSyncService {
       final downloadResponse = await http.Response.fromStream(downloadStreamed);
 
       if (downloadResponse.statusCode == 200 && downloadResponse.bodyBytes.isNotEmpty) {
-        onProgress?.call('Đang xử lý thẻ & lưu cơ sở dữ liệu...', 0.55);
+        onProgress?.call(_messages.processingData, 0.55);
         final bytes = downloadResponse.bodyBytes;
         // Parse collection package using ApkgImporterService
         final importer = ApkgImporterService();
@@ -131,7 +218,7 @@ class AnkiWebSyncService {
 
         int mediaCount = importResult.mediaCount;
         if (syncMediaFiles) {
-          onProgress?.call('Đang kiểm tra tệp media (ảnh & âm thanh)...', 0.65);
+          onProgress?.call(_messages.checkingMedia, 0.65);
           final mediaRes = await syncMedia(
             hostKey: hostKey,
             onProgress: (downloaded, total) {
@@ -139,9 +226,9 @@ class AnkiWebSyncService {
               if (total > 0) {
                 final ratio = (downloaded / total).clamp(0.0, 1.0);
                 final currentProgress = 0.65 + 0.3 * ratio;
-                onProgress?.call('Đang tải media ($downloaded/$total)...', currentProgress);
+                onProgress?.call(l10n.syncDownloadingMediaProgress(downloaded, total), currentProgress);
               } else {
-                onProgress?.call('Đang kiểm tra tệp media...', 0.7);
+                onProgress?.call(_messages.checkingMedia, 0.7);
               }
             },
           );
@@ -150,24 +237,24 @@ class AnkiWebSyncService {
           }
         }
 
-        onProgress?.call('Đồng bộ hoàn tất!', 1.0);
-        final mediaMsg = mediaCount > 0 ? ' và $mediaCount tệp media' : '';
+        onProgress?.call(_messages.uploadComplete, 1.0);
+        final mediaMsg = mediaCount > 0 ? l10n.syncMediaCountPart(mediaCount) : '';
         return AnkiWebSyncResult.ok(
-          message: 'Đã tải thành công ${importResult.decks.length} bộ thẻ, ${importResult.cards.length} thẻ$mediaMsg từ AnkiWeb.',
+          message: l10n.syncSuccessWithMedia(importResult.decks.length, importResult.cards.length, mediaMsg),
           decks: importResult.decks,
           cards: importResult.cards,
           mediaCount: mediaCount,
         );
       } else if (downloadResponse.statusCode == 403 || downloadResponse.statusCode == 401) {
-        return AnkiWebSyncResult.fail('Phiên đăng nhập AnkiWeb đã hết hạn. Vui lòng đăng nhập lại.');
+        return AnkiWebSyncResult.fail(_messages.sessionExpired);
       } else if (downloadResponse.statusCode >= 400) {
         return AnkiWebSyncResult.fail(
-          'Lỗi máy chủ AnkiWeb (${downloadResponse.statusCode}): ${downloadResponse.reasonPhrase ?? "Lỗi không xác định"}',
+          l10n.syncServerError(downloadResponse.statusCode, downloadResponse.reasonPhrase ?? ''),
         );
       } else {
         int mediaCount = 0;
         if (syncMediaFiles) {
-          onProgress?.call('Đang kiểm tra tệp media (ảnh & âm thanh)...', 0.65);
+          onProgress?.call(_messages.checkingMedia, 0.65);
           final mediaRes = await syncMedia(
             hostKey: hostKey,
             onProgress: (downloaded, total) {
@@ -175,28 +262,197 @@ class AnkiWebSyncService {
               if (total > 0) {
                 final ratio = (downloaded / total).clamp(0.0, 1.0);
                 final currentProgress = 0.65 + 0.3 * ratio;
-                onProgress?.call('Đang tải media ($downloaded/$total)...', currentProgress);
+                onProgress?.call(l10n.syncDownloadingMediaProgress(downloaded, total), currentProgress);
               } else {
-                onProgress?.call('Đang kiểm tra tệp media...', 0.7);
+                onProgress?.call(_messages.checkingMedia, 0.7);
               }
             },
           );
           if (mediaRes.success) {
-            mediaCount = mediaRes.downloadedCount;
+            mediaCount += mediaRes.downloadedCount;
           }
         }
-        onProgress?.call('Đồng bộ hoàn tất!', 1.0);
+        onProgress?.call(_messages.uploadComplete, 1.0);
         return AnkiWebSyncResult.ok(
           message: mediaCount > 0
-              ? 'Đã đồng bộ thành công $mediaCount tệp media từ AnkiWeb.'
-              : 'Dữ liệu bộ thẻ và media đã khớp với AnkiWeb Cloud.',
+              ? l10n.syncMediaSyncedSuccess(mediaCount)
+              : l10n.syncCollectionAndMediaUpToDate,
           mediaCount: mediaCount,
         );
       }
     } on SocketException catch (_) {
-      return AnkiWebSyncResult.fail('Không có kết nối mạng internet.');
+      return AnkiWebSyncResult.fail(_messages.noInternet);
     } catch (e) {
-      return AnkiWebSyncResult.fail('Lỗi đồng bộ AnkiWeb: $e');
+      return AnkiWebSyncResult.fail(l10n.syncCollectionError(e.toString()));
+    }
+  }
+
+  /// Checks whether local, remote, or both have changed since [lastSyncTime].
+  Future<SyncStatusCheckResult> checkSyncStatus({
+    required String hostKey,
+    required DateTime? lastSyncTime,
+    required bool hasLocalChanges,
+  }) async {
+    try {
+      final metaUri = Uri.parse('${_config.syncHost}/sync/meta');
+      final metaReq = http.MultipartRequest('POST', metaUri);
+      metaReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      metaReq.fields['c'] = '0';
+      metaReq.fields['k'] = hostKey;
+      metaReq.fields['data'] = jsonEncode({
+        'v': AnkiWebConfig.protocolVersion,
+        'cv': AnkiWebConfig.clientVersion,
+      });
+      final metaStreamed = await _client.send(metaReq).timeout(AnkiWebConfig.metaTimeout);
+      final metaResponse = await http.Response.fromStream(metaStreamed);
+
+      if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
+        return SyncStatusCheckResult(
+          action: SyncActionRequired.noChange,
+          message: _messages.sessionExpired,
+        );
+      } else if (metaResponse.statusCode >= 400) {
+        return SyncStatusCheckResult(
+          action: SyncActionRequired.noChange,
+          message: l10n.syncCheckStatusServerError(metaResponse.statusCode),
+        );
+      }
+
+      DateTime? serverMod;
+      try {
+        final decoded = jsonDecode(metaResponse.body);
+        final Map<String, dynamic> data = (decoded is Map<String, dynamic> && decoded['data'] is Map<String, dynamic>)
+            ? decoded['data'] as Map<String, dynamic>
+            : (decoded is Map<String, dynamic> ? decoded : {});
+
+        final modNum = data['mod'] as num? ?? data['scm'] as num?;
+        if (modNum != null) {
+          final modInt = modNum.toInt();
+          serverMod = modInt > 10000000000
+              ? DateTime.fromMillisecondsSinceEpoch(modInt)
+              : DateTime.fromMillisecondsSinceEpoch(modInt * 1000);
+        }
+      } catch (_) {}
+
+      // If never synced before
+      if (lastSyncTime == null) {
+        return SyncStatusCheckResult(
+          action: hasLocalChanges ? SyncActionRequired.conflict : SyncActionRequired.download,
+          message: l10n.syncFirstTime,
+          serverMod: serverMod,
+          localLastSync: lastSyncTime,
+          hasLocalChanges: hasLocalChanges,
+        );
+      }
+
+      final isServerNewer = serverMod != null &&
+          serverMod.isAfter(lastSyncTime.add(const Duration(seconds: 2)));
+
+      if (isServerNewer && hasLocalChanges) {
+        return SyncStatusCheckResult(
+          action: SyncActionRequired.conflict,
+          message: _messages.conflictDetected,
+          serverMod: serverMod,
+          localLastSync: lastSyncTime,
+          hasLocalChanges: true,
+        );
+      } else if (hasLocalChanges) {
+        return SyncStatusCheckResult(
+          action: SyncActionRequired.upload,
+          message: l10n.syncLocalChangesToPush,
+          serverMod: serverMod,
+          localLastSync: lastSyncTime,
+          hasLocalChanges: true,
+        );
+      } else if (isServerNewer) {
+        return SyncStatusCheckResult(
+          action: SyncActionRequired.download,
+          message: l10n.syncRemoteChangesToPull,
+          serverMod: serverMod,
+          localLastSync: lastSyncTime,
+          hasLocalChanges: false,
+        );
+      } else {
+        return SyncStatusCheckResult(
+          action: SyncActionRequired.noChange,
+          message: l10n.syncAlreadyFullySynced,
+          serverMod: serverMod,
+          localLastSync: lastSyncTime,
+          hasLocalChanges: false,
+        );
+      }
+    } catch (e) {
+      return SyncStatusCheckResult(
+        action: SyncActionRequired.noChange,
+        message: l10n.syncCheckError(e.toString()),
+      );
+    }
+  }
+
+  /// Uploads local collection database binary to AnkiWeb via /sync/upload.
+  Future<AnkiWebSyncResult> uploadCollection({
+    required String hostKey,
+    required Uint8List dbBytes,
+    bool syncMediaFiles = true,
+    void Function(String stage, double progress)? onProgress,
+    void Function(int downloaded, int total)? onMediaProgress,
+  }) async {
+    try {
+      onProgress?.call(_messages.compressingUpload, 0.3);
+
+      final uploadUri = Uri.parse('${_config.syncHost}/sync/upload');
+      final uploadReq = http.MultipartRequest('POST', uploadUri);
+      uploadReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      uploadReq.fields['c'] = '0';
+      uploadReq.fields['k'] = hostKey;
+      uploadReq.files.add(
+        http.MultipartFile.fromBytes(
+          'data',
+          dbBytes,
+          filename: 'collection.anki2',
+        ),
+      );
+
+      onProgress?.call(_messages.uploadingCloud, 0.6);
+      final streamed = await _client.send(uploadReq).timeout(AnkiWebConfig.downloadTimeout);
+      final response = await http.Response.fromStream(streamed);
+
+      if (response.statusCode == 200) {
+        int mediaCount = 0;
+        if (syncMediaFiles) {
+          onProgress?.call(_messages.checkingMedia, 0.8);
+          final mediaRes = await syncMedia(
+            hostKey: hostKey,
+            onProgress: (downloaded, total) {
+              onMediaProgress?.call(downloaded, total);
+              if (total > 0) {
+                final ratio = (downloaded / total).clamp(0.0, 1.0);
+                final currentProgress = 0.8 + 0.18 * ratio;
+                onProgress?.call(l10n.syncDownloadingMediaProgress(downloaded, total), currentProgress);
+              }
+            },
+          );
+          if (mediaRes.success) {
+            mediaCount += mediaRes.downloadedCount;
+          }
+        }
+
+        onProgress?.call(_messages.uploadComplete, 1.0);
+        return AnkiWebSyncResult.ok(
+          message: l10n.syncUploadSuccess,
+          mediaCount: mediaCount,
+        );
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        return AnkiWebSyncResult.fail(_messages.sessionExpired);
+      } else {
+        return AnkiWebSyncResult.fail(
+          l10n.syncServerError(response.statusCode, response.body),
+        );
+      }
+    } on SocketException catch (_) {
+      return AnkiWebSyncResult.fail(_messages.noInternet);
+    } catch (e) {
+      return AnkiWebSyncResult.fail(l10n.syncUploadError(e.toString()));
     }
   }
 }

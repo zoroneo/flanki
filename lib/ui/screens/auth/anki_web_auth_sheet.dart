@@ -4,9 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/auth/anki_web_auth_service.dart';
 import '../../../core/auth/auth_notifier.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/localization/locale_notifier.dart';
+import '../../../l10n/generated/app_localizations.dart';
 
 /// Ultra-streamlined minimalist AnkiWeb authentication modal bottom sheet.
 class AnkiWebAuthSheet extends HookConsumerWidget {
@@ -315,7 +317,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  authState.errorMessage!,
+                                  _getAuthErrorMessage(l10n, authState),
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: theme.colorScheme.destructive,
@@ -393,5 +395,24 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  String _getAuthErrorMessage(AppLocalizations l10n, AuthState state) {
+    switch (state.errorCode) {
+      case AuthErrorCode.emptyCredentials:
+        return l10n.authEmailPasswordEmpty;
+      case AuthErrorCode.invalidCredentials:
+        return l10n.authInvalidCredentials;
+      case AuthErrorCode.rateLimited:
+        return l10n.authTooManyAttempts;
+      case AuthErrorCode.invalidResponse:
+        return l10n.authServerResponseInvalid;
+      case AuthErrorCode.networkError:
+        return l10n.authNetworkError(state.errorMessage ?? '');
+      case AuthErrorCode.serverError:
+      case AuthErrorCode.unknown:
+      case null:
+        return state.errorMessage ?? l10n.authUnknownError('Unknown');
+    }
   }
 }

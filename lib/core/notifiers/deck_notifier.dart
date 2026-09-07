@@ -51,6 +51,7 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     required String filterTag,
     int cardLimit = 20,
     String mode = 'byTag',
+    String? description,
   }) {
     final encodedTag = Uri.encodeComponent(filterTag.isNotEmpty ? filterTag : 'all');
     final actualCount = DatabaseService.instance.countCardsForCustomStudy(
@@ -62,7 +63,7 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     final cramDeck = DeckModel(
       id: 'cram_${mode}_${encodedTag}_${cardLimit}_${DateTime.now().millisecondsSinceEpoch}',
       title: '⚡ Cram: $name${filterTag.isNotEmpty ? " (#$filterTag)" : ""}',
-      description: 'Bộ thẻ ôn tập đột xuất (Custom Study) không ảnh hưởng lịch FSRS chính.',
+      description: description ?? 'Bộ thẻ ôn tập đột xuất (Custom Study) không ảnh hưởng lịch FSRS chính.',
       dueCount: count,
       newCount: 0,
       totalCount: count,

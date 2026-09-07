@@ -1,3 +1,4 @@
+import '../config/app_config.dart';
 import '../fsrs/fsrs_engine_service.dart';
 import '../fsrs/sm2_engine_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'card_browser_notifier.dart';
 import 'deck_notifier.dart';
 import 'settings_notifier.dart';
 import 'stats_notifier.dart';
+import '../services/notification_service.dart';
 
 class StudySessionSnapshot {
   final List<CardModel> queue;
@@ -65,11 +67,12 @@ class StudySessionState {
 
     final List<CardModel> cards;
     if (deckId.startsWith('cram')) {
-      // Custom Study / Cram Deck: query matching cards
-      cards = DatabaseService.instance.getCustomStudyQueue(deckId: deckId, limit: 50);
+      // Custom Study / Cram Deck: query matching cards with resilient fallback
+      final fallbackLimit = settings?.maxReviewsPerDay ?? AppConfig.defaultCramLimit;
+      cards = DatabaseService.instance.getCustomStudyQueue(deckId: deckId, limit: fallbackLimit);
     } else {
-      final newLimit = settings?.newCardsPerDay ?? 20;
-      final reviewLimit = settings?.maxReviewsPerDay ?? 100;
+      final newLimit = settings?.newCardsPerDay ?? AppConfig.defaultNewCardsPerDay;
+      final reviewLimit = settings?.maxReviewsPerDay ?? AppConfig.defaultReviewsPerDay;
       cards = DatabaseService.instance.getStudyQueue(
         deckId,
         newLimit: newLimit,
@@ -175,6 +178,7 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     ref.read(statsNotifierProvider.notifier).refresh();
     ref.read(deckListProvider.notifier).refresh();
     ref.read(cardBrowserProvider.notifier).refresh();
+    NotificationService.instance.onStudyCompletedToday();
 
     final remainingQueue = List<CardModel>.from(state.queue);
     final finishedCount = state.completedCount + 1;

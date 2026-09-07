@@ -743,4 +743,357 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get syncingMedia => 'Syncing media files...';
+
+  @override
+  String get addCardButton => 'Add Card';
+
+  @override
+  String get clozeDeletion => 'Cloze Deletion';
+
+  @override
+  String get connected => 'Connected';
+
+  @override
+  String get offlineMode => 'Offline Mode';
+
+  @override
+  String get syncConflictTitle => 'AnkiWeb Sync Conflict';
+
+  @override
+  String get syncConflictDesc =>
+      'Both this device and AnkiWeb have new study progress or card changes since the last sync. The system cannot automatically merge two independent sessions.';
+
+  @override
+  String get previousSyncLabel => 'Previous sync:';
+
+  @override
+  String get ankiWebUpdateLabel => 'AnkiWeb update:';
+
+  @override
+  String get selectVersionToKeep =>
+      'Please select which version of data you want to keep:';
+
+  @override
+  String get uploadToCloudTitle => 'Upload to AnkiWeb (Overwrite Cloud)';
+
+  @override
+  String get uploadToCloudDesc =>
+      'Keep all progress and review history on this device and overwrite AnkiWeb Cloud.';
+
+  @override
+  String get downloadFromCloudTitle =>
+      'Download from AnkiWeb (Overwrite Device)';
+
+  @override
+  String get downloadFromCloudDesc =>
+      'Download all data from AnkiWeb Cloud and replace the local data on this device.';
+
+  @override
+  String get unknownTime => 'Unknown';
+
+  @override
+  String get preparingUpload => 'Preparing to upload to AnkiWeb...';
+
+  @override
+  String get connectingToAnkiWeb => 'Connecting to AnkiWeb...';
+
+  @override
+  String get updateAvailable => 'Update Available';
+
+  @override
+  String get updateChangelog => 'Release Notes:';
+
+  @override
+  String get downloadingUpdate => 'Downloading update installer...';
+
+  @override
+  String get later => 'Later';
+
+  @override
+  String get openDownloadPage => 'Open Download Page';
+
+  @override
+  String get restartAndInstall => 'Restart & Update';
+
+  @override
+  String get downloadAndInstall => 'Download & Update';
+
+  @override
+  String updateBannerTitle(String version) {
+    return 'A new update is available (v$version)';
+  }
+
+  @override
+  String get updateBannerSubtitle => 'Click to view details and update';
+
+  @override
+  String get updateAction => 'Update';
+
+  @override
+  String get checkingForUpdates => 'Checking...';
+
+  @override
+  String newVersionBadge(String version) {
+    return 'New v$version';
+  }
+
+  @override
+  String get latestVersionStatus => 'Up to date';
+
+  @override
+  String get checkForUpdates => 'Check';
+
+  @override
+  String get cramDeckDefaultDesc =>
+      'Cram study deck without affecting primary FSRS schedule.';
+
+  @override
+  String get importedDeckDefaultDesc => 'Imported from Anki package .apkg';
+
+  @override
+  String get authEmailPasswordEmpty => 'Email and password cannot be empty.';
+
+  @override
+  String get authInvalidCredentials => 'Incorrect AnkiWeb email or password.';
+
+  @override
+  String get authTooManyAttempts =>
+      'Too many login attempts. Please try again in a few minutes.';
+
+  @override
+  String get authServerResponseInvalid =>
+      'Invalid response from AnkiWeb server.';
+
+  @override
+  String authNetworkError(String error) {
+    return 'Cannot connect to AnkiWeb server. Please check your network: $error';
+  }
+
+  @override
+  String authUnknownError(String error) {
+    return 'AnkiWeb connection error: $error';
+  }
+
+  @override
+  String get syncConnecting => 'Connecting to AnkiWeb...';
+
+  @override
+  String get syncDownloadingCollection =>
+      'Downloading collection data from AnkiWeb...';
+
+  @override
+  String get syncProcessingData => 'Processing cards & saving database...';
+
+  @override
+  String get syncCheckingMedia => 'Checking media files (images & audio)...';
+
+  @override
+  String syncDownloadingMediaProgress(int downloaded, int total) {
+    return 'Downloading media ($downloaded/$total)...';
+  }
+
+  @override
+  String get syncCompressingUpload =>
+      'Compressing and preparing upload to AnkiWeb...';
+
+  @override
+  String get syncUploadingCloud => 'Uploading data to AnkiWeb Cloud...';
+
+  @override
+  String get syncUploadComplete => 'Upload complete!';
+
+  @override
+  String get syncSessionExpired =>
+      'AnkiWeb session expired. Please log in again.';
+
+  @override
+  String get syncNoInternet => 'No internet connection.';
+
+  @override
+  String get syncConflictDetected =>
+      'Conflict detected: Both AnkiWeb and this device have new study data.';
+
+  @override
+  String get trayOpenFlanki => 'Open Flanki';
+
+  @override
+  String get trayStudyNow => 'Study Now';
+
+  @override
+  String get trayExit => 'Quit Flanki';
+
+  @override
+  String get notificationDailyChannelName => 'Study Reminder';
+
+  @override
+  String get notificationDailyChannelDesc => 'Daily flashcard study reminders';
+
+  @override
+  String get notificationDailyTitle => 'Time to study with Flanki! 🦉';
+
+  @override
+  String notificationDailyBodyDue(int count) {
+    return 'You have $count cards waiting for review today. Review now to remember longer!';
+  }
+
+  @override
+  String get notificationDailyBodyGeneric =>
+      'Spend 5 minutes a day with Flanki to keep your memory sharp!';
+
+  @override
+  String get notificationStreakChannelName => 'Streak Saver';
+
+  @override
+  String get notificationStreakChannelDesc =>
+      'Urgent reminder before midnight to protect your study streak';
+
+  @override
+  String notificationStreakTitleActive(int count) {
+    return 'Save your $count-day streak! 🔥';
+  }
+
+  @override
+  String get notificationStreakTitleInactive => 'You haven\'t studied today! ⏳';
+
+  @override
+  String get notificationStreakBodyActive =>
+      'Only a few hours left before midnight! Study for 3 minutes to keep your streak.';
+
+  @override
+  String get notificationStreakBodyInactive =>
+      'Spend a few minutes before the day ends to start a new streak!';
+
+  @override
+  String get notificationTestTitle => 'Flanki: Test Notification 🚀';
+
+  @override
+  String get notificationTestBody => 'Notification system is working properly!';
+
+  @override
+  String get settingsStudyReminders => 'STUDY REMINDERS';
+
+  @override
+  String get settingsDailyReminder => 'Daily Study Reminder';
+
+  @override
+  String get settingsDailyReminderSubtitle =>
+      'Get notified on time to build and keep your flashcard study habit';
+
+  @override
+  String get settingsReminderTime => 'Reminder Time';
+
+  @override
+  String get settingsStreakSaver => 'Streak Saver 🔥';
+
+  @override
+  String get settingsStreakSaverSubtitle =>
+      'Urgent reminder before midnight if not yet studied. Automatically dismissed if studied today.';
+
+  @override
+  String get settingsMinimizeToTray => 'Minimize to System Tray';
+
+  @override
+  String get settingsMinimizeToTraySubtitle =>
+      'Closing the window (X) minimizes Flanki to tray to keep background reminder timers active.';
+
+  @override
+  String get settingsLaunchAtStartup => 'Launch at System Startup';
+
+  @override
+  String get settingsLaunchAtStartupSubtitle =>
+      'Automatically start Flanki in background when logging into your computer.';
+
+  @override
+  String get settingsTestNotificationSent => 'Test notification sent!';
+
+  @override
+  String get settingsTestNotificationCheck =>
+      'Check your system notification center or desktop toast.';
+
+  @override
+  String get settingsTestNotificationButton => 'Test Notification Now';
+
+  @override
+  String syncSuccessWithMedia(int deckCount, int cardCount, String media) {
+    return 'Successfully downloaded $deckCount decks, $cardCount cards$media from AnkiWeb.';
+  }
+
+  @override
+  String syncMediaCountPart(int count) {
+    return ' and $count media files';
+  }
+
+  @override
+  String syncMediaSyncedSuccess(int count) {
+    return 'Successfully synced $count media files from AnkiWeb.';
+  }
+
+  @override
+  String get syncCollectionAndMediaUpToDate =>
+      'Deck collection and media are already in sync with AnkiWeb Cloud.';
+
+  @override
+  String get syncFirstTime => 'First-time initial sync.';
+
+  @override
+  String get syncLocalChangesToPush =>
+      'This device has new study progress ready to push to AnkiWeb.';
+
+  @override
+  String get syncRemoteChangesToPull =>
+      'AnkiWeb has newer study progress from another device ready to pull.';
+
+  @override
+  String get syncAlreadyFullySynced =>
+      'Data between this device and AnkiWeb is already fully synchronized.';
+
+  @override
+  String get syncUploadSuccess =>
+      'Successfully uploaded all collection data & review history to AnkiWeb Cloud.';
+
+  @override
+  String get syncNoMediaChanges => 'No new media changes.';
+
+  @override
+  String get syncAllMediaUpToDate => 'All media files are up to date.';
+
+  @override
+  String syncMediaDownloadedSuccess(int count) {
+    return 'Successfully downloaded $count media files from AnkiWeb.';
+  }
+
+  @override
+  String syncServerError(int statusCode, String message) {
+    return 'AnkiWeb server error ($statusCode): $message';
+  }
+
+  @override
+  String syncCheckStatusServerError(int statusCode) {
+    return 'Server status check error ($statusCode).';
+  }
+
+  @override
+  String syncCheckError(String error) {
+    return 'Sync check error: $error';
+  }
+
+  @override
+  String syncUploadError(String error) {
+    return 'AnkiWeb upload error: $error';
+  }
+
+  @override
+  String syncMediaError(String error) {
+    return 'AnkiWeb media sync error: $error';
+  }
+
+  @override
+  String syncMediaBatchError(String range, int statusCode, String message) {
+    return 'Media batch download error ($range): $statusCode $message';
+  }
+
+  @override
+  String syncCollectionError(String error) {
+    return 'AnkiWeb sync error: $error';
+  }
 }

@@ -10,8 +10,15 @@ import '../../../core/localization/locale_notifier.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/notifiers/settings_notifier.dart';
+import '../../../core/notifiers/update_notifier.dart';
+import '../../../core/services/desktop_update_service.dart';
+import '../../../core/services/desktop_window_service.dart';
+import '../../../core/services/notification_service.dart';
+import '../../../core/storage/database_service.dart';
 import '../../../core/sync/anki_web_sync_service.dart';
+import '../../widgets/sync_conflict_dialog.dart';
 import '../../widgets/sync_progress_toast.dart';
+import '../../widgets/update_dialog.dart';
 import '../auth/anki_web_auth_sheet.dart';
 
 class SettingsScreen extends HookConsumerWidget {
@@ -28,6 +35,8 @@ class SettingsScreen extends HookConsumerWidget {
     final studySettings = ref.watch(studySettingsProvider);
     final studySettingsNotifier = ref.read(studySettingsProvider.notifier);
     final isFsrsEnabled = studySettings.fsrsEnabled;
+    final updateState = ref.watch(updateProvider);
+    final updateNotifier = ref.read(updateProvider.notifier);
 
     final isVi = currentLocale?.languageCode == 'vi';
     final isEn = currentLocale?.languageCode == 'en';
@@ -42,10 +51,46 @@ class SettingsScreen extends HookConsumerWidget {
       }
 
       isSyncing.value = true;
+      final syncService = AnkiWebSyncService(
+        messages: SyncProgressMessages.fromL10n(l10n),
+      );
+
+      // 1. Check local changes against last sync timestamp
+      final lastSyncTime = authState.lastSyncedAt;
+      final hasLocalChanges =
+          DatabaseService.instance.hasLocalChangesSince(lastSyncTime);
+
+      final check = await syncService.checkSyncStatus(
+        hostKey: authState.hostKey!,
+        lastSyncTime: lastSyncTime,
+        hasLocalChanges: hasLocalChanges,
+      );
+
+      SyncConflictChoice? choice;
+      if (check.action == SyncActionRequired.conflict) {
+        if (!context.mounted) {
+          isSyncing.value = false;
+          return;
+        }
+        choice = await SyncConflictDialog.show(
+          context,
+          localLastSync: check.localLastSync,
+          serverMod: check.serverMod,
+        );
+        if (choice == null) {
+          isSyncing.value = false;
+          return;
+        }
+      }
+
+      final shouldUpload = choice == SyncConflictChoice.upload ||
+          (choice == null && check.action == SyncActionRequired.upload);
+
       final statusNotifier = ValueNotifier<SyncProgressStatus>(
         SyncProgressStatus(
           title: l10n.syncAnkiWeb,
-          message: 'Đang chuẩn bị kết nối...',
+          message:
+              shouldUpload ? l10n.preparingUpload : l10n.connectingToAnkiWeb,
           progress: 0.05,
         ),
       );
@@ -59,16 +104,32 @@ class SettingsScreen extends HookConsumerWidget {
       }
 
       try {
-        final syncResult = await AnkiWebSyncService().syncCollection(
-          hostKey: authState.hostKey!,
-          onProgress: (stage, progress) {
-            statusNotifier.value = SyncProgressStatus(
-              title: l10n.syncAnkiWeb,
-              message: stage,
-              progress: progress,
-            );
-          },
-        );
+        final AnkiWebSyncResult syncResult;
+        if (shouldUpload) {
+          final dbBytes = await DatabaseService.instance.exportToAnki2Db();
+          syncResult = await syncService.uploadCollection(
+            hostKey: authState.hostKey!,
+            dbBytes: dbBytes,
+            onProgress: (stage, progress) {
+              statusNotifier.value = SyncProgressStatus(
+                title: l10n.syncAnkiWeb,
+                message: stage,
+                progress: progress,
+              );
+            },
+          );
+        } else {
+          syncResult = await syncService.syncCollection(
+            hostKey: authState.hostKey!,
+            onProgress: (stage, progress) {
+              statusNotifier.value = SyncProgressStatus(
+                title: l10n.syncAnkiWeb,
+                message: stage,
+                progress: progress,
+              );
+            },
+          );
+        }
 
         if (!context.mounted) return;
 
@@ -179,10 +240,10 @@ class SettingsScreen extends HookConsumerWidget {
                               Text(
                                 authState.isAuthenticated
                                     ? (authState.lastSyncedAt != null
-                                          ? l10n.syncedAt(
-                                              '${authState.lastSyncedAt!.hour.toString().padLeft(2, '0')}:${authState.lastSyncedAt!.minute.toString().padLeft(2, '0')}',
-                                            )
-                                          : l10n.readyToSync)
+                                        ? l10n.syncedAt(
+                                            '${authState.lastSyncedAt!.hour.toString().padLeft(2, '0')}:${authState.lastSyncedAt!.minute.toString().padLeft(2, '0')}',
+                                          )
+                                        : l10n.readyToSync)
                                     : l10n.loginToSyncHint,
                                 style: theme.typography.xSmall.copyWith(
                                   color: theme.colorScheme.mutedForeground,
@@ -437,7 +498,7 @@ class SettingsScreen extends HookConsumerWidget {
                         children: [0.80, 0.85, 0.90, 0.95].map((rate) {
                           final isSelected =
                               (studySettings.desiredRetention - rate).abs() <
-                              0.001;
+                                  0.001;
                           return Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -524,6 +585,243 @@ class SettingsScreen extends HookConsumerWidget {
               ),
               const SizedBox(height: 24),
 
+              // Study Reminders (Duolingo Style)
+              Text(
+                l10n.settingsStudyReminders,
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Card(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.settingsDailyReminder,
+                                style: theme.typography.semiBold,
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                l10n.settingsDailyReminderSubtitle,
+                                style: theme.typography.xSmall.copyWith(
+                                  color: theme.colorScheme.mutedForeground,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Switch(
+                          value: studySettings.reminderEnabled,
+                          onChanged: (val) {
+                            studySettingsNotifier.toggleReminder(val);
+                          },
+                        ),
+                      ],
+                    ),
+                    if (studySettings.reminderEnabled) ...[
+                      const SizedBox(height: 16),
+                      Text(
+                        l10n.settingsReminderTime,
+                        style: theme.typography.small.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          [19, 0],
+                          [20, 0],
+                          [21, 0],
+                          [22, 0],
+                        ].map((time) {
+                          final hour = time[0];
+                          final min = time[1];
+                          final label =
+                              '${hour.toString().padLeft(2, '0')}:${min.toString().padLeft(2, '0')}';
+                          final isSelected =
+                              studySettings.reminderHour == hour &&
+                                  studySettings.reminderMinute == min;
+                          return Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3),
+                              child: _LanguageOptionButton(
+                                label: label,
+                                isSelected: isSelected,
+                                onTap: () => studySettingsNotifier
+                                    .setReminderTime(hour, min),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 16),
+                      const Divider(),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(l10n.settingsStreakSaver),
+                                    const SizedBox(width: 6),
+                                    const Text(
+                                      '(22:30)',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  l10n.settingsStreakSaverSubtitle,
+                                  style: theme.typography.xSmall.copyWith(
+                                    color: theme.colorScheme.mutedForeground,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Switch(
+                            value: studySettings.streakSaverEnabled,
+                            onChanged: (val) {
+                              studySettingsNotifier.toggleStreakSaver(val);
+                            },
+                          ),
+                        ],
+                      ),
+                      if (DesktopWindowService.isDesktop) ...[
+                        const SizedBox(height: 16),
+                        const Divider(),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    l10n.settingsMinimizeToTray,
+                                    style: theme.typography.semiBold,
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    l10n.settingsMinimizeToTraySubtitle,
+                                    style: theme.typography.xSmall.copyWith(
+                                      color: theme.colorScheme.mutedForeground,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Switch(
+                              value: studySettings.minimizeToTrayOnClose,
+                              onChanged: (val) {
+                                studySettingsNotifier.toggleMinimizeToTray(val);
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        const Divider(),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    l10n.settingsLaunchAtStartup,
+                                    style: theme.typography.semiBold,
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    l10n.settingsLaunchAtStartupSubtitle,
+                                    style: theme.typography.xSmall.copyWith(
+                                      color: theme.colorScheme.mutedForeground,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Switch(
+                              value: studySettings.launchAtStartup,
+                              onChanged: (val) {
+                                studySettingsNotifier
+                                    .toggleLaunchAtStartup(val);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                      const SizedBox(height: 16),
+                      const Divider(),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 36,
+                        child: OutlineButton(
+                          onPressed: () async {
+                            await NotificationService.instance
+                                .showInstantTestNotification();
+                            if (context.mounted) {
+                              showToast(
+                                context: context,
+                                builder: (context, overlay) {
+                                  return SurfaceCard(
+                                    child: Basic(
+                                      title: Text(
+                                          l10n.settingsTestNotificationSent),
+                                      subtitle: Text(
+                                          l10n.settingsTestNotificationCheck),
+                                      trailing: IconButton.ghost(
+                                        icon: const Icon(LucideIcons.x),
+                                        onPressed: () => overlay.close(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(LucideIcons.bell, size: 15),
+                              const SizedBox(width: 8),
+                              Text(l10n.settingsTestNotificationButton),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+
               // System / Core Info
               Text(
                 l10n.aboutSection,
@@ -550,7 +848,22 @@ class SettingsScreen extends HookConsumerWidget {
                       value: isFsrsEnabled ? 'FSRS v5' : 'SM-2',
                     ),
                     const Divider(),
-                    _InfoRow(label: l10n.appVersion, value: AppConfig.version),
+                    _VersionInfoRow(
+                      label: l10n.appVersion,
+                      version: AppConfig.version,
+                      updateState: updateState,
+                      onCheckUpdate: () async {
+                        final info = await updateNotifier.checkForUpdates();
+                        if (info != null && info.hasUpdate && context.mounted) {
+                          UpdateDialog.show(context, info);
+                        }
+                      },
+                      onShowDialog: () {
+                        if (updateState.updateInfo != null && context.mounted) {
+                          UpdateDialog.show(context, updateState.updateInfo!);
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -646,6 +959,121 @@ class _InfoRow extends StatelessWidget {
               style: theme.typography.small.copyWith(
                 fontWeight: FontWeight.w600,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _VersionInfoRow extends StatelessWidget {
+  final String label;
+  final String version;
+  final UpdateState updateState;
+  final VoidCallback onCheckUpdate;
+  final VoidCallback onShowDialog;
+
+  const _VersionInfoRow({
+    required this.label,
+    required this.version,
+    required this.updateState,
+    required this.onCheckUpdate,
+    required this.onShowDialog,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+    final isDesktop = DesktopUpdateService.isDesktop;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Text(
+              label,
+              style: theme.typography.small.copyWith(
+                color: theme.colorScheme.mutedForeground,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            flex: 6,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  version,
+                  style: theme.typography.small.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                if (isDesktop) ...[
+                  const SizedBox(width: 8),
+                  if (updateState.status == UpdateStatus.checking) ...[
+                    Text(
+                      l10n.checkingForUpdates,
+                      style: theme.typography.xSmall.copyWith(
+                        color: theme.colorScheme.mutedForeground,
+                      ),
+                    ),
+                  ] else if (updateState.status == UpdateStatus.available) ...[
+                    GestureDetector(
+                      onTap: onShowDialog,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(LucideIcons.circleArrowUp, size: 12),
+                            const SizedBox(width: 4),
+                            Text(
+                              l10n.newVersionBadge(
+                                  updateState.updateInfo?.latestVersion ?? ''),
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.primaryForeground,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ] else if (updateState.status == UpdateStatus.upToDate) ...[
+                    GestureDetector(
+                      onTap: onCheckUpdate,
+                      child: Text(
+                        l10n.latestVersionStatus,
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colorScheme.mutedForeground,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ] else ...[
+                    GestureDetector(
+                      onTap: onCheckUpdate,
+                      child: Text(
+                        l10n.checkForUpdates,
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colorScheme.primary,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ],
             ),
           ),
         ],

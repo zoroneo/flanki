@@ -407,6 +407,219 @@
   "showAnswer": "Show Answer",
   "hideAnswer": "Hide Answer",
   "syncMediaOnly": "Sync Media (Images & Audio)",
-  "syncingMedia": "Syncing media files..."
+  "syncingMedia": "Syncing media files...",
+  "addCardButton": "Add Card",
+  "clozeDeletion": "Cloze Deletion",
+  "connected": "Connected",
+  "offlineMode": "Offline Mode",
+  "syncConflictTitle": "AnkiWeb Sync Conflict",
+  "syncConflictDesc": "Both this device and AnkiWeb have new study progress or card changes since the last sync. The system cannot automatically merge two independent sessions.",
+  "previousSyncLabel": "Previous sync:",
+  "ankiWebUpdateLabel": "AnkiWeb update:",
+  "selectVersionToKeep": "Please select which version of data you want to keep:",
+  "uploadToCloudTitle": "Upload to AnkiWeb (Overwrite Cloud)",
+  "uploadToCloudDesc": "Keep all progress and review history on this device and overwrite AnkiWeb Cloud.",
+  "downloadFromCloudTitle": "Download from AnkiWeb (Overwrite Device)",
+  "downloadFromCloudDesc": "Download all data from AnkiWeb Cloud and replace the local data on this device.",
+  "unknownTime": "Unknown",
+  "preparingUpload": "Preparing to upload to AnkiWeb...",
+  "connectingToAnkiWeb": "Connecting to AnkiWeb...",
+  "updateAvailable": "Update Available",
+  "updateChangelog": "Release Notes:",
+  "downloadingUpdate": "Downloading update installer...",
+  "later": "Later",
+  "openDownloadPage": "Open Download Page",
+  "restartAndInstall": "Restart & Update",
+  "downloadAndInstall": "Download & Update",
+  "updateBannerTitle": "A new update is available (v{version})",
+  "@updateBannerTitle": {
+    "description": "Title of update banner toast",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.1.0"
+      }
+    }
+  },
+  "updateBannerSubtitle": "Click to view details and update",
+  "updateAction": "Update",
+  "checkingForUpdates": "Checking...",
+  "newVersionBadge": "New v{version}",
+  "@newVersionBadge": {
+    "description": "New version badge",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.1.0"
+      }
+    }
+  },
+  "latestVersionStatus": "Up to date",
+  "checkForUpdates": "Check",
+  "cramDeckDefaultDesc": "Cram study deck without affecting primary FSRS schedule.",
+  "importedDeckDefaultDesc": "Imported from Anki package .apkg",
+  "authEmailPasswordEmpty": "Email and password cannot be empty.",
+  "authInvalidCredentials": "Incorrect AnkiWeb email or password.",
+  "authTooManyAttempts": "Too many login attempts. Please try again in a few minutes.",
+  "authServerResponseInvalid": "Invalid response from AnkiWeb server.",
+  "authNetworkError": "Cannot connect to AnkiWeb server. Please check your network: {error}",
+  "@authNetworkError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "authUnknownError": "AnkiWeb connection error: {error}",
+  "@authUnknownError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "syncConnecting": "Connecting to AnkiWeb...",
+  "syncDownloadingCollection": "Downloading collection data from AnkiWeb...",
+  "syncProcessingData": "Processing cards & saving database...",
+  "syncCheckingMedia": "Checking media files (images & audio)...",
+  "syncDownloadingMediaProgress": "Downloading media ({downloaded}/{total})...",
+  "@syncDownloadingMediaProgress": {
+    "placeholders": {
+      "downloaded": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "syncCompressingUpload": "Compressing and preparing upload to AnkiWeb...",
+  "syncUploadingCloud": "Uploading data to AnkiWeb Cloud...",
+  "syncUploadComplete": "Upload complete!",
+  "syncSessionExpired": "AnkiWeb session expired. Please log in again.",
+  "syncNoInternet": "No internet connection.",
+  "syncConflictDetected": "Conflict detected: Both AnkiWeb and this device have new study data.",
+  "trayOpenFlanki": "Open Flanki",
+  "trayStudyNow": "Study Now",
+  "trayExit": "Quit Flanki",
+  "notificationDailyChannelName": "Study Reminder",
+  "notificationDailyChannelDesc": "Daily flashcard study reminders",
+  "notificationDailyTitle": "Time to study with Flanki! 🦉",
+  "notificationDailyBodyDue": "You have {count} cards waiting for review today. Review now to remember longer!",
+  "@notificationDailyBodyDue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationDailyBodyGeneric": "Spend 5 minutes a day with Flanki to keep your memory sharp!",
+  "notificationStreakChannelName": "Streak Saver",
+  "notificationStreakChannelDesc": "Urgent reminder before midnight to protect your study streak",
+  "notificationStreakTitleActive": "Save your {count}-day streak! 🔥",
+  "@notificationStreakTitleActive": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationStreakTitleInactive": "You haven''t studied today! ⏳",
+  "notificationStreakBodyActive": "Only a few hours left before midnight! Study for 3 minutes to keep your streak.",
+  "notificationStreakBodyInactive": "Spend a few minutes before the day ends to start a new streak!",
+  "notificationTestTitle": "Flanki: Test Notification 🚀",
+  "notificationTestBody": "Notification system is working properly!",
+  "settingsStudyReminders": "STUDY REMINDERS",
+  "settingsDailyReminder": "Daily Study Reminder",
+  "settingsDailyReminderSubtitle": "Get notified on time to build and keep your flashcard study habit",
+  "settingsReminderTime": "Reminder Time",
+  "settingsStreakSaver": "Streak Saver 🔥",
+  "settingsStreakSaverSubtitle": "Urgent reminder before midnight if not yet studied. Automatically dismissed if studied today.",
+  "settingsMinimizeToTray": "Minimize to System Tray",
+  "settingsMinimizeToTraySubtitle": "Closing the window (X) minimizes Flanki to tray to keep background reminder timers active.",
+  "settingsLaunchAtStartup": "Launch at System Startup",
+  "settingsLaunchAtStartupSubtitle": "Automatically start Flanki in background when logging into your computer.",
+  "settingsTestNotificationSent": "Test notification sent!",
+  "settingsTestNotificationCheck": "Check your system notification center or desktop toast.",
+  "settingsTestNotificationButton": "Test Notification Now",
+  "syncSuccessWithMedia": "Successfully downloaded {deckCount} decks, {cardCount} cards{media} from AnkiWeb.",
+  "@syncSuccessWithMedia": {
+    "placeholders": {
+      "deckCount": {"type": "int"},
+      "cardCount": {"type": "int"},
+      "media": {"type": "String"}
+    }
+  },
+  "syncMediaCountPart": " and {count} media files",
+  "@syncMediaCountPart": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "syncMediaSyncedSuccess": "Successfully synced {count} media files from AnkiWeb.",
+  "@syncMediaSyncedSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "syncCollectionAndMediaUpToDate": "Deck collection and media are already in sync with AnkiWeb Cloud.",
+  "syncFirstTime": "First-time initial sync.",
+  "syncLocalChangesToPush": "This device has new study progress ready to push to AnkiWeb.",
+  "syncRemoteChangesToPull": "AnkiWeb has newer study progress from another device ready to pull.",
+  "syncAlreadyFullySynced": "Data between this device and AnkiWeb is already fully synchronized.",
+  "syncUploadSuccess": "Successfully uploaded all collection data & review history to AnkiWeb Cloud.",
+  "syncNoMediaChanges": "No new media changes.",
+  "syncAllMediaUpToDate": "All media files are up to date.",
+  "syncMediaDownloadedSuccess": "Successfully downloaded {count} media files from AnkiWeb.",
+  "@syncMediaDownloadedSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "syncServerError": "AnkiWeb server error ({statusCode}): {message}",
+  "@syncServerError": {
+    "placeholders": {
+      "statusCode": {"type": "int"},
+      "message": {"type": "String"}
+    }
+  },
+  "syncCheckStatusServerError": "Server status check error ({statusCode}).",
+  "@syncCheckStatusServerError": {
+    "placeholders": {
+      "statusCode": {"type": "int"}
+    }
+  },
+  "syncCheckError": "Sync check error: {error}",
+  "@syncCheckError": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "syncUploadError": "AnkiWeb upload error: {error}",
+  "@syncUploadError": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "syncMediaError": "AnkiWeb media sync error: {error}",
+  "@syncMediaError": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "syncMediaBatchError": "Media batch download error ({range}): {statusCode} {message}",
+  "@syncMediaBatchError": {
+    "placeholders": {
+      "range": {"type": "String"},
+      "statusCode": {"type": "int"},
+      "message": {"type": "String"}
+    }
+  },
+  "syncCollectionError": "AnkiWeb sync error: {error}",
+  "@syncCollectionError": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  }
 }
 
