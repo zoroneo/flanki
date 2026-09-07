@@ -163,6 +163,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openSourceLicenses => 'Open Source Licenses';
 
   @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
   String get searchLicensesPlaceholder => 'Search packages...';
 
   @override

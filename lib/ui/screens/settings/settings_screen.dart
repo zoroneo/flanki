@@ -14,9 +14,9 @@ import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/notifiers/update_notifier.dart';
 import '../../../core/services/desktop_update_service.dart';
 import '../../../core/services/desktop_window_service.dart';
-import '../../../core/services/notification_service.dart';
 import '../../../core/storage/database_service.dart';
 import '../../../core/sync/anki_web_sync_service.dart';
+import '../../../core/theme/theme_notifier.dart';
 import '../../widgets/sync_conflict_dialog.dart';
 import '../../widgets/sync_progress_toast.dart';
 import '../../widgets/update_dialog.dart';
@@ -33,6 +33,8 @@ class SettingsScreen extends HookConsumerWidget {
     final l10n = context.l10n;
     final currentLocale = ref.watch(localeNotifierProvider);
     final localeNotifier = ref.read(localeNotifierProvider.notifier);
+    final themeMode = ref.watch(themeNotifierProvider);
+    final themeNotifier = ref.read(themeNotifierProvider.notifier);
     final studySettings = ref.watch(studySettingsProvider);
     final studySettingsNotifier = ref.read(studySettingsProvider.notifier);
     final isFsrsEnabled = studySettings.fsrsEnabled;
@@ -434,6 +436,63 @@ class SettingsScreen extends HookConsumerWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 16),
+                    const Divider(),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        const Icon(LucideIcons.sunMoon, size: 20),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.appearance,
+                                style: theme.typography.semiBold,
+                              ),
+                              Text(
+                                l10n.appearanceSubtitle,
+                                style: theme.typography.xSmall.copyWith(
+                                  color: theme.colorScheme.mutedForeground,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _LanguageOptionButton(
+                            label: l10n.themeLight,
+                            isSelected: themeMode == ThemeMode.light,
+                            onTap: () =>
+                                themeNotifier.setThemeMode(ThemeMode.light),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _LanguageOptionButton(
+                            label: l10n.themeDark,
+                            isSelected: themeMode == ThemeMode.dark,
+                            onTap: () =>
+                                themeNotifier.setThemeMode(ThemeMode.dark),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _LanguageOptionButton(
+                            label: l10n.themeSystem,
+                            isSelected: themeMode == ThemeMode.system,
+                            onTap: () =>
+                                themeNotifier.setThemeMode(ThemeMode.system),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -777,46 +836,6 @@ class SettingsScreen extends HookConsumerWidget {
                           ],
                         ),
                       ],
-                      const SizedBox(height: 16),
-                      const Divider(),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 36,
-                        child: OutlineButton(
-                          onPressed: () async {
-                            await NotificationService.instance
-                                .showInstantTestNotification();
-                            if (context.mounted) {
-                              showToast(
-                                context: context,
-                                builder: (context, overlay) {
-                                  return SurfaceCard(
-                                    child: Basic(
-                                      title: Text(
-                                          l10n.settingsTestNotificationSent),
-                                      subtitle: Text(
-                                          l10n.settingsTestNotificationCheck),
-                                      trailing: IconButton.ghost(
-                                        icon: const Icon(LucideIcons.x),
-                                        onPressed: () => overlay.close(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(LucideIcons.bell, size: 15),
-                              const SizedBox(width: 8),
-                              Text(l10n.settingsTestNotificationButton),
-                            ],
-                          ),
-                        ),
-                      ),
                     ],
                   ],
                 ),
@@ -842,7 +861,17 @@ class SettingsScreen extends HookConsumerWidget {
                           : l10n.dartCoreEngine,
                     ),
                     const Divider(),
-                    _InfoRow(label: l10n.appearance, value: l10n.themeZinc),
+                    _InfoRow(
+                      label: l10n.appearance,
+                      value: switch (themeMode) {
+                        ThemeMode.light =>
+                          '${l10n.themeLight} (${l10n.themeZinc})',
+                        ThemeMode.dark =>
+                          '${l10n.themeDark} (${l10n.themeZinc})',
+                        ThemeMode.system =>
+                          '${l10n.themeSystem} (${l10n.themeZinc})',
+                      },
+                    ),
                     const Divider(),
                     _InfoRow(
                       label: l10n.algorithmLabel,
@@ -869,6 +898,11 @@ class SettingsScreen extends HookConsumerWidget {
                     _ClickableInfoRow(
                       label: l10n.openSourceLicenses,
                       onTap: () => context.push('/licenses'),
+                    ),
+                    const Divider(),
+                    _ClickableInfoRow(
+                      label: l10n.privacyPolicy,
+                      onTap: () => context.push('/privacy-policy'),
                     ),
                   ],
                 ),

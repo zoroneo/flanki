@@ -163,6 +163,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get openSourceLicenses => 'Giấy phép mã nguồn mở';
 
   @override
+  String get privacyPolicy => 'Chính sách quyền riêng tư';
+
+  @override
   String get searchLicensesPlaceholder => 'Tìm kiếm gói thư viện...';
 
   @override

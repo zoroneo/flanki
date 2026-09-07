@@ -67,6 +67,7 @@
   "aboutSection": "ABOUT FLANKI",
   "appVersion": "App Version",
   "openSourceLicenses": "Open Source Licenses",
+  "privacyPolicy": "Privacy Policy",
   "searchLicensesPlaceholder": "Search packages...",
   "thirdPartyLicenses": "Third-Party Packages ({count})",
   "@thirdPartyLicenses": {

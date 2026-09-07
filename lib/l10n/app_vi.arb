@@ -55,6 +55,7 @@
   "aboutSection": "THÔNG TIN HỆ THỐNG",
   "appVersion": "Phiên bản ứng dụng",
   "openSourceLicenses": "Giấy phép mã nguồn mở",
+  "privacyPolicy": "Chính sách quyền riêng tư",
   "searchLicensesPlaceholder": "Tìm kiếm gói thư viện...",
   "thirdPartyLicenses": "Thư viện bên thứ ba ({count})",
   "noLicensesFound": "Không tìm thấy thư viện phù hợp",

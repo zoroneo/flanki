@@ -392,6 +392,12 @@ abstract class AppLocalizations {
   /// **'Open Source Licenses'**
   String get openSourceLicenses;
 
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
   /// No description provided for @searchLicensesPlaceholder.
   ///
   /// In en, this message translates to:

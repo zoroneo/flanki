@@ -136,8 +136,15 @@ Flanki is an independent, open-source project and is not affiliated with, endors
 
 ---
 
+## 🔒 Privacy Policy
+
+We value your privacy. Flanki is local-first and does not track or collect personal analytics. Read our complete [Privacy Policy](PRIVACY_POLICY.md) for details.
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 
 
