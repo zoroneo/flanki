@@ -197,23 +197,39 @@ class CardActionSheet extends HookWidget {
                   children: [
                     Expanded(
                       child: OutlineButton(
+                        alignment: Alignment.center,
                         onPressed: () {
                           onBury();
                           Navigator.of(context).pop();
                         },
-                        leading: const Icon(LucideIcons.clock, size: 16),
-                        child: Text(l10n.buryCard),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(LucideIcons.clock, size: 16),
+                            const SizedBox(width: 8),
+                            Text(l10n.buryCard),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: OutlineButton(
+                        alignment: Alignment.center,
                         onPressed: () {
                           onSuspend();
                           Navigator.of(context).pop();
                         },
-                        leading: const Icon(LucideIcons.pause, size: 16),
-                        child: Text(l10n.suspendCard),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(LucideIcons.pause, size: 16),
+                            const SizedBox(width: 8),
+                            Text(l10n.suspendCard),
+                          ],
+                        ),
                       ),
                     ),
                   ],

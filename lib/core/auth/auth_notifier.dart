@@ -79,7 +79,7 @@ class AuthNotifier extends Notifier<AuthState> {
       return true;
     } else {
       state = AuthState.error(
-        result.error ?? 'Đăng nhập AnkiWeb thất bại.',
+        result.error ?? _authService.l10n.authFailed,
         errorCode: result.errorCode,
         email: email,
       );

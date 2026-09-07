@@ -139,7 +139,7 @@ class RichCardContent extends HookWidget {
                             child: Image.file(
                               file,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => _buildMissingMediaBadge(theme, filename),
+                              errorBuilder: (_, _, _) => _buildMissingMediaBadge(theme, filename),
                             ),
                           ),
                         ),

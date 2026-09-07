@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:typed_data';
+import 'dart:ui' show Locale;
 import 'package:archive/archive.dart';
 import 'package:flanki/core/fsrs/fsrs_engine_service.dart';
 import 'package:flanki/core/importer/anki_template_engine.dart';
 import 'package:flanki/core/importer/apkg_importer_service.dart';
 import 'package:flanki/core/models/card.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqlite3/sqlite3.dart';
 
@@ -124,9 +126,22 @@ void main() {
     });
 
     test('formatInterval formats minutes, hours, days without l10n', () {
-      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10)), '10 phút');
-      expect(FsrsEngineService.formatInterval(const Duration(hours: 3)), '3 giờ');
-      expect(FsrsEngineService.formatInterval(const Duration(days: 4)), '4 ngày');
+      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10)), anyOf('10 phút', '10m'));
+      expect(FsrsEngineService.formatInterval(const Duration(hours: 3)), anyOf('3 giờ', '3h'));
+      expect(FsrsEngineService.formatInterval(const Duration(days: 4)), anyOf('4 ngày', '4d'));
+    });
+
+    test('formatInterval formats correctly with explicit English and Vietnamese l10n', () {
+      final l10nVi = lookupAppLocalizations(const Locale('vi'));
+      final l10nEn = lookupAppLocalizations(const Locale('en'));
+
+      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10), l10n: l10nVi), '10 phút');
+      expect(FsrsEngineService.formatInterval(const Duration(hours: 3), l10n: l10nVi), '3 giờ');
+      expect(FsrsEngineService.formatInterval(const Duration(days: 4), l10n: l10nVi), '4 ngày');
+
+      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10), l10n: l10nEn), '10m');
+      expect(FsrsEngineService.formatInterval(const Duration(hours: 3), l10n: l10nEn), '3h');
+      expect(FsrsEngineService.formatInterval(const Duration(days: 4), l10n: l10nEn), '4d');
     });
   });
 

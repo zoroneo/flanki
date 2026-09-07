@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
+import 'dart:ui' show Locale;
 import 'package:http/http.dart' as http;
+import '../../l10n/generated/app_localizations.dart';
 import '../sync/anki_web_config.dart';
 
 enum AuthErrorCode {
@@ -39,10 +42,25 @@ class AnkiWebAuthResult {
 class AnkiWebAuthService {
   final http.Client _client;
   final AnkiWebConfig _config;
+  final AppLocalizations? _customL10n;
 
-  AnkiWebAuthService({http.Client? client, AnkiWebConfig? config})
-      : _client = client ?? http.Client(),
-        _config = config ?? const AnkiWebConfig();
+  AnkiWebAuthService({
+    http.Client? client,
+    AnkiWebConfig? config,
+    AppLocalizations? l10n,
+  })  : _client = client ?? http.Client(),
+        _config = config ?? const AnkiWebConfig(),
+        _customL10n = l10n;
+
+  AppLocalizations get l10n {
+    if (_customL10n != null) return _customL10n;
+    try {
+      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      return lookupAppLocalizations(Locale(code));
+    } catch (_) {
+      return lookupAppLocalizations(const Locale('vi'));
+    }
+  }
 
   /// Authenticate with AnkiWeb using username (email) and password.
   /// Returns [AnkiWebAuthResult] containing the session `hostKey`.
@@ -53,7 +71,7 @@ class AnkiWebAuthService {
     final cleanUsername = username.trim();
     if (cleanUsername.isEmpty || password.isEmpty) {
       return AnkiWebAuthResult.fail(
-        'Email và mật khẩu không được để trống.',
+        l10n.authEmailPasswordEmpty,
         errorCode: AuthErrorCode.emptyCredentials,
       );
     }
@@ -86,34 +104,34 @@ class AnkiWebAuthService {
           return AnkiWebAuthResult.ok(key);
         } else {
           return AnkiWebAuthResult.fail(
-            'Phản hồi không hợp lệ từ máy chủ AnkiWeb.',
+            l10n.authServerResponseInvalid,
             errorCode: AuthErrorCode.invalidResponse,
           );
         }
       } else if (response.statusCode == 403 || response.statusCode == 401) {
         return AnkiWebAuthResult.fail(
-          'Email hoặc mật khẩu AnkiWeb không chính xác.',
+          l10n.authInvalidCredentials,
           errorCode: AuthErrorCode.invalidCredentials,
         );
       } else if (response.statusCode == 429) {
         return AnkiWebAuthResult.fail(
-          'Quá nhiều lần thử đăng nhập. Vui lòng thử lại sau ít phút.',
+          l10n.authTooManyAttempts,
           errorCode: AuthErrorCode.rateLimited,
         );
       } else {
         return AnkiWebAuthResult.fail(
-          'Lỗi máy chủ AnkiWeb (${response.statusCode}): ${response.reasonPhrase ?? "Unknown"}',
+          l10n.syncServerError(response.statusCode, response.reasonPhrase ?? 'Unknown'),
           errorCode: AuthErrorCode.serverError,
         );
       }
     } on http.ClientException catch (e) {
       return AnkiWebAuthResult.fail(
-        e.message,
+        l10n.authNetworkError(e.message),
         errorCode: AuthErrorCode.networkError,
       );
     } catch (e) {
       return AnkiWebAuthResult.fail(
-        'Lỗi kết nối AnkiWeb: $e',
+        l10n.authUnknownError(e.toString()),
         errorCode: AuthErrorCode.unknown,
       );
     }

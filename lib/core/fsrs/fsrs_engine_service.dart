@@ -1,4 +1,6 @@
+import 'dart:io' show Platform;
 import 'dart:math' as math;
+import 'dart:ui' show Locale;
 import 'package:fsrs/fsrs.dart' as fsrs;
 import '../../l10n/generated/app_localizations.dart';
 import '../models/card.dart';
@@ -97,28 +99,38 @@ class FsrsEngineService {
     );
   }
 
+  static AppLocalizations _defaultL10n() {
+    try {
+      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      return lookupAppLocalizations(Locale(code));
+    } catch (_) {
+      return lookupAppLocalizations(const Locale('vi'));
+    }
+  }
+
   /// Formats a duration into Anki-style interval strings: < 10m, 1d, 4d, 1.2m, etc.
   static String formatInterval(Duration duration, {AppLocalizations? l10n}) {
+    final resL10n = l10n ?? _defaultL10n();
     if (duration.inMinutes < 60) {
       final mins = duration.inMinutes <= 1 ? 1 : duration.inMinutes;
-      return l10n != null ? l10n.intervalMinutes(mins) : '$mins phút';
+      return resL10n.intervalMinutes(mins);
     } else if (duration.inHours < 24) {
       final hours = duration.inHours;
-      return l10n != null ? l10n.intervalHours(hours) : '$hours giờ';
+      return resL10n.intervalHours(hours);
     } else if (duration.inDays < 30) {
       final days = duration.inDays;
-      return l10n != null ? l10n.intervalDays(days) : '$days ngày';
+      return resL10n.intervalDays(days);
     } else if (duration.inDays < 365) {
       final months = (duration.inDays / 30).toStringAsFixed(1);
       final clean = months.endsWith('.0')
           ? months.substring(0, months.length - 2)
           : months;
-      return l10n != null ? l10n.intervalMonths(clean) : '$clean tháng';
+      return resL10n.intervalMonths(clean);
     } else {
       final years = (duration.inDays / 365).toStringAsFixed(1);
       final clean =
           years.endsWith('.0') ? years.substring(0, years.length - 2) : years;
-      return l10n != null ? l10n.intervalYears(clean) : '$clean năm';
+      return resL10n.intervalYears(clean);
     }
   }
 

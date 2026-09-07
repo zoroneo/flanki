@@ -232,6 +232,7 @@ class CreateDeckModal extends HookWidget {
                         children: [
                           Expanded(
                             child: OutlineButton(
+                              alignment: Alignment.center,
                               onPressed: () => Navigator.of(context).pop(),
                               child: Text(l10n.cancel),
                             ),
@@ -239,9 +240,17 @@ class CreateDeckModal extends HookWidget {
                           const SizedBox(width: 12),
                           Expanded(
                             child: PrimaryButton(
+                              alignment: Alignment.center,
                               onPressed: handleCreate,
-                              leading: const Icon(LucideIcons.plus, size: 16),
-                              child: Text(l10n.createDeckTitle),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(LucideIcons.plus, size: 16),
+                                  const SizedBox(width: 8),
+                                  Text(l10n.createDeckTitle),
+                                ],
+                              ),
                             ),
                           ),
                         ],

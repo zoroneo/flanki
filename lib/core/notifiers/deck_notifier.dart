@@ -1,4 +1,7 @@
+import 'dart:io' show Platform;
+import 'dart:ui' show Locale;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../models/deck.dart';
 import '../storage/database_service.dart';
 
@@ -63,7 +66,7 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     final cramDeck = DeckModel(
       id: 'cram_${mode}_${encodedTag}_${cardLimit}_${DateTime.now().millisecondsSinceEpoch}',
       title: '⚡ Cram: $name${filterTag.isNotEmpty ? " (#$filterTag)" : ""}',
-      description: description ?? 'Bộ thẻ ôn tập đột xuất (Custom Study) không ảnh hưởng lịch FSRS chính.',
+      description: description ?? _defaultCramDescription(),
       dueCount: count,
       newCount: 0,
       totalCount: count,
@@ -71,6 +74,15 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     );
     DatabaseService.instance.saveDeck(cramDeck);
     refresh();
+  }
+
+  static String _defaultCramDescription() {
+    try {
+      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      return lookupAppLocalizations(Locale(code)).cramDeckDefaultDesc;
+    } catch (_) {
+      return lookupAppLocalizations(const Locale('vi')).cramDeckDefaultDesc;
+    }
   }
 
   void updateDueCount(String deckId, {int? dueCount, int? newCount}) {
