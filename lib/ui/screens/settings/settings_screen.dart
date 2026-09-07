@@ -986,7 +986,7 @@ class _VersionInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final isDesktop = DesktopUpdateService.isDesktop;
+    final isSupported = DesktopUpdateService.isSupported;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
@@ -1013,7 +1013,7 @@ class _VersionInfoRow extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                if (isDesktop) ...[
+                if (isSupported) ...[
                   const SizedBox(width: 8),
                   if (updateState.status == UpdateStatus.checking) ...[
                     Text(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -15,6 +16,10 @@ class DesktopUpdateService {
   /// Check if current platform is a desktop platform.
   static bool get isDesktop =>
       Platform.isWindows || Platform.isMacOS || Platform.isLinux;
+
+  /// Check if current platform supports in-app updates.
+  static bool get isSupported =>
+      isDesktop || Platform.isAndroid || Platform.isIOS;
 
   /// Compare two semver-like version strings.
   /// Returns > 0 if version1 > version2, < 0 if version1 < version2, 0 if equal.
@@ -46,16 +51,20 @@ class DesktopUpdateService {
       } else if (Platform.isLinux) {
         await Process.run('xdg-open', [url]);
         return true;
+      } else if (Platform.isAndroid) {
+        const channel = MethodChannel('com.flanki.flanki/app_updater');
+        await channel.invokeMethod('openUrl', {'url': url});
+        return true;
       }
     } catch (_) {}
     return false;
   }
 
-  /// Select matching asset URL for current desktop platform.
+  /// Select matching asset URL for current platform.
   static Map<String, dynamic>? findPlatformAsset(List<dynamic> assets) {
     if (assets.isEmpty) return null;
 
-    final os = Platform.operatingSystem.toLowerCase(); // 'windows', 'macos', 'linux'
+    final os = Platform.operatingSystem.toLowerCase(); // 'windows', 'macos', 'linux', 'android', 'ios'
     for (final asset in assets) {
       if (asset is! Map<String, dynamic>) continue;
       final name = (asset['name'] as String? ?? '').toLowerCase();
@@ -70,6 +79,10 @@ class DesktopUpdateService {
         }
       } else if (os == 'linux') {
         if (name.endsWith('.appimage') || name.endsWith('.deb') || (name.contains('linux') && name.endsWith('.tar.gz'))) {
+          return asset;
+        }
+      } else if (os == 'android') {
+        if (name.endsWith('.apk')) {
           return asset;
         }
       }
@@ -197,6 +210,10 @@ class DesktopUpdateService {
       } else if (Platform.isLinux) {
         await Process.run('xdg-open', [filePath]);
         exit(0);
+      } else if (Platform.isAndroid) {
+        const channel = MethodChannel('com.flanki.flanki/app_updater');
+        await channel.invokeMethod('installApk', {'filePath': filePath});
+        return true;
       }
     } catch (_) {}
     return false;

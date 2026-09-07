@@ -1,4 +1,4 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/update_info.dart';
 import '../services/desktop_update_service.dart';
 
@@ -57,9 +57,9 @@ class UpdateNotifier extends Notifier<UpdateState> {
     return const UpdateState();
   }
 
-  /// Check for desktop updates.
+  /// Check for application updates.
   Future<UpdateInfo?> checkForUpdates({bool silent = false}) async {
-    if (!DesktopUpdateService.isDesktop) return null;
+    if (!DesktopUpdateService.isSupported) return null;
 
     state = state.copyWith(status: UpdateStatus.checking, errorMessage: null);
 
