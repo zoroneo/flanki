@@ -14,6 +14,7 @@ import 'core/router/app_router.dart';
 import 'core/services/desktop_window_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/update_poller.dart';
+import 'core/theme/theme_notifier.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'ui/widgets/update_dialog.dart';
 
@@ -82,6 +83,7 @@ class FlankiApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
     final currentLocale = ref.watch(localeNotifierProvider);
+    final themeMode = ref.watch(themeNotifierProvider);
 
     final typography = const Typography.geist().copyWith(
       sans: () => GoogleFonts.beVietnamPro(),
@@ -93,6 +95,7 @@ class FlankiApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: router,
       locale: currentLocale,
+      themeMode: themeMode,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -111,7 +114,26 @@ class FlankiApp extends ConsumerWidget {
         radius: 0.5,
         typography: typography,
       ),
-      builder: (context, child) => _AppUpdateWrapper(child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => Listener(
+        behavior: HitTestBehavior.translucent,
+        onPointerDown: (event) {
+          final currentFocus = FocusManager.instance.primaryFocus;
+          if (currentFocus != null && currentFocus.hasFocus) {
+            final renderBox =
+                currentFocus.context?.findRenderObject() as RenderBox?;
+            if (renderBox != null && renderBox.hasSize) {
+              final position = renderBox.localToGlobal(Offset.zero);
+              final bounds = position & renderBox.size;
+              if (!bounds.contains(event.position)) {
+                currentFocus.unfocus();
+              }
+            } else {
+              currentFocus.unfocus();
+            }
+          }
+        },
+        child: _AppUpdateWrapper(child: child ?? const SizedBox.shrink()),
+      ),
     );
   }
 }

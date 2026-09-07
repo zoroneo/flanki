@@ -108,7 +108,7 @@ class AnkiWebAuthService {
       }
     } on http.ClientException catch (e) {
       return AnkiWebAuthResult.fail(
-        'Không thể kết nối máy chủ AnkiWeb. Vui lòng kiểm tra mạng: ${e.message}',
+        e.message,
         errorCode: AuthErrorCode.networkError,
       );
     } catch (e) {

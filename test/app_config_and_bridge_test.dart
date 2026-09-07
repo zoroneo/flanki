@@ -6,9 +6,9 @@ void main() {
   group('AppConfig Tests', () {
     test('AppConfig constants match application specification and pubspec', () {
       expect(AppConfig.appName, equals('Flanki'));
-      expect(AppConfig.version, equals('1.0.1'));
-      expect(AppConfig.buildNumber, equals(2));
-      expect(AppConfig.fullVersion, equals('1.0.1+2'));
+      expect(AppConfig.version, equals('1.0.2'));
+      expect(AppConfig.buildNumber, equals(3));
+      expect(AppConfig.fullVersion, equals('1.0.2+3'));
       expect(AppConfig.defaultNewCardsPerDay, equals(20));
       expect(AppConfig.defaultReviewsPerDay, equals(100));
       expect(AppConfig.defaultCramLimit, equals(50));
