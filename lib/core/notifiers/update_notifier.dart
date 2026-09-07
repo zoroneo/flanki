@@ -19,6 +19,7 @@ class UpdateState {
   final String? downloadedFilePath;
   final String? errorMessage;
   final DateTime? lastChecked;
+  final bool isBackgroundCheck;
 
   const UpdateState({
     this.status = UpdateStatus.idle,
@@ -27,6 +28,7 @@ class UpdateState {
     this.downloadedFilePath,
     this.errorMessage,
     this.lastChecked,
+    this.isBackgroundCheck = false,
   });
 
   UpdateState copyWith({
@@ -36,6 +38,7 @@ class UpdateState {
     String? downloadedFilePath,
     String? errorMessage,
     DateTime? lastChecked,
+    bool? isBackgroundCheck,
   }) {
     return UpdateState(
       status: status ?? this.status,
@@ -44,6 +47,7 @@ class UpdateState {
       downloadedFilePath: downloadedFilePath ?? this.downloadedFilePath,
       errorMessage: errorMessage,
       lastChecked: lastChecked ?? this.lastChecked,
+      isBackgroundCheck: isBackgroundCheck ?? this.isBackgroundCheck,
     );
   }
 }
@@ -61,7 +65,11 @@ class UpdateNotifier extends Notifier<UpdateState> {
   Future<UpdateInfo?> checkForUpdates({bool silent = false}) async {
     if (!DesktopUpdateService.isSupported) return null;
 
-    state = state.copyWith(status: UpdateStatus.checking, errorMessage: null);
+    state = state.copyWith(
+      status: UpdateStatus.checking,
+      errorMessage: null,
+      isBackgroundCheck: silent,
+    );
 
     try {
       final info = await _service.checkForUpdates();
@@ -70,6 +78,7 @@ class UpdateNotifier extends Notifier<UpdateState> {
           status: UpdateStatus.available,
           updateInfo: info,
           lastChecked: DateTime.now(),
+          isBackgroundCheck: silent,
         );
         return info;
       } else {
@@ -77,6 +86,7 @@ class UpdateNotifier extends Notifier<UpdateState> {
           status: UpdateStatus.upToDate,
           updateInfo: info,
           lastChecked: DateTime.now(),
+          isBackgroundCheck: silent,
         );
         return info;
       }
@@ -85,6 +95,7 @@ class UpdateNotifier extends Notifier<UpdateState> {
         status: UpdateStatus.error,
         errorMessage: e.toString(),
         lastChecked: DateTime.now(),
+        isBackgroundCheck: silent,
       );
       return null;
     }

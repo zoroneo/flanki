@@ -158,31 +158,36 @@ class FlankiApp extends ConsumerWidget {
                   leadingDistribution: TextLeadingDistribution.even,
                 ),
               ),
-              child: Listener(
-              behavior: HitTestBehavior.translucent,
-              onPointerDown: (event) {
-                final currentFocus = FocusManager.instance.primaryFocus;
-                if (currentFocus != null && currentFocus.hasFocus) {
-                  final renderBox =
-                      currentFocus.context?.findRenderObject() as RenderBox?;
-                  if (renderBox != null && renderBox.hasSize) {
-                    final position = renderBox.localToGlobal(Offset.zero);
-                    final bounds = position & renderBox.size;
-                    if (!bounds.contains(event.position)) {
-                      currentFocus.unfocus();
+              child: ComponentTheme<ToastTheme>(
+                data: const ToastTheme(
+                  toastConstraints: BoxConstraints.tightFor(width: 380),
+                ),
+                child: Listener(
+                  behavior: HitTestBehavior.translucent,
+                  onPointerDown: (event) {
+                    final currentFocus = FocusManager.instance.primaryFocus;
+                    if (currentFocus != null && currentFocus.hasFocus) {
+                      final renderBox =
+                          currentFocus.context?.findRenderObject() as RenderBox?;
+                      if (renderBox != null && renderBox.hasSize) {
+                        final position = renderBox.localToGlobal(Offset.zero);
+                        final bounds = position & renderBox.size;
+                        if (!bounds.contains(event.position)) {
+                          currentFocus.unfocus();
+                        }
+                      } else {
+                        currentFocus.unfocus();
+                      }
                     }
-                  } else {
-                    currentFocus.unfocus();
-                  }
-                }
-              },
-              child: _AppUpdateWrapper(child: child ?? const SizedBox.shrink()),
+                  },
+                  child: _AppUpdateWrapper(child: child ?? const SizedBox.shrink()),
+                ),
+              ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
   }
 }
 
@@ -314,6 +319,10 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
       if (current.status == UpdateStatus.available &&
           previous?.status != UpdateStatus.available &&
           current.updateInfo != null) {
+        if (UpdateDialog.isShowing || !current.isBackgroundCheck) {
+          _dismissToast();
+          return;
+        }
         final info = current.updateInfo!;
         _dismissToast();
         _activeUpdateToast = showToast(
@@ -323,55 +332,52 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
             final theme = Theme.of(context);
             final l10n = AppLocalizations.of(context)!;
             return SurfaceCard(
-              child: Container(
-                width: 380,
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                child: Row(
-                  children: [
-                    Icon(
-                      LucideIcons.circleArrowUp,
-                      size: 20,
-                      color: theme.colorScheme.primary,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              child: Row(
+                children: [
+                  Icon(
+                    LucideIcons.circleArrowUp,
+                    size: 20,
+                    color: theme.colorScheme.primary,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.updateBannerTitle(info.latestVersion),
+                          style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          l10n.updateBannerSubtitle,
+                          style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.updateBannerTitle(info.latestVersion),
-                            style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            l10n.updateBannerSubtitle,
-                            style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    PrimaryButton(
-                      size: ButtonSize.small,
-                      onPressed: () {
-                        _dismissToast();
-                        UpdateDialog.show(context, info);
-                      },
-                      child: Text(l10n.updateAction),
-                    ),
-                    const SizedBox(width: 4),
-                    IconButton.ghost(
-                      size: ButtonSize.small,
-                      icon: const Icon(LucideIcons.x, size: 14),
-                      onPressed: _dismissToast,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 10),
+                  PrimaryButton(
+                    size: ButtonSize.small,
+                    onPressed: () {
+                      _dismissToast();
+                      UpdateDialog.show(context, info);
+                    },
+                    child: Text(l10n.updateAction),
+                  ),
+                  const SizedBox(width: 4),
+                  IconButton.ghost(
+                    size: ButtonSize.small,
+                    icon: const Icon(LucideIcons.x, size: 14),
+                    onPressed: _dismissToast,
+                  ),
+                ],
               ),
             );
           },

@@ -55,13 +55,11 @@ class SyncProgressToast extends StatelessWidget {
         final pct = (status.progress * 100).toInt().clamp(0, 100);
 
         return SurfaceCard(
-          child: Container(
-            width: 360,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
                 Row(
                   children: [
                     if (status.isError)
@@ -119,9 +117,8 @@ class SyncProgressToast extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
     );
   }
 }

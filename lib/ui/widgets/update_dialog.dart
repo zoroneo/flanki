@@ -15,16 +15,23 @@ class UpdateDialog extends ConsumerWidget {
   });
 
   static VoidCallback? onDismissActiveToast;
+  static bool isShowing = false;
 
-  static Future<void> show(BuildContext context, UpdateInfo info) {
+  static Future<void> show(BuildContext context, UpdateInfo info) async {
+    if (isShowing) return;
+    isShowing = true;
     onDismissActiveToast?.call();
-    return m.showDialog(
-      context: context,
-      builder: (context) => m.Dialog(
-        backgroundColor: m.Colors.transparent,
-        child: UpdateDialog(updateInfo: info),
-      ),
-    );
+    try {
+      await m.showDialog(
+        context: context,
+        builder: (context) => m.Dialog(
+          backgroundColor: m.Colors.transparent,
+          child: UpdateDialog(updateInfo: info),
+        ),
+      );
+    } finally {
+      isShowing = false;
+    }
   }
 
   @override
@@ -125,42 +132,64 @@ class UpdateDialog extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
             ],
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                OutlineButton(
-                  onPressed: () {
-                    notifier.dismiss();
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(l10n.later),
-                ),
-                const SizedBox(width: 8),
-                if (updateInfo.downloadUrl == null) ...[
-                  PrimaryButton(
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final primaryButton = switch (updateState.status) {
+                  _ when updateInfo.downloadUrl == null => PrimaryButton(
+                    alignment: Alignment.center,
                     onPressed: () {
                       DesktopUpdateService.openUrl(updateInfo.releaseUrl);
                       Navigator.of(context).pop();
                     },
                     child: Text(l10n.openDownloadPage),
                   ),
-                ] else if (updateState.status == UpdateStatus.readyToInstall) ...[
-                  PrimaryButton(
+                  UpdateStatus.readyToInstall => PrimaryButton(
+                    alignment: Alignment.center,
                     onPressed: () => notifier.installAndRestart(),
                     child: Text(l10n.restartAndInstall),
                   ),
-                ] else if (updateState.status == UpdateStatus.downloading) ...[
-                  PrimaryButton(
+                  UpdateStatus.downloading => PrimaryButton(
+                    alignment: Alignment.center,
                     onPressed: null,
                     child: Text(l10n.syncing),
                   ),
-                ] else ...[
-                  PrimaryButton(
+                  _ => PrimaryButton(
+                    alignment: Alignment.center,
                     onPressed: () => notifier.downloadUpdate(),
                     child: Text(l10n.downloadAndInstall),
                   ),
-                ],
-              ],
+                };
+
+                final outlineButton = OutlineButton(
+                  alignment: Alignment.center,
+                  onPressed: () {
+                    notifier.dismiss();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(l10n.later),
+                );
+
+                if (constraints.maxWidth < 340) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      primaryButton,
+                      const SizedBox(height: 8),
+                      outlineButton,
+                    ],
+                  );
+                }
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    outlineButton,
+                    const SizedBox(width: 8),
+                    primaryButton,
+                  ],
+                );
+              },
             ),
           ],
         ),
