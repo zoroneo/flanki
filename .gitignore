@@ -58,6 +58,8 @@ coverage/
 **/android/gradlew.bat
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
+**/android/**/build/
+**/android/build/
 
 # iOS/macOS build outputs
 **/ios/**/*.mode1v3

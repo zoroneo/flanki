@@ -130,7 +130,14 @@ git push origin main --tags
 
 ---
 
+## ⚖️ Disclaimer
+
+Flanki is an independent, open-source project and is not affiliated with, endorsed by, or sponsored by Ankitects Pty Ltd or the official Anki project. "Anki" and "AnkiWeb" are registered trademarks of Ankitects Pty Ltd.
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 
