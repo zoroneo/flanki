@@ -9,6 +9,8 @@ import '../../../core/notifiers/study_session_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/models/card.dart';
 import '../../../core/fsrs/fsrs_engine_service.dart';
+import '../../../core/fsrs/sm2_engine_service.dart';
+import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/localization/locale_notifier.dart';
 import 'widgets/scratchpad_overlay.dart';
 import 'widgets/card_action_sheet.dart';
@@ -29,6 +31,7 @@ class StudySessionScreen extends HookConsumerWidget {
     final sessionState = ref.watch(studySessionProvider);
     final sessionNotifier = ref.read(studySessionProvider.notifier);
     final deckNotifier = ref.read(deckListProvider.notifier);
+    final studySettings = ref.watch(studySettingsProvider);
 
     // Initialize deck on enter
     useEffect(() {
@@ -199,11 +202,25 @@ class StudySessionScreen extends HookConsumerWidget {
     }
 
     final currentCard = sessionState.currentCard;
-    final fsrsService = useMemoized(() => FsrsEngineService());
     final intervals = useMemoized(() {
       if (currentCard == null) return <ReviewRating, String>{};
-      return fsrsService.previewIntervals(currentCard, l10n: l10n);
-    }, [currentCard?.id, currentCard?.stability, currentCard?.difficulty, currentCard?.reps, l10n]);
+      if (studySettings.fsrsEnabled) {
+        final engine = FsrsEngineService(desiredRetention: studySettings.desiredRetention);
+        return engine.previewIntervals(currentCard, l10n: l10n);
+      } else {
+        const engine = Sm2EngineService();
+        return engine.previewIntervals(currentCard, l10n: l10n);
+      }
+    }, [
+      currentCard?.id,
+      currentCard?.stability,
+      currentCard?.difficulty,
+      currentCard?.reps,
+      currentCard?.intervalDays,
+      studySettings.fsrsEnabled,
+      studySettings.desiredRetention,
+      l10n,
+    ]);
 
     final shortcuts = <ShortcutActivator, VoidCallback>{
       const SingleActivator(LogicalKeyboardKey.space): () {
@@ -357,9 +374,9 @@ class StudySessionScreen extends HookConsumerWidget {
 
                       return Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 760, maxHeight: 680),
+                          constraints: const BoxConstraints(maxWidth: 760),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                             child: Transform(
                               alignment: Alignment.center,
                               transform: matrix,
@@ -488,7 +505,7 @@ class _CardFrontView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Card(
-      padding: const EdgeInsets.all(28),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
       child: SizedBox(
         width: double.infinity,
         child: SingleChildScrollView(
@@ -525,7 +542,7 @@ class _CardFrontView extends StatelessWidget {
                   ],
                 ],
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 18),
               RichCardContent(
                 content: card?.front ?? '',
                 autoPlayAudio: true,
@@ -534,7 +551,7 @@ class _CardFrontView extends StatelessWidget {
                 onSubmitAnswer: onSubmitAnswer,
                 textStyle: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 18),
               Text(
                 l10n.tapToFlip,
                 style: theme.typography.xSmall.copyWith(
@@ -565,7 +582,7 @@ class _CardBackView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Card(
-      padding: const EdgeInsets.all(28),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
       child: SizedBox(
         width: double.infinity,
         child: SingleChildScrollView(
@@ -587,14 +604,14 @@ class _CardBackView extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
               RichCardContent(
                 content: card?.back ?? '',
                 autoPlayAudio: true,
                 typedAnswer: typedAnswer,
                 textStyle: theme.typography.h3.copyWith(fontWeight: FontWeight.w500),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 18),
               Text(
                 l10n.swipeHint,
                 style: theme.typography.xSmall.copyWith(

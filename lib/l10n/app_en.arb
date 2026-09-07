@@ -112,7 +112,15 @@
   "statsTitle": "Stats & Progress",
   "retentionRate": "RETENTION RATE",
   "targetReached": "Target reached",
-  "targetSuffix": "/ 85% target",
+  "targetSuffix": "/ {rate} target",
+  "@targetSuffix": {
+    "description": "Target retention suffix for stats screen",
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
   "reviewedToday": "Reviewed today",
   "reviewedDiff": "Cards reviewed",
   "studyTime": "Study time",
@@ -189,7 +197,15 @@
       }
     }
   },
-  "targetRetentionBadge": "Target 85% retention",
+  "targetRetentionBadge": "Target {rate} retention",
+  "@targetRetentionBadge": {
+    "description": "Badge showing target retention rate on decks screen",
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
   "cramTagInputLabel": "TAG NAME TO STUDY",
   "cardsCountUnit": "{count} cards",
   "@cardsCountUnit": {
@@ -331,6 +347,66 @@
   "cardDeleted": "Card deleted",
   "undo": "Undo",
   "delete": "Delete",
-  "sm2Subtitle": "Traditional SM-2 algorithm"
+  "sm2Subtitle": "Traditional SM-2 algorithm",
+  "selectApkgOrZipPrompt": "Please select an .apkg or .zip file",
+  "subdecksCount": "{count} subdecks",
+  "@subdecksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importedFromApkg": "Imported from Anki .apkg package",
+  "badgeDue": "{count} due",
+  "@badgeDue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeNew": "{count} new",
+  "@badgeNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeTotalCards": "{count} cards",
+  "@badgeTotalCards": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "createDeckAction": "Create Deck",
+  "importApkgAction": "Import Anki (.apkg)",
+  "cramAction": "Cram Study",
+  "deckHierarchyTip": "Tip: Use :: to create hierarchy (e.g. English::Unit 01)",
+  "typeAnswerPlaceholder": "Type your answer...",
+  "correctAnswerLabel": "Correct!",
+  "yourAnswerLabel": "You typed: ",
+  "expectedAnswerLabel": "Correct answer: ",
+  "answerLabel": "Answer: ",
+  "stabilityLabel": "Stability",
+  "difficultyLabel": "Difficulty",
+  "repsLabel": "Reps",
+  "lapsesLabel": "Lapses",
+  "newCardsPerDay": "New cards per day",
+  "maxReviewsPerDay": "Maximum reviews per day",
+  "selectCardToViewDetails": "Select a card on the left to view and edit details",
+  "unsuspendCard": "Unsuspend",
+  "fsrsScheduleTitle": "FSRS ALGORITHM & SCHEDULE",
+  "intervalLabel": "Interval",
+  "repsAndLapsesLabel": "Reps / Lapses",
+  "dartCoreEngine": "Dart Core (Drift SQLite)",
+  "submitAnswer": "Submit",
+  "showAnswer": "Show Answer",
+  "hideAnswer": "Hide Answer",
+  "syncMediaOnly": "Sync Media (Images & Audio)",
+  "syncingMedia": "Syncing media files..."
 }
 

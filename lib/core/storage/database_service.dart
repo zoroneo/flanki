@@ -104,16 +104,45 @@ class DatabaseService {
     return _cachedCards.where((c) => c.deckId == deckId).toList();
   }
 
-  List<CardModel> getStudyQueue(String deckId, {int limit = 50}) {
+  List<CardModel> getStudyQueue(
+    String deckId, {
+    int? limit,
+    int? newLimit,
+    int? reviewLimit,
+  }) {
     final now = DateTime.now();
-    return _cachedCards
-        .where((c) => c.deckId == deckId && !c.isSuspended && !c.isBuried)
+    final eligible = _cachedCards
+        .where((c) => c.deckId == deckId && !c.isSuspended && !c.isBuried);
+
+    if (newLimit != null || reviewLimit != null) {
+      final maxNew = newLimit ?? 20;
+      final maxReview = reviewLimit ?? 100;
+
+      final dueCards = eligible
+          .where((c) => c.reps > 0 && c.due != null && c.due!.isBefore(now))
+          .take(maxReview)
+          .toList();
+
+      final newCards = eligible
+          .where((c) => c.reps == 0)
+          .take(maxNew)
+          .toList();
+
+      final queue = [...dueCards, ...newCards];
+      if (limit != null) {
+        return queue.take(limit).toList();
+      }
+      return queue;
+    }
+
+    final effectiveLimit = limit ?? 50;
+    return eligible
         .where((c) {
           if (c.reps == 0) return true; // New card
           if (c.due != null && c.due!.isBefore(now)) return true; // Due card
           return false;
         })
-        .take(limit)
+        .take(effectiveLimit)
         .toList();
   }
 
@@ -493,13 +522,21 @@ class DatabaseService {
     await _reloadCache();
   }
 
+  static String _cleanMediaPaths(String html) {
+    if (!html.contains('flanki_media')) return html;
+    return html.replaceAllMapped(
+      RegExp(r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''', caseSensitive: false),
+      (match) => '${match.group(1)}${match.group(2)}${match.group(3)}',
+    );
+  }
+
   CardModel _mapRowToCard(Card row) {
     final tags = row.tags.isNotEmpty ? row.tags.split(',') : <String>[];
     return CardModel(
       id: row.id,
       deckId: row.deckId,
-      front: row.front,
-      back: row.back,
+      front: _cleanMediaPaths(row.front),
+      back: _cleanMediaPaths(row.back),
       hint: row.hint,
       noteType: NoteType.fromString(row.noteType),
       flag: CardFlag.fromValue(row.flag),

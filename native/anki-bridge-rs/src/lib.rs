@@ -17,7 +17,7 @@ pub type AnkiBackendHandle = i64;
 /// - `init_len`: Length of `init_data`.
 /// - `out_ptr`: Pointer to writable `i64` memory to receive the backend instance pointer.
 ///
-/// Returns 0 on success, -1 on failure.
+/// Returns 0 on success, -1 on failure (e.g. invalid pointer or rslib not compiled in).
 #[no_mangle]
 pub unsafe extern "C" fn anki_open_backend(
     _init_data: *const u8,
@@ -27,11 +27,21 @@ pub unsafe extern "C" fn anki_open_backend(
     if out_ptr.is_null() {
         return -1;
     }
-    // Stub pointer address representing initialized backend instance
-    // When linked with rslib: anki::backend::init_backend(bytes)
-    let stub_handle: AnkiBackendHandle = 0x1000;
-    unsafe { *out_ptr = stub_handle };
-    0
+    // rslib is currently unlinked in standalone crate; return -1 to signal backend unavailable
+    // When linked with rslib:
+    //   let backend = match anki::backend::init_backend(_init_data, _init_len) {
+    //       Ok(b) => Box::into_raw(Box::new(b)) as AnkiBackendHandle,
+    //       Err(_) => return -1,
+    //   };
+    //   unsafe { *out_ptr = backend };
+    //   0
+    -1
+}
+
+/// Query bridge version integer (100 = 1.0.0).
+#[no_mangle]
+pub extern "C" fn anki_bridge_version() -> c_int {
+    100
 }
 
 /// Execute a backend RPC method via Protobuf payload.

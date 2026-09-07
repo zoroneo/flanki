@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../sync/anki_web_config.dart';
 
 class AnkiWebAuthResult {
   final bool success;
@@ -21,9 +22,11 @@ class AnkiWebAuthResult {
 
 class AnkiWebAuthService {
   final http.Client _client;
-  static const String _syncHost = 'https://sync.ankiweb.net';
+  final AnkiWebConfig _config;
 
-  AnkiWebAuthService({http.Client? client}) : _client = client ?? http.Client();
+  AnkiWebAuthService({http.Client? client, AnkiWebConfig? config})
+      : _client = client ?? http.Client(),
+        _config = config ?? const AnkiWebConfig();
 
   /// Authenticate with AnkiWeb using username (email) and password.
   /// Returns [AnkiWebAuthResult] containing the session `hostKey`.
@@ -37,9 +40,9 @@ class AnkiWebAuthService {
     }
 
     try {
-      final uri = Uri.parse('$_syncHost/sync/hostKey');
+      final uri = Uri.parse('${_config.syncHost}/sync/hostKey');
       final request = http.MultipartRequest('POST', uri);
-      request.headers['User-Agent'] = 'Anki/2.1.57 (7b1f3c3a)';
+      request.headers['User-Agent'] = AnkiWebConfig.userAgent;
       request.fields['c'] = '0';
       request.fields['data'] = jsonEncode({
         'u': cleanUsername,
@@ -47,7 +50,7 @@ class AnkiWebAuthService {
       });
 
       final streamedResponse =
-          await _client.send(request).timeout(const Duration(seconds: 15));
+          await _client.send(request).timeout(AnkiWebConfig.authTimeout);
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {

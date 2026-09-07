@@ -31,8 +31,10 @@ class MediaStorageService {
 
   Directory get mediaDirectory {
     if (_mediaDir == null) {
-      // Fallback synchronous initialization to temporary dir if init wasn't awaited yet
-      final temp = Directory.systemTemp.createTempSync('flanki_media_');
+      final temp = Directory(p.join(Directory.systemTemp.path, 'flanki_media'));
+      if (!temp.existsSync()) {
+        temp.createSync(recursive: true);
+      }
       _mediaDir = temp;
     }
     return _mediaDir!;
@@ -67,22 +69,21 @@ class MediaStorageService {
     return File(p.join(mediaDirectoryPath, sanitized)).existsSync();
   }
 
-  /// Rewrites `<img src="...">` relative filenames to local `file:///` URLs
-  /// so that HTML renderers can load them directly.
+  /// Normalizes `<img src="...">` paths, stripping any absolute `file://` temporary
+  /// paths back to clean standard relative filenames.
   String resolveHtmlMedia(String html) {
     if (html.isEmpty) return html;
 
-    final mediaPath = mediaDirectoryPath;
-    // Replace <img src="filename"> or <img src='filename'> (where src does not start with http/https/file/data)
-    final imgRegex = RegExp(r'''(<img\s+[^>]*src\s*=\s*["'])(?!https?:\/\/|file:\/\/|data:)([^"'>]+)(["'][^>]*>)''', caseSensitive: false);
+    final legacyImgRegex = RegExp(
+      r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''',
+      caseSensitive: false,
+    );
 
-    return html.replaceAllMapped(imgRegex, (match) {
+    return html.replaceAllMapped(legacyImgRegex, (match) {
       final prefix = match.group(1)!;
-      final rawSrc = match.group(2)!;
+      final filename = match.group(2)!;
       final suffix = match.group(3)!;
-      final filename = p.basename(rawSrc);
-      final fileUri = 'file://${p.join(mediaPath, filename)}';
-      return '$prefix$fileUri$suffix';
+      return '$prefix$filename$suffix';
     });
   }
 }

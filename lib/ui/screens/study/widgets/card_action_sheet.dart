@@ -266,10 +266,10 @@ class CardActionSheet extends HookWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _StatMini(label: 'FSRS Stability', value: '${card.stability.toStringAsFixed(1)}d'),
-                      _StatMini(label: 'Difficulty', value: card.difficulty.toStringAsFixed(1)),
-                      _StatMini(label: 'Reps', value: '${card.reps}'),
-                      _StatMini(label: 'Lapses', value: '${card.lapses}'),
+                      _StatMini(label: l10n.stabilityLabel, value: '${card.stability.toStringAsFixed(1)}d'),
+                      _StatMini(label: l10n.difficultyLabel, value: card.difficulty.toStringAsFixed(1)),
+                      _StatMini(label: l10n.repsLabel, value: '${card.reps}'),
+                      _StatMini(label: l10n.lapsesLabel, value: '${card.lapses}'),
                     ],
                   ),
                 ),

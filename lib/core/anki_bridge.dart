@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 
@@ -47,6 +48,39 @@ class AnkiBridge {
   late final AnkiCloseBackendDart _closeBackend;
 
   int _backendHandle = 0;
+
+  static String get _defaultLibraryName {
+    if (Platform.isWindows) return 'anki_bridge.dll';
+    if (Platform.isMacOS || Platform.isIOS) return 'libanki_bridge.dylib';
+    return 'libanki_bridge.so';
+  }
+
+  static bool? _cachedIsAvailable;
+
+  /// Safely checks whether the native `anki_bridge` dynamic library is present and loadable.
+  static bool get isAvailable {
+    if (_cachedIsAvailable != null) return _cachedIsAvailable!;
+    try {
+      final dylib = DynamicLibrary.open(_defaultLibraryName);
+      dylib.lookup<NativeFunction<AnkiOpenBackendNative>>('anki_open_backend');
+      _cachedIsAvailable = true;
+    } catch (_) {
+      _cachedIsAvailable = false;
+    }
+    return _cachedIsAvailable!;
+  }
+
+  /// Attempts to load and create an [AnkiBridge] instance. Returns null if library is not available.
+  static AnkiBridge? tryCreate({String? libraryPath}) {
+    try {
+      final dylib = libraryPath != null
+          ? DynamicLibrary.open(libraryPath)
+          : DynamicLibrary.open(_defaultLibraryName);
+      return AnkiBridge(dylib);
+    } catch (_) {
+      return null;
+    }
+  }
 
   AnkiBridge(this._dylib) {
     _openBackend = _dylib

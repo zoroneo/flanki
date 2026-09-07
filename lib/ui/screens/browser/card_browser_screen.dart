@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
+import '../../../core/notifiers/deck_notifier.dart';
 import '../study/widgets/card_action_sheet.dart';
 import '../study/widgets/rich_card_content.dart';
 
@@ -20,6 +22,8 @@ class CardBrowserScreen extends HookConsumerWidget {
     final l10n = context.l10n;
     final browserState = ref.watch(cardBrowserProvider);
     final browserNotifier = ref.read(cardBrowserProvider.notifier);
+    final decks = ref.watch(deckListProvider);
+    final deckMap = {for (final d in decks) d.id: d.title};
 
     final searchController = useTextEditingController(
       text: browserState.searchQuery,
@@ -87,10 +91,12 @@ class CardBrowserScreen extends HookConsumerWidget {
         final isDesktop = constraints.maxWidth >= 900;
 
         if (isDesktop) {
-          final currentSelectedCard = filteredCards.cast<CardModel?>().firstWhere(
-            (c) => c?.id == selectedCardId.value,
-            orElse: () => filteredCards.isNotEmpty ? filteredCards.first : null,
-          );
+          final currentSelectedCard =
+              filteredCards.cast<CardModel?>().firstWhere(
+                    (c) => c?.id == selectedCardId.value,
+                    orElse: () =>
+                        filteredCards.isNotEmpty ? filteredCards.first : null,
+                  );
 
           return Scaffold(
             child: Row(
@@ -109,15 +115,18 @@ class CardBrowserScreen extends HookConsumerWidget {
                               child: TextField(
                                 controller: searchController,
                                 placeholder: Text(l10n.searchCardsPlaceholder),
-                                onChanged: (val) => browserNotifier.setSearchQuery(val),
+                                onChanged: (val) =>
+                                    browserNotifier.setSearchQuery(val),
                                 features: [
                                   InputFeature.leading(
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 4, right: 6),
+                                      padding: const EdgeInsets.only(
+                                          left: 4, right: 6),
                                       child: Icon(
                                         LucideIcons.search,
                                         size: 16,
-                                        color: theme.colorScheme.mutedForeground,
+                                        color:
+                                            theme.colorScheme.mutedForeground,
                                       ),
                                     ),
                                   ),
@@ -125,7 +134,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                                     InputFeature.trailing(
                                       IconButton.ghost(
                                         size: ButtonSize.small,
-                                        icon: const Icon(LucideIcons.x, size: 14),
+                                        icon:
+                                            const Icon(LucideIcons.x, size: 14),
                                         onPressed: () {
                                           searchController.clear();
                                           browserNotifier.setSearchQuery('');
@@ -149,37 +159,49 @@ class CardBrowserScreen extends HookConsumerWidget {
                       // Filter Chips
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 4),
                         child: Row(
                           children: [
                             _FilterChip(
-                              label: '${l10n.filterAll} • ${browserState.allCards.length}',
-                              isSelected: browserState.filterType == CardFilterType.all,
-                              onTap: () => browserNotifier.setFilterType(CardFilterType.all),
+                              label:
+                                  '${l10n.filterAll} • ${browserState.allCards.length}',
+                              isSelected:
+                                  browserState.filterType == CardFilterType.all,
+                              onTap: () => browserNotifier
+                                  .setFilterType(CardFilterType.all),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterDue,
-                              isSelected: browserState.filterType == CardFilterType.due,
-                              onTap: () => browserNotifier.setFilterType(CardFilterType.due),
+                              isSelected:
+                                  browserState.filterType == CardFilterType.due,
+                              onTap: () => browserNotifier
+                                  .setFilterType(CardFilterType.due),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterNew,
-                              isSelected: browserState.filterType == CardFilterType.newCard,
-                              onTap: () => browserNotifier.setFilterType(CardFilterType.newCard),
+                              isSelected: browserState.filterType ==
+                                  CardFilterType.newCard,
+                              onTap: () => browserNotifier
+                                  .setFilterType(CardFilterType.newCard),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterFlagged,
-                              isSelected: browserState.filterType == CardFilterType.flagged,
-                              onTap: () => browserNotifier.setFilterType(CardFilterType.flagged),
+                              isSelected: browserState.filterType ==
+                                  CardFilterType.flagged,
+                              onTap: () => browserNotifier
+                                  .setFilterType(CardFilterType.flagged),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterSuspended,
-                              isSelected: browserState.filterType == CardFilterType.suspended,
-                              onTap: () => browserNotifier.setFilterType(CardFilterType.suspended),
+                              isSelected: browserState.filterType ==
+                                  CardFilterType.suspended,
+                              onTap: () => browserNotifier
+                                  .setFilterType(CardFilterType.suspended),
                             ),
                           ],
                         ),
@@ -199,10 +221,12 @@ class CardBrowserScreen extends HookConsumerWidget {
                               )
                             : ListView.builder(
                                 itemCount: filteredCards.length,
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
                                 itemBuilder: (context, index) {
                                   final card = filteredCards[index];
-                                  final isSelected = card.id == selectedCardId.value;
+                                  final isSelected =
+                                      card.id == selectedCardId.value;
 
                                   return _DesktopCardRowItem(
                                     card: card,
@@ -232,7 +256,7 @@ class CardBrowserScreen extends HookConsumerWidget {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                'Chọn thẻ bên trái để xem và sửa chi tiết',
+                                l10n.selectCardToViewDetails,
                                 style: theme.typography.xSmall.copyWith(
                                   color: theme.colorScheme.mutedForeground,
                                 ),
@@ -242,6 +266,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                         )
                       : _DesktopCardDetailPane(
                           card: currentSelectedCard,
+                          deckTitle: deckMap[currentSelectedCard.deckId] ??
+                              currentSelectedCard.deckId,
                           browserNotifier: browserNotifier,
                         ),
                 ),
@@ -257,7 +283,8 @@ class CardBrowserScreen extends HookConsumerWidget {
               if (notification.metrics.pixels >=
                   notification.metrics.maxScrollExtent - 200) {
                 if (displayedCount.value < filteredCards.length) {
-                  displayedCount.value = (displayedCount.value + pageSize).clamp(
+                  displayedCount.value =
+                      (displayedCount.value + pageSize).clamp(
                     0,
                     filteredCards.length,
                   );
@@ -297,11 +324,13 @@ class CardBrowserScreen extends HookConsumerWidget {
                             vertical: 10,
                           ),
                           placeholder: Text(l10n.searchCardsPlaceholder),
-                          onChanged: (val) => browserNotifier.setSearchQuery(val),
+                          onChanged: (val) =>
+                              browserNotifier.setSearchQuery(val),
                           features: [
                             InputFeature.leading(
                               Padding(
-                                padding: const EdgeInsets.only(left: 4, right: 6),
+                                padding:
+                                    const EdgeInsets.only(left: 4, right: 6),
                                 child: Icon(
                                   LucideIcons.search,
                                   size: 16,
@@ -333,22 +362,22 @@ class CardBrowserScreen extends HookConsumerWidget {
                                   '${l10n.filterAll} • ${browserState.allCards.length}',
                               isSelected:
                                   browserState.filterType == CardFilterType.all,
-                              onTap: () =>
-                                  browserNotifier.setFilterType(CardFilterType.all),
+                              onTap: () => browserNotifier
+                                  .setFilterType(CardFilterType.all),
                             ),
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterDue,
                               isSelected:
                                   browserState.filterType == CardFilterType.due,
-                              onTap: () =>
-                                  browserNotifier.setFilterType(CardFilterType.due),
+                              onTap: () => browserNotifier
+                                  .setFilterType(CardFilterType.due),
                             ),
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterNew,
-                              isSelected:
-                                  browserState.filterType == CardFilterType.newCard,
+                              isSelected: browserState.filterType ==
+                                  CardFilterType.newCard,
                               onTap: () => browserNotifier.setFilterType(
                                 CardFilterType.newCard,
                               ),
@@ -356,8 +385,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterFlagged,
-                              isSelected:
-                                  browserState.filterType == CardFilterType.flagged,
+                              isSelected: browserState.filterType ==
+                                  CardFilterType.flagged,
                               onTap: () => browserNotifier.setFilterType(
                                 CardFilterType.flagged,
                               ),
@@ -365,8 +394,7 @@ class CardBrowserScreen extends HookConsumerWidget {
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterSuspended,
-                              isSelected:
-                                  browserState.filterType ==
+                              isSelected: browserState.filterType ==
                                   CardFilterType.suspended,
                               onTap: () => browserNotifier.setFilterType(
                                 CardFilterType.suspended,
@@ -414,9 +442,9 @@ class CardBrowserScreen extends HookConsumerWidget {
                                 onPressed: () {
                                   displayedCount.value =
                                       (displayedCount.value + pageSize).clamp(
-                                        0,
-                                        filteredCards.length,
-                                      );
+                                    0,
+                                    filteredCards.length,
+                                  );
                                 },
                               ),
                             ),
@@ -437,63 +465,80 @@ class CardBrowserScreen extends HookConsumerWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(14),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       if (card.hasFlag) ...[
                                         Container(
                                           width: 8,
                                           height: 8,
-                                          margin: const EdgeInsets.only(top: 5, right: 10),
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 10),
                                           decoration: BoxDecoration(
-                                            color: CardActionSheet.ankiFlagColors[card.flag] ?? m.Colors.grey,
+                                            color:
+                                                CardActionSheet.ankiFlagColors[
+                                                        card.flag] ??
+                                                    m.Colors.grey,
                                             shape: BoxShape.circle,
                                           ),
                                         ),
                                       ],
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              card.front,
+                                              _stripHtml(card.front),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: theme.colorScheme.foreground,
-                                                decoration: card.isSuspended ? TextDecoration.lineThrough : null,
+                                                color: theme
+                                                    .colorScheme.foreground,
+                                                decoration: card.isSuspended
+                                                    ? TextDecoration.lineThrough
+                                                    : null,
                                               ),
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
-                                              card.back,
+                                              _stripHtml(card.back),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 fontSize: 12,
-                                                color: theme.colorScheme.mutedForeground,
+                                                color: theme.colorScheme
+                                                    .mutedForeground,
                                               ),
                                             ),
                                             const SizedBox(height: 8),
                                             Row(
                                               children: [
                                                 Text(
-                                                  l10n.deckPrefix(card.deckId),
+                                                  l10n.deckPrefix(
+                                                      deckMap[card.deckId] ??
+                                                          card.deckId),
                                                   style: TextStyle(
                                                     fontSize: 10,
-                                                    color: theme.colorScheme.mutedForeground,
+                                                    color: theme.colorScheme
+                                                        .mutedForeground,
                                                   ),
                                                 ),
                                                 const Spacer(),
                                                 Text(
                                                   card.intervalDays > 0
-                                                      ? l10n.intervalBadge(card.intervalDays)
+                                                      ? l10n.intervalBadge(
+                                                          card.intervalDays)
                                                       : l10n.newBadge,
                                                   style: TextStyle(
                                                     fontSize: 10,
                                                     fontWeight: FontWeight.w600,
-                                                    color: card.intervalDays > 0 ? theme.colorScheme.primary : m.Colors.green,
+                                                    color: card.intervalDays > 0
+                                                        ? theme
+                                                            .colorScheme.primary
+                                                        : m.Colors.green,
                                                   ),
                                                 ),
                                               ],
@@ -536,6 +581,7 @@ class _DesktopCardRowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
@@ -545,7 +591,8 @@ class _DesktopCardRowItem extends StatelessWidget {
             : theme.colorScheme.card,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
+          color:
+              isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
           width: isSelected ? 1.5 : 1.0,
         ),
       ),
@@ -567,40 +614,48 @@ class _DesktopCardRowItem extends StatelessWidget {
                         height: 7,
                         margin: const EdgeInsets.only(right: 8),
                         decoration: BoxDecoration(
-                          color: CardActionSheet.ankiFlagColors[card.flag] ?? m.Colors.grey,
+                          color: CardActionSheet.ankiFlagColors[card.flag] ??
+                              m.Colors.grey,
                           shape: BoxShape.circle,
                         ),
                       ),
                     Expanded(
                       child: Text(
-                        card.front,
+                        _stripHtml(card.front),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 13,
-                          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                          fontWeight:
+                              isSelected ? FontWeight.w700 : FontWeight.w600,
                           color: theme.colorScheme.foreground,
-                          decoration: card.isSuspended ? TextDecoration.lineThrough : null,
+                          decoration: card.isSuspended
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
                     ),
                     if (card.isSuspended)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 1),
                         decoration: BoxDecoration(
                           color: m.Colors.orange.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const Text(
-                          'Suspended',
-                          style: TextStyle(fontSize: 9, color: m.Colors.orange, fontWeight: FontWeight.bold),
+                        child: Text(
+                          l10n.filterSuspended,
+                          style: const TextStyle(
+                              fontSize: 9,
+                              color: m.Colors.orange,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  card.back,
+                  _stripHtml(card.back),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -621,18 +676,29 @@ class _DesktopCardRowItem extends StatelessWidget {
 // Desktop Card Detail & Live Preview Pane
 // ---------------------------------------------------------------------------
 
-class _DesktopCardDetailPane extends StatelessWidget {
+class _DesktopCardDetailPane extends HookWidget {
   final CardModel card;
+  final String? deckTitle;
   final CardBrowserNotifier browserNotifier;
 
   const _DesktopCardDetailPane({
     required this.card,
+    this.deckTitle,
     required this.browserNotifier,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
+    final showAnswer = useState(false);
+    final userTypedAnswer = useState('');
+
+    useEffect(() {
+      showAnswer.value = false;
+      userTypedAnswer.value = '';
+      return null;
+    }, [card.id]);
 
     return Column(
       children: [
@@ -652,19 +718,25 @@ class _DesktopCardDetailPane extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  card.deckId,
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: theme.colorScheme.primary),
+                  deckTitle ?? card.deckId,
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.primary),
                 ),
               ),
               const SizedBox(width: 8),
               if (card.noteType == NoteType.cloze)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.muted,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Text('Cloze Deletion', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                  child: const Text('Cloze Deletion',
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                 ),
 
               const Spacer(),
@@ -676,14 +748,15 @@ class _DesktopCardDetailPane extends StatelessWidget {
                   card.isSuspended ? LucideIcons.play : LucideIcons.pause,
                   size: 14,
                 ),
-                child: Text(card.isSuspended ? 'Bỏ tạm dừng' : 'Tạm dừng'),
+                child: Text(
+                    card.isSuspended ? l10n.unsuspendCard : l10n.suspendCard),
                 onPressed: () => browserNotifier.toggleCardSuspend(card.id),
               ),
               const SizedBox(width: 8),
               DestructiveButton(
                 size: ButtonSize.small,
                 leading: const Icon(LucideIcons.trash2, size: 14),
-                child: const Text('Xóa'),
+                child: Text(l10n.delete),
                 onPressed: () => browserNotifier.deleteCard(card.id),
               ),
             ],
@@ -706,12 +779,26 @@ class _DesktopCardDetailPane extends StatelessWidget {
                         const Icon(LucideIcons.fileQuestion, size: 16),
                         const SizedBox(width: 8),
                         Text(
-                          'MẶT TRƯỚC / CÂU HỎI',
+                          l10n.frontSide,
                           style: theme.typography.xSmall.copyWith(
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.5,
                             color: theme.colorScheme.mutedForeground,
                           ),
+                        ),
+                        const Spacer(),
+                        GhostButton(
+                          size: ButtonSize.small,
+                          leading: Icon(
+                            showAnswer.value
+                                ? LucideIcons.eyeOff
+                                : LucideIcons.eye,
+                            size: 14,
+                          ),
+                          child: Text(showAnswer.value
+                              ? l10n.hideAnswer
+                              : l10n.showAnswer),
+                          onPressed: () => showAnswer.value = !showAnswer.value,
                         ),
                       ],
                     ),
@@ -721,38 +808,55 @@ class _DesktopCardDetailPane extends StatelessWidget {
                       child: RichCardContent(
                         content: card.front,
                         textAlign: TextAlign.left,
+                        typedAnswer: userTypedAnswer.value,
+                        onAnswerChanged: (v) => userTypedAnswer.value = v,
+                        onSubmitAnswer: () => showAnswer.value = true,
                       ),
                     ),
-                    const SizedBox(height: 20),
 
-                    // Back Label
-                    Row(
-                      children: [
-                        const Icon(LucideIcons.circleCheck, size: 16),
-                        const SizedBox(width: 8),
-                        Text(
-                          'MẶT SAU / ĐÁP ÁN',
-                          style: theme.typography.xSmall.copyWith(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5,
-                            color: theme.colorScheme.mutedForeground,
-                          ),
+                    if (!showAnswer.value) ...[
+                      const SizedBox(height: 16),
+                      Center(
+                        child: PrimaryButton(
+                          leading: const Icon(LucideIcons.eye, size: 16),
+                          child: Text(l10n.showAnswer),
+                          onPressed: () => showAnswer.value = true,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    SurfaceCard(
-                      padding: const EdgeInsets.all(20),
-                      child: RichCardContent(
-                        content: card.back,
-                        textAlign: TextAlign.left,
                       ),
-                    ),
+                    ],
+
+                    // Back Label & Content (Hidden until revealed or submitted)
+                    if (showAnswer.value) ...[
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          const Icon(LucideIcons.circleCheck, size: 16),
+                          const SizedBox(width: 8),
+                          Text(
+                            l10n.backSide,
+                            style: theme.typography.xSmall.copyWith(
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.5,
+                              color: theme.colorScheme.mutedForeground,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      SurfaceCard(
+                        padding: const EdgeInsets.all(20),
+                        child: RichCardContent(
+                          content: card.back,
+                          textAlign: TextAlign.left,
+                          typedAnswer: userTypedAnswer.value,
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 24),
 
                     // FSRS Metrics Grid
                     Text(
-                      'FSRS THUẬT TOÁN & LỊCH ÔN TẬP',
+                      l10n.fsrsScheduleTitle,
                       style: theme.typography.xSmall.copyWith(
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
@@ -764,7 +868,7 @@ class _DesktopCardDetailPane extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _MetricCard(
-                            title: 'Stability (Độ bền)',
+                            title: l10n.stabilityLabel,
                             value: '${card.stability.toStringAsFixed(1)}d',
                             icon: LucideIcons.shieldCheck,
                           ),
@@ -772,7 +876,7 @@ class _DesktopCardDetailPane extends StatelessWidget {
                         const SizedBox(width: 10),
                         Expanded(
                           child: _MetricCard(
-                            title: 'Difficulty (Độ khó)',
+                            title: l10n.difficultyLabel,
                             value: '${card.difficulty.toStringAsFixed(1)} / 10',
                             icon: LucideIcons.brain,
                           ),
@@ -780,7 +884,7 @@ class _DesktopCardDetailPane extends StatelessWidget {
                         const SizedBox(width: 10),
                         Expanded(
                           child: _MetricCard(
-                            title: 'Interval (Khoảng cách)',
+                            title: l10n.intervalLabel,
                             value: '${card.intervalDays}d',
                             icon: LucideIcons.calendar,
                           ),
@@ -788,7 +892,7 @@ class _DesktopCardDetailPane extends StatelessWidget {
                         const SizedBox(width: 10),
                         Expanded(
                           child: _MetricCard(
-                            title: 'Lặp / Quên',
+                            title: l10n.repsAndLapsesLabel,
                             value: '${card.reps} / ${card.lapses}',
                             icon: LucideIcons.rotateCw,
                           ),
@@ -840,7 +944,8 @@ class _MetricCard extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 10, color: theme.colorScheme.mutedForeground),
+                  style: TextStyle(
+                      fontSize: 10, color: theme.colorScheme.mutedForeground),
                 ),
               ),
             ],
@@ -875,9 +980,8 @@ class _FilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected
-              ? theme.colorScheme.primary
-              : theme.colorScheme.muted,
+          color:
+              isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
@@ -986,4 +1090,16 @@ class _SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
         oldDelegate.filterRow != filterRow ||
         oldDelegate.theme != theme;
   }
+}
+
+String _stripHtml(String text) {
+  if (!text.contains('<')) return text;
+  return text
+      .replaceAll(RegExp(r'<[^>]*>'), ' ')
+      .replaceAll('&nbsp;', ' ')
+      .replaceAll('&lt;', '<')
+      .replaceAll('&gt;', '>')
+      .replaceAll('&amp;', '&')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
 }

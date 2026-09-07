@@ -374,7 +374,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           const SizedBox(width: 6),
                           Flexible(
                             child: Text(
-                              'HostKey được mã hóa an toàn trong Secure Storage',
+                              l10n.authSecurityNote,
                               style: TextStyle(
                                 fontSize: 11,
                                 color: theme.colorScheme.mutedForeground,

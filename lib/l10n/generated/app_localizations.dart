@@ -542,11 +542,11 @@ abstract class AppLocalizations {
   /// **'Target reached'**
   String get targetReached;
 
-  /// No description provided for @targetSuffix.
+  /// Target retention suffix for stats screen
   ///
   /// In en, this message translates to:
-  /// **'/ 85% target'**
-  String get targetSuffix;
+  /// **'/ {rate} target'**
+  String targetSuffix(String rate);
 
   /// No description provided for @reviewedToday.
   ///
@@ -794,11 +794,11 @@ abstract class AppLocalizations {
   /// **'{count} Day Streak'**
   String streakDaysBadge(int count);
 
-  /// No description provided for @targetRetentionBadge.
+  /// Badge showing target retention rate on decks screen
   ///
   /// In en, this message translates to:
-  /// **'Target 85% retention'**
-  String get targetRetentionBadge;
+  /// **'Target {rate} retention'**
+  String targetRetentionBadge(String rate);
 
   /// No description provided for @cramTagInputLabel.
   ///
@@ -1225,6 +1225,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Traditional SM-2 algorithm'**
   String get sm2Subtitle;
+
+  /// No description provided for @selectApkgOrZipPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an .apkg or .zip file'**
+  String get selectApkgOrZipPrompt;
+
+  /// No description provided for @subdecksCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} subdecks'**
+  String subdecksCount(int count);
+
+  /// No description provided for @importedFromApkg.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported from Anki .apkg package'**
+  String get importedFromApkg;
+
+  /// No description provided for @badgeDue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} due'**
+  String badgeDue(int count);
+
+  /// No description provided for @badgeNew.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} new'**
+  String badgeNew(int count);
+
+  /// No description provided for @badgeTotalCards.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cards'**
+  String badgeTotalCards(int count);
+
+  /// No description provided for @createDeckAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Deck'**
+  String get createDeckAction;
+
+  /// No description provided for @importApkgAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Anki (.apkg)'**
+  String get importApkgAction;
+
+  /// No description provided for @cramAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cram Study'**
+  String get cramAction;
+
+  /// No description provided for @deckHierarchyTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Use :: to create hierarchy (e.g. English::Unit 01)'**
+  String get deckHierarchyTip;
+
+  /// No description provided for @typeAnswerPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your answer...'**
+  String get typeAnswerPlaceholder;
+
+  /// No description provided for @correctAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct!'**
+  String get correctAnswerLabel;
+
+  /// No description provided for @yourAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'You typed: '**
+  String get yourAnswerLabel;
+
+  /// No description provided for @expectedAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct answer: '**
+  String get expectedAnswerLabel;
+
+  /// No description provided for @answerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer: '**
+  String get answerLabel;
+
+  /// No description provided for @stabilityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stability'**
+  String get stabilityLabel;
+
+  /// No description provided for @difficultyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get difficultyLabel;
+
+  /// No description provided for @repsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps'**
+  String get repsLabel;
+
+  /// No description provided for @lapsesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Lapses'**
+  String get lapsesLabel;
+
+  /// No description provided for @newCardsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'New cards per day'**
+  String get newCardsPerDay;
+
+  /// No description provided for @maxReviewsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum reviews per day'**
+  String get maxReviewsPerDay;
+
+  /// No description provided for @selectCardToViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a card on the left to view and edit details'**
+  String get selectCardToViewDetails;
+
+  /// No description provided for @unsuspendCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsuspend'**
+  String get unsuspendCard;
+
+  /// No description provided for @fsrsScheduleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FSRS ALGORITHM & SCHEDULE'**
+  String get fsrsScheduleTitle;
+
+  /// No description provided for @intervalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval'**
+  String get intervalLabel;
+
+  /// No description provided for @repsAndLapsesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps / Lapses'**
+  String get repsAndLapsesLabel;
+
+  /// No description provided for @dartCoreEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Dart Core (Drift SQLite)'**
+  String get dartCoreEngine;
+
+  /// No description provided for @submitAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submitAnswer;
+
+  /// No description provided for @showAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Answer'**
+  String get showAnswer;
+
+  /// No description provided for @hideAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Answer'**
+  String get hideAnswer;
+
+  /// No description provided for @syncMediaOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Media (Images & Audio)'**
+  String get syncMediaOnly;
+
+  /// No description provided for @syncingMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing media files...'**
+  String get syncingMedia;
 }
 
 class _AppLocalizationsDelegate

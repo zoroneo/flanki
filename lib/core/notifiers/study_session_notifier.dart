@@ -1,9 +1,11 @@
 import '../fsrs/fsrs_engine_service.dart';
+import '../fsrs/sm2_engine_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/card.dart';
 import '../storage/database_service.dart';
 import 'card_browser_notifier.dart';
 import 'deck_notifier.dart';
+import 'settings_notifier.dart';
 import 'stats_notifier.dart';
 
 class StudySessionSnapshot {
@@ -31,6 +33,7 @@ class StudySessionState {
   final int initialCount;
   final bool isFinished;
   final List<StudySessionSnapshot> history;
+  final DateTime? cardPresentedAt;
 
   const StudySessionState({
     required this.deckId,
@@ -41,11 +44,12 @@ class StudySessionState {
     this.initialCount = 0,
     this.isFinished = false,
     this.history = const [],
+    this.cardPresentedAt,
   });
 
   bool get canUndo => history.isNotEmpty;
 
-  factory StudySessionState.initial(String deckId) {
+  factory StudySessionState.initial(String deckId, {StudySettings? settings}) {
     if (deckId.isEmpty) {
       return const StudySessionState(
         deckId: '',
@@ -64,7 +68,13 @@ class StudySessionState {
       // Custom Study / Cram Deck: query matching cards
       cards = DatabaseService.instance.getCustomStudyQueue(deckId: deckId, limit: 50);
     } else {
-      cards = DatabaseService.instance.getStudyQueue(deckId, limit: 50);
+      final newLimit = settings?.newCardsPerDay ?? 20;
+      final reviewLimit = settings?.maxReviewsPerDay ?? 100;
+      cards = DatabaseService.instance.getStudyQueue(
+        deckId,
+        newLimit: newLimit,
+        reviewLimit: reviewLimit,
+      );
     }
 
     return StudySessionState(
@@ -76,6 +86,7 @@ class StudySessionState {
       initialCount: cards.length,
       isFinished: cards.isEmpty,
       history: const [],
+      cardPresentedAt: cards.isNotEmpty ? DateTime.now() : null,
     );
   }
 
@@ -91,12 +102,14 @@ final studySessionProvider =
 class StudySessionNotifier extends Notifier<StudySessionState> {
   @override
   StudySessionState build() {
-    return StudySessionState.initial('');
+    final settings = ref.watch(studySettingsProvider);
+    return StudySessionState.initial('', settings: settings);
   }
 
   void init(String deckId) {
+    final settings = ref.read(studySettingsProvider);
     if (state.deckId != deckId || state.isFinished) {
-      state = StudySessionState.initial(deckId);
+      state = StudySessionState.initial(deckId, settings: settings);
     }
   }
 
@@ -129,19 +142,33 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     );
     final updatedHistory = [...state.history, snapshot];
 
-    // 2. FSRS Spaced Repetition calculation
-    final fsrsService = FsrsEngineService();
-    final scheduledCard = fsrsService.scheduleReview(current, rating);
+    // 2. Dynamic Spaced Repetition calculation (FSRS vs SM-2 based on user settings)
+    final settings = ref.read(studySettingsProvider);
+    final CardModel scheduledCard;
+    if (settings.fsrsEnabled) {
+      final fsrsService = FsrsEngineService(desiredRetention: settings.desiredRetention);
+      scheduledCard = fsrsService.scheduleReview(current, rating);
+    } else {
+      const sm2Service = Sm2EngineService();
+      scheduledCard = sm2Service.scheduleReview(current, rating);
+    }
 
-    // 3. Persist card updates and record Review Log into SQLite
+    // 3. Track real elapsed study time
+    final now = DateTime.now();
+    final elapsedSeconds = state.cardPresentedAt != null
+        ? now.difference(state.cardPresentedAt!).inSeconds.clamp(1, 120)
+        : 15;
+    ref.read(statsNotifierProvider.notifier).recordStudyDuration(elapsedSeconds);
+
+    // 4. Persist card updates and record Review Log into SQLite
     DatabaseService.instance.saveCard(scheduledCard);
     DatabaseService.instance.insertReviewLog(
       cardId: scheduledCard.id,
       rating: rating,
-      reviewTime: DateTime.now(),
+      reviewTime: now,
       scheduledDays: scheduledCard.intervalDays,
       elapsedDays: current.lastStudied != null
-          ? DateTime.now().difference(current.lastStudied!).inDays
+          ? now.difference(current.lastStudied!).inDays
           : 0,
     );
 
@@ -179,6 +206,7 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
         initialCount: state.initialCount,
         isFinished: false,
         history: updatedHistory,
+        cardPresentedAt: DateTime.now(),
       );
     }
   }
@@ -307,11 +335,13 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
         initialCount: state.initialCount,
         isFinished: false,
         history: state.history,
+        cardPresentedAt: DateTime.now(),
       );
     }
   }
 
   void restart() {
-    state = StudySessionState.initial(state.deckId);
+    final settings = ref.read(studySettingsProvider);
+    state = StudySessionState.initial(state.deckId, settings: settings);
   }
 }

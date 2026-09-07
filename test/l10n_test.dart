@@ -28,6 +28,8 @@ void main() {
       expect(l10nEn.newBadge, 'New');
       expect(l10nEn.studyMinutesUnit(10), '10m');
       expect(l10nEn.targetRetentionRate('85%'), 'Target 85%');
+      expect(l10nEn.targetRetentionBadge('90%'), 'Target 90% retention');
+      expect(l10nEn.targetSuffix('90%'), '/ 90% target');
       expect(l10nEn.algorithmLabel, 'Algorithm');
       expect(l10nEn.themeZinc, 'Zinc Theme');
       expect(l10nEn.ankiRustCore, 'Anki Rust Core');
@@ -49,6 +51,8 @@ void main() {
       expect(l10nVi.newBadge, 'Mới');
       expect(l10nVi.studyMinutesUnit(10), '10p');
       expect(l10nVi.targetRetentionRate('85%'), 'Mục tiêu 85%');
+      expect(l10nVi.targetRetentionBadge('90%'), 'Mục tiêu 90% nhớ');
+      expect(l10nVi.targetSuffix('90%'), '/ mục tiêu 90%');
       expect(l10nVi.algorithmLabel, 'Thuật toán');
       expect(l10nVi.themeZinc, 'Chủ đề Zinc');
       expect(l10nVi.ankiRustCore, 'Nhân Anki Rust');

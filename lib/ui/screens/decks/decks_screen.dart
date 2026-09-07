@@ -15,9 +15,11 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
+import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/notifiers/stats_notifier.dart';
 import '../../../core/auth/auth_notifier.dart';
 import '../../../core/models/deck.dart';
+import '../../widgets/sync_progress_toast.dart';
 import '../auth/anki_web_auth_sheet.dart';
 import 'widgets/custom_study_modal.dart';
 import 'widgets/create_deck_modal.dart';
@@ -32,6 +34,7 @@ class DecksScreen extends HookConsumerWidget {
     final deckNotifier = ref.read(deckListProvider.notifier);
     final authState = ref.watch(authNotifierProvider);
     final stats = ref.watch(statsNotifierProvider);
+    final studySettings = ref.watch(studySettingsProvider);
     final l10n = context.l10n;
 
     // Hooks: Search query and filter state
@@ -92,16 +95,37 @@ class DecksScreen extends HookConsumerWidget {
       }
 
       isSyncing.value = true;
+      final statusNotifier = ValueNotifier<SyncProgressStatus>(
+        SyncProgressStatus(
+          title: l10n.syncAnkiWeb,
+          message: 'Đang chuẩn bị kết nối...',
+          progress: 0.05,
+        ),
+      );
+
+      ToastOverlay? toastOverlay;
+      if (context.mounted) {
+        toastOverlay = SyncProgressToast.show(
+          context: context,
+          statusNotifier: statusNotifier,
+        );
+      }
+
       final syncService = AnkiWebSyncService();
 
       try {
         final syncResult = await syncService.syncCollection(
           hostKey: authState.hostKey!,
+          onProgress: (stage, progress) {
+            statusNotifier.value = SyncProgressStatus(
+              title: l10n.syncAnkiWeb,
+              message: stage,
+              progress: progress,
+            );
+          },
         );
 
         if (context.mounted) {
-          isSyncing.value = false;
-
           if (syncResult.success) {
             ref.read(authNotifierProvider.notifier).recordSyncSuccess();
 
@@ -115,71 +139,39 @@ class DecksScreen extends HookConsumerWidget {
             }
             await deckNotifier.refresh();
 
-            if (!context.mounted) return;
-            showToast(
-              context: context,
-              builder: (context, overlay) {
-                return SurfaceCard(
-                  child: Basic(
-                    title: Text(l10n.syncCompleted),
-                    subtitle: Text(syncResult.message),
-                    leading: const Icon(
-                      LucideIcons.cloud,
-                      color: m.Colors.green,
-                    ),
-                    trailing: IconButton.ghost(
-                      icon: const Icon(LucideIcons.x),
-                      onPressed: () => overlay.close(),
-                    ),
-                  ),
-                );
-              },
+            statusNotifier.value = SyncProgressStatus(
+              title: l10n.syncCompleted,
+              message: syncResult.message,
+              progress: 1.0,
+              isCompleted: true,
             );
+            Future.delayed(const Duration(seconds: 4), () {
+              toastOverlay?.close();
+            });
           } else {
-            showToast(
-              context: context,
-              builder: (context, overlay) {
-                return SurfaceCard(
-                  child: Basic(
-                    title: Text(l10n.syncFailed),
-                    subtitle: Text(syncResult.message),
-                    leading: const Icon(
-                      LucideIcons.cloudOff,
-                      color: m.Colors.red,
-                    ),
-                    trailing: IconButton.ghost(
-                      icon: const Icon(LucideIcons.x),
-                      onPressed: () => overlay.close(),
-                    ),
-                  ),
-                );
-              },
+            statusNotifier.value = SyncProgressStatus(
+              title: l10n.syncFailed,
+              message: syncResult.message,
+              progress: 1.0,
+              isError: true,
             );
+            Future.delayed(const Duration(seconds: 5), () {
+              toastOverlay?.close();
+            });
           }
         }
       } catch (e) {
-        if (context.mounted) {
-          isSyncing.value = false;
-          showToast(
-            context: context,
-            builder: (context, overlay) {
-              return SurfaceCard(
-                child: Basic(
-                  title: Text(l10n.syncError),
-                  subtitle: Text(e.toString()),
-                  leading: const Icon(
-                    LucideIcons.circleAlert,
-                    color: m.Colors.red,
-                  ),
-                  trailing: IconButton.ghost(
-                    icon: const Icon(LucideIcons.x),
-                    onPressed: () => overlay.close(),
-                  ),
-                ),
-              );
-            },
-          );
-        }
+        statusNotifier.value = SyncProgressStatus(
+          title: l10n.syncError,
+          message: e.toString(),
+          progress: 1.0,
+          isError: true,
+        );
+        Future.delayed(const Duration(seconds: 5), () {
+          toastOverlay?.close();
+        });
+      } finally {
+        isSyncing.value = false;
       }
     }
 
@@ -208,7 +200,7 @@ class DecksScreen extends HookConsumerWidget {
                 return SurfaceCard(
                   child: Basic(
                     title: Text(l10n.importApkgError),
-                    subtitle: const Text('Vui lòng chọn file .apkg hoặc .zip'),
+                    subtitle: Text(l10n.selectApkgOrZipPrompt),
                     leading: const Icon(
                       LucideIcons.circleAlert,
                       color: m.Colors.red,
@@ -399,7 +391,7 @@ class DecksScreen extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  'FSRS v5',
+                  studySettings.fsrsEnabled ? 'FSRS v5' : 'SM-2',
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
@@ -465,7 +457,9 @@ class DecksScreen extends HookConsumerWidget {
                               ],
                             ),
                             Text(
-                              l10n.targetRetentionBadge,
+                              l10n.targetRetentionBadge(
+                                '${(studySettings.desiredRetention * 100).toInt()}%',
+                              ),
                               style: theme.typography.xSmall.copyWith(
                                 color: theme.colorScheme.foreground.withValues(
                                   alpha: 0.65,
@@ -505,51 +499,48 @@ class DecksScreen extends HookConsumerWidget {
                   const SizedBox(height: 16),
 
                   // Search Bar + Desktop Toolbar
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          features: [
-                            InputFeature.leading(
-                              Icon(
-                                LucideIcons.search,
-                                size: 18,
-                                color: theme.colorScheme.mutedForeground,
+                  SizedBox(
+                    height: 38,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            features: [
+                              InputFeature.leading(
+                                Icon(
+                                  LucideIcons.search,
+                                  size: 18,
+                                  color: theme.colorScheme.mutedForeground,
+                                ),
                               ),
-                            ),
-                          ],
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 10,
+                            ],
+                            placeholder: Text(l10n.searchDecks),
+                            onChanged: (val) => searchQuery.value = val,
                           ),
-                          placeholder: Text(l10n.searchDecks),
-                          onChanged: (val) => searchQuery.value = val,
                         ),
-                      ),
-                      if (MediaQuery.sizeOf(context).width >= 768) ...[
-                        const SizedBox(width: 12),
-                        PrimaryButton(
-                          size: ButtonSize.small,
-                          leading: const Icon(LucideIcons.plus, size: 16),
-                          onPressed: openCreateDeckModal,
-                          child: Text(l10n.addNewDeck),
-                        ),
-                        const SizedBox(width: 8),
-                        OutlineButton(
-                          size: ButtonSize.small,
-                          leading: const Icon(LucideIcons.fileUp, size: 16),
-                          onPressed: handleApkgImport,
-                          child: Text(l10n.importApkg),
-                        ),
-                        const SizedBox(width: 8),
-                        GhostButton(
-                          size: ButtonSize.small,
-                          leading: const Icon(LucideIcons.zap, size: 16),
-                          onPressed: openCramModal,
-                          child: Text(l10n.customStudy),
-                        ),
+                        if (MediaQuery.sizeOf(context).width >= 768) ...[
+                          const SizedBox(width: 12),
+                          PrimaryButton(
+                            leading: const Icon(LucideIcons.plus, size: 16),
+                            onPressed: openCreateDeckModal,
+                            child: Text(l10n.addNewDeck),
+                          ),
+                          const SizedBox(width: 8),
+                          OutlineButton(
+                            leading: const Icon(LucideIcons.fileUp, size: 16),
+                            onPressed: handleApkgImport,
+                            child: Text(l10n.importApkg),
+                          ),
+                          const SizedBox(width: 8),
+                          GhostButton(
+                            leading: const Icon(LucideIcons.zap, size: 16),
+                            onPressed: openCramModal,
+                            child: Text(l10n.customStudy),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
               const SizedBox(height: 20),
 
@@ -918,6 +909,7 @@ class _GroupedDeckCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final isExpanded = useState(autoExpand);
 
     useEffect(() {
@@ -988,7 +980,7 @@ class _GroupedDeckCard extends HookWidget {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                '${subdecks.length} bộ thẻ con',
+                                l10n.subdecksCount(subdecks.length),
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w600,
@@ -1005,7 +997,7 @@ class _GroupedDeckCard extends HookWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Được import từ gói Anki .apkg',
+                              l10n.importedFromApkg,
                               style: theme.typography.xSmall.copyWith(
                                 color: theme.colorScheme.mutedForeground,
                               ),
@@ -1165,7 +1157,7 @@ class _GroupedDeckCard extends HookWidget {
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    '${deck.dueCount} ôn',
+                                    l10n.badgeDue(deck.dueCount),
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w700,
@@ -1186,7 +1178,7 @@ class _GroupedDeckCard extends HookWidget {
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    '${deck.newCount} mới',
+                                    l10n.badgeNew(deck.newCount),
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w700,
@@ -1195,7 +1187,7 @@ class _GroupedDeckCard extends HookWidget {
                                   ),
                                 ),
                               Text(
-                                '${deck.totalCount} thẻ',
+                                l10n.badgeTotalCards(deck.totalCount),
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: theme.colorScheme.mutedForeground,
@@ -1241,6 +1233,7 @@ class _DeckSpeedDial extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final controller = useAnimationController(
       duration: const Duration(milliseconds: 200),
     );
@@ -1273,21 +1266,21 @@ class _DeckSpeedDial extends HookWidget {
                       _SpeedDialOption(
                         icon: LucideIcons.folderPlus,
                         iconColor: m.Colors.green,
-                        label: 'Tạo bộ thẻ mới',
+                        label: l10n.createDeckAction,
                         onTap: onCreateDeck,
                       ),
                       const SizedBox(height: 12),
                       _SpeedDialOption(
                         icon: LucideIcons.upload,
                         iconColor: m.Colors.blue,
-                        label: 'Nạp file Anki (.apkg)',
+                        label: l10n.importApkgAction,
                         onTap: onImportApkg,
                       ),
                       const SizedBox(height: 12),
                       _SpeedDialOption(
                         icon: LucideIcons.zap,
                         iconColor: m.Colors.amber,
-                        label: 'Học cấp tốc (Cram)',
+                        label: l10n.cramAction,
                         onTap: onCram,
                       ),
                       const SizedBox(height: 16),

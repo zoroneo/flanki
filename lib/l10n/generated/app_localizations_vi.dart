@@ -249,7 +249,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get targetReached => 'Đạt mục tiêu';
 
   @override
-  String get targetSuffix => '/ mục tiêu 85%';
+  String targetSuffix(String rate) {
+    return '/ mục tiêu $rate';
+  }
 
   @override
   String get reviewedToday => 'Đã ôn hôm nay';
@@ -384,7 +386,9 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get targetRetentionBadge => 'Mục tiêu 85% nhớ';
+  String targetRetentionBadge(String rate) {
+    return 'Mục tiêu $rate nhớ';
+  }
 
   @override
   String get cramTagInputLabel => 'TÊN TAG CẦN ÔN';
@@ -629,4 +633,110 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get sm2Subtitle => 'Thuật toán SM-2 truyền thống';
+
+  @override
+  String get selectApkgOrZipPrompt => 'Vui lòng chọn file .apkg hoặc .zip';
+
+  @override
+  String subdecksCount(int count) {
+    return '$count bộ thẻ con';
+  }
+
+  @override
+  String get importedFromApkg => 'Được import từ gói Anki .apkg';
+
+  @override
+  String badgeDue(int count) {
+    return '$count ôn';
+  }
+
+  @override
+  String badgeNew(int count) {
+    return '$count mới';
+  }
+
+  @override
+  String badgeTotalCards(int count) {
+    return '$count thẻ';
+  }
+
+  @override
+  String get createDeckAction => 'Tạo bộ thẻ mới';
+
+  @override
+  String get importApkgAction => 'Nạp file Anki (.apkg)';
+
+  @override
+  String get cramAction => 'Học cấp tốc (Cram)';
+
+  @override
+  String get deckHierarchyTip =>
+      'Mẹo: Dùng dấu :: để tạo phân cấp (VD: Tiếng Anh::Unit 01)';
+
+  @override
+  String get typeAnswerPlaceholder => 'Nhập câu trả lời...';
+
+  @override
+  String get correctAnswerLabel => 'Chính xác!';
+
+  @override
+  String get yourAnswerLabel => 'Đã nhập: ';
+
+  @override
+  String get expectedAnswerLabel => 'Đáp án đúng: ';
+
+  @override
+  String get answerLabel => 'Đáp án: ';
+
+  @override
+  String get stabilityLabel => 'Độ bền nhớ (Stability)';
+
+  @override
+  String get difficultyLabel => 'Độ khó (Difficulty)';
+
+  @override
+  String get repsLabel => 'Số lần ôn (Reps)';
+
+  @override
+  String get lapsesLabel => 'Số lần quên (Lapses)';
+
+  @override
+  String get newCardsPerDay => 'Thẻ mới mỗi ngày';
+
+  @override
+  String get maxReviewsPerDay => 'Ôn tập tối đa mỗi ngày';
+
+  @override
+  String get selectCardToViewDetails =>
+      'Chọn thẻ bên trái để xem và sửa chi tiết';
+
+  @override
+  String get unsuspendCard => 'Bỏ tạm dừng';
+
+  @override
+  String get fsrsScheduleTitle => 'FSRS THUẬT TOÁN & LỊCH ÔN TẬP';
+
+  @override
+  String get intervalLabel => 'Khoảng cách (Interval)';
+
+  @override
+  String get repsAndLapsesLabel => 'Lặp / Quên';
+
+  @override
+  String get dartCoreEngine => 'Nhân Dart (Drift SQLite)';
+
+  @override
+  String get submitAnswer => 'Kiểm tra';
+
+  @override
+  String get showAnswer => 'Hiện đáp án';
+
+  @override
+  String get hideAnswer => 'Ẩn đáp án';
+
+  @override
+  String get syncMediaOnly => 'Đồng bộ Media (Ảnh & Âm thanh)';
+
+  @override
+  String get syncingMedia => 'Đang tải tệp media...';
 }

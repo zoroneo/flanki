@@ -8,10 +8,12 @@ import 'core/router/app_router.dart';
 import 'l10n/generated/app_localizations.dart';
 
 import 'core/storage/database_service.dart';
+import 'core/storage/media_storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseService.instance.init();
+  await MediaStorageService.instance.init();
   runApp(
     const ProviderScope(
       child: FlankiApp(),

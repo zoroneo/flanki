@@ -254,7 +254,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get targetReached => 'Target reached';
 
   @override
-  String get targetSuffix => '/ 85% target';
+  String targetSuffix(String rate) {
+    return '/ $rate target';
+  }
 
   @override
   String get reviewedToday => 'Reviewed today';
@@ -389,7 +391,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get targetRetentionBadge => 'Target 85% retention';
+  String targetRetentionBadge(String rate) {
+    return 'Target $rate retention';
+  }
 
   @override
   String get cramTagInputLabel => 'TAG NAME TO STUDY';
@@ -633,4 +637,110 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sm2Subtitle => 'Traditional SM-2 algorithm';
+
+  @override
+  String get selectApkgOrZipPrompt => 'Please select an .apkg or .zip file';
+
+  @override
+  String subdecksCount(int count) {
+    return '$count subdecks';
+  }
+
+  @override
+  String get importedFromApkg => 'Imported from Anki .apkg package';
+
+  @override
+  String badgeDue(int count) {
+    return '$count due';
+  }
+
+  @override
+  String badgeNew(int count) {
+    return '$count new';
+  }
+
+  @override
+  String badgeTotalCards(int count) {
+    return '$count cards';
+  }
+
+  @override
+  String get createDeckAction => 'Create Deck';
+
+  @override
+  String get importApkgAction => 'Import Anki (.apkg)';
+
+  @override
+  String get cramAction => 'Cram Study';
+
+  @override
+  String get deckHierarchyTip =>
+      'Tip: Use :: to create hierarchy (e.g. English::Unit 01)';
+
+  @override
+  String get typeAnswerPlaceholder => 'Type your answer...';
+
+  @override
+  String get correctAnswerLabel => 'Correct!';
+
+  @override
+  String get yourAnswerLabel => 'You typed: ';
+
+  @override
+  String get expectedAnswerLabel => 'Correct answer: ';
+
+  @override
+  String get answerLabel => 'Answer: ';
+
+  @override
+  String get stabilityLabel => 'Stability';
+
+  @override
+  String get difficultyLabel => 'Difficulty';
+
+  @override
+  String get repsLabel => 'Reps';
+
+  @override
+  String get lapsesLabel => 'Lapses';
+
+  @override
+  String get newCardsPerDay => 'New cards per day';
+
+  @override
+  String get maxReviewsPerDay => 'Maximum reviews per day';
+
+  @override
+  String get selectCardToViewDetails =>
+      'Select a card on the left to view and edit details';
+
+  @override
+  String get unsuspendCard => 'Unsuspend';
+
+  @override
+  String get fsrsScheduleTitle => 'FSRS ALGORITHM & SCHEDULE';
+
+  @override
+  String get intervalLabel => 'Interval';
+
+  @override
+  String get repsAndLapsesLabel => 'Reps / Lapses';
+
+  @override
+  String get dartCoreEngine => 'Dart Core (Drift SQLite)';
+
+  @override
+  String get submitAnswer => 'Submit';
+
+  @override
+  String get showAnswer => 'Show Answer';
+
+  @override
+  String get hideAnswer => 'Hide Answer';
+
+  @override
+  String get syncMediaOnly => 'Sync Media (Images & Audio)';
+
+  @override
+  String get syncingMedia => 'Syncing media files...';
 }

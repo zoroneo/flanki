@@ -1,6 +1,5 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/main.dart';
@@ -66,9 +65,11 @@ void main() {
 
     // We are now on Browser screen: card front should be displayed
     expect(find.text('Desktop Test Question'), findsWidgets);
-    // Detail pane on right shows Front/Back card preview sections
-    expect(find.text('MẶT TRƯỚC / CÂU HỎI'), findsOneWidget);
-    expect(find.text('MẶT SAU / ĐÁP ÁN'), findsOneWidget);
+    // Detail pane on right shows Front preview, and reveals Back on Show Answer
+    expect(find.text('FRONT'), findsOneWidget);
+    await tester.tap(find.text('Show Answer').first);
+    await tester.pumpAndSettle();
+    expect(find.text('BACK'), findsOneWidget);
     expect(find.text('Desktop Test Answer'), findsWidgets);
 
     // Trigger Ctrl+1 shortcut to switch back to Decks tab

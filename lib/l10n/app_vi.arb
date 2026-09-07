@@ -85,7 +85,15 @@
   "statsTitle": "Thống kê học tập",
   "retentionRate": "TỶ LỆ GHI NHỚ",
   "targetReached": "Đạt mục tiêu",
-  "targetSuffix": "/ mục tiêu 85%",
+  "targetSuffix": "/ mục tiêu {rate}",
+  "@targetSuffix": {
+    "description": "Target retention suffix for stats screen",
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
   "reviewedToday": "Đã ôn hôm nay",
   "reviewedDiff": "Thẻ đã ôn",
   "studyTime": "Thời gian học",
@@ -131,7 +139,15 @@
   "cramDeckCreated": "Đã tạo Cram Deck",
   "cramDeckCreatedDesc": "Đã lọc {count} thẻ ôn cấp tốc (#{tag}).",
   "streakDaysBadge": "{count} Ngày Streak",
-  "targetRetentionBadge": "Mục tiêu 85% nhớ",
+  "targetRetentionBadge": "Mục tiêu {rate} nhớ",
+  "@targetRetentionBadge": {
+    "description": "Badge showing target retention rate on decks screen",
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
   "cramTagInputLabel": "TÊN TAG CẦN ÔN",
   "cardsCountUnit": "{count} thẻ",
   "cramButton": "Cram",
@@ -202,6 +218,38 @@
   "cardDeleted": "Đã xóa thẻ",
   "undo": "Hoàn tác",
   "delete": "Xóa",
-  "sm2Subtitle": "Thuật toán SM-2 truyền thống"
+  "sm2Subtitle": "Thuật toán SM-2 truyền thống",
+  "selectApkgOrZipPrompt": "Vui lòng chọn file .apkg hoặc .zip",
+  "subdecksCount": "{count} bộ thẻ con",
+  "importedFromApkg": "Được import từ gói Anki .apkg",
+  "badgeDue": "{count} ôn",
+  "badgeNew": "{count} mới",
+  "badgeTotalCards": "{count} thẻ",
+  "createDeckAction": "Tạo bộ thẻ mới",
+  "importApkgAction": "Nạp file Anki (.apkg)",
+  "cramAction": "Học cấp tốc (Cram)",
+  "deckHierarchyTip": "Mẹo: Dùng dấu :: để tạo phân cấp (VD: Tiếng Anh::Unit 01)",
+  "typeAnswerPlaceholder": "Nhập câu trả lời...",
+  "correctAnswerLabel": "Chính xác!",
+  "yourAnswerLabel": "Đã nhập: ",
+  "expectedAnswerLabel": "Đáp án đúng: ",
+  "answerLabel": "Đáp án: ",
+  "stabilityLabel": "Độ bền nhớ (Stability)",
+  "difficultyLabel": "Độ khó (Difficulty)",
+  "repsLabel": "Số lần ôn (Reps)",
+  "lapsesLabel": "Số lần quên (Lapses)",
+  "newCardsPerDay": "Thẻ mới mỗi ngày",
+  "maxReviewsPerDay": "Ôn tập tối đa mỗi ngày",
+  "selectCardToViewDetails": "Chọn thẻ bên trái để xem và sửa chi tiết",
+  "unsuspendCard": "Bỏ tạm dừng",
+  "fsrsScheduleTitle": "FSRS THUẬT TOÁN & LỊCH ÔN TẬP",
+  "intervalLabel": "Khoảng cách (Interval)",
+  "repsAndLapsesLabel": "Lặp / Quên",
+  "dartCoreEngine": "Nhân Dart (Drift SQLite)",
+  "submitAnswer": "Kiểm tra",
+  "showAnswer": "Hiện đáp án",
+  "hideAnswer": "Ẩn đáp án",
+  "syncMediaOnly": "Đồng bộ Media (Ảnh & Âm thanh)",
+  "syncingMedia": "Đang tải tệp media..."
 }
 

@@ -182,7 +182,7 @@ class CreateDeckModal extends HookWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Mẹo: Dùng dấu :: để tạo phân cấp (VD: Tiếng Anh::Unit 01)',
+                        l10n.deckHierarchyTip,
                         style: TextStyle(
                           fontSize: 11,
                           color: theme.colorScheme.mutedForeground,

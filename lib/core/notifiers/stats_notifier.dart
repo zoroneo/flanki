@@ -26,13 +26,7 @@ class StatsData {
       totalReviews: 0,
       studyTimeMinutes: 0,
       streakDays: 0,
-      heatmapLevels: [
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-      ],
+      heatmapLevels: [],
     );
   }
 }
@@ -41,6 +35,8 @@ final statsNotifierProvider =
     NotifierProvider<StatsNotifier, StatsData>(StatsNotifier.new);
 
 class StatsNotifier extends Notifier<StatsData> {
+  int _trackedStudySecondsToday = 0;
+
   @override
   StatsData build() {
     return _computeStats();
@@ -48,6 +44,11 @@ class StatsNotifier extends Notifier<StatsData> {
 
   void refresh() {
     state = _computeStats();
+  }
+
+  void recordStudyDuration(int seconds) {
+    _trackedStudySecondsToday += seconds;
+    refresh();
   }
 
   StatsData _computeStats() {
@@ -82,8 +83,10 @@ class StatsNotifier extends Notifier<StatsData> {
 
     final retention = logs.isNotEmpty ? (successfulReviews / logs.length) : 0.0;
 
-    // Estimated study time: ~15 seconds per card
-    final studyTimeMinutes = (reviewedToday * 15 / 60).round();
+    // Study time: prefer tracked real duration, or fallback to ~15s per card
+    final studyTimeMinutes = _trackedStudySecondsToday > 0
+        ? (_trackedStudySecondsToday / 60).ceil()
+        : (reviewedToday * 15 / 60).round();
 
     // Calculate Streak
     int streak = 0;
@@ -107,14 +110,15 @@ class StatsNotifier extends Notifier<StatsData> {
       }
     }
 
-    // Build 5-week x 7-day heatmap matrix
-    // Index 4 is the current week, index 0 is 4 weeks ago
-    final heatmap = List.generate(5, (_) => List.filled(7, 0));
+    // Build 16-week x 7-day heatmap matrix
+    // Index 15 is the current week, index 0 is 15 weeks ago
+    const int totalWeeks = 16;
+    final heatmap = List.generate(totalWeeks, (_) => List.filled(7, 0));
     final currentWeekday = now.weekday; // 1: Mon .. 7: Sun
 
-    for (int w = 4; w >= 0; w--) {
+    for (int w = totalWeeks - 1; w >= 0; w--) {
       for (int d = 6; d >= 0; d--) {
-        final daysAgo = ((4 - w) * 7) + (currentWeekday - 1 - d);
+        final daysAgo = ((totalWeeks - 1 - w) * 7) + (currentWeekday - 1 - d);
         if (daysAgo >= 0) {
           final targetDay = todayStart.subtract(Duration(days: daysAgo));
           final key =

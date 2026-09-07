@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/notifiers/stats_notifier.dart';
 
 class StatsScreen extends HookConsumerWidget {
@@ -13,6 +14,7 @@ class StatsScreen extends HookConsumerWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final stats = ref.watch(statsNotifierProvider);
+    final studySettings = ref.watch(studySettingsProvider);
 
     useEffect(() {
       Future.microtask(() => ref.read(statsNotifierProvider.notifier).refresh());
@@ -20,6 +22,8 @@ class StatsScreen extends HookConsumerWidget {
     }, const []);
 
     final retentionPercentStr = '${(stats.retentionRate * 100).toStringAsFixed(1)}%';
+    final isTargetReached = stats.retentionRate >= studySettings.desiredRetention;
+    final targetLabel = l10n.targetSuffix('${(studySettings.desiredRetention * 100).toInt()}%');
 
     return Scaffold(
       headers: [
@@ -48,15 +52,15 @@ class StatsScreen extends HookConsumerWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: (stats.retentionRate >= 0.85 ? m.Colors.green : m.Colors.orange).withValues(alpha: 0.15),
+                          color: (isTargetReached ? m.Colors.green : m.Colors.orange).withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          stats.retentionRate >= 0.85 ? l10n.targetReached : l10n.targetNotReached,
+                          isTargetReached ? l10n.targetReached : l10n.targetNotReached,
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: stats.retentionRate >= 0.85 ? m.Colors.green : m.Colors.orange,
+                            color: isTargetReached ? m.Colors.green : m.Colors.orange,
                           ),
                         ),
                       ),
@@ -76,7 +80,7 @@ class StatsScreen extends HookConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      l10n.targetSuffix,
+                      targetLabel,
                       style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
                     ),
                   ],
@@ -216,18 +220,34 @@ class _HeatmapGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: levels.map((week) {
-        return Column(
-          children: week.map((level) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.5),
-              child: _HeatmapDot(level: level, theme: theme, size: 14),
-            );
-          }).toList(),
-        );
-      }).toList(),
+    if (levels.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (int w = 0; w < levels.length; w++) ...[
+            if (w > 0) const SizedBox(width: 5),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (int d = 0; d < levels[w].length; d++) ...[
+                  if (d > 0) const SizedBox(height: 5),
+                  _HeatmapDot(
+                    level: levels[w][d],
+                    theme: theme,
+                    size: 14,
+                  ),
+                ],
+              ],
+            ),
+          ],
+        ],
+      ),
     );
   }
 }
