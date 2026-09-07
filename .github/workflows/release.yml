@@ -50,6 +50,7 @@ jobs:
           path: |
             flanki-setup-windows.exe
             flanki-windows-x64.zip
+          if-no-files-found: error
 
   build-macos:
     name: Build macOS
@@ -73,13 +74,14 @@ jobs:
       - name: Package macOS App
         run: |
           cd build/macos/Build/Products/Release
-          zip -r ../../../../flanki-macos.zip Flanki.app
+          zip -r "$GITHUB_WORKSPACE/flanki-macos.zip" Flanki.app
 
       - name: Upload macOS Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: macos-assets
           path: flanki-macos.zip
+          if-no-files-found: error
 
   build-linux:
     name: Build Linux
@@ -107,14 +109,14 @@ jobs:
 
       - name: Package Linux Bundle
         run: |
-          cd build/linux/x64/release/bundle
-          tar -czf ../../../../flanki-linux.tar.gz *
+          tar -czf "$GITHUB_WORKSPACE/flanki-linux.tar.gz" -C build/linux/x64/release/bundle .
 
       - name: Upload Linux Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: linux-assets
           path: flanki-linux.tar.gz
+          if-no-files-found: error
 
   build-android:
     name: Build Android APK
@@ -149,6 +151,7 @@ jobs:
         with:
           name: android-assets
           path: flanki-android.apk
+          if-no-files-found: error
 
   publish-release:
     name: Publish GitHub Release
