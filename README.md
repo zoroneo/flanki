@@ -38,6 +38,11 @@ Get the latest release for your platform from [GitHub Releases](https://github.c
 | **Linux** | Tarball (`.tar.gz`) | [flanki-linux.tar.gz](https://github.com/zoroneo/flanki/releases/latest/download/flanki-linux.tar.gz) | Extract and run `./flanki` |
 | **Android** | Sideload APK (`.apk`) | [flanki-android.apk](https://github.com/zoroneo/flanki/releases/latest/download/flanki-android.apk) | Direct install on Android phones/tablets |
 
+> [!TIP]
+> **macOS Note**: Since Flanki is an open-source app distributed outside the App Store without an Apple Developer ID, macOS Gatekeeper may show *"macOS cannot verify that this app is free from malware"*.
+> - **Option 1 (GUI)**: Go to **System Settings** > **Privacy & Security** > scroll to **Security** and click **Open Anyway**. Alternatively, right-click `Flanki.app` in Finder and select **Open**.
+> - **Option 2 (Terminal)**: Run `xattr -cr /Applications/Flanki.app` to remove the quarantine flag.
+
 ---
 
 ## 🏗️ Architecture & Tech Stack
