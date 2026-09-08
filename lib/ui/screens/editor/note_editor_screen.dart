@@ -9,6 +9,7 @@ import '../../../core/localization/locale_notifier.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/models/card.dart';
+import '../../widgets/form_focus_helper.dart';
 
 class NoteEditorScreen extends HookConsumerWidget {
   const NoteEditorScreen({super.key});
@@ -136,6 +137,11 @@ class NoteEditorScreen extends HookConsumerWidget {
       context.pop();
     }
 
+    final editorFocusNodes = useTabFocusChain(3, onSubmit: handleSave);
+    final frontFocusNode = editorFocusNodes[0];
+    final backFocusNode = editorFocusNodes[1];
+    final tagFocusNode = editorFocusNodes[2];
+
     // Deck Selector Dropdown Widget
     Widget buildDeckSelector() {
       return Select<String>(
@@ -168,6 +174,7 @@ class NoteEditorScreen extends HookConsumerWidget {
         children: [
           TextField(
             controller: tagInputController,
+            focusNode: tagFocusNode,
             placeholder: Text(l10n.addTagPlaceholder),
             features: [
               InputFeature.trailing(
@@ -283,6 +290,7 @@ class NoteEditorScreen extends HookConsumerWidget {
             const SizedBox(height: 8),
             TextField(
               controller: frontController,
+              focusNode: frontFocusNode,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               placeholder: Text(
                 noteType.value == NoteType.cloze
@@ -316,6 +324,7 @@ class NoteEditorScreen extends HookConsumerWidget {
             const SizedBox(height: 8),
             TextField(
               controller: backController,
+              focusNode: backFocusNode,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               placeholder: Text(l10n.backPlaceholder),
               minLines: isDesktop ? 7 : 5,

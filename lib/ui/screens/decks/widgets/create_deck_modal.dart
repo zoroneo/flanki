@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart' as m;
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 
 import '../../../widgets/adaptive_modal.dart';
+import '../../../widgets/form_focus_helper.dart';
 
 class CreateDeckModal extends HookWidget {
   final void Function(String name, String description) onCreateDeck;
@@ -65,6 +67,10 @@ class CreateDeckModal extends HookWidget {
       Navigator.of(context).pop();
       onCreateDeck(name, desc);
     }
+
+    final focusNodes = useTabFocusChain(2, onSubmit: handleCreate);
+    final nameFocusNode = focusNodes[0];
+    final descFocusNode = focusNodes[1];
 
     final viewInsets = MediaQuery.of(context).viewInsets;
     final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
@@ -187,6 +193,9 @@ class CreateDeckModal extends HookWidget {
                       const SizedBox(height: 6),
                       TextField(
                         controller: nameController,
+                        focusNode: nameFocusNode,
+                        textInputAction: TextInputAction.next,
+                        onEditingComplete: () => descFocusNode.requestFocus(),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 10,
@@ -206,7 +215,7 @@ class CreateDeckModal extends HookWidget {
                             errorMessage.value = null;
                           }
                         },
-                        onSubmitted: (_) => handleCreate(),
+                        onSubmitted: (_) => descFocusNode.requestFocus(),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -253,6 +262,7 @@ class CreateDeckModal extends HookWidget {
                       const SizedBox(height: 6),
                       TextField(
                         controller: descController,
+                        focusNode: descFocusNode,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 10,

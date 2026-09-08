@@ -6,6 +6,7 @@ import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 
 import '../../../widgets/adaptive_modal.dart';
+import '../../../widgets/form_focus_helper.dart';
 
 class CardActionSheet extends HookWidget {
   final CardModel card;
@@ -71,6 +72,15 @@ class CardActionSheet extends HookWidget {
     final frontController = useTextEditingController(text: card.front);
     final backController = useTextEditingController(text: card.back);
     final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
+
+    void handleSave() {
+      onEdit(frontController.text, backController.text);
+      Navigator.of(context).pop();
+    }
+
+    final editFocusNodes = useTabFocusChain(2, onSubmit: handleSave);
+    final frontFocusNode = editFocusNodes[0];
+    final backFocusNode = editFocusNodes[1];
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -141,7 +151,11 @@ class CardActionSheet extends HookWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                TextField(controller: frontController, maxLines: 3),
+                TextField(
+                  controller: frontController,
+                  focusNode: frontFocusNode,
+                  maxLines: 3,
+                ),
                 const SizedBox(height: 14),
                 Text(
                   l10n.backSide,
@@ -150,7 +164,11 @@ class CardActionSheet extends HookWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                TextField(controller: backController, maxLines: 4),
+                TextField(
+                  controller: backController,
+                  focusNode: backFocusNode,
+                  maxLines: 4,
+                ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

@@ -10,8 +10,8 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
-/// Ultra-streamlined minimalist AnkiWeb authentication modal bottom sheet.
 import '../../widgets/adaptive_modal.dart';
+import '../../widgets/form_focus_helper.dart';
 
 class AnkiWebAuthSheet extends HookConsumerWidget {
   final bool isDesktop;
@@ -38,8 +38,6 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
 
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
-    final emailFocusNode = useFocusNode();
-    final passwordFocusNode = useFocusNode();
     final obscurePassword = useState(true);
 
     // Clear stale auth error on modal open and close
@@ -121,6 +119,10 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
         }
       }
     }
+
+    final focusNodes = useTabFocusChain(2, onSubmit: handleLogin);
+    final emailFocusNode = focusNodes[0];
+    final passwordFocusNode = focusNodes[1];
 
     final viewInsets = MediaQuery.of(context).viewInsets;
     final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;

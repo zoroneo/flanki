@@ -5,6 +5,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/localization/locale_notifier.dart';
 
 import '../../../widgets/adaptive_modal.dart';
+import '../../../widgets/form_focus_helper.dart';
 
 enum CustomStudyMode { byTag, flagged, reviewAhead }
 
@@ -42,6 +43,29 @@ class CustomStudyModal extends HookWidget {
     final tagController = useTextEditingController();
     final limit = useState<int>(20);
     final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
+
+    void handleStartCram() {
+      final tagName = switch (mode.value) {
+        CustomStudyMode.byTag => tagController.text.trim(),
+        CustomStudyMode.flagged => 'flagged',
+        CustomStudyMode.reviewAhead => 'ahead',
+      };
+      final displayName = switch (mode.value) {
+        CustomStudyMode.byTag => tagName,
+        CustomStudyMode.flagged => l10n.flaggedCards,
+        CustomStudyMode.reviewAhead => l10n.reviewAhead,
+      };
+      onStartCram(
+        displayName,
+        tagName,
+        limit.value,
+        mode.value.name,
+      );
+      Navigator.of(context).pop();
+    }
+
+    final cramFocusNodes = useTabFocusChain(1, onSubmit: handleStartCram);
+    final tagFocusNode = cramFocusNodes[0];
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -156,11 +180,13 @@ class CustomStudyModal extends HookWidget {
                 const SizedBox(height: 6),
                 TextField(
                   controller: tagController,
+                  focusNode: tagFocusNode,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 14,
                     vertical: 10,
                   ),
                   placeholder: Text(l10n.addTagPlaceholder),
+                  onSubmitted: (_) => handleStartCram(),
                 ),
                 const SizedBox(height: 16),
               ],
@@ -213,25 +239,7 @@ class CustomStudyModal extends HookWidget {
               const SizedBox(height: 24),
 
               PrimaryButton(
-                onPressed: () {
-                  final tagName = switch (mode.value) {
-                    CustomStudyMode.byTag => tagController.text.trim(),
-                    CustomStudyMode.flagged => 'flagged',
-                    CustomStudyMode.reviewAhead => 'ahead',
-                  };
-                  final displayName = switch (mode.value) {
-                    CustomStudyMode.byTag => tagName,
-                    CustomStudyMode.flagged => l10n.flaggedCards,
-                    CustomStudyMode.reviewAhead => l10n.reviewAhead,
-                  };
-                  onStartCram(
-                    displayName,
-                    tagName,
-                    limit.value,
-                    mode.value.name,
-                  );
-                  Navigator.of(context).pop();
-                },
+                onPressed: handleStartCram,
                 alignment: Alignment.center,
                 leading: const Icon(LucideIcons.play, size: 16),
                 child: Text(l10n.startCram),
