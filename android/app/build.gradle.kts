@@ -70,6 +70,12 @@ android {
                 signingConfigs.getByName("debug")
             }
         }
+        debug {
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null && releaseSigning.storeFile!!.exists()) {
+                signingConfig = releaseSigning
+            }
+        }
     }
 }
 

@@ -63,6 +63,11 @@ coverage/
 **/android/**/*.jks
 **/android/**/GeneratedPluginRegistrant.java
 **/android/**/build/
+
+# Local backups
+backup_*
+*.sqlite
+*.tar
 **/android/build/
 
 # iOS/macOS build outputs
