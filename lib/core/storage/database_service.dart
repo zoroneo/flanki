@@ -1,10 +1,12 @@
 import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
+
 import '../config/app_config.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
@@ -46,7 +48,9 @@ class DatabaseService {
 
   AppDatabase get db {
     if (_db == null) {
-      throw StateError('DatabaseService has not been initialized. Call init() first.');
+      throw StateError(
+        'DatabaseService has not been initialized. Call init() first.',
+      );
     }
     return _db!;
   }
@@ -66,7 +70,9 @@ class DatabaseService {
 
   Future<void> _reloadCache() async {
     if (_db == null) return;
-    final deckRows = await (db.select(db.decks)..orderBy([(t) => OrderingTerm.asc(t.title)])).get();
+    final deckRows = await (db.select(
+      db.decks,
+    )..orderBy([(t) => OrderingTerm.asc(t.title)])).get();
     _cachedDecks = deckRows.map((r) {
       return DeckModel(
         id: r.id,
@@ -79,10 +85,14 @@ class DatabaseService {
       );
     }).toList();
 
-    final cardRows = await (db.select(db.cards)..orderBy([(t) => OrderingTerm.desc(t.createdAt)])).get();
+    final cardRows = await (db.select(
+      db.cards,
+    )..orderBy([(t) => OrderingTerm.desc(t.createdAt)])).get();
     _cachedCards = cardRows.map(_mapRowToCard).toList();
 
-    final logRows = await (db.select(db.reviewLogs)..orderBy([(t) => OrderingTerm.desc(t.reviewTime)])).get();
+    final logRows = await (db.select(
+      db.reviewLogs,
+    )..orderBy([(t) => OrderingTerm.desc(t.reviewTime)])).get();
     _cachedReviewLogs = logRows.map((r) {
       return ReviewLogModel(
         id: r.id,
@@ -101,7 +111,8 @@ class DatabaseService {
 
   List<CardModel> getAllCards() => List.unmodifiable(_cachedCards);
 
-  List<ReviewLogModel> getAllReviewLogs() => List.unmodifiable(_cachedReviewLogs);
+  List<ReviewLogModel> getAllReviewLogs() =>
+      List.unmodifiable(_cachedReviewLogs);
 
   List<CardModel> getCardsForDeck(String deckId) {
     return _cachedCards.where((c) => c.deckId == deckId).toList();
@@ -114,8 +125,9 @@ class DatabaseService {
     int? reviewLimit,
   }) {
     final now = DateTime.now();
-    final eligible = _cachedCards
-        .where((c) => c.deckId == deckId && !c.isSuspended && !c.isBuried);
+    final eligible = _cachedCards.where(
+      (c) => c.deckId == deckId && !c.isSuspended && !c.isBuried,
+    );
 
     if (newLimit != null || reviewLimit != null) {
       final maxNew = newLimit ?? AppConfig.defaultNewCardsPerDay;
@@ -126,10 +138,7 @@ class DatabaseService {
           .take(maxReview)
           .toList();
 
-      final newCards = eligible
-          .where((c) => c.reps == 0)
-          .take(maxNew)
-          .toList();
+      final newCards = eligible.where((c) => c.reps == 0).take(maxNew).toList();
 
       final queue = [...dueCards, ...newCards];
       if (limit != null) {
@@ -159,7 +168,9 @@ class DatabaseService {
         .where((c) {
           if (onlyFlagged) return c.hasFlag;
           if (filterTag.isNotEmpty) {
-            return c.tags.any((t) => t.toLowerCase() == filterTag.toLowerCase());
+            return c.tags.any(
+              (t) => t.toLowerCase() == filterTag.toLowerCase(),
+            );
           }
           return true;
         })
@@ -168,10 +179,7 @@ class DatabaseService {
   }
 
   /// Query cards for ad-hoc Custom Study / Cram session based on deckId parameters.
-  List<CardModel> getCustomStudyQueue({
-    required String deckId,
-    int? limit,
-  }) {
+  List<CardModel> getCustomStudyQueue({required String deckId, int? limit}) {
     // Format: cram_<mode>_<tag>_<limit>_<timestamp>
     final parts = deckId.split('_');
     final mode = parts.length > 1 ? parts[1] : '';
@@ -179,8 +187,11 @@ class DatabaseService {
     final tag = Uri.decodeComponent(rawTag);
     final parsedLimit = parts.length > 3 ? int.tryParse(parts[3]) : null;
 
-    final deckCount = _cachedDecks.firstWhereOrNull((d) => d.id == deckId)?.totalCount;
-    final effectiveLimit = parsedLimit ??
+    final deckCount = _cachedDecks
+        .firstWhereOrNull((d) => d.id == deckId)
+        ?.totalCount;
+    final effectiveLimit =
+        parsedLimit ??
         (deckCount != null && deckCount > 0 ? deckCount : null) ??
         limit ??
         AppConfig.defaultCramLimit;
@@ -189,7 +200,9 @@ class DatabaseService {
 
     if (mode == 'flagged' || deckId.contains('flagged')) {
       return available.where((c) => c.hasFlag).take(effectiveLimit).toList();
-    } else if (mode == 'ahead' || mode == 'reviewAhead' || deckId.contains('ahead')) {
+    } else if (mode == 'ahead' ||
+        mode == 'reviewAhead' ||
+        deckId.contains('ahead')) {
       // Review ahead: prioritize cards with earliest due dates
       final list = List<CardModel>.from(available)
         ..sort((a, b) {
@@ -209,10 +222,7 @@ class DatabaseService {
   }
 
   /// Counts the total matching cards for a custom study filter.
-  int countCardsForCustomStudy({
-    required String mode,
-    required String tag,
-  }) {
+  int countCardsForCustomStudy({required String mode, required String tag}) {
     final available = _cachedCards.where((c) => !c.isSuspended);
     if (mode == 'flagged') {
       return available.where((c) => c.hasFlag).length;
@@ -237,10 +247,12 @@ class DatabaseService {
 
     if (duplicate != null) {
       // Re-assign all cards from duplicate deck to this deck
-      await (db.update(db.cards)..where((tbl) => tbl.deckId.equals(duplicate.id))).write(
-        CardsCompanion(deckId: Value(deck.id)),
-      );
-      await (db.delete(db.decks)..where((tbl) => tbl.id.equals(duplicate.id))).go();
+      await (db.update(db.cards)
+            ..where((tbl) => tbl.deckId.equals(duplicate.id)))
+          .write(CardsCompanion(deckId: Value(deck.id)));
+      await (db.delete(
+        db.decks,
+      )..where((tbl) => tbl.id.equals(duplicate.id))).go();
       _cachedDecks.removeWhere((d) => d.id == duplicate.id);
     }
 
@@ -251,17 +263,19 @@ class DatabaseService {
       _cachedDecks.add(deck);
     }
 
-    await db.into(db.decks).insertOnConflictUpdate(
-      DecksCompanion.insert(
-        id: deck.id,
-        title: deck.title,
-        description: deck.description,
-        dueCount: Value(deck.dueCount),
-        newCount: Value(deck.newCount),
-        totalCount: Value(deck.totalCount),
-        lastStudied: Value(deck.lastStudied),
-      ),
-    );
+    await db
+        .into(db.decks)
+        .insertOnConflictUpdate(
+          DecksCompanion.insert(
+            id: deck.id,
+            title: deck.title,
+            description: deck.description,
+            dueCount: Value(deck.dueCount),
+            newCount: Value(deck.newCount),
+            totalCount: Value(deck.totalCount),
+            lastStudied: Value(deck.lastStudied),
+          ),
+        );
     await _reloadCache();
   }
 
@@ -269,15 +283,18 @@ class DatabaseService {
     for (final incomingDeck in decks) {
       final duplicate = _cachedDecks.firstWhereOrNull(
         (d) =>
-            d.title.trim().toLowerCase() == incomingDeck.title.trim().toLowerCase() &&
+            d.title.trim().toLowerCase() ==
+                incomingDeck.title.trim().toLowerCase() &&
             d.id != incomingDeck.id,
       );
 
       if (duplicate != null) {
-        await (db.update(db.cards)..where((tbl) => tbl.deckId.equals(duplicate.id))).write(
-          CardsCompanion(deckId: Value(incomingDeck.id)),
-        );
-        await (db.delete(db.decks)..where((tbl) => tbl.id.equals(duplicate.id))).go();
+        await (db.update(db.cards)
+              ..where((tbl) => tbl.deckId.equals(duplicate.id)))
+            .write(CardsCompanion(deckId: Value(incomingDeck.id)));
+        await (db.delete(
+          db.decks,
+        )..where((tbl) => tbl.id.equals(duplicate.id))).go();
         _cachedDecks.removeWhere((d) => d.id == duplicate.id);
       }
 
@@ -328,7 +345,9 @@ class DatabaseService {
         Deck canonical = duplicateList.first;
         int maxCards = -1;
         for (final d in duplicateList) {
-          final count = (await (db.select(db.cards)..where((tbl) => tbl.deckId.equals(d.id))).get()).length;
+          final count = (await (db.select(
+            db.cards,
+          )..where((tbl) => tbl.deckId.equals(d.id))).get()).length;
           if (count > maxCards) {
             maxCards = count;
             canonical = d;
@@ -338,10 +357,11 @@ class DatabaseService {
         // Migrate cards from other duplicate decks to canonical deck and delete the duplicates
         for (final d in duplicateList) {
           if (d.id != canonical.id) {
-            await (db.update(db.cards)..where((tbl) => tbl.deckId.equals(d.id))).write(
-              CardsCompanion(deckId: Value(canonical.id)),
-            );
-            await (db.delete(db.decks)..where((tbl) => tbl.id.equals(d.id))).go();
+            await (db.update(db.cards)..where((tbl) => tbl.deckId.equals(d.id)))
+                .write(CardsCompanion(deckId: Value(canonical.id)));
+            await (db.delete(
+              db.decks,
+            )..where((tbl) => tbl.id.equals(d.id))).go();
           }
         }
       }
@@ -382,11 +402,9 @@ class DatabaseService {
         }
       }
 
-      updatedList.add(d.copyWith(
-        totalCount: total,
-        newCount: newC,
-        dueCount: dueC,
-      ));
+      updatedList.add(
+        d.copyWith(totalCount: total, newCount: newC, dueCount: dueC),
+      );
     }
     _cachedDecks = updatedList;
 
@@ -394,7 +412,9 @@ class DatabaseService {
     final allDecks = await db.select(db.decks).get();
     for (final d in allDecks) {
       if (_db == null) return;
-      final deckCards = await (db.select(db.cards)..where((tbl) => tbl.deckId.equals(d.id))).get();
+      final deckCards = await (db.select(
+        db.cards,
+      )..where((tbl) => tbl.deckId.equals(d.id))).get();
 
       int total = deckCards.length;
       int newC = 0;
@@ -431,28 +451,30 @@ class DatabaseService {
       _cachedCards.insert(0, card);
     }
 
-    await db.into(db.cards).insertOnConflictUpdate(
-      CardsCompanion.insert(
-        id: card.id,
-        deckId: card.deckId,
-        front: card.front,
-        back: card.back,
-        hint: Value(card.hint),
-        noteType: Value(card.noteType.value),
-        flag: Value(card.flag.value),
-        isSuspended: Value(card.isSuspended),
-        isBuried: Value(card.isBuried),
-        tags: Value(card.tags.join(',')),
-        intervalDays: Value(card.intervalDays),
-        stability: Value(card.stability),
-        difficulty: Value(card.difficulty),
-        reps: Value(card.reps),
-        lapses: Value(card.lapses),
-        due: Value(card.due),
-        lastStudied: Value(card.lastStudied),
-        createdAt: Value(card.createdAt ?? DateTime.now()),
-      ),
-    );
+    await db
+        .into(db.cards)
+        .insertOnConflictUpdate(
+          CardsCompanion.insert(
+            id: card.id,
+            deckId: card.deckId,
+            front: card.front,
+            back: card.back,
+            hint: Value(card.hint),
+            noteType: Value(card.noteType.value),
+            flag: Value(card.flag.value),
+            isSuspended: Value(card.isSuspended),
+            isBuried: Value(card.isBuried),
+            tags: Value(card.tags.join(',')),
+            intervalDays: Value(card.intervalDays),
+            stability: Value(card.stability),
+            difficulty: Value(card.difficulty),
+            reps: Value(card.reps),
+            lapses: Value(card.lapses),
+            due: Value(card.due),
+            lastStudied: Value(card.lastStudied),
+            createdAt: Value(card.createdAt ?? DateTime.now()),
+          ),
+        );
     await _reloadCache();
   }
 
@@ -520,22 +542,27 @@ class DatabaseService {
     );
     _cachedReviewLogs.insert(0, log);
 
-    await db.into(db.reviewLogs).insert(
-      ReviewLogsCompanion.insert(
-        cardId: cardId,
-        rating: rating.value,
-        reviewTime: reviewTime,
-        scheduledDays: Value(scheduledDays),
-        elapsedDays: Value(elapsedDays),
-      ),
-    );
+    await db
+        .into(db.reviewLogs)
+        .insert(
+          ReviewLogsCompanion.insert(
+            cardId: cardId,
+            rating: rating.value,
+            reviewTime: reviewTime,
+            scheduledDays: Value(scheduledDays),
+            elapsedDays: Value(elapsedDays),
+          ),
+        );
     await _reloadCache();
   }
 
   static String _cleanMediaPaths(String html) {
     if (!html.contains('flanki_media')) return html;
     return html.replaceAllMapped(
-      RegExp(r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''', caseSensitive: false),
+      RegExp(
+        r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''',
+        caseSensitive: false,
+      ),
       (match) => '${match.group(1)}${match.group(2)}${match.group(3)}',
     );
   }
@@ -569,9 +596,11 @@ class DatabaseService {
     if (lastSyncTime == null) {
       return _cachedCards.isNotEmpty || _cachedReviewLogs.isNotEmpty;
     }
-    final hasReviewedCard = _cachedCards.any((c) =>
-        (c.lastStudied != null && c.lastStudied!.isAfter(lastSyncTime)) ||
-        (c.createdAt != null && c.createdAt!.isAfter(lastSyncTime)));
+    final hasReviewedCard = _cachedCards.any(
+      (c) =>
+          (c.lastStudied != null && c.lastStudied!.isAfter(lastSyncTime)) ||
+          (c.createdAt != null && c.createdAt!.isAfter(lastSyncTime)),
+    );
     if (hasReviewedCard) return true;
 
     return _cachedReviewLogs.any((l) => l.reviewTime.isAfter(lastSyncTime));
@@ -682,29 +711,43 @@ class DatabaseService {
         final nowSec = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
         // Update or insert col row
-        final colCount = db.select('SELECT count(*) as cnt FROM col').first['cnt'] as int;
+        final colCount =
+            db.select('SELECT count(*) as cnt FROM col').first['cnt'] as int;
         if (colCount == 0) {
-          db.execute('''
+          db.execute(
+            '''
             INSERT INTO col (id, crt, mod, scm, ver, dty, usn, ls, conf, models, decks, dconf, tags)
             VALUES (1, ?, ?, ?, 11, 0, 0, 0, '{}', '{}', '{}', '{}', '{}')
-          ''', [nowSec, nowSec, nowSec]);
+          ''',
+            [nowSec, nowSec, nowSec],
+          );
         } else {
           db.execute('UPDATE col SET mod = ?, usn = usn + 1', [nowSec]);
         }
 
         // Update cards scheduling state
         for (final card in _cachedCards) {
-          final cid = int.tryParse(card.id.replaceAll(RegExp(r'\D'), '')) ?? card.id.hashCode.abs();
+          final cid =
+              int.tryParse(card.id.replaceAll(RegExp(r'\D'), '')) ??
+              card.id.hashCode.abs();
           if (cid == 0) continue;
 
           final factor = (card.difficulty > 0)
-              ? ((3.0 - (card.difficulty - 1.0) / 9.0 * 1.7) * 1000).toInt().clamp(1300, 3000)
+              ? ((3.0 - (card.difficulty - 1.0) / 9.0 * 1.7) * 1000)
+                    .toInt()
+                    .clamp(1300, 3000)
               : 2500;
 
-          final cardModSec = (card.lastStudied ?? card.createdAt ?? DateTime.now()).millisecondsSinceEpoch ~/ 1000;
-          final dueDays = card.due != null ? card.due!.difference(DateTime.now()).inDays : card.intervalDays;
+          final cardModSec =
+              (card.lastStudied ?? card.createdAt ?? DateTime.now())
+                  .millisecondsSinceEpoch ~/
+              1000;
+          final dueDays = card.due != null
+              ? card.due!.difference(DateTime.now()).inDays
+              : card.intervalDays;
 
-          db.execute('''
+          db.execute(
+            '''
             UPDATE cards SET
               ivl = ?,
               factor = ?,
@@ -714,12 +757,24 @@ class DatabaseService {
               mod = ?,
               usn = -1
             WHERE id = ?
-          ''', [card.intervalDays, factor, card.reps, card.lapses, dueDays, cardModSec, cid]);
+          ''',
+            [
+              card.intervalDays,
+              factor,
+              card.reps,
+              card.lapses,
+              dueDays,
+              cardModSec,
+              cid,
+            ],
+          );
         }
 
         // Insert review logs
         for (final log in _cachedReviewLogs) {
-          final cid = int.tryParse(log.cardId.replaceAll(RegExp(r'\D'), '')) ?? log.cardId.hashCode.abs();
+          final cid =
+              int.tryParse(log.cardId.replaceAll(RegExp(r'\D'), '')) ??
+              log.cardId.hashCode.abs();
           if (cid == 0) continue;
 
           final logId = log.reviewTime.millisecondsSinceEpoch;
@@ -727,10 +782,13 @@ class DatabaseService {
           final ivl = log.scheduledDays;
           final lastIvl = log.elapsedDays;
 
-          db.execute('''
+          db.execute(
+            '''
             INSERT OR IGNORE INTO revlog (id, cid, usn, ease, ivl, lastIvl, factor, time, type)
             VALUES (?, ?, -1, ?, ?, ?, 2500, 0, 1)
-          ''', [logId, cid, ease, ivl, lastIvl]);
+          ''',
+            [logId, cid, ease, ivl, lastIvl],
+          );
         }
 
         db.execute('PRAGMA integrity_check;');

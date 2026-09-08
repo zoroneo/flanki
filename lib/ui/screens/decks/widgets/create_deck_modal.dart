@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../../../core/localization/locale_notifier.dart';
 
 class CreateDeckModal extends HookWidget {
@@ -100,7 +101,9 @@ class CreateDeckModal extends HookWidget {
                     height: 4,
                     margin: const EdgeInsets.only(top: 10, bottom: 12),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.mutedForeground.withValues(alpha: 0.25),
+                      color: theme.colorScheme.mutedForeground.withValues(
+                        alpha: 0.25,
+                      ),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -114,7 +117,9 @@ class CreateDeckModal extends HookWidget {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -130,7 +135,9 @@ class CreateDeckModal extends HookWidget {
                           children: [
                             Text(
                               l10n.createDeckTitle,
-                              style: theme.typography.h4.copyWith(fontWeight: FontWeight.w700),
+                              style: theme.typography.h4.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                             const SizedBox(height: 2),
                             Text(
@@ -146,7 +153,10 @@ class CreateDeckModal extends HookWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Divider(height: 1, color: theme.colorScheme.border.withValues(alpha: 0.6)),
+                Divider(
+                  height: 1,
+                  color: theme.colorScheme.border.withValues(alpha: 0.6),
+                ),
 
                 // Form fields & actions
                 Padding(
@@ -166,11 +176,18 @@ class CreateDeckModal extends HookWidget {
                       const SizedBox(height: 6),
                       TextField(
                         controller: nameController,
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         placeholder: Text(l10n.deckNamePlaceholder),
                         features: [
                           InputFeature.leading(
-                            Icon(LucideIcons.folder, size: 16, color: theme.colorScheme.mutedForeground),
+                            Icon(
+                              LucideIcons.folder,
+                              size: 16,
+                              color: theme.colorScheme.mutedForeground,
+                            ),
                           ),
                         ],
                         onChanged: (_) {
@@ -193,12 +210,18 @@ class CreateDeckModal extends HookWidget {
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            const Icon(LucideIcons.circleAlert, size: 14, color: m.Colors.red),
+                            const Icon(
+                              LucideIcons.circleAlert,
+                              size: 14,
+                              color: m.Colors.red,
+                            ),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
                                 errorMessage.value!,
-                                style: theme.typography.xSmall.copyWith(color: m.Colors.red),
+                                style: theme.typography.xSmall.copyWith(
+                                  color: m.Colors.red,
+                                ),
                               ),
                             ),
                           ],
@@ -219,7 +242,10 @@ class CreateDeckModal extends HookWidget {
                       const SizedBox(height: 6),
                       TextField(
                         controller: descController,
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         placeholder: Text(l10n.deckDescPlaceholder),
                         minLines: 2,
                         maxLines: 3,

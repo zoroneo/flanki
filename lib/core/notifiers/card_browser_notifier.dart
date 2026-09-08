@@ -1,15 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/card.dart';
 import '../storage/database_service.dart';
 import 'deck_notifier.dart';
 
-enum CardFilterType {
-  all,
-  due,
-  newCard,
-  flagged,
-  suspended,
-}
+enum CardFilterType { all, due, newCard, flagged, suspended }
 
 class CardBrowserState {
   final List<CardModel> allCards;
@@ -81,8 +76,8 @@ class CardBrowserState {
 
 final cardBrowserProvider =
     NotifierProvider<CardBrowserNotifier, CardBrowserState>(
-  CardBrowserNotifier.new,
-);
+      CardBrowserNotifier.new,
+    );
 
 class CardBrowserNotifier extends Notifier<CardBrowserState> {
   @override

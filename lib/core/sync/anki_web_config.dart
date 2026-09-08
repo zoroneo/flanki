@@ -11,7 +11,5 @@ class AnkiWebConfig {
 
   final String syncHost;
 
-  const AnkiWebConfig({
-    this.syncHost = defaultSyncHost,
-  });
+  const AnkiWebConfig({this.syncHost = defaultSyncHost});
 }

@@ -60,8 +60,9 @@ class SettingsScreen extends HookConsumerWidget {
 
       // 1. Check local changes against last sync timestamp
       final lastSyncTime = authState.lastSyncedAt;
-      final hasLocalChanges =
-          DatabaseService.instance.hasLocalChangesSince(lastSyncTime);
+      final hasLocalChanges = DatabaseService.instance.hasLocalChangesSince(
+        lastSyncTime,
+      );
 
       final check = await syncService.checkSyncStatus(
         hostKey: authState.hostKey!,
@@ -86,14 +87,16 @@ class SettingsScreen extends HookConsumerWidget {
         }
       }
 
-      final shouldUpload = choice == SyncConflictChoice.upload ||
+      final shouldUpload =
+          choice == SyncConflictChoice.upload ||
           (choice == null && check.action == SyncActionRequired.upload);
 
       final statusNotifier = ValueNotifier<SyncProgressStatus>(
         SyncProgressStatus(
           title: l10n.syncAnkiWeb,
-          message:
-              shouldUpload ? l10n.preparingUpload : l10n.connectingToAnkiWeb,
+          message: shouldUpload
+              ? l10n.preparingUpload
+              : l10n.connectingToAnkiWeb,
           progress: 0.05,
         ),
       );
@@ -243,10 +246,10 @@ class SettingsScreen extends HookConsumerWidget {
                               Text(
                                 authState.isAuthenticated
                                     ? (authState.lastSyncedAt != null
-                                        ? l10n.syncedAt(
-                                            '${authState.lastSyncedAt!.hour.toString().padLeft(2, '0')}:${authState.lastSyncedAt!.minute.toString().padLeft(2, '0')}',
-                                          )
-                                        : l10n.readyToSync)
+                                          ? l10n.syncedAt(
+                                              '${authState.lastSyncedAt!.hour.toString().padLeft(2, '0')}:${authState.lastSyncedAt!.minute.toString().padLeft(2, '0')}',
+                                            )
+                                          : l10n.readyToSync)
                                     : l10n.loginToSyncHint,
                                 style: theme.typography.xSmall.copyWith(
                                   color: theme.colorScheme.mutedForeground,
@@ -560,7 +563,7 @@ class SettingsScreen extends HookConsumerWidget {
                         children: [0.80, 0.85, 0.90, 0.95].map((rate) {
                           final isSelected =
                               (studySettings.desiredRetention - rate).abs() <
-                                  0.001;
+                              0.001;
                           return Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -700,32 +703,34 @@ class SettingsScreen extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 8),
                       Row(
-                        children: [
-                          [19, 0],
-                          [20, 0],
-                          [21, 0],
-                          [22, 0],
-                        ].map((time) {
-                          final hour = time[0];
-                          final min = time[1];
-                          final label =
-                              '${hour.toString().padLeft(2, '0')}:${min.toString().padLeft(2, '0')}';
-                          final isSelected =
-                              studySettings.reminderHour == hour &&
+                        children:
+                            [
+                              [19, 0],
+                              [20, 0],
+                              [21, 0],
+                              [22, 0],
+                            ].map((time) {
+                              final hour = time[0];
+                              final min = time[1];
+                              final label =
+                                  '${hour.toString().padLeft(2, '0')}:${min.toString().padLeft(2, '0')}';
+                              final isSelected =
+                                  studySettings.reminderHour == hour &&
                                   studySettings.reminderMinute == min;
-                          return Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 3),
-                              child: _LanguageOptionButton(
-                                label: label,
-                                isSelected: isSelected,
-                                onTap: () => studySettingsNotifier
-                                    .setReminderTime(hour, min),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                              return Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 3,
+                                  ),
+                                  child: _LanguageOptionButton(
+                                    label: label,
+                                    isSelected: isSelected,
+                                    onTap: () => studySettingsNotifier
+                                        .setReminderTime(hour, min),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                       ),
                       const SizedBox(height: 16),
                       const Divider(),
@@ -831,8 +836,9 @@ class SettingsScreen extends HookConsumerWidget {
                             Switch(
                               value: studySettings.launchAtStartup,
                               onChanged: (val) {
-                                studySettingsNotifier
-                                    .toggleLaunchAtStartup(val);
+                                studySettingsNotifier.toggleLaunchAtStartup(
+                                  val,
+                                );
                               },
                             ),
                           ],
@@ -1064,7 +1070,9 @@ class _VersionInfoRow extends StatelessWidget {
                       onTap: onShowDialog,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 2),
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary,
                           borderRadius: BorderRadius.circular(4),
@@ -1076,7 +1084,8 @@ class _VersionInfoRow extends StatelessWidget {
                             const SizedBox(width: 4),
                             Text(
                               l10n.newVersionBadge(
-                                  updateState.updateInfo?.latestVersion ?? ''),
+                                updateState.updateInfo?.latestVersion ?? '',
+                              ),
                               style: theme.typography.xSmall.copyWith(
                                 color: theme.colorScheme.primaryForeground,
                                 fontWeight: FontWeight.w600,
@@ -1123,10 +1132,7 @@ class _ClickableInfoRow extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _ClickableInfoRow({
-    required this.label,
-    required this.onTap,
-  });
+  const _ClickableInfoRow({required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1157,4 +1163,3 @@ class _ClickableInfoRow extends StatelessWidget {
     );
   }
 }
-

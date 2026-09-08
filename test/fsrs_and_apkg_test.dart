@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:typed_data';
 import 'dart:ui' show Locale;
+
 import 'package:archive/archive.dart';
 import 'package:flanki/core/fsrs/fsrs_engine_service.dart';
 import 'package:flanki/core/importer/anki_template_engine.dart';
@@ -47,7 +48,10 @@ void main() {
         intervalDays: 2,
       );
 
-      final reviewedCard = fsrsService.scheduleReview(card, ReviewRating.good); // Good
+      final reviewedCard = fsrsService.scheduleReview(
+        card,
+        ReviewRating.good,
+      ); // Good
 
       expect(reviewedCard.reps, equals(2));
       expect(reviewedCard.stability, greaterThan(0));
@@ -60,14 +64,22 @@ void main() {
     test('Correctly decodes synthetic .apkg archive and extracts decks & cards', () async {
       final sampleDecksJson = jsonEncode({
         "1": {"id": 1, "name": "Default", "desc": ""},
-        "1600000000000": {"id": 1600000000000, "name": "English::IELTS Prep", "desc": "Gói từ vựng IELTS"}
+        "1600000000000": {
+          "id": 1600000000000,
+          "name": "English::IELTS Prep",
+          "desc": "Gói từ vựng IELTS",
+        },
       });
 
-      const flds1 = 'Ephemeral (adj)\x1fPhù du, sớm nở tối tàn\x1fTồn tại trong thời gian ngắn';
+      const flds1 =
+          'Ephemeral (adj)\x1fPhù du, sớm nở tối tàn\x1fTồn tại trong thời gian ngắn';
       const flds2 = '{{c1::Concurrency}} is not parallelism\x1fRob Pike quote';
 
-      final tempDir = io.Directory.systemTemp.createTempSync('flanki_test_apkg_');
-      final tempDbPath = '${tempDir.path}${io.Platform.pathSeparator}test_col_${DateTime.now().microsecondsSinceEpoch}.anki2';
+      final tempDir = io.Directory.systemTemp.createTempSync(
+        'flanki_test_apkg_',
+      );
+      final tempDbPath =
+          '${tempDir.path}${io.Platform.pathSeparator}test_col_${DateTime.now().microsecondsSinceEpoch}.anki2';
       final tempDbFile = sqlite3.open(tempDbPath);
       tempDbFile.execute('''
         CREATE TABLE col (id integer primary key, decks text, models text);
@@ -125,7 +137,9 @@ void main() {
       expect(result.mediaCount, equals(1));
 
       // 4. Test importer via file path (streaming)
-      final tempApkgFile = io.File('${io.Directory.systemTemp.path}/test_package.apkg');
+      final tempApkgFile = io.File(
+        '${io.Directory.systemTemp.path}/test_package.apkg',
+      );
       tempApkgFile.writeAsBytesSync(apkgBytes);
       try {
         final pathResult = await importer.importApkgPath(tempApkgFile.path);
@@ -141,22 +155,61 @@ void main() {
     });
 
     test('formatInterval formats minutes, hours, days without l10n', () {
-      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10)), anyOf('10 phút', '10m'));
-      expect(FsrsEngineService.formatInterval(const Duration(hours: 3)), anyOf('3 giờ', '3h'));
-      expect(FsrsEngineService.formatInterval(const Duration(days: 4)), anyOf('4 ngày', '4d'));
+      expect(
+        FsrsEngineService.formatInterval(const Duration(minutes: 10)),
+        anyOf('10 phút', '10m'),
+      );
+      expect(
+        FsrsEngineService.formatInterval(const Duration(hours: 3)),
+        anyOf('3 giờ', '3h'),
+      );
+      expect(
+        FsrsEngineService.formatInterval(const Duration(days: 4)),
+        anyOf('4 ngày', '4d'),
+      );
     });
 
     test('formatInterval formats correctly with explicit English and Vietnamese l10n', () {
       final l10nVi = lookupAppLocalizations(const Locale('vi'));
       final l10nEn = lookupAppLocalizations(const Locale('en'));
 
-      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10), l10n: l10nVi), '10 phút');
-      expect(FsrsEngineService.formatInterval(const Duration(hours: 3), l10n: l10nVi), '3 giờ');
-      expect(FsrsEngineService.formatInterval(const Duration(days: 4), l10n: l10nVi), '4 ngày');
+      expect(
+        FsrsEngineService.formatInterval(
+          const Duration(minutes: 10),
+          l10n: l10nVi,
+        ),
+        '10 phút',
+      );
+      expect(
+        FsrsEngineService.formatInterval(
+          const Duration(hours: 3),
+          l10n: l10nVi,
+        ),
+        '3 giờ',
+      );
+      expect(
+        FsrsEngineService.formatInterval(const Duration(days: 4), l10n: l10nVi),
+        '4 ngày',
+      );
 
-      expect(FsrsEngineService.formatInterval(const Duration(minutes: 10), l10n: l10nEn), '10m');
-      expect(FsrsEngineService.formatInterval(const Duration(hours: 3), l10n: l10nEn), '3h');
-      expect(FsrsEngineService.formatInterval(const Duration(days: 4), l10n: l10nEn), '4d');
+      expect(
+        FsrsEngineService.formatInterval(
+          const Duration(minutes: 10),
+          l10n: l10nEn,
+        ),
+        '10m',
+      );
+      expect(
+        FsrsEngineService.formatInterval(
+          const Duration(hours: 3),
+          l10n: l10nEn,
+        ),
+        '3h',
+      );
+      expect(
+        FsrsEngineService.formatInterval(const Duration(days: 4), l10n: l10nEn),
+        '4d',
+      );
     });
   });
 
@@ -165,7 +218,14 @@ void main() {
       const model = AnkiModel(
         id: 1,
         name: '4000 Essential English Words',
-        fieldNames: ['Word', 'Phonetic', 'Meaning', 'Example', 'Audio', 'Image'],
+        fieldNames: [
+          'Word',
+          'Phonetic',
+          'Meaning',
+          'Example',
+          'Audio',
+          'Image',
+        ],
         templates: [
           AnkiTemplate(
             ord: 0,
@@ -232,24 +292,27 @@ void main() {
       expect(rendered.back, contains('Capital of Australia'));
     });
 
-    test('fallback combines all multi-fields without losing images or audio', () {
-      final rendered = AnkiTemplateEngine.renderCard(
-        model: null,
-        cardOrd: 0,
-        fieldValues: [
-          'Word',
-          'Phonetic',
-          'Meaning',
-          '<img src="sample.png">',
-          '[sound:sample.mp3]',
-        ],
-      );
+    test(
+      'fallback combines all multi-fields without losing images or audio',
+      () {
+        final rendered = AnkiTemplateEngine.renderCard(
+          model: null,
+          cardOrd: 0,
+          fieldValues: [
+            'Word',
+            'Phonetic',
+            'Meaning',
+            '<img src="sample.png">',
+            '[sound:sample.mp3]',
+          ],
+        );
 
-      expect(rendered.front, equals('Word'));
-      expect(rendered.back, contains('Phonetic'));
-      expect(rendered.back, contains('Meaning'));
-      expect(rendered.back, contains('<img src="sample.png">'));
-      expect(rendered.back, contains('[sound:sample.mp3]'));
-    });
+        expect(rendered.front, equals('Word'));
+        expect(rendered.back, contains('Phonetic'));
+        expect(rendered.back, contains('Meaning'));
+        expect(rendered.back, contains('<img src="sample.png">'));
+        expect(rendered.back, contains('[sound:sample.mp3]'));
+      },
+    );
   });
 }

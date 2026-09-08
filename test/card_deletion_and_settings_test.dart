@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/core/models/card.dart';
@@ -18,14 +19,16 @@ void main() {
     dbPath = '${tempDir.path}/test_db.sqlite';
     await DatabaseService.instance.init(customPath: dbPath);
 
-    await DatabaseService.instance.saveDeck(const DeckModel(
-      id: 'deck_1',
-      title: 'Deck 1',
-      description: 'Deck description',
-      dueCount: 0,
-      newCount: 0,
-      totalCount: 0,
-    ));
+    await DatabaseService.instance.saveDeck(
+      const DeckModel(
+        id: 'deck_1',
+        title: 'Deck 1',
+        description: 'Deck description',
+        dueCount: 0,
+        newCount: 0,
+        totalCount: 0,
+      ),
+    );
   });
 
   tearDown(() async {
@@ -38,30 +41,53 @@ void main() {
   });
 
   group('Card Deletion and Undo Tests', () {
-    test('Browser notifier deleteCard removes card and addCard restores it', () async {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+    test(
+      'Browser notifier deleteCard removes card and addCard restores it',
+      () async {
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
 
-      final card = CardModel(
-        id: 'card_to_delete',
-        deckId: 'deck_1',
-        front: 'Delete Front',
-        back: 'Delete Back',
-        createdAt: DateTime.now(),
-      );
+        final card = CardModel(
+          id: 'card_to_delete',
+          deckId: 'deck_1',
+          front: 'Delete Front',
+          back: 'Delete Back',
+          createdAt: DateTime.now(),
+        );
 
-      // Add card initially
-      await container.read(cardBrowserProvider.notifier).addCard(card);
-      expect(container.read(cardBrowserProvider).allCards.any((c) => c.id == 'card_to_delete'), isTrue);
+        // Add card initially
+        await container.read(cardBrowserProvider.notifier).addCard(card);
+        expect(
+          container
+              .read(cardBrowserProvider)
+              .allCards
+              .any((c) => c.id == 'card_to_delete'),
+          isTrue,
+        );
 
-      // Delete card
-      await container.read(cardBrowserProvider.notifier).deleteCard('card_to_delete');
-      expect(container.read(cardBrowserProvider).allCards.any((c) => c.id == 'card_to_delete'), isFalse);
+        // Delete card
+        await container
+            .read(cardBrowserProvider.notifier)
+            .deleteCard('card_to_delete');
+        expect(
+          container
+              .read(cardBrowserProvider)
+              .allCards
+              .any((c) => c.id == 'card_to_delete'),
+          isFalse,
+        );
 
-      // Undo deletion via addCard
-      await container.read(cardBrowserProvider.notifier).addCard(card);
-      expect(container.read(cardBrowserProvider).allCards.any((c) => c.id == 'card_to_delete'), isTrue);
-    });
+        // Undo deletion via addCard
+        await container.read(cardBrowserProvider.notifier).addCard(card);
+        expect(
+          container
+              .read(cardBrowserProvider)
+              .allCards
+              .any((c) => c.id == 'card_to_delete'),
+          isTrue,
+        );
+      },
+    );
   });
 
   group('Settings Notifier Tests', () {

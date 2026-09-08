@@ -91,12 +91,13 @@ class CardBrowserScreen extends HookConsumerWidget {
         final isDesktop = constraints.maxWidth >= 900;
 
         if (isDesktop) {
-          final currentSelectedCard =
-              filteredCards.cast<CardModel?>().firstWhere(
-                    (c) => c?.id == selectedCardId.value,
-                    orElse: () =>
-                        filteredCards.isNotEmpty ? filteredCards.first : null,
-                  );
+          final currentSelectedCard = filteredCards
+              .cast<CardModel?>()
+              .firstWhere(
+                (c) => c?.id == selectedCardId.value,
+                orElse: () =>
+                    filteredCards.isNotEmpty ? filteredCards.first : null,
+              );
 
           return Scaffold(
             child: Row(
@@ -117,14 +118,18 @@ class CardBrowserScreen extends HookConsumerWidget {
                               Expanded(
                                 child: TextField(
                                   controller: searchController,
-                                  placeholder: Text(l10n.searchCardsPlaceholder),
+                                  placeholder: Text(
+                                    l10n.searchCardsPlaceholder,
+                                  ),
                                   onChanged: (val) =>
                                       browserNotifier.setSearchQuery(val),
                                   features: [
                                     InputFeature.leading(
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 4, right: 6),
+                                          left: 4,
+                                          right: 6,
+                                        ),
                                         child: Icon(
                                           LucideIcons.search,
                                           size: 16,
@@ -137,8 +142,10 @@ class CardBrowserScreen extends HookConsumerWidget {
                                       InputFeature.trailing(
                                         IconButton.ghost(
                                           size: ButtonSize.small,
-                                          icon:
-                                              const Icon(LucideIcons.x, size: 14),
+                                          icon: const Icon(
+                                            LucideIcons.x,
+                                            size: 14,
+                                          ),
                                           onPressed: () {
                                             searchController.clear();
                                             browserNotifier.setSearchQuery('');
@@ -151,7 +158,11 @@ class CardBrowserScreen extends HookConsumerWidget {
                               const SizedBox(width: 8),
                               PrimaryButton(
                                 leading: const Icon(LucideIcons.plus, size: 16),
-                                child: Text(l10n.addCardButton, maxLines: 1, softWrap: false),
+                                child: Text(
+                                  l10n.addCardButton,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                ),
                                 onPressed: () => context.push('/editor'),
                               ),
                             ],
@@ -163,7 +174,9 @@ class CardBrowserScreen extends HookConsumerWidget {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4),
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
                         child: Row(
                           children: [
                             _FilterChip(
@@ -171,40 +184,48 @@ class CardBrowserScreen extends HookConsumerWidget {
                                   '${l10n.filterAll} • ${browserState.allCards.length}',
                               isSelected:
                                   browserState.filterType == CardFilterType.all,
-                              onTap: () => browserNotifier
-                                  .setFilterType(CardFilterType.all),
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.all,
+                              ),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterDue,
                               isSelected:
                                   browserState.filterType == CardFilterType.due,
-                              onTap: () => browserNotifier
-                                  .setFilterType(CardFilterType.due),
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.due,
+                              ),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterNew,
-                              isSelected: browserState.filterType ==
+                              isSelected:
+                                  browserState.filterType ==
                                   CardFilterType.newCard,
-                              onTap: () => browserNotifier
-                                  .setFilterType(CardFilterType.newCard),
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.newCard,
+                              ),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterFlagged,
-                              isSelected: browserState.filterType ==
+                              isSelected:
+                                  browserState.filterType ==
                                   CardFilterType.flagged,
-                              onTap: () => browserNotifier
-                                  .setFilterType(CardFilterType.flagged),
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.flagged,
+                              ),
                             ),
                             const SizedBox(width: 6),
                             _FilterChip(
                               label: l10n.filterSuspended,
-                              isSelected: browserState.filterType ==
+                              isSelected:
+                                  browserState.filterType ==
                                   CardFilterType.suspended,
-                              onTap: () => browserNotifier
-                                  .setFilterType(CardFilterType.suspended),
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.suspended,
+                              ),
                             ),
                           ],
                         ),
@@ -225,7 +246,9 @@ class CardBrowserScreen extends HookConsumerWidget {
                             : ListView.builder(
                                 itemCount: filteredCards.length,
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 6),
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
                                 itemBuilder: (context, index) {
                                   final card = filteredCards[index];
                                   final isSelected =
@@ -269,7 +292,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                         )
                       : _DesktopCardDetailPane(
                           card: currentSelectedCard,
-                          deckTitle: deckMap[currentSelectedCard.deckId] ??
+                          deckTitle:
+                              deckMap[currentSelectedCard.deckId] ??
                               currentSelectedCard.deckId,
                           browserNotifier: browserNotifier,
                         ),
@@ -286,11 +310,8 @@ class CardBrowserScreen extends HookConsumerWidget {
               if (notification.metrics.pixels >=
                   notification.metrics.maxScrollExtent - 200) {
                 if (displayedCount.value < filteredCards.length) {
-                  displayedCount.value =
-                      (displayedCount.value + pageSize).clamp(
-                    0,
-                    filteredCards.length,
-                  );
+                  displayedCount.value = (displayedCount.value + pageSize)
+                      .clamp(0, filteredCards.length);
                 }
               }
               return false;
@@ -332,8 +353,10 @@ class CardBrowserScreen extends HookConsumerWidget {
                           features: [
                             InputFeature.leading(
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 4, right: 6),
+                                padding: const EdgeInsets.only(
+                                  left: 4,
+                                  right: 6,
+                                ),
                                 child: Icon(
                                   LucideIcons.search,
                                   size: 16,
@@ -365,21 +388,24 @@ class CardBrowserScreen extends HookConsumerWidget {
                                   '${l10n.filterAll} • ${browserState.allCards.length}',
                               isSelected:
                                   browserState.filterType == CardFilterType.all,
-                              onTap: () => browserNotifier
-                                  .setFilterType(CardFilterType.all),
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.all,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterDue,
                               isSelected:
                                   browserState.filterType == CardFilterType.due,
-                              onTap: () => browserNotifier
-                                  .setFilterType(CardFilterType.due),
+                              onTap: () => browserNotifier.setFilterType(
+                                CardFilterType.due,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterNew,
-                              isSelected: browserState.filterType ==
+                              isSelected:
+                                  browserState.filterType ==
                                   CardFilterType.newCard,
                               onTap: () => browserNotifier.setFilterType(
                                 CardFilterType.newCard,
@@ -388,7 +414,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterFlagged,
-                              isSelected: browserState.filterType ==
+                              isSelected:
+                                  browserState.filterType ==
                                   CardFilterType.flagged,
                               onTap: () => browserNotifier.setFilterType(
                                 CardFilterType.flagged,
@@ -397,7 +424,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                             const SizedBox(width: 8),
                             _FilterChip(
                               label: l10n.filterSuspended,
-                              isSelected: browserState.filterType ==
+                              isSelected:
+                                  browserState.filterType ==
                                   CardFilterType.suspended,
                               onTap: () => browserNotifier.setFilterType(
                                 CardFilterType.suspended,
@@ -445,9 +473,9 @@ class CardBrowserScreen extends HookConsumerWidget {
                                 onPressed: () {
                                   displayedCount.value =
                                       (displayedCount.value + pageSize).clamp(
-                                    0,
-                                    filteredCards.length,
-                                  );
+                                        0,
+                                        filteredCards.length,
+                                      );
                                 },
                               ),
                             ),
@@ -476,12 +504,15 @@ class CardBrowserScreen extends HookConsumerWidget {
                                           width: 8,
                                           height: 8,
                                           margin: const EdgeInsets.only(
-                                              top: 5, right: 10),
+                                            top: 5,
+                                            right: 10,
+                                          ),
                                           decoration: BoxDecoration(
                                             color:
-                                                CardActionSheet.ankiFlagColors[
-                                                        card.flag] ??
-                                                    m.Colors.grey,
+                                                CardActionSheet
+                                                    .ankiFlagColors[card
+                                                    .flag] ??
+                                                m.Colors.grey,
                                             shape: BoxShape.circle,
                                           ),
                                         ),
@@ -499,7 +530,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
                                                 color: theme
-                                                    .colorScheme.foreground,
+                                                    .colorScheme
+                                                    .foreground,
                                                 decoration: card.isSuspended
                                                     ? TextDecoration.lineThrough
                                                     : null,
@@ -512,7 +544,8 @@ class CardBrowserScreen extends HookConsumerWidget {
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 fontSize: 12,
-                                                color: theme.colorScheme
+                                                color: theme
+                                                    .colorScheme
                                                     .mutedForeground,
                                               ),
                                             ),
@@ -521,11 +554,13 @@ class CardBrowserScreen extends HookConsumerWidget {
                                               children: [
                                                 Text(
                                                   l10n.deckPrefix(
-                                                      deckMap[card.deckId] ??
-                                                          card.deckId),
+                                                    deckMap[card.deckId] ??
+                                                        card.deckId,
+                                                  ),
                                                   style: TextStyle(
                                                     fontSize: 10,
-                                                    color: theme.colorScheme
+                                                    color: theme
+                                                        .colorScheme
                                                         .mutedForeground,
                                                   ),
                                                 ),
@@ -533,14 +568,16 @@ class CardBrowserScreen extends HookConsumerWidget {
                                                 Text(
                                                   card.intervalDays > 0
                                                       ? l10n.intervalBadge(
-                                                          card.intervalDays)
+                                                          card.intervalDays,
+                                                        )
                                                       : l10n.newBadge,
                                                   style: TextStyle(
                                                     fontSize: 10,
                                                     fontWeight: FontWeight.w600,
                                                     color: card.intervalDays > 0
                                                         ? theme
-                                                            .colorScheme.primary
+                                                              .colorScheme
+                                                              .primary
                                                         : m.Colors.green,
                                                   ),
                                                 ),
@@ -594,8 +631,9 @@ class _DesktopCardRowItem extends StatelessWidget {
             : theme.colorScheme.card,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color:
-              isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.border,
           width: isSelected ? 1.5 : 1.0,
         ),
       ),
@@ -617,7 +655,8 @@ class _DesktopCardRowItem extends StatelessWidget {
                         height: 7,
                         margin: const EdgeInsets.only(right: 8),
                         decoration: BoxDecoration(
-                          color: CardActionSheet.ankiFlagColors[card.flag] ??
+                          color:
+                              CardActionSheet.ankiFlagColors[card.flag] ??
                               m.Colors.grey,
                           shape: BoxShape.circle,
                         ),
@@ -629,8 +668,9 @@ class _DesktopCardRowItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 13,
-                          fontWeight:
-                              isSelected ? FontWeight.w700 : FontWeight.w600,
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w600,
                           color: theme.colorScheme.foreground,
                           decoration: card.isSuspended
                               ? TextDecoration.lineThrough
@@ -641,7 +681,9 @@ class _DesktopCardRowItem extends StatelessWidget {
                     if (card.isSuspended)
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 1),
+                          horizontal: 5,
+                          vertical: 1,
+                        ),
                         decoration: BoxDecoration(
                           color: m.Colors.orange.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(4),
@@ -649,9 +691,10 @@ class _DesktopCardRowItem extends StatelessWidget {
                         child: Text(
                           l10n.filterSuspended,
                           style: const TextStyle(
-                              fontSize: 9,
-                              color: m.Colors.orange,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 9,
+                            color: m.Colors.orange,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                   ],
@@ -723,23 +766,30 @@ class _DesktopCardDetailPane extends HookWidget {
                 child: Text(
                   deckTitle ?? card.deckId,
                   style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.primary),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.primary,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
               if (card.noteType == NoteType.cloze)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.muted,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: Text(l10n.clozeDeletion,
-                      style:
-                          const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                  child: Text(
+                    l10n.clozeDeletion,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
 
               const Spacer(),
@@ -752,7 +802,8 @@ class _DesktopCardDetailPane extends HookWidget {
                   size: 14,
                 ),
                 child: Text(
-                    card.isSuspended ? l10n.unsuspendCard : l10n.suspendCard),
+                  card.isSuspended ? l10n.unsuspendCard : l10n.suspendCard,
+                ),
                 onPressed: () => browserNotifier.toggleCardSuspend(card.id),
               ),
               const SizedBox(width: 8),
@@ -798,9 +849,11 @@ class _DesktopCardDetailPane extends HookWidget {
                                 : LucideIcons.eye,
                             size: 14,
                           ),
-                          child: Text(showAnswer.value
-                              ? l10n.hideAnswer
-                              : l10n.showAnswer),
+                          child: Text(
+                            showAnswer.value
+                                ? l10n.hideAnswer
+                                : l10n.showAnswer,
+                          ),
                           onPressed: () => showAnswer.value = !showAnswer.value,
                         ),
                       ],
@@ -948,7 +1001,9 @@ class _MetricCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: 10, color: theme.colorScheme.mutedForeground),
+                    fontSize: 10,
+                    color: theme.colorScheme.mutedForeground,
+                  ),
                 ),
               ),
             ],
@@ -983,8 +1038,9 @@ class _FilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color:
-              isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.muted,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

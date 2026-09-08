@@ -1,17 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+
 import '../config/app_config.dart';
 import '../models/update_info.dart';
 
 class DesktopUpdateService {
   final http.Client _client;
 
-  DesktopUpdateService({http.Client? client}) : _client = client ?? http.Client();
+  DesktopUpdateService({http.Client? client})
+    : _client = client ?? http.Client();
 
   /// Check if current platform is a desktop platform.
   static bool get isDesktop =>
@@ -24,11 +27,14 @@ class DesktopUpdateService {
   /// Compare two semver-like version strings.
   /// Returns > 0 if version1 > version2, < 0 if version1 < version2, 0 if equal.
   static int compareVersions(String v1, String v2) {
-    String clean(String v) => v.trim().replaceFirst(RegExp(r'^v'), '').split('+')[0];
+    String clean(String v) =>
+        v.trim().replaceFirst(RegExp(r'^v'), '').split('+')[0];
     final parts1 = clean(v1).split(RegExp(r'[\.-]'));
     final parts2 = clean(v2).split(RegExp(r'[\.-]'));
 
-    final maxLen = parts1.length > parts2.length ? parts1.length : parts2.length;
+    final maxLen = parts1.length > parts2.length
+        ? parts1.length
+        : parts2.length;
     for (int i = 0; i < maxLen; i++) {
       final p1 = i < parts1.length ? int.tryParse(parts1[i]) ?? 0 : 0;
       final p2 = i < parts2.length ? int.tryParse(parts2[i]) ?? 0 : 0;
@@ -64,21 +70,27 @@ class DesktopUpdateService {
   static Map<String, dynamic>? findPlatformAsset(List<dynamic> assets) {
     if (assets.isEmpty) return null;
 
-    final os = Platform.operatingSystem.toLowerCase(); // 'windows', 'macos', 'linux', 'android', 'ios'
+    final os = Platform.operatingSystem
+        .toLowerCase(); // 'windows', 'macos', 'linux', 'android', 'ios'
     for (final asset in assets) {
       if (asset is! Map<String, dynamic>) continue;
       final name = (asset['name'] as String? ?? '').toLowerCase();
 
       if (os == 'windows') {
-        if (name.endsWith('.exe') || name.endsWith('.msi') || (name.contains('win') && name.endsWith('.zip'))) {
+        if (name.endsWith('.exe') ||
+            name.endsWith('.msi') ||
+            (name.contains('win') && name.endsWith('.zip'))) {
           return asset;
         }
       } else if (os == 'macos') {
-        if (name.endsWith('.dmg') || (name.contains('mac') && name.endsWith('.zip'))) {
+        if (name.endsWith('.dmg') ||
+            (name.contains('mac') && name.endsWith('.zip'))) {
           return asset;
         }
       } else if (os == 'linux') {
-        if (name.endsWith('.appimage') || name.endsWith('.deb') || (name.contains('linux') && name.endsWith('.tar.gz'))) {
+        if (name.endsWith('.appimage') ||
+            name.endsWith('.deb') ||
+            (name.contains('linux') && name.endsWith('.tar.gz'))) {
           return asset;
         }
       } else if (os == 'android') {
@@ -100,13 +112,15 @@ class DesktopUpdateService {
     final url = apiUrl ?? AppConfig.githubReleasesApiUrl;
 
     try {
-      final response = await _client.get(
-        Uri.parse(url),
-        headers: {
-          'Accept': 'application/vnd.github+json',
-          'User-Agent': 'Flanki-Desktop-Updater',
-        },
-      ).timeout(const Duration(seconds: 10));
+      final response = await _client
+          .get(
+            Uri.parse(url),
+            headers: {
+              'Accept': 'application/vnd.github+json',
+              'User-Agent': 'Flanki-Desktop-Updater',
+            },
+          )
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode != 200) {
         return UpdateInfo(
@@ -122,10 +136,12 @@ class DesktopUpdateService {
       final latest = rawTag.replaceFirst(RegExp(r'^v'), '');
       final hasUpdate = compareVersions(latest, current) > 0;
       final releaseNotes = data['body'] as String?;
-      final htmlUrl = data['html_url'] as String? ??
-          AppConfig.githubReleasesUrl;
+      final htmlUrl =
+          data['html_url'] as String? ?? AppConfig.githubReleasesUrl;
       final publishedAtStr = data['published_at'] as String?;
-      final publishedAt = publishedAtStr != null ? DateTime.tryParse(publishedAtStr) : null;
+      final publishedAt = publishedAtStr != null
+          ? DateTime.tryParse(publishedAtStr)
+          : null;
 
       final assets = data['assets'] as List<dynamic>? ?? [];
       final matchedAsset = findPlatformAsset(assets);
@@ -197,7 +213,12 @@ class DesktopUpdateService {
       if (Platform.isWindows) {
         if (ext == '.exe' || ext == '.msi') {
           // Launch installer detached so it continues after app exits
-          await Process.start(filePath, [], runInShell: true, mode: ProcessStartMode.detached);
+          await Process.start(
+            filePath,
+            [],
+            runInShell: true,
+            mode: ProcessStartMode.detached,
+          );
           exit(0);
         } else {
           // Select file in explorer for user

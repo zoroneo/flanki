@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/core/models/deck.dart';
@@ -24,35 +25,41 @@ void main() {
   });
 
   group('Deck Creation Tests', () {
-    test('addDeck adds new deck and reflects in deckListProvider state', () async {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+    test(
+      'addDeck adds new deck and reflects in deckListProvider state',
+      () async {
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
 
-      final initialDecks = container.read(deckListProvider);
-      expect(initialDecks, isEmpty);
+        final initialDecks = container.read(deckListProvider);
+        expect(initialDecks, isEmpty);
 
-      const newDeck = DeckModel(
-        id: 'deck_test_1',
-        title: 'Tiếng Anh Giao Tiếp',
-        description: 'Bộ từ vựng giao tiếp hàng ngày',
-        dueCount: 0,
-        newCount: 0,
-        totalCount: 0,
-      );
+        const newDeck = DeckModel(
+          id: 'deck_test_1',
+          title: 'Tiếng Anh Giao Tiếp',
+          description: 'Bộ từ vựng giao tiếp hàng ngày',
+          dueCount: 0,
+          newCount: 0,
+          totalCount: 0,
+        );
 
-      await container.read(deckListProvider.notifier).addDeck(newDeck);
+        await container.read(deckListProvider.notifier).addDeck(newDeck);
 
-      final updatedDecks = container.read(deckListProvider);
-      expect(updatedDecks.length, 1);
-      expect(updatedDecks.first.id, 'deck_test_1');
-      expect(updatedDecks.first.title, 'Tiếng Anh Giao Tiếp');
-      expect(updatedDecks.first.description, 'Bộ từ vựng giao tiếp hàng ngày');
+        final updatedDecks = container.read(deckListProvider);
+        expect(updatedDecks.length, 1);
+        expect(updatedDecks.first.id, 'deck_test_1');
+        expect(updatedDecks.first.title, 'Tiếng Anh Giao Tiếp');
+        expect(
+          updatedDecks.first.description,
+          'Bộ từ vựng giao tiếp hàng ngày',
+        );
 
-      // Verify persisted in database
-      final dbDecks = DatabaseService.instance.getAllDecks();
-      expect(dbDecks.length, 1);
-      expect(dbDecks.first.title, 'Tiếng Anh Giao Tiếp');
-    });
+        // Verify persisted in database
+        final dbDecks = DatabaseService.instance.getAllDecks();
+        expect(dbDecks.length, 1);
+        expect(dbDecks.first.title, 'Tiếng Anh Giao Tiếp');
+      },
+    );
 
     test('addMultipleDecks and recalculation maintains consistency', () async {
       final container = ProviderContainer();
@@ -60,23 +67,27 @@ void main() {
 
       final notifier = container.read(deckListProvider.notifier);
 
-      await notifier.addDeck(const DeckModel(
-        id: 'deck_a',
-        title: 'Deck A',
-        description: 'First',
-        dueCount: 0,
-        newCount: 0,
-        totalCount: 0,
-      ));
+      await notifier.addDeck(
+        const DeckModel(
+          id: 'deck_a',
+          title: 'Deck A',
+          description: 'First',
+          dueCount: 0,
+          newCount: 0,
+          totalCount: 0,
+        ),
+      );
 
-      await notifier.addDeck(const DeckModel(
-        id: 'deck_b',
-        title: 'Deck B',
-        description: 'Second',
-        dueCount: 0,
-        newCount: 0,
-        totalCount: 0,
-      ));
+      await notifier.addDeck(
+        const DeckModel(
+          id: 'deck_b',
+          title: 'Deck B',
+          description: 'Second',
+          dueCount: 0,
+          newCount: 0,
+          totalCount: 0,
+        ),
+      );
 
       final state = container.read(deckListProvider);
       expect(state.length, 2);

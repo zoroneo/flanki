@@ -3,8 +3,10 @@ import 'dart:io' show Platform;
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' show Locale;
+
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
+
 import '../../l10n/generated/app_localizations.dart';
 import '../storage/media_storage_service.dart';
 import 'anki_web_config.dart';
@@ -36,10 +38,7 @@ class MediaSyncResult {
   }
 
   factory MediaSyncResult.fail(String error) {
-    return MediaSyncResult(
-      success: false,
-      message: error,
-    );
+    return MediaSyncResult(success: false, message: error);
   }
 }
 
@@ -56,14 +55,16 @@ class AnkiWebMediaSyncService {
     http.Client? client,
     AnkiWebConfig? config,
     AppLocalizations? l10n,
-  })  : _client = client ?? http.Client(),
-        _config = config ?? const AnkiWebConfig(),
-        _customL10n = l10n;
+  }) : _client = client ?? http.Client(),
+       _config = config ?? const AnkiWebConfig(),
+       _customL10n = l10n;
 
   AppLocalizations get l10n {
     if (_customL10n != null) return _customL10n;
     try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
+          ? 'vi'
+          : 'en';
       return lookupAppLocalizations(Locale(code));
     } catch (_) {
       return lookupAppLocalizations(const Locale('vi'));
@@ -87,14 +88,22 @@ class AnkiWebMediaSyncService {
       beginReq.fields['k'] = hostKey;
       beginReq.fields['v'] = AnkiWebConfig.clientVersion;
 
-      final beginStreamed = await _client.send(beginReq).timeout(AnkiWebConfig.metaTimeout);
+      final beginStreamed = await _client
+          .send(beginReq)
+          .timeout(AnkiWebConfig.metaTimeout);
       final beginRes = await http.Response.fromStream(beginStreamed);
 
       if (beginRes.statusCode >= 400) {
-        return MediaSyncResult.fail(l10n.syncServerError(beginRes.statusCode, beginRes.reasonPhrase ?? ''));
+        return MediaSyncResult.fail(
+          l10n.syncServerError(
+            beginRes.statusCode,
+            beginRes.reasonPhrase ?? '',
+          ),
+        );
       }
 
-      final beginJson = jsonDecode(utf8.decode(beginRes.bodyBytes)) as Map<String, dynamic>;
+      final beginJson =
+          jsonDecode(utf8.decode(beginRes.bodyBytes)) as Map<String, dynamic>;
       final err = beginJson['err'] as String?;
       if (err != null && err.isNotEmpty) {
         return MediaSyncResult.fail(l10n.syncMediaError(err));
@@ -111,14 +120,22 @@ class AnkiWebMediaSyncService {
       changesReq.fields['k'] = sessionKey.isNotEmpty ? sessionKey : hostKey;
       changesReq.fields['data'] = jsonEncode({'lastUsn': lastUsn});
 
-      final changesStreamed = await _client.send(changesReq).timeout(AnkiWebConfig.metaTimeout);
+      final changesStreamed = await _client
+          .send(changesReq)
+          .timeout(AnkiWebConfig.metaTimeout);
       final changesRes = await http.Response.fromStream(changesStreamed);
 
       if (changesRes.statusCode >= 400) {
-        return MediaSyncResult.fail(l10n.syncServerError(changesRes.statusCode, changesRes.reasonPhrase ?? ''));
+        return MediaSyncResult.fail(
+          l10n.syncServerError(
+            changesRes.statusCode,
+            changesRes.reasonPhrase ?? '',
+          ),
+        );
       }
 
-      final changesJson = jsonDecode(utf8.decode(changesRes.bodyBytes)) as Map<String, dynamic>;
+      final changesJson =
+          jsonDecode(utf8.decode(changesRes.bodyBytes)) as Map<String, dynamic>;
       final changesData = changesJson['data'];
       if (changesData is! List) {
         return MediaSyncResult.ok(
@@ -161,13 +178,17 @@ class AnkiWebMediaSyncService {
         final end = math.min(i + maxMediaFilesInZip, filesToDownload.length);
         final batch = filesToDownload.sublist(i, end);
 
-        final downloadUri = Uri.parse('${_config.syncHost}/msync/downloadFiles');
+        final downloadUri = Uri.parse(
+          '${_config.syncHost}/msync/downloadFiles',
+        );
         final downloadReq = http.MultipartRequest('POST', downloadUri);
         downloadReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
         downloadReq.fields['k'] = sessionKey.isNotEmpty ? sessionKey : hostKey;
         downloadReq.fields['data'] = jsonEncode({'files': batch});
 
-        final downloadStreamed = await _client.send(downloadReq).timeout(AnkiWebConfig.downloadTimeout);
+        final downloadStreamed = await _client
+            .send(downloadReq)
+            .timeout(AnkiWebConfig.downloadTimeout);
         final downloadRes = await http.Response.fromStream(downloadStreamed);
 
         if (downloadRes.statusCode == 200 && downloadRes.bodyBytes.isNotEmpty) {
@@ -176,7 +197,11 @@ class AnkiWebMediaSyncService {
           onProgress?.call(downloadedCount, totalFiles);
         } else {
           return MediaSyncResult.fail(
-            l10n.syncMediaBatchError('$i-$end', downloadRes.statusCode, downloadRes.reasonPhrase ?? ''),
+            l10n.syncMediaBatchError(
+              '$i-$end',
+              downloadRes.statusCode,
+              downloadRes.reasonPhrase ?? '',
+            ),
           );
         }
       }

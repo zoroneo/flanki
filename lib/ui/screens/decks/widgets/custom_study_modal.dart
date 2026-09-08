@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../../../core/localization/locale_notifier.dart';
 
-enum CustomStudyMode {
-  byTag,
-  flagged,
-  reviewAhead,
-}
+enum CustomStudyMode { byTag, flagged, reviewAhead }
 
 class CustomStudyModal extends HookWidget {
-  final void Function(String name, String tag, int limit, String mode) onStartCram;
+  final void Function(String name, String tag, int limit, String mode)
+  onStartCram;
 
-  const CustomStudyModal({
-    super.key,
-    required this.onStartCram,
-  });
+  const CustomStudyModal({super.key, required this.onStartCram});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +38,9 @@ class CustomStudyModal extends HookWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.mutedForeground.withValues(alpha: 0.3),
+                    color: theme.colorScheme.mutedForeground.withValues(
+                      alpha: 0.3,
+                    ),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -59,12 +56,19 @@ class CustomStudyModal extends HookWidget {
               const SizedBox(height: 6),
               Text(
                 l10n.cramModeDesc,
-                style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                ),
               ),
               const SizedBox(height: 20),
 
               // Mode selector
-              Text(l10n.filterMode, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+              Text(
+                l10n.filterMode,
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                ),
+              ),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -96,18 +100,31 @@ class CustomStudyModal extends HookWidget {
               const SizedBox(height: 16),
 
               if (mode.value == CustomStudyMode.byTag) ...[
-                Text(l10n.cramTagInputLabel, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                Text(
+                  l10n.cramTagInputLabel,
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colorScheme.mutedForeground,
+                  ),
+                ),
                 const SizedBox(height: 6),
                 TextField(
                   controller: tagController,
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 10,
+                  ),
                   placeholder: Text(l10n.addTagPlaceholder),
                 ),
                 const SizedBox(height: 16),
               ],
 
               // Card limit
-              Text(l10n.cardLimit, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+              Text(
+                l10n.cardLimit,
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                ),
+              ),
               const SizedBox(height: 8),
               Row(
                 children: [10, 20, 50, 100].map((l) {
@@ -122,7 +139,9 @@ class CustomStudyModal extends HookWidget {
                           constraints: const BoxConstraints(minHeight: 42),
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
+                            color: isSelected
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.muted,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           alignment: Alignment.center,
@@ -130,8 +149,12 @@ class CustomStudyModal extends HookWidget {
                             l10n.cardsCountUnit(l),
                             style: TextStyle(
                               fontSize: 12,
-                              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                              color: isSelected ? theme.colorScheme.primaryForeground : theme.colorScheme.foreground,
+                              fontWeight: isSelected
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                              color: isSelected
+                                  ? theme.colorScheme.primaryForeground
+                                  : theme.colorScheme.foreground,
                             ),
                           ),
                         ),
@@ -192,7 +215,9 @@ class _ModeButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.muted,
           borderRadius: BorderRadius.circular(8),
         ),
         alignment: Alignment.center,
@@ -201,7 +226,9 @@ class _ModeButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-            color: isSelected ? theme.colorScheme.primaryForeground : theme.colorScheme.foreground,
+            color: isSelected
+                ? theme.colorScheme.primaryForeground
+                : theme.colorScheme.foreground,
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../core/localization/locale_notifier.dart';
 import '../../core/notifiers/deck_notifier.dart';
 import '../../core/notifiers/card_browser_notifier.dart';
@@ -12,10 +13,7 @@ import '../../core/auth/auth_notifier.dart';
 class MobileScaffold extends HookConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
-  const MobileScaffold({
-    super.key,
-    required this.navigationShell,
-  });
+  const MobileScaffold({super.key, required this.navigationShell});
 
   void _onTap(int index, WidgetRef ref) {
     HapticFeedback.selectionClick();
@@ -53,10 +51,7 @@ class MobileScaffold extends HookConsumerWidget {
             decoration: BoxDecoration(
               color: theme.colorScheme.background,
               border: Border(
-                top: BorderSide(
-                  color: theme.colorScheme.border,
-                  width: 1,
-                ),
+                top: BorderSide(color: theme.colorScheme.border, width: 1),
               ),
             ),
             child: SafeArea(
@@ -149,7 +144,10 @@ class _BottomNavItem extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? theme.colorScheme.primary.withValues(alpha: 0.12)

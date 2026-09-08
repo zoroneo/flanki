@@ -70,10 +70,7 @@ class RenderedCardContent {
   final String front;
   final String back;
 
-  const RenderedCardContent({
-    required this.front,
-    required this.back,
-  });
+  const RenderedCardContent({required this.front, required this.back});
 }
 
 /// Anki Template rendering engine supporting Mustache-style field replacement,
@@ -116,7 +113,10 @@ class AnkiTemplateEngine {
       );
 
       // Strip audio from FrontSide before injecting into Back
-      final frontSideClean = frontRendered.replaceAll(RegExp(r'\[sound:[^\]]+\]'), '');
+      final frontSideClean = frontRendered.replaceAll(
+        RegExp(r'\[sound:[^\]]+\]'),
+        '',
+      );
 
       // Render Back
       var backTemplate = template.afmt;
@@ -205,7 +205,9 @@ class AnkiTemplateEngine {
     result = result.replaceAllMapped(hintTagRegex, (m) {
       final key = m.group(1)!.trim();
       final raw = fields[key] ?? '';
-      return raw.isNotEmpty ? '<details><summary>Hint</summary>$raw</details>' : '';
+      return raw.isNotEmpty
+          ? '<details><summary>Hint</summary>$raw</details>'
+          : '';
     });
 
     // 8. Simple field replacements: {{Field}}
@@ -226,7 +228,9 @@ class AnkiTemplateEngine {
 
   /// Extracts the target answer text for a specific cloze index
   static String _extractClozeAnswer(String text, int activeIndex) {
-    final clozeRegex = RegExp(r'\{\{c' + activeIndex.toString() + r'::([^:]*?)(?:::([^}]*?))?\}\}');
+    final clozeRegex = RegExp(
+      r'\{\{c' + activeIndex.toString() + r'::([^:]*?)(?:::([^}]*?))?\}\}',
+    );
     final match = clozeRegex.firstMatch(text);
     if (match != null) {
       return match.group(1)?.trim() ?? '';
@@ -237,7 +241,11 @@ class AnkiTemplateEngine {
   }
 
   /// Process Anki cloze deletion: `{{c1::answer::hint}}` or `{{c1::answer}}`
-  static String _renderCloze(String text, int activeIndex, {required bool isBack}) {
+  static String _renderCloze(
+    String text,
+    int activeIndex, {
+    required bool isBack,
+  }) {
     final clozeRegex = RegExp(r'\{\{c(\d+)::([^:]*?)(?:::([^}]*?))?\}\}');
     return text.replaceAllMapped(clozeRegex, (m) {
       final idx = int.tryParse(m.group(1) ?? '1') ?? 1;
@@ -247,7 +255,9 @@ class AnkiTemplateEngine {
       if (idx == activeIndex) {
         if (!isBack) {
           // Question: show hint or [...]
-          final displayHint = (hint != null && hint.isNotEmpty) ? '[$hint]' : '[...]';
+          final displayHint = (hint != null && hint.isNotEmpty)
+              ? '[$hint]'
+              : '[...]';
           return '<span class="cloze-hint" style="color: #3b82f6; font-weight: bold;">$displayHint</span>';
         } else {
           // Answer: show answer highlighted
@@ -283,9 +293,6 @@ class AnkiTemplateEngine {
       }
     }
 
-    return RenderedCardContent(
-      front: front,
-      back: backParts.join('<br><br>'),
-    );
+    return RenderedCardContent(front: front, back: backParts.join('<br><br>'));
   }
 }

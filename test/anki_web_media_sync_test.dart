@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -106,83 +107,80 @@ void main() {
     expect(mediaStorage.mediaFileExists('audio_sample.mp3'), isTrue);
 
     final jpgFile = File(mediaStorage.getMediaFilePath('4000B1_008.jpg'));
-    expect(jpgFile.readAsBytesSync(), equals([0xFF, 0xD8, 0xFF, 0xE0, 0x01, 0x02]));
-  });
-
-  test('AnkiWebMediaSyncService handles empty media changes gracefully', () async {
-    final mockClient = MockClient((request) async {
-      if (request.url.path.endsWith('/msync/begin')) {
-        return http.Response(
-          jsonEncode({
-            'data': {'usn': 50, 'sk': 'sk_test'},
-            'err': '',
-          }),
-          200,
-        );
-      } else if (request.url.path.endsWith('/msync/mediaChanges')) {
-        return http.Response(
-          jsonEncode({
-            'data': [],
-            'err': '',
-          }),
-          200,
-        );
-      }
-      return http.Response('Not Found', 404);
-    });
-
-    final service = AnkiWebMediaSyncService(
-      client: mockClient,
-      config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
+    expect(
+      jpgFile.readAsBytesSync(),
+      equals([0xFF, 0xD8, 0xFF, 0xE0, 0x01, 0x02]),
     );
-
-    final result = await service.syncAllMedia(hostKey: 'test_host_key');
-    expect(result.success, isTrue);
-    expect(result.downloadedCount, equals(0));
   });
 
-  test('AnkiWebMediaSyncService splits requests larger than 25 files into batches', () async {
-    // Generate 30 files
-    final fileNames = List.generate(30, (i) => 'img_$i.jpg');
-    final changes = fileNames.map((name) => [name, 1, 'sha_$name']).toList();
+  test(
+    'AnkiWebMediaSyncService handles empty media changes gracefully',
+    () async {
+      final mockClient = MockClient((request) async {
+        if (request.url.path.endsWith('/msync/begin')) {
+          return http.Response(
+            jsonEncode({
+              'data': {'usn': 50, 'sk': 'sk_test'},
+              'err': '',
+            }),
+            200,
+          );
+        } else if (request.url.path.endsWith('/msync/mediaChanges')) {
+          return http.Response(jsonEncode({'data': [], 'err': ''}), 200);
+        }
+        return http.Response('Not Found', 404);
+      });
 
-    int downloadCallCount = 0;
+      final service = AnkiWebMediaSyncService(
+        client: mockClient,
+        config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
+      );
 
-    final mockClient = MockClient((request) async {
-      if (request.url.path.endsWith('/msync/begin')) {
-        return http.Response(
-          jsonEncode({
-            'data': {'usn': 50, 'sk': 'sk_test'},
-            'err': '',
-          }),
-          200,
-        );
-      } else if (request.url.path.endsWith('/msync/mediaChanges')) {
-        return http.Response(
-          jsonEncode({
-            'data': changes,
-            'err': '',
-          }),
-          200,
-        );
-      } else if (request.url.path.endsWith('/msync/downloadFiles')) {
-        downloadCallCount++;
-        final mockZip = createMockMediaZip({
-          'img_batch.jpg': [0x01],
-        });
-        return http.Response.bytes(mockZip, 200);
-      }
-      return http.Response('Not Found', 404);
-    });
+      final result = await service.syncAllMedia(hostKey: 'test_host_key');
+      expect(result.success, isTrue);
+      expect(result.downloadedCount, equals(0));
+    },
+  );
 
-    final service = AnkiWebMediaSyncService(
-      client: mockClient,
-      config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
-    );
+  test(
+    'AnkiWebMediaSyncService splits requests larger than 25 files into batches',
+    () async {
+      // Generate 30 files
+      final fileNames = List.generate(30, (i) => 'img_$i.jpg');
+      final changes = fileNames.map((name) => [name, 1, 'sha_$name']).toList();
 
-    final result = await service.syncAllMedia(hostKey: 'test_host_key');
-    expect(result.success, isTrue);
-    // 30 files with MAX_BATCH 25 -> 2 batches (25 and 5)
-    expect(downloadCallCount, equals(2));
-  });
+      int downloadCallCount = 0;
+
+      final mockClient = MockClient((request) async {
+        if (request.url.path.endsWith('/msync/begin')) {
+          return http.Response(
+            jsonEncode({
+              'data': {'usn': 50, 'sk': 'sk_test'},
+              'err': '',
+            }),
+            200,
+          );
+        } else if (request.url.path.endsWith('/msync/mediaChanges')) {
+          return http.Response(jsonEncode({'data': changes, 'err': ''}), 200);
+        } else if (request.url.path.endsWith('/msync/downloadFiles')) {
+          downloadCallCount++;
+          final mockZip = createMockMediaZip({
+            'img_batch.jpg': [0x01],
+          });
+          return http.Response.bytes(mockZip, 200);
+        }
+        return http.Response('Not Found', 404);
+      });
+
+      final service = AnkiWebMediaSyncService(
+        client: mockClient,
+        config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
+      );
+
+      final result = await service.syncAllMedia(hostKey: 'test_host_key');
+      expect(result.success, isTrue);
+      // 30 files with MAX_BATCH 25 -> 2 batches (25 and 5)
+      expect(downloadCallCount, equals(2));
+    },
+  );
 }

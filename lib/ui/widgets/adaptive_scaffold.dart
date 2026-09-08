@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../core/localization/locale_notifier.dart';
 import '../../core/notifiers/deck_notifier.dart';
 import '../../core/notifiers/card_browser_notifier.dart';
@@ -14,10 +15,7 @@ const double kDesktopBreakpoint = 768.0;
 class AdaptiveScaffold extends HookConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
-  const AdaptiveScaffold({
-    super.key,
-    required this.navigationShell,
-  });
+  const AdaptiveScaffold({super.key, required this.navigationShell});
 
   void _onTap(int index, WidgetRef ref) {
     HapticFeedback.selectionClick();
@@ -47,10 +45,14 @@ class AdaptiveScaffold extends HookConsumerWidget {
     // Desktop keyboard shortcuts: Ctrl+1..4
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.digit1, control: true): () => _onTap(0, ref),
-        const SingleActivator(LogicalKeyboardKey.digit2, control: true): () => _onTap(1, ref),
-        const SingleActivator(LogicalKeyboardKey.digit3, control: true): () => _onTap(2, ref),
-        const SingleActivator(LogicalKeyboardKey.digit4, control: true): () => _onTap(3, ref),
+        const SingleActivator(LogicalKeyboardKey.digit1, control: true): () =>
+            _onTap(0, ref),
+        const SingleActivator(LogicalKeyboardKey.digit2, control: true): () =>
+            _onTap(1, ref),
+        const SingleActivator(LogicalKeyboardKey.digit3, control: true): () =>
+            _onTap(2, ref),
+        const SingleActivator(LogicalKeyboardKey.digit4, control: true): () =>
+            _onTap(3, ref),
       },
       child: Focus(
         autofocus: true,
@@ -126,9 +128,7 @@ class _DesktopSidebar extends StatelessWidget {
 
     return Container(
       width: 240,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.background,
-      ),
+      decoration: BoxDecoration(color: theme.colorScheme.background),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -243,7 +243,9 @@ class _DesktopSidebar extends StatelessWidget {
                     width: 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: isAuthenticated ? m.Colors.green : theme.colorScheme.mutedForeground,
+                      color: isAuthenticated
+                          ? m.Colors.green
+                          : theme.colorScheme.mutedForeground,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -254,7 +256,9 @@ class _DesktopSidebar extends StatelessWidget {
                       children: [
                         Text(
                           l10n.syncAnkiWeb,
-                          style: theme.typography.xSmall.copyWith(fontWeight: FontWeight.w600),
+                          style: theme.typography.xSmall.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         Text(
                           isAuthenticated ? l10n.connected : l10n.offlineMode,
@@ -307,78 +311,81 @@ class _SidebarNavItem extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? theme.colorScheme.primary.withValues(alpha: 0.12)
-              : m.Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isSelected ? activeIcon : icon,
-              size: 18,
-              color: isSelected
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.mutedForeground,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected
-                      ? theme.colorScheme.foreground
-                      : theme.colorScheme.mutedForeground,
-                ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? theme.colorScheme.primary.withValues(alpha: 0.12)
+                : m.Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                isSelected ? activeIcon : icon,
+                size: 18,
+                color: isSelected
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.mutedForeground,
               ),
-            ),
-            if (badgeCount != null)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.destructive,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+              const SizedBox(width: 12),
+              Expanded(
                 child: Text(
-                  badgeCount! > 99 ? '99+' : '$badgeCount',
-                  style: const TextStyle(
-                    color: m.Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            if (shortcutHint != null && isSelected)
-              Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: Text(
-                  shortcutHint!,
+                  label,
                   style: TextStyle(
-                    fontSize: 10,
-                    color: theme.colorScheme.mutedForeground,
+                    fontSize: 13,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    color: isSelected
+                        ? theme.colorScheme.foreground
+                        : theme.colorScheme.mutedForeground,
                   ),
                 ),
               ),
-            if (indicatorColor != null)
-              Container(
-                width: 6,
-                height: 6,
-                margin: const EdgeInsets.only(left: 6),
-                decoration: BoxDecoration(
-                  color: indicatorColor,
-                  shape: BoxShape.circle,
+              if (badgeCount != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.destructive,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    badgeCount! > 99 ? '99+' : '$badgeCount',
+                    style: const TextStyle(
+                      color: m.Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
-              ),
-          ],
+              if (shortcutHint != null && isSelected)
+                Padding(
+                  padding: const EdgeInsets.only(left: 6),
+                  child: Text(
+                    shortcutHint!,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: theme.colorScheme.mutedForeground,
+                    ),
+                  ),
+                ),
+              if (indicatorColor != null)
+                Container(
+                  width: 6,
+                  height: 6,
+                  margin: const EdgeInsets.only(left: 6),
+                  decoration: BoxDecoration(
+                    color: indicatorColor,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -408,10 +415,7 @@ class _MobileBottomNavBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         border: Border(
-          top: BorderSide(
-            color: theme.colorScheme.border,
-            width: 1,
-          ),
+          top: BorderSide(color: theme.colorScheme.border, width: 1),
         ),
       ),
       child: SafeArea(
@@ -499,7 +503,10 @@ class _BottomNavItem extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? theme.colorScheme.primary.withValues(alpha: 0.12)

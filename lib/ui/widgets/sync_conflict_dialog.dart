@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../core/localization/locale_notifier.dart';
 
-enum SyncConflictChoice {
-  upload,
-  download,
-}
+enum SyncConflictChoice { upload, download }
 
 class SyncConflictDialog extends StatelessWidget {
   final DateTime? localLastSync;
@@ -53,7 +51,10 @@ class SyncConflictDialog extends StatelessWidget {
       context: context,
       builder: (context) => m.Dialog(
         backgroundColor: m.Colors.transparent,
-        insetPadding: const m.EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        insetPadding: const m.EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 24,
+        ),
         child: ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: 480,
@@ -90,7 +91,9 @@ class SyncConflictDialog extends StatelessWidget {
               height: 4,
               margin: const EdgeInsets.only(top: 10, bottom: 12),
               decoration: BoxDecoration(
-                color: theme.colorScheme.mutedForeground.withValues(alpha: 0.25),
+                color: theme.colorScheme.mutedForeground.withValues(
+                  alpha: 0.25,
+                ),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -163,7 +166,9 @@ class SyncConflictDialog extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     _formatDateTime(context, localLastSync),
-                    style: theme.typography.xSmall.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.typography.xSmall.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
@@ -187,7 +192,9 @@ class SyncConflictDialog extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     _formatDateTime(context, serverMod),
-                    style: theme.typography.xSmall.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.typography.xSmall.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
@@ -223,9 +230,7 @@ class SyncConflictDialog extends StatelessWidget {
         OutlineButton(
           alignment: Alignment.center,
           onPressed: () => Navigator.of(context).pop(),
-          child: Center(
-            child: Text(l10n.cancel),
-          ),
+          child: Center(child: Text(l10n.cancel)),
         ),
       ],
     );

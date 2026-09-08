@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
@@ -38,10 +39,16 @@ class NoteEditorScreen extends HookConsumerWidget {
       if (selection.isValid && selection.start != selection.end) {
         final selectedText = text.substring(selection.start, selection.end);
         final replacement = '{{$clozeTag::$selectedText}}';
-        final newText = text.replaceRange(selection.start, selection.end, replacement);
+        final newText = text.replaceRange(
+          selection.start,
+          selection.end,
+          replacement,
+        );
         frontController.value = TextEditingValue(
           text: newText,
-          selection: TextSelection.collapsed(offset: selection.start + replacement.length),
+          selection: TextSelection.collapsed(
+            offset: selection.start + replacement.length,
+          ),
         );
       } else {
         // Insert empty cloze at cursor
@@ -78,7 +85,10 @@ class NoteEditorScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.missingContent),
                 subtitle: Text(l10n.missingContentDesc),
-                leading: const Icon(LucideIcons.triangleAlert, color: m.Colors.orange),
+                leading: const Icon(
+                  LucideIcons.triangleAlert,
+                  color: m.Colors.orange,
+                ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -144,10 +154,7 @@ class NoteEditorScreen extends HookConsumerWidget {
           items: SelectItemList(
             children: [
               for (final deck in decks)
-                SelectItemButton(
-                  value: deck.id,
-                  child: Text(deck.title),
-                ),
+                SelectItemButton(value: deck.id, child: Text(deck.title)),
             ],
           ),
         ),
@@ -179,7 +186,10 @@ class NoteEditorScreen extends HookConsumerWidget {
               runSpacing: 6,
               children: tags.value.map((t) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.muted,
                     borderRadius: BorderRadius.circular(20),
@@ -243,19 +253,28 @@ class NoteEditorScreen extends HookConsumerWidget {
                       OutlineButton(
                         size: ButtonSize.small,
                         onPressed: () => insertCloze(1),
-                        child: const Text('{{c1}}', style: TextStyle(fontWeight: FontWeight.w700)),
+                        child: const Text(
+                          '{{c1}}',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
                       ),
                       const SizedBox(width: 4),
                       OutlineButton(
                         size: ButtonSize.small,
                         onPressed: () => insertCloze(2),
-                        child: const Text('{{c2}}', style: TextStyle(fontWeight: FontWeight.w700)),
+                        child: const Text(
+                          '{{c2}}',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
                       ),
                       const SizedBox(width: 4),
                       OutlineButton(
                         size: ButtonSize.small,
                         onPressed: () => insertCloze(3),
-                        child: const Text('{{c3}}', style: TextStyle(fontWeight: FontWeight.w700)),
+                        child: const Text(
+                          '{{c3}}',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
                       ),
                     ],
                   ),
@@ -309,7 +328,8 @@ class NoteEditorScreen extends HookConsumerWidget {
 
     return CallbackShortcuts(
       bindings: {
-        const SingleActivator(LogicalKeyboardKey.enter, control: true): handleSave,
+        const SingleActivator(LogicalKeyboardKey.enter, control: true):
+            handleSave,
         const SingleActivator(LogicalKeyboardKey.enter, meta: true): handleSave,
         const SingleActivator(LogicalKeyboardKey.escape): () => context.pop(),
       },
@@ -348,17 +368,15 @@ class NoteEditorScreen extends HookConsumerWidget {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: isDesktop ? 1120 : 640),
               child: SingleChildScrollView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: EdgeInsets.all(isDesktop ? 24 : 16),
                 child: isDesktop
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Left column: Editor fields
-                          Expanded(
-                            flex: 5,
-                            child: buildEditorFields(),
-                          ),
+                          Expanded(flex: 5, child: buildEditorFields()),
                           const SizedBox(width: 20),
 
                           // Right column: Metadata & Options
@@ -371,19 +389,29 @@ class NoteEditorScreen extends HookConsumerWidget {
                                 Card(
                                   padding: const EdgeInsets.all(16),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
-                                          Icon(LucideIcons.layers, size: 14, color: theme.colorScheme.mutedForeground),
+                                          Icon(
+                                            LucideIcons.layers,
+                                            size: 14,
+                                            color: theme
+                                                .colorScheme
+                                                .mutedForeground,
+                                          ),
                                           const SizedBox(width: 6),
                                           Text(
                                             l10n.deckLabel.toUpperCase(),
-                                            style: theme.typography.xSmall.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 0.5,
-                                              color: theme.colorScheme.mutedForeground,
-                                            ),
+                                            style: theme.typography.xSmall
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 0.5,
+                                                  color: theme
+                                                      .colorScheme
+                                                      .mutedForeground,
+                                                ),
                                           ),
                                         ],
                                       ),
@@ -398,19 +426,29 @@ class NoteEditorScreen extends HookConsumerWidget {
                                 Card(
                                   padding: const EdgeInsets.all(16),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
-                                          Icon(LucideIcons.sparkles, size: 14, color: theme.colorScheme.mutedForeground),
+                                          Icon(
+                                            LucideIcons.sparkles,
+                                            size: 14,
+                                            color: theme
+                                                .colorScheme
+                                                .mutedForeground,
+                                          ),
                                           const SizedBox(width: 6),
                                           Text(
                                             l10n.noteType.toUpperCase(),
-                                            style: theme.typography.xSmall.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 0.5,
-                                              color: theme.colorScheme.mutedForeground,
-                                            ),
+                                            style: theme.typography.xSmall
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 0.5,
+                                                  color: theme
+                                                      .colorScheme
+                                                      .mutedForeground,
+                                                ),
                                           ),
                                         ],
                                       ),
@@ -419,24 +457,30 @@ class NoteEditorScreen extends HookConsumerWidget {
                                         title: l10n.basicNoteType,
                                         subtitle: l10n.basicNoteSubtitle,
                                         icon: LucideIcons.fileText,
-                                        isSelected: noteType.value == NoteType.basic,
-                                        onTap: () => noteType.value = NoteType.basic,
+                                        isSelected:
+                                            noteType.value == NoteType.basic,
+                                        onTap: () =>
+                                            noteType.value = NoteType.basic,
                                       ),
                                       const SizedBox(height: 8),
                                       _DesktopTypeOption(
                                         title: l10n.clozeNoteType,
                                         subtitle: l10n.clozeNoteSubtitle,
                                         icon: LucideIcons.brackets,
-                                        isSelected: noteType.value == NoteType.cloze,
-                                        onTap: () => noteType.value = NoteType.cloze,
+                                        isSelected:
+                                            noteType.value == NoteType.cloze,
+                                        onTap: () =>
+                                            noteType.value = NoteType.cloze,
                                       ),
                                       const SizedBox(height: 8),
                                       _DesktopTypeOption(
                                         title: l10n.reversedNoteType,
                                         subtitle: l10n.reversedNoteSubtitle,
                                         icon: LucideIcons.arrowLeftRight,
-                                        isSelected: noteType.value == NoteType.reversed,
-                                        onTap: () => noteType.value = NoteType.reversed,
+                                        isSelected:
+                                            noteType.value == NoteType.reversed,
+                                        onTap: () =>
+                                            noteType.value = NoteType.reversed,
                                       ),
                                     ],
                                   ),
@@ -447,19 +491,29 @@ class NoteEditorScreen extends HookConsumerWidget {
                                 Card(
                                   padding: const EdgeInsets.all(16),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
-                                          Icon(LucideIcons.tags, size: 14, color: theme.colorScheme.mutedForeground),
+                                          Icon(
+                                            LucideIcons.tags,
+                                            size: 14,
+                                            color: theme
+                                                .colorScheme
+                                                .mutedForeground,
+                                          ),
                                           const SizedBox(width: 6),
                                           Text(
                                             l10n.tagsLabel.toUpperCase(),
-                                            style: theme.typography.xSmall.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 0.5,
-                                              color: theme.colorScheme.mutedForeground,
-                                            ),
+                                            style: theme.typography.xSmall
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 0.5,
+                                                  color: theme
+                                                      .colorScheme
+                                                      .mutedForeground,
+                                                ),
                                           ),
                                         ],
                                       ),
@@ -508,8 +562,10 @@ class NoteEditorScreen extends HookConsumerWidget {
                                 child: _TypeSelectButton(
                                   label: l10n.reversedNoteType,
                                   subtitle: l10n.reversedNoteSubtitle,
-                                  isSelected: noteType.value == NoteType.reversed,
-                                  onTap: () => noteType.value = NoteType.reversed,
+                                  isSelected:
+                                      noteType.value == NoteType.reversed,
+                                  onTap: () =>
+                                      noteType.value = NoteType.reversed,
                                 ),
                               ),
                             ],
@@ -577,7 +633,9 @@ class _DesktopTypeOption extends StatelessWidget {
               : theme.colorScheme.muted.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.border,
             width: isSelected ? 1.5 : 1.0,
           ),
         ),
@@ -586,7 +644,9 @@ class _DesktopTypeOption extends StatelessWidget {
             Icon(
               icon,
               size: 18,
-              color: isSelected ? theme.colorScheme.primary : theme.colorScheme.mutedForeground,
+              color: isSelected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.mutedForeground,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -597,8 +657,12 @@ class _DesktopTypeOption extends StatelessWidget {
                     title,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                      color: isSelected ? theme.colorScheme.primary : theme.colorScheme.foreground,
+                      fontWeight: isSelected
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                      color: isSelected
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.foreground,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -646,10 +710,14 @@ class _TypeSelectButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.muted,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.border,
           ),
         ),
         child: Column(
@@ -659,7 +727,9 @@ class _TypeSelectButton extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
-                color: isSelected ? theme.colorScheme.primaryForeground : theme.colorScheme.foreground,
+                color: isSelected
+                    ? theme.colorScheme.primaryForeground
+                    : theme.colorScheme.foreground,
               ),
             ),
             const SizedBox(height: 2),

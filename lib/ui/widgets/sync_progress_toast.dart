@@ -60,65 +60,71 @@ class SyncProgressToast extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Row(
-                  children: [
-                    if (status.isError)
-                      const Icon(LucideIcons.cloudOff, color: m.Colors.red, size: 18)
-                    else if (status.isCompleted)
-                      const Icon(LucideIcons.cloud, color: m.Colors.green, size: 18)
-                    else
-                      const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        status.title,
-                        style: theme.typography.semiBold.copyWith(fontSize: 13),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+              Row(
+                children: [
+                  if (status.isError)
+                    const Icon(
+                      LucideIcons.cloudOff,
+                      color: m.Colors.red,
+                      size: 18,
+                    )
+                  else if (status.isCompleted)
+                    const Icon(
+                      LucideIcons.cloud,
+                      color: m.Colors.green,
+                      size: 18,
+                    )
+                  else
+                    const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     ),
-                    IconButton.ghost(
-                      icon: const Icon(LucideIcons.x, size: 15),
-                      onPressed: onClose,
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      status.title,
+                      style: theme.typography.semiBold.copyWith(fontSize: 13),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  status.message,
-                  style: theme.typography.small.copyWith(
-                    color: theme.colorScheme.mutedForeground,
-                    fontSize: 12,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                  IconButton.ghost(
+                    icon: const Icon(LucideIcons.x, size: 15),
+                    onPressed: onClose,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                status.message,
+                style: theme.typography.small.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                  fontSize: 12,
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Progress(
-                        progress: status.progress.clamp(0.0, 1.0),
-                      ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: Progress(progress: status.progress.clamp(0.0, 1.0)),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '$pct%',
+                    style: theme.typography.xSmall.copyWith(
+                      color: theme.colorScheme.mutedForeground,
+                      fontWeight: FontWeight.w500,
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '$pct%',
-                      style: theme.typography.xSmall.copyWith(
-                        color: theme.colorScheme.mutedForeground,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

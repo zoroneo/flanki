@@ -17,10 +17,7 @@ class StrokeLine {
 class ScratchpadOverlay extends HookWidget {
   final VoidCallback onClose;
 
-  const ScratchpadOverlay({
-    super.key,
-    required this.onClose,
-  });
+  const ScratchpadOverlay({super.key, required this.onClose});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +77,10 @@ class ScratchpadOverlay extends HookWidget {
               top: 16,
               right: 16,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.background.withValues(alpha: 0.95),
                   borderRadius: BorderRadius.circular(30),
@@ -107,7 +107,10 @@ class ScratchpadOverlay extends HookWidget {
                             color: c,
                             shape: BoxShape.circle,
                             border: isSelected
-                                ? Border.all(color: theme.colorScheme.foreground, width: 2)
+                                ? Border.all(
+                                    color: theme.colorScheme.foreground,
+                                    width: 2,
+                                  )
                                 : Border.all(color: m.Colors.black26, width: 1),
                           ),
                         ),

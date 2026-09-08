@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../core/localization/locale_notifier.dart';
 import '../../core/models/update_info.dart';
 import '../../core/notifiers/update_notifier.dart';
@@ -9,10 +10,7 @@ import '../../core/services/desktop_update_service.dart';
 class UpdateDialog extends ConsumerWidget {
   final UpdateInfo updateInfo;
 
-  const UpdateDialog({
-    super.key,
-    required this.updateInfo,
-  });
+  const UpdateDialog({super.key, required this.updateInfo});
 
   static VoidCallback? onDismissActiveToast;
   static bool isShowing = false;
@@ -78,10 +76,13 @@ class UpdateDialog extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
-            if (updateInfo.releaseNotes != null && updateInfo.releaseNotes!.isNotEmpty) ...[
+            if (updateInfo.releaseNotes != null &&
+                updateInfo.releaseNotes!.isNotEmpty) ...[
               Text(
                 l10n.updateChangelog,
-                style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
+                style: theme.typography.small.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 8),
               Flexible(
@@ -110,7 +111,9 @@ class UpdateDialog extends ConsumerWidget {
                   Text(l10n.downloadingUpdate, style: theme.typography.xSmall),
                   Text(
                     '${(updateState.downloadProgress * 100).toInt()}%',
-                    style: theme.typography.xSmall.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.typography.xSmall.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -118,7 +121,8 @@ class UpdateDialog extends ConsumerWidget {
               LinearProgressIndicator(value: updateState.downloadProgress),
               const SizedBox(height: 16),
             ],
-            if (updateState.status == UpdateStatus.error && updateState.errorMessage != null) ...[
+            if (updateState.status == UpdateStatus.error &&
+                updateState.errorMessage != null) ...[
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -127,7 +131,9 @@ class UpdateDialog extends ConsumerWidget {
                 ),
                 child: Text(
                   updateState.errorMessage!,
-                  style: theme.typography.xSmall.copyWith(color: theme.colorScheme.destructive),
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colorScheme.destructive,
+                  ),
                 ),
               ),
               const SizedBox(height: 12),

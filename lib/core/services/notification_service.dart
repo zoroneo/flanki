@@ -1,18 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui' show Locale;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
+
 import '../../l10n/generated/app_localizations.dart';
 
 class NotificationService {
   NotificationService._();
   static final NotificationService instance = NotificationService._();
 
-  final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _plugin =
+      FlutterLocalNotificationsPlugin();
 
   static const int dailyReminderId = 1001;
   static const int streakSaverId = 1002;
@@ -23,7 +26,8 @@ class NotificationService {
   bool _isInitialized = false;
   void Function(String? payload)? _onNotificationClick;
 
-  String currentLocaleCode = (kIsWeb ||
+  String currentLocaleCode =
+      (kIsWeb ||
           (!Platform.isWindows &&
               !Platform.isLinux &&
               !Platform.isMacOS &&
@@ -54,7 +58,9 @@ class NotificationService {
   int? _lastStreakSaverNotificationDay;
 
   /// Initializes timezones, notification channels, and notification plugins
-  Future<void> init({void Function(String? payload)? onNotificationClick}) async {
+  Future<void> init({
+    void Function(String? payload)? onNotificationClick,
+  }) async {
     if (_isInitialized) return;
     _onNotificationClick = onNotificationClick;
 
@@ -69,13 +75,17 @@ class NotificationService {
     }
 
     // 2. Plugin settings
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
     const darwinSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
-    const linuxSettings = LinuxInitializationSettings(defaultActionName: 'Open Flanki');
+    const linuxSettings = LinuxInitializationSettings(
+      defaultActionName: 'Open Flanki',
+    );
     const windowsSettings = WindowsInitializationSettings(
       appName: 'Flanki',
       appUserModelId: 'com.flanki.app',
@@ -93,7 +103,9 @@ class NotificationService {
     await _plugin.initialize(
       settings: initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        debugPrint('[NotificationService] Notification tapped payload: ${response.payload}');
+        debugPrint(
+          '[NotificationService] Notification tapped payload: ${response.payload}',
+        );
         _onNotificationClick?.call(response.payload);
       },
     );
@@ -107,17 +119,35 @@ class NotificationService {
 
     try {
       if (Platform.isAndroid) {
-        final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-        final grantedNotif = await android?.requestNotificationsPermission() ?? false;
+        final android = _plugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
+        final grantedNotif =
+            await android?.requestNotificationsPermission() ?? false;
         await android?.requestExactAlarmsPermission();
         return grantedNotif;
       } else if (Platform.isIOS) {
-        final ios = _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
-        final granted = await ios?.requestPermissions(alert: true, badge: true, sound: true);
+        final ios = _plugin
+            .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin
+            >();
+        final granted = await ios?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
         return granted ?? false;
       } else if (Platform.isMacOS) {
-        final macos = _plugin.resolvePlatformSpecificImplementation<MacOSFlutterLocalNotificationsPlugin>();
-        final granted = await macos?.requestPermissions(alert: true, badge: true, sound: true);
+        final macos = _plugin
+            .resolvePlatformSpecificImplementation<
+              MacOSFlutterLocalNotificationsPlugin
+            >();
+        final granted = await macos?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
         return granted ?? false;
       }
     } catch (_) {
@@ -144,7 +174,14 @@ class NotificationService {
   tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
     final location = _safeLocation;
     final tz.TZDateTime now = tz.TZDateTime.now(location);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(location, now.year, now.month, now.day, hour, minute);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+      location,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
@@ -158,7 +195,8 @@ class NotificationService {
     required int dueCardsCount,
     String? localeCode,
   }) async {
-    if (kIsWeb || (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS)) {
+    if (kIsWeb ||
+        (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS)) {
       return;
     }
 
@@ -213,7 +251,8 @@ class NotificationService {
     int minute = 30,
     String? localeCode,
   }) async {
-    if (kIsWeb || (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS)) {
+    if (kIsWeb ||
+        (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS)) {
       return;
     }
 
@@ -271,7 +310,9 @@ class NotificationService {
   Future<void> onStudyCompletedToday() async {
     try {
       await _plugin.cancel(id: streakSaverId);
-      debugPrint('[NotificationService] User studied today. Cancelled streak saver notification for tonight.');
+      debugPrint(
+        '[NotificationService] User studied today. Cancelled streak saver notification for tonight.',
+      );
     } catch (e) {
       debugPrint('[NotificationService] Cancel streak saver error: $e');
     }
@@ -305,7 +346,9 @@ class NotificationService {
       // 1. Check daily reminder
       final remHour = getReminderHour();
       final remMin = getReminderMinute();
-      if (now.hour == remHour && now.minute == remMin && _lastDailyNotificationDay != now.day) {
+      if (now.hour == remHour &&
+          now.minute == remMin &&
+          _lastDailyNotificationDay != now.day) {
         _lastDailyNotificationDay = now.day;
         final due = getDueCardsCount();
         final l10n = getL10n();

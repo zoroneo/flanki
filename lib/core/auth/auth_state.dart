@@ -1,11 +1,6 @@
 import 'anki_web_auth_service.dart';
 
-enum AuthStatus {
-  unauthenticated,
-  authenticating,
-  authenticated,
-  error,
-}
+enum AuthStatus { unauthenticated, authenticating, authenticated, error }
 
 class AuthState {
   final AuthStatus status;
@@ -24,32 +19,35 @@ class AuthState {
     this.lastSyncedAt,
   });
 
-  const AuthState.unauthenticated()
-      : this(status: AuthStatus.unauthenticated);
+  const AuthState.unauthenticated() : this(status: AuthStatus.unauthenticated);
 
   const AuthState.authenticating({String? email})
-      : this(status: AuthStatus.authenticating, email: email);
+    : this(status: AuthStatus.authenticating, email: email);
 
   const AuthState.authenticated({
     required String email,
     required String hostKey,
     DateTime? lastSyncedAt,
   }) : this(
-          status: AuthStatus.authenticated,
-          email: email,
-          hostKey: hostKey,
-          lastSyncedAt: lastSyncedAt,
-        );
+         status: AuthStatus.authenticated,
+         email: email,
+         hostKey: hostKey,
+         lastSyncedAt: lastSyncedAt,
+       );
 
-  const AuthState.error(String message, {String? email, AuthErrorCode? errorCode})
-      : this(
-          status: AuthStatus.error,
-          errorMessage: message,
-          errorCode: errorCode,
-          email: email,
-        );
+  const AuthState.error(
+    String message, {
+    String? email,
+    AuthErrorCode? errorCode,
+  }) : this(
+         status: AuthStatus.error,
+         errorMessage: message,
+         errorCode: errorCode,
+         email: email,
+       );
 
-  bool get isAuthenticated => status == AuthStatus.authenticated && hostKey != null;
+  bool get isAuthenticated =>
+      status == AuthStatus.authenticated && hostKey != null;
   bool get isLoading => status == AuthStatus.authenticating;
 
   AuthState copyWith({

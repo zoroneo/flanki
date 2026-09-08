@@ -1,7 +1,9 @@
 import 'dart:io' show Platform;
 import 'dart:math' as math;
 import 'dart:ui' show Locale;
+
 import 'package:fsrs/fsrs.dart' as fsrs;
+
 import '../../l10n/generated/app_localizations.dart';
 import '../models/card.dart';
 
@@ -13,9 +15,9 @@ class FsrsEngineService {
     double desiredRetention = 0.9,
     bool enableFuzzing = false, // deterministic intervals for UI preview
   }) : scheduler = fsrs.Scheduler(
-          desiredRetention: desiredRetention,
-          enableFuzzing: enableFuzzing,
-        );
+         desiredRetention: desiredRetention,
+         enableFuzzing: enableFuzzing,
+       );
 
   /// Convert Flanki's CardModel to fsrs.Card
   fsrs.Card toFsrsCard(CardModel card) {
@@ -28,7 +30,8 @@ class FsrsEngineService {
       state = fsrs.State.review;
     }
 
-    final cardId = int.tryParse(card.id.replaceAll(RegExp(r'\D'), '')) ??
+    final cardId =
+        int.tryParse(card.id.replaceAll(RegExp(r'\D'), '')) ??
         card.id.hashCode.abs();
 
     return fsrs.Card(
@@ -42,7 +45,10 @@ class FsrsEngineService {
   }
 
   /// Calculates next interval labels for all 4 ratings (Again, Hard, Good, Easy)
-  Map<ReviewRating, String> previewIntervals(CardModel card, {AppLocalizations? l10n}) {
+  Map<ReviewRating, String> previewIntervals(
+    CardModel card, {
+    AppLocalizations? l10n,
+  }) {
     final now = DateTime.now().toUtc();
     final fsrsCard = toFsrsCard(card);
 
@@ -76,11 +82,7 @@ class FsrsEngineService {
     final fsrsCard = toFsrsCard(card);
     final rating = fsrs.Rating.fromValue(ratingEnum.value);
 
-    final outcome = scheduler.reviewCard(
-      fsrsCard,
-      rating,
-      reviewDateTime: now,
-    );
+    final outcome = scheduler.reviewCard(fsrsCard, rating, reviewDateTime: now);
 
     final newCard = outcome.card;
     final intervalDuration = newCard.due.difference(now);
@@ -101,7 +103,9 @@ class FsrsEngineService {
 
   static AppLocalizations _defaultL10n() {
     try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
+          ? 'vi'
+          : 'en';
       return lookupAppLocalizations(Locale(code));
     } catch (_) {
       return lookupAppLocalizations(const Locale('vi'));
@@ -128,8 +132,9 @@ class FsrsEngineService {
       return resL10n.intervalMonths(clean);
     } else {
       final years = (duration.inDays / 365).toStringAsFixed(1);
-      final clean =
-          years.endsWith('.0') ? years.substring(0, years.length - 2) : years;
+      final clean = years.endsWith('.0')
+          ? years.substring(0, years.length - 2)
+          : years;
       return resL10n.intervalYears(clean);
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/card.dart';
 import '../storage/database_service.dart';
 
@@ -31,8 +32,9 @@ class StatsData {
   }
 }
 
-final statsNotifierProvider =
-    NotifierProvider<StatsNotifier, StatsData>(StatsNotifier.new);
+final statsNotifierProvider = NotifierProvider<StatsNotifier, StatsData>(
+  StatsNotifier.new,
+);
 
 class StatsNotifier extends Notifier<StatsData> {
   int _trackedStudySecondsToday = 0;

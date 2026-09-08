@@ -1,6 +1,8 @@
 import 'dart:io' show Platform;
 import 'dart:ui' show Locale;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../l10n/generated/app_localizations.dart';
 import '../models/deck.dart';
 import '../storage/database_service.dart';
@@ -21,8 +23,9 @@ class DeckTreeNode {
   });
 }
 
-final deckListProvider =
-    NotifierProvider<DeckNotifier, List<DeckModel>>(DeckNotifier.new);
+final deckListProvider = NotifierProvider<DeckNotifier, List<DeckModel>>(
+  DeckNotifier.new,
+);
 
 class DeckNotifier extends Notifier<List<DeckModel>> {
   @override
@@ -56,7 +59,9 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     String mode = 'byTag',
     String? description,
   }) {
-    final encodedTag = Uri.encodeComponent(filterTag.isNotEmpty ? filterTag : 'all');
+    final encodedTag = Uri.encodeComponent(
+      filterTag.isNotEmpty ? filterTag : 'all',
+    );
     final actualCount = DatabaseService.instance.countCardsForCustomStudy(
       mode: mode,
       tag: filterTag,
@@ -78,7 +83,9 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
 
   static String _defaultCramDescription() {
     try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
+          ? 'vi'
+          : 'en';
       return lookupAppLocalizations(Locale(code)).cramDeckDefaultDesc;
     } catch (_) {
       return lookupAppLocalizations(const Locale('vi')).cramDeckDefaultDesc;

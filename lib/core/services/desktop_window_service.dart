@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:ui' show Locale;
+
 import 'package:flutter/foundation.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
+
 import '../../l10n/generated/app_localizations.dart';
 
 class DesktopWindowService with WindowListener, TrayListener {
@@ -64,7 +66,8 @@ class DesktopWindowService with WindowListener, TrayListener {
   }) async {
     if (!isDesktop) return;
     try {
-      final code = localeCode ??
+      final code =
+          localeCode ??
           (Platform.localeName.toLowerCase().startsWith('vi') ? 'vi' : 'en');
       AppLocalizations l10n;
       try {
@@ -79,19 +82,10 @@ class DesktopWindowService with WindowListener, TrayListener {
 
       final menu = Menu(
         items: [
-          MenuItem(
-            key: 'show_window',
-            label: open,
-          ),
-          MenuItem(
-            key: 'open_study',
-            label: study,
-          ),
+          MenuItem(key: 'show_window', label: open),
+          MenuItem(key: 'open_study', label: study),
           MenuItem.separator(),
-          MenuItem(
-            key: 'exit_app',
-            label: exit,
-          ),
+          MenuItem(key: 'exit_app', label: exit),
         ],
       );
       await trayManager.setContextMenu(menu);

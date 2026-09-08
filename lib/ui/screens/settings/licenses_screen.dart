@@ -11,10 +11,7 @@ class PackageLicense {
   final String package;
   final String text;
 
-  const PackageLicense({
-    required this.package,
-    required this.text,
-  });
+  const PackageLicense({required this.package, required this.text});
 }
 
 class LicensesScreen extends HookWidget {
@@ -41,13 +38,15 @@ class LicensesScreen extends HookWidget {
       final Map<String, List<String>> packageMap = {};
 
       await for (final entry in LicenseRegistry.licenses) {
-        final text = entry.paragraphs.map((p) {
-          if (p.indent == LicenseParagraph.centeredIndent) {
-            return p.text;
-          }
-          final indent = '  ' * (p.indent > 0 ? p.indent : 0);
-          return '$indent${p.text}';
-        }).join('\n\n');
+        final text = entry.paragraphs
+            .map((p) {
+              if (p.indent == LicenseParagraph.centeredIndent) {
+                return p.text;
+              }
+              final indent = '  ' * (p.indent > 0 ? p.indent : 0);
+              return '$indent${p.text}';
+            })
+            .join('\n\n');
 
         for (final pkg in entry.packages) {
           packageMap.putIfAbsent(pkg, () => []).add(text);
@@ -57,14 +56,15 @@ class LicensesScreen extends HookWidget {
       final List<PackageLicense> packages = [];
       packageMap.forEach((pkg, texts) {
         if (pkg.toLowerCase() != 'flanki') {
-          packages.add(PackageLicense(
-            package: pkg,
-            text: texts.join('\n\n---\n\n'),
-          ));
+          packages.add(
+            PackageLicense(package: pkg, text: texts.join('\n\n---\n\n')),
+          );
         }
       });
 
-      packages.sort((a, b) => a.package.toLowerCase().compareTo(b.package.toLowerCase()));
+      packages.sort(
+        (a, b) => a.package.toLowerCase().compareTo(b.package.toLowerCase()),
+      );
       return packages;
     });
 
@@ -144,7 +144,9 @@ SOFTWARE.''';
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withValues(alpha: 0.12),
+                            color: theme.colorScheme.primary.withValues(
+                              alpha: 0.12,
+                            ),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -162,11 +164,16 @@ SOFTWARE.''';
                                 children: [
                                   Text(
                                     'Flanki',
-                                    style: theme.typography.semiBold.copyWith(fontSize: 16),
+                                    style: theme.typography.semiBold.copyWith(
+                                      fontSize: 16,
+                                    ),
                                   ),
                                   const SizedBox(width: 8),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 7,
+                                      vertical: 2,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: theme.colorScheme.muted,
                                       borderRadius: BorderRadius.circular(4),
@@ -174,7 +181,8 @@ SOFTWARE.''';
                                     child: Text(
                                       'v${AppConfig.version}',
                                       style: theme.typography.xSmall.copyWith(
-                                        color: theme.colorScheme.mutedForeground,
+                                        color:
+                                            theme.colorScheme.mutedForeground,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -210,7 +218,9 @@ SOFTWARE.''';
                       _LicenseCodeBlock(
                         licenseText: flankiLicenseText,
                         onCopy: () {
-                          Clipboard.setData(const ClipboardData(text: flankiLicenseText));
+                          Clipboard.setData(
+                            const ClipboardData(text: flankiLicenseText),
+                          );
                           showToast(
                             context: context,
                             builder: (ctx, overlay) => SurfaceCard(
@@ -294,10 +304,13 @@ SOFTWARE.''';
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: filteredPackages.length,
-                    separatorBuilder: (context, index) => const Divider(height: 1),
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final item = filteredPackages[index];
-                      final isExpanded = expandedPackages.value.contains(item.package);
+                      final isExpanded = expandedPackages.value.contains(
+                        item.package,
+                      );
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,7 +319,10 @@ SOFTWARE.''';
                             behavior: HitTestBehavior.opaque,
                             onTap: () => toggleExpanded(item.package),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
@@ -340,14 +356,19 @@ SOFTWARE.''';
                               child: _LicenseCodeBlock(
                                 licenseText: item.text,
                                 onCopy: () {
-                                  Clipboard.setData(ClipboardData(text: item.text));
+                                  Clipboard.setData(
+                                    ClipboardData(text: item.text),
+                                  );
                                   showToast(
                                     context: context,
                                     builder: (ctx, overlay) => SurfaceCard(
                                       child: Basic(
                                         title: Text(l10n.licenseCopied),
                                         trailing: IconButton.ghost(
-                                          icon: const Icon(LucideIcons.x, size: 14),
+                                          icon: const Icon(
+                                            LucideIcons.x,
+                                            size: 14,
+                                          ),
                                           onPressed: () => overlay.close(),
                                         ),
                                       ),
@@ -375,10 +396,7 @@ class _LicenseCodeBlock extends StatelessWidget {
   final String licenseText;
   final VoidCallback onCopy;
 
-  const _LicenseCodeBlock({
-    required this.licenseText,
-    required this.onCopy,
-  });
+  const _LicenseCodeBlock({required this.licenseText, required this.onCopy});
 
   @override
   Widget build(BuildContext context) {

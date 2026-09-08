@@ -9,10 +9,10 @@ void main() {
 
   group('Localization Tests', () {
     test('AppLocalizations supports en and vi', () {
-      expect(AppLocalizations.supportedLocales, containsAll([
-        const Locale('en'),
-        const Locale('vi'),
-      ]));
+      expect(
+        AppLocalizations.supportedLocales,
+        containsAll([const Locale('en'), const Locale('vi')]),
+      );
     });
 
     test('English translations load correctly', () async {
@@ -35,7 +35,10 @@ void main() {
       expect(l10nEn.ankiRustCore, 'Anki Rust Core');
       expect(l10nEn.createDeckTitle, 'Create Deck');
       expect(l10nEn.deckCreatedSuccess, 'Deck Created');
-      expect(l10nEn.deckCreatedSuccessDesc('Test'), 'Deck "Test" has been created.');
+      expect(
+        l10nEn.deckCreatedSuccessDesc('Test'),
+        'Deck "Test" has been created.',
+      );
       expect(l10nEn.trayOpenFlanki, 'Open Flanki');
       expect(l10nEn.trayStudyNow, 'Study Now');
       expect(l10nEn.trayExit, 'Quit Flanki');
@@ -61,7 +64,10 @@ void main() {
       expect(l10nVi.ankiRustCore, 'Nhân Anki Rust');
       expect(l10nVi.createDeckTitle, 'Tạo bộ thẻ');
       expect(l10nVi.deckCreatedSuccess, 'Đã tạo bộ thẻ');
-      expect(l10nVi.deckCreatedSuccessDesc('Test'), 'Bộ thẻ "Test" đã được tạo thành công.');
+      expect(
+        l10nVi.deckCreatedSuccessDesc('Test'),
+        'Bộ thẻ "Test" đã được tạo thành công.',
+      );
       expect(l10nVi.trayOpenFlanki, 'Mở Flanki');
       expect(l10nVi.trayStudyNow, 'Ôn tập ngay');
       expect(l10nVi.trayExit, 'Thoát hoàn toàn');
@@ -73,10 +79,14 @@ void main() {
 
       expect(container.read(localeNotifierProvider), isNull);
 
-      await container.read(localeNotifierProvider.notifier).setLocale(const Locale('vi'));
+      await container
+          .read(localeNotifierProvider.notifier)
+          .setLocale(const Locale('vi'));
       expect(container.read(localeNotifierProvider), const Locale('vi'));
 
-      await container.read(localeNotifierProvider.notifier).setLocale(const Locale('en'));
+      await container
+          .read(localeNotifierProvider.notifier)
+          .setLocale(const Locale('en'));
       expect(container.read(localeNotifierProvider), const Locale('en'));
 
       await container.read(localeNotifierProvider.notifier).setLocale(null);

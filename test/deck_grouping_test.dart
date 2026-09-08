@@ -49,13 +49,20 @@ void main() {
       }
 
       expect(groupedMap.length, 1);
-      expect(groupedMap.containsKey('4000 Essential English Words - Book 1'), isTrue);
+      expect(
+        groupedMap.containsKey('4000 Essential English Words - Book 1'),
+        isTrue,
+      );
       expect(groupedMap['4000 Essential English Words - Book 1']!.length, 2);
 
-      final groupSubdecks = groupedMap['4000 Essential English Words - Book 1']!;
+      final groupSubdecks =
+          groupedMap['4000 Essential English Words - Book 1']!;
       final totalDue = groupSubdecks.fold<int>(0, (sum, d) => sum + d.dueCount);
       final totalNew = groupSubdecks.fold<int>(0, (sum, d) => sum + d.newCount);
-      final totalCards = groupSubdecks.fold<int>(0, (sum, d) => sum + d.totalCount);
+      final totalCards = groupSubdecks.fold<int>(
+        0,
+        (sum, d) => sum + d.totalCount,
+      );
 
       expect(totalDue, 2);
       expect(totalNew, 38);

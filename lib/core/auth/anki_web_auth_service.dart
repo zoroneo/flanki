@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
 import 'dart:ui' show Locale;
+
 import 'package:http/http.dart' as http;
+
 import '../../l10n/generated/app_localizations.dart';
 import '../sync/anki_web_config.dart';
 
@@ -48,14 +50,16 @@ class AnkiWebAuthService {
     http.Client? client,
     AnkiWebConfig? config,
     AppLocalizations? l10n,
-  })  : _client = client ?? http.Client(),
-        _config = config ?? const AnkiWebConfig(),
-        _customL10n = l10n;
+  }) : _client = client ?? http.Client(),
+       _config = config ?? const AnkiWebConfig(),
+       _customL10n = l10n;
 
   AppLocalizations get l10n {
     if (_customL10n != null) return _customL10n;
     try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
+          ? 'vi'
+          : 'en';
       return lookupAppLocalizations(Locale(code));
     } catch (_) {
       return lookupAppLocalizations(const Locale('vi'));
@@ -81,13 +85,11 @@ class AnkiWebAuthService {
       final request = http.MultipartRequest('POST', uri);
       request.headers['User-Agent'] = AnkiWebConfig.userAgent;
       request.fields['c'] = '0';
-      request.fields['data'] = jsonEncode({
-        'u': cleanUsername,
-        'p': password,
-      });
+      request.fields['data'] = jsonEncode({'u': cleanUsername, 'p': password});
 
-      final streamedResponse =
-          await _client.send(request).timeout(AnkiWebConfig.authTimeout);
+      final streamedResponse = await _client
+          .send(request)
+          .timeout(AnkiWebConfig.authTimeout);
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
@@ -120,7 +122,10 @@ class AnkiWebAuthService {
         );
       } else {
         return AnkiWebAuthResult.fail(
-          l10n.syncServerError(response.statusCode, response.reasonPhrase ?? 'Unknown'),
+          l10n.syncServerError(
+            response.statusCode,
+            response.reasonPhrase ?? 'Unknown',
+          ),
           errorCode: AuthErrorCode.serverError,
         );
       }

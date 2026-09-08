@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:go_router/go_router.dart';
+
 import 'core/localization/locale_notifier.dart';
 import 'core/localization/shadcn_localizations_vi.dart';
 import 'core/notifiers/deck_notifier.dart';
@@ -68,11 +69,7 @@ SOFTWARE.''',
       }
     },
   );
-  runApp(
-    const ProviderScope(
-      child: FlankiApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: FlankiApp()));
 }
 
 class FlankiApp extends ConsumerWidget {
@@ -167,7 +164,8 @@ class FlankiApp extends ConsumerWidget {
                     final currentFocus = FocusManager.instance.primaryFocus;
                     if (currentFocus != null && currentFocus.hasFocus) {
                       final renderBox =
-                          currentFocus.context?.findRenderObject() as RenderBox?;
+                          currentFocus.context?.findRenderObject()
+                              as RenderBox?;
                       if (renderBox != null && renderBox.hasSize) {
                         final position = renderBox.localToGlobal(Offset.zero);
                         final bounds = position & renderBox.size;
@@ -179,7 +177,9 @@ class FlankiApp extends ConsumerWidget {
                       }
                     }
                   },
-                  child: _AppUpdateWrapper(child: child ?? const SizedBox.shrink()),
+                  child: _AppUpdateWrapper(
+                    child: child ?? const SizedBox.shrink(),
+                  ),
                 ),
               ),
             ),
@@ -270,16 +270,19 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
 
     if (DesktopWindowService.isDesktop) {
       NotificationService.instance.startDesktopScheduler(
-        isReminderEnabled: () => ref.read(studySettingsProvider).reminderEnabled,
+        isReminderEnabled: () =>
+            ref.read(studySettingsProvider).reminderEnabled,
         getReminderHour: () => ref.read(studySettingsProvider).reminderHour,
         getReminderMinute: () => ref.read(studySettingsProvider).reminderMinute,
-        isStreakSaverEnabled: () => ref.read(studySettingsProvider).streakSaverEnabled,
+        isStreakSaverEnabled: () =>
+            ref.read(studySettingsProvider).streakSaverEnabled,
         getStreakDays: () => ref.read(statsNotifierProvider).streakDays,
         getDueCardsCount: () {
           final decks = ref.read(deckListProvider);
           return decks.fold<int>(0, (sum, deck) => sum + deck.dueCount);
         },
-        hasStudiedToday: () => ref.read(statsNotifierProvider).reviewedToday > 0,
+        hasStudiedToday: () =>
+            ref.read(statsNotifierProvider).reviewedToday > 0,
       );
     }
   }
@@ -347,14 +350,18 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
                       children: [
                         Text(
                           l10n.updateBannerTitle(info.latestVersion),
-                          style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
+                          style: theme.typography.small.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
                         Text(
                           l10n.updateBannerSubtitle,
-                          style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground),
+                          style: theme.typography.xSmall.copyWith(
+                            color: theme.colorScheme.mutedForeground,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

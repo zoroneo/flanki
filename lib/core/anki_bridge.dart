@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:ffi/ffi.dart';
 
 typedef AnkiOpenBackendNative = Int32 Function(

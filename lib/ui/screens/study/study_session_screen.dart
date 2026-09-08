@@ -1,10 +1,12 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../../core/notifiers/study_session_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/models/card.dart';
@@ -19,10 +21,7 @@ import 'widgets/rich_card_content.dart';
 class StudySessionScreen extends HookConsumerWidget {
   final String deckId;
 
-  const StudySessionScreen({
-    super.key,
-    required this.deckId,
-  });
+  const StudySessionScreen({super.key, required this.deckId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -134,11 +133,7 @@ class StudySessionScreen extends HookConsumerWidget {
     }
 
     if (sessionState.deckId != deckId) {
-      return const Scaffold(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(child: Center(child: CircularProgressIndicator()));
     }
 
     if (sessionState.isFinished) {
@@ -175,13 +170,17 @@ class StudySessionScreen extends HookConsumerWidget {
                 const SizedBox(height: 24),
                 Text(
                   l10n.studyCompleteTitle,
-                  style: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
+                  style: theme.typography.h2.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   l10n.studyCompleteDesc(sessionState.completedCount),
-                  style: theme.typography.small.copyWith(color: theme.colorScheme.mutedForeground),
+                  style: theme.typography.small.copyWith(
+                    color: theme.colorScheme.mutedForeground,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
@@ -202,25 +201,30 @@ class StudySessionScreen extends HookConsumerWidget {
     }
 
     final currentCard = sessionState.currentCard;
-    final intervals = useMemoized(() {
-      if (currentCard == null) return <ReviewRating, String>{};
-      if (studySettings.fsrsEnabled) {
-        final engine = FsrsEngineService(desiredRetention: studySettings.desiredRetention);
-        return engine.previewIntervals(currentCard, l10n: l10n);
-      } else {
-        const engine = Sm2EngineService();
-        return engine.previewIntervals(currentCard, l10n: l10n);
-      }
-    }, [
-      currentCard?.id,
-      currentCard?.stability,
-      currentCard?.difficulty,
-      currentCard?.reps,
-      currentCard?.intervalDays,
-      studySettings.fsrsEnabled,
-      studySettings.desiredRetention,
-      l10n,
-    ]);
+    final intervals = useMemoized(
+      () {
+        if (currentCard == null) return <ReviewRating, String>{};
+        if (studySettings.fsrsEnabled) {
+          final engine = FsrsEngineService(
+            desiredRetention: studySettings.desiredRetention,
+          );
+          return engine.previewIntervals(currentCard, l10n: l10n);
+        } else {
+          const engine = Sm2EngineService();
+          return engine.previewIntervals(currentCard, l10n: l10n);
+        }
+      },
+      [
+        currentCard?.id,
+        currentCard?.stability,
+        currentCard?.difficulty,
+        currentCard?.reps,
+        currentCard?.intervalDays,
+        studySettings.fsrsEnabled,
+        studySettings.desiredRetention,
+        l10n,
+      ],
+    );
 
     final shortcuts = <ShortcutActivator, VoidCallback>{
       const SingleActivator(LogicalKeyboardKey.space): () {
@@ -277,212 +281,241 @@ class StudySessionScreen extends HookConsumerWidget {
       child: Focus(
         autofocus: true,
         child: Scaffold(
-      headers: [
-        AppBar(
-          leading: [
-            IconButton.ghost(
-              icon: const Icon(LucideIcons.chevronLeft, size: 18),
-              onPressed: () => context.pop(),
-            ),
-          ],
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                l10n.cardsRemaining(sessionState.queue.length + (currentCard != null ? 1 : 0)),
-                style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
-              ),
-              if (currentCard != null && currentCard.hasFlag) ...[
-                const SizedBox(width: 8),
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: CardActionSheet.ankiFlagColors[currentCard.flag] ?? m.Colors.grey,
-                    shape: BoxShape.circle,
-                  ),
+          headers: [
+            AppBar(
+              leading: [
+                IconButton.ghost(
+                  icon: const Icon(LucideIcons.chevronLeft, size: 18),
+                  onPressed: () => context.pop(),
                 ),
               ],
-            ],
-          ),
-          trailing: [
-            // Undo button
-            if (sessionState.canUndo)
-              IconButton.ghost(
-                icon: const Icon(LucideIcons.undo2, size: 20),
-                onPressed: handleUndo,
-              ),
-
-            // Whiteboard / Scratchpad toggle
-            IconButton.ghost(
-              icon: Icon(
-                LucideIcons.pencil,
-                size: 20,
-                color: isWhiteboardOpen.value ? theme.colorScheme.primary : null,
-              ),
-              onPressed: () {
-                isWhiteboardOpen.value = !isWhiteboardOpen.value;
-              },
-            ),
-
-            // Card Actions (Flag, Bury, Suspend, Edit)
-            IconButton.ghost(
-              icon: const Icon(LucideIcons.ellipsisVertical, size: 20),
-              onPressed: openCardActions,
-            ),
-          ],
-        ),
-      ],
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              // Top slim progress bar
-              Progress(
-                progress: sessionState.progress,
-              ),
-
-              // Main Card Container with 3D Flip & Horizontal Gesture
-              Expanded(
-                child: GestureDetector(
-                  onHorizontalDragUpdate: (details) {
-                    if (sessionState.isFlipped && !isWhiteboardOpen.value) {
-                      dragOffset.value += details.primaryDelta ?? 0;
-                    }
-                  },
-                  onHorizontalDragEnd: (details) {
-                    if (sessionState.isFlipped && !isWhiteboardOpen.value) {
-                      if (dragOffset.value < -80) {
-                        handleRate(ReviewRating.again);
-                      } else if (dragOffset.value > 80) {
-                        handleRate(ReviewRating.good);
-                      } else {
-                        dragOffset.value = 0.0;
-                      }
-                    }
-                  },
-                  child: AnimatedBuilder(
-                    animation: flipController,
-                    builder: (context, child) {
-                      final angle = flipController.value * math.pi;
-                      final isUnder = angle > (math.pi / 2);
-
-                      final matrix = Matrix4.identity()
-                        ..setEntry(3, 2, 0.001)
-                        ..rotateY(angle);
-
-                      return Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 760),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            child: SizedBox.expand(
-                              child: Transform(
-                                alignment: Alignment.center,
-                                transform: matrix,
-                                child: isUnder
-                                    ? Transform(
-                                        alignment: Alignment.center,
-                                        transform: Matrix4.identity()..rotateY(math.pi),
-                                        child: _CardBackView(
-                                          card: currentCard,
-                                          theme: theme,
-                                          typedAnswer: userTypedAnswer.value,
-                                        ),
-                                      )
-                                    : _CardFrontView(
-                                        card: currentCard,
-                                        theme: theme,
-                                        typedAnswer: userTypedAnswer.value,
-                                        onAnswerChanged: (v) => userTypedAnswer.value = v,
-                                        onSubmitAnswer: handleFlip,
-                                      ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-
-              // Bottom Action Area
-              SafeArea(
-                top: false,
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 760),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      child: sessionState.isFlipped
-                          ? Row(
-                              children: [
-                                Expanded(
-                                  child: _RatingButton(
-                                    label: l10n.ratingAgain,
-                                    shortcutHint: '1',
-                                    interval: intervals[ReviewRating.again] ?? '< 10m',
-                                    backgroundColor: m.Colors.red.shade600,
-                                    onTap: () => handleRate(ReviewRating.again),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: _RatingButton(
-                                    label: l10n.ratingHard,
-                                    shortcutHint: '2',
-                                    interval: intervals[ReviewRating.hard] ?? '1d',
-                                    backgroundColor: m.Colors.orange.shade700,
-                                    onTap: () => handleRate(ReviewRating.hard),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: _RatingButton(
-                                    label: l10n.ratingGood,
-                                    shortcutHint: '3',
-                                    interval: intervals[ReviewRating.good] ?? '4d',
-                                    backgroundColor: m.Colors.blue.shade600,
-                                    onTap: () => handleRate(ReviewRating.good),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: _RatingButton(
-                                    label: l10n.ratingEasy,
-                                    shortcutHint: '4',
-                                    interval: intervals[ReviewRating.easy] ?? '12d',
-                                    backgroundColor: m.Colors.green.shade600,
-                                    onTap: () => handleRate(ReviewRating.easy),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : SizedBox(
-                              width: double.infinity,
-                              child: PrimaryButton(
-                                onPressed: handleFlip,
-                                child: Text('${l10n.tapToFlip}  [Space]'),
-                              ),
-                            ),
+              title: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    l10n.cardsRemaining(
+                      sessionState.queue.length + (currentCard != null ? 1 : 0),
+                    ),
+                    style: theme.typography.small.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
+                  if (currentCard != null && currentCard.hasFlag) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color:
+                            CardActionSheet.ankiFlagColors[currentCard.flag] ??
+                            m.Colors.grey,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ],
+                ],
               ),
+              trailing: [
+                // Undo button
+                if (sessionState.canUndo)
+                  IconButton.ghost(
+                    icon: const Icon(LucideIcons.undo2, size: 20),
+                    onPressed: handleUndo,
+                  ),
+
+                // Whiteboard / Scratchpad toggle
+                IconButton.ghost(
+                  icon: Icon(
+                    LucideIcons.pencil,
+                    size: 20,
+                    color: isWhiteboardOpen.value
+                        ? theme.colorScheme.primary
+                        : null,
+                  ),
+                  onPressed: () {
+                    isWhiteboardOpen.value = !isWhiteboardOpen.value;
+                  },
+                ),
+
+                // Card Actions (Flag, Bury, Suspend, Edit)
+                IconButton.ghost(
+                  icon: const Icon(LucideIcons.ellipsisVertical, size: 20),
+                  onPressed: openCardActions,
+                ),
+              ],
+            ),
+          ],
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  // Top slim progress bar
+                  Progress(progress: sessionState.progress),
+
+                  // Main Card Container with 3D Flip & Horizontal Gesture
+                  Expanded(
+                    child: GestureDetector(
+                      onHorizontalDragUpdate: (details) {
+                        if (sessionState.isFlipped && !isWhiteboardOpen.value) {
+                          dragOffset.value += details.primaryDelta ?? 0;
+                        }
+                      },
+                      onHorizontalDragEnd: (details) {
+                        if (sessionState.isFlipped && !isWhiteboardOpen.value) {
+                          if (dragOffset.value < -80) {
+                            handleRate(ReviewRating.again);
+                          } else if (dragOffset.value > 80) {
+                            handleRate(ReviewRating.good);
+                          } else {
+                            dragOffset.value = 0.0;
+                          }
+                        }
+                      },
+                      child: AnimatedBuilder(
+                        animation: flipController,
+                        builder: (context, child) {
+                          final angle = flipController.value * math.pi;
+                          final isUnder = angle > (math.pi / 2);
+
+                          final matrix = Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateY(angle);
+
+                          return Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 760),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+                                child: SizedBox.expand(
+                                  child: Transform(
+                                    alignment: Alignment.center,
+                                    transform: matrix,
+                                    child: isUnder
+                                        ? Transform(
+                                            alignment: Alignment.center,
+                                            transform: Matrix4.identity()
+                                              ..rotateY(math.pi),
+                                            child: _CardBackView(
+                                              card: currentCard,
+                                              theme: theme,
+                                              typedAnswer:
+                                                  userTypedAnswer.value,
+                                            ),
+                                          )
+                                        : _CardFrontView(
+                                            card: currentCard,
+                                            theme: theme,
+                                            typedAnswer: userTypedAnswer.value,
+                                            onAnswerChanged: (v) =>
+                                                userTypedAnswer.value = v,
+                                            onSubmitAnswer: handleFlip,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+
+                  // Bottom Action Area
+                  SafeArea(
+                    top: false,
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 760),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          child: sessionState.isFlipped
+                              ? Row(
+                                  children: [
+                                    Expanded(
+                                      child: _RatingButton(
+                                        label: l10n.ratingAgain,
+                                        shortcutHint: '1',
+                                        interval:
+                                            intervals[ReviewRating.again] ??
+                                            '< 10m',
+                                        backgroundColor: m.Colors.red.shade600,
+                                        onTap: () =>
+                                            handleRate(ReviewRating.again),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: _RatingButton(
+                                        label: l10n.ratingHard,
+                                        shortcutHint: '2',
+                                        interval:
+                                            intervals[ReviewRating.hard] ??
+                                            '1d',
+                                        backgroundColor:
+                                            m.Colors.orange.shade700,
+                                        onTap: () =>
+                                            handleRate(ReviewRating.hard),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: _RatingButton(
+                                        label: l10n.ratingGood,
+                                        shortcutHint: '3',
+                                        interval:
+                                            intervals[ReviewRating.good] ??
+                                            '4d',
+                                        backgroundColor: m.Colors.blue.shade600,
+                                        onTap: () =>
+                                            handleRate(ReviewRating.good),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: _RatingButton(
+                                        label: l10n.ratingEasy,
+                                        shortcutHint: '4',
+                                        interval:
+                                            intervals[ReviewRating.easy] ??
+                                            '12d',
+                                        backgroundColor:
+                                            m.Colors.green.shade600,
+                                        onTap: () =>
+                                            handleRate(ReviewRating.easy),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox(
+                                  width: double.infinity,
+                                  child: PrimaryButton(
+                                    onPressed: handleFlip,
+                                    child: Text('${l10n.tapToFlip}  [Space]'),
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Whiteboard (Scratchpad) overlay if enabled
+              if (isWhiteboardOpen.value)
+                ScratchpadOverlay(
+                  onClose: () => isWhiteboardOpen.value = false,
+                ),
             ],
           ),
-
-          // Whiteboard (Scratchpad) overlay if enabled
-          if (isWhiteboardOpen.value)
-            ScratchpadOverlay(
-              onClose: () => isWhiteboardOpen.value = false,
-            ),
-        ],
+        ),
       ),
-    ),
-  ),
-);
+    );
   }
 }
 
@@ -516,7 +549,10 @@ class _CardFrontView extends StatelessWidget {
               return SingleChildScrollView(
                 clipBehavior: Clip.antiAlias,
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: math.max(0.0, constraints.maxHeight - 40),
@@ -528,7 +564,10 @@ class _CardFrontView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: theme.colorScheme.muted,
                               borderRadius: BorderRadius.circular(20),
@@ -547,7 +586,10 @@ class _CardFrontView extends StatelessWidget {
                               width: 8,
                               height: 8,
                               decoration: BoxDecoration(
-                                color: CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
+                                color:
+                                    CardActionSheet.ankiFlagColors[card!
+                                        .flag] ??
+                                    m.Colors.grey,
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -561,7 +603,9 @@ class _CardFrontView extends StatelessWidget {
                         typedAnswer: typedAnswer,
                         onAnswerChanged: onAnswerChanged,
                         onSubmitAnswer: onSubmitAnswer,
-                        textStyle: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
+                        textStyle: theme.typography.h2.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
@@ -601,7 +645,10 @@ class _CardBackView extends StatelessWidget {
               return SingleChildScrollView(
                 clipBehavior: Clip.antiAlias,
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: math.max(0.0, constraints.maxHeight - 40),
@@ -610,9 +657,14 @@ class _CardBackView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -629,7 +681,9 @@ class _CardBackView extends StatelessWidget {
                         content: card?.back ?? '',
                         autoPlayAudio: true,
                         typedAnswer: typedAnswer,
-                        textStyle: theme.typography.h3.copyWith(fontWeight: FontWeight.w500),
+                        textStyle: theme.typography.h3.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
@@ -706,7 +760,10 @@ class _RatingButton extends HookWidget {
                     if (shortcutHint != null) ...[
                       const SizedBox(width: 4),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 1,
+                        ),
                         decoration: BoxDecoration(
                           color: m.Colors.black.withValues(alpha: 0.25),
                           borderRadius: BorderRadius.circular(4),

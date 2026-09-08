@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,7 +12,9 @@ void main() {
   late Directory tempDir;
 
   setUp(() async {
-    tempDir = Directory.systemTemp.createTempSync('flanki_desktop_layout_test_');
+    tempDir = Directory.systemTemp.createTempSync(
+      'flanki_desktop_layout_test_',
+    );
     await DatabaseService.instance.init(
       customPath: '${tempDir.path}/test_desktop.db',
     );
@@ -26,7 +29,9 @@ void main() {
     } catch (_) {}
   });
 
-  testWidgets('Desktop layout renders sidebar when width >= 768px', (WidgetTester tester) async {
+  testWidgets('Desktop layout renders sidebar when width >= 768px', (
+    WidgetTester tester,
+  ) async {
     tester.view.physicalSize = const Size(1024, 768);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(() {
@@ -34,11 +39,7 @@ void main() {
       tester.view.resetDevicePixelRatio();
     });
 
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: FlankiApp(),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: FlankiApp()));
     await tester.pumpAndSettle();
 
     // Desktop view shows vertical divider between sidebar and content
@@ -47,22 +48,21 @@ void main() {
     expect(find.text('Flanki'), findsAtLeast(1));
   });
 
-  testWidgets('Mobile layout hides sidebar and renders bottom nav when width < 768px', (WidgetTester tester) async {
-    tester.view.physicalSize = const Size(400, 800);
-    tester.view.devicePixelRatio = 1.0;
-    addTearDown(() {
-      tester.view.resetPhysicalSize();
-      tester.view.resetDevicePixelRatio();
-    });
+  testWidgets(
+    'Mobile layout hides sidebar and renders bottom nav when width < 768px',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: FlankiApp(),
-      ),
-    );
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(const ProviderScope(child: FlankiApp()));
+      await tester.pumpAndSettle();
 
-    // In mobile layout, VerticalDivider (from desktop sidebar) is NOT present
-    expect(find.byType(VerticalDivider), findsNothing);
-  });
+      // In mobile layout, VerticalDivider (from desktop sidebar) is NOT present
+      expect(find.byType(VerticalDivider), findsNothing);
+    },
+  );
 }

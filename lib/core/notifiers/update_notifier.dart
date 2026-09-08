@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/update_info.dart';
 import '../services/desktop_update_service.dart';
 
@@ -155,4 +156,6 @@ class UpdateNotifier extends Notifier<UpdateState> {
   }
 }
 
-final updateProvider = NotifierProvider<UpdateNotifier, UpdateState>(UpdateNotifier.new);
+final updateProvider = NotifierProvider<UpdateNotifier, UpdateState>(
+  UpdateNotifier.new,
+);

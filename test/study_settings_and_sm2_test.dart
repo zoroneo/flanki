@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flanki/core/fsrs/sm2_engine_service.dart';
 import 'package:flanki/core/models/card.dart';
 import 'package:flanki/core/notifiers/settings_notifier.dart';
@@ -119,47 +120,53 @@ void main() {
       expect(settings.launchAtStartup, isFalse);
     });
 
-    test('StudySettings toMap and fromMap serialization roundtrips correctly', () {
-      const original = StudySettings(
-        fsrsEnabled: false,
-        desiredRetention: 0.85,
-        newCardsPerDay: 30,
-        maxReviewsPerDay: 200,
-        reminderEnabled: false,
-        reminderHour: 21,
-        reminderMinute: 30,
-        streakSaverEnabled: false,
-        minimizeToTrayOnClose: false,
-        launchAtStartup: true,
-      );
+    test(
+      'StudySettings toMap and fromMap serialization roundtrips correctly',
+      () {
+        const original = StudySettings(
+          fsrsEnabled: false,
+          desiredRetention: 0.85,
+          newCardsPerDay: 30,
+          maxReviewsPerDay: 200,
+          reminderEnabled: false,
+          reminderHour: 21,
+          reminderMinute: 30,
+          streakSaverEnabled: false,
+          minimizeToTrayOnClose: false,
+          launchAtStartup: true,
+        );
 
-      final map = original.toMap();
-      final restored = StudySettings.fromMap(map);
+        final map = original.toMap();
+        final restored = StudySettings.fromMap(map);
 
-      expect(restored.fsrsEnabled, isFalse);
-      expect(restored.desiredRetention, equals(0.85));
-      expect(restored.newCardsPerDay, equals(30));
-      expect(restored.maxReviewsPerDay, equals(200));
-      expect(restored.reminderEnabled, isFalse);
-      expect(restored.reminderHour, equals(21));
-      expect(restored.reminderMinute, equals(30));
-      expect(restored.streakSaverEnabled, isFalse);
-      expect(restored.minimizeToTrayOnClose, isFalse);
-      expect(restored.launchAtStartup, isTrue);
+        expect(restored.fsrsEnabled, isFalse);
+        expect(restored.desiredRetention, equals(0.85));
+        expect(restored.newCardsPerDay, equals(30));
+        expect(restored.maxReviewsPerDay, equals(200));
+        expect(restored.reminderEnabled, isFalse);
+        expect(restored.reminderHour, equals(21));
+        expect(restored.reminderMinute, equals(30));
+        expect(restored.streakSaverEnabled, isFalse);
+        expect(restored.minimizeToTrayOnClose, isFalse);
+        expect(restored.launchAtStartup, isTrue);
 
-      final jsonStr = jsonEncode(map);
-      final decodedMap = jsonDecode(jsonStr) as Map<String, dynamic>;
-      final fromDecoded = StudySettings.fromMap(decodedMap);
-      expect(fromDecoded.newCardsPerDay, equals(30));
-      expect(fromDecoded.reminderHour, equals(21));
-      expect(fromDecoded.minimizeToTrayOnClose, isFalse);
-      expect(fromDecoded.launchAtStartup, isTrue);
-    });
+        final jsonStr = jsonEncode(map);
+        final decodedMap = jsonDecode(jsonStr) as Map<String, dynamic>;
+        final fromDecoded = StudySettings.fromMap(decodedMap);
+        expect(fromDecoded.newCardsPerDay, equals(30));
+        expect(fromDecoded.reminderHour, equals(21));
+        expect(fromDecoded.minimizeToTrayOnClose, isFalse);
+        expect(fromDecoded.launchAtStartup, isTrue);
+      },
+    );
   });
 
   group('AnkiWebConfig Centralization Tests', () {
     test('AnkiWebConfig exposes valid endpoints, headers and timeouts', () {
-      expect(AnkiWebConfig.defaultSyncHost, startsWith('https://sync.ankiweb.net'));
+      expect(
+        AnkiWebConfig.defaultSyncHost,
+        startsWith('https://sync.ankiweb.net'),
+      );
       expect(AnkiWebConfig.userAgent, contains('Anki/'));
       expect(AnkiWebConfig.protocolVersion, equals(10));
       expect(AnkiWebConfig.clientVersion, contains('anki'));

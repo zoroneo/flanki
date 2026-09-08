@@ -1,10 +1,12 @@
 import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:path/path.dart' as p;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/storage/media_storage_service.dart';
 
@@ -35,7 +37,10 @@ class RichCardContent extends HookWidget {
     final theme = Theme.of(context);
 
     // Extract [sound:filename.ext] tags
-    final soundRegex = useMemoized(() => RegExp(r'\[sound:([^\]]+)\]', caseSensitive: false), []);
+    final soundRegex = useMemoized(
+      () => RegExp(r'\[sound:([^\]]+)\]', caseSensitive: false),
+      [],
+    );
     final soundMatches = soundRegex.allMatches(content).toList();
     final soundFiles = soundMatches.map((m) => m.group(1)!.trim()).toList();
 
@@ -48,7 +53,10 @@ class RichCardContent extends HookWidget {
     useEffect(() {
       return () {
         if (audioPlayer != null) {
-          audioPlayer.stop().then((_) => audioPlayer.dispose()).catchError((_) {});
+          audioPlayer
+              .stop()
+              .then((_) => audioPlayer.dispose())
+              .catchError((_) {});
         }
       };
     }, [audioPlayer]);
@@ -70,7 +78,10 @@ class RichCardContent extends HookWidget {
 
     // Clean legacy file:// absolute paths to standard relative filenames
     cleanHtml = cleanHtml.replaceAllMapped(
-      RegExp(r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''', caseSensitive: false),
+      RegExp(
+        r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''',
+        caseSensitive: false,
+      ),
       (m) => '${m.group(1)}${m.group(2)}${m.group(3)}',
     );
 
@@ -91,7 +102,8 @@ class RichCardContent extends HookWidget {
 
     final hasHtml = cleanHtml.isNotEmpty;
 
-    final defaultStyle = textStyle ??
+    final defaultStyle =
+        textStyle ??
         theme.typography.h3.copyWith(
           color: theme.colorScheme.foreground,
           fontWeight: FontWeight.w500,
@@ -109,7 +121,8 @@ class RichCardContent extends HookWidget {
               if (element.localName == 'img') {
                 final rawSrc = element.attributes['src'] ?? '';
                 if (rawSrc.isNotEmpty) {
-                  if (rawSrc.startsWith('http://') || rawSrc.startsWith('https://')) {
+                  if (rawSrc.startsWith('http://') ||
+                      rawSrc.startsWith('https://')) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Center(
@@ -125,7 +138,8 @@ class RichCardContent extends HookWidget {
                   }
 
                   final filename = p.basename(rawSrc.replaceAll('file://', ''));
-                  final localPath = MediaStorageService.instance.getMediaFilePath(filename);
+                  final localPath = MediaStorageService.instance
+                      .getMediaFilePath(filename);
                   final file = File(localPath);
 
                   if (file.existsSync()) {
@@ -139,7 +153,8 @@ class RichCardContent extends HookWidget {
                             child: Image.file(
                               file,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, _, _) => _buildMissingMediaBadge(theme, filename),
+                              errorBuilder: (_, _, _) =>
+                                  _buildMissingMediaBadge(theme, filename),
                             ),
                           ),
                         ),
@@ -163,10 +178,7 @@ class RichCardContent extends HookWidget {
                 };
               }
               if (element.localName == 'table') {
-                return {
-                  'margin': '8px auto',
-                  'border-collapse': 'collapse',
-                };
+                return {'margin': '8px auto', 'border-collapse': 'collapse'};
               }
               return null;
             },
@@ -187,16 +199,14 @@ class RichCardContent extends HookWidget {
           ),
         ],
         if (soundFiles.isNotEmpty) ...[
-          if (hasHtml || hasTypeInput || hasTypeResult) const SizedBox(height: 16),
+          if (hasHtml || hasTypeInput || hasTypeResult)
+            const SizedBox(height: 16),
           Wrap(
             spacing: 8,
             runSpacing: 8,
             alignment: WrapAlignment.center,
             children: soundFiles.map((filename) {
-              return _AudioPlayButton(
-                filename: filename,
-                player: audioPlayer,
-              );
+              return _AudioPlayButton(filename: filename, player: audioPlayer);
             }).toList(),
           ),
         ],
@@ -216,12 +226,19 @@ class RichCardContent extends HookWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(LucideIcons.image, size: 14, color: theme.colorScheme.mutedForeground),
+          Icon(
+            LucideIcons.image,
+            size: 14,
+            color: theme.colorScheme.mutedForeground,
+          ),
           const SizedBox(width: 6),
           Flexible(
             child: Text(
               filename,
-              style: TextStyle(fontSize: 12, color: theme.colorScheme.mutedForeground),
+              style: TextStyle(
+                fontSize: 12,
+                color: theme.colorScheme.mutedForeground,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -262,7 +279,11 @@ class _TypeAnswerInputBox extends HookWidget {
             InputFeature.leading(
               Padding(
                 padding: const EdgeInsets.only(left: 4, right: 6),
-                child: Icon(LucideIcons.keyboard, size: 18, color: theme.colorScheme.mutedForeground),
+                child: Icon(
+                  LucideIcons.keyboard,
+                  size: 18,
+                  color: theme.colorScheme.mutedForeground,
+                ),
               ),
             ),
             if (onSubmitAnswer != null)
@@ -290,10 +311,7 @@ class _TypeAnswerResultBox extends StatelessWidget {
   final String? typedAnswer;
   final String expectedAnswer;
 
-  const _TypeAnswerResultBox({
-    this.typedAnswer,
-    required this.expectedAnswer,
-  });
+  const _TypeAnswerResultBox({this.typedAnswer, required this.expectedAnswer});
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +319,8 @@ class _TypeAnswerResultBox extends StatelessWidget {
     final l10n = context.l10n;
     final typed = typedAnswer?.trim() ?? '';
     final expected = expectedAnswer.trim();
-    final isCorrect = typed.isNotEmpty && typed.toLowerCase() == expected.toLowerCase();
+    final isCorrect =
+        typed.isNotEmpty && typed.toLowerCase() == expected.toLowerCase();
     final isEmpty = typed.isEmpty;
 
     return Padding(
@@ -313,8 +332,8 @@ class _TypeAnswerResultBox extends StatelessWidget {
           color: isEmpty
               ? theme.colorScheme.muted
               : (isCorrect
-                  ? m.Colors.green.withValues(alpha: 0.12)
-                  : m.Colors.red.withValues(alpha: 0.12)),
+                    ? m.Colors.green.withValues(alpha: 0.12)
+                    : m.Colors.red.withValues(alpha: 0.12)),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isEmpty
@@ -330,11 +349,17 @@ class _TypeAnswerResultBox extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(LucideIcons.circleCheck, color: m.Colors.green, size: 20),
+                  const Icon(
+                    LucideIcons.circleCheck,
+                    color: m.Colors.green,
+                    size: 20,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     l10n.correctAnswerLabel,
-                    style: theme.typography.semiBold.copyWith(color: m.Colors.green),
+                    style: theme.typography.semiBold.copyWith(
+                      color: m.Colors.green,
+                    ),
                   ),
                 ],
               ),
@@ -350,7 +375,11 @@ class _TypeAnswerResultBox extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(LucideIcons.circleAlert, color: m.Colors.red, size: 18),
+                  const Icon(
+                    LucideIcons.circleAlert,
+                    color: m.Colors.red,
+                    size: 18,
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     l10n.yourAnswerLabel,
@@ -390,7 +419,11 @@ class _TypeAnswerResultBox extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(LucideIcons.circleHelp, color: theme.colorScheme.primary, size: 18),
+                  Icon(
+                    LucideIcons.circleHelp,
+                    color: theme.colorScheme.primary,
+                    size: 18,
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     l10n.answerLabel,
@@ -419,10 +452,7 @@ class _AudioPlayButton extends HookWidget {
   final String filename;
   final AudioPlayer? player;
 
-  const _AudioPlayButton({
-    required this.filename,
-    required this.player,
-  });
+  const _AudioPlayButton({required this.filename, required this.player});
 
   @override
   Widget build(BuildContext context) {

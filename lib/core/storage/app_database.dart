@@ -18,7 +18,8 @@ class Decks extends Table {
 
 class Cards extends Table {
   TextColumn get id => text()();
-  TextColumn get deckId => text().references(Decks, #id, onDelete: KeyAction.cascade)();
+  TextColumn get deckId =>
+      text().references(Decks, #id, onDelete: KeyAction.cascade)();
   TextColumn get front => text()();
   TextColumn get back => text()();
   TextColumn get hint => text().nullable()();
@@ -42,7 +43,8 @@ class Cards extends Table {
 
 class ReviewLogs extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get cardId => text().references(Cards, #id, onDelete: KeyAction.cascade)();
+  TextColumn get cardId =>
+      text().references(Cards, #id, onDelete: KeyAction.cascade)();
   IntColumn get rating => integer()();
   DateTimeColumn get reviewTime => dateTime()();
   IntColumn get scheduledDays => integer().withDefault(const Constant(0))();

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqlite3/sqlite3.dart';
@@ -16,9 +17,9 @@ void main() {
     tempDir = Directory.systemTemp.createTempSync('flanki_test_db_');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/path_provider'),
-      (MethodCall methodCall) async => tempDir.path,
-    );
+          const MethodChannel('plugins.flutter.io/path_provider'),
+          (MethodCall methodCall) async => tempDir.path,
+        );
     dbPath = '${tempDir.path}/test_flanki.db';
     await DatabaseService.instance.init(customPath: dbPath);
   });
@@ -154,7 +155,9 @@ void main() {
     );
     await DatabaseService.instance.saveCards(cards);
 
-    final queue = DatabaseService.instance.getCustomStudyQueue(deckId: 'cram_flagged_all');
+    final queue = DatabaseService.instance.getCustomStudyQueue(
+      deckId: 'cram_flagged_all',
+    );
     // It should yield all 75 cards from totalCount instead of being capped at default 50
     expect(queue.length, equals(75));
   });

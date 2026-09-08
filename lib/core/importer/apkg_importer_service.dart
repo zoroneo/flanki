@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
+
 import 'package:archive/archive.dart';
 import 'package:sqlite3/sqlite3.dart';
+
 import '../models/card.dart';
 import '../models/deck.dart';
 import '../storage/database_service.dart';
@@ -38,7 +40,8 @@ class ApkgImporterService {
     // Check if raw SQLite database directly
     final sampleBytes = await file.openRead(0, 16).first;
     if (sampleBytes.length >= 16 &&
-        utf8.decode(sampleBytes.sublist(0, 15), allowMalformed: true) == 'SQLite format 3') {
+        utf8.decode(sampleBytes.sublist(0, 15), allowMalformed: true) ==
+            'SQLite format 3') {
       await DatabaseService.instance.saveSyncTemplateFile(file);
       final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
       final tempDbFile = File('${tempDir.path}/collection.anki2');
@@ -80,7 +83,9 @@ class ApkgImporterService {
           final targetFilename = entry.value as String;
           final af = archiveFilesMap[archiveIndex];
           if (af != null) {
-            final targetPath = MediaStorageService.instance.getMediaFilePath(targetFilename);
+            final targetPath = MediaStorageService.instance.getMediaFilePath(
+              targetFilename,
+            );
             final output = OutputFileStream(targetPath);
             try {
               af.writeContent(output);
@@ -95,7 +100,9 @@ class ApkgImporterService {
     if (colFile == null) {
       await inputStream.close();
       await archive.clear();
-      throw const FormatException('Invalid .apkg package: collection.anki2 not found');
+      throw const FormatException(
+        'Invalid .apkg package: collection.anki2 not found',
+      );
     }
 
     final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
@@ -127,7 +134,8 @@ class ApkgImporterService {
   }) {
     // If the data is raw SQLite database directly (e.g. from AnkiWeb full sync download)
     if (apkgBytes.length >= 16 &&
-        utf8.decode(apkgBytes.sublist(0, 15), allowMalformed: true) == 'SQLite format 3') {
+        utf8.decode(apkgBytes.sublist(0, 15), allowMalformed: true) ==
+            'SQLite format 3') {
       DatabaseService.instance.saveSyncTemplateBytes(apkgBytes);
       return _parseWithTempDb(
         apkgBytes,
@@ -174,7 +182,9 @@ class ApkgImporterService {
     }
 
     if (colFile == null) {
-      throw const FormatException('Invalid .apkg package: collection.anki2 not found');
+      throw const FormatException(
+        'Invalid .apkg package: collection.anki2 not found',
+      );
     }
 
     final dbBytes = Uint8List.fromList(colFile.content as List<int>);
@@ -239,7 +249,8 @@ class ApkgImporterService {
               title: name,
               description: desc.isNotEmpty
                   ? desc
-                  : (defaultDeckDescription ?? 'Imported from Anki package .apkg'),
+                  : (defaultDeckDescription ??
+                        'Imported from Anki package .apkg'),
               dueCount: 0,
               newCount: 0,
               totalCount: 0,
@@ -253,7 +264,10 @@ class ApkgImporterService {
         try {
           final modelsMap = jsonDecode(modelsJson) as Map<String, dynamic>;
           for (final entry in modelsMap.entries) {
-            final m = AnkiModel.fromJson(entry.key, entry.value as Map<String, dynamic>);
+            final m = AnkiModel.fromJson(
+              entry.key,
+              entry.value as Map<String, dynamic>,
+            );
             ankiModels[m.id] = m;
           }
         } catch (_) {}
@@ -273,9 +287,13 @@ class ApkgImporterService {
 
       // 3. Parse cards
       final columnsResult = db.select('PRAGMA table_info(cards)');
-      final columnNames = columnsResult.map((r) => (r['name'] as String).toLowerCase()).toSet();
+      final columnNames = columnsResult
+          .map((r) => (r['name'] as String).toLowerCase())
+          .toSet();
       final ordExpr = columnNames.contains('ord') ? 'ord' : '0 as ord';
-      final cardsResult = db.select('SELECT id, nid, did, $ordExpr, reps, lapses, ivl, factor FROM cards');
+      final cardsResult = db.select(
+        'SELECT id, nid, did, $ordExpr, reps, lapses, ivl, factor FROM cards',
+      );
 
       final deckCardCount = <String, int>{};
       final deckDueCount = <String, int>{};
@@ -316,21 +334,31 @@ class ApkgImporterService {
         );
 
         // Resolve local media paths
-        final front = MediaStorageService.instance.resolveHtmlMedia(rendered.front);
-        final back = MediaStorageService.instance.resolveHtmlMedia(rendered.back);
+        final front = MediaStorageService.instance.resolveHtmlMedia(
+          rendered.front,
+        );
+        final back = MediaStorageService.instance.resolveHtmlMedia(
+          rendered.back,
+        );
 
         // Hint: take third field if non-empty, or null
-        final hint = noteData.flds.length > 2 && noteData.flds[2].trim().isNotEmpty
+        final hint =
+            noteData.flds.length > 2 && noteData.flds[2].trim().isNotEmpty
             ? noteData.flds[2].trim()
             : null;
 
         // Tags separated by space
-        final tags = noteData.tags.split(' ').where((t) => t.isNotEmpty).toList();
+        final tags = noteData.tags
+            .split(' ')
+            .where((t) => t.isNotEmpty)
+            .toList();
 
         final deckId = 'deck-$did';
 
         // Anki note type detection (Cloze contains {{c1::...}})
-        final isCloze = front.contains('cloze') || noteData.flds.any((f) => f.contains('{{c'));
+        final isCloze =
+            front.contains('cloze') ||
+            noteData.flds.any((f) => f.contains('{{c'));
         final noteType = isCloze ? NoteType.cloze : NoteType.basic;
 
         cards.add(
@@ -361,16 +389,15 @@ class ApkgImporterService {
       }
 
       // Update counts for parsed decks
-      final updatedDecks = decks.map((d) {
-        final count = deckCardCount[d.id] ?? 0;
-        final due = deckDueCount[d.id] ?? 0;
-        final newC = deckNewCount[d.id] ?? 0;
-        return d.copyWith(
-          totalCount: count,
-          dueCount: due,
-          newCount: newC,
-        );
-      }).where((d) => d.totalCount > 0).toList();
+      final updatedDecks = decks
+          .map((d) {
+            final count = deckCardCount[d.id] ?? 0;
+            final due = deckDueCount[d.id] ?? 0;
+            final newC = deckNewCount[d.id] ?? 0;
+            return d.copyWith(totalCount: count, dueCount: due, newCount: newC);
+          })
+          .where((d) => d.totalCount > 0)
+          .toList();
 
       return ApkgImportResult(
         decks: updatedDecks.isNotEmpty ? updatedDecks : decks,

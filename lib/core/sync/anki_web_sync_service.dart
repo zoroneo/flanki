@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' show Locale;
+
 import 'package:http/http.dart' as http;
+
 import 'anki_web_config.dart';
 import 'anki_web_media_sync_service.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -32,7 +34,8 @@ class SyncProgressMessages {
     this.uploadComplete = 'Upload complete!',
     this.sessionExpired = 'AnkiWeb session expired. Please log in again.',
     this.noInternet = 'No internet connection.',
-    this.conflictDetected = 'Conflict detected: Both AnkiWeb and this device have new study data.',
+    this.conflictDetected =
+        'Conflict detected: Both AnkiWeb and this device have new study data.',
   });
 
   factory SyncProgressMessages.fromL10n(AppLocalizations l10n) {
@@ -51,12 +54,7 @@ class SyncProgressMessages {
   }
 }
 
-enum SyncActionRequired {
-  noChange,
-  download,
-  upload,
-  conflict,
-}
+enum SyncActionRequired { noChange, download, upload, conflict }
 
 class SyncStatusCheckResult {
   final SyncActionRequired action;
@@ -105,10 +103,7 @@ class AnkiWebSyncResult {
   }
 
   factory AnkiWebSyncResult.fail(String error) {
-    return AnkiWebSyncResult(
-      success: false,
-      message: error,
-    );
+    return AnkiWebSyncResult(success: false, message: error);
   }
 }
 
@@ -126,24 +121,24 @@ class AnkiWebSyncService {
     AnkiWebMediaSyncService? mediaSyncService,
     SyncProgressMessages? messages,
     AppLocalizations? l10n,
-  })  : _client = client ?? http.Client(),
-        _config = config ?? const AnkiWebConfig(),
-        _l10n = l10n,
-        _messages = messages ??
-            (l10n != null
-                ? SyncProgressMessages.fromL10n(l10n)
-                : const SyncProgressMessages()),
-        _mediaSyncService = mediaSyncService ??
-            AnkiWebMediaSyncService(
-              client: client,
-              config: config,
-              l10n: l10n,
-            );
+  }) : _client = client ?? http.Client(),
+       _config = config ?? const AnkiWebConfig(),
+       _l10n = l10n,
+       _messages =
+           messages ??
+           (l10n != null
+               ? SyncProgressMessages.fromL10n(l10n)
+               : const SyncProgressMessages()),
+       _mediaSyncService =
+           mediaSyncService ??
+           AnkiWebMediaSyncService(client: client, config: config, l10n: l10n);
 
   AppLocalizations get l10n {
     if (_l10n != null) return _l10n;
     try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi')) ? 'vi' : 'en';
+      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
+          ? 'vi'
+          : 'en';
       return lookupAppLocalizations(Locale(code));
     } catch (_) {
       return lookupAppLocalizations(const Locale('vi'));
@@ -187,14 +182,19 @@ class AnkiWebSyncService {
         'v': AnkiWebConfig.protocolVersion,
         'cv': AnkiWebConfig.clientVersion,
       });
-      final metaStreamed = await _client.send(metaReq).timeout(AnkiWebConfig.metaTimeout);
+      final metaStreamed = await _client
+          .send(metaReq)
+          .timeout(AnkiWebConfig.metaTimeout);
       final metaResponse = await http.Response.fromStream(metaStreamed);
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
         return AnkiWebSyncResult.fail(_messages.sessionExpired);
       } else if (metaResponse.statusCode >= 400) {
         return AnkiWebSyncResult.fail(
-          l10n.syncServerError(metaResponse.statusCode, metaResponse.reasonPhrase ?? ''),
+          l10n.syncServerError(
+            metaResponse.statusCode,
+            metaResponse.reasonPhrase ?? '',
+          ),
         );
       }
 
@@ -206,10 +206,13 @@ class AnkiWebSyncService {
       downloadReq.fields['c'] = '0';
       downloadReq.fields['k'] = hostKey;
       downloadReq.fields['data'] = '{}';
-      final downloadStreamed = await _client.send(downloadReq).timeout(AnkiWebConfig.downloadTimeout);
+      final downloadStreamed = await _client
+          .send(downloadReq)
+          .timeout(AnkiWebConfig.downloadTimeout);
       final downloadResponse = await http.Response.fromStream(downloadStreamed);
 
-      if (downloadResponse.statusCode == 200 && downloadResponse.bodyBytes.isNotEmpty) {
+      if (downloadResponse.statusCode == 200 &&
+          downloadResponse.bodyBytes.isNotEmpty) {
         onProgress?.call(_messages.processingData, 0.55);
         final bytes = downloadResponse.bodyBytes;
         // Parse collection package using ApkgImporterService
@@ -226,7 +229,10 @@ class AnkiWebSyncService {
               if (total > 0) {
                 final ratio = (downloaded / total).clamp(0.0, 1.0);
                 final currentProgress = 0.65 + 0.3 * ratio;
-                onProgress?.call(l10n.syncDownloadingMediaProgress(downloaded, total), currentProgress);
+                onProgress?.call(
+                  l10n.syncDownloadingMediaProgress(downloaded, total),
+                  currentProgress,
+                );
               } else {
                 onProgress?.call(_messages.checkingMedia, 0.7);
               }
@@ -238,18 +244,28 @@ class AnkiWebSyncService {
         }
 
         onProgress?.call(_messages.uploadComplete, 1.0);
-        final mediaMsg = mediaCount > 0 ? l10n.syncMediaCountPart(mediaCount) : '';
+        final mediaMsg = mediaCount > 0
+            ? l10n.syncMediaCountPart(mediaCount)
+            : '';
         return AnkiWebSyncResult.ok(
-          message: l10n.syncSuccessWithMedia(importResult.decks.length, importResult.cards.length, mediaMsg),
+          message: l10n.syncSuccessWithMedia(
+            importResult.decks.length,
+            importResult.cards.length,
+            mediaMsg,
+          ),
           decks: importResult.decks,
           cards: importResult.cards,
           mediaCount: mediaCount,
         );
-      } else if (downloadResponse.statusCode == 403 || downloadResponse.statusCode == 401) {
+      } else if (downloadResponse.statusCode == 403 ||
+          downloadResponse.statusCode == 401) {
         return AnkiWebSyncResult.fail(_messages.sessionExpired);
       } else if (downloadResponse.statusCode >= 400) {
         return AnkiWebSyncResult.fail(
-          l10n.syncServerError(downloadResponse.statusCode, downloadResponse.reasonPhrase ?? ''),
+          l10n.syncServerError(
+            downloadResponse.statusCode,
+            downloadResponse.reasonPhrase ?? '',
+          ),
         );
       } else {
         int mediaCount = 0;
@@ -262,7 +278,10 @@ class AnkiWebSyncService {
               if (total > 0) {
                 final ratio = (downloaded / total).clamp(0.0, 1.0);
                 final currentProgress = 0.65 + 0.3 * ratio;
-                onProgress?.call(l10n.syncDownloadingMediaProgress(downloaded, total), currentProgress);
+                onProgress?.call(
+                  l10n.syncDownloadingMediaProgress(downloaded, total),
+                  currentProgress,
+                );
               } else {
                 onProgress?.call(_messages.checkingMedia, 0.7);
               }
@@ -303,7 +322,9 @@ class AnkiWebSyncService {
         'v': AnkiWebConfig.protocolVersion,
         'cv': AnkiWebConfig.clientVersion,
       });
-      final metaStreamed = await _client.send(metaReq).timeout(AnkiWebConfig.metaTimeout);
+      final metaStreamed = await _client
+          .send(metaReq)
+          .timeout(AnkiWebConfig.metaTimeout);
       final metaResponse = await http.Response.fromStream(metaStreamed);
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
@@ -321,7 +342,9 @@ class AnkiWebSyncService {
       DateTime? serverMod;
       try {
         final decoded = jsonDecode(metaResponse.body);
-        final Map<String, dynamic> data = (decoded is Map<String, dynamic> && decoded['data'] is Map<String, dynamic>)
+        final Map<String, dynamic> data =
+            (decoded is Map<String, dynamic> &&
+                decoded['data'] is Map<String, dynamic>)
             ? decoded['data'] as Map<String, dynamic>
             : (decoded is Map<String, dynamic> ? decoded : {});
 
@@ -337,7 +360,9 @@ class AnkiWebSyncService {
       // If never synced before
       if (lastSyncTime == null) {
         return SyncStatusCheckResult(
-          action: hasLocalChanges ? SyncActionRequired.conflict : SyncActionRequired.download,
+          action: hasLocalChanges
+              ? SyncActionRequired.conflict
+              : SyncActionRequired.download,
           message: l10n.syncFirstTime,
           serverMod: serverMod,
           localLastSync: lastSyncTime,
@@ -345,7 +370,8 @@ class AnkiWebSyncService {
         );
       }
 
-      final isServerNewer = serverMod != null &&
+      final isServerNewer =
+          serverMod != null &&
           serverMod.isAfter(lastSyncTime.add(const Duration(seconds: 2)));
 
       if (isServerNewer && hasLocalChanges) {
@@ -414,7 +440,9 @@ class AnkiWebSyncService {
       );
 
       onProgress?.call(_messages.uploadingCloud, 0.6);
-      final streamed = await _client.send(uploadReq).timeout(AnkiWebConfig.downloadTimeout);
+      final streamed = await _client
+          .send(uploadReq)
+          .timeout(AnkiWebConfig.downloadTimeout);
       final response = await http.Response.fromStream(streamed);
 
       if (response.statusCode == 200) {
@@ -428,7 +456,10 @@ class AnkiWebSyncService {
               if (total > 0) {
                 final ratio = (downloaded / total).clamp(0.0, 1.0);
                 final currentProgress = 0.8 + 0.18 * ratio;
-                onProgress?.call(l10n.syncDownloadingMediaProgress(downloaded, total), currentProgress);
+                onProgress?.call(
+                  l10n.syncDownloadingMediaProgress(downloaded, total),
+                  currentProgress,
+                );
               }
             },
           );

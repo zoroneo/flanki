@@ -1,7 +1,9 @@
 import '../config/app_config.dart';
 import '../fsrs/fsrs_engine_service.dart';
 import '../fsrs/sm2_engine_service.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/card.dart';
 import '../storage/database_service.dart';
 import 'card_browser_notifier.dart';
@@ -68,11 +70,17 @@ class StudySessionState {
     final List<CardModel> cards;
     if (deckId.startsWith('cram')) {
       // Custom Study / Cram Deck: query matching cards with resilient fallback
-      final fallbackLimit = settings?.maxReviewsPerDay ?? AppConfig.defaultCramLimit;
-      cards = DatabaseService.instance.getCustomStudyQueue(deckId: deckId, limit: fallbackLimit);
+      final fallbackLimit =
+          settings?.maxReviewsPerDay ?? AppConfig.defaultCramLimit;
+      cards = DatabaseService.instance.getCustomStudyQueue(
+        deckId: deckId,
+        limit: fallbackLimit,
+      );
     } else {
-      final newLimit = settings?.newCardsPerDay ?? AppConfig.defaultNewCardsPerDay;
-      final reviewLimit = settings?.maxReviewsPerDay ?? AppConfig.defaultReviewsPerDay;
+      final newLimit =
+          settings?.newCardsPerDay ?? AppConfig.defaultNewCardsPerDay;
+      final reviewLimit =
+          settings?.maxReviewsPerDay ?? AppConfig.defaultReviewsPerDay;
       cards = DatabaseService.instance.getStudyQueue(
         deckId,
         newLimit: newLimit,
@@ -99,8 +107,8 @@ class StudySessionState {
 
 final studySessionProvider =
     NotifierProvider<StudySessionNotifier, StudySessionState>(
-  StudySessionNotifier.new,
-);
+      StudySessionNotifier.new,
+    );
 
 class StudySessionNotifier extends Notifier<StudySessionState> {
   @override
@@ -149,7 +157,9 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     final settings = ref.read(studySettingsProvider);
     final CardModel scheduledCard;
     if (settings.fsrsEnabled) {
-      final fsrsService = FsrsEngineService(desiredRetention: settings.desiredRetention);
+      final fsrsService = FsrsEngineService(
+        desiredRetention: settings.desiredRetention,
+      );
       scheduledCard = fsrsService.scheduleReview(current, rating);
     } else {
       const sm2Service = Sm2EngineService();
@@ -161,7 +171,9 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
     final elapsedSeconds = state.cardPresentedAt != null
         ? now.difference(state.cardPresentedAt!).inSeconds.clamp(1, 120)
         : 15;
-    ref.read(statsNotifierProvider.notifier).recordStudyDuration(elapsedSeconds);
+    ref
+        .read(statsNotifierProvider.notifier)
+        .recordStudyDuration(elapsedSeconds);
 
     // 4. Persist card updates and record Review Log into SQLite
     DatabaseService.instance.saveCard(scheduledCard);
@@ -295,10 +307,7 @@ class StudySessionNotifier extends Notifier<StudySessionState> {
 
   void editCurrentCard(String front, String back) {
     if (state.currentCard == null) return;
-    final updatedCard = state.currentCard!.copyWith(
-      front: front,
-      back: back,
-    );
+    final updatedCard = state.currentCard!.copyWith(front: front, back: back);
     DatabaseService.instance.saveCard(updatedCard);
     ref.read(deckListProvider.notifier).refresh();
     ref.read(cardBrowserProvider.notifier).refresh();

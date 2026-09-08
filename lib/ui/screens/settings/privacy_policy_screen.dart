@@ -1,4 +1,4 @@
-﻿import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -44,7 +44,9 @@ class PrivacyPolicyScreen extends HookWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withValues(alpha: 0.12),
+                        color: theme.colorScheme.primary.withValues(
+                          alpha: 0.12,
+                        ),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -60,7 +62,9 @@ class PrivacyPolicyScreen extends HookWidget {
                         children: [
                           Text(
                             l10n.privacyPolicy,
-                            style: theme.typography.semiBold.copyWith(fontSize: 16),
+                            style: theme.typography.semiBold.copyWith(
+                              fontSize: 16,
+                            ),
                           ),
                           const SizedBox(height: 2),
                           Text(
@@ -80,56 +84,49 @@ class PrivacyPolicyScreen extends HookWidget {
               _PolicySectionCard(
                 icon: LucideIcons.hardDrive,
                 title: '1. Local-First Storage',
-                content:
-                    'All your decks, flashcards, study schedules, and review history are stored locally on your device via SQLite. Flanki does not transmit your personal flashcard content to any developer servers.',
+                content: 'All your decks, flashcards, study schedules, and review history are stored locally on your device via SQLite. Flanki does not transmit your personal flashcard content to any developer servers.',
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.ban,
                 title: '2. Zero Tracking & No Ads',
-                content:
-                    'We do not integrate any third-party tracking frameworks, behavioral analytics SDKs (e.g., Google Analytics, Firebase, Sentry), or advertising networks. We do not sell or monetize your personal data.',
+                content: 'We do not integrate any third-party tracking frameworks, behavioral analytics SDKs (e.g., Google Analytics, Firebase, Sentry), or advertising networks. We do not sell or monetize your personal data.',
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.cloud,
                 title: '3. Optional AnkiWeb Sync',
-                content:
-                    'If you choose to log in and synchronize with AnkiWeb, your credentials and collection data are transmitted directly between your device and official AnkiWeb servers over encrypted HTTPS. Authentication tokens are saved in platform-native secure vaults (Android Keystore, iOS Keychain, Windows DPAPI). We never store or access your password.',
+                content: 'If you choose to log in and synchronize with AnkiWeb, your credentials and collection data are transmitted directly between your device and official AnkiWeb servers over encrypted HTTPS. Authentication tokens are saved in platform-native secure vaults (Android Keystore, iOS Keychain, Windows DPAPI). We never store or access your password.',
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.refreshCw,
                 title: '4. App Update Checks',
-                content:
-                    'Flanki periodically checks the public GitHub Releases API to notify you when a new version is available. No user-identifying information or device fingerprints are sent during update checks.',
+                content: 'Flanki periodically checks the public GitHub Releases API to notify you when a new version is available. No user-identifying information or device fingerprints are sent during update checks.',
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.bell,
                 title: '5. Local Notifications',
-                content:
-                    'Daily study reminders and streak notifications are scheduled strictly on your local device. No remote push notification servers are used.',
+                content: 'Daily study reminders and streak notifications are scheduled strictly on your local device. No remote push notification servers are used.',
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.trash2,
                 title: '6. Data Control & Deletion',
-                content:
-                    'You retain 100% control of your data. You can delete decks, clear app data, or uninstall the app at any time to instantly remove all stored content.',
+                content: 'You retain 100% control of your data. You can delete decks, clear app data, or uninstall the app at any time to instantly remove all stored content.',
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.globe,
                 title: '7. Full Policy & Source Code',
-                content:
-                    'Flanki is an open-source project. You can inspect our complete source code and read our full legal Privacy Policy at: https://github.com/zoroneo/flanki',
+                content: 'Flanki is an open-source project. You can inspect our complete source code and read our full legal Privacy Policy at: https://github.com/zoroneo/flanki',
               ),
               const SizedBox(height: 48),
             ],
@@ -166,7 +163,9 @@ class _PolicySectionCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 title,
-                style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
+                style: theme.typography.small.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),

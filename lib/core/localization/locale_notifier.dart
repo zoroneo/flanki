@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import '../../l10n/generated/app_localizations.dart';
 
 const String _kLocaleStorageKey = 'user_selected_locale';
@@ -35,7 +36,10 @@ class LocaleNotifier extends Notifier<Locale?> {
       if (locale == null) {
         await _storage.delete(key: _kLocaleStorageKey);
       } else {
-        await _storage.write(key: _kLocaleStorageKey, value: locale.languageCode);
+        await _storage.write(
+          key: _kLocaleStorageKey,
+          value: locale.languageCode,
+        );
       }
     } catch (_) {}
   }

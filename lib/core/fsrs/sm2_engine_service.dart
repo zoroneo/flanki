@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import '../../l10n/generated/app_localizations.dart';
 import '../models/card.dart';
 import 'fsrs_engine_service.dart';
@@ -26,7 +27,11 @@ class Sm2EngineService {
   double getEaseFactor(CardModel card) => difficultyToFactor(card.difficulty);
 
   /// Calculates next interval labels for all 4 ratings (Again, Hard, Good, Easy) under SM-2.
-  Map<ReviewRating, String> previewIntervals(CardModel card, {AppLocalizations? l10n, DateTime? now}) {
+  Map<ReviewRating, String> previewIntervals(
+    CardModel card, {
+    AppLocalizations? l10n,
+    DateTime? now,
+  }) {
     final effectiveNow = now ?? DateTime.now();
     final results = <ReviewRating, String>{};
     for (final rating in ReviewRating.values) {
@@ -40,7 +45,11 @@ class Sm2EngineService {
   }
 
   /// Applies user review rating under SM-2 and returns updated CardModel.
-  CardModel scheduleReview(CardModel card, ReviewRating rating, {DateTime? now}) {
+  CardModel scheduleReview(
+    CardModel card,
+    ReviewRating rating, {
+    DateTime? now,
+  }) {
     final effectiveNow = now ?? DateTime.now();
     double factor = getEaseFactor(card);
     int newInterval;
@@ -88,7 +97,10 @@ class Sm2EngineService {
     }
 
     // Inverse map ease factor back into difficulty for unified storage
-    final updatedDifficulty = ((3.0 - factor) / 1.7 * 9.0 + 1.0).clamp(1.0, 10.0);
+    final updatedDifficulty = ((3.0 - factor) / 1.7 * 9.0 + 1.0).clamp(
+      1.0,
+      10.0,
+    );
     final due = rating == ReviewRating.again
         ? effectiveNow.add(const Duration(minutes: 10))
         : effectiveNow.add(Duration(days: newInterval));

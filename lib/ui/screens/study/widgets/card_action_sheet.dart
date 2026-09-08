@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 
@@ -59,7 +60,9 @@ class CardActionSheet extends HookWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.mutedForeground.withValues(alpha: 0.3),
+                    color: theme.colorScheme.mutedForeground.withValues(
+                      alpha: 0.3,
+                    ),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -69,19 +72,23 @@ class CardActionSheet extends HookWidget {
               if (isEditing.value) ...[
                 Text(l10n.editCardContent, style: theme.typography.h4),
                 const SizedBox(height: 16),
-                Text(l10n.frontSide, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
-                const SizedBox(height: 6),
-                TextField(
-                  controller: frontController,
-                  maxLines: 3,
+                Text(
+                  l10n.frontSide,
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colorScheme.mutedForeground,
+                  ),
                 ),
+                const SizedBox(height: 6),
+                TextField(controller: frontController, maxLines: 3),
                 const SizedBox(height: 14),
-                Text(l10n.backSide, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
-                const SizedBox(height: 6),
-                TextField(
-                  controller: backController,
-                  maxLines: 4,
+                Text(
+                  l10n.backSide,
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colorScheme.mutedForeground,
+                  ),
                 ),
+                const SizedBox(height: 6),
+                TextField(controller: backController, maxLines: 4),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -111,12 +118,18 @@ class CardActionSheet extends HookWidget {
                         spacing: 4,
                         children: card.tags.take(2).map((t) {
                           return Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: theme.colorScheme.muted,
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            child: Text('#$t', style: const TextStyle(fontSize: 10)),
+                            child: Text(
+                              '#$t',
+                              style: const TextStyle(fontSize: 10),
+                            ),
                           );
                         }).toList(),
                       ),
@@ -125,7 +138,12 @@ class CardActionSheet extends HookWidget {
                 const SizedBox(height: 16),
 
                 // 7 Anki Flag Selectors
-                Text(l10n.flagSelector, style: theme.typography.xSmall.copyWith(color: theme.colorScheme.mutedForeground)),
+                Text(
+                  l10n.flagSelector,
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colorScheme.mutedForeground,
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,19 +164,25 @@ class CardActionSheet extends HookWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: card.flag == CardFlag.none ? theme.colorScheme.foreground : theme.colorScheme.border,
+                              color: card.flag == CardFlag.none
+                                  ? theme.colorScheme.foreground
+                                  : theme.colorScheme.border,
                               width: card.flag == CardFlag.none ? 2 : 1,
                             ),
                           ),
                           child: Icon(
                             LucideIcons.ban,
                             size: 16,
-                            color: card.flag == CardFlag.none ? theme.colorScheme.foreground : theme.colorScheme.mutedForeground,
+                            color: card.flag == CardFlag.none
+                                ? theme.colorScheme.foreground
+                                : theme.colorScheme.mutedForeground,
                           ),
                         ),
                       ),
                     ),
-                    ...CardFlag.values.where((f) => f != CardFlag.none).map((flag) {
+                    ...CardFlag.values.where((f) => f != CardFlag.none).map((
+                      flag,
+                    ) {
                       final isSelected = card.flag == flag;
                       final c = ankiFlagColors[flag] ?? m.Colors.grey;
 
@@ -178,11 +202,18 @@ class CardActionSheet extends HookWidget {
                               color: c,
                               shape: BoxShape.circle,
                               border: isSelected
-                                  ? Border.all(color: theme.colorScheme.foreground, width: 2.5)
+                                  ? Border.all(
+                                      color: theme.colorScheme.foreground,
+                                      width: 2.5,
+                                    )
                                   : Border.all(color: c, width: 1.5),
                             ),
                             child: isSelected
-                                ? const Icon(LucideIcons.check, size: 16, color: m.Colors.white)
+                                ? const Icon(
+                                    LucideIcons.check,
+                                    size: 16,
+                                    color: m.Colors.white,
+                                  )
                                 : null,
                           ),
                         ),
@@ -252,11 +283,13 @@ class CardActionSheet extends HookWidget {
                             content: Text(l10n.deleteCardConfirm),
                             actions: [
                               OutlineButton(
-                                onPressed: () => Navigator.of(dialogCtx).pop(false),
+                                onPressed: () =>
+                                    Navigator.of(dialogCtx).pop(false),
                                 child: Text(l10n.cancel),
                               ),
                               DestructiveButton(
-                                onPressed: () => Navigator.of(dialogCtx).pop(true),
+                                onPressed: () =>
+                                    Navigator.of(dialogCtx).pop(true),
                                 child: Text(l10n.delete),
                               ),
                             ],
@@ -282,10 +315,19 @@ class CardActionSheet extends HookWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _StatMini(label: l10n.stabilityLabel, value: '${card.stability.toStringAsFixed(1)}d'),
-                      _StatMini(label: l10n.difficultyLabel, value: card.difficulty.toStringAsFixed(1)),
+                      _StatMini(
+                        label: l10n.stabilityLabel,
+                        value: '${card.stability.toStringAsFixed(1)}d',
+                      ),
+                      _StatMini(
+                        label: l10n.difficultyLabel,
+                        value: card.difficulty.toStringAsFixed(1),
+                      ),
                       _StatMini(label: l10n.repsLabel, value: '${card.reps}'),
-                      _StatMini(label: l10n.lapsesLabel, value: '${card.lapses}'),
+                      _StatMini(
+                        label: l10n.lapsesLabel,
+                        value: '${card.lapses}',
+                      ),
                     ],
                   ),
                 ),
@@ -311,7 +353,13 @@ class _StatMini extends StatelessWidget {
       children: [
         Text(value, style: theme.typography.semiBold),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 10, color: theme.colorScheme.mutedForeground)),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10,
+            color: theme.colorScheme.mutedForeground,
+          ),
+        ),
       ],
     );
   }

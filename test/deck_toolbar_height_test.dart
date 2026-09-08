@@ -54,8 +54,6 @@ void main() {
     final outlineSize = tester.getSize(find.byType(OutlineButton));
     final ghostSize = tester.getSize(find.byType(GhostButton));
 
-
-
     expect(inputSize.height, equals(38.0));
     expect(primarySize.height, equals(38.0));
     expect(outlineSize.height, equals(38.0));
