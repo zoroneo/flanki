@@ -1,12 +1,11 @@
 import 'dart:io';
-import 'package:flutter/widgets.dart';
+
+import 'package:flanki/core/storage/database_service.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
+import 'package:flanki/ui/screens/editor/note_editor_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
-import 'package:flanki/core/storage/database_service.dart';
-import 'package:flanki/ui/screens/editor/note_editor_screen.dart';
-import 'package:flanki/core/localization/locale_notifier.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +13,7 @@ void main() {
 
   setUp(() async {
     tempDir = Directory.systemTemp.createTempSync('flanki_editor_test_');
-    await DatabaseService.instance.init(
-      customPath: '/test_editor.db',
-    );
+    await DatabaseService.instance.init(customPath: '/test_editor.db');
   });
 
   tearDown(() async {
@@ -31,38 +28,41 @@ void main() {
   Widget createTestWidget() {
     return const ProviderScope(
       child: ShadcnApp(
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-        ],
+        localizationsDelegates: [AppLocalizations.delegate],
         home: NoteEditorScreen(),
       ),
     );
   }
 
-  testWidgets('NoteEditorScreen desktop layout renders two columns when width >= 800', (tester) async {
-    tester.view.physicalSize = const Size(1200, 800);
-    tester.view.devicePixelRatio = 1.0;
-    addTearDown(() {
-      tester.view.resetPhysicalSize();
-      tester.view.resetDevicePixelRatio();
-    });
+  testWidgets(
+    'NoteEditorScreen desktop layout renders two columns when width >= 800',
+    (tester) async {
+      tester.view.physicalSize = const Size(1200, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-    await tester.pumpWidget(createTestWidget());
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
 
-    // Verify Title and Save button
-    expect(find.text('Add New Card'), findsOneWidget);
-    expect(find.text('Save card'), findsOneWidget);
-    expect(find.text('Ctrl/⌘ + ↵'), findsOneWidget);
+      // Verify Title and Save button
+      expect(find.text('Add New Card'), findsOneWidget);
+      expect(find.text('Save card'), findsOneWidget);
+      expect(find.text('Ctrl/⌘ + ↵'), findsOneWidget);
 
-    // Verify desktop note type options
-    expect(find.byType(NoteEditorScreen), findsOneWidget);
-    expect(find.text('Basic'), findsOneWidget);
-    expect(find.text('Cloze'), findsOneWidget);
-    expect(find.text('Reversed'), findsOneWidget);
-  });
+      // Verify desktop note type options
+      expect(find.byType(NoteEditorScreen), findsOneWidget);
+      expect(find.text('Basic'), findsOneWidget);
+      expect(find.text('Cloze'), findsOneWidget);
+      expect(find.text('Reversed'), findsOneWidget);
+    },
+  );
 
-  testWidgets('NoteEditorScreen mobile layout renders when width < 800', (tester) async {
+  testWidgets('NoteEditorScreen mobile layout renders when width < 800', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(400, 800);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(() {

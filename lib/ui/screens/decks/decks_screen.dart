@@ -1,31 +1,26 @@
-import '../../../core/sync/anki_web_sync_service.dart';
-
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-
-import '../../../core/importer/apkg_importer_service.dart';
-import '../../../core/notifiers/card_browser_notifier.dart';
-
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/auth/auth_notifier.dart';
+import '../../../core/importer/apkg_importer_service.dart';
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/models/deck.dart';
+import '../../../core/notifiers/card_browser_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/notifiers/stats_notifier.dart';
-import '../../../core/auth/auth_notifier.dart';
-import '../../../core/models/deck.dart';
 import '../../../core/storage/database_service.dart';
+import '../../../core/sync/anki_web_sync_service.dart';
 import '../../widgets/sync_conflict_dialog.dart';
 import '../../widgets/sync_progress_toast.dart';
 import '../auth/anki_web_auth_sheet.dart';
-import 'widgets/custom_study_modal.dart';
 import 'widgets/create_deck_modal.dart';
+import 'widgets/custom_study_modal.dart';
 
 class DecksScreen extends HookConsumerWidget {
   const DecksScreen({super.key});
@@ -103,7 +98,9 @@ class DecksScreen extends HookConsumerWidget {
       );
 
       final lastSyncTime = authState.lastSyncedAt;
-      final hasLocalChanges = DatabaseService.instance.hasLocalChangesSince(lastSyncTime);
+      final hasLocalChanges = DatabaseService.instance.hasLocalChangesSince(
+        lastSyncTime,
+      );
 
       final check = await syncService.checkSyncStatus(
         hostKey: authState.hostKey!,
@@ -128,7 +125,8 @@ class DecksScreen extends HookConsumerWidget {
         }
       }
 
-      final shouldUpload = choice == SyncConflictChoice.upload ||
+      final shouldUpload =
+          choice == SyncConflictChoice.upload ||
           (choice == null && check.action == SyncActionRequired.upload);
 
       final statusNotifier = ValueNotifier<SyncProgressStatus>(
@@ -638,94 +636,94 @@ class DecksScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-              const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-              // Header Section: clean title & total count
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${l10n.navDecks} (${filteredDecks.length})',
-                    style: theme.typography.semiBold,
+                  // Header Section: clean title & total count
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${l10n.navDecks} (${filteredDecks.length})',
+                        style: theme.typography.semiBold,
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 12),
+
+                  // Deck list
+                  if (filteredDecks.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Icon(
+                              LucideIcons.searchX,
+                              size: 48,
+                              color: theme.colorScheme.mutedForeground,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              l10n.noDecksFound,
+                              style: theme.typography.small.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            PrimaryButton(
+                              onPressed: openCreateDeckModal,
+                              leading: const Icon(LucideIcons.plus, size: 16),
+                              child: Text(
+                                l10n.addNewDeck,
+                                maxLines: 1,
+                                softWrap: false,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  else ...[
+                    // 1. Render Grouped Decks (e.g. from APKG imports with "Parent::Child" hierarchy)
+                    ...groupedMap.entries.map((entry) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _GroupedDeckCard(
+                          parentName: entry.key,
+                          subdecks: entry.value,
+                          autoExpand: searchQuery.value.isNotEmpty,
+                          onStudyDeck: (deckId) {
+                            context.push('/decks/$deckId/study');
+                          },
+                        ),
+                      );
+                    }),
+
+                    // 2. Render Standalone Decks
+                    ...standaloneDecks.map((deck) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _MobileDeckCard(
+                          deckId: deck.id,
+                          title: deck.title,
+                          description: deck.description,
+                          dueCount: deck.dueCount,
+                          newCount: deck.newCount,
+                          totalCount: deck.totalCount,
+                          onStudy: () {
+                            context.push('/decks/${deck.id}/study');
+                          },
+                        ),
+                      );
+                    }),
+                  ],
+                  const SizedBox(
+                    height: 120,
+                  ), // Space for bottom navigation bar and floating speed dial
                 ],
               ),
-              const SizedBox(height: 12),
-
-              // Deck list
-              if (filteredDecks.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Icon(
-                          LucideIcons.searchX,
-                          size: 48,
-                          color: theme.colorScheme.mutedForeground,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          l10n.noDecksFound,
-                          style: theme.typography.small.copyWith(
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        PrimaryButton(
-                          onPressed: openCreateDeckModal,
-                          leading: const Icon(LucideIcons.plus, size: 16),
-                          child: Text(
-                            l10n.addNewDeck,
-                            maxLines: 1,
-                            softWrap: false,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              else ...[
-                // 1. Render Grouped Decks (e.g. from APKG imports with "Parent::Child" hierarchy)
-                ...groupedMap.entries.map((entry) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: _GroupedDeckCard(
-                      parentName: entry.key,
-                      subdecks: entry.value,
-                      autoExpand: searchQuery.value.isNotEmpty,
-                      onStudyDeck: (deckId) {
-                        context.push('/decks/$deckId/study');
-                      },
-                    ),
-                  );
-                }),
-
-                // 2. Render Standalone Decks
-                ...standaloneDecks.map((deck) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: _MobileDeckCard(
-                      deckId: deck.id,
-                      title: deck.title,
-                      description: deck.description,
-                      dueCount: deck.dueCount,
-                      newCount: deck.newCount,
-                      totalCount: deck.totalCount,
-                      onStudy: () {
-                        context.push('/decks/${deck.id}/study');
-                      },
-                    ),
-                  );
-                }),
-              ],
-              const SizedBox(
-                height: 120,
-              ), // Space for bottom navigation bar and floating speed dial
-            ],
+            ),
           ),
-        ),
-      ),
 
           // Scrim backdrop when speed dial is open (mobile only)
           if (isDialOpen.value && MediaQuery.sizeOf(context).width < 768)
@@ -982,7 +980,9 @@ class _MobileDeckCard extends StatelessWidget {
                   alignment: Alignment.center,
                   onPressed: onStudy,
                   size: ButtonSize.small,
-                  leading: const Center(child: Icon(LucideIcons.play, size: 14)),
+                  leading: const Center(
+                    child: Icon(LucideIcons.play, size: 14),
+                  ),
                   child: Center(child: Text(context.l10n.studyNow)),
                 ),
               ],
@@ -1184,7 +1184,9 @@ class _GroupedDeckCard extends HookWidget {
                         alignment: Alignment.center,
                         onPressed: () => onStudyDeck(targetStudyDeck.id),
                         size: ButtonSize.small,
-                        leading: const Center(child: Icon(LucideIcons.play, size: 14)),
+                        leading: const Center(
+                          child: Icon(LucideIcons.play, size: 14),
+                        ),
                         child: Center(child: Text(context.l10n.studyNow)),
                       ),
                     ],
