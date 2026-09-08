@@ -3,6 +3,7 @@ import '../../../core/sync/anki_web_sync_service.dart';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../core/importer/apkg_importer_service.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
@@ -230,7 +231,7 @@ class DecksScreen extends HookConsumerWidget {
       try {
         final result = await FilePicker.pickFiles(
           type: FileType.any,
-          withData: true,
+          withData: kIsWeb,
         );
 
         if (result == null || result.files.isEmpty) return;
@@ -268,21 +269,46 @@ class DecksScreen extends HookConsumerWidget {
           return;
         }
 
-        final fileBytes =
-            selectedFile.bytes ??
-            (selectedFile.path != null
-                ? File(selectedFile.path!).readAsBytesSync()
-                : null);
-
-        if (fileBytes == null) {
-          throw const FormatException('File data unreadable');
+        ToastOverlay? loadingToast;
+        if (context.mounted) {
+          loadingToast = showToast(
+            context: context,
+            builder: (context, overlay) {
+              return SurfaceCard(
+                child: Basic(
+                  title: Text(l10n.importApkg),
+                  subtitle: Text(selectedFile.name),
+                  leading: const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+              );
+            },
+          );
         }
 
         final importer = ApkgImporterService();
-        final importResult = importer.importApkgBytes(
-          fileBytes,
-          defaultDeckDescription: l10n.importedDeckDefaultDesc,
-        );
+        final ApkgImportResult importResult;
+
+        try {
+          if (selectedFile.path != null && selectedFile.path!.isNotEmpty) {
+            importResult = await importer.importApkgPath(
+              selectedFile.path!,
+              defaultDeckDescription: l10n.importedDeckDefaultDesc,
+            );
+          } else if (selectedFile.bytes != null) {
+            importResult = importer.importApkgBytes(
+              selectedFile.bytes!,
+              defaultDeckDescription: l10n.importedDeckDefaultDesc,
+            );
+          } else {
+            throw const FormatException('File data unreadable');
+          }
+        } finally {
+          loadingToast?.close();
+        }
 
         if (importResult.decks.isNotEmpty) {
           deckNotifier.addDecks(importResult.decks);

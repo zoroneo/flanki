@@ -5,6 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:flanki/core/sync/anki_web_config.dart';
 import 'package:flanki/core/sync/anki_web_sync_service.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
+import 'package:flanki/ui/widgets/sync_conflict_dialog.dart';
+import 'package:flutter/material.dart' as m;
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -190,6 +194,112 @@ void main() {
 
       expect(result.success, isFalse);
       expect(result.message, contains('500'));
+    });
+  });
+
+  group('SyncConflictDialog Widget Tests', () {
+    testWidgets('renders mobile bottom sheet without overflow when width < 600', (tester) async {
+      tester.view.physicalSize = const Size(394, 853);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      SyncConflictChoice? chosen;
+
+      await tester.pumpWidget(
+        ShadcnApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+            builder: (context) {
+              return m.Scaffold(
+                body: Center(
+                  child: m.ElevatedButton(
+                    onPressed: () async {
+                      chosen = await SyncConflictDialog.show(
+                        context,
+                        localLastSync: DateTime(2026, 9, 7, 17, 3),
+                        serverMod: DateTime(2026, 9, 8, 8, 56),
+                      );
+                    },
+                    child: const Text('Open'),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SyncConflictDialog), findsOneWidget);
+      expect(find.byType(SingleChildScrollView), findsAtLeast(1));
+
+      // Scroll to cancel button if needed and tap
+      await tester.ensureVisible(find.byType(OutlineButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(OutlineButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SyncConflictDialog), findsNothing);
+      expect(chosen, isNull);
+    });
+
+    testWidgets('renders desktop dialog properly when width >= 600', (tester) async {
+      tester.view.physicalSize = const Size(1024, 768);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      SyncConflictChoice? chosen;
+
+      await tester.pumpWidget(
+        ShadcnApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+            builder: (context) {
+              return m.Scaffold(
+                body: Center(
+                  child: m.ElevatedButton(
+                    onPressed: () async {
+                      chosen = await SyncConflictDialog.show(
+                        context,
+                        localLastSync: DateTime(2026, 9, 7, 17, 3),
+                        serverMod: DateTime(2026, 9, 8, 8, 56),
+                      );
+                    },
+                    child: const Text('Open'),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SyncConflictDialog), findsOneWidget);
+      expect(find.byType(ModalContainer), findsOneWidget);
+
+      // Scroll to cancel button if needed and tap
+      await tester.ensureVisible(find.byType(OutlineButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(OutlineButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SyncConflictDialog), findsNothing);
+      expect(chosen, isNull);
     });
   });
 }

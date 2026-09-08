@@ -586,6 +586,18 @@ class DatabaseService {
     } catch (_) {}
   }
 
+  /// Persists sync template from an existing file using OS-level copy.
+  Future<void> saveSyncTemplateFile(File sourceFile) async {
+    try {
+      final supportDir = await getApplicationSupportDirectory();
+      final file = File('${supportDir.path}/sync_template.anki2');
+      if (file.existsSync()) {
+        file.deleteSync();
+      }
+      await sourceFile.copy(file.path);
+    } catch (_) {}
+  }
+
   /// Exports local collection and review logs to a valid SQLite collection.anki2 binary.
   Future<Uint8List> exportToAnki2Db() async {
     final supportDir = await getApplicationSupportDirectory();

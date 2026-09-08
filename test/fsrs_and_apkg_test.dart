@@ -57,7 +57,7 @@ void main() {
   });
 
   group('APKG Importer Service Tests', () {
-    test('Correctly decodes synthetic .apkg archive and extracts decks & cards', () {
+    test('Correctly decodes synthetic .apkg archive and extracts decks & cards', () async {
       final sampleDecksJson = jsonEncode({
         "1": {"id": 1, "name": "Default", "desc": ""},
         "1600000000000": {"id": 1600000000000, "name": "English::IELTS Prep", "desc": "Gói từ vựng IELTS"}
@@ -110,7 +110,7 @@ void main() {
 
       final apkgBytes = Uint8List.fromList(ZipEncoder().encode(archive));
 
-      // 3. Test importer
+      // 3. Test importer via bytes
       final importer = ApkgImporterService();
       final result = importer.importApkgBytes(apkgBytes);
 
@@ -123,6 +123,21 @@ void main() {
       expect(result.cards.last.stability, equals(0.0));
       expect(result.cards.last.noteType, equals(NoteType.cloze));
       expect(result.mediaCount, equals(1));
+
+      // 4. Test importer via file path (streaming)
+      final tempApkgFile = io.File('${io.Directory.systemTemp.path}/test_package.apkg');
+      tempApkgFile.writeAsBytesSync(apkgBytes);
+      try {
+        final pathResult = await importer.importApkgPath(tempApkgFile.path);
+        expect(pathResult.decks.length, equals(1));
+        expect(pathResult.decks.first.title, equals('English::IELTS Prep'));
+        expect(pathResult.cards.length, equals(2));
+        expect(pathResult.mediaCount, equals(1));
+      } finally {
+        if (tempApkgFile.existsSync()) {
+          tempApkgFile.deleteSync();
+        }
+      }
     });
 
     test('formatInterval formats minutes, hours, days without l10n', () {

@@ -24,6 +24,102 @@ class ApkgImportResult {
 
 /// Service to parse Anki .apkg export packages (ZIP archive containing collection.anki2 + media).
 class ApkgImporterService {
+  /// Parses .apkg archive directly from a file path using streaming decompression,
+  /// avoiding loading large packages or media assets into RAM.
+  Future<ApkgImportResult> importApkgPath(
+    String filePath, {
+    String? defaultDeckDescription,
+  }) async {
+    final file = File(filePath);
+    if (!file.existsSync()) {
+      throw const FormatException('File not found');
+    }
+
+    // Check if raw SQLite database directly
+    final sampleBytes = await file.openRead(0, 16).first;
+    if (sampleBytes.length >= 16 &&
+        utf8.decode(sampleBytes.sublist(0, 15), allowMalformed: true) == 'SQLite format 3') {
+      await DatabaseService.instance.saveSyncTemplateFile(file);
+      final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
+      final tempDbFile = File('${tempDir.path}/collection.anki2');
+      await file.copy(tempDbFile.path);
+      return _parseWithExistingDbFile(
+        tempDbFile,
+        tempDir,
+        0,
+        defaultDeckDescription: defaultDeckDescription,
+      );
+    }
+
+    final inputStream = InputFileStream(filePath);
+    final archive = ZipDecoder().decodeStream(inputStream);
+
+    ArchiveFile? colFile;
+    ArchiveFile? mediaFile;
+    final archiveFilesMap = <String, ArchiveFile>{};
+
+    for (final f in archive) {
+      archiveFilesMap[f.name] = f;
+      if (f.name == 'collection.anki2' || f.name == 'collection.anki21') {
+        colFile = f;
+      } else if (f.name == 'media') {
+        mediaFile = f;
+      }
+    }
+
+    int mediaCount = 0;
+    if (mediaFile != null) {
+      try {
+        final content = utf8.decode(mediaFile.content as List<int>);
+        final mediaMap = jsonDecode(content) as Map<String, dynamic>;
+        mediaCount = mediaMap.length;
+
+        // Extract and stream media assets directly to disk without storing in heap
+        for (final entry in mediaMap.entries) {
+          final archiveIndex = entry.key;
+          final targetFilename = entry.value as String;
+          final af = archiveFilesMap[archiveIndex];
+          if (af != null) {
+            final targetPath = MediaStorageService.instance.getMediaFilePath(targetFilename);
+            final output = OutputFileStream(targetPath);
+            try {
+              af.writeContent(output);
+            } finally {
+              await output.close();
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
+    if (colFile == null) {
+      await inputStream.close();
+      await archive.clear();
+      throw const FormatException('Invalid .apkg package: collection.anki2 not found');
+    }
+
+    final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
+    final tempDbFile = File('${tempDir.path}/collection.anki2');
+    final dbOutput = OutputFileStream(tempDbFile.path);
+    try {
+      colFile.writeContent(dbOutput);
+    } finally {
+      await dbOutput.close();
+    }
+
+    await inputStream.close();
+    await archive.clear();
+
+    await DatabaseService.instance.saveSyncTemplateFile(tempDbFile);
+
+    return _parseWithExistingDbFile(
+      tempDbFile,
+      tempDir,
+      mediaCount,
+      defaultDeckDescription: defaultDeckDescription,
+    );
+  }
+
   /// Parses .apkg binary bytes into Flanki DeckModels and CardModels.
   ApkgImportResult importApkgBytes(
     Uint8List apkgBytes, {
@@ -98,7 +194,20 @@ class ApkgImporterService {
     final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
     final tempDbFile = File('${tempDir.path}/collection.anki2');
     tempDbFile.writeAsBytesSync(dbBytes);
+    return _parseWithExistingDbFile(
+      tempDbFile,
+      tempDir,
+      mediaCount,
+      defaultDeckDescription: defaultDeckDescription,
+    );
+  }
 
+  ApkgImportResult _parseWithExistingDbFile(
+    File tempDbFile,
+    Directory tempDir,
+    int mediaCount, {
+    String? defaultDeckDescription,
+  }) {
     final db = sqlite3.open(tempDbFile.path);
 
     try {
