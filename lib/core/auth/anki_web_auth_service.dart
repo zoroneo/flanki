@@ -126,7 +126,7 @@ class AnkiWebAuthService {
       }
     } on http.ClientException catch (e) {
       return AnkiWebAuthResult.fail(
-        l10n.authNetworkError(e.message),
+        e.message,
         errorCode: AuthErrorCode.networkError,
       );
     } catch (e) {

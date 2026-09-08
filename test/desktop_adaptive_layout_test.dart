@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,7 +13,7 @@ void main() {
   setUp(() async {
     tempDir = Directory.systemTemp.createTempSync('flanki_desktop_layout_test_');
     await DatabaseService.instance.init(
-      customPath: '/test_desktop.db',
+      customPath: '${tempDir.path}/test_desktop.db',
     );
   });
 

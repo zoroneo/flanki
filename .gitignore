@@ -47,8 +47,9 @@ coverage/
 .pub/
 /build/
 
-# FVM
-
+# FVM (Flutter Version Management)
+.fvm/*
+!.fvm/fvm_config.json
 # Android Studio
 .gradle/
 **/android/**/gradle-wrapper.jar
@@ -89,8 +90,11 @@ coverage/
 **/ios/Flutter/app.zip
 **/ios/Flutter/flutter_assets/
 **/ios/Flutter/flutter_export_environment.sh
-**/macos/Flutter/ephemeral
-**/macos/Pods
+**/macos/Flutter/ephemeral/
+**/macos/Pods/
+**/macos/**/DerivedData/
+**/macos/**/xcuserdata/
+**/macos/**/.symlinks/
 
 # Windows / Linux
 **/windows/flutter/ephemeral
@@ -109,9 +113,6 @@ native/**/target/
 .env
 .env.*
 !.env.example
-
-# FVM Version Cache
-.fvm/flutter_sdk
 
 # Desktop Release & Packaging outputs
 flanki-*.zip
@@ -133,3 +134,7 @@ ehthumbs.db
 [Dd]esktop.ini
 *.user
 *.suo
+# Obsidian Vault Personal State
+**/.obsidian/workspace*.json
+**/.obsidian/cache/
+**/.obsidian/graph.json

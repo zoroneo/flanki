@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/config/app_config.dart';
@@ -416,7 +415,8 @@ class _LicenseCodeBlock extends StatelessWidget {
           const SizedBox(height: 4),
           SelectableText(
             licenseText,
-            style: GoogleFonts.jetBrainsMono(
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
               fontSize: 11,
               height: 1.45,
               color: theme.colorScheme.foreground.withValues(alpha: 0.88),

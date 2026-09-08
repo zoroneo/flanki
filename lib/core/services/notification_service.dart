@@ -105,27 +105,46 @@ class NotificationService {
   Future<bool> requestPermissions() async {
     if (kIsWeb) return false;
 
-    if (Platform.isAndroid) {
-      final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-      final grantedNotif = await android?.requestNotificationsPermission() ?? false;
-      await android?.requestExactAlarmsPermission();
-      return grantedNotif;
-    } else if (Platform.isIOS) {
-      final ios = _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
-      final granted = await ios?.requestPermissions(alert: true, badge: true, sound: true);
-      return granted ?? false;
-    } else if (Platform.isMacOS) {
-      final macos = _plugin.resolvePlatformSpecificImplementation<MacOSFlutterLocalNotificationsPlugin>();
-      final granted = await macos?.requestPermissions(alert: true, badge: true, sound: true);
-      return granted ?? false;
+    try {
+      if (Platform.isAndroid) {
+        final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+        final grantedNotif = await android?.requestNotificationsPermission() ?? false;
+        await android?.requestExactAlarmsPermission();
+        return grantedNotif;
+      } else if (Platform.isIOS) {
+        final ios = _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+        final granted = await ios?.requestPermissions(alert: true, badge: true, sound: true);
+        return granted ?? false;
+      } else if (Platform.isMacOS) {
+        final macos = _plugin.resolvePlatformSpecificImplementation<MacOSFlutterLocalNotificationsPlugin>();
+        final granted = await macos?.requestPermissions(alert: true, badge: true, sound: true);
+        return granted ?? false;
+      }
+    } catch (_) {
+      return false;
     }
     return true;
   }
 
+  tz.Location get _safeLocation {
+    try {
+      return tz.local;
+    } catch (_) {
+      try {
+        tz_data.initializeTimeZones();
+        tz.setLocalLocation(tz.getLocation('UTC'));
+        return tz.local;
+      } catch (_) {
+        return tz.UTC;
+      }
+    }
+  }
+
   /// Calculates the next TZDateTime for the given hour & minute
   tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+    final location = _safeLocation;
+    final tz.TZDateTime now = tz.TZDateTime.now(location);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(location, now.year, now.month, now.day, hour, minute);
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
@@ -171,16 +190,20 @@ class NotificationService {
       windows: const WindowsNotificationDetails(),
     );
 
-    await _plugin.zonedSchedule(
-      id: dailyReminderId,
-      title: title,
-      body: body,
-      scheduledDate: scheduledTime,
-      notificationDetails: details,
-      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-      matchDateTimeComponents: DateTimeComponents.time,
-      payload: '/decks',
-    );
+    try {
+      await _plugin.zonedSchedule(
+        id: dailyReminderId,
+        title: title,
+        body: body,
+        scheduledDate: scheduledTime,
+        notificationDetails: details,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload: '/decks',
+      );
+    } catch (e) {
+      debugPrint('[NotificationService] scheduleDailyReminder error: $e');
+    }
   }
 
   /// Duolingo Streak Saver (Tier 2: Urgent notification before midnight)
@@ -227,16 +250,20 @@ class NotificationService {
       windows: const WindowsNotificationDetails(),
     );
 
-    await _plugin.zonedSchedule(
-      id: streakSaverId,
-      title: title,
-      body: body,
-      scheduledDate: scheduledTime,
-      notificationDetails: details,
-      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-      matchDateTimeComponents: DateTimeComponents.time,
-      payload: '/decks',
-    );
+    try {
+      await _plugin.zonedSchedule(
+        id: streakSaverId,
+        title: title,
+        body: body,
+        scheduledDate: scheduledTime,
+        notificationDetails: details,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload: '/decks',
+      );
+    } catch (e) {
+      debugPrint('[NotificationService] scheduleStreakSaver error: $e');
+    }
   }
 
   /// Called when user completes a study session today.

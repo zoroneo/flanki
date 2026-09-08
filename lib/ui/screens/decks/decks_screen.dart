@@ -608,19 +608,31 @@ class DecksScreen extends HookConsumerWidget {
                           PrimaryButton(
                             leading: const Icon(LucideIcons.plus, size: 16),
                             onPressed: openCreateDeckModal,
-                            child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
+                            child: Text(
+                              l10n.addNewDeck,
+                              maxLines: 1,
+                              softWrap: false,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           OutlineButton(
                             leading: const Icon(LucideIcons.fileUp, size: 16),
                             onPressed: handleApkgImport,
-                            child: Text(l10n.importApkg, maxLines: 1, softWrap: false),
+                            child: Text(
+                              l10n.importApkg,
+                              maxLines: 1,
+                              softWrap: false,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           GhostButton(
                             leading: const Icon(LucideIcons.zap, size: 16),
                             onPressed: openCramModal,
-                            child: Text(l10n.customStudy, maxLines: 1, softWrap: false),
+                            child: Text(
+                              l10n.customStudy,
+                              maxLines: 1,
+                              softWrap: false,
+                            ),
                           ),
                         ],
                       ],
@@ -663,7 +675,11 @@ class DecksScreen extends HookConsumerWidget {
                         PrimaryButton(
                           onPressed: openCreateDeckModal,
                           leading: const Icon(LucideIcons.plus, size: 16),
-                          child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
+                          child: Text(
+                            l10n.addNewDeck,
+                            maxLines: 1,
+                            softWrap: false,
+                          ),
                         ),
                       ],
                     ),

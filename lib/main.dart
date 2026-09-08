@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -85,21 +84,21 @@ class FlankiApp extends ConsumerWidget {
     final currentLocale = ref.watch(localeNotifierProvider);
     final themeMode = ref.watch(themeNotifierProvider);
 
-    final baseTextStyle = GoogleFonts.beVietnamPro(
-      textStyle: const TextStyle(
-        height: 1.35,
-        leadingDistribution: TextLeadingDistribution.even,
-      ),
+    final baseTextStyle = const TextStyle(
+      fontFamily: 'BeVietnamPro',
+      height: 1.35,
+      leadingDistribution: TextLeadingDistribution.even,
+    );
+
+    final monoTextStyle = const TextStyle(
+      fontFamily: 'JetBrainsMono',
+      height: 1.35,
+      leadingDistribution: TextLeadingDistribution.even,
     );
 
     final typography = const Typography.geist().copyWith(
       sans: () => baseTextStyle,
-      mono: () => GoogleFonts.jetBrainsMono(
-        textStyle: const TextStyle(
-          height: 1.35,
-          leadingDistribution: TextLeadingDistribution.even,
-        ),
-      ),
+      mono: () => monoTextStyle,
       xSmall: () => baseTextStyle.copyWith(fontSize: 12),
       small: () => baseTextStyle.copyWith(fontSize: 14),
       base: () => baseTextStyle.copyWith(fontSize: 16),

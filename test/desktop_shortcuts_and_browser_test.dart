@@ -14,7 +14,7 @@ void main() {
   setUp(() async {
     tempDir = Directory.systemTemp.createTempSync('flanki_desktop_nav_test_');
     await DatabaseService.instance.init(
-      customPath: '/test_browser.db',
+      customPath: '${tempDir.path}/test_browser.db',
     );
     await DatabaseService.instance.saveDeck(const DeckModel(
       id: 'deck_desktop_1',
