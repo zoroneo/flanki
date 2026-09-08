@@ -109,50 +109,53 @@ class CardBrowserScreen extends HookConsumerWidget {
                       // Desktop Search Bar
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: searchController,
-                                placeholder: Text(l10n.searchCardsPlaceholder),
-                                onChanged: (val) =>
-                                    browserNotifier.setSearchQuery(val),
-                                features: [
-                                  InputFeature.leading(
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 4, right: 6),
-                                      child: Icon(
-                                        LucideIcons.search,
-                                        size: 16,
-                                        color:
-                                            theme.colorScheme.mutedForeground,
+                        child: SizedBox(
+                          height: 38,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: searchController,
+                                  placeholder: Text(l10n.searchCardsPlaceholder),
+                                  onChanged: (val) =>
+                                      browserNotifier.setSearchQuery(val),
+                                  features: [
+                                    InputFeature.leading(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 4, right: 6),
+                                        child: Icon(
+                                          LucideIcons.search,
+                                          size: 16,
+                                          color:
+                                              theme.colorScheme.mutedForeground,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  if (browserState.searchQuery.isNotEmpty)
-                                    InputFeature.trailing(
-                                      IconButton.ghost(
-                                        size: ButtonSize.small,
-                                        icon:
-                                            const Icon(LucideIcons.x, size: 14),
-                                        onPressed: () {
-                                          searchController.clear();
-                                          browserNotifier.setSearchQuery('');
-                                        },
+                                    if (browserState.searchQuery.isNotEmpty)
+                                      InputFeature.trailing(
+                                        IconButton.ghost(
+                                          size: ButtonSize.small,
+                                          icon:
+                                              const Icon(LucideIcons.x, size: 14),
+                                          onPressed: () {
+                                            searchController.clear();
+                                            browserNotifier.setSearchQuery('');
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            PrimaryButton(
-                              size: ButtonSize.small,
-                              leading: const Icon(LucideIcons.plus, size: 16),
-                              child: Text(l10n.addCardButton),
-                              onPressed: () => context.push('/editor'),
-                            ),
-                          ],
+                              const SizedBox(width: 8),
+                              PrimaryButton(
+                                leading: const Icon(LucideIcons.plus, size: 16),
+                                child: Text(l10n.addCardButton, maxLines: 1, softWrap: false),
+                                onPressed: () => context.push('/editor'),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
 

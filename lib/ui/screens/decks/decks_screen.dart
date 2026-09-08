@@ -460,18 +460,21 @@ class DecksScreen extends HookConsumerWidget {
             // AnkiWeb sync button
             GhostButton(
               onPressed: isSyncing.value ? null : handleSyncTap,
-              size: ButtonSize.small,
               leading: isSyncing.value
-                  ? m.Center(child: CircularProgressIndicator(strokeWidth: 2))
+                  ? const SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : Icon(
-                      authState.isAuthenticated
-                          ? LucideIcons.cloud
-                          : LucideIcons.cloud,
+                      LucideIcons.cloud,
                       size: 16,
                       color: authState.isAuthenticated ? m.Colors.green : null,
                     ),
               child: Text(
                 authState.isAuthenticated ? l10n.linkedBadge : l10n.syncBadge,
+                maxLines: 1,
+                softWrap: false,
               ),
             ),
           ],
@@ -555,7 +558,7 @@ class DecksScreen extends HookConsumerWidget {
 
                   // Search Bar + Desktop Toolbar
                   SizedBox(
-                    height: 42,
+                    height: 38,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -577,24 +580,21 @@ class DecksScreen extends HookConsumerWidget {
                         if (MediaQuery.sizeOf(context).width >= 768) ...[
                           const SizedBox(width: 12),
                           PrimaryButton(
-                            alignment: Alignment.center,
-                            leading: const Center(child: Icon(LucideIcons.plus, size: 16)),
+                            leading: const Icon(LucideIcons.plus, size: 16),
                             onPressed: openCreateDeckModal,
-                            child: Center(child: Text(l10n.addNewDeck)),
+                            child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
                           ),
                           const SizedBox(width: 8),
                           OutlineButton(
-                            alignment: Alignment.center,
-                            leading: const Center(child: Icon(LucideIcons.fileUp, size: 16)),
+                            leading: const Icon(LucideIcons.fileUp, size: 16),
                             onPressed: handleApkgImport,
-                            child: Center(child: Text(l10n.importApkg)),
+                            child: Text(l10n.importApkg, maxLines: 1, softWrap: false),
                           ),
                           const SizedBox(width: 8),
                           GhostButton(
-                            alignment: Alignment.center,
-                            leading: const Center(child: Icon(LucideIcons.zap, size: 16)),
+                            leading: const Icon(LucideIcons.zap, size: 16),
                             onPressed: openCramModal,
-                            child: Center(child: Text(l10n.customStudy)),
+                            child: Text(l10n.customStudy, maxLines: 1, softWrap: false),
                           ),
                         ],
                       ],
@@ -635,10 +635,9 @@ class DecksScreen extends HookConsumerWidget {
                         ),
                         const SizedBox(height: 16),
                         PrimaryButton(
-                          alignment: Alignment.center,
                           onPressed: openCreateDeckModal,
-                          leading: const Center(child: Icon(LucideIcons.plus, size: 16)),
-                          child: Center(child: Text(l10n.addNewDeck)),
+                          leading: const Icon(LucideIcons.plus, size: 16),
+                          child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
                         ),
                       ],
                     ),
