@@ -1,8 +1,8 @@
 /// Centralized application configuration and metadata.
 class AppConfig {
   static const String appName = 'Flanki';
-  static const String defaultVersion = '1.0.6';
-  static const int defaultBuildNumber = 7;
+  static const String defaultVersion = '1.0.7';
+  static const int defaultBuildNumber = 8;
 
   static String _version = defaultVersion;
   static int _buildNumber = defaultBuildNumber;
