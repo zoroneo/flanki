@@ -36,8 +36,8 @@ void main() {
       expect(AppConfig.fullVersion, equals('2.0.0+99'));
 
       AppConfig.resetVersion();
-      expect(AppConfig.version, equals('1.0.5'));
-      expect(AppConfig.buildNumber, equals(6));
+      expect(AppConfig.version, equals(AppConfig.defaultVersion));
+      expect(AppConfig.buildNumber, equals(AppConfig.defaultBuildNumber));
     });
   });
 

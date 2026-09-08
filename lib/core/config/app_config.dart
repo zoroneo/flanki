@@ -1,13 +1,16 @@
 /// Centralized application configuration and metadata.
 class AppConfig {
   static const String appName = 'Flanki';
-  static String _version = '1.0.5';
-  static int _buildNumber = 6;
+  static const String defaultVersion = '1.0.6';
+  static const int defaultBuildNumber = 7;
+
+  static String _version = defaultVersion;
+  static int _buildNumber = defaultBuildNumber;
 
   static String get version => _version;
   static int get buildNumber => _buildNumber;
 
-  /// Full version string (e.g. "1.0.5+6")
+  /// Full version string (e.g. "1.0.6+7")
   static String get fullVersion => '$version+$buildNumber';
 
   /// Allows updating runtime version from platform package metadata
@@ -23,8 +26,8 @@ class AppConfig {
 
   /// Resets version to defaults (useful for testing)
   static void resetVersion() {
-    _version = '1.0.5';
-    _buildNumber = 6;
+    _version = defaultVersion;
+    _buildNumber = defaultBuildNumber;
   }
 
   /// GitHub repository metadata for desktop update checks

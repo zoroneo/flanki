@@ -149,12 +149,12 @@ void main(List<String> args) async {
   if (appConfigFile.existsSync()) {
     var configContent = appConfigFile.readAsStringSync();
     configContent = configContent.replaceFirst(
-      RegExp(r"static const String version = '[^']+';"),
-      "static const String version = '$newSemver';",
+      RegExp(r"static const String defaultVersion = '[^']+';"),
+      "static const String defaultVersion = '$newSemver';",
     );
     configContent = configContent.replaceFirst(
-      RegExp(r"static const int buildNumber = \d+;"),
-      "static const int buildNumber = $newBuildNumber;",
+      RegExp(r"static const int defaultBuildNumber = \d+;"),
+      "static const int defaultBuildNumber = $newBuildNumber;",
     );
     appConfigFile.writeAsStringSync(configContent);
     print('  ✔ Updated lib/core/config/app_config.dart');
