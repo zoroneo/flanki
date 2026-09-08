@@ -141,20 +141,23 @@ jobs:
         run: flutter pub get
 
       - name: Configure Android Signing Keystore
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          python3 -c "import base64, os; open('android/app/upload-keystore.jks', 'wb').write(base64.b64decode(os.environ['ANDROID_KEYSTORE_BASE64'].strip()))"
-          cat <<EOF > android/key.properties
-          storePassword=$ANDROID_KEYSTORE_PASSWORD
-          keyPassword=$ANDROID_KEY_PASSWORD
-          keyAlias=$ANDROID_KEY_ALIAS
-          storeFile=upload-keystore.jks
-          EOF
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
+            python3 -c "import base64, os; open('android/app/upload-keystore.jks', 'wb').write(base64.b64decode(os.environ['ANDROID_KEYSTORE_BASE64'].strip()))"
+            cat <<EOF > android/key.properties
+            storePassword=$ANDROID_KEYSTORE_PASSWORD
+            keyPassword=$ANDROID_KEY_PASSWORD
+            keyAlias=$ANDROID_KEY_ALIAS
+            storeFile=upload-keystore.jks
+            EOF
+          else
+            echo "::notice::No Android keystore secret found. Building with debug signing fallback."
+          fi
 
       - name: Build Android Release APK
         run: flutter build apk --release
