@@ -14,11 +14,7 @@ import '../../../core/notifiers/card_browser_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/notifiers/stats_notifier.dart';
-import '../../../core/storage/database_service.dart';
-import '../../../core/sync/anki_web_sync_service.dart';
-import '../../widgets/sync_conflict_dialog.dart';
-import '../../widgets/sync_progress_toast.dart';
-import '../auth/anki_web_auth_sheet.dart';
+import '../../widgets/sync_flow_coordinator.dart';
 import 'widgets/create_deck_modal.dart';
 import 'widgets/custom_study_modal.dart';
 
@@ -87,142 +83,12 @@ class DecksScreen extends HookConsumerWidget {
     final totalNew = decks.fold<int>(0, (sum, d) => sum + d.newCount);
 
     Future<void> handleSyncTap() async {
-      if (!authState.isAuthenticated || authState.hostKey == null) {
-        final loggedIn = await AnkiWebAuthSheet.show(context);
-        if (loggedIn != true) return;
-      }
-
-      isSyncing.value = true;
-      final syncService = AnkiWebSyncService(
-        messages: SyncProgressMessages.fromL10n(l10n),
+      await SyncFlowCoordinator.runSyncFlow(
+        context: context,
+        ref: ref,
+        l10n: l10n,
+        isSyncing: isSyncing,
       );
-
-      final lastSyncTime = authState.lastSyncedAt;
-      final hasLocalChanges = DatabaseService.instance.hasLocalChangesSince(
-        lastSyncTime,
-      );
-
-      final check = await syncService.checkSyncStatus(
-        hostKey: authState.hostKey!,
-        lastSyncTime: lastSyncTime,
-        hasLocalChanges: hasLocalChanges,
-      );
-
-      SyncConflictChoice? choice;
-      if (check.action == SyncActionRequired.conflict) {
-        if (!context.mounted) {
-          isSyncing.value = false;
-          return;
-        }
-        choice = await SyncConflictDialog.show(
-          context,
-          localLastSync: check.localLastSync,
-          serverMod: check.serverMod,
-        );
-        if (choice == null) {
-          isSyncing.value = false;
-          return;
-        }
-      }
-
-      final shouldUpload =
-          choice == SyncConflictChoice.upload ||
-          (choice == null && check.action == SyncActionRequired.upload);
-
-      final statusNotifier = ValueNotifier<SyncProgressStatus>(
-        SyncProgressStatus(
-          title: l10n.syncAnkiWeb,
-          message: shouldUpload
-              ? l10n.preparingUpload
-              : l10n.connectingToAnkiWeb,
-          progress: 0.05,
-        ),
-      );
-
-      ToastOverlay? toastOverlay;
-      if (context.mounted) {
-        toastOverlay = SyncProgressToast.show(
-          context: context,
-          statusNotifier: statusNotifier,
-        );
-      }
-
-      try {
-        final AnkiWebSyncResult syncResult;
-        if (shouldUpload) {
-          final dbBytes = await DatabaseService.instance.exportToAnki2Db();
-          syncResult = await syncService.uploadCollection(
-            hostKey: authState.hostKey!,
-            dbBytes: dbBytes,
-            onProgress: (stage, progress) {
-              statusNotifier.value = SyncProgressStatus(
-                title: l10n.syncAnkiWeb,
-                message: stage,
-                progress: progress,
-              );
-            },
-          );
-        } else {
-          syncResult = await syncService.syncCollection(
-            hostKey: authState.hostKey!,
-            onProgress: (stage, progress) {
-              statusNotifier.value = SyncProgressStatus(
-                title: l10n.syncAnkiWeb,
-                message: stage,
-                progress: progress,
-              );
-            },
-          );
-        }
-
-        if (context.mounted) {
-          if (syncResult.success) {
-            ref.read(authNotifierProvider.notifier).recordSyncSuccess();
-
-            if (syncResult.decks.isNotEmpty) {
-              await deckNotifier.addDecks(syncResult.decks);
-            }
-            if (syncResult.cards.isNotEmpty) {
-              await ref
-                  .read(cardBrowserProvider.notifier)
-                  .addCards(syncResult.cards);
-            }
-            await deckNotifier.refresh();
-
-            statusNotifier.value = SyncProgressStatus(
-              title: l10n.syncCompleted,
-              message: syncResult.message,
-              progress: 1.0,
-              isCompleted: true,
-            );
-            Future.delayed(const Duration(seconds: 4), () {
-              toastOverlay?.close();
-            });
-          } else {
-            statusNotifier.value = SyncProgressStatus(
-              title: l10n.syncFailed,
-              message: syncResult.message,
-              progress: 1.0,
-              isError: true,
-            );
-            Future.delayed(const Duration(seconds: 5), () {
-              toastOverlay?.close();
-            });
-          }
-        }
-      } catch (e) {
-        statusNotifier.value = SyncProgressStatus(
-          title: l10n.syncError,
-          message: e.toString(),
-          progress: 1.0,
-          isError: true,
-        );
-        Future.delayed(const Duration(seconds: 5), () {
-          toastOverlay?.close();
-        });
-      } finally {
-        isSyncing.value = false;
-      }
     }
 
     Future<void> handleApkgImport() async {
@@ -368,44 +234,35 @@ class DecksScreen extends HookConsumerWidget {
     }
 
     void openCramModal() {
-      m.showModalBottomSheet(
-        context: context,
-        useRootNavigator: false,
-        backgroundColor: m.Colors.transparent,
-        isScrollControlled: true,
-        builder: (ctx) {
-          return m.Material(
-            type: m.MaterialType.transparency,
-            child: CustomStudyModal(
-              onStartCram: (name, tag, limit, mode) {
-                deckNotifier.createCramDeck(
-                  name: name,
-                  filterTag: tag,
-                  cardLimit: limit,
-                  mode: mode,
-                  description: l10n.cramDeckDefaultDesc,
-                );
-                showToast(
-                  context: context,
-                  builder: (context, overlay) {
-                    return SurfaceCard(
-                      child: Basic(
-                        title: Text(l10n.cramDeckCreated),
-                        subtitle: Text(l10n.cramDeckCreatedDesc(limit, tag)),
-                        leading: const Icon(
-                          LucideIcons.zap,
-                          color: m.Colors.amber,
-                        ),
-                        trailing: IconButton.ghost(
-                          icon: const Icon(LucideIcons.x),
-                          onPressed: () => overlay.close(),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+      CustomStudyModal.show(
+        context,
+        onStartCram: (name, tag, limit, mode) {
+          final customTitle = tag.isNotEmpty
+              ? l10n.cramDeckTitleWithTag(name, tag)
+              : l10n.cramDeckTitlePrefix(name);
+          deckNotifier.createCramDeck(
+            name: name,
+            filterTag: tag,
+            cardLimit: limit,
+            mode: mode,
+            title: customTitle,
+            description: l10n.cramDeckDefaultDesc,
+          );
+          showToast(
+            context: context,
+            builder: (context, overlay) {
+              return SurfaceCard(
+                child: Basic(
+                  title: Text(l10n.cramDeckCreated),
+                  subtitle: Text(l10n.cramDeckCreatedDesc(limit, tag)),
+                  leading: const Icon(LucideIcons.zap, color: m.Colors.amber),
+                  trailing: IconButton.ghost(
+                    icon: const Icon(LucideIcons.x),
+                    onPressed: () => overlay.close(),
+                  ),
+                ),
+              );
+            },
           );
         },
       );
@@ -580,61 +437,108 @@ class DecksScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 16),
 
-                  // Search Bar + Desktop Toolbar
-                  SizedBox(
-                    height: 38,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            features: [
-                              InputFeature.leading(
-                                Icon(
-                                  LucideIcons.search,
-                                  size: 18,
-                                  color: theme.colorScheme.mutedForeground,
+                  // Search Bar + Desktop Toolbar (Responsive Layout)
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final availableWidth = constraints.maxWidth;
+                      final isCompactToolbar = availableWidth < 680;
+                      final isUltraCompact = availableWidth < 520;
+
+                      return SizedBox(
+                        height: 38,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                features: [
+                                  InputFeature.leading(
+                                    Icon(
+                                      LucideIcons.search,
+                                      size: 18,
+                                      color: theme.colorScheme.mutedForeground,
+                                    ),
+                                  ),
+                                ],
+                                placeholder: Text(l10n.searchDecks),
+                                onChanged: (val) => searchQuery.value = val,
+                              ),
+                            ),
+                            if (MediaQuery.sizeOf(context).width >= 768) ...[
+                              const SizedBox(width: 12),
+                              PrimaryButton(
+                                alignment: Alignment.center,
+                                leading: const Icon(LucideIcons.plus, size: 16),
+                                onPressed: openCreateDeckModal,
+                                child: Text(
+                                  l10n.addNewDeck,
+                                  maxLines: 1,
+                                  softWrap: false,
                                 ),
                               ),
+                              if (!isUltraCompact) ...[
+                                const SizedBox(width: 8),
+                                if (isCompactToolbar)
+                                  Tooltip(
+                                    tooltip: (context) => TooltipContainer(
+                                      child: Text(l10n.importApkg),
+                                    ),
+                                    child: IconButton.outline(
+                                      icon: const Icon(
+                                        LucideIcons.fileUp,
+                                        size: 16,
+                                      ),
+                                      onPressed: handleApkgImport,
+                                    ),
+                                  )
+                                else
+                                  OutlineButton(
+                                    alignment: Alignment.center,
+                                    leading: const Icon(
+                                      LucideIcons.fileUp,
+                                      size: 16,
+                                    ),
+                                    onPressed: handleApkgImport,
+                                    child: Text(
+                                      l10n.importApkg,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                    ),
+                                  ),
+                                const SizedBox(width: 8),
+                                if (isCompactToolbar)
+                                  Tooltip(
+                                    tooltip: (context) => TooltipContainer(
+                                      child: Text(l10n.customStudy),
+                                    ),
+                                    child: IconButton.ghost(
+                                      icon: const Icon(
+                                        LucideIcons.zap,
+                                        size: 16,
+                                      ),
+                                      onPressed: openCramModal,
+                                    ),
+                                  )
+                                else
+                                  GhostButton(
+                                    alignment: Alignment.center,
+                                    leading: const Icon(
+                                      LucideIcons.zap,
+                                      size: 16,
+                                    ),
+                                    onPressed: openCramModal,
+                                    child: Text(
+                                      l10n.customStudy,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                    ),
+                                  ),
+                              ],
                             ],
-                            placeholder: Text(l10n.searchDecks),
-                            onChanged: (val) => searchQuery.value = val,
-                          ),
+                          ],
                         ),
-                        if (MediaQuery.sizeOf(context).width >= 768) ...[
-                          const SizedBox(width: 12),
-                          PrimaryButton(
-                            leading: const Icon(LucideIcons.plus, size: 16),
-                            onPressed: openCreateDeckModal,
-                            child: Text(
-                              l10n.addNewDeck,
-                              maxLines: 1,
-                              softWrap: false,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          OutlineButton(
-                            leading: const Icon(LucideIcons.fileUp, size: 16),
-                            onPressed: handleApkgImport,
-                            child: Text(
-                              l10n.importApkg,
-                              maxLines: 1,
-                              softWrap: false,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          GhostButton(
-                            leading: const Icon(LucideIcons.zap, size: 16),
-                            onPressed: openCramModal,
-                            child: Text(
-                              l10n.customStudy,
-                              maxLines: 1,
-                              softWrap: false,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 20),
 
@@ -671,6 +575,7 @@ class DecksScreen extends HookConsumerWidget {
                             ),
                             const SizedBox(height: 16),
                             PrimaryButton(
+                              alignment: Alignment.center,
                               onPressed: openCreateDeckModal,
                               leading: const Icon(LucideIcons.plus, size: 16),
                               child: Text(

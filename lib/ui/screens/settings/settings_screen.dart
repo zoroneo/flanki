@@ -8,17 +8,12 @@ import '../../../core/anki_bridge.dart';
 import '../../../core/auth/auth_notifier.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/localization/locale_notifier.dart';
-import '../../../core/notifiers/card_browser_notifier.dart';
-import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/notifiers/update_notifier.dart';
 import '../../../core/services/desktop_update_service.dart';
 import '../../../core/services/desktop_window_service.dart';
-import '../../../core/storage/database_service.dart';
-import '../../../core/sync/anki_web_sync_service.dart';
 import '../../../core/theme/theme_notifier.dart';
-import '../../widgets/sync_conflict_dialog.dart';
-import '../../widgets/sync_progress_toast.dart';
+import '../../widgets/sync_flow_coordinator.dart';
 import '../../widgets/update_dialog.dart';
 import '../auth/anki_web_auth_sheet.dart';
 
@@ -48,144 +43,12 @@ class SettingsScreen extends HookConsumerWidget {
     final isSyncing = useState(false);
 
     Future<void> handleSync() async {
-      if (!authState.isAuthenticated || authState.hostKey == null) {
-        final loggedIn = await AnkiWebAuthSheet.show(context);
-        if (loggedIn != true) return;
-      }
-
-      isSyncing.value = true;
-      final syncService = AnkiWebSyncService(
-        messages: SyncProgressMessages.fromL10n(l10n),
+      await SyncFlowCoordinator.runSyncFlow(
+        context: context,
+        ref: ref,
+        l10n: l10n,
+        isSyncing: isSyncing,
       );
-
-      // 1. Check local changes against last sync timestamp
-      final lastSyncTime = authState.lastSyncedAt;
-      final hasLocalChanges = DatabaseService.instance.hasLocalChangesSince(
-        lastSyncTime,
-      );
-
-      final check = await syncService.checkSyncStatus(
-        hostKey: authState.hostKey!,
-        lastSyncTime: lastSyncTime,
-        hasLocalChanges: hasLocalChanges,
-      );
-
-      SyncConflictChoice? choice;
-      if (check.action == SyncActionRequired.conflict) {
-        if (!context.mounted) {
-          isSyncing.value = false;
-          return;
-        }
-        choice = await SyncConflictDialog.show(
-          context,
-          localLastSync: check.localLastSync,
-          serverMod: check.serverMod,
-        );
-        if (choice == null) {
-          isSyncing.value = false;
-          return;
-        }
-      }
-
-      final shouldUpload =
-          choice == SyncConflictChoice.upload ||
-          (choice == null && check.action == SyncActionRequired.upload);
-
-      final statusNotifier = ValueNotifier<SyncProgressStatus>(
-        SyncProgressStatus(
-          title: l10n.syncAnkiWeb,
-          message: shouldUpload
-              ? l10n.preparingUpload
-              : l10n.connectingToAnkiWeb,
-          progress: 0.05,
-        ),
-      );
-
-      ToastOverlay? toastOverlay;
-      if (context.mounted) {
-        toastOverlay = SyncProgressToast.show(
-          context: context,
-          statusNotifier: statusNotifier,
-        );
-      }
-
-      try {
-        final AnkiWebSyncResult syncResult;
-        if (shouldUpload) {
-          final dbBytes = await DatabaseService.instance.exportToAnki2Db();
-          syncResult = await syncService.uploadCollection(
-            hostKey: authState.hostKey!,
-            dbBytes: dbBytes,
-            onProgress: (stage, progress) {
-              statusNotifier.value = SyncProgressStatus(
-                title: l10n.syncAnkiWeb,
-                message: stage,
-                progress: progress,
-              );
-            },
-          );
-        } else {
-          syncResult = await syncService.syncCollection(
-            hostKey: authState.hostKey!,
-            onProgress: (stage, progress) {
-              statusNotifier.value = SyncProgressStatus(
-                title: l10n.syncAnkiWeb,
-                message: stage,
-                progress: progress,
-              );
-            },
-          );
-        }
-
-        if (!context.mounted) return;
-
-        if (syncResult.success) {
-          ref.read(authNotifierProvider.notifier).recordSyncSuccess();
-          if (syncResult.decks.isNotEmpty) {
-            await ref
-                .read(deckListProvider.notifier)
-                .addDecks(syncResult.decks);
-          }
-          if (syncResult.cards.isNotEmpty) {
-            await ref
-                .read(cardBrowserProvider.notifier)
-                .addCards(syncResult.cards);
-          }
-          await ref.read(deckListProvider.notifier).refresh();
-
-          statusNotifier.value = SyncProgressStatus(
-            title: l10n.syncCompleted,
-            message: syncResult.message,
-            progress: 1.0,
-            isCompleted: true,
-          );
-          Future.delayed(const Duration(seconds: 4), () {
-            toastOverlay?.close();
-          });
-        } else {
-          statusNotifier.value = SyncProgressStatus(
-            title: l10n.syncFailed,
-            message: syncResult.message,
-            progress: 1.0,
-            isError: true,
-          );
-          Future.delayed(const Duration(seconds: 5), () {
-            toastOverlay?.close();
-          });
-        }
-      } catch (e) {
-        statusNotifier.value = SyncProgressStatus(
-          title: l10n.syncError,
-          message: e.toString(),
-          progress: 1.0,
-          isError: true,
-        );
-        Future.delayed(const Duration(seconds: 5), () {
-          toastOverlay?.close();
-        });
-      } finally {
-        isSyncing.value = false;
-      }
     }
 
     return Scaffold(

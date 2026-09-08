@@ -11,21 +11,21 @@ import '../../../core/localization/locale_notifier.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
 /// Ultra-streamlined minimalist AnkiWeb authentication modal bottom sheet.
-class AnkiWebAuthSheet extends HookConsumerWidget {
-  const AnkiWebAuthSheet({super.key});
+import '../../widgets/adaptive_modal.dart';
 
-  /// Displays the AnkiWeb authentication bottom sheet.
+class AnkiWebAuthSheet extends HookConsumerWidget {
+  final bool isDesktop;
+
+  const AnkiWebAuthSheet({super.key, this.isDesktop = false});
+
+  /// Displays the AnkiWeb authentication sheet/dialog adaptively.
   /// Returns `true` if login was successful.
   static Future<bool?> show(BuildContext context) {
-    return m.showModalBottomSheet<bool>(
+    return showAdaptiveModal<bool>(
       context: context,
       useRootNavigator: true,
-      backgroundColor: m.Colors.transparent,
-      isScrollControlled: true,
-      builder: (ctx) => const m.Material(
-        type: m.MaterialType.transparency,
-        child: AnkiWebAuthSheet(),
-      ),
+      desktopMaxWidth: 440,
+      builder: (ctx, isDesktop) => AnkiWebAuthSheet(isDesktop: isDesktop),
     );
   }
 
@@ -38,6 +38,8 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
 
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
+    final emailFocusNode = useFocusNode();
+    final passwordFocusNode = useFocusNode();
     final obscurePassword = useState(true);
 
     // Clear stale auth error on modal open and close
@@ -46,7 +48,9 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
         authNotifier.clearError();
       });
       return () {
-        authNotifier.clearError();
+        Future.microtask(() {
+          authNotifier.clearError();
+        });
       };
     }, const []);
 
@@ -119,6 +123,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
     }
 
     final viewInsets = MediaQuery.of(context).viewInsets;
+    final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
 
     return AnimatedPadding(
       padding: EdgeInsets.only(bottom: viewInsets.bottom),
@@ -127,44 +132,53 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.background,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          border: Border(
-            top: BorderSide(color: theme.colorScheme.border, width: 1),
-            left: BorderSide(color: theme.colorScheme.border, width: 1),
-            right: BorderSide(color: theme.colorScheme.border, width: 1),
-          ),
+          borderRadius: isDesktopMode
+              ? BorderRadius.circular(16)
+              : const BorderRadius.vertical(top: Radius.circular(20)),
+          border: isDesktopMode
+              ? Border.all(color: theme.colorScheme.border, width: 1)
+              : Border(
+                  top: BorderSide(color: theme.colorScheme.border, width: 1),
+                  left: BorderSide(color: theme.colorScheme.border, width: 1),
+                  right: BorderSide(color: theme.colorScheme.border, width: 1),
+                ),
           boxShadow: [
             BoxShadow(
-              color: m.Colors.black.withValues(alpha: 0.15),
-              blurRadius: 16,
-              offset: const Offset(0, -4),
+              color: m.Colors.black.withValues(
+                alpha: isDesktopMode ? 0.2 : 0.15,
+              ),
+              blurRadius: isDesktopMode ? 24 : 16,
+              offset: isDesktopMode ? const Offset(0, 8) : const Offset(0, -4),
             ),
           ],
         ),
         child: SafeArea(
           top: false,
-          bottom: true,
+          bottom: !isDesktopMode,
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Top drag grab handle
-                Center(
-                  child: Container(
-                    width: 36,
-                    height: 4,
-                    margin: const EdgeInsets.only(top: 10, bottom: 12),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.mutedForeground.withValues(
-                        alpha: 0.25,
+                if (!isDesktopMode)
+                  // Top drag grab handle
+                  Center(
+                    child: Container(
+                      width: 36,
+                      height: 4,
+                      margin: const EdgeInsets.only(top: 10, bottom: 12),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.mutedForeground.withValues(
+                          alpha: 0.25,
+                        ),
+                        borderRadius: BorderRadius.circular(2),
                       ),
-                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
-                ),
 
-                // Header with icon badge, title, subtitle (no close button)
+                if (isDesktopMode) const SizedBox(height: 16),
+
+                // Header with icon badge, title, subtitle, and desktop close button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -206,6 +220,11 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           ],
                         ),
                       ),
+                      if (isDesktopMode)
+                        IconButton.ghost(
+                          icon: const Icon(LucideIcons.x, size: 18),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
                     ],
                   ),
                 ),
@@ -218,173 +237,187 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                 // Form fields & actions
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Email input
-                      TextField(
-                        controller: emailController,
-                        placeholder: Text(l10n.authEmail),
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 12,
-                        ),
-                        features: [
-                          InputFeature.leading(
-                            Icon(
-                              LucideIcons.mail,
-                              size: 16,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
+                  child: Shortcuts(
+                    shortcuts: const <ShortcutActivator, Intent>{
+                      SingleActivator(LogicalKeyboardKey.tab):
+                          NextFocusIntent(),
+                      SingleActivator(LogicalKeyboardKey.tab, shift: true):
+                          PreviousFocusIntent(),
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Email input
+                        TextField(
+                          controller: emailController,
+                          focusNode: emailFocusNode,
+                          placeholder: Text(l10n.authEmail),
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () =>
+                              passwordFocusNode.requestFocus(),
+                          onSubmitted: (_) => passwordFocusNode.requestFocus(),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 12,
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Password input
-                      TextField(
-                        controller: passwordController,
-                        placeholder: Text(l10n.authPassword),
-                        obscureText: obscurePassword.value,
-                        textInputAction: TextInputAction.done,
-                        onSubmitted: (_) => handleLogin(),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 12,
-                        ),
-                        features: [
-                          InputFeature.leading(
-                            Icon(
-                              LucideIcons.lock,
-                              size: 16,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
-                          ),
-                          InputFeature.trailing(
-                            GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                obscurePassword.value = !obscurePassword.value;
-                              },
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 4,
-                                  ),
-                                  child: Icon(
-                                    obscurePassword.value
-                                        ? LucideIcons.eyeOff
-                                        : LucideIcons.eye,
-                                    size: 16,
-                                    color: theme.colorScheme.mutedForeground,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      // Auth error message banner
-                      if (authState.status == AuthStatus.error &&
-                          authState.errorMessage != null) ...[
-                        const SizedBox(height: 12),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.destructive.withValues(
-                              alpha: 0.1,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: theme.colorScheme.destructive.withValues(
-                                alpha: 0.3,
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
+                          features: [
+                            InputFeature.leading(
                               Icon(
-                                LucideIcons.circleAlert,
+                                LucideIcons.mail,
                                 size: 16,
-                                color: theme.colorScheme.destructive,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  _getAuthErrorMessage(l10n, authState),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: theme.colorScheme.destructive,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-
-                      const SizedBox(height: 16),
-
-                      // Primary submit button (height matching input ~48px)
-                      SizedBox(
-                        height: 48,
-                        child: PrimaryButton(
-                          onPressed: authState.isLoading ? null : handleLogin,
-                          child: authState.isLoading
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const SizedBox(
-                                      width: 16,
-                                      height: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(l10n.authSubmitting),
-                                  ],
-                                )
-                              : m.Center(
-                                  child: Text(
-                                    l10n.authLoginButton,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Security footnote
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            LucideIcons.shieldCheck,
-                            size: 13,
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              l10n.authSecurityNote,
-                              style: TextStyle(
-                                fontSize: 11,
                                 color: theme.colorScheme.mutedForeground,
                               ),
-                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Password input
+                        TextField(
+                          controller: passwordController,
+                          focusNode: passwordFocusNode,
+                          placeholder: Text(l10n.authPassword),
+                          obscureText: obscurePassword.value,
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (_) => handleLogin(),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 12,
+                          ),
+                          features: [
+                            InputFeature.leading(
+                              Icon(
+                                LucideIcons.lock,
+                                size: 16,
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                            InputFeature.trailing(
+                              GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  obscurePassword.value =
+                                      !obscurePassword.value;
+                                },
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 4,
+                                    ),
+                                    child: Icon(
+                                      obscurePassword.value
+                                          ? LucideIcons.eyeOff
+                                          : LucideIcons.eye,
+                                      size: 16,
+                                      color: theme.colorScheme.mutedForeground,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // Auth error message banner
+                        if (authState.status == AuthStatus.error &&
+                            authState.errorMessage != null) ...[
+                          const SizedBox(height: 12),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.destructive.withValues(
+                                alpha: 0.1,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: theme.colorScheme.destructive.withValues(
+                                  alpha: 0.3,
+                                ),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  LucideIcons.circleAlert,
+                                  size: 16,
+                                  color: theme.colorScheme.destructive,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    _getAuthErrorMessage(l10n, authState),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: theme.colorScheme.destructive,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
-                      ),
-                    ],
+
+                        const SizedBox(height: 16),
+
+                        // Primary submit button (height matching input ~48px)
+                        SizedBox(
+                          height: 48,
+                          child: PrimaryButton(
+                            onPressed: authState.isLoading ? null : handleLogin,
+                            child: authState.isLoading
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(l10n.authSubmitting),
+                                    ],
+                                  )
+                                : m.Center(
+                                    child: Text(
+                                      l10n.authLoginButton,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        // Security footnote
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              LucideIcons.shieldCheck,
+                              size: 13,
+                              color: theme.colorScheme.mutedForeground,
+                            ),
+                            const SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                l10n.authSecurityNote,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: theme.colorScheme.mutedForeground,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -175,16 +175,16 @@ class AnkiWebSyncService {
       // 1. Check meta / collection status
       final metaUri = Uri.parse('${_config.syncHost}/sync/meta');
       final metaReq = http.MultipartRequest('POST', metaUri);
-      metaReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      metaReq.headers['User-Agent'] = _config.effectiveUserAgent;
       metaReq.fields['c'] = '0';
       metaReq.fields['k'] = hostKey;
       metaReq.fields['data'] = jsonEncode({
         'v': AnkiWebConfig.protocolVersion,
-        'cv': AnkiWebConfig.clientVersion,
+        'cv': _config.effectiveClientVersion,
       });
       final metaStreamed = await _client
           .send(metaReq)
-          .timeout(AnkiWebConfig.metaTimeout);
+          .timeout(_config.effectiveMetaTimeout);
       final metaResponse = await http.Response.fromStream(metaStreamed);
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
@@ -202,13 +202,13 @@ class AnkiWebSyncService {
       onProgress?.call(_messages.downloadingCollection, 0.3);
       final downloadUri = Uri.parse('${_config.syncHost}/sync/download');
       final downloadReq = http.MultipartRequest('POST', downloadUri);
-      downloadReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      downloadReq.headers['User-Agent'] = _config.effectiveUserAgent;
       downloadReq.fields['c'] = '0';
       downloadReq.fields['k'] = hostKey;
       downloadReq.fields['data'] = '{}';
       final downloadStreamed = await _client
           .send(downloadReq)
-          .timeout(AnkiWebConfig.downloadTimeout);
+          .timeout(_config.effectiveDownloadTimeout);
       final downloadResponse = await http.Response.fromStream(downloadStreamed);
 
       if (downloadResponse.statusCode == 200 &&
@@ -315,16 +315,16 @@ class AnkiWebSyncService {
     try {
       final metaUri = Uri.parse('${_config.syncHost}/sync/meta');
       final metaReq = http.MultipartRequest('POST', metaUri);
-      metaReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      metaReq.headers['User-Agent'] = _config.effectiveUserAgent;
       metaReq.fields['c'] = '0';
       metaReq.fields['k'] = hostKey;
       metaReq.fields['data'] = jsonEncode({
         'v': AnkiWebConfig.protocolVersion,
-        'cv': AnkiWebConfig.clientVersion,
+        'cv': _config.effectiveClientVersion,
       });
       final metaStreamed = await _client
           .send(metaReq)
-          .timeout(AnkiWebConfig.metaTimeout);
+          .timeout(_config.effectiveMetaTimeout);
       final metaResponse = await http.Response.fromStream(metaStreamed);
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
@@ -428,7 +428,7 @@ class AnkiWebSyncService {
 
       final uploadUri = Uri.parse('${_config.syncHost}/sync/upload');
       final uploadReq = http.MultipartRequest('POST', uploadUri);
-      uploadReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      uploadReq.headers['User-Agent'] = _config.effectiveUserAgent;
       uploadReq.fields['c'] = '0';
       uploadReq.fields['k'] = hostKey;
       uploadReq.files.add(
@@ -442,7 +442,7 @@ class AnkiWebSyncService {
       onProgress?.call(_messages.uploadingCloud, 0.6);
       final streamed = await _client
           .send(uploadReq)
-          .timeout(AnkiWebConfig.downloadTimeout);
+          .timeout(_config.effectiveUploadTimeout);
       final response = await http.Response.fromStream(streamed);
 
       if (response.statusCode == 200) {

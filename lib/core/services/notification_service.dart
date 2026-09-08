@@ -9,6 +9,7 @@ import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
 import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 
 class NotificationService {
   NotificationService._();
@@ -247,8 +248,8 @@ class NotificationService {
   /// Duolingo Streak Saver (Tier 2: Urgent notification before midnight)
   Future<void> scheduleStreakSaver({
     required int streakDays,
-    int hour = 22,
-    int minute = 30,
+    int hour = AppConfig.defaultStreakSaverHour,
+    int minute = AppConfig.defaultStreakSaverMinute,
     String? localeCode,
   }) async {
     if (kIsWeb ||
@@ -333,6 +334,8 @@ class NotificationService {
     required ValueGetter<int> getStreakDays,
     required ValueGetter<int> getDueCardsCount,
     required ValueGetter<bool> hasStudiedToday,
+    ValueGetter<int>? getStreakSaverHour,
+    ValueGetter<int>? getStreakSaverMinute,
   }) {
     if (kIsWeb || (!Platform.isWindows && !Platform.isLinux)) return;
     if (Platform.environment.containsKey('FLUTTER_TEST')) return;
@@ -361,10 +364,14 @@ class NotificationService {
         );
       }
 
-      // 2. Check streak saver (22:30)
+      // 2. Check streak saver
+      final streakHour =
+          getStreakSaverHour?.call() ?? AppConfig.defaultStreakSaverHour;
+      final streakMin =
+          getStreakSaverMinute?.call() ?? AppConfig.defaultStreakSaverMinute;
       if (isStreakSaverEnabled() &&
-          now.hour == 22 &&
-          now.minute == 30 &&
+          now.hour == streakHour &&
+          now.minute == streakMin &&
           _lastStreakSaverNotificationDay != now.day) {
         _lastStreakSaverNotificationDay = now.day;
         if (!hasStudiedToday()) {

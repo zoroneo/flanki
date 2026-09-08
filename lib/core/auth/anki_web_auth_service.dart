@@ -83,13 +83,13 @@ class AnkiWebAuthService {
     try {
       final uri = Uri.parse('${_config.syncHost}/sync/hostKey');
       final request = http.MultipartRequest('POST', uri);
-      request.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      request.headers['User-Agent'] = _config.effectiveUserAgent;
       request.fields['c'] = '0';
       request.fields['data'] = jsonEncode({'u': cleanUsername, 'p': password});
 
       final streamedResponse = await _client
           .send(request)
-          .timeout(AnkiWebConfig.authTimeout);
+          .timeout(_config.effectiveAuthTimeout);
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {

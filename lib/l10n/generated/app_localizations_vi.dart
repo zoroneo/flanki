@@ -1116,4 +1116,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String syncCollectionError(String error) {
     return 'Lỗi đồng bộ AnkiWeb: $error';
   }
+
+  @override
+  String cramDeckTitlePrefix(String name) {
+    return '⚡ Ôn cấp tốc: $name';
+  }
+
+  @override
+  String cramDeckTitleWithTag(String name, String tag) {
+    return '⚡ Ôn cấp tốc: $name (#$tag)';
+  }
 }

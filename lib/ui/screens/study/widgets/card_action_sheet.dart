@@ -5,6 +5,8 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 
+import '../../../widgets/adaptive_modal.dart';
+
 class CardActionSheet extends HookWidget {
   final CardModel card;
   final ValueChanged<CardFlag> onSetFlag;
@@ -12,6 +14,7 @@ class CardActionSheet extends HookWidget {
   final VoidCallback onSuspend;
   final void Function(String front, String back) onEdit;
   final VoidCallback? onDelete;
+  final bool isDesktop;
 
   const CardActionSheet({
     super.key,
@@ -21,7 +24,34 @@ class CardActionSheet extends HookWidget {
     required this.onSuspend,
     required this.onEdit,
     this.onDelete,
+    this.isDesktop = false,
   });
+
+  /// Shows the card action sheet adaptively (bottom sheet on mobile, dialog on desktop).
+  static Future<void> show(
+    BuildContext context, {
+    required CardModel card,
+    required ValueChanged<CardFlag> onSetFlag,
+    required VoidCallback onBury,
+    required VoidCallback onSuspend,
+    required void Function(String front, String back) onEdit,
+    VoidCallback? onDelete,
+  }) {
+    return showAdaptiveModal(
+      context: context,
+      useRootNavigator: false,
+      desktopMaxWidth: 520,
+      builder: (ctx, isDesktop) => CardActionSheet(
+        card: card,
+        onSetFlag: onSetFlag,
+        onBury: onBury,
+        onSuspend: onSuspend,
+        onEdit: onEdit,
+        onDelete: onDelete,
+        isDesktop: isDesktop,
+      ),
+    );
+  }
 
   static const ankiFlagColors = {
     CardFlag.red: m.Colors.red,
@@ -40,37 +70,69 @@ class CardActionSheet extends HookWidget {
     final isEditing = useState(false);
     final frontController = useTextEditingController(text: card.front);
     final backController = useTextEditingController(text: card.back);
+    final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
 
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: isDesktopMode
+            ? BorderRadius.circular(16)
+            : const BorderRadius.vertical(top: Radius.circular(20)),
+        border: isDesktopMode
+            ? Border.all(color: theme.colorScheme.border, width: 1)
+            : Border(
+                top: BorderSide(color: theme.colorScheme.border, width: 1),
+              ),
+        boxShadow: [
+          BoxShadow(
+            color: m.Colors.black.withValues(alpha: isDesktopMode ? 0.2 : 0.15),
+            blurRadius: isDesktopMode ? 24 : 16,
+            offset: isDesktopMode ? const Offset(0, 8) : const Offset(0, -4),
+          ),
+        ],
       ),
       child: SafeArea(
         top: false,
+        bottom: !isDesktopMode,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Grab handle
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.mutedForeground.withValues(
-                      alpha: 0.3,
+              if (!isDesktopMode) ...[
+                // Grab handle
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.mutedForeground.withValues(
+                        alpha: 0.3,
+                      ),
+                      borderRadius: BorderRadius.circular(2),
                     ),
-                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
+              ],
 
               if (isEditing.value) ...[
-                Text(l10n.editCardContent, style: theme.typography.h4),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.editCardContent,
+                        style: theme.typography.h4,
+                      ),
+                    ),
+                    if (isDesktopMode)
+                      IconButton.ghost(
+                        icon: const Icon(LucideIcons.x, size: 18),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                  ],
+                ),
                 const SizedBox(height: 16),
                 Text(
                   l10n.frontSide,
@@ -99,6 +161,7 @@ class CardActionSheet extends HookWidget {
                     ),
                     const SizedBox(width: 8),
                     PrimaryButton(
+                      alignment: Alignment.center,
                       onPressed: () {
                         onEdit(frontController.text, backController.text);
                         Navigator.of(context).pop();
@@ -113,26 +176,42 @@ class CardActionSheet extends HookWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(l10n.cardActionTitle, style: theme.typography.h4),
-                    if (card.tags.isNotEmpty)
-                      Wrap(
-                        spacing: 4,
-                        children: card.tags.take(2).map((t) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.muted,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              '#$t',
-                              style: const TextStyle(fontSize: 10),
-                            ),
-                          );
-                        }).toList(),
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (card.tags.isNotEmpty)
+                          Wrap(
+                            spacing: 4,
+                            children: card.tags.take(2).map((t) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.muted.withValues(
+                                    alpha: 0.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  '#$t',
+                                  style: theme.typography.xSmall.copyWith(
+                                    color: theme.colorScheme.mutedForeground,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        if (isDesktopMode) ...[
+                          const SizedBox(width: 8),
+                          IconButton.ghost(
+                            icon: const Icon(LucideIcons.x, size: 18),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),

@@ -370,6 +370,7 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
                   ),
                   const SizedBox(width: 10),
                   PrimaryButton(
+                    alignment: Alignment.center,
                     size: ButtonSize.small,
                     onPressed: () {
                       _dismissToast();

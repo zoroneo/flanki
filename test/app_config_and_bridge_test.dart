@@ -28,6 +28,17 @@ void main() {
       expect(AppConfig.defaultReminderHour, equals(20));
       expect(AppConfig.defaultReminderMinute, equals(0));
     });
+
+    test('AppConfig allows dynamic runtime version override and reset', () {
+      AppConfig.updateRuntimeVersion(version: '2.0.0', buildNumber: 99);
+      expect(AppConfig.version, equals('2.0.0'));
+      expect(AppConfig.buildNumber, equals(99));
+      expect(AppConfig.fullVersion, equals('2.0.0+99'));
+
+      AppConfig.resetVersion();
+      expect(AppConfig.version, equals('1.0.5'));
+      expect(AppConfig.buildNumber, equals(6));
+    });
   });
 
   group('AnkiBridge Safe Runtime Detection Tests', () {

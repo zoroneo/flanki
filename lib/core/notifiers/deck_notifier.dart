@@ -57,6 +57,7 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     required String filterTag,
     int cardLimit = 20,
     String mode = 'byTag',
+    String? title,
     String? description,
   }) {
     final encodedTag = Uri.encodeComponent(
@@ -68,9 +69,11 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     );
     final count = actualCount > cardLimit ? cardLimit : actualCount;
 
+    final cramTitle = title ?? _defaultCramTitle(name, filterTag);
+
     final cramDeck = DeckModel(
       id: 'cram_${mode}_${encodedTag}_${cardLimit}_${DateTime.now().millisecondsSinceEpoch}',
-      title: '⚡ Cram: $name${filterTag.isNotEmpty ? " (#$filterTag)" : ""}',
+      title: cramTitle,
       description: description ?? _defaultCramDescription(),
       dueCount: count,
       newCount: 0,
@@ -79,6 +82,23 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     );
     DatabaseService.instance.saveDeck(cramDeck);
     refresh();
+  }
+
+  static String _defaultCramTitle(String name, String filterTag) {
+    try {
+      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
+          ? 'vi'
+          : 'en';
+      final l10n = lookupAppLocalizations(Locale(code));
+      return filterTag.isNotEmpty
+          ? l10n.cramDeckTitleWithTag(name, filterTag)
+          : l10n.cramDeckTitlePrefix(name);
+    } catch (_) {
+      final l10n = lookupAppLocalizations(const Locale('vi'));
+      return filterTag.isNotEmpty
+          ? l10n.cramDeckTitleWithTag(name, filterTag)
+          : l10n.cramDeckTitlePrefix(name);
+    }
   }
 
   static String _defaultCramDescription() {

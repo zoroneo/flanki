@@ -2041,6 +2041,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'AnkiWeb sync error: {error}'**
   String syncCollectionError(String error);
+
+  /// No description provided for @cramDeckTitlePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'⚡ Cram: {name}'**
+  String cramDeckTitlePrefix(String name);
+
+  /// No description provided for @cramDeckTitleWithTag.
+  ///
+  /// In en, this message translates to:
+  /// **'⚡ Cram: {name} (#{tag})'**
+  String cramDeckTitleWithTag(String name, String tag);
 }
 
 class _AppLocalizationsDelegate

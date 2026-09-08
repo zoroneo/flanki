@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../models/card.dart';
 import '../storage/database_service.dart';
 
@@ -85,10 +86,10 @@ class StatsNotifier extends Notifier<StatsData> {
 
     final retention = logs.isNotEmpty ? (successfulReviews / logs.length) : 0.0;
 
-    // Study time: prefer tracked real duration, or fallback to ~15s per card
+    // Study time: prefer tracked real duration, or fallback to configured seconds per card
     final studyTimeMinutes = _trackedStudySecondsToday > 0
         ? (_trackedStudySecondsToday / 60).ceil()
-        : (reviewedToday * 15 / 60).round();
+        : (reviewedToday * AppConfig.fallbackSecondsPerCard / 60).round();
 
     // Calculate Streak
     int streak = 0;
@@ -112,9 +113,9 @@ class StatsNotifier extends Notifier<StatsData> {
       }
     }
 
-    // Build 16-week x 7-day heatmap matrix
-    // Index 15 is the current week, index 0 is 15 weeks ago
-    const int totalWeeks = 16;
+    // Build heatmap matrix (totalWeeks x 7 days)
+    // Last column is current week
+    const int totalWeeks = AppConfig.heatmapTotalWeeks;
     final heatmap = List.generate(totalWeeks, (_) => List.filled(7, 0));
     final currentWeekday = now.weekday; // 1: Mon .. 7: Sun
 
@@ -128,11 +129,11 @@ class StatsNotifier extends Notifier<StatsData> {
           final count = reviewsPerDay[key] ?? 0;
 
           int level = 0;
-          if (count >= 10) {
+          if (count >= AppConfig.heatmapLevel3Threshold) {
             level = 3;
-          } else if (count >= 4) {
+          } else if (count >= AppConfig.heatmapLevel2Threshold) {
             level = 2;
-          } else if (count >= 1) {
+          } else if (count >= AppConfig.heatmapLevel1Threshold) {
             level = 1;
           }
           heatmap[w][d] = level;

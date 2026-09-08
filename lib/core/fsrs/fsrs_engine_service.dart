@@ -69,7 +69,7 @@ class FsrsEngineService {
         final diff = outcome.card.due.difference(now);
         results[reviewRating] = formatInterval(diff, l10n: l10n);
       } catch (_) {
-        results[reviewRating] = _fallbackInterval(reviewRating);
+        results[reviewRating] = _fallbackInterval(reviewRating, l10n: l10n);
       }
     }
     return results;
@@ -139,16 +139,20 @@ class FsrsEngineService {
     }
   }
 
-  static String _fallbackInterval(ReviewRating rating) {
+  static String _fallbackInterval(
+    ReviewRating rating, {
+    AppLocalizations? l10n,
+  }) {
+    final resL10n = l10n ?? _defaultL10n();
     switch (rating) {
       case ReviewRating.again:
-        return '< 10m';
+        return '< ${resL10n.intervalMinutes(10)}';
       case ReviewRating.hard:
-        return '1d';
+        return resL10n.intervalDays(1);
       case ReviewRating.good:
-        return '4d';
+        return resL10n.intervalDays(4);
       case ReviewRating.easy:
-        return '12d';
+        return resL10n.intervalDays(12);
     }
   }
 }

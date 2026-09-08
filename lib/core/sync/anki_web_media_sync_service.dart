@@ -84,13 +84,13 @@ class AnkiWebMediaSyncService {
       // 1. Begin media sync
       final beginUri = Uri.parse('${_config.syncHost}/msync/begin');
       final beginReq = http.MultipartRequest('POST', beginUri);
-      beginReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      beginReq.headers['User-Agent'] = _config.effectiveUserAgent;
       beginReq.fields['k'] = hostKey;
-      beginReq.fields['v'] = AnkiWebConfig.clientVersion;
+      beginReq.fields['v'] = _config.effectiveClientVersion;
 
       final beginStreamed = await _client
           .send(beginReq)
-          .timeout(AnkiWebConfig.metaTimeout);
+          .timeout(_config.effectiveMetaTimeout);
       final beginRes = await http.Response.fromStream(beginStreamed);
 
       if (beginRes.statusCode >= 400) {
@@ -116,13 +116,13 @@ class AnkiWebMediaSyncService {
       // 2. Fetch media changes
       final changesUri = Uri.parse('${_config.syncHost}/msync/mediaChanges');
       final changesReq = http.MultipartRequest('POST', changesUri);
-      changesReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+      changesReq.headers['User-Agent'] = _config.effectiveUserAgent;
       changesReq.fields['k'] = sessionKey.isNotEmpty ? sessionKey : hostKey;
       changesReq.fields['data'] = jsonEncode({'lastUsn': lastUsn});
 
       final changesStreamed = await _client
           .send(changesReq)
-          .timeout(AnkiWebConfig.metaTimeout);
+          .timeout(_config.effectiveMetaTimeout);
       final changesRes = await http.Response.fromStream(changesStreamed);
 
       if (changesRes.statusCode >= 400) {
@@ -182,13 +182,13 @@ class AnkiWebMediaSyncService {
           '${_config.syncHost}/msync/downloadFiles',
         );
         final downloadReq = http.MultipartRequest('POST', downloadUri);
-        downloadReq.headers['User-Agent'] = AnkiWebConfig.userAgent;
+        downloadReq.headers['User-Agent'] = _config.effectiveUserAgent;
         downloadReq.fields['k'] = sessionKey.isNotEmpty ? sessionKey : hostKey;
         downloadReq.fields['data'] = jsonEncode({'files': batch});
 
         final downloadStreamed = await _client
             .send(downloadReq)
-            .timeout(AnkiWebConfig.downloadTimeout);
+            .timeout(_config.effectiveDownloadTimeout);
         final downloadRes = await http.Response.fromStream(downloadStreamed);
 
         if (downloadRes.statusCode == 200 && downloadRes.bodyBytes.isNotEmpty) {

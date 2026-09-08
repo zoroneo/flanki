@@ -4,13 +4,35 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 
+import '../../../widgets/adaptive_modal.dart';
+
 enum CustomStudyMode { byTag, flagged, reviewAhead }
 
 class CustomStudyModal extends HookWidget {
   final void Function(String name, String tag, int limit, String mode)
   onStartCram;
+  final bool isDesktop;
 
-  const CustomStudyModal({super.key, required this.onStartCram});
+  const CustomStudyModal({
+    super.key,
+    required this.onStartCram,
+    this.isDesktop = false,
+  });
+
+  /// Shows the custom study modal adaptively (bottom sheet on mobile, dialog on desktop).
+  static Future<void> show(
+    BuildContext context, {
+    required void Function(String name, String tag, int limit, String mode)
+    onStartCram,
+  }) {
+    return showAdaptiveModal(
+      context: context,
+      useRootNavigator: false,
+      desktopMaxWidth: 500,
+      builder: (ctx, isDesktop) =>
+          CustomStudyModal(onStartCram: onStartCram, isDesktop: isDesktop),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,38 +41,63 @@ class CustomStudyModal extends HookWidget {
     final mode = useState<CustomStudyMode>(CustomStudyMode.byTag);
     final tagController = useTextEditingController();
     final limit = useState<int>(20);
+    final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
 
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: isDesktopMode
+            ? BorderRadius.circular(16)
+            : const BorderRadius.vertical(top: Radius.circular(20)),
+        border: isDesktopMode
+            ? Border.all(color: theme.colorScheme.border, width: 1)
+            : Border(
+                top: BorderSide(color: theme.colorScheme.border, width: 1),
+              ),
+        boxShadow: [
+          BoxShadow(
+            color: m.Colors.black.withValues(alpha: isDesktopMode ? 0.2 : 0.15),
+            blurRadius: isDesktopMode ? 24 : 16,
+            offset: isDesktopMode ? const Offset(0, 8) : const Offset(0, -4),
+          ),
+        ],
       ),
       child: SafeArea(
         top: false,
+        bottom: !isDesktopMode,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.mutedForeground.withValues(
-                      alpha: 0.3,
+              if (!isDesktopMode) ...[
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.mutedForeground.withValues(
+                        alpha: 0.3,
+                      ),
+                      borderRadius: BorderRadius.circular(2),
                     ),
-                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
+              ],
               Row(
                 children: [
                   const Icon(LucideIcons.zap, color: m.Colors.amber, size: 22),
                   const SizedBox(width: 8),
-                  Text(l10n.cramModeTitle, style: theme.typography.h4),
+                  Expanded(
+                    child: Text(l10n.cramModeTitle, style: theme.typography.h4),
+                  ),
+                  if (isDesktopMode)
+                    IconButton.ghost(
+                      icon: const Icon(LucideIcons.x, size: 18),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
                 ],
               ),
               const SizedBox(height: 6),
@@ -185,6 +232,7 @@ class CustomStudyModal extends HookWidget {
                   );
                   Navigator.of(context).pop();
                 },
+                alignment: Alignment.center,
                 leading: const Icon(LucideIcons.play, size: 16),
                 child: Text(l10n.startCram),
               ),

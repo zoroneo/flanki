@@ -717,13 +717,21 @@ class DatabaseService {
           db.execute(
             '''
             INSERT INTO col (id, crt, mod, scm, ver, dty, usn, ls, conf, models, decks, dconf, tags)
-            VALUES (1, ?, ?, ?, 11, 0, 0, 0, '{}', '{}', '{}', '{}', '{}')
+            VALUES (1, ?, ?, ?, ${AppConfig.ankiColSchemaVersion}, 0, 0, 0, '{}', '{}', '{}', '{}', '{}')
           ''',
             [nowSec, nowSec, nowSec],
           );
         } else {
           db.execute('UPDATE col SET mod = ?, usn = usn + 1', [nowSec]);
         }
+
+        final colRow = db.select('SELECT crt FROM col LIMIT 1');
+        final colCrtSec = colRow.isNotEmpty
+            ? (colRow.first['crt'] as int? ?? nowSec)
+            : nowSec;
+        final colCrtDate = DateTime.fromMillisecondsSinceEpoch(
+          colCrtSec * 1000,
+        );
 
         // Update cards scheduling state
         for (final card in _cachedCards) {
@@ -735,15 +743,15 @@ class DatabaseService {
           final factor = (card.difficulty > 0)
               ? ((3.0 - (card.difficulty - 1.0) / 9.0 * 1.7) * 1000)
                     .toInt()
-                    .clamp(1300, 3000)
-              : 2500;
+                    .clamp(AppConfig.minAnkiFactor, AppConfig.maxAnkiFactor)
+              : AppConfig.defaultAnkiFactor;
 
           final cardModSec =
               (card.lastStudied ?? card.createdAt ?? DateTime.now())
                   .millisecondsSinceEpoch ~/
               1000;
           final dueDays = card.due != null
-              ? card.due!.difference(DateTime.now()).inDays
+              ? (card.reps > 0 ? card.due!.difference(colCrtDate).inDays : 0)
               : card.intervalDays;
 
           db.execute(
@@ -755,7 +763,7 @@ class DatabaseService {
               lapses = ?,
               due = ?,
               mod = ?,
-              usn = -1
+              usn = ?
             WHERE id = ?
           ''',
             [
@@ -765,6 +773,7 @@ class DatabaseService {
               card.lapses,
               dueDays,
               cardModSec,
+              AppConfig.ankiSyncUsnModified,
               cid,
             ],
           );
@@ -785,9 +794,18 @@ class DatabaseService {
           db.execute(
             '''
             INSERT OR IGNORE INTO revlog (id, cid, usn, ease, ivl, lastIvl, factor, time, type)
-            VALUES (?, ?, -1, ?, ?, ?, 2500, 0, 1)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)
           ''',
-            [logId, cid, ease, ivl, lastIvl],
+            [
+              logId,
+              cid,
+              AppConfig.ankiSyncUsnModified,
+              ease,
+              ivl,
+              lastIvl,
+              AppConfig.defaultAnkiFactor,
+              AppConfig.ankiRevlogTypeReview,
+            ],
           );
         }
 

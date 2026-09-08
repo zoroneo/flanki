@@ -357,6 +357,7 @@ class NoteEditorScreen extends HookConsumerWidget {
                     ),
                   ),
                 PrimaryButton(
+                  alignment: Alignment.center,
                   onPressed: handleSave,
                   leading: const Icon(LucideIcons.check, size: 16),
                   child: Text(l10n.saveCard, maxLines: 1, softWrap: false),

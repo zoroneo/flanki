@@ -4,33 +4,34 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 
+import '../../../widgets/adaptive_modal.dart';
+
 class CreateDeckModal extends HookWidget {
   final void Function(String name, String description) onCreateDeck;
   final List<String> existingDeckNames;
+  final bool isDesktop;
 
   const CreateDeckModal({
     super.key,
     required this.onCreateDeck,
     this.existingDeckNames = const [],
+    this.isDesktop = false,
   });
 
-  /// Hiển thị modal tạo bộ thẻ dưới dạng bottom sheet thích ứng bàn phím.
+  /// Hiển thị modal tạo bộ thẻ thích ứng: bottom sheet trên mobile, dialog trên desktop.
   static Future<void> show(
     BuildContext context, {
     required void Function(String name, String description) onCreateDeck,
     List<String> existingDeckNames = const [],
   }) {
-    return m.showModalBottomSheet(
+    return showAdaptiveModal(
       context: context,
       useRootNavigator: false,
-      backgroundColor: m.Colors.transparent,
-      isScrollControlled: true,
-      builder: (ctx) => m.Material(
-        type: m.MaterialType.transparency,
-        child: CreateDeckModal(
-          onCreateDeck: onCreateDeck,
-          existingDeckNames: existingDeckNames,
-        ),
+      desktopMaxWidth: 460,
+      builder: (ctx, isDesktop) => CreateDeckModal(
+        onCreateDeck: onCreateDeck,
+        existingDeckNames: existingDeckNames,
+        isDesktop: isDesktop,
       ),
     );
   }
@@ -66,6 +67,7 @@ class CreateDeckModal extends HookWidget {
     }
 
     final viewInsets = MediaQuery.of(context).viewInsets;
+    final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
 
     return AnimatedPadding(
       padding: EdgeInsets.only(bottom: viewInsets.bottom),
@@ -74,40 +76,49 @@ class CreateDeckModal extends HookWidget {
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.card,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
-          border: Border(
-            top: BorderSide(color: theme.colorScheme.border, width: 1),
-          ),
+          borderRadius: isDesktopMode
+              ? BorderRadius.circular(16)
+              : const BorderRadius.vertical(top: Radius.circular(22)),
+          border: isDesktopMode
+              ? Border.all(color: theme.colorScheme.border, width: 1)
+              : Border(
+                  top: BorderSide(color: theme.colorScheme.border, width: 1),
+                ),
           boxShadow: [
             BoxShadow(
-              color: m.Colors.black.withValues(alpha: 0.15),
-              blurRadius: 16,
-              offset: const Offset(0, -4),
+              color: m.Colors.black.withValues(
+                alpha: isDesktopMode ? 0.2 : 0.15,
+              ),
+              blurRadius: isDesktopMode ? 24 : 16,
+              offset: isDesktopMode ? const Offset(0, 8) : const Offset(0, -4),
             ),
           ],
         ),
         child: SafeArea(
           top: false,
-          bottom: true,
+          bottom: !isDesktopMode,
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Top drag grab handle
-                Center(
-                  child: Container(
-                    width: 36,
-                    height: 4,
-                    margin: const EdgeInsets.only(top: 10, bottom: 12),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.mutedForeground.withValues(
-                        alpha: 0.25,
+                if (!isDesktopMode)
+                  // Top drag grab handle
+                  Center(
+                    child: Container(
+                      width: 36,
+                      height: 4,
+                      margin: const EdgeInsets.only(top: 10, bottom: 12),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.mutedForeground.withValues(
+                          alpha: 0.25,
+                        ),
+                        borderRadius: BorderRadius.circular(2),
                       ),
-                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
-                ),
+
+                if (isDesktopMode) const SizedBox(height: 16),
 
                 // Header with icon, title, subtitle & close button
                 Padding(

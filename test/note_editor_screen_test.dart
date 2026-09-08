@@ -13,7 +13,9 @@ void main() {
 
   setUp(() async {
     tempDir = Directory.systemTemp.createTempSync('flanki_editor_test_');
-    await DatabaseService.instance.init(customPath: '/test_editor.db');
+    await DatabaseService.instance.init(
+      customPath: '${tempDir.path}/test_editor.db',
+    );
   });
 
   tearDown(() async {

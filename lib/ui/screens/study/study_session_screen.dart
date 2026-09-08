@@ -14,6 +14,7 @@ import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/services/desktop_update_service.dart';
 import 'widgets/scratchpad_overlay.dart';
 import 'widgets/card_action_sheet.dart';
 import 'widgets/rich_card_content.dart';
@@ -111,24 +112,14 @@ class StudySessionScreen extends HookConsumerWidget {
       final card = sessionState.currentCard;
       if (card == null) return;
 
-      m.showModalBottomSheet(
-        context: context,
-        useRootNavigator: false,
-        backgroundColor: m.Colors.transparent,
-        isScrollControlled: true,
-        builder: (ctx) {
-          return m.Material(
-            type: m.MaterialType.transparency,
-            child: CardActionSheet(
-              card: card,
-              onSetFlag: (flagColor) => sessionNotifier.toggleFlag(flagColor),
-              onBury: () => sessionNotifier.buryCurrentCard(),
-              onSuspend: () => sessionNotifier.suspendCurrentCard(),
-              onEdit: (f, b) => sessionNotifier.editCurrentCard(f, b),
-              onDelete: () => sessionNotifier.deleteCurrentCard(),
-            ),
-          );
-        },
+      CardActionSheet.show(
+        context,
+        card: card,
+        onSetFlag: (flagColor) => sessionNotifier.toggleFlag(flagColor),
+        onBury: () => sessionNotifier.buryCurrentCard(),
+        onSuspend: () => sessionNotifier.suspendCurrentCard(),
+        onEdit: (f, b) => sessionNotifier.editCurrentCard(f, b),
+        onDelete: () => sessionNotifier.deleteCurrentCard(),
       );
     }
 
@@ -185,6 +176,7 @@ class StudySessionScreen extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 32),
                 PrimaryButton(
+                  alignment: Alignment.center,
                   onPressed: () => context.pop(),
                   child: Text(l10n.backToDecks),
                 ),
@@ -443,7 +435,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                         shortcutHint: '1',
                                         interval:
                                             intervals[ReviewRating.again] ??
-                                            '< 10m',
+                                            '< ${l10n.intervalMinutes(10)}',
                                         backgroundColor: m.Colors.red.shade600,
                                         onTap: () =>
                                             handleRate(ReviewRating.again),
@@ -456,7 +448,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                         shortcutHint: '2',
                                         interval:
                                             intervals[ReviewRating.hard] ??
-                                            '1d',
+                                            l10n.intervalDays(1),
                                         backgroundColor:
                                             m.Colors.orange.shade700,
                                         onTap: () =>
@@ -470,7 +462,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                         shortcutHint: '3',
                                         interval:
                                             intervals[ReviewRating.good] ??
-                                            '4d',
+                                            l10n.intervalDays(4),
                                         backgroundColor: m.Colors.blue.shade600,
                                         onTap: () =>
                                             handleRate(ReviewRating.good),
@@ -483,7 +475,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                         shortcutHint: '4',
                                         interval:
                                             intervals[ReviewRating.easy] ??
-                                            '12d',
+                                            l10n.intervalDays(12),
                                         backgroundColor:
                                             m.Colors.green.shade600,
                                         onTap: () =>
@@ -495,8 +487,13 @@ class StudySessionScreen extends HookConsumerWidget {
                               : SizedBox(
                                   width: double.infinity,
                                   child: PrimaryButton(
+                                    alignment: Alignment.center,
                                     onPressed: handleFlip,
-                                    child: Text('${l10n.tapToFlip}  [Space]'),
+                                    child: Text(
+                                      DesktopUpdateService.isDesktop
+                                          ? '${l10n.tapToFlip}  [Space]'
+                                          : l10n.tapToFlip,
+                                    ),
                                   ),
                                 ),
                         ),

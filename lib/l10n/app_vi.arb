@@ -354,6 +354,8 @@
   "syncUploadError": "Lỗi tải lên AnkiWeb: {error}",
   "syncMediaError": "Lỗi đồng bộ media AnkiWeb: {error}",
   "syncMediaBatchError": "Lỗi tải media batch ({range}): {statusCode} {message}",
-  "syncCollectionError": "Lỗi đồng bộ AnkiWeb: {error}"
+  "syncCollectionError": "Lỗi đồng bộ AnkiWeb: {error}",
+  "cramDeckTitlePrefix": "⚡ Ôn cấp tốc: {name}",
+  "cramDeckTitleWithTag": "⚡ Ôn cấp tốc: {name} (#{tag})"
 }
 

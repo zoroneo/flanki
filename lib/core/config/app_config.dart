@@ -1,11 +1,31 @@
 /// Centralized application configuration and metadata.
 class AppConfig {
   static const String appName = 'Flanki';
-  static const String version = '1.0.5';
-  static const int buildNumber = 6;
+  static String _version = '1.0.5';
+  static int _buildNumber = 6;
 
-  /// Full version string (e.g. "1.0.0+1")
-  static const String fullVersion = '$version+$buildNumber';
+  static String get version => _version;
+  static int get buildNumber => _buildNumber;
+
+  /// Full version string (e.g. "1.0.5+6")
+  static String get fullVersion => '$version+$buildNumber';
+
+  /// Allows updating runtime version from platform package metadata
+  static void updateRuntimeVersion({
+    required String version,
+    int? buildNumber,
+  }) {
+    _version = version;
+    if (buildNumber != null) {
+      _buildNumber = buildNumber;
+    }
+  }
+
+  /// Resets version to defaults (useful for testing)
+  static void resetVersion() {
+    _version = '1.0.5';
+    _buildNumber = 6;
+  }
 
   /// GitHub repository metadata for desktop update checks
   static const String githubRepoOwner = 'zoroneo';
@@ -26,4 +46,25 @@ class AppConfig {
   static const double defaultDesiredRetention = 0.90;
   static const int defaultReminderHour = 20;
   static const int defaultReminderMinute = 0;
+
+  /// Default streak saver time (Tier 2 evening reminder)
+  static const int defaultStreakSaverHour = 22;
+  static const int defaultStreakSaverMinute = 30;
+
+  /// Fallback study time calculation (seconds per card)
+  static const int fallbackSecondsPerCard = 15;
+
+  /// Activity heatmap thresholds (reviews per day)
+  static const int heatmapLevel1Threshold = 1;
+  static const int heatmapLevel2Threshold = 4;
+  static const int heatmapLevel3Threshold = 10;
+  static const int heatmapTotalWeeks = 16;
+
+  /// Anki SQLite schema and scheduling constants
+  static const int ankiColSchemaVersion = 11;
+  static const int defaultAnkiFactor = 2500;
+  static const int minAnkiFactor = 1300;
+  static const int maxAnkiFactor = 3000;
+  static const int ankiRevlogTypeReview = 1;
+  static const int ankiSyncUsnModified = -1;
 }

@@ -291,6 +291,7 @@ class _TypeAnswerInputBox extends HookWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 2),
                   child: PrimaryButton(
+                    alignment: Alignment.center,
                     size: ButtonSize.small,
                     onPressed: onSubmitAnswer,
                     leading: const Icon(LucideIcons.send, size: 14),

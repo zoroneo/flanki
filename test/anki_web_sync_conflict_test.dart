@@ -7,8 +7,11 @@ import 'package:http/testing.dart';
 import 'package:flanki/core/sync/anki_web_config.dart';
 import 'package:flanki/core/sync/anki_web_sync_service.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
+import 'package:flanki/ui/screens/auth/anki_web_auth_sheet.dart';
 import 'package:flanki/ui/widgets/sync_conflict_dialog.dart';
+import 'package:flanki/ui/widgets/sync_flow_coordinator.dart';
 import 'package:flutter/material.dart' as m;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 void main() {
@@ -311,5 +314,58 @@ void main() {
       expect(find.byType(SyncConflictDialog), findsNothing);
       expect(chosen, isNull);
     });
+  });
+
+  group('SyncFlowCoordinator Tests', () {
+    testWidgets(
+      'cancels flow gracefully when user dismisses unauthenticated auth sheet',
+      (tester) async {
+        await tester.pumpWidget(
+          ProviderScope(
+            child: ShadcnApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: Consumer(
+                builder: (context, ref, _) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return m.Scaffold(
+                    body: Center(
+                      child: m.ElevatedButton(
+                        onPressed: () async {
+                          final isSyncing = ValueNotifier<bool>(false);
+                          final result = await SyncFlowCoordinator.runSyncFlow(
+                            context: context,
+                            ref: ref,
+                            l10n: l10n,
+                            isSyncing: isSyncing,
+                          );
+                          expect(result, isFalse);
+                          expect(isSyncing.value, isFalse);
+                        },
+                        child: const Text('Start Sync'),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('Start Sync'));
+        await tester.pumpAndSettle();
+
+        // Auth sheet opens when not authenticated
+        expect(find.byType(AnkiWebAuthSheet), findsOneWidget);
+
+        // Close / cancel the sheet
+        m.Navigator.of(tester.element(find.byType(AnkiWebAuthSheet)))
+            .pop(false);
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AnkiWebAuthSheet), findsNothing);
+      },
+    );
   });
 }

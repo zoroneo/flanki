@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
+import 'dart:ui' show Locale;
 
 import 'package:archive/archive.dart';
 import 'package:sqlite3/sqlite3.dart';
 
+import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
 import '../storage/database_service.dart';
@@ -226,9 +229,18 @@ class ApkgImporterService {
       final ankiModels = <int, AnkiModel>{};
 
       // 1. Parse decks and models from col table
-      final colResult = db.select('SELECT decks, models FROM col LIMIT 1');
+      int? colCrt;
+      final colColumns = db
+          .select('PRAGMA table_info(col)')
+          .map((r) => (r['name'] as String).toLowerCase())
+          .toSet();
+      final crtExpr = colColumns.contains('crt') ? 'crt' : 'null as crt';
+      final colResult = db.select(
+        'SELECT decks, models, $crtExpr FROM col LIMIT 1',
+      );
       if (colResult.isNotEmpty) {
         final row = colResult.first;
+        colCrt = row['crt'] as int?;
         final decksJson = row['decks'] as String;
         final decksMap = jsonDecode(decksJson) as Map<String, dynamic>;
 
@@ -249,8 +261,7 @@ class ApkgImporterService {
               title: name,
               description: desc.isNotEmpty
                   ? desc
-                  : (defaultDeckDescription ??
-                        'Imported from Anki package .apkg'),
+                  : (defaultDeckDescription ?? _defaultDeckDescription()),
               dueCount: 0,
               newCount: 0,
               totalCount: 0,
@@ -291,8 +302,10 @@ class ApkgImporterService {
           .map((r) => (r['name'] as String).toLowerCase())
           .toSet();
       final ordExpr = columnNames.contains('ord') ? 'ord' : '0 as ord';
+      final typeExpr = columnNames.contains('type') ? 'type' : '0 as type';
+      final dueExpr = columnNames.contains('due') ? 'due' : '0 as due';
       final cardsResult = db.select(
-        'SELECT id, nid, did, $ordExpr, reps, lapses, ivl, factor FROM cards',
+        'SELECT id, nid, did, $ordExpr, reps, lapses, ivl, factor, $typeExpr, $dueExpr FROM cards',
       );
 
       final deckCardCount = <String, int>{};
@@ -307,7 +320,26 @@ class ApkgImporterService {
         final reps = c['reps'] as int? ?? 0;
         final lapses = c['lapses'] as int? ?? 0;
         final ivl = c['ivl'] as int? ?? 0;
-        final factor = c['factor'] as int? ?? 2500;
+        final factor = c['factor'] as int? ?? AppConfig.defaultAnkiFactor;
+        final cardType = c['type'] as int?;
+        final dueRaw = c['due'] as int?;
+
+        // Accurate due date calculation based on Anki collection schema
+        DateTime? calculatedDue;
+        if (cardType == 2 && colCrt != null && colCrt > 0 && dueRaw != null) {
+          // Review card: due is day offset relative to collection creation date (crt)
+          final crtDate = DateTime.fromMillisecondsSinceEpoch(colCrt * 1000);
+          calculatedDue = crtDate.add(Duration(days: dueRaw));
+        } else if (dueRaw != null && dueRaw > 1000000000) {
+          // Learning card: epoch timestamp in seconds
+          calculatedDue = DateTime.fromMillisecondsSinceEpoch(dueRaw * 1000);
+        } else if (reps == 0 || (cardType != null && cardType == 0)) {
+          // New card: not scheduled yet
+          calculatedDue = null;
+        } else {
+          // Fallback relative to now
+          calculatedDue = DateTime.now().add(Duration(days: ivl));
+        }
 
         // FSRS parameter derivation from Anki Ease Factor & Interval
         final double difficulty;
@@ -316,9 +348,14 @@ class ApkgImporterService {
           difficulty = 0.0;
           stability = 0.0;
         } else {
-          final ease = factor > 0 ? factor / 1000.0 : 2.5;
+          final ease = factor > 0
+              ? factor / 1000.0
+              : (AppConfig.defaultAnkiFactor / 1000.0);
           // Linear mapping: Ease [1.3, 3.0] -> Difficulty [10.0, 1.0]
-          difficulty = ((3.0 - ease) / 1.7 * 9.0 + 1.0).clamp(1.0, 10.0);
+          final minEase = AppConfig.minAnkiFactor / 1000.0;
+          final maxEase = AppConfig.maxAnkiFactor / 1000.0;
+          difficulty = ((maxEase - ease) / (maxEase - minEase) * 9.0 + 1.0)
+              .clamp(1.0, 10.0);
           stability = math.max(0.1, ivl.toDouble());
         }
 
@@ -375,15 +412,16 @@ class ApkgImporterService {
             reps: reps,
             lapses: lapses,
             tags: tags,
-            due: DateTime.now().add(Duration(days: ivl)),
+            due: calculatedDue,
             createdAt: DateTime.now(),
           ),
         );
 
         deckCardCount[deckId] = (deckCardCount[deckId] ?? 0) + 1;
-        if (reps == 0) {
+        if (reps == 0 || (cardType != null && cardType == 0)) {
           deckNewCount[deckId] = (deckNewCount[deckId] ?? 0) + 1;
-        } else {
+        } else if (calculatedDue != null &&
+            calculatedDue.isBefore(DateTime.now())) {
           deckDueCount[deckId] = (deckDueCount[deckId] ?? 0) + 1;
         }
       }
@@ -409,6 +447,17 @@ class ApkgImporterService {
       try {
         tempDir.deleteSync(recursive: true);
       } catch (_) {}
+    }
+  }
+
+  static String _defaultDeckDescription() {
+    try {
+      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
+          ? 'vi'
+          : 'en';
+      return lookupAppLocalizations(Locale(code)).importedDeckDefaultDesc;
+    } catch (_) {
+      return lookupAppLocalizations(const Locale('vi')).importedDeckDefaultDesc;
     }
   }
 }

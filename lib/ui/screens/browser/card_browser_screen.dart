@@ -61,25 +61,15 @@ class CardBrowserScreen extends HookConsumerWidget {
     final hasMore = visibleCount < filteredCards.length;
 
     void openCardDetail(CardModel card) {
-      m.showModalBottomSheet(
-        context: context,
-        useRootNavigator: false,
-        backgroundColor: m.Colors.transparent,
-        isScrollControlled: true,
-        builder: (ctx) {
-          return m.Material(
-            type: m.MaterialType.transparency,
-            child: CardActionSheet(
-              card: card,
-              onSetFlag: (flag) => browserNotifier.setCardFlag(card.id, flag),
-              onBury: () => browserNotifier.toggleCardBury(card.id),
-              onSuspend: () => browserNotifier.toggleCardSuspend(card.id),
-              onDelete: () => browserNotifier.deleteCard(card.id),
-              onEdit: (f, b) {
-                browserNotifier.updateCard(card.copyWith(front: f, back: b));
-              },
-            ),
-          );
+      CardActionSheet.show(
+        context,
+        card: card,
+        onSetFlag: (flag) => browserNotifier.setCardFlag(card.id, flag),
+        onBury: () => browserNotifier.toggleCardBury(card.id),
+        onSuspend: () => browserNotifier.toggleCardSuspend(card.id),
+        onDelete: () => browserNotifier.deleteCard(card.id),
+        onEdit: (f, b) {
+          browserNotifier.updateCard(card.copyWith(front: f, back: b));
         },
       );
     }
@@ -157,6 +147,7 @@ class CardBrowserScreen extends HookConsumerWidget {
                               ),
                               const SizedBox(width: 8),
                               PrimaryButton(
+                                alignment: Alignment.center,
                                 leading: const Icon(LucideIcons.plus, size: 16),
                                 child: Text(
                                   l10n.addCardButton,
@@ -874,6 +865,7 @@ class _DesktopCardDetailPane extends HookWidget {
                       const SizedBox(height: 16),
                       Center(
                         child: PrimaryButton(
+                          alignment: Alignment.center,
                           leading: const Icon(LucideIcons.eye, size: 16),
                           child: Text(l10n.showAnswer),
                           onPressed: () => showAnswer.value = true,

@@ -634,6 +634,19 @@
     "placeholders": {
       "error": {"type": "String"}
     }
+  },
+  "cramDeckTitlePrefix": "⚡ Cram: {name}",
+  "@cramDeckTitlePrefix": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "cramDeckTitleWithTag": "⚡ Cram: {name} (#{tag})",
+  "@cramDeckTitleWithTag": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "tag": {"type": "String"}
+    }
   }
 }
 

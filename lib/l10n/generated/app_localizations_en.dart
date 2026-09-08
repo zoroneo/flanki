@@ -1119,4 +1119,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String syncCollectionError(String error) {
     return 'AnkiWeb sync error: $error';
   }
+
+  @override
+  String cramDeckTitlePrefix(String name) {
+    return '⚡ Cram: $name';
+  }
+
+  @override
+  String cramDeckTitleWithTag(String name, String tag) {
+    return '⚡ Cram: $name (#$tag)';
+  }
 }

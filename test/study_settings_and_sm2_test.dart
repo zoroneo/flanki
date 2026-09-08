@@ -170,8 +170,20 @@ void main() {
       expect(AnkiWebConfig.userAgent, contains('Anki/'));
       expect(AnkiWebConfig.protocolVersion, equals(10));
       expect(AnkiWebConfig.clientVersion, contains('anki'));
+      expect(AnkiWebConfig.platformIdentifier, isNotEmpty);
       expect(AnkiWebConfig.authTimeout.inSeconds, equals(15));
       expect(AnkiWebConfig.downloadTimeout.inSeconds, equals(30));
+    });
+
+    test('AnkiWebConfig allows custom instance overrides', () {
+      const config = AnkiWebConfig(
+        syncHost: 'https://custom.sync.net',
+        customAuthTimeout: Duration(seconds: 45),
+        customClientVersion: 'anki,2.1.57,custom:test',
+      );
+      expect(config.syncHost, equals('https://custom.sync.net'));
+      expect(config.effectiveAuthTimeout.inSeconds, equals(45));
+      expect(config.effectiveClientVersion, equals('anki,2.1.57,custom:test'));
     });
   });
 }
