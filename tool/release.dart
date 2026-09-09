@@ -108,11 +108,18 @@ void main(List<String> args) async {
 
   // 4. Run tests and static checks
   if (!skipTests) {
-    print('\x1B[1;34m==> Running pre-release checks (format, analyze, test)...\x1B[0m');
-    final checkResult = await _runCommand('fvm', ['flutter', 'test']);
-    if (checkResult != 0) {
+    print('\x1B[1;34m==> Running pre-release checks (analyze, test)...\x1B[0m');
+    final analyzeResult = await _runCommand('fvm', ['dart', 'analyze']);
+    if (analyzeResult != 0) {
+      _error('Pre-release static analysis failed. Aborting release.');
+      exit(analyzeResult);
+    }
+    print('\x1B[32m✔ Static analysis clean.\x1B[0m');
+
+    final testResult = await _runCommand('fvm', ['flutter', 'test']);
+    if (testResult != 0) {
       _error('Pre-release tests failed. Aborting release.');
-      exit(checkResult);
+      exit(testResult);
     }
     print('\x1B[32m✔ Tests passed.\x1B[0m\n');
   } else {
