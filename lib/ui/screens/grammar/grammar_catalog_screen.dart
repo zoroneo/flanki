@@ -60,92 +60,137 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title & Subtitle
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(
-                              LucideIcons.bookOpenText,
-                              size: 24,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                          const SizedBox(width: 14),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  l10n.grammarAcademicTitle,
-                                  style: theme.typography.h3.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                      // Title & Subtitle + Ghost Action
+                      LayoutBuilder(
+                        builder: (context, headerConstraints) {
+                          final isMobile = headerConstraints.maxWidth < 600;
+                          final titleWidget = Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  l10n.grammarAcademicSubtitle,
-                                  style: theme.typography.small.copyWith(
-                                    color: theme.colorScheme.mutedForeground,
+                                child: Icon(
+                                  LucideIcons.bookOpenText,
+                                  size: 24,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      l10n.grammarAcademicTitle,
+                                      style: theme.typography.h3.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      l10n.grammarAcademicSubtitle,
+                                      style: theme.typography.small.copyWith(
+                                        color: theme.colorScheme.mutedForeground,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (!isMobile && totalGhosts > 0) ...[
+                                const SizedBox(width: 14),
+                                PrimaryButton(
+                                  onPressed: () => context.push(
+                                    '/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}',
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(LucideIcons.flame, size: 16),
+                                      const SizedBox(width: 6),
+                                      Text(l10n.grammarClearGhostsButton(totalGhosts)),
+                                    ],
                                   ),
                                 ),
                               ],
-                            ),
-                          ),
-                          if (totalGhosts > 0)
-                            PrimaryButton(
-                              onPressed: () => context.push('/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}'),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(LucideIcons.flame, size: 16),
-                                  const SizedBox(width: 6),
-                                  Text(l10n.grammarClearGhostsButton(totalGhosts)),
-                                ],
-                              ),
-                            ),
-                        ],
+                            ],
+                          );
+
+                          if (isMobile && totalGhosts > 0) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                titleWidget,
+                                const SizedBox(height: 12),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: PrimaryButton(
+                                    onPressed: () => context.push(
+                                      '/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}',
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(LucideIcons.flame, size: 16),
+                                        const SizedBox(width: 6),
+                                        Text(l10n.grammarClearGhostsButton(totalGhosts)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+
+                          return titleWidget;
+                        },
                       ),
                       const SizedBox(height: 20),
 
                       // Quick Stats Metrics
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _buildMetricCard(
-                              context,
-                              label: l10n.grammarMetricTotalUnits,
-                              value: '${GrammarConstants.totalUnits} Units',
-                              icon: LucideIcons.layers,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _buildMetricCard(
-                              context,
-                              label: l10n.grammarMetricCompletedExercises,
-                              value: '$totalCompleted / ${GrammarConstants.totalExercises}',
-                              icon: LucideIcons.circleCheck,
-                              color: Colors.green,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _buildMetricCard(
-                              context,
-                              label: l10n.grammarMetricDueGhosts,
-                              value: '$totalDues / $totalGhosts',
-                              icon: LucideIcons.shieldAlert,
-                              color: (totalGhosts > 0 || totalDues > 0) ? Colors.red : Colors.green,
-                            ),
-                          ),
-                        ],
+                      LayoutBuilder(
+                        builder: (context, statsConstraints) {
+                          final isCompact = statsConstraints.maxWidth < 600;
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: _buildMetricCard(
+                                  context,
+                                  label: l10n.grammarMetricTotalUnits,
+                                  value: '${GrammarConstants.totalUnits} Units',
+                                  icon: LucideIcons.layers,
+                                  color: Colors.blue,
+                                  isCompact: isCompact,
+                                ),
+                              ),
+                              SizedBox(width: isCompact ? 8 : 12),
+                              Expanded(
+                                child: _buildMetricCard(
+                                  context,
+                                  label: l10n.grammarMetricCompletedExercises,
+                                  value: '$totalCompleted / ${GrammarConstants.totalExercises}',
+                                  icon: LucideIcons.circleCheck,
+                                  color: Colors.green,
+                                  isCompact: isCompact,
+                                ),
+                              ),
+                              SizedBox(width: isCompact ? 8 : 12),
+                              Expanded(
+                                child: _buildMetricCard(
+                                  context,
+                                  label: l10n.grammarMetricDueGhosts,
+                                  value: '$totalDues / $totalGhosts',
+                                  icon: LucideIcons.shieldAlert,
+                                  color: (totalGhosts > 0 || totalDues > 0) ? Colors.red : Colors.green,
+                                  isCompact: isCompact,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       const SizedBox(height: 20),
 
@@ -224,8 +269,50 @@ class GrammarCatalogScreen extends HookConsumerWidget {
     required String value,
     required IconData icon,
     required m.Color color,
+    bool isCompact = false,
   }) {
     final theme = Theme.of(context);
+    if (isCompact) {
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Icon(icon, size: 16, color: color),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.typography.small.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.typography.xSmall.copyWith(
+                  fontSize: 10,
+                  color: theme.colorScheme.mutedForeground,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -416,40 +503,68 @@ class GrammarCatalogScreen extends HookConsumerWidget {
               const SizedBox(height: 16),
 
               // Action Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
+              LayoutBuilder(
+                builder: (context, cardConstraints) {
+                  final isCompactCard = cardConstraints.maxWidth < 450;
+                  final progressWidget = Text(
                     l10n.grammarCompletedProgress(summary.completedCount, GrammarConstants.exercisesPerUnit),
                     style: theme.typography.xSmall.copyWith(
                       color: theme.colorScheme.mutedForeground,
                     ),
-                  ),
-                  const Spacer(),
-                  OutlineButton(
+                  );
+
+                  final theoryButton = OutlineButton(
                     onPressed: () => context.push('/grammar/${unit.unitId}/theory'),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(LucideIcons.bookOpen, size: 14),
                         const SizedBox(width: 6),
                         Text(l10n.grammarTheoryButton),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  PrimaryButton(
+                  );
+
+                  final practiceButton = PrimaryButton(
                     onPressed: () => context.push('/grammar/${unit.unitId}/practice'),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(LucideIcons.play, size: 14),
                         const SizedBox(width: 6),
                         Text(l10n.grammarPracticeButton),
                       ],
                     ),
-                  ),
-                ],
+                  );
+
+                  if (isCompactCard) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        progressWidget,
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Expanded(child: theoryButton),
+                            const SizedBox(width: 8),
+                            Expanded(child: practiceButton),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      progressWidget,
+                      const Spacer(),
+                      theoryButton,
+                      const SizedBox(width: 8),
+                      practiceButton,
+                    ],
+                  );
+                },
               ),
             ],
           ),

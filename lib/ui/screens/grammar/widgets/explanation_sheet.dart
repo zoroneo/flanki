@@ -23,6 +23,7 @@ class ExplanationSheet extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final explanation = exercise.explanation;
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Container(
       decoration: BoxDecoration(
@@ -42,11 +43,13 @@ class ExplanationSheet extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + bottomInset),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
           // Banner Status
           Row(
             children: [
@@ -191,6 +194,7 @@ class ExplanationSheet extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 

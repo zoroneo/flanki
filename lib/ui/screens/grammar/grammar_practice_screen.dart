@@ -150,7 +150,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
           trailing: [
             if (currentExercise != null)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.muted,
                   borderRadius: BorderRadius.circular(6),
@@ -159,6 +159,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                   currentExercise.type.getLocalizedLabel(l10n),
                   style: theme.typography.xSmall.copyWith(
                     fontWeight: FontWeight.bold,
+                    fontSize: 11,
                   ),
                 ),
               ),
@@ -178,7 +179,12 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
             child: currentExercise == null
                 ? const Center(child: CircularProgressIndicator())
                 : SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                    padding: EdgeInsets.fromLTRB(
+                      20,
+                      24,
+                      20,
+                      28 + MediaQuery.paddingOf(context).bottom,
+                    ),
                     child: Center(
                       child: Container(
                         constraints: const BoxConstraints(maxWidth: 720),

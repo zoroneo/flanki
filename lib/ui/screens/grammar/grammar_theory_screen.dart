@@ -17,6 +17,9 @@ class GrammarTheoryScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final grammarAsync = ref.watch(grammarUnitsProvider);
 
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isMobile = screenWidth < 600;
+
     return Scaffold(
       headers: [
         AppBar(
@@ -26,19 +29,29 @@ class GrammarTheoryScreen extends ConsumerWidget {
               onPressed: () => context.pop(),
             ),
           ],
-          title: Text(l10n.grammarTheoryScreenTitle),
+          title: Text(
+            l10n.grammarTheoryScreenTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           trailing: [
-            PrimaryButton(
-              onPressed: () => context.push('/grammar/$unitId/practice'),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(l10n.grammarPracticeCountButton(GrammarConstants.exercisesPerUnit)),
-                  const SizedBox(width: 6),
-                  const Icon(LucideIcons.play, size: 14),
-                ],
+            if (isMobile)
+              IconButton.primary(
+                icon: const Icon(LucideIcons.play, size: 16),
+                onPressed: () => context.push('/grammar/$unitId/practice'),
+              )
+            else
+              PrimaryButton(
+                onPressed: () => context.push('/grammar/$unitId/practice'),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(l10n.grammarPracticeCountButton(GrammarConstants.exercisesPerUnit)),
+                    const SizedBox(width: 6),
+                    const Icon(LucideIcons.play, size: 14),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ],
@@ -55,11 +68,15 @@ class GrammarTheoryScreen extends ConsumerWidget {
             return Center(child: Text(l10n.grammarUnitNotFound));
           }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-            child: Center(
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 860),
+          final bottomInset = MediaQuery.paddingOf(context).bottom;
+
+          return SafeArea(
+            top: false,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(20, 24, 20, 32 + bottomInset),
+              child: Center(
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 860),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -114,7 +131,8 @@ class GrammarTheoryScreen extends ConsumerWidget {
                 ),
               ),
             ),
-          );
+          ),
+        );
         },
       ),
     );
