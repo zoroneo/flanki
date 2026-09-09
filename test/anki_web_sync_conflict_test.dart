@@ -314,6 +314,57 @@ void main() {
       expect(find.byType(SyncConflictDialog), findsNothing);
       expect(chosen, isNull);
     });
+
+    testWidgets('tapping smart merge option returns SyncConflictChoice.merge', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1024, 768);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      SyncConflictChoice? chosen;
+
+      await tester.pumpWidget(
+        ShadcnApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+            builder: (context) {
+              return m.Scaffold(
+                body: Center(
+                  child: m.ElevatedButton(
+                    onPressed: () async {
+                      chosen = await SyncConflictDialog.show(
+                        context,
+                        localLastSync: DateTime(2026, 9, 7, 17, 3),
+                        serverMod: DateTime(2026, 9, 8, 8, 56),
+                      );
+                    },
+                    child: const Text('Open Dialog'),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Open Dialog'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SyncConflictDialog), findsOneWidget);
+
+      // Tap the smart merge option card
+      await tester.tap(find.byIcon(LucideIcons.gitMerge));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SyncConflictDialog), findsNothing);
+      expect(chosen, equals(SyncConflictChoice.merge));
+    });
   });
 
   group('SyncFlowCoordinator Tests', () {

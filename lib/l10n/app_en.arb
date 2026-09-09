@@ -6,6 +6,7 @@
   },
   "navDecks": "Decks",
   "navBrowser": "Browser",
+  "navGrammar": "Grammar",
   "navStats": "Stats",
   "navSettings": "Settings",
 
@@ -431,6 +432,9 @@
   "previousSyncLabel": "Previous sync:",
   "ankiWebUpdateLabel": "AnkiWeb update:",
   "selectVersionToKeep": "Please select which version of data you want to keep:",
+  "mergeCollectionsTitle": "Smart Merge (Recommended)",
+  "mergeCollectionsDesc": "Keep all study logs from both devices and retain the most recent progress for each card.",
+  "recommendedBadge": "Recommended",
   "uploadToCloudTitle": "Upload to AnkiWeb (Overwrite Cloud)",
   "uploadToCloudDesc": "Keep all progress and review history on this device and overwrite AnkiWeb Cloud.",
   "downloadFromCloudTitle": "Download from AnkiWeb (Overwrite Device)",

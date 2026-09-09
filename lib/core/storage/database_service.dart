@@ -9,6 +9,7 @@ import 'package:sqlite3/sqlite3.dart';
 
 import '../config/app_config.dart';
 import '../models/card.dart';
+import '../models/custom_study_mode.dart';
 import '../models/deck.dart';
 import 'app_database.dart';
 
@@ -182,7 +183,8 @@ class DatabaseService {
   List<CardModel> getCustomStudyQueue({required String deckId, int? limit}) {
     // Format: cram_<mode>_<tag>_<limit>_<timestamp>
     final parts = deckId.split('_');
-    final mode = parts.length > 1 ? parts[1] : '';
+    final rawMode = parts.length > 1 ? parts[1] : '';
+    final customMode = CustomStudyMode.fromString(rawMode);
     final rawTag = parts.length > 2 ? parts[2] : '';
     final tag = Uri.decodeComponent(rawTag);
     final parsedLimit = parts.length > 3 ? int.tryParse(parts[3]) : null;
@@ -198,42 +200,47 @@ class DatabaseService {
 
     final available = _cachedCards.where((c) => !c.isSuspended).toList();
 
-    if (mode == 'flagged' || deckId.contains('flagged')) {
-      return available.where((c) => c.hasFlag).take(effectiveLimit).toList();
-    } else if (mode == 'ahead' ||
-        mode == 'reviewAhead' ||
-        deckId.contains('ahead')) {
-      // Review ahead: prioritize cards with earliest due dates
-      final list = List<CardModel>.from(available)
-        ..sort((a, b) {
-          if (a.due == null) return 1;
-          if (b.due == null) return -1;
-          return a.due!.compareTo(b.due!);
-        });
-      return list.take(effectiveLimit).toList();
-    } else if (tag.isNotEmpty && tag != 'all') {
-      return available
-          .where((c) => c.tags.any((t) => t.toLowerCase() == tag.toLowerCase()))
-          .take(effectiveLimit)
-          .toList();
+    switch (customMode) {
+      case CustomStudyMode.flagged:
+        return available.where((c) => c.hasFlag).take(effectiveLimit).toList();
+      case CustomStudyMode.reviewAhead:
+        final list = List<CardModel>.from(available)
+          ..sort((a, b) {
+            if (a.due == null) return 1;
+            if (b.due == null) return -1;
+            return a.due!.compareTo(b.due!);
+          });
+        return list.take(effectiveLimit).toList();
+      case CustomStudyMode.byTag:
+        if (tag.isNotEmpty && tag != 'all') {
+          return available
+              .where((c) => c.tags.any((t) => t.toLowerCase() == tag.toLowerCase()))
+              .take(effectiveLimit)
+              .toList();
+        }
+        return available.take(effectiveLimit).toList();
     }
-
-    return available.take(effectiveLimit).toList();
   }
 
   /// Counts the total matching cards for a custom study filter.
-  int countCardsForCustomStudy({required String mode, required String tag}) {
+  int countCardsForCustomStudy({
+    required CustomStudyMode mode,
+    required String tag,
+  }) {
     final available = _cachedCards.where((c) => !c.isSuspended);
-    if (mode == 'flagged') {
-      return available.where((c) => c.hasFlag).length;
-    } else if (mode == 'ahead' || mode == 'reviewAhead') {
-      return available.length;
-    } else if (tag.isNotEmpty && tag != 'all') {
-      return available
-          .where((c) => c.tags.any((t) => t.toLowerCase() == tag.toLowerCase()))
-          .length;
+    switch (mode) {
+      case CustomStudyMode.flagged:
+        return available.where((c) => c.hasFlag).length;
+      case CustomStudyMode.reviewAhead:
+        return available.length;
+      case CustomStudyMode.byTag:
+        if (tag.isNotEmpty && tag != 'all') {
+          return available
+              .where((c) => c.tags.any((t) => t.toLowerCase() == tag.toLowerCase()))
+              .length;
+        }
+        return available.length;
     }
-    return available.length;
   }
 
   // --- Asynchronous Persistent Writes ---
@@ -519,6 +526,49 @@ class DatabaseService {
     await _reloadCache();
   }
 
+  /// Merges remote cards into the local collection using smart Last-Write-Wins per card.
+  /// Preserves local study progress if local was studied more recently than remote,
+  /// and adopts remote study progress if remote was studied more recently.
+  Future<void> mergeCards(List<CardModel> remoteCards) async {
+    final localCardsMap = {for (final c in _cachedCards) c.id: c};
+    final mergedCards = <CardModel>[];
+
+    for (final remote in remoteCards) {
+      final local = localCardsMap[remote.id];
+      if (local == null) {
+        mergedCards.add(remote);
+      } else {
+        final localStudied = local.lastStudied;
+        final remoteStudied = remote.lastStudied;
+
+        if (remoteStudied != null && localStudied != null) {
+          if (remoteStudied.isAfter(localStudied)) {
+            mergedCards.add(remote);
+          } else if (localStudied.isAfter(remoteStudied)) {
+            mergedCards.add(local);
+          } else {
+            mergedCards.add(remote.reps >= local.reps ? remote : local);
+          }
+        } else if (remoteStudied != null && localStudied == null) {
+          mergedCards.add(remote);
+        } else if (localStudied != null && remoteStudied == null) {
+          mergedCards.add(local);
+        } else {
+          mergedCards.add(remote);
+        }
+      }
+    }
+
+    final remoteIds = remoteCards.map((c) => c.id).toSet();
+    for (final local in _cachedCards) {
+      if (!remoteIds.contains(local.id)) {
+        mergedCards.add(local);
+      }
+    }
+
+    await saveCards(mergedCards);
+  }
+
   Future<void> deleteCard(String cardId) async {
     _cachedCards.removeWhere((c) => c.id == cardId);
     await (db.delete(db.cards)..where((tbl) => tbl.id.equals(cardId))).go();
@@ -553,6 +603,40 @@ class DatabaseService {
             elapsedDays: Value(elapsedDays),
           ),
         );
+    await _reloadCache();
+  }
+
+  Future<void> saveReviewLogs(List<ReviewLogModel> logs) async {
+    if (logs.isEmpty) return;
+
+    final existingSet = _cachedReviewLogs
+        .map((l) => '${l.cardId}_${l.reviewTime.millisecondsSinceEpoch}')
+        .toSet();
+
+    final cardIdSet = _cachedCards.map((c) => c.id).toSet();
+
+    final newLogs = logs.where((l) {
+      final key = '${l.cardId}_${l.reviewTime.millisecondsSinceEpoch}';
+      return !existingSet.contains(key) && cardIdSet.contains(l.cardId);
+    }).toList();
+
+    if (newLogs.isEmpty) return;
+
+    await db.batch((batch) {
+      for (final log in newLogs) {
+        batch.insert(
+          db.reviewLogs,
+          ReviewLogsCompanion.insert(
+            cardId: log.cardId,
+            rating: log.rating.value,
+            reviewTime: log.reviewTime,
+            scheduledDays: Value(log.scheduledDays),
+            elapsedDays: Value(log.elapsedDays),
+          ),
+        );
+      }
+    });
+
     await _reloadCache();
   }
 

@@ -3,6 +3,7 @@
   "appTitle": "Flanki",
   "navDecks": "Bộ thẻ",
   "navBrowser": "Duyệt thẻ",
+  "navGrammar": "Ngữ pháp",
   "navStats": "Thống kê",
   "navSettings": "Cài đặt",
 
@@ -267,6 +268,9 @@
   "previousSyncLabel": "Lần đồng bộ trước:",
   "ankiWebUpdateLabel": "Cập nhật trên AnkiWeb:",
   "selectVersionToKeep": "Vui lòng chọn bản dữ liệu bạn muốn giữ lại:",
+  "mergeCollectionsTitle": "Hợp nhất thông minh (Khuyên dùng)",
+  "mergeCollectionsDesc": "Giữ lại toàn bộ lượt học từ cả hai thiết bị và lấy tiến độ mới nhất cho từng thẻ.",
+  "recommendedBadge": "Khuyên dùng",
   "uploadToCloudTitle": "Đẩy lên AnkiWeb (Ghi đè đám mây)",
   "uploadToCloudDesc": "Giữ toàn bộ tiến độ và lịch sử học của máy này để ghi đè lên AnkiWeb Cloud.",
   "downloadFromCloudTitle": "Tải về từ AnkiWeb (Ghi đè thiết bị)",

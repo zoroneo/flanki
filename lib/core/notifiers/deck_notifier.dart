@@ -4,6 +4,7 @@ import 'dart:ui' show Locale;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import '../models/custom_study_mode.dart';
 import '../models/deck.dart';
 import '../storage/database_service.dart';
 
@@ -56,7 +57,7 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     required String name,
     required String filterTag,
     int cardLimit = 20,
-    String mode = 'byTag',
+    CustomStudyMode mode = CustomStudyMode.byTag,
     String? title,
     String? description,
   }) {
@@ -72,7 +73,7 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
     final cramTitle = title ?? _defaultCramTitle(name, filterTag);
 
     final cramDeck = DeckModel(
-      id: 'cram_${mode}_${encodedTag}_${cardLimit}_${DateTime.now().millisecondsSinceEpoch}',
+      id: 'cram_${mode.value}_${encodedTag}_${cardLimit}_${DateTime.now().millisecondsSinceEpoch}',
       title: cramTitle,
       description: description ?? _defaultCramDescription(),
       dueCount: count,

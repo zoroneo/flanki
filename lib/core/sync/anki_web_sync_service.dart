@@ -11,6 +11,7 @@ import '../../l10n/generated/app_localizations.dart';
 import '../importer/apkg_importer_service.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
+import '../storage/database_service.dart';
 
 class SyncProgressMessages {
   final String connecting;
@@ -54,6 +55,47 @@ class SyncProgressMessages {
   }
 }
 
+enum SyncStage {
+  connecting,
+  downloadingCollection,
+  processingData,
+  checkingMedia,
+  compressingUpload,
+  uploadingCloud,
+  uploadComplete,
+  sessionExpired,
+  noInternet,
+  conflictDetected,
+  error;
+
+  String localizedMessage(SyncProgressMessages messages) {
+    switch (this) {
+      case SyncStage.connecting:
+        return messages.connecting;
+      case SyncStage.downloadingCollection:
+        return messages.downloadingCollection;
+      case SyncStage.processingData:
+        return messages.processingData;
+      case SyncStage.checkingMedia:
+        return messages.checkingMedia;
+      case SyncStage.compressingUpload:
+        return messages.compressingUpload;
+      case SyncStage.uploadingCloud:
+        return messages.uploadingCloud;
+      case SyncStage.uploadComplete:
+        return messages.uploadComplete;
+      case SyncStage.sessionExpired:
+        return messages.sessionExpired;
+      case SyncStage.noInternet:
+        return messages.noInternet;
+      case SyncStage.conflictDetected:
+        return messages.conflictDetected;
+      case SyncStage.error:
+        return 'Sync Error';
+    }
+  }
+}
+
 enum SyncActionRequired { noChange, download, upload, conflict }
 
 class SyncStatusCheckResult {
@@ -77,6 +119,7 @@ class AnkiWebSyncResult {
   final String message;
   final List<DeckModel> decks;
   final List<CardModel> cards;
+  final List<ReviewLogModel> reviewLogs;
   final int mediaCount;
 
   const AnkiWebSyncResult({
@@ -84,6 +127,7 @@ class AnkiWebSyncResult {
     required this.message,
     this.decks = const [],
     this.cards = const [],
+    this.reviewLogs = const [],
     this.mediaCount = 0,
   });
 
@@ -91,6 +135,7 @@ class AnkiWebSyncResult {
     required String message,
     List<DeckModel> decks = const [],
     List<CardModel> cards = const [],
+    List<ReviewLogModel> reviewLogs = const [],
     int mediaCount = 0,
   }) {
     return AnkiWebSyncResult(
@@ -98,6 +143,7 @@ class AnkiWebSyncResult {
       message: message,
       decks: decks,
       cards: cards,
+      reviewLogs: reviewLogs,
       mediaCount: mediaCount,
     );
   }
@@ -255,6 +301,7 @@ class AnkiWebSyncService {
           ),
           decks: importResult.decks,
           cards: importResult.cards,
+          reviewLogs: importResult.reviewLogs,
           mediaCount: mediaCount,
         );
       } else if (downloadResponse.statusCode == 403 ||

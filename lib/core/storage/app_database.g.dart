@@ -1857,12 +1857,784 @@ class ReviewLogsCompanion extends UpdateCompanion<ReviewLog> {
   }
 }
 
+class $GrammarProgressEntriesTable extends GrammarProgressEntries
+    with TableInfo<$GrammarProgressEntriesTable, GrammarProgressEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GrammarProgressEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _unitIdMeta = const VerificationMeta('unitId');
+  @override
+  late final GeneratedColumn<String> unitId = GeneratedColumn<String>(
+    'unit_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _exerciseIdMeta = const VerificationMeta(
+    'exerciseId',
+  );
+  @override
+  late final GeneratedColumn<String> exerciseId = GeneratedColumn<String>(
+    'exercise_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _stabilityMeta = const VerificationMeta(
+    'stability',
+  );
+  @override
+  late final GeneratedColumn<double> stability = GeneratedColumn<double>(
+    'stability',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.0),
+  );
+  static const VerificationMeta _difficultyMeta = const VerificationMeta(
+    'difficulty',
+  );
+  @override
+  late final GeneratedColumn<double> difficulty = GeneratedColumn<double>(
+    'difficulty',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.0),
+  );
+  static const VerificationMeta _dueMeta = const VerificationMeta('due');
+  @override
+  late final GeneratedColumn<DateTime> due = GeneratedColumn<DateTime>(
+    'due',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastStudiedMeta = const VerificationMeta(
+    'lastStudied',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastStudied = GeneratedColumn<DateTime>(
+    'last_studied',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _repsMeta = const VerificationMeta('reps');
+  @override
+  late final GeneratedColumn<int> reps = GeneratedColumn<int>(
+    'reps',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _lapsesMeta = const VerificationMeta('lapses');
+  @override
+  late final GeneratedColumn<int> lapses = GeneratedColumn<int>(
+    'lapses',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<CardState, int> state =
+      GeneratedColumn<int>(
+        'state',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(0),
+      ).withConverter<CardState>($GrammarProgressEntriesTable.$converterstate);
+  static const VerificationMeta _isGhostMeta = const VerificationMeta(
+    'isGhost',
+  );
+  @override
+  late final GeneratedColumn<bool> isGhost = GeneratedColumn<bool>(
+    'is_ghost',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_ghost" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _isCompletedMeta = const VerificationMeta(
+    'isCompleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
+    'is_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _lastUserAnswerMeta = const VerificationMeta(
+    'lastUserAnswer',
+  );
+  @override
+  late final GeneratedColumn<String> lastUserAnswer = GeneratedColumn<String>(
+    'last_user_answer',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    unitId,
+    exerciseId,
+    stability,
+    difficulty,
+    due,
+    lastStudied,
+    reps,
+    lapses,
+    state,
+    isGhost,
+    isCompleted,
+    lastUserAnswer,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'grammar_progress_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<GrammarProgressEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('unit_id')) {
+      context.handle(
+        _unitIdMeta,
+        unitId.isAcceptableOrUnknown(data['unit_id']!, _unitIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_unitIdMeta);
+    }
+    if (data.containsKey('exercise_id')) {
+      context.handle(
+        _exerciseIdMeta,
+        exerciseId.isAcceptableOrUnknown(data['exercise_id']!, _exerciseIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_exerciseIdMeta);
+    }
+    if (data.containsKey('stability')) {
+      context.handle(
+        _stabilityMeta,
+        stability.isAcceptableOrUnknown(data['stability']!, _stabilityMeta),
+      );
+    }
+    if (data.containsKey('difficulty')) {
+      context.handle(
+        _difficultyMeta,
+        difficulty.isAcceptableOrUnknown(data['difficulty']!, _difficultyMeta),
+      );
+    }
+    if (data.containsKey('due')) {
+      context.handle(
+        _dueMeta,
+        due.isAcceptableOrUnknown(data['due']!, _dueMeta),
+      );
+    }
+    if (data.containsKey('last_studied')) {
+      context.handle(
+        _lastStudiedMeta,
+        lastStudied.isAcceptableOrUnknown(
+          data['last_studied']!,
+          _lastStudiedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('reps')) {
+      context.handle(
+        _repsMeta,
+        reps.isAcceptableOrUnknown(data['reps']!, _repsMeta),
+      );
+    }
+    if (data.containsKey('lapses')) {
+      context.handle(
+        _lapsesMeta,
+        lapses.isAcceptableOrUnknown(data['lapses']!, _lapsesMeta),
+      );
+    }
+    if (data.containsKey('is_ghost')) {
+      context.handle(
+        _isGhostMeta,
+        isGhost.isAcceptableOrUnknown(data['is_ghost']!, _isGhostMeta),
+      );
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+        _isCompletedMeta,
+        isCompleted.isAcceptableOrUnknown(
+          data['is_completed']!,
+          _isCompletedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_user_answer')) {
+      context.handle(
+        _lastUserAnswerMeta,
+        lastUserAnswer.isAcceptableOrUnknown(
+          data['last_user_answer']!,
+          _lastUserAnswerMeta,
+        ),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {unitId, exerciseId};
+  @override
+  GrammarProgressEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return GrammarProgressEntry(
+      unitId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit_id'],
+      )!,
+      exerciseId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}exercise_id'],
+      )!,
+      stability: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}stability'],
+      )!,
+      difficulty: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}difficulty'],
+      )!,
+      due: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}due'],
+      ),
+      lastStudied: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_studied'],
+      ),
+      reps: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reps'],
+      )!,
+      lapses: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}lapses'],
+      )!,
+      state: $GrammarProgressEntriesTable.$converterstate.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}state'],
+        )!,
+      ),
+      isGhost: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_ghost'],
+      )!,
+      isCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_completed'],
+      )!,
+      lastUserAnswer: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_user_answer'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $GrammarProgressEntriesTable createAlias(String alias) {
+    return $GrammarProgressEntriesTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<CardState, int, int> $converterstate =
+      const EnumIndexConverter<CardState>(CardState.values);
+}
+
+class GrammarProgressEntry extends DataClass
+    implements Insertable<GrammarProgressEntry> {
+  final String unitId;
+  final String exerciseId;
+  final double stability;
+  final double difficulty;
+  final DateTime? due;
+  final DateTime? lastStudied;
+  final int reps;
+  final int lapses;
+  final CardState state;
+  final bool isGhost;
+  final bool isCompleted;
+  final String? lastUserAnswer;
+  final DateTime updatedAt;
+  const GrammarProgressEntry({
+    required this.unitId,
+    required this.exerciseId,
+    required this.stability,
+    required this.difficulty,
+    this.due,
+    this.lastStudied,
+    required this.reps,
+    required this.lapses,
+    required this.state,
+    required this.isGhost,
+    required this.isCompleted,
+    this.lastUserAnswer,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['unit_id'] = Variable<String>(unitId);
+    map['exercise_id'] = Variable<String>(exerciseId);
+    map['stability'] = Variable<double>(stability);
+    map['difficulty'] = Variable<double>(difficulty);
+    if (!nullToAbsent || due != null) {
+      map['due'] = Variable<DateTime>(due);
+    }
+    if (!nullToAbsent || lastStudied != null) {
+      map['last_studied'] = Variable<DateTime>(lastStudied);
+    }
+    map['reps'] = Variable<int>(reps);
+    map['lapses'] = Variable<int>(lapses);
+    {
+      map['state'] = Variable<int>(
+        $GrammarProgressEntriesTable.$converterstate.toSql(state),
+      );
+    }
+    map['is_ghost'] = Variable<bool>(isGhost);
+    map['is_completed'] = Variable<bool>(isCompleted);
+    if (!nullToAbsent || lastUserAnswer != null) {
+      map['last_user_answer'] = Variable<String>(lastUserAnswer);
+    }
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  GrammarProgressEntriesCompanion toCompanion(bool nullToAbsent) {
+    return GrammarProgressEntriesCompanion(
+      unitId: Value(unitId),
+      exerciseId: Value(exerciseId),
+      stability: Value(stability),
+      difficulty: Value(difficulty),
+      due: due == null && nullToAbsent ? const Value.absent() : Value(due),
+      lastStudied: lastStudied == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastStudied),
+      reps: Value(reps),
+      lapses: Value(lapses),
+      state: Value(state),
+      isGhost: Value(isGhost),
+      isCompleted: Value(isCompleted),
+      lastUserAnswer: lastUserAnswer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastUserAnswer),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory GrammarProgressEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return GrammarProgressEntry(
+      unitId: serializer.fromJson<String>(json['unitId']),
+      exerciseId: serializer.fromJson<String>(json['exerciseId']),
+      stability: serializer.fromJson<double>(json['stability']),
+      difficulty: serializer.fromJson<double>(json['difficulty']),
+      due: serializer.fromJson<DateTime?>(json['due']),
+      lastStudied: serializer.fromJson<DateTime?>(json['lastStudied']),
+      reps: serializer.fromJson<int>(json['reps']),
+      lapses: serializer.fromJson<int>(json['lapses']),
+      state: $GrammarProgressEntriesTable.$converterstate.fromJson(
+        serializer.fromJson<int>(json['state']),
+      ),
+      isGhost: serializer.fromJson<bool>(json['isGhost']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+      lastUserAnswer: serializer.fromJson<String?>(json['lastUserAnswer']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'unitId': serializer.toJson<String>(unitId),
+      'exerciseId': serializer.toJson<String>(exerciseId),
+      'stability': serializer.toJson<double>(stability),
+      'difficulty': serializer.toJson<double>(difficulty),
+      'due': serializer.toJson<DateTime?>(due),
+      'lastStudied': serializer.toJson<DateTime?>(lastStudied),
+      'reps': serializer.toJson<int>(reps),
+      'lapses': serializer.toJson<int>(lapses),
+      'state': serializer.toJson<int>(
+        $GrammarProgressEntriesTable.$converterstate.toJson(state),
+      ),
+      'isGhost': serializer.toJson<bool>(isGhost),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
+      'lastUserAnswer': serializer.toJson<String?>(lastUserAnswer),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  GrammarProgressEntry copyWith({
+    String? unitId,
+    String? exerciseId,
+    double? stability,
+    double? difficulty,
+    Value<DateTime?> due = const Value.absent(),
+    Value<DateTime?> lastStudied = const Value.absent(),
+    int? reps,
+    int? lapses,
+    CardState? state,
+    bool? isGhost,
+    bool? isCompleted,
+    Value<String?> lastUserAnswer = const Value.absent(),
+    DateTime? updatedAt,
+  }) => GrammarProgressEntry(
+    unitId: unitId ?? this.unitId,
+    exerciseId: exerciseId ?? this.exerciseId,
+    stability: stability ?? this.stability,
+    difficulty: difficulty ?? this.difficulty,
+    due: due.present ? due.value : this.due,
+    lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
+    reps: reps ?? this.reps,
+    lapses: lapses ?? this.lapses,
+    state: state ?? this.state,
+    isGhost: isGhost ?? this.isGhost,
+    isCompleted: isCompleted ?? this.isCompleted,
+    lastUserAnswer: lastUserAnswer.present
+        ? lastUserAnswer.value
+        : this.lastUserAnswer,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  GrammarProgressEntry copyWithCompanion(GrammarProgressEntriesCompanion data) {
+    return GrammarProgressEntry(
+      unitId: data.unitId.present ? data.unitId.value : this.unitId,
+      exerciseId: data.exerciseId.present
+          ? data.exerciseId.value
+          : this.exerciseId,
+      stability: data.stability.present ? data.stability.value : this.stability,
+      difficulty: data.difficulty.present
+          ? data.difficulty.value
+          : this.difficulty,
+      due: data.due.present ? data.due.value : this.due,
+      lastStudied: data.lastStudied.present
+          ? data.lastStudied.value
+          : this.lastStudied,
+      reps: data.reps.present ? data.reps.value : this.reps,
+      lapses: data.lapses.present ? data.lapses.value : this.lapses,
+      state: data.state.present ? data.state.value : this.state,
+      isGhost: data.isGhost.present ? data.isGhost.value : this.isGhost,
+      isCompleted: data.isCompleted.present
+          ? data.isCompleted.value
+          : this.isCompleted,
+      lastUserAnswer: data.lastUserAnswer.present
+          ? data.lastUserAnswer.value
+          : this.lastUserAnswer,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GrammarProgressEntry(')
+          ..write('unitId: $unitId, ')
+          ..write('exerciseId: $exerciseId, ')
+          ..write('stability: $stability, ')
+          ..write('difficulty: $difficulty, ')
+          ..write('due: $due, ')
+          ..write('lastStudied: $lastStudied, ')
+          ..write('reps: $reps, ')
+          ..write('lapses: $lapses, ')
+          ..write('state: $state, ')
+          ..write('isGhost: $isGhost, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('lastUserAnswer: $lastUserAnswer, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    unitId,
+    exerciseId,
+    stability,
+    difficulty,
+    due,
+    lastStudied,
+    reps,
+    lapses,
+    state,
+    isGhost,
+    isCompleted,
+    lastUserAnswer,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is GrammarProgressEntry &&
+          other.unitId == this.unitId &&
+          other.exerciseId == this.exerciseId &&
+          other.stability == this.stability &&
+          other.difficulty == this.difficulty &&
+          other.due == this.due &&
+          other.lastStudied == this.lastStudied &&
+          other.reps == this.reps &&
+          other.lapses == this.lapses &&
+          other.state == this.state &&
+          other.isGhost == this.isGhost &&
+          other.isCompleted == this.isCompleted &&
+          other.lastUserAnswer == this.lastUserAnswer &&
+          other.updatedAt == this.updatedAt);
+}
+
+class GrammarProgressEntriesCompanion
+    extends UpdateCompanion<GrammarProgressEntry> {
+  final Value<String> unitId;
+  final Value<String> exerciseId;
+  final Value<double> stability;
+  final Value<double> difficulty;
+  final Value<DateTime?> due;
+  final Value<DateTime?> lastStudied;
+  final Value<int> reps;
+  final Value<int> lapses;
+  final Value<CardState> state;
+  final Value<bool> isGhost;
+  final Value<bool> isCompleted;
+  final Value<String?> lastUserAnswer;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const GrammarProgressEntriesCompanion({
+    this.unitId = const Value.absent(),
+    this.exerciseId = const Value.absent(),
+    this.stability = const Value.absent(),
+    this.difficulty = const Value.absent(),
+    this.due = const Value.absent(),
+    this.lastStudied = const Value.absent(),
+    this.reps = const Value.absent(),
+    this.lapses = const Value.absent(),
+    this.state = const Value.absent(),
+    this.isGhost = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.lastUserAnswer = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  GrammarProgressEntriesCompanion.insert({
+    required String unitId,
+    required String exerciseId,
+    this.stability = const Value.absent(),
+    this.difficulty = const Value.absent(),
+    this.due = const Value.absent(),
+    this.lastStudied = const Value.absent(),
+    this.reps = const Value.absent(),
+    this.lapses = const Value.absent(),
+    this.state = const Value.absent(),
+    this.isGhost = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.lastUserAnswer = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : unitId = Value(unitId),
+       exerciseId = Value(exerciseId);
+  static Insertable<GrammarProgressEntry> custom({
+    Expression<String>? unitId,
+    Expression<String>? exerciseId,
+    Expression<double>? stability,
+    Expression<double>? difficulty,
+    Expression<DateTime>? due,
+    Expression<DateTime>? lastStudied,
+    Expression<int>? reps,
+    Expression<int>? lapses,
+    Expression<int>? state,
+    Expression<bool>? isGhost,
+    Expression<bool>? isCompleted,
+    Expression<String>? lastUserAnswer,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (unitId != null) 'unit_id': unitId,
+      if (exerciseId != null) 'exercise_id': exerciseId,
+      if (stability != null) 'stability': stability,
+      if (difficulty != null) 'difficulty': difficulty,
+      if (due != null) 'due': due,
+      if (lastStudied != null) 'last_studied': lastStudied,
+      if (reps != null) 'reps': reps,
+      if (lapses != null) 'lapses': lapses,
+      if (state != null) 'state': state,
+      if (isGhost != null) 'is_ghost': isGhost,
+      if (isCompleted != null) 'is_completed': isCompleted,
+      if (lastUserAnswer != null) 'last_user_answer': lastUserAnswer,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  GrammarProgressEntriesCompanion copyWith({
+    Value<String>? unitId,
+    Value<String>? exerciseId,
+    Value<double>? stability,
+    Value<double>? difficulty,
+    Value<DateTime?>? due,
+    Value<DateTime?>? lastStudied,
+    Value<int>? reps,
+    Value<int>? lapses,
+    Value<CardState>? state,
+    Value<bool>? isGhost,
+    Value<bool>? isCompleted,
+    Value<String?>? lastUserAnswer,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return GrammarProgressEntriesCompanion(
+      unitId: unitId ?? this.unitId,
+      exerciseId: exerciseId ?? this.exerciseId,
+      stability: stability ?? this.stability,
+      difficulty: difficulty ?? this.difficulty,
+      due: due ?? this.due,
+      lastStudied: lastStudied ?? this.lastStudied,
+      reps: reps ?? this.reps,
+      lapses: lapses ?? this.lapses,
+      state: state ?? this.state,
+      isGhost: isGhost ?? this.isGhost,
+      isCompleted: isCompleted ?? this.isCompleted,
+      lastUserAnswer: lastUserAnswer ?? this.lastUserAnswer,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (unitId.present) {
+      map['unit_id'] = Variable<String>(unitId.value);
+    }
+    if (exerciseId.present) {
+      map['exercise_id'] = Variable<String>(exerciseId.value);
+    }
+    if (stability.present) {
+      map['stability'] = Variable<double>(stability.value);
+    }
+    if (difficulty.present) {
+      map['difficulty'] = Variable<double>(difficulty.value);
+    }
+    if (due.present) {
+      map['due'] = Variable<DateTime>(due.value);
+    }
+    if (lastStudied.present) {
+      map['last_studied'] = Variable<DateTime>(lastStudied.value);
+    }
+    if (reps.present) {
+      map['reps'] = Variable<int>(reps.value);
+    }
+    if (lapses.present) {
+      map['lapses'] = Variable<int>(lapses.value);
+    }
+    if (state.present) {
+      map['state'] = Variable<int>(
+        $GrammarProgressEntriesTable.$converterstate.toSql(state.value),
+      );
+    }
+    if (isGhost.present) {
+      map['is_ghost'] = Variable<bool>(isGhost.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
+    }
+    if (lastUserAnswer.present) {
+      map['last_user_answer'] = Variable<String>(lastUserAnswer.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GrammarProgressEntriesCompanion(')
+          ..write('unitId: $unitId, ')
+          ..write('exerciseId: $exerciseId, ')
+          ..write('stability: $stability, ')
+          ..write('difficulty: $difficulty, ')
+          ..write('due: $due, ')
+          ..write('lastStudied: $lastStudied, ')
+          ..write('reps: $reps, ')
+          ..write('lapses: $lapses, ')
+          ..write('state: $state, ')
+          ..write('isGhost: $isGhost, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('lastUserAnswer: $lastUserAnswer, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $DecksTable decks = $DecksTable(this);
   late final $CardsTable cards = $CardsTable(this);
   late final $ReviewLogsTable reviewLogs = $ReviewLogsTable(this);
+  late final $GrammarProgressEntriesTable grammarProgressEntries =
+      $GrammarProgressEntriesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1871,6 +2643,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     decks,
     cards,
     reviewLogs,
+    grammarProgressEntries,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -3207,6 +3980,400 @@ typedef $$ReviewLogsTableProcessedTableManager =
       ReviewLog,
       PrefetchHooks Function({bool cardId})
     >;
+typedef $$GrammarProgressEntriesTableCreateCompanionBuilder =
+    GrammarProgressEntriesCompanion Function({
+      required String unitId,
+      required String exerciseId,
+      Value<double> stability,
+      Value<double> difficulty,
+      Value<DateTime?> due,
+      Value<DateTime?> lastStudied,
+      Value<int> reps,
+      Value<int> lapses,
+      Value<CardState> state,
+      Value<bool> isGhost,
+      Value<bool> isCompleted,
+      Value<String?> lastUserAnswer,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+typedef $$GrammarProgressEntriesTableUpdateCompanionBuilder =
+    GrammarProgressEntriesCompanion Function({
+      Value<String> unitId,
+      Value<String> exerciseId,
+      Value<double> stability,
+      Value<double> difficulty,
+      Value<DateTime?> due,
+      Value<DateTime?> lastStudied,
+      Value<int> reps,
+      Value<int> lapses,
+      Value<CardState> state,
+      Value<bool> isGhost,
+      Value<bool> isCompleted,
+      Value<String?> lastUserAnswer,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$GrammarProgressEntriesTableFilterComposer
+    extends Composer<_$AppDatabase, $GrammarProgressEntriesTable> {
+  $$GrammarProgressEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get unitId => $composableBuilder(
+    column: $table.unitId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get exerciseId => $composableBuilder(
+    column: $table.exerciseId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get stability => $composableBuilder(
+    column: $table.stability,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get difficulty => $composableBuilder(
+    column: $table.difficulty,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get due => $composableBuilder(
+    column: $table.due,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastStudied => $composableBuilder(
+    column: $table.lastStudied,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get reps => $composableBuilder(
+    column: $table.reps,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lapses => $composableBuilder(
+    column: $table.lapses,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<CardState, CardState, int> get state =>
+      $composableBuilder(
+        column: $table.state,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<bool> get isGhost => $composableBuilder(
+    column: $table.isGhost,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastUserAnswer => $composableBuilder(
+    column: $table.lastUserAnswer,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$GrammarProgressEntriesTableOrderingComposer
+    extends Composer<_$AppDatabase, $GrammarProgressEntriesTable> {
+  $$GrammarProgressEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get unitId => $composableBuilder(
+    column: $table.unitId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get exerciseId => $composableBuilder(
+    column: $table.exerciseId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get stability => $composableBuilder(
+    column: $table.stability,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get difficulty => $composableBuilder(
+    column: $table.difficulty,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get due => $composableBuilder(
+    column: $table.due,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastStudied => $composableBuilder(
+    column: $table.lastStudied,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get reps => $composableBuilder(
+    column: $table.reps,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lapses => $composableBuilder(
+    column: $table.lapses,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isGhost => $composableBuilder(
+    column: $table.isGhost,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastUserAnswer => $composableBuilder(
+    column: $table.lastUserAnswer,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$GrammarProgressEntriesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GrammarProgressEntriesTable> {
+  $$GrammarProgressEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get unitId =>
+      $composableBuilder(column: $table.unitId, builder: (column) => column);
+
+  GeneratedColumn<String> get exerciseId => $composableBuilder(
+    column: $table.exerciseId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get stability =>
+      $composableBuilder(column: $table.stability, builder: (column) => column);
+
+  GeneratedColumn<double> get difficulty => $composableBuilder(
+    column: $table.difficulty,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get due =>
+      $composableBuilder(column: $table.due, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastStudied => $composableBuilder(
+    column: $table.lastStudied,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get reps =>
+      $composableBuilder(column: $table.reps, builder: (column) => column);
+
+  GeneratedColumn<int> get lapses =>
+      $composableBuilder(column: $table.lapses, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<CardState, int> get state =>
+      $composableBuilder(column: $table.state, builder: (column) => column);
+
+  GeneratedColumn<bool> get isGhost =>
+      $composableBuilder(column: $table.isGhost, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get lastUserAnswer => $composableBuilder(
+    column: $table.lastUserAnswer,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$GrammarProgressEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $GrammarProgressEntriesTable,
+          GrammarProgressEntry,
+          $$GrammarProgressEntriesTableFilterComposer,
+          $$GrammarProgressEntriesTableOrderingComposer,
+          $$GrammarProgressEntriesTableAnnotationComposer,
+          $$GrammarProgressEntriesTableCreateCompanionBuilder,
+          $$GrammarProgressEntriesTableUpdateCompanionBuilder,
+          (
+            GrammarProgressEntry,
+            BaseReferences<
+              _$AppDatabase,
+              $GrammarProgressEntriesTable,
+              GrammarProgressEntry
+            >,
+          ),
+          GrammarProgressEntry,
+          PrefetchHooks Function()
+        > {
+  $$GrammarProgressEntriesTableTableManager(
+    _$AppDatabase db,
+    $GrammarProgressEntriesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GrammarProgressEntriesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$GrammarProgressEntriesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$GrammarProgressEntriesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> unitId = const Value.absent(),
+                Value<String> exerciseId = const Value.absent(),
+                Value<double> stability = const Value.absent(),
+                Value<double> difficulty = const Value.absent(),
+                Value<DateTime?> due = const Value.absent(),
+                Value<DateTime?> lastStudied = const Value.absent(),
+                Value<int> reps = const Value.absent(),
+                Value<int> lapses = const Value.absent(),
+                Value<CardState> state = const Value.absent(),
+                Value<bool> isGhost = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<String?> lastUserAnswer = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GrammarProgressEntriesCompanion(
+                unitId: unitId,
+                exerciseId: exerciseId,
+                stability: stability,
+                difficulty: difficulty,
+                due: due,
+                lastStudied: lastStudied,
+                reps: reps,
+                lapses: lapses,
+                state: state,
+                isGhost: isGhost,
+                isCompleted: isCompleted,
+                lastUserAnswer: lastUserAnswer,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String unitId,
+                required String exerciseId,
+                Value<double> stability = const Value.absent(),
+                Value<double> difficulty = const Value.absent(),
+                Value<DateTime?> due = const Value.absent(),
+                Value<DateTime?> lastStudied = const Value.absent(),
+                Value<int> reps = const Value.absent(),
+                Value<int> lapses = const Value.absent(),
+                Value<CardState> state = const Value.absent(),
+                Value<bool> isGhost = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<String?> lastUserAnswer = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GrammarProgressEntriesCompanion.insert(
+                unitId: unitId,
+                exerciseId: exerciseId,
+                stability: stability,
+                difficulty: difficulty,
+                due: due,
+                lastStudied: lastStudied,
+                reps: reps,
+                lapses: lapses,
+                state: state,
+                isGhost: isGhost,
+                isCompleted: isCompleted,
+                lastUserAnswer: lastUserAnswer,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $GrammarProgressEntriesTable,
+                    GrammarProgressEntry
+                  >(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $GrammarProgressEntriesTable,
+                    GrammarProgressEntry
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$GrammarProgressEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $GrammarProgressEntriesTable,
+      GrammarProgressEntry,
+      $$GrammarProgressEntriesTableFilterComposer,
+      $$GrammarProgressEntriesTableOrderingComposer,
+      $$GrammarProgressEntriesTableAnnotationComposer,
+      $$GrammarProgressEntriesTableCreateCompanionBuilder,
+      $$GrammarProgressEntriesTableUpdateCompanionBuilder,
+      (
+        GrammarProgressEntry,
+        BaseReferences<
+          _$AppDatabase,
+          $GrammarProgressEntriesTable,
+          GrammarProgressEntry
+        >,
+      ),
+      GrammarProgressEntry,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3217,4 +4384,9 @@ class $AppDatabaseManager {
       $$CardsTableTableManager(_db, _db.cards);
   $$ReviewLogsTableTableManager get reviewLogs =>
       $$ReviewLogsTableTableManager(_db, _db.reviewLogs);
+  $$GrammarProgressEntriesTableTableManager get grammarProgressEntries =>
+      $$GrammarProgressEntriesTableTableManager(
+        _db,
+        _db.grammarProgressEntries,
+      );
 }

@@ -61,6 +61,7 @@ graph TD
 * Tự động phát hiện tag âm thanh `[sound:filename.mp3]`, tích hợp `audioplayers` phát audio mượt mà khi lật thẻ.
 
 ### E. AnkiWeb Auth & Sync (lib/core/sync/)
-* Giao thức xác thực HTTP `multipart/form-data` tới endpoint `https://ankiweb.net/account/login`.
-* Lưu trữ session token bảo mật với `flutter_secure_storage`.
-* Đồng bộ danh sách bộ thẻ và thẻ học về client.
+* Giao thức xác thực HTTP `multipart/form-data` tới endpoint `https://sync.ankiweb.net/sync/hostKey`.
+* Lưu trữ session token bảo mật với `flutter_secure_storage` (iOS Keychain / Android KeyStore / Windows DPAPI).
+* Đồng bộ 2 chiều toàn diện (Bộ thẻ, Thẻ học, Trạng thái FSRS, Lịch sử `revlog`) và Tệp tin đa phương tiện (`/msync/`).
+* Điều phối xung đột tự động với `SyncFlowCoordinator` và `SyncConflictDialog` (Responsive Modal / BottomSheet).

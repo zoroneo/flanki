@@ -23,7 +23,7 @@ class AdaptiveScaffold extends HookConsumerWidget {
       ref.read(deckListProvider.notifier).refresh();
     } else if (index == 1) {
       ref.read(cardBrowserProvider.notifier).refresh();
-    } else if (index == 2) {
+    } else if (index == 3) {
       ref.read(statsNotifierProvider.notifier).refresh();
     }
     navigationShell.goBranch(
@@ -42,7 +42,7 @@ class AdaptiveScaffold extends HookConsumerWidget {
     final totalDue = decks.fold<int>(0, (sum, deck) => sum + deck.dueCount);
     final currentIndex = navigationShell.currentIndex;
 
-    // Desktop keyboard shortcuts: Ctrl+1..4
+    // Desktop keyboard shortcuts: Ctrl+1..5
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.digit1, control: true): () =>
@@ -53,6 +53,8 @@ class AdaptiveScaffold extends HookConsumerWidget {
             _onTap(2, ref),
         const SingleActivator(LogicalKeyboardKey.digit4, control: true): () =>
             _onTap(3, ref),
+        const SingleActivator(LogicalKeyboardKey.digit5, control: true): () =>
+            _onTap(4, ref),
       },
       child: Focus(
         autofocus: true,
@@ -202,22 +204,31 @@ class _DesktopSidebar extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 _SidebarNavItem(
-                  icon: LucideIcons.chartColumn,
-                  activeIcon: LucideIcons.chartNoAxesCombined,
-                  label: l10n.navStats,
+                  icon: LucideIcons.bookOpenText,
+                  activeIcon: LucideIcons.bookOpen,
+                  label: l10n.navGrammar,
                   shortcutHint: 'Ctrl+3',
                   isSelected: currentIndex == 2,
                   onTap: () => onSelectTab(2),
                 ),
                 const SizedBox(height: 4),
                 _SidebarNavItem(
+                  icon: LucideIcons.chartColumn,
+                  activeIcon: LucideIcons.chartNoAxesCombined,
+                  label: l10n.navStats,
+                  shortcutHint: 'Ctrl+4',
+                  isSelected: currentIndex == 3,
+                  onTap: () => onSelectTab(3),
+                ),
+                const SizedBox(height: 4),
+                _SidebarNavItem(
                   icon: LucideIcons.settings,
                   activeIcon: LucideIcons.settings2,
                   label: l10n.navSettings,
-                  shortcutHint: 'Ctrl+4',
-                  isSelected: currentIndex == 3,
+                  shortcutHint: 'Ctrl+5',
+                  isSelected: currentIndex == 4,
                   indicatorColor: isAuthenticated ? m.Colors.green : null,
-                  onTap: () => onSelectTab(3),
+                  onTap: () => onSelectTab(4),
                 ),
               ],
             ),
@@ -442,19 +453,26 @@ class _MobileBottomNavBar extends StatelessWidget {
                 onTap: () => onTap(1),
               ),
               _BottomNavItem(
+                icon: LucideIcons.bookOpenText,
+                activeIcon: LucideIcons.bookOpen,
+                label: l10n.navGrammar,
+                isSelected: currentIndex == 2,
+                onTap: () => onTap(2),
+              ),
+              _BottomNavItem(
                 icon: LucideIcons.chartColumn,
                 activeIcon: LucideIcons.chartNoAxesCombined,
                 label: l10n.navStats,
-                isSelected: currentIndex == 2,
-                onTap: () => onTap(2),
+                isSelected: currentIndex == 3,
+                onTap: () => onTap(3),
               ),
               _BottomNavItem(
                 icon: LucideIcons.settings,
                 activeIcon: LucideIcons.settings2,
                 label: l10n.navSettings,
-                isSelected: currentIndex == 3,
+                isSelected: currentIndex == 4,
                 indicatorColor: isAuthenticated ? m.Colors.green : null,
-                onTap: () => onTap(3),
+                onTap: () => onTap(4),
               ),
             ],
           ),

@@ -42,6 +42,7 @@ Chào mừng đến với Knowledge Vault của dự án **Flanki** — Ứng d�
 - [[03-Domain-Spec/01-APKG-Packaging-Spec|01. Đặc Tả Định Dạng Đóng Gói .apkg]]
 - [[03-Domain-Spec/02-FSRS-Scheduling-Engine|02. Thuật Toán Lặp Lại Ngắt Quãng FSRS]]
 - [[03-Domain-Spec/03-Anki-Collection-Schema|03. Cấu Trúc Cơ Sở Dữ Liệu SQLite collection.anki2]]
+- [[03-Domain-Spec/04-Grammar-Module-Spec|04. Đặc Tả Kiến Trúc & Thuật Toán Module Ngữ Pháp (Grammar Module Spec)]]
 
 ### 04. Động Cơ Đồng Bộ (Sync Engine)
 

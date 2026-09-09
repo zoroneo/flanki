@@ -85,6 +85,7 @@ void main() {
         CREATE TABLE col (id integer primary key, decks text, models text);
         CREATE TABLE notes (id integer primary key, mid integer, tags text, flds text);
         CREATE TABLE cards (id integer primary key, nid integer, did integer, type integer, queue integer, due integer, ivl integer, factor integer, reps integer, lapses integer);
+        CREATE TABLE revlog (id integer primary key, cid integer, usn integer, ease integer, ivl integer, lastIvl integer, factor integer, time integer, type integer);
       ''');
       tempDbFile.execute(
         'INSERT INTO col (id, decks, models) VALUES (1, ?, ?)',
@@ -96,6 +97,9 @@ void main() {
       );
       tempDbFile.execute(
         'INSERT INTO cards (id, nid, did, reps, lapses, ivl) VALUES (201, 101, 1600000000000, 3, 0, 4)',
+      );
+      tempDbFile.execute(
+        'INSERT INTO revlog (id, cid, ease, ivl, lastIvl, time) VALUES (1600000005000, 201, 3, 4, 1, 3000)',
       );
       tempDbFile.execute(
         'INSERT INTO notes (id, mid, tags, flds) VALUES (102, 1, ?, ?)',
@@ -135,6 +139,10 @@ void main() {
       expect(result.cards.last.stability, equals(0.0));
       expect(result.cards.last.noteType, equals(NoteType.cloze));
       expect(result.mediaCount, equals(1));
+      expect(result.reviewLogs.length, equals(1));
+      expect(result.reviewLogs.first.cardId, equals('c_201'));
+      expect(result.reviewLogs.first.rating, equals(ReviewRating.good));
+      expect(result.reviewLogs.first.scheduledDays, equals(4));
 
       // 4. Test importer via file path (streaming)
       final tempApkgFile = io.File(
@@ -146,6 +154,8 @@ void main() {
         expect(pathResult.decks.length, equals(1));
         expect(pathResult.decks.first.title, equals('English::IELTS Prep'));
         expect(pathResult.cards.length, equals(2));
+        expect(pathResult.reviewLogs.length, equals(1));
+        expect(pathResult.reviewLogs.first.cardId, equals('c_201'));
         expect(pathResult.mediaCount, equals(1));
       } finally {
         if (tempApkgFile.existsSync()) {

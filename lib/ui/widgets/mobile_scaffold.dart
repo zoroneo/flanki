@@ -21,7 +21,7 @@ class MobileScaffold extends HookConsumerWidget {
       ref.read(deckListProvider.notifier).refresh();
     } else if (index == 1) {
       ref.read(cardBrowserProvider.notifier).refresh();
-    } else if (index == 2) {
+    } else if (index == 3) {
       ref.read(statsNotifierProvider.notifier).refresh();
     }
     navigationShell.goBranch(
@@ -78,21 +78,28 @@ class MobileScaffold extends HookConsumerWidget {
                       onTap: () => _onTap(1, ref),
                     ),
                     _BottomNavItem(
+                      icon: LucideIcons.bookOpenText,
+                      activeIcon: LucideIcons.bookOpen,
+                      label: l10n.navGrammar,
+                      isSelected: currentIndex == 2,
+                      onTap: () => _onTap(2, ref),
+                    ),
+                    _BottomNavItem(
                       icon: LucideIcons.chartColumn,
                       activeIcon: LucideIcons.chartNoAxesCombined,
                       label: l10n.navStats,
-                      isSelected: currentIndex == 2,
-                      onTap: () => _onTap(2, ref),
+                      isSelected: currentIndex == 3,
+                      onTap: () => _onTap(3, ref),
                     ),
                     _BottomNavItem(
                       icon: LucideIcons.settings,
                       activeIcon: LucideIcons.settings2,
                       label: l10n.navSettings,
-                      isSelected: currentIndex == 3,
+                      isSelected: currentIndex == 4,
                       indicatorColor: authState.isAuthenticated
                           ? m.Colors.green
                           : null,
-                      onTap: () => _onTap(3, ref),
+                      onTap: () => _onTap(4, ref),
                     ),
                   ],
                 ),

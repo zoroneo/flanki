@@ -6,6 +6,25 @@ import '../../l10n/generated/app_localizations.dart';
 
 const String _kLocaleStorageKey = 'user_selected_locale';
 
+enum AppLanguage {
+  english('en', 'English'),
+  vietnamese('vi', 'Tiếng Việt');
+
+  final String code;
+  final String displayName;
+  const AppLanguage(this.code, this.displayName);
+
+  Locale get locale => Locale(code);
+
+  static AppLanguage? fromCode(String? code) {
+    if (code == null) return null;
+    for (final lang in AppLanguage.values) {
+      if (lang.code == code) return lang;
+    }
+    return null;
+  }
+}
+
 final localeNotifierProvider = NotifierProvider<LocaleNotifier, Locale?>(
   LocaleNotifier.new,
 );

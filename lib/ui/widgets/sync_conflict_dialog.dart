@@ -3,7 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../core/localization/locale_notifier.dart';
 
-enum SyncConflictChoice { upload, download }
+enum SyncConflictChoice { merge, upload, download }
 
 class SyncConflictDialog extends StatelessWidget {
   final DateTime? localLastSync;
@@ -210,6 +210,17 @@ class SyncConflictDialog extends StatelessWidget {
         _buildOptionCard(
           context: context,
           theme: theme,
+          icon: LucideIcons.gitMerge,
+          iconColor: theme.colorScheme.primary,
+          title: l10n.mergeCollectionsTitle,
+          desc: l10n.mergeCollectionsDesc,
+          badge: l10n.recommendedBadge,
+          onTap: () => Navigator.of(context).pop(SyncConflictChoice.merge),
+        ),
+        const SizedBox(height: 8),
+        _buildOptionCard(
+          context: context,
+          theme: theme,
           icon: LucideIcons.cloudUpload,
           iconColor: theme.colorScheme.primary,
           title: l10n.uploadToCloudTitle,
@@ -280,6 +291,7 @@ class SyncConflictDialog extends StatelessWidget {
     required Color iconColor,
     required String title,
     required String desc,
+    String? badge,
     required VoidCallback onTap,
   }) {
     return m.Material(
@@ -293,7 +305,9 @@ class SyncConflictDialog extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: theme.colorScheme.border.withValues(alpha: 0.8),
+              color: badge != null
+                  ? theme.colorScheme.primary.withValues(alpha: 0.4)
+                  : theme.colorScheme.border.withValues(alpha: 0.8),
             ),
           ),
           child: Row(
@@ -311,9 +325,36 @@ class SyncConflictDialog extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: theme.typography.semiBold.copyWith(fontSize: 13),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            title,
+                            style: theme.typography.semiBold.copyWith(fontSize: 13),
+                          ),
+                        ),
+                        if (badge != null) ...[
+                          const SizedBox(width: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 1,
+                            ),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              badge,
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     const SizedBox(height: 2),
                     Text(

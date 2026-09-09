@@ -18,6 +18,7 @@ import '../../../core/services/desktop_update_service.dart';
 import 'widgets/scratchpad_overlay.dart';
 import 'widgets/card_action_sheet.dart';
 import 'widgets/rich_card_content.dart';
+import '../../widgets/sync_flow_coordinator.dart';
 
 class StudySessionScreen extends HookConsumerWidget {
   final String deckId;
@@ -70,6 +71,21 @@ class StudySessionScreen extends HookConsumerWidget {
       }
       return null;
     }, [sessionState.isFlipped]);
+
+    // Automatically synchronize study progress to cloud when session finishes
+    useEffect(() {
+      if (sessionState.isFinished && sessionState.completedCount > 0) {
+        Future.microtask(() {
+          if (!context.mounted) return;
+          SyncFlowCoordinator.runAutoSync(
+            context: context,
+            ref: ref,
+            l10n: l10n,
+          );
+        });
+      }
+      return null;
+    }, [sessionState.isFinished]);
 
     void handleFlip() {
       if (!sessionState.isFlipped) {

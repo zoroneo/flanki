@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
+import '../models/card.dart';
+
 part 'app_database.g.dart';
 
 class Decks extends Table {
@@ -51,10 +53,39 @@ class ReviewLogs extends Table {
   IntColumn get elapsedDays => integer().withDefault(const Constant(0))();
 }
 
-@DriftDatabase(tables: [Decks, Cards, ReviewLogs])
+class GrammarProgressEntries extends Table {
+  TextColumn get unitId => text()();
+  TextColumn get exerciseId => text()();
+  RealColumn get stability => real().withDefault(const Constant(0.0))();
+  RealColumn get difficulty => real().withDefault(const Constant(0.0))();
+  DateTimeColumn get due => dateTime().nullable()();
+  DateTimeColumn get lastStudied => dateTime().nullable()();
+  IntColumn get reps => integer().withDefault(const Constant(0))();
+  IntColumn get lapses => integer().withDefault(const Constant(0))();
+  IntColumn get state => intEnum<CardState>().withDefault(const Constant(0))();
+  BoolColumn get isGhost => boolean().withDefault(const Constant(false))();
+  BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
+  TextColumn get lastUserAnswer => text().nullable()();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {unitId, exerciseId};
+}
+
+@DriftDatabase(tables: [Decks, Cards, ReviewLogs, GrammarProgressEntries])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? driftDatabase(name: 'flanki'));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) => m.createAll(),
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            await m.createTable(grammarProgressEntries);
+          }
+        },
+      );
 }

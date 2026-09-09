@@ -32,6 +32,10 @@ gantt
     section Phase 5: Multi-platform Release
     Tối ưu hóa iOS & Android                 :p5_1, 2026-09-08, 3d
     Đóng gói macOS & Windows Desktop         :p5_2, 2026-09-11, 3d
+    section Phase 6: Academic Grammar Engine
+    Data Pipeline & Drift Schema             :done, p6_1, 2026-09-09, 1d
+    Two-Tier FSRS & Ghost Review System      :done, p6_2, 2026-09-09, 1d
+    UI Practice (Choice, Error ID, Cloze)    :done, p6_3, 2026-09-09, 1d
 ```
 
 ### Chi tiết các cột mốc:
@@ -40,3 +44,4 @@ gantt
 3. **Milestone 3 — Study Experience Mochi/RemNote**: Trải nghiệm ôn thẻ tương tác mượt mà với Scratchpad vẽ nháp, Card Action Sheet (Gắn cờ, Tạm dừng, Đặt lại), phân cấp bộ thẻ `::`, trình duyệt thẻ với chức năng Xóa thẻ & Hoàn tác (Undo).
 4. **Milestone 4 — AnkiWeb Synchronization**: Đăng nhập AnkiWeb qua giao thức mạng `multipart/form-data`, đồng bộ danh sách thẻ và trạng thái ôn tập.
 5. **Milestone 5 — Multi-platform Polish**: Hoàn thiện đóng gói và phát hành ứng dụng trên iOS, Android, macOS và Windows.
+6. **Milestone 6 — Academic Grammar Engine**: Hệ thống 36 chuyên đề C1/C2 (540 bài tập chuẩn hóa), thuật toán FSRS hai tầng (Unit Mastery + Item Spacing), cơ chế Ghost Review triệt tiêu điểm yếu và tương tác tìm lỗi sai (`error_id`) trực tiếp trên văn bản.

@@ -38,8 +38,14 @@ class DecksScreen extends HookConsumerWidget {
 
     useEffect(() {
       Future.microtask(() {
+        if (!context.mounted) return;
         deckNotifier.refresh();
         ref.read(statsNotifierProvider.notifier).refresh();
+        SyncFlowCoordinator.runAutoSync(
+          context: context,
+          ref: ref,
+          l10n: l10n,
+        );
       });
       return null;
     }, const []);

@@ -6,6 +6,10 @@ import '../../ui/screens/auth/anki_web_auth_screen.dart';
 import '../../ui/screens/browser/card_browser_screen.dart';
 import '../../ui/screens/decks/decks_screen.dart';
 import '../../ui/screens/editor/note_editor_screen.dart';
+import '../models/grammar/grammar_models.dart';
+import '../../ui/screens/grammar/grammar_catalog_screen.dart';
+import '../../ui/screens/grammar/grammar_practice_screen.dart';
+import '../../ui/screens/grammar/grammar_theory_screen.dart';
 import '../../ui/screens/settings/licenses_screen.dart';
 import '../../ui/screens/settings/privacy_policy_screen.dart';
 import '../../ui/screens/settings/settings_screen.dart';
@@ -42,6 +46,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 name: 'browser',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: CardBrowserScreen()),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/grammar',
+                name: 'grammar',
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: GrammarCatalogScreen()),
               ),
             ],
           ),
@@ -99,6 +113,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final deckId = state.pathParameters['deckId'] ?? 'default';
           return StudySessionScreen(deckId: deckId);
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: '/grammar/:unitId/theory',
+        name: 'grammar-theory',
+        builder: (context, state) {
+          final unitId = state.pathParameters['unitId'] ?? '';
+          return GrammarTheoryScreen(unitId: unitId);
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: '/grammar/:unitId/practice',
+        name: 'grammar-practice',
+        builder: (context, state) {
+          final unitId = state.pathParameters['unitId'] ?? '';
+          final mode = GrammarPracticeMode.fromString(state.uri.queryParameters['mode']);
+          return GrammarPracticeScreen(unitId: unitId, mode: mode);
         },
       ),
     ],

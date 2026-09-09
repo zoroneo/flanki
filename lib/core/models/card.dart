@@ -52,6 +52,23 @@ enum ReviewRating {
   }
 }
 
+enum CardState {
+  newCard(0),
+  learning(1),
+  review(2),
+  relearning(3);
+
+  final int value;
+  const CardState(this.value);
+
+  static CardState fromValue(int? val) {
+    return CardState.values.firstWhere(
+      (e) => e.value == val,
+      orElse: () => CardState.newCard,
+    );
+  }
+}
+
 class CardModel {
   final String id;
   final String deckId;

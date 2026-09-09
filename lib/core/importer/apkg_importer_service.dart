@@ -18,11 +18,13 @@ import 'anki_template_engine.dart';
 class ApkgImportResult {
   final List<DeckModel> decks;
   final List<CardModel> cards;
+  final List<ReviewLogModel> reviewLogs;
   final int mediaCount;
 
   const ApkgImportResult({
     required this.decks,
     required this.cards,
+    this.reviewLogs = const [],
     required this.mediaCount,
   });
 }
@@ -437,9 +439,41 @@ class ApkgImporterService {
           .where((d) => d.totalCount > 0)
           .toList();
 
+      // 4. Parse revlog (review history)
+      final reviewLogs = <ReviewLogModel>[];
+      final revlogTables = db.select(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='revlog'",
+      );
+      if (revlogTables.isNotEmpty) {
+        final revlogResult = db.select(
+          'SELECT id, cid, ease, ivl, lastIvl, time FROM revlog ORDER BY id ASC',
+        );
+        for (final r in revlogResult) {
+          final id = r['id'] as int;
+          final cid = r['cid'] as int;
+          final ease = r['ease'] as int? ?? 1;
+          final ivl = r['ivl'] as int? ?? 0;
+          final lastIvl = r['lastIvl'] as int? ?? 0;
+
+          final rating = ReviewRating.fromValue(ease);
+          final reviewTime = DateTime.fromMillisecondsSinceEpoch(id);
+          reviewLogs.add(
+            ReviewLogModel(
+              id: id,
+              cardId: 'c_$cid',
+              rating: rating,
+              reviewTime: reviewTime,
+              scheduledDays: ivl,
+              elapsedDays: lastIvl,
+            ),
+          );
+        }
+      }
+
       return ApkgImportResult(
         decks: updatedDecks.isNotEmpty ? updatedDecks : decks,
         cards: cards,
+        reviewLogs: reviewLogs,
         mediaCount: mediaCount,
       );
     } finally {

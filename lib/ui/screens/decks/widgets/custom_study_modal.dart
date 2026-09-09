@@ -3,14 +3,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/models/custom_study_mode.dart';
 
 import '../../../widgets/adaptive_modal.dart';
 import '../../../widgets/form_focus_helper.dart';
 
-enum CustomStudyMode { byTag, flagged, reviewAhead }
-
 class CustomStudyModal extends HookWidget {
-  final void Function(String name, String tag, int limit, String mode)
+  final void Function(String name, String tag, int limit, CustomStudyMode mode)
   onStartCram;
   final bool isDesktop;
 
@@ -23,7 +22,7 @@ class CustomStudyModal extends HookWidget {
   /// Shows the custom study modal adaptively (bottom sheet on mobile, dialog on desktop).
   static Future<void> show(
     BuildContext context, {
-    required void Function(String name, String tag, int limit, String mode)
+    required void Function(String name, String tag, int limit, CustomStudyMode mode)
     onStartCram,
   }) {
     return showAdaptiveModal(
@@ -59,7 +58,7 @@ class CustomStudyModal extends HookWidget {
         displayName,
         tagName,
         limit.value,
-        mode.value.name,
+        mode.value,
       );
       Navigator.of(context).pop();
     }
