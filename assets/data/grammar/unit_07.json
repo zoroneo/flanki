@@ -1,0 +1,376 @@
+{
+  "unitId": "unit-07-passive-voice",
+  "title": "Unit 07: Passive Voice (Câu bị động: Các thì cơ bản, Modal Verbs, Bị động kép và Thể truyền khiến)",
+  "category": "voice",
+  "level": 2,
+  "coreConcept": "Tư duy cốt lõi của người bản xứ khi sử dụng Câu bị động (Passive Voice) hoàn toàn không phải để làm cho câu văn trở nên phức tạp hay hoa mỹ, mà xuất phát từ 3 nguyên lý thực chiến sâu sắc trong giao tiếp tự nhiên và học thuật:\n\n1. Nguyên lý Định hướng Tâm điểm Chú ý (Focus / Topic Shift):\n- Trong tư duy tiếng Anh, thông tin quan trọng nhất hoặc đối tượng mà người nói muốn người nghe hướng sự chú ý tới sẽ được đặt ở vị trí CHỦ NGỮ (Topic position / Old Information).\n- Khi kết quả của hành động hoặc đối tượng chịu tác động (The Receiver) quan trọng hơn bản thân người thực hiện (The Agent), người bản xứ lập tức chuyển đối tượng đó lên đầu câu.\n- Ví dụ: Trong nhà máy, câu 'Over 10,000 electric vehicles were assembled last month' nhấn mạnh vào quy mô sản lượng đạt được, thay vì hành động của công nhân ('Workers assembled 10,000 electric vehicles').\n\n2. Nguyên lý Tối ưu Thông tin Khách quan (Objective Context & Omission of Agent):\n- Người bản xứ chủ động lược bỏ tác nhân ('by someone') khi:\n  + Tác nhân hiển nhiên hoặc ai cũng biết: 'The burglar was arrested last night' (Hiển nhiên do cảnh sát bắt, không cần 'by the police').\n  + Tác nhân vô danh hoặc không xác định: 'My laptop was stolen at the airport' (Không rõ ai lấy cắp).\n  + Trong văn bản khoa học, báo cáo tài chính, hợp đồng pháp lý: Cần tính khách quan tuyệt đối, loại bỏ yếu tố chủ quan cá nhân. Ví dụ: 'The chemical solution was heated to 100°C' thay vì 'I heated the chemical solution'.\n\n3. Nghệ thuật Giao tiếp Tinh tế và Né tránh Đổ lỗi (Tactful Communication & Avoiding Blame):\n- Trong môi trường công sở quốc tế (Corporate Culture), việc trực tiếp chỉ trích đối tác hoặc đồng nghiệp bị coi là thiếu tế nhị và gây căng thẳng không đáng có.\n- Câu chủ động trực diện: 'You made a critical calculation mistake' (Bạn đã phạm sai lầm tính toán nghiêm trọng) mang tính công kích cá nhân mạnh mẽ.\n- Câu bị động ngoại giao: 'A critical calculation mistake was made in the financial report' (Đã có một sai sót tính toán trong báo cáo tài chính). Trọng tâm chuyển vào 'vấn đề cần khắc phục' chứ không còn là 'kẻ gây ra lỗi'.",
+  "formulas": {
+    "basicTenses": "BẢNG CÔNG THỨC BỊ ĐỘNG CÁC THÌ CƠ BẢN (Nguyên tắc bất biến: S + BE + V3/ed):\n1. Hiện tại đơn (Present Simple): S + am / is / are + V3/ed\n   Ví dụ: Monthly sales reports are compiled by the analytics department.\n2. Quá khứ đơn (Past Simple): S + was / were + V3/ed\n   Ví dụ: The contract was signed by both parties yesterday morning.\n3. Hiện tại tiếp diễn (Present Continuous): S + am / is / are + BEING + V3/ed\n   Ví dụ: The confidential strategy is being discussed in the boardroom.\n4. Quá khứ tiếp diễn (Past Continuous): S + was / were + BEING + V3/ed\n   Ví dụ: The software bug was being investigated when the server crashed.\n5. Hiện tại hoàn thành (Present Perfect): S + have / has + BEEN + V3/ed\n   Ví dụ: All regulatory requirements have been fulfilled successfully.\n6. Quá khứ hoàn thành (Past Perfect): S + had + BEEN + V3/ed\n   Ví dụ: The files had been archived before the system was upgraded.\n7. Tương lai đơn (Future Simple): S + will + BE + V3/ed\n   Ví dụ: The final inspection will be conducted next Monday.\n8. Tương lai gần (Be going to): S + am / is / are + going to BE + V3/ed\n   Ví dụ: New safety guidelines are going to be implemented next quarter.",
+    "modalVerbs": "CÔNG THỨC BỊ ĐỘNG VỚI ĐỘNG TỪ KHUYẾT THIẾU (MODAL VERBS):\n1. Bị động với Modal Verbs ở hiện tại / tương lai (can, could, may, might, must, should, ought to, will, would):\n   Công thức: S + modal verb + BE + V3/ed\n   Ví dụ: Hard hats must be worn at all times inside the construction site.\n   Ví dụ: The revised proposal should be submitted before 5:00 PM.\n2. Bị động với Modal Perfect (suy đoán hoặc trách móc trong quá khứ):\n   Công thức: S + modal verb + HAVE BEEN + V3/ed\n   - must have been V3/ed: Chắc hẳn đã được làm (suy đoán chắc chắn trong quá khứ).\n   - should have been V3/ed: Đáng lẽ ra nên được làm trong quá khứ (thực tế đã không làm).\n   - could / might have been V3/ed: Có lẽ đã được làm trong quá khứ.\n   Ví dụ: The invoice should have been verified before the payment was authorized.",
+    "causative": "CÔNG THỨC THỂ TRUYỀN KHIẾN / CẦU KHIẾN (CAUSATIVE FORM):\n1. Truyền khiến chủ động (Nhờ / Thuê / Khiến ai làm gì):\n   - Have someone + V-bare (nguyên thể không 'to'): She had the technician configure the router.\n   - Get someone + TO V: She got the technician to configure the router.\n2. Truyền khiến bị động (Thuê / Cho ai đó làm gì cho mình - trọng tâm là đồ vật/công việc hoàn thành):\n   - Have + SOMETHING + V3/ed (bắt buộc dùng V3/ed sau vật)\n   - Get + SOMETHING + V3/ed (bắt buộc dùng V3/ed sau vật)\n   Ví dụ: The marketing director had the company brochure redesigned by a branding agency.\n   Ví dụ: We need to get this air conditioner serviced before summer begins."
+  },
+  "advancedStructures": "CÁC CẤU TRÚC BỊ ĐỘNG NÂNG CAO THƯỜNG GẶP TRONG TOEIC PART 5 & ĐỀ THI CHUYÊN:\n\n1. Bị động kép với động từ trần thuật và ý kiến (Reporting / Perception Verbs: say, think, believe, report, expect, consider, understand, claim, acknowledge):\n- Thể vô nhân xưng (Impersonal Passive): Dùng 'It' làm chủ ngữ giả.\n  + Công thức: It + be + V3/ed (said/believed/reported...) + that + S + V...\n  + Ví dụ: It is reported that the global tech firm will lay off 5% of its workforce.\n- Thể cá nhân hóa (Personal Passive): Đưa chủ ngữ của mệnh đề 'that' lên đầu câu.\n  + Trường hợp 1: CÙNG THÌ hoặc HÀNH ĐỘNG SAU XẢY RA ĐỒNG THỜI / TƯƠNG LAI -> Dùng 'TO V_bare' (hoặc 'TO BE V-ing').\n    Ví dụ: People believe that he works 12 hours a day. -> He is believed TO WORK 12 hours a day.\n  + Trường hợp 2: LỆCH THÌ (Hành động ở mệnh đề sau XẢY RA TRƯỚC thời điểm trần thuật ở mệnh đề trước) -> Bắt buộc dùng PERFECT INFINITIVE: 'TO HAVE V3/ed'.\n    Ví dụ: People say that the ancient artifact was buried in the 5th century. -> The ancient artifact is said TO HAVE BEEN BURIED in the 5th century.\n    Ví dụ: It is reported that the accountant embezzled funds last month. -> The accountant is reported TO HAVE EMBEZZLED funds last month.\n\n2. Bị động với Động từ có hai tân ngữ (Ditransitive Verbs: give, send, lend, offer, award, show, grant, teach):\n- Động từ có cấu trúc: S + V + Indirect Object (Người) + Direct Object (Vật).\n- Khi chuyển sang bị động, văn phong tiếng Anh tự nhiên ưu tiên TUYỆT ĐỐI đưa tân ngữ CHỈ NGƯỜI lên làm chủ ngữ bị động:\n  + Cách 1 (Ưu tiên số 1): S (Người) + be + V3/ed + Direct Object (Vật).\n    Ví dụ: The manager gave Mr. Evans a promotion. -> Mr. Evans was given a promotion by the manager.\n  + Cách 2: S (Vật) + be + V3/ed + TO / FOR + Indirect Object (Người).\n    Ví dụ: A promotion was given to Mr. Evans by the manager. (Ít tự nhiên hơn Cách 1 khi nói về con người nhận quyền lợi).\n\n3. Bị động của động từ đi kèm giới từ / cụm động từ (Phrasal Verbs in Passive Voice):\n- Giới từ đi liền sau động từ KHÔNG ĐƯỢC PHÉP LƯỢC BỎ khi chuyển sang bị động.\n- Ví dụ: The board agreed to the new merger terms. -> The new merger terms were agreed to by the board.\n- Ví dụ: You must look into the customer complaint immediately. -> The customer complaint must be looked into immediately.",
+  "commonTraps": [
+    {
+      "trap": "Bẫy 1: Chia bị động cho NỘI ĐỘNG TỪ (Intransitive Verbs) - Lỗi sai kinh điển số 1",
+      "exampleWrong": "The unforeseen production delay was occurred because of a severe shortage of raw materials.",
+      "exampleRight": "The unforeseen production delay occurred because of a severe shortage of raw materials.",
+      "note": "Nội động từ là các động từ tự thân hành động, KHÔNG BAO GIỜ nhận tân ngữ trực tiếp đi kèm. Do đó, chúng TUYỆT ĐỐI KHÔNG CÓ thể bị động trong tiếng Anh. Các nội động từ bẫy thí sinh TOEIC/THPTQG nhiều nhất bao gồm: occur, happen, take place (diễn ra), remain (duy trì/còn lại), disappear (biến mất), arrive (đến), die (chết), appear (xuất hiện), exist (tồn tại), consist of (bao gồm). Thấy các từ này chia 'was occurred', 'were disappeared', 'is existed' là sai ngay lập tức!"
+    },
+    {
+      "trap": "Bẫy 2: Nhầm lẫn giữa 'To V' và 'To have V3' trong Bị động kép lệch thì",
+      "exampleWrong": "The former finance director is reported to embezzle millions of dollars before he fled the country.",
+      "exampleRight": "The former finance director is reported to have embezzled millions of dollars before he fled the country.",
+      "note": "Đề thi thường cho mệnh đề chính ở thì hiện tại ('is reported / is believed') nhưng hành động được tường thuật lại xảy ra ở quá khứ hoàn tất ('before he fled'). Thí sinh nếu chỉ nhớ vẹt 'is reported + to V' sẽ chọn sai ngay phương án 'to embezzle'. Khi hành động được báo cáo xảy ra TRƯỚC thời điểm nói/báo cáo, bắt buộc phải dùng thì phân từ hoàn thành: 'to have + V3/ed'."
+    },
+    {
+      "trap": "Bẫy 3: Nhầm lẫn giữa Hiện tại phân từ (V-ing) và Quá khứ phân từ (V3/ed) trong Mệnh đề quan hệ rút gọn",
+      "exampleWrong": "All electronic devices manufacturing in this state-of-the-art facility meet international ISO safety standards.",
+      "exampleRight": "All electronic devices manufactured in this state-of-the-art facility meet international ISO safety standards.",
+      "note": "Khi rút gọn mệnh đề quan hệ bổ nghĩa cho danh từ chỉ vật/đối tượng chịu tác động: Mệnh đề chủ động rút gọn thành V-ing, nhưng Mệnh đề bị động bắt buộc rút gọn thành V3/ed. Thiết bị điện tử được sản xuất (which are manufactured) chứ không thể tự nó sản xuất, do đó chỉ được dùng 'manufactured'."
+    },
+    {
+      "trap": "Bẫy 4: Sai dạng động từ sau Thể truyền khiến Have/Get với tân ngữ chỉ vật (Causative Passive)",
+      "exampleWrong": "The operations supervisor had the outdated security cameras replace with high-resolution digital models.",
+      "exampleRight": "The operations supervisor had the outdated security cameras replaced with high-resolution digital models.",
+      "note": "Rất nhiều học viên nhớ máy móc công thức 'Have someone + V-bare' nên khi nhìn thấy động từ 'had', lập tức chọn động từ nguyên thể 'replace'. Hãy kiểm tra kỹ đối tượng đứng ngay sau 'have/get': Nếu là danh từ chỉ vật/đối tượng tiếp nhận hành động ('the outdated security cameras'), cấu trúc bắt buộc phải là 'Have/Get sth + V3/ed' mang ý nghĩa 'cho cái gì được làm'."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex_01",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "To comply with international data security standards, all confidential client records ________ in encrypted cloud repositories before the quarterly compliance audit begins.",
+      "options": [
+        "must be stored",
+        "must store",
+        "must have stored",
+        "are storing"
+      ],
+      "correctAnswer": "must be stored",
+      "explanation": {
+        "translation": "Để tuân thủ các tiêu chuẩn bảo mật dữ liệu quốc tế, tất cả hồ sơ mật của khách hàng phải được lưu trữ trong các kho lưu trữ đám mây mã hóa trước khi cuộc kiểm toán tuân thủ hàng quý bắt đầu.",
+        "keySignal": "Chủ ngữ 'all confidential client records' là danh từ chỉ vật chịu tác động, đi kèm động từ khuyết thiếu mang tính quy định 'must' và mệnh đề thời gian 'before the quarterly compliance audit begins'.",
+        "rule": "Bị động với Modal Verbs ở hiện tại/tương lai: S + modal verb + be + V3/ed.",
+        "whyCorrect": "Hồ sơ khách hàng không thể tự lưu trữ mà phải 'được lưu trữ' (mang nghĩa bị động). Do đó, cấu trúc bắt buộc là 'must be stored'.",
+        "distractorBreakdown": {
+          "must store": "Sai vì ở thể chủ động, mâu thuẫn ngữ nghĩa do tài liệu mật không thể tự lưu trữ.",
+          "must have stored": "Sai vì 'must have + V3' dùng để phán đoán hành động chắc hẳn đã xảy ra trong quá khứ, không phù hợp với quy định hiện tại/tương lai.",
+          "are storing": "Sai vì ở thể chủ động thì hiện tại tiếp diễn, sai hoàn toàn về mặt ngữ pháp và ngữ nghĩa."
+        }
+      }
+    },
+    {
+      "id": "ex_02",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Because the central air conditioning units malfunctioned during the heatwave, the facility director decided to have the compressors ________ by an external technical contractor.",
+      "options": [
+        "inspected",
+        "inspect",
+        "inspecting",
+        "to inspect"
+      ],
+      "correctAnswer": "inspected",
+      "explanation": {
+        "translation": "Do các dàn điều hòa trung tâm bị trục trặc trong đợt nắng nóng, giám đốc cơ sở vật chất đã quyết định thuê nhà thầu kỹ thuật bên ngoài kiểm tra các máy nén.",
+        "keySignal": "Cấu trúc truyền khiến 'have + the compressors (vật) + ________'.",
+        "rule": "Thể truyền khiến bị động (Causative Passive): have + something + V3/ed (thuê/nhờ cái gì được làm bởi ai).",
+        "whyCorrect": "'The compressors' (máy nén khí) là tân ngữ chỉ vật chịu tác động của hành động kiểm tra, nên vị trí trống cần một quá khứ phân từ V3/ed là 'inspected'.",
+        "distractorBreakdown": {
+          "inspect": "Sai vì 'have someone + V-bare' chỉ áp dụng khi tân ngữ là người trực tiếp làm hành động (Have the contractor inspect...).",
+          "inspecting": "Sai vì thể truyền khiến không dùng dạng V-ing sau tân ngữ chỉ vật.",
+          "to inspect": "Sai vì sau 'have' trong thể truyền khiến không bao giờ dùng 'to V'."
+        }
+      }
+    },
+    {
+      "id": "ex_03",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "The former chief operating officer is widely believed ________ proprietary source code to a competitor before his sudden dismissal last autumn.",
+      "options": [
+        "to have leaked",
+        "to leak",
+        "leaking",
+        "to be leaked"
+      ],
+      "correctAnswer": "to have leaked",
+      "explanation": {
+        "translation": "Cựu giám đốc vận hành được cho là đã làm rò rỉ mã nguồn độc quyền cho một đối thủ cạnh tranh trước khi bị sa thải đột ngột vào mùa thu năm ngoái.",
+        "keySignal": "Cấu trúc bị động cá nhân 'is widely believed' (thì hiện tại) đi kèm mốc thời gian hành động đã hoàn tất trong quá khứ 'before his sudden dismissal last autumn'.",
+        "rule": "Bị động kép lệch thì: Khi động từ trần thuật ở hiện tại (is believed) nhưng hành động sau diễn ra trước trong quá khứ, bắt buộc dùng Perfect Infinitive: S + be + V3/ed + TO HAVE + V3/ed.",
+        "whyCorrect": "Hành động 'làm rò rỉ mã nguồn' xảy ra trong quá khứ trước mốc bị sa thải ('last autumn'), lệch thì so với nhận định ở hiện tại ('is believed'), nên phải dùng 'to have leaked'.",
+        "distractorBreakdown": {
+          "to leak": "Sai vì 'to V' chỉ dùng khi hai hành động diễn ra cùng thì hoặc đồng thời.",
+          "leaking": "Sai vì cấu trúc bị động cá nhân với 'believe' bắt buộc đi với động từ nguyên mẫu có 'to' (to V), không dùng V-ing.",
+          "to be leaked": "Sai vì mang nghĩa bị động (bản thân cựu COO bị rò rỉ), trong khi ông ấy là người chủ động rò rỉ tài liệu ('proprietary source code' là tân ngữ)."
+        }
+      }
+    },
+    {
+      "id": "ex_04",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "Following their exemplary contributions to the overseas expansion initiative, the regional sales representatives ________ a lucrative performance bonus by the executive board.",
+      "options": [
+        "were awarded",
+        "awarded",
+        "were awarding",
+        "have awarded"
+      ],
+      "correctAnswer": "were awarded",
+      "explanation": {
+        "translation": "Sau những đóng góp gương mẫu cho sáng kiến mở rộng thị trường nước ngoài, các đại diện bán hàng khu vực đã được hội đồng điều hành trao tặng một khoản tiền thưởng hiệu suất hậu hĩnh.",
+        "keySignal": "Chủ ngữ 'the regional sales representatives' (những người nhận thưởng), cụm tác nhân 'by the executive board' và ngữ cảnh sự việc đã diễn ra trong quá khứ.",
+        "rule": "Bị động của động từ 2 tân ngữ (award sb sth -> sb be awarded sth): Ưu tiên tân ngữ chỉ người làm chủ ngữ bị động.",
+        "whyCorrect": "Các đại diện bán hàng được trao thưởng chứ không tự mình trao thưởng cho ai, kết hợp với tác nhân 'by the executive board' cho thấy câu phải chia ở thể bị động thì Quá khứ đơn: 'were awarded'.",
+        "distractorBreakdown": {
+          "awarded": "Sai vì chia chủ động thì Quá khứ đơn, làm câu mang nghĩa các đại diện bán hàng đi trao thưởng cho hội đồng quản trị.",
+          "were awarding": "Sai vì là thể chủ động thì Quá khứ tiếp diễn.",
+          "have awarded": "Sai vì là thể chủ động thì Hiện tại hoàn thành, không phù hợp cả về thể lẫn tính chất hoàn tất trong quá khứ."
+        }
+      }
+    },
+    {
+      "id": "ex_05",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "The emergency shareholders meeting adjourned prematurely yesterday after a major technical malfunction ________ in the corporate telecommunications system.",
+      "options": [
+        "occurred",
+        "was occurred",
+        "was occurring",
+        "has been occurred"
+      ],
+      "correctAnswer": "occurred",
+      "explanation": {
+        "translation": "Cuộc họp cổ đông khẩn cấp đã kết thúc sớm vào ngày hôm qua sau khi một sự cố kỹ thuật lớn xảy ra trong hệ thống viễn thông của tập đoàn.",
+        "keySignal": "Động từ 'occur' kết hợp với mốc thời gian quá khứ 'yesterday' và động từ 'adjourned'.",
+        "rule": "Bẫy nội động từ: 'occur' là nội động từ (Intransitive Verb), tuyệt đối KHÔNG BAO GIỜ được chia ở thể bị động.",
+        "whyCorrect": "'Occur' không nhận tân ngữ nên không thể chia bị động. Hành động đã xảy ra và chấm dứt trong quá khứ đi với liên từ 'after', do đó chia Quá khứ đơn chủ động 'occurred'.",
+        "distractorBreakdown": {
+          "was occurred": "Bẫy kinh điển: Sai hoàn toàn vì 'occur' là nội động từ, không tồn tại dạng bị động 'was occurred'.",
+          "was occurring": "Sai vì ngữ cảnh diễn tả sự việc đã phát sinh xong khiến cuộc họp phải kết thúc, không nhấn mạnh tiến trình đang tiếp diễn dở dang.",
+          "has been occurred": "Sai cả về thì (dùng hiện tại hoàn thành trong khi có 'yesterday') lẫn thể (chia bị động cho nội động từ)."
+        }
+      }
+    },
+    {
+      "id": "ex_06",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "Although the unexpected [A] hardware breakdown was occurred [B] during peak operational hours, the maintenance team restored [C] server connectivity without losing [D] critical transaction data.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Mặc dù sự cố hỏng hóc phần cứng bất ngờ đã xảy ra trong giờ cao điểm vận hành, đội bảo trì đã khôi phục khả năng kết nối của máy chủ mà không làm mất dữ liệu giao dịch quan trọng.",
+        "keySignal": "Vị trí gạch chân [B] sử dụng động từ 'occur' ở dạng bị động 'was occurred'.",
+        "rule": "Quy tắc nội động từ: 'Occur' (xảy ra/diễn ra) là nội động từ không nhận tân ngữ, tuyệt đối không bao giờ chia ở dạng bị động (be + V3/ed).",
+        "whyCorrect": "Phần gạch chân [B] 'was occurred' sai nghiêm trọng về ngữ pháp. Cần sửa thành thể chủ động ở thì Quá khứ đơn: 'occurred'.",
+        "distractorBreakdown": {
+          "A (unexpected)": "Đúng ngữ pháp: Tính từ bổ nghĩa hoàn toàn chính xác cho cụm danh từ 'hardware breakdown'.",
+          "C (restored)": "Đúng ngữ pháp: Động từ chia ở thì Quá khứ đơn biểu thị hành động khắc phục đã hoàn tất.",
+          "D (without losing)": "Đúng ngữ pháp: Giới từ 'without' đi kèm danh động từ 'losing' mang nghĩa 'mà không làm mất'."
+        }
+      }
+    },
+    {
+      "id": "ex_07",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "The rogue trader is alleged [A] to conceal [B] fraudulent foreign exchange transactions for [C] nearly six months before the regulatory audit exposed [D] the massive deficit.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Nhà giao dịch bất chính bị cáo buộc là đã che giấu các giao dịch ngoại hối gian lận trong gần sáu tháng trước khi cuộc kiểm toán của cơ quan quản lý vạch trần khoản thâm hụt khổng lồ.",
+        "keySignal": "Động từ tường thuật ở hiện tại 'is alleged' kết hợp với khoảng thời gian quá khứ 'before the regulatory audit exposed'.",
+        "rule": "Bị động kép lệch thì: Khi hành động được cáo buộc xảy ra trước thời điểm trần thuật, bắt buộc dùng Perfect Infinitive (to have + V3/ed) thay vì Simple Infinitive (to V).",
+        "whyCorrect": "Phần gạch chân [B] 'to conceal' sai do dùng nguyên mẫu đơn giản. Hành động che giấu gian lận xảy ra trước trong quá khứ nên phải sửa thành: 'to have concealed'.",
+        "distractorBreakdown": {
+          "A (is alleged)": "Đúng ngữ pháp: Cấu trúc bị động cá nhân với động từ trần thuật 'allege' ở thì Hiện tại đơn biểu thị cáo buộc hiện tại.",
+          "C (for)": "Đúng ngữ pháp: Giới từ chỉ khoảng thời gian kéo dài ('for nearly six months').",
+          "D (exposed)": "Đúng ngữ pháp: Động từ chia ở thì Quá khứ đơn cho mốc sự kiện vạch trần sai phạm."
+        }
+      }
+    },
+    {
+      "id": "ex_08",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "To minimize [A] supply chain bottlenecks, the procurement director got [B] all commercial cargo inspect [C] prior to international shipment [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Để giảm thiểu sự tắc nghẽn chuỗi cung ứng, giám đốc mua hàng đã cho kiểm tra toàn bộ hàng hóa thương mại trước khi vận chuyển quốc tế.",
+        "keySignal": "Động từ thể truyền khiến 'got' đi kèm tân ngữ chỉ vật 'all commercial cargo'.",
+        "rule": "Thể truyền khiến bị động với Get: S + get + something + V3/ed (nhờ/thuê cái gì được thực hiện).",
+        "whyCorrect": "Phần gạch chân [C] dùng động từ nguyên mẫu 'inspect' là sai công thức. Vì 'all commercial cargo' là đối tượng chịu tác động, phải sửa thành quá khứ phân từ: 'inspected'.",
+        "distractorBreakdown": {
+          "A (To minimize)": "Đúng ngữ pháp: To-infinitive đứng đầu câu chỉ mục đích hành động.",
+          "B (got)": "Đúng ngữ pháp: Động từ 'get' chia ở Quá khứ đơn làm nòng cốt cho cấu trúc truyền khiến.",
+          "D (shipment)": "Đúng ngữ pháp: Danh từ chỉ chuyến hàng/sự vận chuyển sau cụm giới từ 'prior to'."
+        }
+      }
+    },
+    {
+      "id": "ex_09",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "While the quarterly fiscal forecasts were preparing [A] by the financial analysis unit, the chief executive presented [B] the long-term investment strategy to [C] prospective institutional investors [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Trong khi các dự báo tài chính hàng quý đang được lập bởi bộ phận phân tích tài chính, tổng giám đốc điều hành đã trình bày chiến lược đầu tư dài hạn với các nhà đầu tư tổ chức tiềm năng.",
+        "keySignal": "Chủ ngữ 'the quarterly fiscal forecasts' (các bản dự báo tài chính) kết hợp với cụm tác nhân 'by the financial analysis unit'.",
+        "rule": "Bị động thì Quá khứ tiếp diễn: S + was / were + being + V3/ed.",
+        "whyCorrect": "Phần gạch chân [A] 'were preparing' sai vì chia ở thể chủ động (bản dự báo không thể tự chuẩn bị). Cần sửa thành bị động tiếp diễn: 'were being prepared'.",
+        "distractorBreakdown": {
+          "B (presented)": "Đúng ngữ pháp: Động từ chia ở Quá khứ đơn diễn tả hành động xảy ra xen vào trong khi một hành động khác đang diễn ra.",
+          "C (to)": "Đúng ngữ pháp: Giới từ chuẩn xác đi cùng cấu trúc 'present something to somebody'.",
+          "D (prospective institutional investors)": "Đúng ngữ pháp: Cụm danh từ hoàn chỉnh mang nghĩa 'các nhà đầu tư tổ chức tiềm năng'."
+        }
+      }
+    },
+    {
+      "id": "ex_10",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "All medical diagnostic devices manufacturing [A] at the domestic laboratory must be subjected [B] to stringent calibration checks before they can be certified [C] for commercial clinical use [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Tất cả các thiết bị chẩn đoán y tế được sản xuất tại phòng thí nghiệm trong nước phải trải qua các đợt kiểm tra hiệu chuẩn nghiêm ngặt trước khi có thể được cấp chứng nhận để sử dụng trong lâm sàng thương mại.",
+        "keySignal": "Danh từ 'All medical diagnostic devices' đứng trước phân từ rút gọn và cụm nơi chốn 'at the domestic laboratory'.",
+        "rule": "Rút gọn mệnh đề quan hệ dạng bị động: Danh từ + (which are) + V3/ed. Dạng V-ing chỉ dùng khi chủ từ thực hiện hành động chủ động.",
+        "whyCorrect": "Phần gạch chân [A] 'manufacturing' sai vì thiết bị y tế được sản xuất (mang nghĩa bị động). Cần sửa thành quá khứ phân từ: 'manufactured'.",
+        "distractorBreakdown": {
+          "B (must be subjected)": "Đúng ngữ pháp: Cấu trúc bị động của động từ khuyết thiếu 'must be + V3/ed' kết hợp cụm 'subject to' (phải chịu/trải qua kiểm tra).",
+          "C (can be certified)": "Đúng ngữ pháp: Bị động với modal verb 'can be + V3/ed' chỉ khả năng được cấp chứng nhận.",
+          "D (clinical use)": "Đúng ngữ pháp: Cụm danh từ chuyên ngành chỉ việc sử dụng trong lâm sàng."
+        }
+      }
+    },
+    {
+      "id": "ex_11",
+      "type": "cloze",
+      "difficulty": 1,
+      "prompt": "Please remain seated in the reception area while your visa application materials ________ (currently / review) by the consular officer.",
+      "options": [],
+      "correctAnswer": "are currently being reviewed",
+      "explanation": {
+        "translation": "Xin vui lòng tiếp tục ngồi tại khu vực tiếp tân trong khi các tài liệu xin cấp thị thực của bạn hiện đang được viên chức lãnh sự xem xét.",
+        "keySignal": "Liên từ 'while' (trong khi), trạng từ 'currently' (hiện tại) và chủ ngữ số nhiều chỉ vật 'your visa application materials'.",
+        "rule": "Bị động thì Hiện tại tiếp diễn: S (số nhiều) + are + (adv) + being + V3/ed.",
+        "whyCorrect": "Hành động xem xét hồ sơ đang diễn ra ngay lúc nói và hồ sơ là đối tượng tiếp nhận hành động, do đó phải chia 'are currently being reviewed'.",
+        "distractorBreakdown": {
+          "are currently reviewing": "Sai vì ở thể chủ động, tài liệu hồ sơ không thể tự xem xét chính nó.",
+          "currently reviewed": "Sai vì thiếu trợ động từ to be và không diễn tả được thì tiếp diễn.",
+          "have currently been reviewed": "Sai thì vì trạng từ 'currently' chỉ hành động đang tiếp diễn, không dùng với thì hoàn thành."
+        }
+      }
+    },
+    {
+      "id": "ex_12",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "Following the severe structural foundation damage caused by the earthquake, the property owner decided to have the residential complex ________ (reconstruct) by an accredited civil engineering firm.",
+      "options": [],
+      "correctAnswer": "reconstructed",
+      "explanation": {
+        "translation": "Sau thiệt hại nghiêm trọng về móng kết cấu do trận động đất gây ra, chủ sở hữu bất động sản đã quyết định thuê một công ty kỹ thuật xây dựng được công nhận tái thiết lại khu dân cư.",
+        "keySignal": "Cấu trúc truyền khiến 'have + the residential complex (vật) + ________'.",
+        "rule": "Thể truyền khiến bị động: S + have + something + V3/ed.",
+        "whyCorrect": "'The residential complex' (khu phức hợp dân cư) là vật chịu tác động của hành động tái thiết, nên động từ trong ngoặc phải chuyển thành dạng phân từ hai V3/ed: 'reconstructed'.",
+        "distractorBreakdown": {
+          "reconstruct": "Sai vì dùng động từ nguyên thể; chỉ dùng V-bare khi sau 'have' là người thực hiện hành động (have the firm reconstruct).",
+          "to reconstruct": "Sai vì động từ 'have' trong thể truyền khiến không bao giờ đi với 'to V'.",
+          "reconstructing": "Sai vì thể truyền khiến sau tân ngữ chỉ vật không dùng dạng V-ing."
+        }
+      }
+    },
+    {
+      "id": "ex_13",
+      "type": "cloze",
+      "difficulty": 3,
+      "prompt": "The confidential research blueprints were left entirely unattended on the laboratory desk overnight; they should ________ (lock) in the biometric safe yesterday evening.",
+      "options": [],
+      "correctAnswer": "have been locked",
+      "explanation": {
+        "translation": "Các bản thiết kế nghiên cứu mật đã bị để mặc hoàn toàn không ai trông coi trên bàn phòng thí nghiệm suốt đêm; đáng lẽ ra chúng phải được khóa trong két sắt sinh trắc học vào tối hôm qua.",
+        "keySignal": "Động từ khuyết thiếu 'should', mốc thời gian quá khứ 'yesterday evening' và chủ ngữ 'they' (thay thế cho blueprints - vật bị tác động).",
+        "rule": "Bị động của Modal Perfect chỉ sự tiếc nuối/trách móc trong quá khứ: S + should + have been + V3/ed (đáng lẽ ra đã phải được làm gì).",
+        "whyCorrect": "Hành động khóa bản thiết kế đáng lẽ phải được thực hiện trong quá khứ nhưng trên thực tế đã bị bỏ quên. Đi với 'should' ở thể bị động quá khứ, dạng chuẩn xác duy nhất là 'have been locked'.",
+        "distractorBreakdown": {
+          "be locked": "Sai vì 'should be locked' chỉ dùng cho lời khuyên ở hiện tại hoặc tương lai, không dùng cho mốc quá khứ xác định 'yesterday evening'.",
+          "have locked": "Sai vì ở thể chủ động, bản thiết kế không thể tự khóa.",
+          "been locked": "Sai vì thiếu trợ động từ 'have' sau modal verb 'should'."
+        }
+      }
+    },
+    {
+      "id": "ex_14",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "The newly established biomedical research facility is widely acknowledged ________ (possess) the most cutting-edge gene-editing equipment in the region.",
+      "options": [],
+      "correctAnswer": "to possess",
+      "explanation": {
+        "translation": "Cơ sở nghiên cứu y sinh mới thành lập được công nhận rộng rãi là sở hữu trang thiết bị chỉnh sửa gen tối tân nhất trong khu vực.",
+        "keySignal": "Cấu trúc bị động cá nhân 'is widely acknowledged' ở thì hiện tại và tính chất sở hữu trang thiết bị cũng là sự thật ở hiện tại (cùng thì).",
+        "rule": "Bị động cá nhân với động từ trần thuật/ý kiến khi hai vế cùng thì: S + be + V3/ed + TO + V_bare.",
+        "whyCorrect": "Cả hai vế đều diễn tả sự việc/trạng thái ở hiện tại đơn (cùng thì), do đó ta sử dụng nguyên mẫu có 'to': 'to possess'.",
+        "distractorBreakdown": {
+          "to have possessed": "Sai vì Perfect Infinitive chỉ dùng khi hành động sở hữu diễn ra trước một thì trong quá khứ, trong khi cơ sở này hiện tại vẫn đang sở hữu.",
+          "possessing": "Sai vì cấu trúc bị động cá nhân với 'acknowledge' bắt buộc dùng to-infinitive, không dùng V-ing.",
+          "possess": "Sai vì thiếu giới từ 'to'."
+        }
+      }
+    },
+    {
+      "id": "ex_15",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "According to the internal cybersecurity audit, the encrypted flash drive containing proprietary source code ________ (mysteriously / disappear) from the vault during the blackout last night.",
+      "options": [],
+      "correctAnswer": "mysteriously disappeared",
+      "explanation": {
+        "translation": "Theo cuộc kiểm toán an ninh mạng nội bộ, chiếc ổ cứng flash mã hóa chứa mã nguồn độc quyền đã biến mất một cách bí ẩn khỏi căn hầm trong lúc mất điện tối qua.",
+        "keySignal": "Động từ 'disappear' kết hợp mốc thời gian quá khứ xác định 'last night'.",
+        "rule": "Bẫy nội động từ: 'Disappear' (biến mất) là nội động từ, tuyệt đối KHÔNG có dạng bị động (không được dùng 'was disappeared').",
+        "whyCorrect": "Vì 'disappear' là nội động từ và sự việc xảy ra tại mốc thời gian quá khứ 'last night', động từ phải chia ở thì Quá khứ đơn thể chủ động: 'mysteriously disappeared'.",
+        "distractorBreakdown": {
+          "was mysteriously disappeared": "Bẫy kinh điển: Sai nghiêm trọng vì nội động từ 'disappear' không bao giờ tồn tại dạng bị động.",
+          "has mysteriously disappeared": "Sai thì vì câu có mốc thời gian quá khứ rõ ràng 'last night', không được dùng Hiện tại hoàn thành.",
+          "mysteriously disappears": "Sai thì vì dùng Hiện tại đơn cho một sự việc đã xảy ra tối hôm qua."
+        }
+      }
+    }
+  ]
+}

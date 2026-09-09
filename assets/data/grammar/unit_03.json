@@ -1,0 +1,375 @@
+{
+  "unitId": "unit-03-present-perfect-vs-past-simple",
+  "title": "Unit 03: Present Perfect vs. Past Simple (Hiện tại hoàn thành vs. Quá khứ đơn)",
+  "category": "tenses",
+  "level": 1,
+  "coreConcept": "Tư duy cốt lõi của người bản xứ khi lựa chọn giữa Hiện tại hoàn thành (Present Perfect) và Quá khứ đơn (Past Simple) nằm ở GÓC NHÌN VỀ THỜI GIAN ĐÓNG HAY MỞ (FINISHED VS. UNFINISHED TIME) VÀ TÍNH DÍNH LÍU ĐẾN HIỆN TẠI (PRESENT RELEVANCE):\n\n1. Quá khứ đơn (Finished Time / Severed from the Present - Đứt đoạn hoàn toàn với hiện tại):\n- Người bản xứ dùng Quá khứ đơn khi tâm trí họ đã ĐÓNG KHUNG hành động trong một khoảng thời gian hoặc thời điểm đã hoàn toàn khép lại trong quá khứ (yesterday, last week, in 2019, 5 years ago, when I was young).\n- Hành động đã phát sinh, diễn tiến và CHẤM DỨT 100% trong quá khứ; không còn diễn ra và không còn kết quả trực tiếp tác động lên ngữ cảnh hiện tại. Mọi liên hệ với 'bây giờ' đã bị cắt đứt.\n- Ví dụ: 'I lost my keys yesterday, but I found them this morning.' (Hành động mất chìa khóa đã kết thúc trọn vẹn trong quá khứ và không còn ảnh hưởng đến hiện tại vì đã tìm thấy).\n\n2. Hiện tại hoàn thành (Unfinished Time / Bridge to the Present - Cầu nối quá khứ và hiện tại):\n- Người bản xứ coi Hiện tại hoàn thành là một thì thuộc hệ thống HIỆN TẠI (Present tense with a view of the past). Nó đóng vai trò chiếc cầu nối:\n  + Kết quả ở hiện tại (Present Result): Hành động xảy ra vào một thời điểm vô định trong quá khứ, nhưng HỆ QUẢ của nó vẫn đang tồn tại sờ sờ ở hiện tại. Ví dụ: 'I have lost my keys.' -> Ngầm hiểu: Ngay tại thời điểm nói, tôi vẫn chưa có chìa khóa, tôi đang bị đứng ngoài cửa!\n  + Khung thời gian chưa đóng (Unfinished Time): Hành động diễn ra trong một chu kỳ thời gian vẫn còn đang tiếp diễn (today, this morning, this week, this month, so far, recently, lately).\n  + Trải nghiệm tích lũy (Life Experience): Nói về kinh nghiệm đã từng hoặc chưa từng làm gì tính đến thời điểm hiện tại (ever, never, already, yet, three times).\n\n3. Thử nghiệm tư duy (The Mindset Test):\n- Hãy tự hỏi: 'Khoảng thời gian chứa hành động đã đóng sập cửa lại chưa?' -> Nếu ĐÃ ĐÓNG (yesterday, in 2020) -> Chọn PAST SIMPLE.\n- 'Hành động có để lại kết quả hoặc dính líu trực tiếp đến hiện tại không?' -> Nếu CÒN DÍNH LÍU / THỜI GIAN CÒN MỞ -> Chọn PRESENT PERFECT.",
+  "formulas": {
+    "presentPerfect": "Khẳng định: S + have/has + V3/ed | Phủ định: S + have/has + not (haven't/hasn't) + V3/ed | Nghi vấn: Have/Has + S + V3/ed?",
+    "pastSimple": "Khẳng định: S + V2/ed | Phủ định: S + did not + V_bare | Nghi vấn: Did + S + V_bare?"
+  },
+  "sinceForAndStructures": "CÁC QUY TẮC VÀ CẤU TRÚC ĐẶC TRƯNG VỚI SINCE, FOR VÀ CÁC MẪU CÂU KINH ĐIỂN:\n\n1. Quy tắc SINCE vs. FOR:\n- 'SINCE + Mốc thời gian / Mệnh đề Quá khứ đơn': Chỉ điểm khởi đầu của hành động (Starting point). Mệnh đề sau Since luôn là mốc bắt đầu trong quá khứ (V2/ed), mệnh đề chính kéo dài tới hiện tại chia Hiện tại hoàn thành.\n  + Ví dụ: 'She has worked here since 2018.' / 'We have expanded our market share since we launched the new platform.'\n- 'FOR + Khoảng thời gian': Chỉ độ dài của hành động kéo dài trong bao lâu (Duration). Đi với Hiện tại hoàn thành nếu hành động VẪN CÒN TIẾP DIỄN tới nay ('for five years').\n  + CẢNH BÁO: 'For' hoàn toàn có thể đi với Quá khứ đơn nếu hành động đó ĐÃ KẾT THÚC trong quá khứ ('He lived in Paris for 3 years, but now lives in Tokyo').\n\n2. Cấu trúc khoảng thời gian với Since:\n- Công thức: 'It is / It has been + [khoảng thời gian] + since + S + V2/ed'.\n  + Ví dụ: 'It has been three years since the company updated its cybersecurity protocols.' (Đã 3 năm kể từ khi công ty cập nhật các giao thức an ninh mạng).\n  + Lưu ý: Mệnh đề sau 'since' tuyệt đối chia Quá khứ đơn (V2/ed), không bao giờ chia Hiện tại hoàn thành.\n\n3. Phân biệt 'HAVE BEEN TO' vs. 'HAVE GONE TO':\n- 'S + have/has been to + [địa điểm]': Đã từng đến đó và ĐÃ TRỞ VỀ (nhấn mạnh trải nghiệm đi khứ hồi).\n  + Ví dụ: 'Mr. Davis has been to Tokyo three times.' (Ông Davis đã từng đến Tokyo 3 lần và hiện đang có mặt ở đây).\n- 'S + have/has gone to + [địa điểm]': ĐÃ ĐI ĐẾN ĐÓ VÀ HIỆN CHƯA VỀ (đang trên đường đi hoặc đang ở địa điểm đó).\n  + Ví dụ: 'Where is the CEO? - She has gone to London for a board meeting.' (Bà ấy đã đi London và hiện vẫn đang ở London, chưa về).\n\n4. Cấu trúc số lần trải nghiệm (Ordinal Numbers / Repetition):\n- Công thức: 'This / It is the first / second / third / only time + S + have/has + V3/ed'.\n  + Ví dụ: 'This is the first time our firm has encountered such an intricate compliance issue.'\n  + Tuyệt đối không dùng thì Hiện tại đơn hay Quá khứ đơn trong cấu trúc này khi nói về trải nghiệm tính đến hiện tại.",
+  "commonTraps": [
+    {
+      "trap": "Bẫy 1: Thấy 'for + khoảng thời gian' là vội vàng chọn Hiện tại hoàn thành mà không để ý hành động ĐÃ CHẤM DỨT trong quá khứ",
+      "exampleWrong": "Dr. Aris has managed the research department for seven years before he accepted a professorship at Oxford last semester.",
+      "exampleRight": "Dr. Aris managed the research department for seven years before he accepted a professorship at Oxford last semester.",
+      "note": "Rất nhiều thí sinh có phản xạ máy móc thấy 'for + khoảng thời gian' là chọn ngay Present Perfect. Tuy nhiên, nếu hành động đó đã diễn ra và kết thúc trọn vẹn trong quá khứ (với các dấu hiệu như 'before he accepted...', 'when he was young', 'in the 1990s'), động từ BẮT BUỘC PHẢI CHIA QUÁ KHỨ ĐƠN."
+    },
+    {
+      "trap": "Bẫy 2: Xuất hiện mốc thời gian quá khứ xác định (yesterday, ago, last..., in 2020, When did you...?) nhưng bị trạng từ hoặc ngữ cảnh lừa chia Hiện tại hoàn thành",
+      "exampleWrong": "The procurement director has approved the purchase requisitions two hours ago.",
+      "exampleRight": "The procurement director approved the purchase requisitions two hours ago.",
+      "note": "Bất cứ khi nào câu có mốc thời gian xác định thuộc về quá khứ đã đóng (ago, yesterday, last month, in 2021, when were you born), cánh cửa hiện tại lập tức đóng lại. Lúc này chỉ được dùng Quá khứ đơn, cấm tuyệt đối dùng Hiện tại hoàn thành kể cả khi hành động mang lại kết quả rõ ràng."
+    },
+    {
+      "trap": "Bẫy 3: Nhầm thì giữa Mệnh đề chính (Present Perfect) và Mệnh đề phụ sau Since (Past Simple)",
+      "exampleWrong": "Ever since the tech startup has launched its mobile app last summer, downloads grew exponentially.",
+      "exampleRight": "Ever since the tech startup launched its mobile app last summer, downloads have grown exponentially.",
+      "note": "Cấu trúc chuẩn: Mệnh đề sau 'Since' là mốc xuất phát điểm trong quá khứ nên phải chia Quá khứ đơn (V2/ed). Ngược lại, mệnh đề chính kéo dài từ mốc đó đến hiện tại nên phải chia Hiện tại hoàn thành (have/has + V3/ed). Đề thi thường hoán đổi vị trí thì của hai mệnh đề này để gài bẫy thí sinh."
+    },
+    {
+      "trap": "Bẫy 4: Nhầm lẫn bản chất giữa 'have been to' (đã về) và 'have gone to' (chưa về)",
+      "exampleWrong": "The branch manager is not available at her desk right now because she has been to the client's headquarters.",
+      "exampleRight": "The branch manager is not available at her desk right now because she has gone to the client's headquarters.",
+      "note": "Nếu chủ ngữ vắng mặt tại thời điểm nói ('is not here', 'is away', 'cannot attend the meeting'), tức là người đó ĐÃ ĐI VÀ CHƯA VỀ -> Bắt buộc dùng 'have/has gone to'. Ngược lại, 'have/has been to' diễn tả việc đã đi và đã quay về hiện tại."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex_01",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "The regional sales director ________ the quarterly financial audit yesterday afternoon before leaving for the international symposium.",
+      "options": [
+        "concluded",
+        "has concluded",
+        "concludes",
+        "was concluding"
+      ],
+      "correctAnswer": "concluded",
+      "explanation": {
+        "translation": "Giám đốc kinh doanh khu vực đã hoàn tất cuộc kiểm toán tài chính hàng quý vào chiều hôm qua trước khi rời đi tham dự hội nghị chuyên đề quốc tế.",
+        "keySignal": "Trạng từ thời gian quá khứ xác định 'yesterday afternoon' (chiều hôm qua).",
+        "rule": "Khi hành động xảy ra và kết thúc trọn vẹn tại một thời điểm xác định trong quá khứ (Finished time marker như yesterday, last week, ago), động từ bắt buộc phải chia ở thì Quá khứ đơn (Past Simple).",
+        "whyCorrect": "'Yesterday afternoon' là một mốc thời gian đã khép lại hoàn toàn, do đó hành động hoàn tất kiểm toán chia ở Quá khứ đơn 'concluded'.",
+        "distractorBreakdown": {
+          "optionB (has concluded)": "Sai vì thì Hiện tại hoàn thành không bao giờ đi kèm các mốc thời gian quá khứ xác định đã đóng như 'yesterday afternoon'.",
+          "optionC (concludes)": "Sai thì vì ngữ cảnh sự việc đã diễn ra chiều hôm qua, không thể dùng Hiện tại đơn để diễn tả sự thật hiển nhiên hay thói quen.",
+          "optionD (was concluding)": "Kém chính xác vì câu không mô tả một hành động đang diễn tiến dang dở bị hành động khác xen vào, mà nói về một sự kiện đã hoàn tất trọn vẹn."
+        }
+      }
+    },
+    {
+      "id": "ex_02",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Dr. Evelyn Reed ________ as a chief research scientist at the pharmaceutical laboratory for eight years before she relocated to Zurich last month.",
+      "options": [
+        "worked",
+        "has worked",
+        "is working",
+        "works"
+      ],
+      "correctAnswer": "worked",
+      "explanation": {
+        "translation": "Tiến sĩ Evelyn Reed đã làm việc với tư cách là nhà khoa học nghiên cứu trưởng tại phòng thí nghiệm dược phẩm trong tám năm trước khi bà chuyển đến Zurich vào tháng trước.",
+        "keySignal": "Cụm 'for eight years' kết hợp với mệnh đề quá khứ đã chấm dứt 'before she relocated to Zurich last month'.",
+        "rule": "Bẫy 'For + khoảng thời gian': Khi hành động diễn ra trong một khoảng thời gian nhưng ĐÃ KẾT THÚC HOÀN TOÀN trong quá khứ (chủ thể đã chuyển đi nơi khác), động từ phải chia Quá khứ đơn, tuyệt đối không dùng Hiện tại hoàn thành.",
+        "whyCorrect": "Khoảng thời gian 8 năm nghiên cứu của Tiến sĩ Reed đã chấm dứt dứt điểm khi bà chuyển tới Zurich tháng trước. Do đó, động từ chia Quá khứ đơn 'worked'.",
+        "distractorBreakdown": {
+          "optionB (has worked)": "Sai bẫy kinh điển: Thí sinh thấy 'for eight years' vội chia Hiện tại hoàn thành, nhưng thực tế công việc này đã kết thúc khi bà chuyển đi Zurich vào tháng trước.",
+          "optionC (is working)": "Sai thì vì công việc này không còn diễn ra ở thời điểm hiện tại.",
+          "optionD (works)": "Sai thì vì đây là sự kiện quá khứ đã khép lại, không phải sự thật hay lịch trình ở hiện tại."
+        }
+      }
+    },
+    {
+      "id": "ex_03",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Since the logistics firm ________ its new cloud-based tracking system in March, customer satisfaction ratings have increased by twenty percent.",
+      "options": [
+        "implemented",
+        "has implemented",
+        "implements",
+        "is implementing"
+      ],
+      "correctAnswer": "implemented",
+      "explanation": {
+        "translation": "Kể từ khi công ty hậu cần triển khai hệ thống theo dõi dựa trên đám mây mới vào tháng Ba, tỷ lệ hài lòng của khách hàng đã tăng thêm hai mươi phần trăm.",
+        "keySignal": "Liên từ 'Since' đứng trước mệnh đề chỉ mốc thời gian bắt đầu trong quá khứ ('in March').",
+        "rule": "Cấu trúc chuẩn với Since: 'Since + S + V2/ed (mốc bắt đầu trong quá khứ), S + have/has + V3/ed (hành động kéo dài đến hiện tại)'.",
+        "whyCorrect": "Hành động triển khai hệ thống là mốc khởi đầu của sự thay đổi, nằm trong mệnh đề phụ sau 'Since', nên bắt buộc phải chia ở Quá khứ đơn 'implemented'.",
+        "distractorBreakdown": {
+          "optionB (has implemented)": "Sai vì mệnh đề sau 'Since' đóng vai trò là mốc thời gian bắt đầu trong quá khứ, không chia thì Hiện tại hoàn thành.",
+          "optionC (implements)": "Sai thì vì việc triển khai đã diễn ra vào tháng Ba trong quá khứ ('in March').",
+          "optionD (is implementing)": "Sai thì vì 'Since' không kết hợp với Hiện tại tiếp diễn để chỉ mốc khởi đầu của một kết quả đã đo lường được."
+        }
+      }
+    },
+    {
+      "id": "ex_04",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Mr. Vance is currently unavailable for this morning's briefing because he ________ to the Singapore branch to inspect the new manufacturing facility.",
+      "options": [
+        "has gone",
+        "has been",
+        "went",
+        "was going"
+      ],
+      "correctAnswer": "has gone",
+      "explanation": {
+        "translation": "Ông Vance hiện không thể có mặt tại buổi họp giao ban sáng nay vì ông ấy đã đi đến chi nhánh Singapore để thanh tra cơ sở sản xuất mới.",
+        "keySignal": "Vế trước 'is currently unavailable for this morning's briefing' (hiện không thể có mặt).",
+        "rule": "Phân biệt 'have gone to' (đã đi và hiện chưa về/vẫn đang ở đó) vs. 'have been to' (đã đi và đã trở về).",
+        "whyCorrect": "Vì ông Vance hiện không có mặt ở văn phòng để họp giao ban, chứng tỏ ông đã đến Singapore và hiện vẫn đang ở đó (chưa về). Cấu trúc chuẩn xác là 'has gone to'.",
+        "distractorBreakdown": {
+          "optionB (has been)": "Sai bản chất: 'has been to' có nghĩa là đã từng đến đó và hiện đã quay về, mâu thuẫn trực tiếp với ngữ cảnh 'is currently unavailable' (hiện không có mặt).",
+          "optionC (went)": "Kém chính xác vì Quá khứ đơn chỉ coi hành động như một sự kiện quá khứ đã đóng lại, không nêu bật được mối liên hệ nguyên nhân - hệ quả trực tiếp với việc vắng mặt ở hiện tại.",
+          "optionD (was going)": "Sai vì thì Quá khứ tiếp diễn không dùng để giải thích trạng thái kết quả vắng mặt ở hiện tại."
+        }
+      }
+    },
+    {
+      "id": "ex_05",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "This is the first time our architectural team ________ such an intricate blueprint for a sustainable commercial skyscraper.",
+      "options": [
+        "has designed",
+        "designed",
+        "designs",
+        "is designing"
+      ],
+      "correctAnswer": "has designed",
+      "explanation": {
+        "translation": "Đây là lần đầu tiên đội ngũ kiến trúc của chúng tôi thiết kế một bản thiết kế phức tạp như vậy cho một tòa nhà chọc trời thương mại bền vững.",
+        "keySignal": "Cấu trúc số lần trải nghiệm 'This is the first time'.",
+        "rule": "Cấu trúc chuẩn: 'This/It is the first / second / only time + S + have/has + V3/ed' dùng để diễn tả trải nghiệm tính đến thời điểm hiện tại.",
+        "whyCorrect": "Sau cụm 'This is the first time', mệnh đề bắt buộc phải chia ở thì Hiện tại hoàn thành để nhấn mạnh trải nghiệm lần đầu tiên diễn ra. Do chủ ngữ 'our architectural team' được xem là một đơn vị tập thể số ít, động từ chia 'has designed'.",
+        "distractorBreakdown": {
+          "optionB (designed)": "Sai vì người học hay nhầm lẫn dùng Quá khứ đơn, nhưng trong tiếng Anh chuẩn, cấu trúc 'This is the first time...' bắt buộc đi với Hiện tại hoàn thành.",
+          "optionC (designs)": "Sai ngữ pháp vì Hiện tại đơn không dùng trong cấu trúc đếm số lần trải nghiệm tính đến hiện tại.",
+          "optionD (is designing)": "Sai cấu trúc vì Hiện tại tiếp diễn không kết hợp với 'This is the first time'."
+        }
+      }
+    },
+    {
+      "id": "ex_06",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "The senior marketing director [A] has approved the comprehensive advertising budget [B] for the new product line [C] two days ago [D] during the executive meeting.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Giám đốc tiếp thị cấp cao đã phê duyệt ngân sách quảng cáo toàn diện cho dòng sản phẩm mới hai ngày trước trong cuộc họp ban điều hành.",
+        "keySignal": "Cụm trạng từ chỉ thời gian quá khứ xác định 'two days ago' (hai ngày trước).",
+        "rule": "Khi câu có mốc thời gian quá khứ xác định (ago, yesterday, last week), động từ bắt buộc chia Quá khứ đơn, không được dùng Hiện tại hoàn thành.",
+        "whyCorrect": "Phần gạch chân [A] 'has approved' sai vì 'two days ago' là thời gian đã kết thúc hoàn toàn. Cần sửa thành Quá khứ đơn: 'approved'.",
+        "distractorBreakdown": {
+          "B (for)": "Đúng ngữ pháp: Giới từ chỉ mục đích sử dụng ngân sách cho dòng sản phẩm mới.",
+          "C (two days ago)": "Đúng ngữ pháp: Trạng ngữ chỉ thời gian xác định trong quá khứ.",
+          "D (during)": "Đúng ngữ pháp: Giới từ chỉ khoảng thời gian diễn ra cuộc họp."
+        }
+      }
+    },
+    {
+      "id": "ex_07",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "Ever since the company [A] has relocated its regional headquarters [B] to Singapore, its overseas revenue [C] has grown [D] substantially.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Kể từ khi công ty chuyển trụ sở khu vực đến Singapore, doanh thu ở nước ngoài của công ty đã tăng trưởng đáng kể.",
+        "keySignal": "Liên từ 'Ever since' đứng đầu mệnh đề chỉ mốc thời gian trong quá khứ.",
+        "rule": "Trong cấu trúc với Since/Ever since: 'Ever since + S + V2/ed (mốc quá khứ), S + have/has + V3/ed (kết quả kéo dài đến nay)'.",
+        "whyCorrect": "Phần gạch chân [A] 'has relocated' sai thì. Mệnh đề đứng ngay sau 'Ever since' đóng vai trò là mốc thời gian khởi đầu trong quá khứ, bắt buộc phải chia ở Quá khứ đơn. Cần sửa thành 'relocated'.",
+        "distractorBreakdown": {
+          "B (to)": "Đúng ngữ pháp: Giới từ chỉ hướng đích sau động từ chuyển địa điểm (relocate to somewhere).",
+          "C (has grown)": "Đúng ngữ pháp: Động từ mệnh đề chính chia Hiện tại hoàn thành biểu thị sự tăng trưởng kéo dài từ lúc chuyển trụ sở đến nay.",
+          "D (substantially)": "Đúng ngữ pháp: Phó từ bổ nghĩa cho động từ 'grown'."
+        }
+      }
+    },
+    {
+      "id": "ex_08",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "It [A] has been over six months [B] since our compliance department [C] has conducted a mandatory safety inspection [D] of the assembly plant.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Đã hơn sáu tháng kể từ khi phòng tuân thủ của chúng tôi tiến hành đợt thanh tra an toàn bắt buộc đối với nhà máy lắp ráp.",
+        "keySignal": "Cấu trúc khoảng thời gian: 'It has been / is + [khoảng thời gian] + since...'.",
+        "rule": "Cấu trúc chuẩn: 'It is / has been + [duration] + since + S + V2/ed'. Mệnh đề sau 'since' diễn tả sự việc xảy ra ở một mốc thời điểm quá khứ, bắt buộc chia Quá khứ đơn.",
+        "whyCorrect": "Phần gạch chân [C] 'has conducted' là sai. Sau 'since' trong cấu trúc này phải dùng thì Quá khứ đơn để chỉ mốc thời gian cuối cùng hành động được thực hiện. Cần sửa 'has conducted' thành 'conducted'.",
+        "distractorBreakdown": {
+          "A (has been)": "Đúng ngữ pháp: Có thể dùng 'It is' hoặc 'It has been' trong cấu trúc tính khoảng thời gian kể từ một sự kiện.",
+          "B (since)": "Đúng ngữ pháp: Liên từ nối mốc sự kiện quá khứ.",
+          "D (of)": "Đúng ngữ pháp: Giới từ xác định đối tượng được thanh tra."
+        }
+      }
+    },
+    {
+      "id": "ex_09",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "Although Mr. Bennett [A] is supposed to chair today's conference in London, he cannot attend [B] because he [C] has been to Berlin [D] on urgent corporate business.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Mặc dù ông Bennett đáng lẽ phải chủ trì hội nghị hôm nay tại Luân Đôn, ông ấy không thể tham dự vì ông ấy đã đi Berlin để giải quyết công việc kinh doanh khẩn cấp của tập đoàn.",
+        "keySignal": "Cụm 'cannot attend' (không thể tham dự buổi họp hôm nay ở Luân Đôn).",
+        "rule": "Phân biệt 'have been to' (đã đi và đã trở về) và 'have gone to' (đã đi và hiện chưa về).",
+        "whyCorrect": "Phần gạch chân [C] 'has been to' sai bản chất ngữ nghĩa. Vì ông Bennett hiện không thể có mặt ở Luân Đôn, nghĩa là ông ấy đã đến Berlin và hiện vẫn đang ở Berlin, chưa quay trở lại. Do đó, phải sửa thành 'has gone to'.",
+        "distractorBreakdown": {
+          "A (is supposed to)": "Đúng ngữ pháp: Cấu trúc be supposed to + V_bare diễn tả nghĩa vụ, bổn phận theo kế hoạch.",
+          "B (because)": "Đúng ngữ pháp: Liên từ chỉ nguyên nhân.",
+          "D (on)": "Đúng ngữ pháp: Cụm giới từ cố định 'on business' (đi công tác)."
+        }
+      }
+    },
+    {
+      "id": "ex_10",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "The renowned novelist, who passed away in 1985, [A] has written more than thirty celebrated mystery novels [B] during a career that [C] spanned [D] over four decades.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Nhà tiểu thuyết nổi tiếng, người đã qua đời vào năm 1985, đã viết hơn ba mươi cuốn tiểu thuyết trinh thám lừng danh trong suốt sự nghiệp kéo dài hơn bốn thập kỷ.",
+        "keySignal": "Mệnh đề quan hệ xác định tình trạng đã qua đời: 'who passed away in 1985'.",
+        "rule": "Quy tắc cuộc đời đã khép lại: Khi chủ ngữ là người đã qua đời (cuộc đời và sự nghiệp đã hoàn toàn kết thúc trong quá khứ), tất cả các thành tựu của họ phải chia ở Quá khứ đơn, tuyệt đối không dùng Hiện tại hoàn thành vì không còn khả năng viết thêm tác phẩm nào nữa.",
+        "whyCorrect": "Phần gạch chân [A] 'has written' sai nghiêm trọng vì tác giả đã mất năm 1985, sự nghiệp sáng tác đã đóng lại vĩnh viễn. Bắt buộc phải sửa thành Quá khứ đơn: 'wrote'.",
+        "distractorBreakdown": {
+          "B (celebrated)": "Đúng ngữ pháp: Tính từ mang nghĩa nổi tiếng, trứ danh bổ nghĩa cho danh từ 'novels'.",
+          "C (spanned)": "Đúng ngữ pháp: Động từ quá khứ đơn chỉ sự nghiệp đã kéo dài trong quá khứ.",
+          "D (over)": "Đúng ngữ pháp: Giới từ mang nghĩa 'hơn' (more than) đi với khoảng thời gian."
+        }
+      }
+    },
+    {
+      "id": "ex_11",
+      "type": "cloze",
+      "difficulty": 1,
+      "prompt": "Ms. Patel cannot enter the secure data server room right now because she ________ (misplace) her electronic security badge.",
+      "options": [],
+      "correctAnswer": "has misplaced",
+      "explanation": {
+        "translation": "Cô Patel hiện không thể vào phòng máy chủ dữ liệu an toàn vì cô ấy đã làm thất lạc thẻ an ninh điện tử của mình.",
+        "keySignal": "Mệnh đề nguyên nhân - kết quả hiện tại: 'cannot enter... right now' (hiện tại không thể vào được).",
+        "rule": "Hiện tại hoàn thành diễn tả một hành động xảy ra trong quá khứ không rõ thời điểm nhưng để lại HỆ QUẢ TRỰC TIẾP ở hiện tại (Present Result).",
+        "whyCorrect": "Hành động đánh mất thẻ xảy ra trong quá khứ, nhưng hệ quả là hiện tại cô ấy không có thẻ để vào phòng máy chủ. Chủ ngữ 'Ms. Patel' là ngôi thứ ba số ít, do đó động từ chia 'has misplaced'.",
+        "distractorBreakdown": {
+          "misplaced (Quá khứ đơn)": "Sai vì nếu dùng Quá khứ đơn thì sự việc đã chấm dứt hoàn toàn trong quá khứ, không làm nổi bật được mối liên hệ nguyên nhân - kết quả trực tiếp với thực trạng 'cannot enter right now'.",
+          "misplaces (Hiện tại đơn)": "Sai thì vì đánh mất thẻ là sự việc đã xảy ra, không phải thói quen lặp đi lặp lại.",
+          "had misplaced (Quá khứ hoàn thành)": "Sai vì không có mốc quá khứ nào khác làm mốc so sánh trước-sau; ngữ cảnh kết quả đang ở hiện tại ('cannot enter')."
+        }
+      }
+    },
+    {
+      "id": "ex_12",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "So far this fiscal year, our technical support department ________ (resolve) more than five thousand complex client tickets.",
+      "options": [],
+      "correctAnswer": "has resolved",
+      "explanation": {
+        "translation": "Tính đến nay trong năm tài chính này, bộ phận hỗ trợ kỹ thuật của chúng tôi đã giải quyết hơn năm nghìn yêu cầu hỗ trợ phức tạp của khách hàng.",
+        "keySignal": "Cụm từ chỉ thời gian chưa kết thúc nối đến hiện tại: 'So far this fiscal year' (tính đến nay trong năm tài chính này).",
+        "rule": "Các cụm từ như 'so far', 'up to now', 'this year' (chưa kết thúc) là dấu hiệu điển hình của thì Hiện tại hoàn thành, diễn tả tổng số lượng tích lũy tính đến thời điểm nói.",
+        "whyCorrect": "Năm tài chính hiện vẫn chưa kết thúc và số lượng 5.000 yêu cầu là kết quả tích lũy tính đến nay. Chủ ngữ 'our technical support department' là danh từ số ít, nên đáp án là 'has resolved'.",
+        "distractorBreakdown": {
+          "resolved (Quá khứ đơn)": "Sai vì Quá khứ đơn chỉ dùng cho khoảng thời gian đã khép lại (như 'last fiscal year'), không đi với 'so far'.",
+          "resolves (Hiện tại đơn)": "Sai vì Hiện tại đơn không dùng để diễn tả thành tích hay kết quả tích lũy được tính đến nay.",
+          "have resolved": "Sai lỗi hòa hợp chủ-vị vì 'department' là danh từ tập hợp số ít, phải dùng trợ động từ 'has'."
+        }
+      }
+    },
+    {
+      "id": "ex_13",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "Professor Thornton ________ (teach) international commercial law at Oxford for nearly two decades, but he now serves as a senior advisor on our corporate board.",
+      "options": [],
+      "correctAnswer": "taught",
+      "explanation": {
+        "translation": "Giáo sư Thornton đã từng giảng dạy luật thương mại quốc tế tại Oxford trong gần hai thập kỷ, nhưng hiện tại ông đang đảm nhiệm vai trò cố vấn cấp cao trong ban quản trị doanh nghiệp của chúng tôi.",
+        "keySignal": "Cụm 'for nearly two decades' kết hợp với sự chuyển đổi hiện tại 'but he now serves as a senior advisor...'.",
+        "rule": "Hành động có 'for + khoảng thời gian' nhưng ĐÃ CHẤM DỨT HOÀN TOÀN trong quá khứ (chủ thể hiện đã làm công việc khác và không còn dạy ở đó) thì bắt buộc phải chia ở thì Quá khứ đơn (Past Simple). Không dùng Quá khứ hoàn thành vì vế sau ở hiện tại, không có mốc quá khứ nào để so sánh trước-sau.",
+        "whyCorrect": "Giai đoạn 20 năm giảng dạy tại Oxford của Giáo sư Thornton đã hoàn toàn kết thúc trong quá khứ (hiện tại ông đã chuyển sang làm cố vấn). Do đó, động từ bất quy tắc 'teach' chia ở Quá khứ đơn duy nhất là 'taught'.",
+        "distractorBreakdown": {
+          "has taught (Hiện tại hoàn thành)": "Sai bẫy 'for + khoảng thời gian': Thí sinh thấy 'for nearly two decades' liền chia Hiện tại hoàn thành, nhưng thực tế ông Thornton không còn dạy ở Oxford nữa ('he now serves as a senior advisor').",
+          "had taught (Quá khứ hoàn thành)": "Sai vì câu không có mốc thời gian hay hành động quá khứ nào làm mốc so sánh trước-sau (vế sau là 'now serves' ở hiện tại).",
+          "teaches (Hiện tại đơn)": "Sai thì vì sự việc giảng dạy ở Oxford đã chấm dứt hoàn toàn, không phải công việc hiện tại."
+        }
+      }
+    },
+    {
+      "id": "ex_14",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "The emergency medical task force ________ (deliver) essential vaccines to over forty remote villages since the humanitarian campaign began.",
+      "options": [],
+      "correctAnswer": "has delivered",
+      "explanation": {
+        "translation": "Lực lượng đặc nhiệm y tế khẩn cấp đã chuyển giao vắc-xin thiết yếu tới hơn bốn mươi ngôi làng vùng sâu vùng xa kể từ khi chiến dịch nhân đạo bắt đầu.",
+        "keySignal": "Mệnh đề trạng ngữ bắt đầu bằng 'since the humanitarian campaign began'.",
+        "rule": "Cấu trúc với Since: 'S + have/has + V3/ed + since + S + V2/ed'. Mệnh đề chính mô tả hành động kéo dài hoặc kết quả tích lũy từ mốc quá khứ đến hiện tại.",
+        "whyCorrect": "Hành động phân phối vắc-xin bắt đầu từ khi chiến dịch khởi động và tiếp tục diễn ra tới hiện tại với kết quả tích lũy là hơn 40 ngôi làng. Chủ ngữ 'The emergency medical task force' là danh từ số ít, do đó đáp án chính xác là 'has delivered'.",
+        "distractorBreakdown": {
+          "delivered (Quá khứ đơn)": "Sai vì liên từ 'since' yêu cầu mệnh đề chính phải phản ánh hành động kéo dài đến nay hoặc kết quả tính đến hiện tại bằng thì Hiện tại hoàn thành.",
+          "delivers (Hiện tại đơn)": "Sai vì câu mô tả tiến trình từ mốc quá khứ đến nay, không diễn tả chân lý hay thói quen.",
+          "had delivered (Quá khứ hoàn thành)": "Sai vì không có mốc thời gian quá khứ nào để hoàn thành trước; liên từ 'since' kết nối mốc quá khứ với hiện tại."
+        }
+      }
+    },
+    {
+      "id": "ex_15",
+      "type": "cloze",
+      "difficulty": 3,
+      "prompt": "Over the last three months, our lead cybersecurity engineer ________ (upgrade) the network firewalls across all regional facilities.",
+      "options": [],
+      "correctAnswer": "has upgraded",
+      "explanation": {
+        "translation": "Trong ba tháng qua, kỹ sư an ninh mạng trưởng của chúng tôi đã nâng cấp tường lửa mạng trên toàn bộ các cơ sở khu vực.",
+        "keySignal": "Cụm thời gian nối từ quá khứ đến nay: 'Over the last three months' (= In the past three months - trong ba tháng qua tính đến nay).",
+        "rule": "Các cụm từ 'Over/In/During the past/last + [khoảng thời gian]' biểu thị khoảng thời gian chưa đóng, kéo dài từ quá khứ đến hiện tại, bắt buộc chia ở thì Hiện tại hoàn thành.",
+        "whyCorrect": "'Over the last three months' tính lùi từ hiện tại về quá khứ 3 tháng (chu kỳ thời gian mở kết nối với hiện tại). Chủ ngữ 'our lead cybersecurity engineer' là danh từ số ít thuần túy, do đó đáp án duy nhất là 'has upgraded'.",
+        "distractorBreakdown": {
+          "upgraded (Quá khứ đơn)": "Sai vì 'Over the last three months' là khoảng thời gian mở kéo dài đến nay (unfinished time), khác với 'three months ago' (mốc thời gian đã đóng).",
+          "upgrades (Hiện tại đơn)": "Sai thì vì đây là một dự án hoàn tất trong 3 tháng qua, không phải thói quen thường nhật.",
+          "had upgraded (Quá khứ hoàn thành)": "Sai vì không có mốc quá khứ nào làm điểm quy chiếu trước-sau."
+        }
+      }
+    }
+  ]
+}
