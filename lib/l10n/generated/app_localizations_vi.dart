@@ -1139,4 +1139,226 @@ class AppLocalizationsVi extends AppLocalizations {
   String cramDeckTitleWithTag(String name, String tag) {
     return '⚡ Ôn cấp tốc: $name (#$tag)';
   }
+
+  @override
+  String get grammarAcademicTitle => 'Ngữ Pháp Học Thuật';
+
+  @override
+  String get grammarAcademicSubtitle =>
+      '36 Chuyên Đề C1/C2 Chuẩn Mực SAT • GRE • GMAT • THPTQG Chuyên';
+
+  @override
+  String grammarClearGhostsButton(int count) {
+    return 'Xóa $count Câu Sai (Ghost)';
+  }
+
+  @override
+  String get grammarMetricTotalUnits => 'Tổng chuyên đề';
+
+  @override
+  String get grammarMetricCompletedExercises => 'Bài tập đã làm';
+
+  @override
+  String get grammarMetricDueGhosts => 'Đến hạn / Ghost';
+
+  @override
+  String get grammarSearchPlaceholder => 'Tìm chuyên đề, thì, cấu trúc...';
+
+  @override
+  String grammarFilterAll(int count) {
+    return 'Tất Cả ($count)';
+  }
+
+  @override
+  String get grammarTheoryButton => 'Lý Thuyết';
+
+  @override
+  String get grammarPracticeButton => 'Luyện Tập';
+
+  @override
+  String grammarMasteryPercentage(String percentage) {
+    return '$percentage% Thành thạo';
+  }
+
+  @override
+  String grammarCompletedProgress(int completed, int total) {
+    return 'Đã làm: $completed / $total';
+  }
+
+  @override
+  String grammarErrorLoadCatalog(String error) {
+    return 'Lỗi tải danh mục: $error';
+  }
+
+  @override
+  String get grammarTheoryScreenTitle => 'Lý Thuyết Chuyên Đề';
+
+  @override
+  String grammarPracticeCountButton(int count) {
+    return 'Luyện Tập ($count câu)';
+  }
+
+  @override
+  String grammarStartPracticeNowButton(int count) {
+    return 'Bắt Đầu Luyện Tập $count Câu Ngay';
+  }
+
+  @override
+  String get grammarCoreConceptTitle => 'Tư Duy Bản Xứ Cốt Lõi';
+
+  @override
+  String get grammarFormulasTitle => 'Công Thức Cú Pháp (Formulas)';
+
+  @override
+  String get grammarCommonTrapsTitle => 'Bẫy Thi Cử Kinh Điển (Common Traps)';
+
+  @override
+  String get grammarExtraGuidesTitle => 'Chuyên Đề Nâng Cao Mở Rộng';
+
+  @override
+  String get grammarUnitNotFound => 'Không tìm thấy chuyên đề ngữ pháp này.';
+
+  @override
+  String grammarErrorLoadUnit(String error) {
+    return 'Lỗi nạp bài học: $error';
+  }
+
+  @override
+  String get grammarPracticeScreenTitle => 'Luyện Tập Ngữ Pháp';
+
+  @override
+  String get grammarGhostReviewScreenTitle => 'Thử Thách Ghost Review';
+
+  @override
+  String grammarQuestionCounter(int current, int total) {
+    return 'Câu $current / $total';
+  }
+
+  @override
+  String get grammarSubmitAnswer => 'Kiểm Tra Đáp Án';
+
+  @override
+  String get grammarExitDialogTitle => 'Thoát Phiên Luyện Tập?';
+
+  @override
+  String get grammarExitDialogContent =>
+      'Tiến độ của các câu đã làm vẫn được lưu vào hệ thống FSRS. Bạn có chắc muốn dừng bài học lúc này?';
+
+  @override
+  String get grammarContinueStudying => 'Tiếp tục làm';
+
+  @override
+  String get grammarExitConfirm => 'Thoát';
+
+  @override
+  String get grammarPracticeSummaryTitle => 'Tổng Kết Phiên Luyện Tập';
+
+  @override
+  String get grammarGhostChallengeCompleted => 'Hoàn Thành Thử Thách Ghost!';
+
+  @override
+  String get grammarPerfectScoreTitle => 'Xuất Sắc! Hoàn Hảo 100%!';
+
+  @override
+  String get grammarUnitSessionCompleted => 'Hoàn Thành Bài Học!';
+
+  @override
+  String get grammarGhostChallengeCompletedSubtitle =>
+      'Bạn đã ôn tập lại các câu hỏi từng làm sai.';
+
+  @override
+  String get grammarUnitSessionCompletedSubtitle =>
+      'Hệ thống đã cập nhật chu kỳ ghi nhớ FSRS v4.5 vào bộ não của bạn.';
+
+  @override
+  String get grammarStatCorrectCount => 'Số câu đúng';
+
+  @override
+  String get grammarStatAccuracy => 'Độ chính xác';
+
+  @override
+  String get grammarStatGhostsToFix => 'Cần sửa lỗi';
+
+  @override
+  String grammarFixGhostsNow(int count) {
+    return 'Xóa Điểm Yếu Ngay ($count câu sai)';
+  }
+
+  @override
+  String get grammarBackToCatalog => 'Về Danh Mục Chuyên Đề';
+
+  @override
+  String get grammarRestartSession => 'Luyện Tập Lại Bài Này';
+
+  @override
+  String get grammarAnswerCorrect => 'Chính xác! Rất tốt!';
+
+  @override
+  String get grammarAnswerIncorrect => 'Chưa chính xác — Ghi nhớ bẫy này!';
+
+  @override
+  String get grammarSectionTranslation => 'Dịch nghĩa câu';
+
+  @override
+  String get grammarSectionKeySignal => 'Dấu hiệu nhận diện (Key Signal)';
+
+  @override
+  String get grammarSectionRule => 'Quy tắc bản xứ';
+
+  @override
+  String get grammarSectionWhyCorrect => 'Lý giải cặn kẽ';
+
+  @override
+  String get grammarSectionDistractors => 'Phân tích bẫy (Distractors)';
+
+  @override
+  String get grammarNextQuestion => 'Câu Tiếp Theo';
+
+  @override
+  String get grammarViewResults => 'Xem Tổng Kết Bài Học';
+
+  @override
+  String get grammarErrorIdInstruction =>
+      'Tìm 1 lỗi sai ngữ pháp trong 4 vị trí [A], [B], [C], [D]';
+
+  @override
+  String get grammarClozeInstruction => 'Điền dạng đúng của từ vào chỗ trống';
+
+  @override
+  String get grammarClozePlaceholder => 'Nhập từ/cụm từ đúng...';
+
+  @override
+  String get grammarClozeSubmittedCorrect => 'Chính xác!';
+
+  @override
+  String get grammarClozeSubmittedIncorrect => 'Chưa chính xác!';
+
+  @override
+  String grammarClozeYourAnswer(String answer) {
+    return 'Bạn đã trả lời: \"$answer\"';
+  }
+
+  @override
+  String get grammarClozeStandardAnswer => 'Đáp án chuẩn: ';
+
+  @override
+  String get grammarClozeBlank => '(Bỏ trống)';
+
+  @override
+  String get grammarTypeChoice => 'TRẮC NGHIỆM';
+
+  @override
+  String get grammarTypeErrorId => 'TÌM LỖI SAI';
+
+  @override
+  String get grammarTypeCloze => 'ĐIỀN TỪ';
+
+  @override
+  String get grammarLevelFoundation => 'Level 1: Foundation';
+
+  @override
+  String get grammarLevelIntermediate => 'Level 2: Intermediate';
+
+  @override
+  String get grammarLevelAdvanced => 'Level 3: Advanced C1/C2';
 }

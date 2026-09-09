@@ -2077,6 +2077,396 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'⚡ Cram: {name} (#{tag})'**
   String cramDeckTitleWithTag(String name, String tag);
+
+  /// No description provided for @grammarAcademicTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Academic Grammar'**
+  String get grammarAcademicTitle;
+
+  /// No description provided for @grammarAcademicSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'36 C1/C2 Units for SAT • GRE • GMAT • Advanced High School'**
+  String get grammarAcademicSubtitle;
+
+  /// No description provided for @grammarClearGhostsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear {count} Ghost Errors'**
+  String grammarClearGhostsButton(int count);
+
+  /// No description provided for @grammarMetricTotalUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Units'**
+  String get grammarMetricTotalUnits;
+
+  /// No description provided for @grammarMetricCompletedExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Exercises'**
+  String get grammarMetricCompletedExercises;
+
+  /// No description provided for @grammarMetricDueGhosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Due / Ghost'**
+  String get grammarMetricDueGhosts;
+
+  /// No description provided for @grammarSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search units, tenses, structures...'**
+  String get grammarSearchPlaceholder;
+
+  /// No description provided for @grammarFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All ({count})'**
+  String grammarFilterAll(int count);
+
+  /// No description provided for @grammarTheoryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Theory'**
+  String get grammarTheoryButton;
+
+  /// No description provided for @grammarPracticeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice'**
+  String get grammarPracticeButton;
+
+  /// No description provided for @grammarMasteryPercentage.
+  ///
+  /// In en, this message translates to:
+  /// **'{percentage}% Mastery'**
+  String grammarMasteryPercentage(String percentage);
+
+  /// No description provided for @grammarCompletedProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed: {completed} / {total}'**
+  String grammarCompletedProgress(int completed, int total);
+
+  /// No description provided for @grammarErrorLoadCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load grammar catalog: {error}'**
+  String grammarErrorLoadCatalog(String error);
+
+  /// No description provided for @grammarTheoryScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Theory'**
+  String get grammarTheoryScreenTitle;
+
+  /// No description provided for @grammarPracticeCountButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice ({count} Qs)'**
+  String grammarPracticeCountButton(int count);
+
+  /// No description provided for @grammarStartPracticeNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Practicing {count} Questions Now'**
+  String grammarStartPracticeNowButton(int count);
+
+  /// No description provided for @grammarCoreConceptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Core Native Mindset'**
+  String get grammarCoreConceptTitle;
+
+  /// No description provided for @grammarFormulasTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Syntax & Formulas'**
+  String get grammarFormulasTitle;
+
+  /// No description provided for @grammarCommonTrapsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic Exam Traps'**
+  String get grammarCommonTrapsTitle;
+
+  /// No description provided for @grammarExtraGuidesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Deep Dive Guides'**
+  String get grammarExtraGuidesTitle;
+
+  /// No description provided for @grammarUnitNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Grammar unit not found.'**
+  String get grammarUnitNotFound;
+
+  /// No description provided for @grammarErrorLoadUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load unit: {error}'**
+  String grammarErrorLoadUnit(String error);
+
+  /// No description provided for @grammarPracticeScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grammar Practice'**
+  String get grammarPracticeScreenTitle;
+
+  /// No description provided for @grammarGhostReviewScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ghost Review Challenge'**
+  String get grammarGhostReviewScreenTitle;
+
+  /// No description provided for @grammarQuestionCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {current} / {total}'**
+  String grammarQuestionCounter(int current, int total);
+
+  /// No description provided for @grammarSubmitAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Answer'**
+  String get grammarSubmitAnswer;
+
+  /// No description provided for @grammarExitDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit Practice Session?'**
+  String get grammarExitDialogTitle;
+
+  /// No description provided for @grammarExitDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Your progress for completed questions has been saved into FSRS. Are you sure you want to exit now?'**
+  String get grammarExitDialogContent;
+
+  /// No description provided for @grammarContinueStudying.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Practicing'**
+  String get grammarContinueStudying;
+
+  /// No description provided for @grammarExitConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get grammarExitConfirm;
+
+  /// No description provided for @grammarPracticeSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice Session Summary'**
+  String get grammarPracticeSummaryTitle;
+
+  /// No description provided for @grammarGhostChallengeCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Ghost Challenge Completed!'**
+  String get grammarGhostChallengeCompleted;
+
+  /// No description provided for @grammarPerfectScoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Brilliant! 100% Perfect!'**
+  String get grammarPerfectScoreTitle;
+
+  /// No description provided for @grammarUnitSessionCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson Completed!'**
+  String get grammarUnitSessionCompleted;
+
+  /// No description provided for @grammarGhostChallengeCompletedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You reviewed all previously failed questions.'**
+  String get grammarGhostChallengeCompletedSubtitle;
+
+  /// No description provided for @grammarUnitSessionCompletedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FSRS v4.5 memory intervals have been updated in your brain.'**
+  String get grammarUnitSessionCompletedSubtitle;
+
+  /// No description provided for @grammarStatCorrectCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct Answers'**
+  String get grammarStatCorrectCount;
+
+  /// No description provided for @grammarStatAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get grammarStatAccuracy;
+
+  /// No description provided for @grammarStatGhostsToFix.
+  ///
+  /// In en, this message translates to:
+  /// **'Ghosts to Fix'**
+  String get grammarStatGhostsToFix;
+
+  /// No description provided for @grammarFixGhostsNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Fix Weaknesses Now ({count} ghosts)'**
+  String grammarFixGhostsNow(int count);
+
+  /// No description provided for @grammarBackToCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Catalog'**
+  String get grammarBackToCatalog;
+
+  /// No description provided for @grammarRestartSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice Again'**
+  String get grammarRestartSession;
+
+  /// No description provided for @grammarAnswerCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct! Great job!'**
+  String get grammarAnswerCorrect;
+
+  /// No description provided for @grammarAnswerIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect — Remember this trap!'**
+  String get grammarAnswerIncorrect;
+
+  /// No description provided for @grammarSectionTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'Sentence Translation'**
+  String get grammarSectionTranslation;
+
+  /// No description provided for @grammarSectionKeySignal.
+  ///
+  /// In en, this message translates to:
+  /// **'Key Recognition Signal'**
+  String get grammarSectionKeySignal;
+
+  /// No description provided for @grammarSectionRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Native Grammar Rule'**
+  String get grammarSectionRule;
+
+  /// No description provided for @grammarSectionWhyCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed Explanation'**
+  String get grammarSectionWhyCorrect;
+
+  /// No description provided for @grammarSectionDistractors.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam Distractor Breakdown'**
+  String get grammarSectionDistractors;
+
+  /// No description provided for @grammarNextQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Question'**
+  String get grammarNextQuestion;
+
+  /// No description provided for @grammarViewResults.
+  ///
+  /// In en, this message translates to:
+  /// **'View Summary'**
+  String get grammarViewResults;
+
+  /// No description provided for @grammarErrorIdInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Find 1 grammatical error among [A], [B], [C], [D]'**
+  String get grammarErrorIdInstruction;
+
+  /// No description provided for @grammarClozeInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the correct form of the word in the blank'**
+  String get grammarClozeInstruction;
+
+  /// No description provided for @grammarClozePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter correct word/phrase...'**
+  String get grammarClozePlaceholder;
+
+  /// No description provided for @grammarClozeSubmittedCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct!'**
+  String get grammarClozeSubmittedCorrect;
+
+  /// No description provided for @grammarClozeSubmittedIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect!'**
+  String get grammarClozeSubmittedIncorrect;
+
+  /// No description provided for @grammarClozeYourAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer: \"{answer}\"'**
+  String grammarClozeYourAnswer(String answer);
+
+  /// No description provided for @grammarClozeStandardAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard answer: '**
+  String get grammarClozeStandardAnswer;
+
+  /// No description provided for @grammarClozeBlank.
+  ///
+  /// In en, this message translates to:
+  /// **'(Blank)'**
+  String get grammarClozeBlank;
+
+  /// No description provided for @grammarTypeChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'MULTIPLE CHOICE'**
+  String get grammarTypeChoice;
+
+  /// No description provided for @grammarTypeErrorId.
+  ///
+  /// In en, this message translates to:
+  /// **'FIND THE ERROR'**
+  String get grammarTypeErrorId;
+
+  /// No description provided for @grammarTypeCloze.
+  ///
+  /// In en, this message translates to:
+  /// **'FILL IN THE BLANK'**
+  String get grammarTypeCloze;
+
+  /// No description provided for @grammarLevelFoundation.
+  ///
+  /// In en, this message translates to:
+  /// **'Level 1: Foundation'**
+  String get grammarLevelFoundation;
+
+  /// No description provided for @grammarLevelIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Level 2: Intermediate'**
+  String get grammarLevelIntermediate;
+
+  /// No description provided for @grammarLevelAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Level 3: Advanced C1/C2'**
+  String get grammarLevelAdvanced;
 }
 
 class _AppLocalizationsDelegate

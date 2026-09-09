@@ -1,7 +1,10 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import 'package:flanki/core/localization/shadcn_localizations_vi.dart';
 import 'package:flanki/core/models/grammar/grammar_models.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flanki/ui/screens/grammar/widgets/choice_question_widget.dart';
 import 'package:flanki/ui/screens/grammar/widgets/cloze_question_widget.dart';
 import 'package:flanki/ui/screens/grammar/widgets/error_id_question_widget.dart';
@@ -10,8 +13,17 @@ import 'package:flanki/ui/screens/grammar/widgets/explanation_sheet.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget wrapWithTheme(Widget child) {
+  Widget wrapWithTheme(Widget child, [Locale locale = const Locale('vi')]) {
     return ShadcnApp(
+      locale: locale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ShadcnLocalizationsViDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home: Scaffold(
         child: child,
       ),

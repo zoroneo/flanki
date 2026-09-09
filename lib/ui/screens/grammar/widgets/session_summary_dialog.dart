@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/grammar/grammar_models.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class SessionSummaryDialog extends StatelessWidget {
   final int totalQuestions;
@@ -26,6 +27,7 @@ class SessionSummaryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final accuracy = totalQuestions > 0 ? (correctCount / totalQuestions) * 100.0 : 0.0;
     final isPerfect = correctCount == totalQuestions;
 
@@ -59,8 +61,8 @@ class SessionSummaryDialog extends StatelessWidget {
 
                 Text(
                   isGhostChallenge
-                      ? 'Hoàn Thành Thử Thách Ghost!'
-                      : (isPerfect ? 'Xuất Sắc! Hoàn Hảo 100%!' : 'Hoàn Thành Bài Học!'),
+                      ? l10n.grammarGhostChallengeCompleted
+                      : (isPerfect ? l10n.grammarPerfectScoreTitle : l10n.grammarUnitSessionCompleted),
                   style: theme.typography.h3.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -69,8 +71,8 @@ class SessionSummaryDialog extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   isGhostChallenge
-                      ? 'Bạn đã ôn tập lại các câu hỏi từng làm sai.'
-                      : 'Hệ thống đã cập nhật chu kỳ ghi nhớ FSRS v4.5 vào bộ não của bạn.',
+                      ? l10n.grammarGhostChallengeCompletedSubtitle
+                      : l10n.grammarUnitSessionCompletedSubtitle,
                   style: theme.typography.small.copyWith(
                     color: theme.colorScheme.mutedForeground,
                   ),
@@ -90,13 +92,13 @@ class SessionSummaryDialog extends StatelessWidget {
                     children: [
                       _buildStatColumn(
                         context,
-                        label: 'Số câu đúng',
+                        label: l10n.grammarStatCorrectCount,
                         value: '$correctCount / $totalQuestions',
                         color: Colors.green,
                       ),
                       _buildStatColumn(
                         context,
-                        label: 'Độ chính xác',
+                        label: l10n.grammarStatAccuracy,
                         value: '${accuracy.toStringAsFixed(1)}%',
                         color: accuracy >= GrammarConstants.passAccuracyThreshold
                             ? Colors.green
@@ -105,7 +107,7 @@ class SessionSummaryDialog extends StatelessWidget {
                       if (!isGhostChallenge)
                         _buildStatColumn(
                           context,
-                          label: 'Cần sửa lỗi',
+                          label: l10n.grammarStatGhostsToFix,
                           value: '$ghostCount',
                           color: ghostCount > 0 ? Colors.red : Colors.green,
                         ),
@@ -123,24 +125,24 @@ class SessionSummaryDialog extends StatelessWidget {
                       children: [
                         const Icon(LucideIcons.flame, size: 18),
                         const SizedBox(width: 8),
-                        Text('Xóa Điểm Yếu Ngay ($ghostCount câu sai)'),
+                        Text(l10n.grammarFixGhostsNow(ghostCount)),
                       ],
                     ),
                   ),
                   const SizedBox(height: 10),
                   OutlineButton(
                     onPressed: onReturnCatalog,
-                    child: const Text('Về Danh Mục Chuyên Đề'),
+                    child: Text(l10n.grammarBackToCatalog),
                   ),
                 ] else ...[
                   PrimaryButton(
                     onPressed: onReturnCatalog,
-                    child: const Text('Về Danh Mục Chuyên Đề'),
+                    child: Text(l10n.grammarBackToCatalog),
                   ),
                   const SizedBox(height: 10),
                   GhostButton(
                     onPressed: onRestart,
-                    child: const Text('Luyện Tập Lại Bài Này'),
+                    child: Text(l10n.grammarRestartSession),
                   ),
                 ],
               ],

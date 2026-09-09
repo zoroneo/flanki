@@ -651,6 +651,128 @@
       "name": {"type": "String"},
       "tag": {"type": "String"}
     }
-  }
+  },
+  "grammarAcademicTitle": "Academic Grammar",
+  "grammarAcademicSubtitle": "36 C1/C2 Units for SAT • GRE • GMAT • Advanced High School",
+  "grammarClearGhostsButton": "Clear {count} Ghost Errors",
+  "@grammarClearGhostsButton": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "grammarMetricTotalUnits": "Total Units",
+  "grammarMetricCompletedExercises": "Completed Exercises",
+  "grammarMetricDueGhosts": "Due / Ghost",
+  "grammarSearchPlaceholder": "Search units, tenses, structures...",
+  "grammarFilterAll": "All ({count})",
+  "@grammarFilterAll": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "grammarTheoryButton": "Theory",
+  "grammarPracticeButton": "Practice",
+  "grammarMasteryPercentage": "{percentage}% Mastery",
+  "@grammarMasteryPercentage": {
+    "placeholders": {
+      "percentage": {"type": "String"}
+    }
+  },
+  "grammarCompletedProgress": "Completed: {completed} / {total}",
+  "@grammarCompletedProgress": {
+    "placeholders": {
+      "completed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "grammarErrorLoadCatalog": "Failed to load grammar catalog: {error}",
+  "@grammarErrorLoadCatalog": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "grammarTheoryScreenTitle": "Unit Theory",
+  "grammarPracticeCountButton": "Practice ({count} Qs)",
+  "@grammarPracticeCountButton": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "grammarStartPracticeNowButton": "Start Practicing {count} Questions Now",
+  "@grammarStartPracticeNowButton": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "grammarCoreConceptTitle": "Core Native Mindset",
+  "grammarFormulasTitle": "Syntax & Formulas",
+  "grammarCommonTrapsTitle": "Classic Exam Traps",
+  "grammarExtraGuidesTitle": "Advanced Deep Dive Guides",
+  "grammarUnitNotFound": "Grammar unit not found.",
+  "grammarErrorLoadUnit": "Failed to load unit: {error}",
+  "@grammarErrorLoadUnit": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "grammarPracticeScreenTitle": "Grammar Practice",
+  "grammarGhostReviewScreenTitle": "Ghost Review Challenge",
+  "grammarQuestionCounter": "Question {current} / {total}",
+  "@grammarQuestionCounter": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "grammarSubmitAnswer": "Check Answer",
+  "grammarExitDialogTitle": "Exit Practice Session?",
+  "grammarExitDialogContent": "Your progress for completed questions has been saved into FSRS. Are you sure you want to exit now?",
+  "grammarContinueStudying": "Keep Practicing",
+  "grammarExitConfirm": "Exit",
+  "grammarPracticeSummaryTitle": "Practice Session Summary",
+  "grammarGhostChallengeCompleted": "Ghost Challenge Completed!",
+  "grammarPerfectScoreTitle": "Brilliant! 100% Perfect!",
+  "grammarUnitSessionCompleted": "Lesson Completed!",
+  "grammarGhostChallengeCompletedSubtitle": "You reviewed all previously failed questions.",
+  "grammarUnitSessionCompletedSubtitle": "FSRS v4.5 memory intervals have been updated in your brain.",
+  "grammarStatCorrectCount": "Correct Answers",
+  "grammarStatAccuracy": "Accuracy",
+  "grammarStatGhostsToFix": "Ghosts to Fix",
+  "grammarFixGhostsNow": "Fix Weaknesses Now ({count} ghosts)",
+  "@grammarFixGhostsNow": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "grammarBackToCatalog": "Back to Catalog",
+  "grammarRestartSession": "Practice Again",
+  "grammarAnswerCorrect": "Correct! Great job!",
+  "grammarAnswerIncorrect": "Incorrect — Remember this trap!",
+  "grammarSectionTranslation": "Sentence Translation",
+  "grammarSectionKeySignal": "Key Recognition Signal",
+  "grammarSectionRule": "Native Grammar Rule",
+  "grammarSectionWhyCorrect": "Detailed Explanation",
+  "grammarSectionDistractors": "Exam Distractor Breakdown",
+  "grammarNextQuestion": "Next Question",
+  "grammarViewResults": "View Summary",
+  "grammarErrorIdInstruction": "Find 1 grammatical error among [A], [B], [C], [D]",
+  "grammarClozeInstruction": "Fill in the correct form of the word in the blank",
+  "grammarClozePlaceholder": "Enter correct word/phrase...",
+  "grammarClozeSubmittedCorrect": "Correct!",
+  "grammarClozeSubmittedIncorrect": "Incorrect!",
+  "grammarClozeYourAnswer": "Your answer: \"{answer}\"",
+  "@grammarClozeYourAnswer": {
+    "placeholders": {
+      "answer": {"type": "String"}
+    }
+  },
+  "grammarClozeStandardAnswer": "Standard answer: ",
+  "grammarClozeBlank": "(Blank)",
+  "grammarTypeChoice": "MULTIPLE CHOICE",
+  "grammarTypeErrorId": "FIND THE ERROR",
+  "grammarTypeCloze": "FILL IN THE BLANK",
+  "grammarLevelFoundation": "Level 1: Foundation",
+  "grammarLevelIntermediate": "Level 2: Intermediate",
+  "grammarLevelAdvanced": "Level 3: Advanced C1/C2"
 }
 

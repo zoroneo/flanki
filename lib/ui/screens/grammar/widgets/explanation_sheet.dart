@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/grammar/grammar_models.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class ExplanationSheet extends StatelessWidget {
   final GrammarExercise exercise;
@@ -20,6 +21,7 @@ class ExplanationSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final explanation = exercise.explanation;
 
     return Container(
@@ -55,7 +57,7 @@ class ExplanationSheet extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                isCorrect ? 'Chính xác! Rất tốt!' : 'Chưa chính xác — Ghi nhớ bẫy này!',
+                isCorrect ? l10n.grammarAnswerCorrect : l10n.grammarAnswerIncorrect,
                 style: theme.typography.large.copyWith(
                   fontWeight: FontWeight.bold,
                   color: isCorrect ? Colors.green : Colors.red,
@@ -77,7 +79,7 @@ class ExplanationSheet extends StatelessWidget {
                     _buildSection(
                       context,
                       icon: LucideIcons.languages,
-                      title: 'Dịch nghĩa câu',
+                      title: l10n.grammarSectionTranslation,
                       content: explanation.translation,
                       color: theme.colorScheme.primary,
                     ),
@@ -87,7 +89,7 @@ class ExplanationSheet extends StatelessWidget {
                     _buildSection(
                       context,
                       icon: LucideIcons.sparkles,
-                      title: 'Dấu hiệu nhận diện (Key Signal)',
+                      title: l10n.grammarSectionKeySignal,
                       content: explanation.keySignal,
                       color: Colors.amber,
                     ),
@@ -97,7 +99,7 @@ class ExplanationSheet extends StatelessWidget {
                     _buildSection(
                       context,
                       icon: LucideIcons.bookOpenCheck,
-                      title: 'Quy tắc bản xứ',
+                      title: l10n.grammarSectionRule,
                       content: explanation.rule,
                       color: Colors.blue,
                     ),
@@ -107,7 +109,7 @@ class ExplanationSheet extends StatelessWidget {
                     _buildSection(
                       context,
                       icon: LucideIcons.checkCheck,
-                      title: 'Lý giải vì sao đúng',
+                      title: l10n.grammarSectionWhyCorrect,
                       content: explanation.whyCorrect,
                       color: Colors.green,
                     ),
@@ -121,7 +123,7 @@ class ExplanationSheet extends StatelessWidget {
                           const Icon(LucideIcons.shieldAlert, size: 16, color: Colors.orange),
                           const SizedBox(width: 8),
                           Text(
-                            'Phân tích bẫy phương án sai:',
+                            l10n.grammarSectionDistractors,
                             style: theme.typography.small.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.orange,
@@ -139,28 +141,24 @@ class ExplanationSheet extends StatelessWidget {
                             Text(
                               '• ',
                               style: TextStyle(
+                                color: Colors.orange,
                                 fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.mutedForeground,
+                                fontSize: theme.typography.small.fontSize,
+                              ),
+                            ),
+                            Text(
+                              '[${entry.key}] ',
+                              style: theme.typography.small.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.foreground,
                               ),
                             ),
                             Expanded(
-                              child: Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${entry.key}: ',
-                                      style: theme.typography.small.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: theme.colorScheme.foreground,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: entry.value,
-                                      style: theme.typography.small.copyWith(
-                                        color: theme.colorScheme.mutedForeground,
-                                      ),
-                                    ),
-                                  ],
+                              child: Text(
+                                entry.value,
+                                style: theme.typography.small.copyWith(
+                                  color: theme.colorScheme.mutedForeground,
+                                  height: 1.4,
                                 ),
                               ),
                             ),
@@ -177,11 +175,12 @@ class ExplanationSheet extends StatelessWidget {
 
           // Next Button
           PrimaryButton(
+            size: ButtonSize.large,
             onPressed: onNext,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(isLastQuestion ? 'Xem Tổng Kết Bài Học' : 'Câu Tiếp Theo'),
+                Text(isLastQuestion ? l10n.grammarViewResults : l10n.grammarNextQuestion),
                 const SizedBox(width: 8),
                 Icon(
                   isLastQuestion ? LucideIcons.flag : LucideIcons.arrowRight,

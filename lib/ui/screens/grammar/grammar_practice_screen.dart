@@ -8,6 +8,7 @@ import '../../../core/models/grammar/grammar_models.dart';
 import '../../../core/notifiers/grammar_session_notifier.dart';
 import '../../../core/services/grammar_service.dart';
 import '../../../core/storage/grammar_repository.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import 'widgets/choice_question_widget.dart';
 import 'widgets/cloze_question_widget.dart';
 import 'widgets/error_id_question_widget.dart';
@@ -74,6 +75,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final session = ref.watch(grammarSessionNotifierProvider);
     final notifier = ref.read(grammarSessionNotifierProvider.notifier);
 
@@ -82,7 +84,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       return Scaffold(
         headers: [
           AppBar(
-            title: const Text('Tổng Kết Phiên Luyện Tập'),
+            title: Text(l10n.grammarPracticeSummaryTitle),
             trailing: [
               IconButton.ghost(
                 icon: const Icon(LucideIcons.x, size: 20),
@@ -140,8 +142,8 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
           ],
           title: Text(
             session.isGhostChallenge
-                ? 'Thử Thách Ghost Review'
-                : (session.unit?.title ?? 'Luyện Tập Ngữ Pháp'),
+                ? l10n.grammarGhostReviewScreenTitle
+                : (session.unit?.title ?? l10n.grammarPracticeScreenTitle),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -154,7 +156,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  currentExercise.type.label,
+                  currentExercise.type.getLocalizedLabel(l10n),
                   style: theme.typography.xSmall.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -185,7 +187,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                           children: [
                             // Question counter
                             Text(
-                              'Câu ${session.currentIndex + 1} / ${session.totalQuestions}',
+                              l10n.grammarQuestionCounter(session.currentIndex + 1, session.totalQuestions),
                               style: theme.typography.small.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: theme.colorScheme.mutedForeground,
@@ -226,12 +228,12 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                                 onPressed: (session.selectedAnswer?.trim().isNotEmpty ?? false)
                                     ? () => notifier.submitAnswer()
                                     : null,
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(LucideIcons.checkCheck, size: 18),
-                                    SizedBox(width: 8),
-                                    Text('Kiểm Tra Đáp Án'),
+                                    const Icon(LucideIcons.checkCheck, size: 18),
+                                    const SizedBox(width: 8),
+                                    Text(l10n.grammarSubmitAnswer),
                                   ],
                                 ),
                               ),
@@ -260,24 +262,23 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
   }
 
   void _confirmExit(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     m.showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Thoát Phiên Luyện Tập?'),
-        content: const Text(
-          'Tiến độ của các câu đã làm vẫn được lưu vào hệ thống FSRS. Bạn có chắc muốn dừng bài học lúc này?',
-        ),
+        title: Text(l10n.grammarExitDialogTitle),
+        content: Text(l10n.grammarExitDialogContent),
         actions: [
           OutlineButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Tiếp tục làm'),
+            child: Text(l10n.grammarContinueStudying),
           ),
           DestructiveButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               context.pop();
             },
-            child: const Text('Thoát'),
+            child: Text(l10n.grammarExitConfirm),
           ),
         ],
       ),

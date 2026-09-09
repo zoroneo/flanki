@@ -2,6 +2,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/grammar/grammar_models.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class ClozeQuestionWidget extends HookWidget {
   final GrammarExercise exercise;
@@ -24,6 +25,7 @@ class ClozeQuestionWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final textController = useTextEditingController(text: selectedAnswer ?? '');
 
     useEffect(() {
@@ -49,7 +51,7 @@ class ClozeQuestionWidget extends HookWidget {
                   const Icon(LucideIcons.penLine, size: 14),
                   const SizedBox(width: 6),
                   Text(
-                    'Điền dạng đúng của từ vào chỗ trống',
+                    l10n.grammarClozeInstruction,
                     style: theme.typography.xSmall.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
@@ -81,7 +83,7 @@ class ClozeQuestionWidget extends HookWidget {
           TextField(
             controller: textController,
             autofocus: true,
-            placeholder: const Text('Nhập từ/cụm từ đúng...'),
+            placeholder: Text(l10n.grammarClozePlaceholder),
             onChanged: (val) => onAnswerChanged(val),
             onSubmitted: (val) {
               onAnswerChanged(val);
@@ -116,7 +118,9 @@ class ClozeQuestionWidget extends HookWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      (isCorrect == true) ? 'Chính xác!' : 'Chưa chính xác!',
+                      (isCorrect == true)
+                          ? l10n.grammarClozeSubmittedCorrect
+                          : l10n.grammarClozeSubmittedIncorrect,
                       style: theme.typography.base.copyWith(
                         fontWeight: FontWeight.bold,
                         color: (isCorrect == true) ? Colors.green : Colors.red,
@@ -126,7 +130,9 @@ class ClozeQuestionWidget extends HookWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Bạn đã trả lời: "${selectedAnswer?.trim().isEmpty ?? true ? "(Bỏ trống)" : selectedAnswer}"',
+                  l10n.grammarClozeYourAnswer(selectedAnswer?.trim().isEmpty ?? true
+                      ? l10n.grammarClozeBlank
+                      : selectedAnswer!),
                   style: theme.typography.small.copyWith(
                     color: theme.colorScheme.mutedForeground,
                   ),
@@ -136,7 +142,7 @@ class ClozeQuestionWidget extends HookWidget {
                   Row(
                     children: [
                       Text(
-                        'Đáp án chuẩn: ',
+                        l10n.grammarClozeStandardAnswer,
                         style: theme.typography.small.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

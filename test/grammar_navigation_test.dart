@@ -9,6 +9,12 @@ import 'package:flanki/main.dart';
 
 import 'package:flanki/core/models/grammar/grammar_models.dart';
 import 'package:flanki/core/services/grammar_service.dart';
+import 'package:flanki/core/localization/locale_notifier.dart';
+
+class TestVietnameseLocaleNotifier extends LocaleNotifier {
+  @override
+  Locale? build() => const Locale('vi');
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +61,7 @@ void main() {
       ProviderScope(
         overrides: [
           grammarUnitsProvider.overrideWith((ref) async => [mockUnit]),
+          localeNotifierProvider.overrideWith(TestVietnameseLocaleNotifier.new),
         ],
         child: const FlankiApp(),
       ),
@@ -62,10 +69,10 @@ void main() {
     await tester.pumpAndSettle();
 
     // Check that Grammar item exists in sidebar
-    expect(find.text('Grammar'), findsWidgets);
+    expect(find.text('Ngữ pháp'), findsWidgets);
 
     // Tap on Grammar nav item
-    await tester.tap(find.text('Grammar').first);
+    await tester.tap(find.text('Ngữ pháp').first);
     await tester.pumpAndSettle();
 
     // Verify catalog header & unit card are rendered
@@ -99,6 +106,7 @@ void main() {
       ProviderScope(
         overrides: [
           grammarUnitsProvider.overrideWith((ref) async => [mockUnit]),
+          localeNotifierProvider.overrideWith(TestVietnameseLocaleNotifier.new),
         ],
         child: const FlankiApp(),
       ),
@@ -140,6 +148,7 @@ void main() {
       ProviderScope(
         overrides: [
           grammarUnitsProvider.overrideWith((ref) async => [mockUnit]),
+          localeNotifierProvider.overrideWith(TestVietnameseLocaleNotifier.new),
         ],
         child: const FlankiApp(),
       ),
@@ -147,8 +156,8 @@ void main() {
     await tester.pumpAndSettle();
 
     // In bottom nav, find Grammar tab and tap it
-    expect(find.text('Grammar'), findsWidgets);
-    await tester.tap(find.text('Grammar').first);
+    expect(find.text('Ngữ pháp'), findsWidgets);
+    await tester.tap(find.text('Ngữ pháp').first);
     await tester.pumpAndSettle();
 
     expect(find.text('Ngữ Pháp Học Thuật'), findsOneWidget);

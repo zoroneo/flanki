@@ -5,6 +5,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/models/grammar/grammar_models.dart';
 import '../../../core/services/grammar_service.dart';
+import '../../../l10n/generated/app_localizations.dart';
 
 class GrammarTheoryScreen extends ConsumerWidget {
   final String unitId;
@@ -13,6 +14,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final grammarAsync = ref.watch(grammarUnitsProvider);
 
     return Scaffold(
@@ -24,16 +26,16 @@ class GrammarTheoryScreen extends ConsumerWidget {
               onPressed: () => context.pop(),
             ),
           ],
-          title: const Text('Lý Thuyết Chuyên Đề'),
+          title: Text(l10n.grammarTheoryScreenTitle),
           trailing: [
             PrimaryButton(
               onPressed: () => context.push('/grammar/$unitId/practice'),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Luyện Tập (${GrammarConstants.exercisesPerUnit} câu)'),
-                  SizedBox(width: 6),
-                  Icon(LucideIcons.play, size: 14),
+                  Text(l10n.grammarPracticeCountButton(GrammarConstants.exercisesPerUnit)),
+                  const SizedBox(width: 6),
+                  const Icon(LucideIcons.play, size: 14),
                 ],
               ),
             ),
@@ -42,7 +44,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
       ],
       child: grammarAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Lỗi nạp bài học: $err')),
+        error: (err, stack) => Center(child: Text(l10n.grammarErrorLoadUnit(err.toString()))),
         data: (units) {
           final unit = units.cast<GrammarUnit?>().firstWhere(
                 (u) => u?.unitId == unitId,
@@ -50,7 +52,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
               );
 
           if (unit == null) {
-            return const Center(child: Text('Không tìm thấy chuyên đề ngữ pháp này.'));
+            return Center(child: Text(l10n.grammarUnitNotFound));
           }
 
           return SingleChildScrollView(
@@ -70,7 +72,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
                       context,
                       icon: LucideIcons.lightbulb,
                       iconColor: Colors.amber,
-                      title: 'Tư Duy Bản Xứ Cốt Lõi',
+                      title: l10n.grammarCoreConceptTitle,
                       content: unit.coreConcept,
                     ),
                     const SizedBox(height: 20),
@@ -98,12 +100,12 @@ class GrammarTheoryScreen extends ConsumerWidget {
                     PrimaryButton(
                       size: ButtonSize.large,
                       onPressed: () => context.push('/grammar/$unitId/practice'),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(LucideIcons.play, size: 18),
-                          SizedBox(width: 8),
-                          Text('Bắt Đầu Luyện Tập ${GrammarConstants.exercisesPerUnit} Câu Ngay'),
+                          const Icon(LucideIcons.play, size: 18),
+                          const SizedBox(width: 8),
+                          Text(l10n.grammarStartPracticeNowButton(GrammarConstants.exercisesPerUnit)),
                         ],
                       ),
                     ),
@@ -219,6 +221,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
 
   Widget _buildFormulasSection(BuildContext context, Map<String, String> formulas) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -230,7 +233,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
                 const Icon(LucideIcons.sigma, size: 20, color: Colors.blue),
                 const SizedBox(width: 10),
                 Text(
-                  'Công Thức Cú Pháp (Formulas)',
+                  l10n.grammarFormulasTitle,
                   style: theme.typography.h4.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -278,6 +281,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
 
   Widget _buildCommonTrapsSection(BuildContext context, List<GrammarTrap> traps) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -289,7 +293,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
                 const Icon(LucideIcons.triangleAlert, size: 20, color: Colors.orange),
                 const SizedBox(width: 10),
                 Text(
-                  'Bẫy Thi Cử Kinh Điển (Common Traps)',
+                  l10n.grammarCommonTrapsTitle,
                   style: theme.typography.h4.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -399,6 +403,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
 
   Widget _buildExtraGuidesSection(BuildContext context, Map<String, String> extraGuides) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -410,7 +415,7 @@ class GrammarTheoryScreen extends ConsumerWidget {
                 const Icon(LucideIcons.bookOpen, size: 20, color: Colors.purple),
                 const SizedBox(width: 10),
                 Text(
-                  'Chuyên Đề Nâng Cao Mở Rộng',
+                  l10n.grammarExtraGuidesTitle,
                   style: theme.typography.h4.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

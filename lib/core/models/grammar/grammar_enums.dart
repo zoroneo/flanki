@@ -1,4 +1,6 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
+
+import '../../../l10n/generated/app_localizations.dart';
 
 /// Exercise question formats
 enum GrammarExerciseType {
@@ -10,6 +12,17 @@ enum GrammarExerciseType {
   final String label;
 
   const GrammarExerciseType(this.value, this.label);
+
+  String getLocalizedLabel(AppLocalizations l10n) {
+    switch (this) {
+      case GrammarExerciseType.choice:
+        return l10n.grammarTypeChoice;
+      case GrammarExerciseType.errorId:
+        return l10n.grammarTypeErrorId;
+      case GrammarExerciseType.cloze:
+        return l10n.grammarTypeCloze;
+    }
+  }
 
   static GrammarExerciseType fromString(String? val) {
     return GrammarExerciseType.values.firstWhere(
@@ -31,6 +44,17 @@ enum GrammarLevel {
   final m.Color color;
 
   const GrammarLevel(this.value, this.label, this.displayName, this.color);
+
+  String getLocalizedName(AppLocalizations l10n) {
+    switch (this) {
+      case GrammarLevel.foundation:
+        return l10n.grammarLevelFoundation;
+      case GrammarLevel.intermediate:
+        return l10n.grammarLevelIntermediate;
+      case GrammarLevel.advanced:
+        return l10n.grammarLevelAdvanced;
+    }
+  }
 
   static GrammarLevel fromValue(dynamic val) {
     if (val is GrammarLevel) return val;

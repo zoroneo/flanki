@@ -7,6 +7,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/models/grammar/grammar_models.dart';
 import '../../../core/services/grammar_service.dart';
 import '../../../core/storage/grammar_repository.dart';
+import '../../../l10n/generated/app_localizations.dart';
 
 class GrammarCatalogScreen extends HookConsumerWidget {
   const GrammarCatalogScreen({super.key});
@@ -14,6 +15,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final grammarAsync = ref.watch(grammarUnitsProvider);
     final repo = ref.watch(grammarRepositoryProvider);
 
@@ -33,7 +35,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
     return Scaffold(
       child: grammarAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Lỗi tải danh mục: $err')),
+        error: (err, stack) => Center(child: Text(l10n.grammarErrorLoadCatalog(err.toString()))),
         data: (units) {
           final filteredUnits = units.where((u) {
             if (selectedLevel.value != null && u.level != selectedLevel.value) {
@@ -80,14 +82,14 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Ngữ Pháp Học Thuật',
+                                  l10n.grammarAcademicTitle,
                                   style: theme.typography.h3.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  '36 Chuyên Đề C1/C2 Chuẩn Mực SAT • GRE • GMAT • THPTQG Chuyên',
+                                  l10n.grammarAcademicSubtitle,
                                   style: theme.typography.small.copyWith(
                                     color: theme.colorScheme.mutedForeground,
                                   ),
@@ -103,7 +105,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                                 children: [
                                   const Icon(LucideIcons.flame, size: 16),
                                   const SizedBox(width: 6),
-                                  Text('Xóa $totalGhosts Câu Sai (Ghost)'),
+                                  Text(l10n.grammarClearGhostsButton(totalGhosts)),
                                 ],
                               ),
                             ),
@@ -117,7 +119,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                           Expanded(
                             child: _buildMetricCard(
                               context,
-                              label: 'Tổng chuyên đề',
+                              label: l10n.grammarMetricTotalUnits,
                               value: '${GrammarConstants.totalUnits} Units',
                               icon: LucideIcons.layers,
                               color: Colors.blue,
@@ -127,7 +129,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                           Expanded(
                             child: _buildMetricCard(
                               context,
-                              label: 'Bài tập đã làm',
+                              label: l10n.grammarMetricCompletedExercises,
                               value: '$totalCompleted / ${GrammarConstants.totalExercises}',
                               icon: LucideIcons.circleCheck,
                               color: Colors.green,
@@ -137,7 +139,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                           Expanded(
                             child: _buildMetricCard(
                               context,
-                              label: 'Đến hạn / Ghost',
+                              label: l10n.grammarMetricDueGhosts,
                               value: '$totalDues / $totalGhosts',
                               icon: LucideIcons.shieldAlert,
                               color: (totalGhosts > 0 || totalDues > 0) ? Colors.red : Colors.green,
@@ -157,7 +159,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                                   Icon(LucideIcons.search, size: 16),
                                 ),
                               ],
-                              placeholder: const Text('Tìm chuyên đề, thì, cấu trúc...'),
+                              placeholder: Text(l10n.grammarSearchPlaceholder),
                               onChanged: (val) => searchQuery.value = val,
                             ),
                           ),
@@ -172,7 +174,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                           children: [
                             _buildFilterChip(
                               context,
-                              label: 'Tất Cả (${GrammarConstants.totalUnits})',
+                              label: l10n.grammarFilterAll(GrammarConstants.totalUnits),
                               isSelected: selectedLevel.value == null,
                               onTap: () => selectedLevel.value = null,
                             ),
@@ -181,7 +183,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                                 padding: const EdgeInsets.only(left: 8),
                                 child: _buildFilterChip(
                                   context,
-                                  label: lvl.displayName,
+                                  label: lvl.getLocalizedName(l10n),
                                   isSelected: selectedLevel.value == lvl,
                                   onTap: () => selectedLevel.value = lvl,
                                 ),
@@ -300,8 +302,9 @@ class GrammarCatalogScreen extends HookConsumerWidget {
 
   Widget _buildUnitCard(BuildContext context, GrammarUnit unit, UnitProgressSummary summary) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final levelColor = unit.level.color;
-    final levelText = unit.level.label;
+    final levelText = unit.level.getLocalizedName(l10n);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -402,7 +405,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    '${summary.masteryPercentage.toStringAsFixed(0)}% Thành thạo',
+                    l10n.grammarMasteryPercentage(summary.masteryPercentage.toStringAsFixed(0)),
                     style: theme.typography.xSmall.copyWith(
                       fontWeight: FontWeight.bold,
                       color: summary.isMastered ? Colors.green : theme.colorScheme.mutedForeground,
@@ -417,7 +420,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'Đã làm: ${summary.completedCount} / ${GrammarConstants.exercisesPerUnit}',
+                    l10n.grammarCompletedProgress(summary.completedCount, GrammarConstants.exercisesPerUnit),
                     style: theme.typography.xSmall.copyWith(
                       color: theme.colorScheme.mutedForeground,
                     ),
@@ -425,24 +428,24 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                   const Spacer(),
                   OutlineButton(
                     onPressed: () => context.push('/grammar/${unit.unitId}/theory'),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(LucideIcons.bookOpen, size: 14),
-                        SizedBox(width: 6),
-                        Text('Lý Thuyết'),
+                        const Icon(LucideIcons.bookOpen, size: 14),
+                        const SizedBox(width: 6),
+                        Text(l10n.grammarTheoryButton),
                       ],
                     ),
                   ),
                   const SizedBox(width: 8),
                   PrimaryButton(
                     onPressed: () => context.push('/grammar/${unit.unitId}/practice'),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(LucideIcons.play, size: 14),
-                        SizedBox(width: 6),
-                        Text('Luyện Tập'),
+                        const Icon(LucideIcons.play, size: 14),
+                        const SizedBox(width: 6),
+                        Text(l10n.grammarPracticeButton),
                       ],
                     ),
                   ),

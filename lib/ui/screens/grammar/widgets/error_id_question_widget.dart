@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/grammar/grammar_models.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class ErrorIdQuestionWidget extends StatelessWidget {
   final GrammarExercise exercise;
@@ -20,6 +21,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final prompt = exercise.prompt;
     final options = exercise.options.isNotEmpty
         ? exercise.options
@@ -43,7 +45,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                   const Icon(LucideIcons.scanSearch, size: 14),
                   const SizedBox(width: 6),
                   Text(
-                    'Tìm 1 lỗi sai ngữ pháp trong 4 vị trí [A], [B], [C], [D]',
+                    l10n.grammarErrorIdInstruction,
                     style: theme.typography.xSmall.copyWith(
                       fontWeight: FontWeight.w500,
                     ),

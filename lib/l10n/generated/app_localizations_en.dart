@@ -1142,4 +1142,227 @@ class AppLocalizationsEn extends AppLocalizations {
   String cramDeckTitleWithTag(String name, String tag) {
     return '⚡ Cram: $name (#$tag)';
   }
+
+  @override
+  String get grammarAcademicTitle => 'Academic Grammar';
+
+  @override
+  String get grammarAcademicSubtitle =>
+      '36 C1/C2 Units for SAT • GRE • GMAT • Advanced High School';
+
+  @override
+  String grammarClearGhostsButton(int count) {
+    return 'Clear $count Ghost Errors';
+  }
+
+  @override
+  String get grammarMetricTotalUnits => 'Total Units';
+
+  @override
+  String get grammarMetricCompletedExercises => 'Completed Exercises';
+
+  @override
+  String get grammarMetricDueGhosts => 'Due / Ghost';
+
+  @override
+  String get grammarSearchPlaceholder => 'Search units, tenses, structures...';
+
+  @override
+  String grammarFilterAll(int count) {
+    return 'All ($count)';
+  }
+
+  @override
+  String get grammarTheoryButton => 'Theory';
+
+  @override
+  String get grammarPracticeButton => 'Practice';
+
+  @override
+  String grammarMasteryPercentage(String percentage) {
+    return '$percentage% Mastery';
+  }
+
+  @override
+  String grammarCompletedProgress(int completed, int total) {
+    return 'Completed: $completed / $total';
+  }
+
+  @override
+  String grammarErrorLoadCatalog(String error) {
+    return 'Failed to load grammar catalog: $error';
+  }
+
+  @override
+  String get grammarTheoryScreenTitle => 'Unit Theory';
+
+  @override
+  String grammarPracticeCountButton(int count) {
+    return 'Practice ($count Qs)';
+  }
+
+  @override
+  String grammarStartPracticeNowButton(int count) {
+    return 'Start Practicing $count Questions Now';
+  }
+
+  @override
+  String get grammarCoreConceptTitle => 'Core Native Mindset';
+
+  @override
+  String get grammarFormulasTitle => 'Syntax & Formulas';
+
+  @override
+  String get grammarCommonTrapsTitle => 'Classic Exam Traps';
+
+  @override
+  String get grammarExtraGuidesTitle => 'Advanced Deep Dive Guides';
+
+  @override
+  String get grammarUnitNotFound => 'Grammar unit not found.';
+
+  @override
+  String grammarErrorLoadUnit(String error) {
+    return 'Failed to load unit: $error';
+  }
+
+  @override
+  String get grammarPracticeScreenTitle => 'Grammar Practice';
+
+  @override
+  String get grammarGhostReviewScreenTitle => 'Ghost Review Challenge';
+
+  @override
+  String grammarQuestionCounter(int current, int total) {
+    return 'Question $current / $total';
+  }
+
+  @override
+  String get grammarSubmitAnswer => 'Check Answer';
+
+  @override
+  String get grammarExitDialogTitle => 'Exit Practice Session?';
+
+  @override
+  String get grammarExitDialogContent =>
+      'Your progress for completed questions has been saved into FSRS. Are you sure you want to exit now?';
+
+  @override
+  String get grammarContinueStudying => 'Keep Practicing';
+
+  @override
+  String get grammarExitConfirm => 'Exit';
+
+  @override
+  String get grammarPracticeSummaryTitle => 'Practice Session Summary';
+
+  @override
+  String get grammarGhostChallengeCompleted => 'Ghost Challenge Completed!';
+
+  @override
+  String get grammarPerfectScoreTitle => 'Brilliant! 100% Perfect!';
+
+  @override
+  String get grammarUnitSessionCompleted => 'Lesson Completed!';
+
+  @override
+  String get grammarGhostChallengeCompletedSubtitle =>
+      'You reviewed all previously failed questions.';
+
+  @override
+  String get grammarUnitSessionCompletedSubtitle =>
+      'FSRS v4.5 memory intervals have been updated in your brain.';
+
+  @override
+  String get grammarStatCorrectCount => 'Correct Answers';
+
+  @override
+  String get grammarStatAccuracy => 'Accuracy';
+
+  @override
+  String get grammarStatGhostsToFix => 'Ghosts to Fix';
+
+  @override
+  String grammarFixGhostsNow(int count) {
+    return 'Fix Weaknesses Now ($count ghosts)';
+  }
+
+  @override
+  String get grammarBackToCatalog => 'Back to Catalog';
+
+  @override
+  String get grammarRestartSession => 'Practice Again';
+
+  @override
+  String get grammarAnswerCorrect => 'Correct! Great job!';
+
+  @override
+  String get grammarAnswerIncorrect => 'Incorrect — Remember this trap!';
+
+  @override
+  String get grammarSectionTranslation => 'Sentence Translation';
+
+  @override
+  String get grammarSectionKeySignal => 'Key Recognition Signal';
+
+  @override
+  String get grammarSectionRule => 'Native Grammar Rule';
+
+  @override
+  String get grammarSectionWhyCorrect => 'Detailed Explanation';
+
+  @override
+  String get grammarSectionDistractors => 'Exam Distractor Breakdown';
+
+  @override
+  String get grammarNextQuestion => 'Next Question';
+
+  @override
+  String get grammarViewResults => 'View Summary';
+
+  @override
+  String get grammarErrorIdInstruction =>
+      'Find 1 grammatical error among [A], [B], [C], [D]';
+
+  @override
+  String get grammarClozeInstruction =>
+      'Fill in the correct form of the word in the blank';
+
+  @override
+  String get grammarClozePlaceholder => 'Enter correct word/phrase...';
+
+  @override
+  String get grammarClozeSubmittedCorrect => 'Correct!';
+
+  @override
+  String get grammarClozeSubmittedIncorrect => 'Incorrect!';
+
+  @override
+  String grammarClozeYourAnswer(String answer) {
+    return 'Your answer: \"$answer\"';
+  }
+
+  @override
+  String get grammarClozeStandardAnswer => 'Standard answer: ';
+
+  @override
+  String get grammarClozeBlank => '(Blank)';
+
+  @override
+  String get grammarTypeChoice => 'MULTIPLE CHOICE';
+
+  @override
+  String get grammarTypeErrorId => 'FIND THE ERROR';
+
+  @override
+  String get grammarTypeCloze => 'FILL IN THE BLANK';
+
+  @override
+  String get grammarLevelFoundation => 'Level 1: Foundation';
+
+  @override
+  String get grammarLevelIntermediate => 'Level 2: Intermediate';
+
+  @override
+  String get grammarLevelAdvanced => 'Level 3: Advanced C1/C2';
 }
