@@ -13,12 +13,19 @@ enum UpdateStatus {
   error,
 }
 
+enum UpdateErrorType {
+  checkFailed,
+  downloadFailed,
+  installFailed,
+}
+
 class UpdateState {
   final UpdateStatus status;
   final UpdateInfo? updateInfo;
   final double downloadProgress;
   final String? downloadedFilePath;
   final String? errorMessage;
+  final UpdateErrorType? errorType;
   final DateTime? lastChecked;
   final bool isBackgroundCheck;
 
@@ -28,6 +35,7 @@ class UpdateState {
     this.downloadProgress = 0.0,
     this.downloadedFilePath,
     this.errorMessage,
+    this.errorType,
     this.lastChecked,
     this.isBackgroundCheck = false,
   });
@@ -38,6 +46,7 @@ class UpdateState {
     double? downloadProgress,
     String? downloadedFilePath,
     String? errorMessage,
+    UpdateErrorType? errorType,
     DateTime? lastChecked,
     bool? isBackgroundCheck,
   }) {
@@ -47,6 +56,7 @@ class UpdateState {
       downloadProgress: downloadProgress ?? this.downloadProgress,
       downloadedFilePath: downloadedFilePath ?? this.downloadedFilePath,
       errorMessage: errorMessage,
+      errorType: errorType,
       lastChecked: lastChecked ?? this.lastChecked,
       isBackgroundCheck: isBackgroundCheck ?? this.isBackgroundCheck,
     );
@@ -69,6 +79,7 @@ class UpdateNotifier extends Notifier<UpdateState> {
     state = state.copyWith(
       status: UpdateStatus.checking,
       errorMessage: null,
+      errorType: null,
       isBackgroundCheck: silent,
     );
 
@@ -94,6 +105,7 @@ class UpdateNotifier extends Notifier<UpdateState> {
     } catch (e) {
       state = state.copyWith(
         status: UpdateStatus.error,
+        errorType: UpdateErrorType.checkFailed,
         errorMessage: e.toString(),
         lastChecked: DateTime.now(),
         isBackgroundCheck: silent,
@@ -116,6 +128,7 @@ class UpdateNotifier extends Notifier<UpdateState> {
       status: UpdateStatus.downloading,
       downloadProgress: 0.0,
       errorMessage: null,
+      errorType: null,
     );
 
     final path = await _service.downloadUpdate(
@@ -135,6 +148,7 @@ class UpdateNotifier extends Notifier<UpdateState> {
     } else {
       state = state.copyWith(
         status: UpdateStatus.error,
+        errorType: UpdateErrorType.downloadFailed,
         errorMessage: 'Failed to download installer',
       );
     }

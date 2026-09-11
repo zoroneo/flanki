@@ -8,6 +8,7 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 
 import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 import '../storage/media_storage_service.dart';
 import 'anki_web_config.dart';
 
@@ -59,17 +60,7 @@ class AnkiWebMediaSyncService {
        _config = config ?? const AnkiWebConfig(),
        _customL10n = l10n;
 
-  AppLocalizations get l10n {
-    if (_customL10n != null) return _customL10n;
-    try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
-          ? 'vi'
-          : 'en';
-      return lookupAppLocalizations(Locale(code));
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('vi'));
-    }
-  }
+  AppLocalizations get l10n => _customL10n ?? AppConfig.getL10n();
 
   /// Executes full media synchronization with AnkiWeb:
   /// 1. POST /msync/begin -> receives serverUsn & sessionKey

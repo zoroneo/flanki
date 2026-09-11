@@ -10,6 +10,24 @@ import 'package:path_provider/path_provider.dart';
 import '../config/app_config.dart';
 import '../models/update_info.dart';
 
+enum AppPlatform {
+  windows,
+  macos,
+  linux,
+  android,
+  ios,
+  other;
+
+  static AppPlatform get current {
+    if (Platform.isWindows) return AppPlatform.windows;
+    if (Platform.isMacOS) return AppPlatform.macos;
+    if (Platform.isLinux) return AppPlatform.linux;
+    if (Platform.isAndroid) return AppPlatform.android;
+    if (Platform.isIOS) return AppPlatform.ios;
+    return AppPlatform.other;
+  }
+}
+
 class DesktopUpdateService {
   final http.Client _client;
 
@@ -67,36 +85,46 @@ class DesktopUpdateService {
   }
 
   /// Select matching asset URL for current platform.
-  static Map<String, dynamic>? findPlatformAsset(List<dynamic> assets) {
+  static Map<String, dynamic>? findPlatformAsset(
+    List<dynamic> assets, {
+    AppPlatform? targetPlatform,
+  }) {
     if (assets.isEmpty) return null;
 
-    final os = Platform.operatingSystem
-        .toLowerCase(); // 'windows', 'macos', 'linux', 'android', 'ios'
+    final platform = targetPlatform ?? AppPlatform.current;
     for (final asset in assets) {
       if (asset is! Map<String, dynamic>) continue;
       final name = (asset['name'] as String? ?? '').toLowerCase();
 
-      if (os == 'windows') {
-        if (name.endsWith('.exe') ||
-            name.endsWith('.msi') ||
-            (name.contains('win') && name.endsWith('.zip'))) {
-          return asset;
-        }
-      } else if (os == 'macos') {
-        if (name.endsWith('.dmg') ||
-            (name.contains('mac') && name.endsWith('.zip'))) {
-          return asset;
-        }
-      } else if (os == 'linux') {
-        if (name.endsWith('.appimage') ||
-            name.endsWith('.deb') ||
-            (name.contains('linux') && name.endsWith('.tar.gz'))) {
-          return asset;
-        }
-      } else if (os == 'android') {
-        if (name.endsWith('.apk')) {
-          return asset;
-        }
+      switch (platform) {
+        case AppPlatform.windows:
+          if (name.endsWith('.exe') ||
+              name.endsWith('.msi') ||
+              (name.contains('win') && name.endsWith('.zip'))) {
+            return asset;
+          }
+          break;
+        case AppPlatform.macos:
+          if (name.endsWith('.dmg') ||
+              (name.contains('mac') && name.endsWith('.zip'))) {
+            return asset;
+          }
+          break;
+        case AppPlatform.linux:
+          if (name.endsWith('.appimage') ||
+              name.endsWith('.deb') ||
+              (name.contains('linux') && name.endsWith('.tar.gz'))) {
+            return asset;
+          }
+          break;
+        case AppPlatform.android:
+          if (name.endsWith('.apk')) {
+            return asset;
+          }
+          break;
+        case AppPlatform.ios:
+        case AppPlatform.other:
+          break;
       }
     }
 
@@ -120,7 +148,7 @@ class DesktopUpdateService {
               'User-Agent': 'Flanki-Desktop-Updater',
             },
           )
-          .timeout(const Duration(seconds: 10));
+          .timeout(AppConfig.updateCheckTimeout);
 
       if (response.statusCode != 200) {
         return UpdateInfo(

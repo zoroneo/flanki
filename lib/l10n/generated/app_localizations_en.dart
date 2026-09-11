@@ -1365,4 +1365,116 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get grammarLevelAdvanced => 'Level 3: Advanced C1/C2';
+
+  @override
+  String get privacyPolicyTagline =>
+      'Local-First • Zero Tracking • Open Source';
+
+  @override
+  String get privacySection1Title => '1. Local-First Storage';
+
+  @override
+  String get privacySection1Content =>
+      'All your decks, flashcards, study schedules, and review history are stored locally on your device via SQLite. Flanki does not transmit your personal flashcard content to any developer servers.';
+
+  @override
+  String get privacySection2Title => '2. Zero Tracking & No Ads';
+
+  @override
+  String get privacySection2Content =>
+      'We do not integrate any third-party tracking frameworks, behavioral analytics SDKs (e.g., Google Analytics, Firebase, Sentry), or advertising networks. We do not sell or monetize your personal data.';
+
+  @override
+  String get privacySection3Title => '3. Optional AnkiWeb Sync';
+
+  @override
+  String get privacySection3Content =>
+      'If you choose to log in and synchronize with AnkiWeb, your credentials and collection data are transmitted directly between your device and official AnkiWeb servers over encrypted HTTPS. Authentication tokens are saved in platform-native secure vaults (Android Keystore, iOS Keychain, Windows DPAPI). We never store or access your password.';
+
+  @override
+  String get privacySection4Title => '4. App Update Checks';
+
+  @override
+  String get privacySection4Content =>
+      'Flanki periodically checks the public GitHub Releases API to notify you when a new version is available. No user-identifying information or device fingerprints are sent during update checks.';
+
+  @override
+  String get privacySection5Title => '5. Local Notifications';
+
+  @override
+  String get privacySection5Content =>
+      'Daily study reminders and streak notifications are scheduled strictly on your local device. No remote push notification servers are used.';
+
+  @override
+  String get privacySection6Title => '6. Data Control & Deletion';
+
+  @override
+  String get privacySection6Content =>
+      'You retain 100% control of your data. You can delete decks, clear app data, or uninstall the app at any time to instantly remove all stored content.';
+
+  @override
+  String get privacySection7Title => '7. Full Policy & Source Code';
+
+  @override
+  String get privacySection7Content =>
+      'Flanki is an open-source project. You can inspect our complete source code and read our full legal Privacy Policy at: https://github.com/zoroneo/flanki';
+
+  @override
+  String get grammarTableOfContents => 'Table of Contents';
+
+  @override
+  String get grammarShortcutsTitle => 'Shortcuts & Guide';
+
+  @override
+  String get grammarShortcutSelectCheck => 'Select & check option';
+
+  @override
+  String get grammarShortcutNextQuestion => 'Next question';
+
+  @override
+  String get grammarPracticeTipTitle => 'Practice Tip';
+
+  @override
+  String get grammarTipChoice =>
+      'Carefully read the sentence and look for keywords or tense markers before picking an option.';
+
+  @override
+  String get grammarTipErrorId =>
+      'Identify the grammatically incorrect segment among underlined parts A, B, C, D.';
+
+  @override
+  String get grammarTipCloze =>
+      'Fill in the blank with the appropriate word to make the sentence grammatically complete.';
+
+  @override
+  String grammarGhostsCount(int count) {
+    return '$count Ghost';
+  }
+
+  @override
+  String grammarUnitsCount(int count) {
+    return '$count Units';
+  }
+
+  @override
+  String grammarBadgeDue(int count) {
+    return '$count Due';
+  }
+
+  @override
+  String grammarOptionBadge(String letter) {
+    return 'Option $letter';
+  }
+
+  @override
+  String get updateDownloadFailed => 'Failed to download installer';
+
+  @override
+  String get desktopSubtitle => 'Desktop • Zinc';
+
+  @override
+  String get rslibLinked => 'rslib (Linked)';
+
+  @override
+  String get unknown => 'Unknown';
 }

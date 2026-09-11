@@ -130,7 +130,11 @@ class UpdateDialog extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  updateState.errorMessage!,
+                  updateState.errorType == UpdateErrorType.downloadFailed ||
+                          updateState.errorMessage ==
+                              'Failed to download installer'
+                      ? l10n.updateDownloadFailed
+                      : updateState.errorMessage!,
                   style: theme.typography.xSmall.copyWith(
                     color: theme.colorScheme.destructive,
                   ),

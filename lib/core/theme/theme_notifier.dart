@@ -21,18 +21,10 @@ class ThemeNotifier extends Notifier<ThemeMode> {
     try {
       final savedMode = await _storage.read(key: _kThemeModeStorageKey);
       if (savedMode != null) {
-        switch (savedMode) {
-          case 'light':
-            state = ThemeMode.light;
-            break;
-          case 'dark':
-            state = ThemeMode.dark;
-            break;
-          case 'system':
-          default:
-            state = ThemeMode.system;
-            break;
-        }
+        state = ThemeMode.values.firstWhere(
+          (e) => e.name == savedMode,
+          orElse: () => ThemeMode.system,
+        );
       }
     } catch (_) {
       // Keep system default on error

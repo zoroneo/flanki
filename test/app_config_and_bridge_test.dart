@@ -39,6 +39,33 @@ void main() {
       expect(AppConfig.version, equals(AppConfig.defaultVersion));
       expect(AppConfig.buildNumber, equals(AppConfig.defaultBuildNumber));
     });
+
+    test('AppConfig provides centralized locale resolution, fallback, and duration constants', () {
+      expect(AppConfig.defaultLocale.languageCode, equals('vi'));
+      expect(AppConfig.supportedLocales.map((l) => l.languageCode), containsAll(['vi', 'en']));
+
+      final systemCode = AppConfig.resolveSystemLocaleCode();
+      expect(systemCode, isIn(['vi', 'en']));
+
+      // Test synchronous AppLocalizations retrieval
+      final viL10n = AppConfig.getL10n('vi');
+      expect(viL10n.appTitle, equals('Flanki'));
+      expect(viL10n.studyNow, equals('Học ngay'));
+
+      final enL10n = AppConfig.getL10n('en');
+      expect(enL10n.appTitle, equals('Flanki'));
+      expect(enL10n.studyNow, equals('Study Now'));
+
+      // Test fallback on unknown locale code
+      final fallbackL10n = AppConfig.getL10n('xx_unknown');
+      expect(fallbackL10n, isNotNull);
+      expect(fallbackL10n.studyNow, equals('Học ngay'));
+
+      // Centralized durations
+      expect(AppConfig.updateCheckTimeout, equals(const Duration(seconds: 10)));
+      expect(AppConfig.toastLongDuration, equals(const Duration(seconds: 20)));
+      expect(AppConfig.defaultRelearnStep, equals(const Duration(minutes: 10)));
+    });
   });
 
   group('AnkiBridge Safe Runtime Detection Tests', () {

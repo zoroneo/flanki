@@ -485,13 +485,6 @@ class ApkgImporterService {
   }
 
   static String _defaultDeckDescription() {
-    try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
-          ? 'vi'
-          : 'en';
-      return lookupAppLocalizations(Locale(code)).importedDeckDefaultDesc;
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('vi')).importedDeckDefaultDesc;
-    }
+    return AppConfig.getL10n().importedDeckDefaultDesc;
   }
 }

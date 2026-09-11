@@ -1361,4 +1361,116 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get grammarLevelAdvanced => 'Level 3: Advanced C1/C2';
+
+  @override
+  String get privacyPolicyTagline =>
+      'Ưu tiên cục bộ • Không theo dõi • Mã nguồn mở';
+
+  @override
+  String get privacySection1Title => '1. Lưu trữ ưu tiên cục bộ';
+
+  @override
+  String get privacySection1Content =>
+      'Tất cả bộ thẻ, thẻ ghi nhớ, lịch học và lịch sử ôn tập đều được lưu trữ cục bộ trên thiết bị của bạn qua SQLite. Flanki không truyền nội dung thẻ cá nhân của bạn lên bất kỳ máy chủ nào của nhà phát triển.';
+
+  @override
+  String get privacySection2Title => '2. Không theo dõi & Không quảng cáo';
+
+  @override
+  String get privacySection2Content =>
+      'Chúng tôi không tích hợp bất kỳ framework theo dõi bên thứ ba, SDK phân tích hành vi (như Google Analytics, Firebase, Sentry) hay mạng quảng cáo nào. Chúng tôi không bán hoặc thương mại hóa dữ liệu cá nhân của bạn.';
+
+  @override
+  String get privacySection3Title => '3. Đồng bộ hóa AnkiWeb tùy chọn';
+
+  @override
+  String get privacySection3Content =>
+      'Nếu bạn chọn đăng nhập và đồng bộ với AnkiWeb, thông tin đăng nhập và dữ liệu bộ sưu tập được truyền trực tiếp giữa thiết bị của bạn và máy chủ AnkiWeb chính thức qua HTTPS mã hóa. Mã phiên xác thực được lưu trong kho bảo mật gốc của nền tảng (Android Keystore, iOS Keychain, Windows DPAPI). Chúng tôi không bao giờ lưu trữ hay truy cập mật khẩu của bạn.';
+
+  @override
+  String get privacySection4Title => '4. Kiểm tra cập nhật ứng dụng';
+
+  @override
+  String get privacySection4Content =>
+      'Flanki định kỳ kiểm tra qua API GitHub Releases công khai để thông báo khi có phiên bản mới. Không có thông tin định danh người dùng hay dấu vân tay thiết bị nào được gửi đi trong quá trình kiểm tra.';
+
+  @override
+  String get privacySection5Title => '5. Thông báo cục bộ';
+
+  @override
+  String get privacySection5Content =>
+      'Nhắc nhở học tập hàng ngày và thông báo chuỗi ngày học được lên lịch hoàn toàn cục bộ trên thiết bị của bạn. Không sử dụng máy chủ push notification từ xa.';
+
+  @override
+  String get privacySection6Title => '6. Kiểm soát & Xóa dữ liệu';
+
+  @override
+  String get privacySection6Content =>
+      'Bạn nắm quyền kiểm soát 100% dữ liệu của mình. Bạn có thể xóa bộ thẻ, xóa dữ liệu ứng dụng hoặc gỡ cài đặt ứng dụng bất cứ lúc nào để xóa bỏ ngay lập tức toàn bộ nội dung đã lưu.';
+
+  @override
+  String get privacySection7Title => '7. Toàn văn chính sách & Mã nguồn';
+
+  @override
+  String get privacySection7Content =>
+      'Flanki là một dự án mã nguồn mở. Bạn có thể kiểm tra toàn bộ mã nguồn và đọc toàn văn Chính sách quyền riêng tư tại: https://github.com/zoroneo/flanki';
+
+  @override
+  String get grammarTableOfContents => 'Mục Lục Chuyên Đề';
+
+  @override
+  String get grammarShortcutsTitle => 'Phím tắt & Hướng dẫn';
+
+  @override
+  String get grammarShortcutSelectCheck => 'Chọn & kiểm tra đáp án';
+
+  @override
+  String get grammarShortcutNextQuestion => 'Chuyển câu kế tiếp';
+
+  @override
+  String get grammarPracticeTipTitle => 'Gợi ý làm bài';
+
+  @override
+  String get grammarTipChoice =>
+      'Đọc kỹ câu hỏi, tìm từ khóa hoặc thì của câu trước khi chọn đáp án.';
+
+  @override
+  String get grammarTipErrorId =>
+      'Xác định thành phần bị sai ngữ pháp giữa các phần được gạch chân A, B, C, D.';
+
+  @override
+  String get grammarTipCloze =>
+      'Điền từ hoặc cụm từ thích hợp vào ô trống để hoàn thiện câu đúng ngữ pháp.';
+
+  @override
+  String grammarGhostsCount(int count) {
+    return '$count Ghost';
+  }
+
+  @override
+  String grammarUnitsCount(int count) {
+    return '$count Chuyên đề';
+  }
+
+  @override
+  String grammarBadgeDue(int count) {
+    return '$count Cần ôn';
+  }
+
+  @override
+  String grammarOptionBadge(String letter) {
+    return 'Đáp án $letter';
+  }
+
+  @override
+  String get updateDownloadFailed => 'Tải tệp cài đặt thất bại';
+
+  @override
+  String get desktopSubtitle => 'Máy tính • Zinc';
+
+  @override
+  String get rslibLinked => 'rslib (Đã liên kết)';
+
+  @override
+  String get unknown => 'Không xác định';
 }

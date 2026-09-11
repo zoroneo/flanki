@@ -28,7 +28,6 @@ class ExplanationSheet extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final explanation = exercise.explanation;
-    final bottomInset = isSidePanel ? 0.0 : MediaQuery.paddingOf(context).bottom;
 
     final containerDecoration = isSidePanel
         ? BoxDecoration(
@@ -67,6 +66,7 @@ class ExplanationSheet extends StatelessWidget {
           );
 
     final detailsContent = SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -113,14 +113,15 @@ class ExplanationSheet extends StatelessWidget {
           // 5. Distractor Breakdown
           if (explanation.distractorBreakdown.isNotEmpty) ...[
             Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 4),
+              padding: const EdgeInsets.only(top: 8, bottom: 6),
               child: Row(
                 children: [
-                  const Icon(LucideIcons.shieldAlert, size: 16, color: Colors.orange),
+                  const Icon(LucideIcons.shieldAlert, size: 15, color: Colors.orange),
                   const SizedBox(width: 8),
                   Text(
                     l10n.grammarSectionDistractors,
-                    style: theme.typography.small.copyWith(
+                    style: const TextStyle(
+                      fontSize: 12.5,
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
                     ),
@@ -129,39 +130,11 @@ class ExplanationSheet extends StatelessWidget {
               ),
             ),
             ...explanation.distractorBreakdown.entries.map((entry) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 8, bottom: 6),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '• ',
-                      style: TextStyle(
-                        color: Colors.orange,
-                        fontWeight: FontWeight.bold,
-                        fontSize: theme.typography.small.fontSize,
-                      ),
-                    ),
-                    Text(
-                      '[${entry.key}] ',
-                      style: theme.typography.small.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.foreground,
-                      ),
-                    ),
-                    Expanded(
-                      child: RichCardContent(
-                        content: entry.value,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        textAlign: TextAlign.start,
-                        textStyle: theme.typography.small.copyWith(
-                          color: theme.colorScheme.mutedForeground,
-                          height: 1.4,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              return _buildDistractorItem(
+                context,
+                theme: theme,
+                rawKey: entry.key,
+                explanation: entry.value,
               );
             }),
           ],
@@ -181,7 +154,7 @@ class ExplanationSheet extends StatelessWidget {
 
     return Container(
       decoration: containerDecoration,
-      padding: EdgeInsets.fromLTRB(14, 12, 14, 10 + bottomInset),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       child: SafeArea(
         top: false,
         bottom: !isSidePanel,
@@ -216,20 +189,20 @@ class ExplanationSheet extends StatelessWidget {
             const SizedBox(height: 10),
 
             scrollableDetails,
-            const SizedBox(height: 10),
+            const Divider(height: 16, thickness: 0.8),
 
             // Next Button
-            Align(
-              alignment: Alignment.centerRight,
+            SizedBox(
+              width: double.infinity,
               child: PrimaryButton(
                 size: ButtonSize.normal,
                 onPressed: onNext,
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       isLastQuestion ? l10n.grammarViewResults : l10n.grammarNextQuestion,
-                      style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(width: 6),
                     Icon(
@@ -287,6 +260,100 @@ class ExplanationSheet extends StatelessWidget {
                 height: 1.4,
                 color: theme.colorScheme.foreground,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  (String badgeText, String? detailText) _parseDistractorKey(String rawKey, AppLocalizations l10n) {
+    final match = RegExp(
+      r'^(?:option\s*)?([A-D])(?:\s*[:(]\s*(.*?)[)]?)?$',
+      caseSensitive: false,
+    ).firstMatch(rawKey.trim());
+    if (match != null) {
+      final letter = match.group(1)!.toUpperCase();
+      final detail = match.group(2)?.trim();
+      return (l10n.grammarOptionBadge(letter), detail != null && detail.isNotEmpty ? detail : null);
+    }
+    return (rawKey, null);
+  }
+
+  Widget _buildDistractorItem(
+    BuildContext context, {
+    required ThemeData theme,
+    required String rawKey,
+    required String explanation,
+  }) {
+    final l10n = AppLocalizations.of(context)!;
+    final (badgeText, detailText) = _parseDistractorKey(rawKey, l10n);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.muted.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: theme.colorScheme.border.withValues(alpha: 0.5),
+          width: 0.8,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.red.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(LucideIcons.x, size: 11, color: Colors.red),
+                    const SizedBox(width: 4),
+                    Text(
+                      badgeText,
+                      style: const TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (detailText != null) ...[
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    detailText,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.foreground.withValues(alpha: 0.8),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: 5),
+          RichCardContent(
+            content: explanation,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            textAlign: TextAlign.start,
+            textStyle: TextStyle(
+              fontSize: 12.5,
+              height: 1.4,
+              color: theme.colorScheme.foreground.withValues(alpha: 0.9),
             ),
           ),
         ],

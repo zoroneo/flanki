@@ -445,7 +445,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
       case AuthErrorCode.serverError:
       case AuthErrorCode.unknown:
       case null:
-        return state.errorMessage ?? l10n.authUnknownError('Unknown');
+        return state.errorMessage ?? l10n.authUnknownError(l10n.unknown);
     }
   }
 }

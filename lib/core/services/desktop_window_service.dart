@@ -7,6 +7,23 @@ import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
+
+enum DesktopTrayAction {
+  showWindow('show_window'),
+  openStudy('open_study'),
+  exitApp('exit_app');
+
+  final String key;
+  const DesktopTrayAction(this.key);
+
+  static DesktopTrayAction? fromKey(String? key) {
+    for (final action in DesktopTrayAction.values) {
+      if (action.key == key) return action;
+    }
+    return null;
+  }
+}
 
 class DesktopWindowService with WindowListener, TrayListener {
   DesktopWindowService._();
@@ -66,15 +83,7 @@ class DesktopWindowService with WindowListener, TrayListener {
   }) async {
     if (!isDesktop) return;
     try {
-      final code =
-          localeCode ??
-          (Platform.localeName.toLowerCase().startsWith('vi') ? 'vi' : 'en');
-      AppLocalizations l10n;
-      try {
-        l10n = lookupAppLocalizations(Locale(code));
-      } catch (_) {
-        l10n = lookupAppLocalizations(const Locale('vi'));
-      }
+      final l10n = AppConfig.getL10n(localeCode);
 
       final open = openLabel ?? l10n.trayOpenFlanki;
       final study = studyLabel ?? l10n.trayStudyNow;
@@ -82,10 +91,10 @@ class DesktopWindowService with WindowListener, TrayListener {
 
       final menu = Menu(
         items: [
-          MenuItem(key: 'show_window', label: open),
-          MenuItem(key: 'open_study', label: study),
+          MenuItem(key: DesktopTrayAction.showWindow.key, label: open),
+          MenuItem(key: DesktopTrayAction.openStudy.key, label: study),
           MenuItem.separator(),
-          MenuItem(key: 'exit_app', label: exit),
+          MenuItem(key: DesktopTrayAction.exitApp.key, label: exit),
         ],
       );
       await trayManager.setContextMenu(menu);
@@ -130,14 +139,20 @@ class DesktopWindowService with WindowListener, TrayListener {
 
   @override
   void onTrayMenuItemClick(MenuItem menuItem) async {
-    if (menuItem.key == 'show_window') {
-      await showAndFocus();
-    } else if (menuItem.key == 'open_study') {
-      await showAndFocus();
-      _onOpenStudy?.call();
-    } else if (menuItem.key == 'exit_app') {
-      await destroy();
-      exit(0);
+    final action = DesktopTrayAction.fromKey(menuItem.key);
+    switch (action) {
+      case DesktopTrayAction.showWindow:
+        await showAndFocus();
+        break;
+      case DesktopTrayAction.openStudy:
+        await showAndFocus();
+        _onOpenStudy?.call();
+        break;
+      case DesktopTrayAction.exitApp:
+        await destroy();
+        exit(0);
+      case null:
+        break;
     }
   }
 

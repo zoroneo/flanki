@@ -5,6 +5,7 @@ import 'dart:ui' show Locale;
 import 'package:fsrs/fsrs.dart' as fsrs;
 
 import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 import '../models/card.dart';
 
 /// Service wrapping package:fsrs to manage spaced repetition scheduling.
@@ -101,16 +102,7 @@ class FsrsEngineService {
     );
   }
 
-  static AppLocalizations _defaultL10n() {
-    try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
-          ? 'vi'
-          : 'en';
-      return lookupAppLocalizations(Locale(code));
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('vi'));
-    }
-  }
+  static AppLocalizations _defaultL10n() => AppConfig.getL10n();
 
   /// Formats a duration into Anki-style interval strings: < 10m, 1d, 4d, 1.2m, etc.
   static String formatInterval(Duration duration, {AppLocalizations? l10n}) {

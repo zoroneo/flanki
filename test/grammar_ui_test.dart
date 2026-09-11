@@ -239,7 +239,7 @@ void main() {
       expect(findRichText('Tín hiệu mẫu'), findsOneWidget);
       expect(findRichText('Quy tắc mẫu'), findsOneWidget);
       expect(findRichText('Lý do đúng'), findsOneWidget);
-      expect(findRichText('Option B'), findsOneWidget);
+      expect(findRichText('Đáp án B'), findsOneWidget);
 
       await tester.tap(find.text('Câu Tiếp Theo'));
       expect(nextClicked, isTrue);

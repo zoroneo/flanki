@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 import '../models/card.dart';
 import 'fsrs_engine_service.dart';
 
@@ -102,7 +103,7 @@ class Sm2EngineService {
       10.0,
     );
     final due = rating == ReviewRating.again
-        ? effectiveNow.add(const Duration(minutes: 10))
+        ? effectiveNow.add(AppConfig.defaultRelearnStep)
         : effectiveNow.add(Duration(days: newInterval));
 
     return card.copyWith(

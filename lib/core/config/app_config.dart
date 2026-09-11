@@ -1,8 +1,45 @@
+import 'dart:io';
+import 'dart:ui' show Locale;
+
+import '../../l10n/generated/app_localizations.dart';
+
 /// Centralized application configuration and metadata.
 class AppConfig {
   static const String appName = 'Flanki';
   static const String defaultVersion = '1.1.1';
   static const int defaultBuildNumber = 10;
+
+  /// Centralized supported locales and default fallback
+  static const Locale defaultLocale = Locale('vi');
+  static const List<Locale> supportedLocales = [
+    Locale('vi'),
+    Locale('en'),
+  ];
+
+  /// Resolves standard language code ('vi' or 'en') from system platform.
+  static String resolveSystemLocaleCode() {
+    try {
+      return Platform.localeName.toLowerCase().startsWith('vi') ? 'vi' : 'en';
+    } catch (_) {
+      return defaultLocale.languageCode;
+    }
+  }
+
+  /// Synchronously gets AppLocalizations without BuildContext (for background services)
+  static AppLocalizations getL10n([String? localeCode]) {
+    final code = localeCode ?? resolveSystemLocaleCode();
+    try {
+      return lookupAppLocalizations(Locale(code));
+    } catch (_) {
+      return lookupAppLocalizations(defaultLocale);
+    }
+  }
+
+  /// Centralized timeouts and durations
+  static const Duration updateCheckTimeout = Duration(seconds: 10);
+  static const Duration toastLongDuration = Duration(seconds: 20);
+  static const Duration toastDefaultDuration = Duration(seconds: 4);
+  static const Duration defaultRelearnStep = Duration(minutes: 10);
 
   static String _version = defaultVersion;
   static int _buildNumber = defaultBuildNumber;

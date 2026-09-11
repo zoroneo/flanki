@@ -185,9 +185,17 @@ class DatabaseService {
     final parts = deckId.split('_');
     final rawMode = parts.length > 1 ? parts[1] : '';
     final customMode = CustomStudyMode.fromString(rawMode);
-    final rawTag = parts.length > 2 ? parts[2] : '';
+
+    final String rawTag;
+    final int? parsedLimit;
+    if (parts.length >= 5) {
+      parsedLimit = int.tryParse(parts[parts.length - 2]);
+      rawTag = parts.sublist(2, parts.length - 2).join('_');
+    } else {
+      rawTag = parts.length > 2 ? parts[2] : '';
+      parsedLimit = parts.length > 3 ? int.tryParse(parts[3]) : null;
+    }
     final tag = Uri.decodeComponent(rawTag);
-    final parsedLimit = parts.length > 3 ? int.tryParse(parts[3]) : null;
 
     final deckCount = _cachedDecks
         .firstWhereOrNull((d) => d.id == deckId)

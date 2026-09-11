@@ -36,6 +36,10 @@ gantt
     Data Pipeline & Drift Schema             :done, p6_1, 2026-09-09, 1d
     Two-Tier FSRS & Ghost Review System      :done, p6_2, 2026-09-09, 1d
     UI Practice (Choice, Error ID, Cloze)    :done, p6_3, 2026-09-09, 1d
+    section Phase 7: Codebase Standardization & Safety
+    Anti-Hardcode & 100% L10n Coverage       :done, p7_1, 2026-09-11, 1d
+    Enum Safety (Platform, Updater, Tray)    :done, p7_2, 2026-09-11, 1d
+    Fix Cram Bug & Centralize AppConfig      :done, p7_3, 2026-09-11, 1d
 ```
 
 ### Chi tiết các cột mốc:
@@ -45,3 +49,4 @@ gantt
 4. **Milestone 4 — AnkiWeb Synchronization**: Đăng nhập AnkiWeb qua giao thức mạng `multipart/form-data`, đồng bộ danh sách thẻ và trạng thái ôn tập.
 5. **Milestone 5 — Multi-platform Polish**: Hoàn thiện đóng gói và phát hành ứng dụng trên iOS, Android, macOS và Windows.
 6. **Milestone 6 — Academic Grammar Engine**: Hệ thống 36 chuyên đề C1/C2 (540 bài tập chuẩn hóa), thuật toán FSRS hai tầng (Unit Mastery + Item Spacing), cơ chế Ghost Review triệt tiêu điểm yếu và tương tác tìm lỗi sai (`error_id`) trực tiếp trên văn bản.
+7. **Milestone 7 — Codebase Standardization & Hardcode Elimination**: Triệt tiêu toàn bộ magic strings, magic numbers; chuẩn hóa enum type-safe (`AppPlatform`, `UpdateErrorType`, `DesktopTrayAction`); tập trung hóa `AppConfig.getL10n()` và `supportedLocales`; sửa lỗi nhận diện bộ thẻ Cày đề (Cram deck) và parser tag đa ngôn ngữ; đạt 100% test pass (117/117).

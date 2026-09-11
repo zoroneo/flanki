@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'anki_web_config.dart';
 import 'anki_web_media_sync_service.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 import '../importer/apkg_importer_service.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
@@ -24,6 +25,7 @@ class SyncProgressMessages {
   final String sessionExpired;
   final String noInternet;
   final String conflictDetected;
+  final String syncError;
 
   const SyncProgressMessages({
     this.connecting = 'Connecting to AnkiWeb...',
@@ -37,6 +39,7 @@ class SyncProgressMessages {
     this.noInternet = 'No internet connection.',
     this.conflictDetected =
         'Conflict detected: Both AnkiWeb and this device have new study data.',
+    this.syncError = 'Sync failed',
   });
 
   factory SyncProgressMessages.fromL10n(AppLocalizations l10n) {
@@ -51,6 +54,7 @@ class SyncProgressMessages {
       sessionExpired: l10n.syncSessionExpired,
       noInternet: l10n.syncNoInternet,
       conflictDetected: l10n.syncConflictDetected,
+      syncError: l10n.syncFailed,
     );
   }
 }
@@ -91,7 +95,7 @@ enum SyncStage {
       case SyncStage.conflictDetected:
         return messages.conflictDetected;
       case SyncStage.error:
-        return 'Sync Error';
+        return messages.syncError;
     }
   }
 }
@@ -179,17 +183,7 @@ class AnkiWebSyncService {
            mediaSyncService ??
            AnkiWebMediaSyncService(client: client, config: config, l10n: l10n);
 
-  AppLocalizations get l10n {
-    if (_l10n != null) return _l10n;
-    try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
-          ? 'vi'
-          : 'en';
-      return lookupAppLocalizations(Locale(code));
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('vi'));
-    }
-  }
+  AppLocalizations get l10n => _l10n ?? AppConfig.getL10n();
 
   /// Synchronizes media files (images, audio) via /msync/ protocol.
   Future<MediaSyncResult> syncMedia({

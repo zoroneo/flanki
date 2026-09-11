@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:go_router/go_router.dart';
 
+import 'core/config/app_config.dart';
 import 'core/localization/locale_notifier.dart';
 import 'core/localization/shadcn_localizations_vi.dart';
 import 'core/notifiers/deck_notifier.dart';
@@ -337,7 +338,7 @@ class _AppUpdateWrapperState extends ConsumerState<_AppUpdateWrapper>
         _dismissToast();
         _activeUpdateToast = showToast(
           context: context,
-          showDuration: const Duration(seconds: 20),
+          showDuration: AppConfig.toastLongDuration,
           builder: (context, overlay) {
             final theme = Theme.of(context);
             final l10n = AppLocalizations.of(context)!;

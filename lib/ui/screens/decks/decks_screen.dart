@@ -18,6 +18,11 @@ import '../../../core/notifiers/stats_notifier.dart';
 import '../../widgets/sync_flow_coordinator.dart';
 import 'widgets/create_deck_modal.dart';
 import 'widgets/custom_study_modal.dart';
+import 'widgets/deck_card.dart';
+import 'widgets/deck_speed_dial.dart';
+import 'widgets/deck_stats_bar.dart';
+import 'widgets/deck_toolbar.dart';
+import 'widgets/grouped_deck_card.dart';
 
 class DecksScreen extends HookConsumerWidget {
   const DecksScreen({super.key});
@@ -100,218 +105,15 @@ class DecksScreen extends HookConsumerWidget {
     }
 
     Future<void> handleApkgImport() async {
-      try {
-        final result = await FilePicker.pickFiles(
-          type: FileType.any,
-          withData: kIsWeb,
-        );
-
-        if (result == null || result.files.isEmpty) return;
-
-        final selectedFile = result.files.first;
-        final ext =
-            (selectedFile.extension ??
-                    (selectedFile.name.contains('.')
-                        ? selectedFile.name.split('.').last
-                        : ''))
-                .toLowerCase();
-
-        if (ext != 'apkg' && ext != 'zip' && ext != 'colpkg') {
-          if (context.mounted) {
-            showToast(
-              context: context,
-              builder: (context, overlay) {
-                return SurfaceCard(
-                  child: Basic(
-                    title: Text(l10n.importApkgError),
-                    subtitle: Text(l10n.selectApkgOrZipPrompt),
-                    leading: const Icon(
-                      LucideIcons.circleAlert,
-                      color: m.Colors.red,
-                    ),
-                    trailing: IconButton.ghost(
-                      icon: const Icon(LucideIcons.x),
-                      onPressed: () => overlay.close(),
-                    ),
-                  ),
-                );
-              },
-            );
-          }
-          return;
-        }
-
-        ToastOverlay? loadingToast;
-        if (context.mounted) {
-          loadingToast = showToast(
-            context: context,
-            builder: (context, overlay) {
-              return SurfaceCard(
-                child: Basic(
-                  title: Text(l10n.importApkg),
-                  subtitle: Text(selectedFile.name),
-                  leading: const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                ),
-              );
-            },
-          );
-        }
-
-        final importer = ApkgImporterService();
-        final ApkgImportResult importResult;
-
-        try {
-          if (selectedFile.path != null && selectedFile.path!.isNotEmpty) {
-            importResult = await importer.importApkgPath(
-              selectedFile.path!,
-              defaultDeckDescription: l10n.importedDeckDefaultDesc,
-            );
-          } else if (selectedFile.bytes != null) {
-            importResult = importer.importApkgBytes(
-              selectedFile.bytes!,
-              defaultDeckDescription: l10n.importedDeckDefaultDesc,
-            );
-          } else {
-            throw const FormatException('File data unreadable');
-          }
-        } finally {
-          loadingToast?.close();
-        }
-
-        if (importResult.decks.isNotEmpty) {
-          deckNotifier.addDecks(importResult.decks);
-        }
-        if (importResult.cards.isNotEmpty) {
-          ref.read(cardBrowserProvider.notifier).addCards(importResult.cards);
-        }
-
-        if (context.mounted) {
-          showToast(
-            context: context,
-            builder: (context, overlay) {
-              return SurfaceCard(
-                child: Basic(
-                  title: Text(l10n.importApkgSuccess),
-                  subtitle: Text(
-                    l10n.importApkgSuccessDesc(
-                      importResult.decks.length,
-                      importResult.cards.length,
-                      importResult.mediaCount,
-                    ),
-                  ),
-                  leading: const Icon(
-                    LucideIcons.circleCheck,
-                    color: m.Colors.green,
-                  ),
-                  trailing: IconButton.ghost(
-                    icon: const Icon(LucideIcons.x),
-                    onPressed: () => overlay.close(),
-                  ),
-                ),
-              );
-            },
-          );
-        }
-      } catch (e) {
-        if (context.mounted) {
-          showToast(
-            context: context,
-            builder: (context, overlay) {
-              return SurfaceCard(
-                child: Basic(
-                  title: Text(l10n.importApkgError),
-                  subtitle: Text(e.toString()),
-                  leading: const Icon(
-                    LucideIcons.circleAlert,
-                    color: m.Colors.red,
-                  ),
-                  trailing: IconButton.ghost(
-                    icon: const Icon(LucideIcons.x),
-                    onPressed: () => overlay.close(),
-                  ),
-                ),
-              );
-            },
-          );
-        }
-      }
+      await _executeApkgImport(context, ref, deckNotifier, l10n);
     }
 
     void openCramModal() {
-      CustomStudyModal.show(
-        context,
-        onStartCram: (name, tag, limit, mode) {
-          final customTitle = tag.isNotEmpty
-              ? l10n.cramDeckTitleWithTag(name, tag)
-              : l10n.cramDeckTitlePrefix(name);
-          deckNotifier.createCramDeck(
-            name: name,
-            filterTag: tag,
-            cardLimit: limit,
-            mode: mode,
-            title: customTitle,
-            description: l10n.cramDeckDefaultDesc,
-          );
-          showToast(
-            context: context,
-            builder: (context, overlay) {
-              return SurfaceCard(
-                child: Basic(
-                  title: Text(l10n.cramDeckCreated),
-                  subtitle: Text(l10n.cramDeckCreatedDesc(limit, tag)),
-                  leading: const Icon(LucideIcons.zap, color: m.Colors.amber),
-                  trailing: IconButton.ghost(
-                    icon: const Icon(LucideIcons.x),
-                    onPressed: () => overlay.close(),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      );
+      _showCramModal(context, deckNotifier, l10n);
     }
 
     void openCreateDeckModal() {
-      CreateDeckModal.show(
-        context,
-        existingDeckNames: decks.map((d) => d.title).toList(),
-        onCreateDeck: (name, description) {
-          final newDeck = DeckModel(
-            id: 'deck_${DateTime.now().millisecondsSinceEpoch}',
-            title: name,
-            description: description,
-            dueCount: 0,
-            newCount: 0,
-            totalCount: 0,
-            lastStudied: null,
-          );
-          deckNotifier.addDeck(newDeck);
-          showToast(
-            context: context,
-            builder: (context, overlay) {
-              return SurfaceCard(
-                child: Basic(
-                  title: Text(l10n.deckCreatedSuccess),
-                  subtitle: Text(l10n.deckCreatedSuccessDesc(name)),
-                  leading: const Icon(
-                    LucideIcons.circleCheck,
-                    color: m.Colors.green,
-                  ),
-                  trailing: IconButton.ghost(
-                    icon: const Icon(LucideIcons.x),
-                    onPressed: () => overlay.close(),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      );
+      _showCreateDeckModal(context, decks, deckNotifier, l10n);
     }
 
     return ResponsiveBuilder(
@@ -319,1162 +121,488 @@ class DecksScreen extends HookConsumerWidget {
         final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
 
         return Scaffold(
-      headers: [
-        AppBar(
-          title: Row(
+          headers: [
+            _buildAppBar(theme, studySettings, isSyncing, handleSyncTap, authState, l10n),
+          ],
+          child: Stack(
             children: [
-              const Icon(LucideIcons.zap, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                'Flanki',
-                style: theme.typography.h3.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  studySettings.fsrsEnabled ? 'FSRS v5' : 'SM-2',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorScheme.primary,
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 960),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.all(16.0),
+                        sliver: SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DeckStatsBar(
+                                totalDue: totalDue,
+                                totalNew: totalNew,
+                                streakDays: stats.streakDays,
+                                desiredRetention: studySettings.desiredRetention,
+                              ),
+                              const SizedBox(height: 16),
+                              DeckToolbar(
+                                isMobile: isMobile,
+                                searchQuery: searchQuery,
+                                onAddDeck: openCreateDeckModal,
+                                onImportApkg: handleApkgImport,
+                                onCustomStudy: openCramModal,
+                              ),
+                              const SizedBox(height: 20),
+                              _buildHeaderSection(theme, l10n, filteredDecks.length),
+                              const SizedBox(height: 12),
+                              if (filteredDecks.isEmpty)
+                                _buildEmptyState(theme, l10n, openCreateDeckModal),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (filteredDecks.isNotEmpty)
+                        ..._buildDeckSlivers(
+                          context: context,
+                          groupedEntries: groupedEntries,
+                          standaloneDecks: standaloneDecks,
+                          searchQuery: searchQuery.value,
+                        ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 120),
+                      ),
+                    ],
                   ),
                 ),
               ),
+              if (isDialOpen.value && isMobile)
+                Positioned.fill(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => isDialOpen.value = false,
+                    child: Container(color: m.Colors.black.withValues(alpha: 0.35)),
+                  ),
+                ),
+              if (isMobile)
+                _buildFloatingSpeedDial(
+                  isDialOpen: isDialOpen,
+                  openCreateDeckModal: openCreateDeckModal,
+                  handleApkgImport: handleApkgImport,
+                  openCramModal: openCramModal,
+                ),
             ],
           ),
-          trailing: [
-            // AnkiWeb sync button
-            GhostButton(
-              onPressed: isSyncing.value ? null : handleSyncTap,
-              leading: isSyncing.value
-                  ? const SizedBox(
-                      width: 14,
-                      height: 14,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Icon(
-                      LucideIcons.cloud,
-                      size: 16,
-                      color: authState.isAuthenticated ? m.Colors.green : null,
-                    ),
+        );
+      },
+    );
+  }
+
+  AppBar _buildAppBar(
+    ThemeData theme,
+    dynamic studySettings,
+    ValueNotifier<bool> isSyncing,
+    Future<void> Function() handleSyncTap,
+    dynamic authState,
+    dynamic l10n,
+  ) {
+    return AppBar(
+      title: Row(
+        children: [
+          const Icon(LucideIcons.zap, size: 20),
+          const SizedBox(width: 8),
+          Text(
+            'Flanki',
+            style: theme.typography.h3.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              studySettings.fsrsEnabled ? 'FSRS v5' : 'SM-2',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
+      trailing: [
+        GhostButton(
+          onPressed: isSyncing.value ? null : handleSyncTap,
+          leading: isSyncing.value
+              ? const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : Icon(
+                  LucideIcons.cloud,
+                  size: 16,
+                  color: authState.isAuthenticated ? m.Colors.green : null,
+                ),
+          child: Text(
+            authState.isAuthenticated ? l10n.linkedBadge : l10n.syncBadge,
+            maxLines: 1,
+            softWrap: false,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeaderSection(ThemeData theme, dynamic l10n, int count) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          '${l10n.navDecks} ($count)',
+          style: theme.typography.semiBold,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState(
+    ThemeData theme,
+    dynamic l10n,
+    VoidCallback openCreateDeckModal,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40),
+      child: Center(
+        child: Column(
+          children: [
+            Icon(
+              LucideIcons.searchX,
+              size: 48,
+              color: theme.colorScheme.mutedForeground,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n.noDecksFound,
+              style: theme.typography.small.copyWith(
+                color: theme.colorScheme.mutedForeground,
+              ),
+            ),
+            const SizedBox(height: 16),
+            PrimaryButton(
+              alignment: Alignment.center,
+              onPressed: openCreateDeckModal,
+              leading: const Icon(LucideIcons.plus, size: 16),
               child: Text(
-                authState.isAuthenticated ? l10n.linkedBadge : l10n.syncBadge,
+                l10n.addNewDeck,
                 maxLines: 1,
                 softWrap: false,
               ),
             ),
           ],
         ),
-      ],
-      child: Stack(
-        children: [
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 960),
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.all(16.0),
-                    sliver: SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Daily Goal & Streak Hero Card
-                          Card(
-                            filled: true,
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          LucideIcons.flame,
-                                          color: m.Colors.deepOrange,
-                                          size: 22,
-                                        ),
-                                        const SizedBox(width: 6),
-                                        Text(
-                                          l10n.streakDaysBadge(stats.streakDays),
-                                          style: theme.typography.h4.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      l10n.targetRetentionBadge(
-                                        '${(studySettings.desiredRetention * 100).toInt()}%',
-                                      ),
-                                      style: theme.typography.xSmall.copyWith(
-                                        color: theme.colorScheme.foreground
-                                            .withValues(alpha: 0.65),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: _StatMiniBox(
-                                        label: l10n.dueCards,
-                                        value: '$totalDue',
-                                        color: totalDue > 0
-                                            ? theme.colorScheme.destructive
-                                            : theme.colorScheme.foreground,
-                                        icon: LucideIcons.clock,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: _StatMiniBox(
-                                        label: l10n.newCards,
-                                        value: '$totalNew',
-                                        color: theme.colorScheme.primary,
-                                        icon: LucideIcons.sparkles,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-
-                          // Search Bar + Desktop Toolbar (Responsive Layout)
-                          LayoutBuilder(
-                            builder: (context, constraints) {
-                              final availableWidth = constraints.maxWidth;
-                              final isCompactToolbar = availableWidth < 680;
-                              final isUltraCompact = availableWidth < 520;
-
-                              return SizedBox(
-                                height: 38,
-                                child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        features: [
-                                          InputFeature.leading(
-                                            Icon(
-                                              LucideIcons.search,
-                                              size: 18,
-                                              color: theme
-                                                  .colorScheme.mutedForeground,
-                                            ),
-                                          ),
-                                        ],
-                                        placeholder: Text(l10n.searchDecks),
-                                        onChanged: (val) =>
-                                            searchQuery.value = val,
-                                      ),
-                                    ),
-                                    if (!isMobile) ...[
-                                      const SizedBox(width: 12),
-                                      PrimaryButton(
-                                        alignment: Alignment.center,
-                                        leading: const Icon(
-                                          LucideIcons.plus,
-                                          size: 16,
-                                        ),
-                                        onPressed: openCreateDeckModal,
-                                        child: Text(
-                                          l10n.addNewDeck,
-                                          maxLines: 1,
-                                          softWrap: false,
-                                        ),
-                                      ),
-                                      if (!isUltraCompact) ...[
-                                        const SizedBox(width: 8),
-                                        if (isCompactToolbar)
-                                          Tooltip(
-                                            tooltip: (context) =>
-                                                TooltipContainer(
-                                              child: Text(l10n.importApkg),
-                                            ),
-                                            child: IconButton.outline(
-                                              icon: const Icon(
-                                                LucideIcons.fileUp,
-                                                size: 16,
-                                              ),
-                                              onPressed: handleApkgImport,
-                                            ),
-                                          )
-                                        else
-                                          OutlineButton(
-                                            alignment: Alignment.center,
-                                            leading: const Icon(
-                                              LucideIcons.fileUp,
-                                              size: 16,
-                                            ),
-                                            onPressed: handleApkgImport,
-                                            child: Text(
-                                              l10n.importApkg,
-                                              maxLines: 1,
-                                              softWrap: false,
-                                            ),
-                                          ),
-                                        const SizedBox(width: 8),
-                                        if (isCompactToolbar)
-                                          Tooltip(
-                                            tooltip: (context) =>
-                                                TooltipContainer(
-                                              child: Text(l10n.customStudy),
-                                            ),
-                                            child: IconButton.ghost(
-                                              icon: const Icon(
-                                                LucideIcons.zap,
-                                                size: 16,
-                                              ),
-                                              onPressed: openCramModal,
-                                            ),
-                                          )
-                                        else
-                                          GhostButton(
-                                            alignment: Alignment.center,
-                                            leading: const Icon(
-                                              LucideIcons.zap,
-                                              size: 16,
-                                            ),
-                                            onPressed: openCramModal,
-                                            child: Text(
-                                              l10n.customStudy,
-                                              maxLines: 1,
-                                              softWrap: false,
-                                            ),
-                                          ),
-                                      ],
-                                    ],
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 20),
-
-                          // Header Section: clean title & total count
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '${l10n.navDecks} (${filteredDecks.length})',
-                                style: theme.typography.semiBold,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-
-                          // Deck list empty state
-                          if (filteredDecks.isEmpty)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 40),
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      LucideIcons.searchX,
-                                      size: 48,
-                                      color:
-                                          theme.colorScheme.mutedForeground,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      l10n.noDecksFound,
-                                      style: theme.typography.small.copyWith(
-                                        color:
-                                            theme.colorScheme.mutedForeground,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    PrimaryButton(
-                                      alignment: Alignment.center,
-                                      onPressed: openCreateDeckModal,
-                                      leading: const Icon(
-                                        LucideIcons.plus,
-                                        size: 16,
-                                      ),
-                                      child: Text(
-                                        l10n.addNewDeck,
-                                        maxLines: 1,
-                                        softWrap: false,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  if (filteredDecks.isNotEmpty) ...[
-                    // 1. Render Grouped Decks lazily
-                    if (groupedEntries.isNotEmpty)
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        sliver: SliverList.separated(
-                          itemCount: groupedEntries.length,
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 12),
-                          itemBuilder: (context, index) {
-                            final entry = groupedEntries[index];
-                            return _GroupedDeckCard(
-                              key: ValueKey('group_${entry.key}'),
-                              parentName: entry.key,
-                              subdecks: entry.value,
-                              autoExpand: searchQuery.value.isNotEmpty,
-                              onStudyDeck: (deckId) {
-                                context.push('/decks/$deckId/study');
-                              },
-                            );
-                          },
-                        ),
-                      ),
-
-                    if (groupedEntries.isNotEmpty &&
-                        standaloneDecks.isNotEmpty)
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 12),
-                      ),
-
-                    // 2. Render Standalone Decks lazily
-                    if (standaloneDecks.isNotEmpty)
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        sliver: SliverList.separated(
-                          itemCount: standaloneDecks.length,
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 12),
-                          itemBuilder: (context, index) {
-                            final deck = standaloneDecks[index];
-                            return _MobileDeckCard(
-                              key: ValueKey('deck_${deck.id}'),
-                              deckId: deck.id,
-                              title: deck.title,
-                              description: deck.description,
-                              dueCount: deck.dueCount,
-                              newCount: deck.newCount,
-                              totalCount: deck.totalCount,
-                              onStudy: () {
-                                context.push('/decks/${deck.id}/study');
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                  ],
-
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 120,
-                    ), // Space for bottom navigation bar and floating speed dial
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // Scrim backdrop when speed dial is open (mobile only)
-          if (isDialOpen.value && isMobile)
-            Positioned.fill(
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => isDialOpen.value = false,
-                child: Container(color: m.Colors.black.withValues(alpha: 0.35)),
-              ),
-            ),
-
-          // Floating Speed Dial Button (mobile only)
-          if (isMobile)
-            Positioned(
-              bottom: 24,
-              right: 20,
-              child: _DeckSpeedDial(
-                isOpen: isDialOpen.value,
-                onToggle: () => isDialOpen.value = !isDialOpen.value,
-                onCreateDeck: () {
-                  isDialOpen.value = false;
-                  openCreateDeckModal();
-                },
-                onImportApkg: () {
-                  isDialOpen.value = false;
-                  handleApkgImport();
-                },
-                onCram: () {
-                  isDialOpen.value = false;
-                  openCramModal();
-                },
-              ),
-            ),
-        ],
-      ),
-    );
-      },
-    );
-  }
-}
-
-class _StatMiniBox extends StatelessWidget {
-  final String label;
-  final String value;
-  final m.Color color;
-  final IconData icon;
-
-  const _StatMiniBox({
-    required this.label,
-    required this.value,
-    required this.color,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: color),
-          const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: color,
-                  height: 1.1,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: color.withValues(alpha: 0.8),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
-}
 
-class _MobileDeckCard extends StatelessWidget {
-  final String deckId;
-  final String title;
-  final String description;
-  final int dueCount;
-  final int newCount;
-  final int totalCount;
-  final VoidCallback onStudy;
-
-  const _MobileDeckCard({
-    super.key,
-    required this.deckId,
-    required this.title,
-    required this.description,
-    required this.dueCount,
-    required this.newCount,
-    required this.totalCount,
-    required this.onStudy,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    // Parse Hierarchical deck title (Parent::Child)
-    final parts = title.split('::');
-    final hasHierarchy = parts.length > 1;
-    final parentPath = hasHierarchy
-        ? parts.sublist(0, parts.length - 1).join(' › ')
-        : null;
-    final leafName = parts.last;
-    final isCram = title.contains('Cram');
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onStudy,
-      child: Card(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isCram
-                        ? m.Colors.amber.withValues(alpha: 0.15)
-                        : theme.colorScheme.muted,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    isCram ? LucideIcons.zap : LucideIcons.folder,
-                    size: 20,
-                    color: isCram
-                        ? m.Colors.amber
-                        : theme.colorScheme.foreground,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (parentPath != null)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 2.0),
-                          child: Text(
-                            parentPath,
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
-                          ),
-                        ),
-                      Text(
-                        leafName,
-                        style: theme.typography.h4.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.typography.xSmall.copyWith(
-                          color: theme.colorScheme.mutedForeground,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Wrap(
-                    spacing: 6,
-                    runSpacing: 4,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      if (dueCount > 0)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.destructive.withValues(
-                              alpha: 0.15,
-                            ),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '$dueCount ${context.l10n.dueCards}',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: theme.colorScheme.destructive,
-                            ),
-                          ),
-                        ),
-                      if (newCount > 0)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withValues(
-                              alpha: 0.15,
-                            ),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '$newCount ${context.l10n.newCards}',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      Text(
-                        context.l10n.cardsCount(totalCount),
-                        style: theme.typography.xSmall.copyWith(
-                          color: theme.colorScheme.mutedForeground,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                PrimaryButton(
-                  alignment: Alignment.center,
-                  onPressed: onStudy,
-                  size: ButtonSize.small,
-                  leading: const Center(
-                    child: Icon(LucideIcons.play, size: 14),
-                  ),
-                  child: Center(child: Text(context.l10n.studyNow)),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GroupedDeckCard extends HookWidget {
-  final String parentName;
-  final List<DeckModel> subdecks;
-  final bool autoExpand;
-  final void Function(String deckId) onStudyDeck;
-
-  const _GroupedDeckCard({
-    super.key,
-    required this.parentName,
-    required this.subdecks,
-    required this.autoExpand,
-    required this.onStudyDeck,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-    final isExpanded = useState(autoExpand);
-
-    useEffect(() {
-      if (autoExpand) {
-        isExpanded.value = true;
-      }
-      return null;
-    }, [autoExpand]);
-
-    final totalDue = subdecks.fold<int>(0, (sum, d) => sum + d.dueCount);
-    final totalNew = subdecks.fold<int>(0, (sum, d) => sum + d.newCount);
-    final totalCards = subdecks.fold<int>(0, (sum, d) => sum + d.totalCount);
-
-    final targetStudyDeck = subdecks.firstWhere(
-      (d) => d.dueCount > 0,
-      orElse: () => subdecks.firstWhere(
-        (d) => d.newCount > 0,
-        orElse: () => subdecks.first,
-      ),
-    );
-
-    return Card(
-      padding: EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              isExpanded.value = !isExpanded.value;
+  List<Widget> _buildDeckSlivers({
+    required BuildContext context,
+    required List<MapEntry<String, List<DeckModel>>> groupedEntries,
+    required List<DeckModel> standaloneDecks,
+    required String searchQuery,
+  }) {
+    return [
+      if (groupedEntries.isNotEmpty)
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          sliver: SliverList.separated(
+            itemCount: groupedEntries.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final entry = groupedEntries[index];
+              return GroupedDeckCard(
+                key: ValueKey('group_${entry.key}'),
+                parentName: entry.key,
+                subdecks: entry.value,
+                autoExpand: searchQuery.isNotEmpty,
+                onStudyDeck: (deckId) {
+                  context.push('/decks/$deckId/study');
+                },
+              );
             },
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(
-                          isExpanded.value
-                              ? LucideIcons.folderOpen
-                              : LucideIcons.folder,
-                          size: 20,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.secondary,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                l10n.subdecksCount(subdecks.length),
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                  color: theme.colorScheme.secondaryForeground,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              parentName,
-                              style: theme.typography.h4.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              l10n.importedFromApkg,
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      IconButton.ghost(
-                        size: ButtonSize.small,
-                        icon: AnimatedRotation(
-                          turns: isExpanded.value ? 0.5 : 0.0,
-                          duration: const Duration(milliseconds: 200),
-                          child: const Icon(LucideIcons.chevronDown, size: 18),
-                        ),
-                        onPressed: () {
-                          isExpanded.value = !isExpanded.value;
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 14),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Wrap(
-                          spacing: 6,
-                          runSpacing: 4,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            if (totalDue > 0)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 3,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: theme.colorScheme.destructive
-                                      .withValues(alpha: 0.15),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Text(
-                                  '$totalDue ${context.l10n.dueCards}',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    color: theme.colorScheme.destructive,
-                                  ),
-                                ),
-                              ),
-                            if (totalNew > 0)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 3,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: theme.colorScheme.primary.withValues(
-                                    alpha: 0.15,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Text(
-                                  '$totalNew ${context.l10n.newCards}',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    color: theme.colorScheme.primary,
-                                  ),
-                                ),
-                              ),
-                            Text(
-                              context.l10n.cardsCount(totalCards),
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      PrimaryButton(
-                        alignment: Alignment.center,
-                        onPressed: () => onStudyDeck(targetStudyDeck.id),
-                        size: ButtonSize.small,
-                        leading: const Center(
-                          child: Icon(LucideIcons.play, size: 14),
-                        ),
-                        child: Center(child: Text(context.l10n.studyNow)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ),
-          if (isExpanded.value) ...[
-            Divider(height: 1, color: theme.colorScheme.border),
-            Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.muted.withValues(alpha: 0.25),
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(8),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (int index = 0; index < subdecks.length; index++) ...[
-                      if (index > 0)
-                        Divider(
-                          height: 1,
-                          indent: 44,
-                          endIndent: 16,
-                          color: theme.colorScheme.border.withValues(alpha: 0.4),
-                        ),
-                      Builder(
-                        builder: (context) {
-                          final deck = subdecks[index];
-                          final leafName = deck.title.split('::').last;
+        ),
+      if (groupedEntries.isNotEmpty && standaloneDecks.isNotEmpty)
+        const SliverToBoxAdapter(child: SizedBox(height: 12),),
+      if (standaloneDecks.isNotEmpty)
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          sliver: SliverList.separated(
+            itemCount: standaloneDecks.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final deck = standaloneDecks[index];
+              return DeckCard(
+                key: ValueKey('deck_${deck.id}'),
+                deckId: deck.id,
+                title: deck.title,
+                description: deck.description,
+                dueCount: deck.dueCount,
+                newCount: deck.newCount,
+                totalCount: deck.totalCount,
+                onStudy: () {
+                  context.push('/decks/${deck.id}/study');
+                },
+              );
+            },
+          ),
+        ),
+    ];
+  }
 
-                          return GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => onStudyDeck(deck.id),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 10,
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    LucideIcons.fileText,
-                                    size: 16,
-                                    color: theme.colorScheme.mutedForeground,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Text(
-                                      leafName,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: theme.colorScheme.foreground,
-                                      ),
-                                    ),
-                                  ),
-                                  Wrap(
-                                    spacing: 6,
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    children: [
-                                      if (deck.dueCount > 0)
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 6,
-                                            vertical: 2,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: theme.colorScheme.destructive
-                                                .withValues(alpha: 0.15),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: Text(
-                                            l10n.badgeDue(deck.dueCount),
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w700,
-                                              color:
-                                                  theme.colorScheme.destructive,
-                                            ),
-                                          ),
-                                        ),
-                                      if (deck.newCount > 0)
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 6,
-                                            vertical: 2,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: theme.colorScheme.primary
-                                                .withValues(alpha: 0.15),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: Text(
-                                            l10n.badgeNew(deck.newCount),
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w700,
-                                              color: theme.colorScheme.primary,
-                                            ),
-                                          ),
-                                        ),
-                                      Text(
-                                        l10n.badgeTotalCards(deck.totalCount),
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color:
-                                              theme.colorScheme.mutedForeground,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 8),
-                                  IconButton.ghost(
-                                    size: ButtonSize.small,
-                                    icon:
-                                        const Icon(LucideIcons.play, size: 14),
-                                    onPressed: () => onStudyDeck(deck.id),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ],
+  Widget _buildFloatingSpeedDial({
+    required ValueNotifier<bool> isDialOpen,
+    required VoidCallback openCreateDeckModal,
+    required VoidCallback handleApkgImport,
+    required VoidCallback openCramModal,
+  }) {
+    return Positioned(
+      bottom: 24,
+      right: 20,
+      child: DeckSpeedDial(
+        isOpen: isDialOpen.value,
+        onToggle: () => isDialOpen.value = !isDialOpen.value,
+        onCreateDeck: () {
+          isDialOpen.value = false;
+          openCreateDeckModal();
+        },
+        onImportApkg: () {
+          isDialOpen.value = false;
+          handleApkgImport();
+        },
+        onCram: () {
+          isDialOpen.value = false;
+          openCramModal();
+        },
       ),
     );
   }
-}
 
-class _DeckSpeedDial extends HookWidget {
-  final bool isOpen;
-  final VoidCallback onToggle;
-  final VoidCallback onCreateDeck;
-  final VoidCallback onImportApkg;
-  final VoidCallback onCram;
+  Future<void> _executeApkgImport(
+    BuildContext context,
+    WidgetRef ref,
+    DeckNotifier deckNotifier,
+    dynamic l10n,
+  ) async {
+    try {
+      final result = await FilePicker.pickFiles(
+        type: FileType.any,
+        withData: kIsWeb,
+      );
 
-  const _DeckSpeedDial({
-    required this.isOpen,
-    required this.onToggle,
-    required this.onCreateDeck,
-    required this.onImportApkg,
-    required this.onCram,
-  });
+      if (result == null || result.files.isEmpty) return;
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-    final controller = useAnimationController(
-      duration: const Duration(milliseconds: 200),
-    );
+      final selectedFile = result.files.first;
+      final ext = (selectedFile.extension ??
+              (selectedFile.name.contains('.')
+                  ? selectedFile.name.split('.').last
+                  : ''))
+          .toLowerCase();
 
-    useEffect(() {
-      if (isOpen) {
-        controller.forward();
-      } else {
-        controller.reverse();
-      }
-      return null;
-    }, [isOpen]);
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        if (isOpen || controller.value > 0)
-          AnimatedBuilder(
-            animation: controller,
-            builder: (context, _) {
-              final p = controller.value;
-              return Opacity(
-                opacity: p.clamp(0.0, 1.0),
-                child: Transform.translate(
-                  offset: Offset(0, 12 * (1 - p)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      _SpeedDialOption(
-                        icon: LucideIcons.folderPlus,
-                        iconColor: m.Colors.green,
-                        label: l10n.createDeckAction,
-                        onTap: onCreateDeck,
-                      ),
-                      const SizedBox(height: 12),
-                      _SpeedDialOption(
-                        icon: LucideIcons.upload,
-                        iconColor: m.Colors.blue,
-                        label: l10n.importApkgAction,
-                        onTap: onImportApkg,
-                      ),
-                      const SizedBox(height: 12),
-                      _SpeedDialOption(
-                        icon: LucideIcons.zap,
-                        iconColor: m.Colors.amber,
-                        label: l10n.cramAction,
-                        onTap: onCram,
-                      ),
-                      const SizedBox(height: 16),
-                    ],
+      if (ext != 'apkg' && ext != 'zip' && ext != 'colpkg') {
+        if (context.mounted) {
+          showToast(
+            context: context,
+            builder: (context, overlay) {
+              return SurfaceCard(
+                child: Basic(
+                  title: Text(l10n.importApkgError),
+                  subtitle: Text(l10n.selectApkgOrZipPrompt),
+                  leading: const Icon(LucideIcons.circleAlert, color: m.Colors.red),
+                  trailing: IconButton.ghost(
+                    icon: const Icon(LucideIcons.x),
+                    onPressed: () => overlay.close(),
                   ),
                 ),
               );
             },
-          ),
-        GestureDetector(
-          onTap: onToggle,
-          child: Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.35),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Center(
-              child: AnimatedRotation(
-                turns: isOpen ? 0.125 : 0.0,
-                duration: const Duration(milliseconds: 200),
-                child: Icon(
-                  LucideIcons.plus,
-                  color: theme.colorScheme.primaryForeground,
-                  size: 26,
+          );
+        }
+        return;
+      }
+
+      ToastOverlay? loadingToast;
+      if (context.mounted) {
+        loadingToast = showToast(
+          context: context,
+          builder: (context, overlay) {
+            return SurfaceCard(
+              child: Basic(
+                title: Text(l10n.importApkg),
+                subtitle: Text(selectedFile.name),
+                leading: const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
-            ),
-          ),
-        ),
-      ],
+            );
+          },
+        );
+      }
+
+      final importer = ApkgImporterService();
+      final ApkgImportResult importResult;
+
+      try {
+        if (selectedFile.path != null && selectedFile.path!.isNotEmpty) {
+          importResult = await importer.importApkgPath(
+            selectedFile.path!,
+            defaultDeckDescription: l10n.importedDeckDefaultDesc,
+          );
+        } else if (selectedFile.bytes != null) {
+          importResult = importer.importApkgBytes(
+            selectedFile.bytes!,
+            defaultDeckDescription: l10n.importedDeckDefaultDesc,
+          );
+        } else {
+          throw const FormatException('File data unreadable');
+        }
+      } finally {
+        loadingToast?.close();
+      }
+
+      if (importResult.decks.isNotEmpty) {
+        deckNotifier.addDecks(importResult.decks);
+      }
+      if (importResult.cards.isNotEmpty) {
+        ref.read(cardBrowserProvider.notifier).addCards(importResult.cards);
+      }
+
+      if (context.mounted) {
+        showToast(
+          context: context,
+          builder: (context, overlay) {
+            return SurfaceCard(
+              child: Basic(
+                title: Text(l10n.importApkgSuccess),
+                subtitle: Text(
+                  l10n.importApkgSuccessDesc(
+                    importResult.decks.length,
+                    importResult.cards.length,
+                    importResult.mediaCount,
+                  ),
+                ),
+                leading: const Icon(LucideIcons.circleCheck, color: m.Colors.green),
+                trailing: IconButton.ghost(
+                  icon: const Icon(LucideIcons.x),
+                  onPressed: () => overlay.close(),
+                ),
+              ),
+            );
+          },
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        showToast(
+          context: context,
+          builder: (context, overlay) {
+            return SurfaceCard(
+              child: Basic(
+                title: Text(l10n.importApkgError),
+                subtitle: Text(e.toString()),
+                leading: const Icon(LucideIcons.circleAlert, color: m.Colors.red),
+                trailing: IconButton.ghost(
+                  icon: const Icon(LucideIcons.x),
+                  onPressed: () => overlay.close(),
+                ),
+              ),
+            );
+          },
+        );
+      }
+    }
+  }
+
+  void _showCramModal(
+    BuildContext context,
+    DeckNotifier deckNotifier,
+    dynamic l10n,
+  ) {
+    CustomStudyModal.show(
+      context,
+      onStartCram: (name, tag, limit, mode) {
+        final customTitle = tag.isNotEmpty
+            ? l10n.cramDeckTitleWithTag(name, tag)
+            : l10n.cramDeckTitlePrefix(name);
+
+        deckNotifier.createCramDeck(
+          name: name,
+          filterTag: tag,
+          cardLimit: limit,
+          mode: mode,
+          title: customTitle,
+          description: l10n.cramDeckDefaultDesc,
+        );
+        showToast(
+          context: context,
+          builder: (context, overlay) {
+            return SurfaceCard(
+              child: Basic(
+                title: Text(l10n.cramDeckCreated),
+                subtitle: Text(l10n.cramDeckCreatedDesc(limit, tag)),
+                leading: const Icon(LucideIcons.zap, color: m.Colors.amber),
+                trailing: IconButton.ghost(
+                  icon: const Icon(LucideIcons.x),
+                  onPressed: () => overlay.close(),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
-}
 
-class _SpeedDialOption extends StatelessWidget {
-  final IconData icon;
-  final m.Color iconColor;
-  final String label;
-  final VoidCallback onTap;
-
-  const _SpeedDialOption({
-    required this.icon,
-    required this.iconColor,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.card,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: theme.colorScheme.border, width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: m.Colors.black.withValues(alpha: 0.12),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+  void _showCreateDeckModal(
+    BuildContext context,
+    List<DeckModel> decks,
+    DeckNotifier deckNotifier,
+    dynamic l10n,
+  ) {
+    CreateDeckModal.show(
+      context,
+      existingDeckNames: decks.map((d) => d.title).toList(),
+      onCreateDeck: (name, description) {
+        final newDeck = DeckModel(
+          id: 'deck_${DateTime.now().millisecondsSinceEpoch}',
+          title: name,
+          description: description,
+          dueCount: 0,
+          newCount: 0,
+          totalCount: 0,
+          lastStudied: null,
+        );
+        deckNotifier.addDeck(newDeck);
+        showToast(
+          context: context,
+          builder: (context, overlay) {
+            return SurfaceCard(
+              child: Basic(
+                title: Text(l10n.deckCreatedSuccess),
+                subtitle: Text(l10n.deckCreatedSuccessDesc(name)),
+                leading: const Icon(LucideIcons.circleCheck, color: m.Colors.green),
+                trailing: IconButton.ghost(
+                  icon: const Icon(LucideIcons.x),
+                  onPressed: () => overlay.close(),
                 ),
-              ],
-            ),
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.cardForeground,
               ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.card,
-              shape: BoxShape.circle,
-              border: Border.all(color: theme.colorScheme.border, width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: m.Colors.black.withValues(alpha: 0.15),
-                  blurRadius: 6,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Center(child: Icon(icon, color: iconColor, size: 20)),
-          ),
-        ],
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }

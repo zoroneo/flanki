@@ -30,12 +30,14 @@ Chào mừng đến với Knowledge Vault của dự án **Flanki** — Ứng d�
 - [[01-Architecture/02-Protobuf-RPC-Contract|02. Hợp Đồng Bản Tin Protobuf RPC (Protobuf Contract)]]
 - [[01-Architecture/03-Cross-Platform-Strategy|03. Chiến Lược Hỗ Trợ Đa Nền Tảng (Desktop & Mobile)]]
 - [[01-Architecture/04-Pure-Dart-Engine-Architecture|04. Kiến Trúc Pure Dart Core Engine & Reactive Storage]]
+- [[01-Architecture/05-Codebase-Standardization-and-Hardcode-Elimination|05. Chuẩn Hóa Codebase, Anti-Hardcode & Type Safety]]
 
 ### 02. Trải Nghiệm Người Dùng & Thiết Kế (UI / UX)
 
 - [[02-UI-UX/01-Shadcn-Design-Tokens|01. Hệ Thống Design Tokens & shadcn_flutter]]
 - [[02-UI-UX/02-Study-Experience-Mochi-RemNote|02. Thiết Kế Trải Nghiệm Học Tập Tối Ưu]]
 - [[02-UI-UX/03-Dual-Card-Rendering|03. Cơ Chế Dual-Engine Render Thẻ (Native + WebKit)]]
+- [[02-UI-UX/04-Layout-Architecture-and-Responsive-Rules|04. Kiến Trúc Layout & Quy Chuẩn UI/UX Responsive]]
 
 ### 03. Đặc Tả Nghiệp Vụ Anki (Domain Spec)
 

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flanki/core/config/app_config.dart';
+import 'package:flanki/core/notifiers/update_notifier.dart';
 import 'package:flanki/core/services/desktop_update_service.dart';
+import 'package:flanki/core/services/desktop_window_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -48,25 +50,55 @@ void main() {
   });
 
   group('DesktopUpdateService Asset Selection Tests', () {
-    test('Finds matching asset from assets list', () {
-      final assets = [
-        {
-          'name': 'flanki-1.1.0-mac.dmg',
-          'browser_download_url': 'https://download/mac.dmg',
-        },
-        {
-          'name': 'flanki-setup-1.1.0-windows.exe',
-          'browser_download_url': 'https://download/windows.exe',
-        },
-        {
-          'name': 'flanki-1.1.0-linux.AppImage',
-          'browser_download_url': 'https://download/linux.AppImage',
-        },
-      ];
+    final assets = [
+      {
+        'name': 'flanki-1.1.0-mac.dmg',
+        'browser_download_url': 'https://download/mac.dmg',
+      },
+      {
+        'name': 'flanki-setup-1.1.0-windows.exe',
+        'browser_download_url': 'https://download/windows.exe',
+      },
+      {
+        'name': 'flanki-1.1.0-linux.AppImage',
+        'browser_download_url': 'https://download/linux.AppImage',
+      },
+      {
+        'name': 'flanki-1.1.0-android.apk',
+        'browser_download_url': 'https://download/android.apk',
+      },
+    ];
 
+    test('Finds matching asset for current platform', () {
       final asset = DesktopUpdateService.findPlatformAsset(assets);
       expect(asset, isNotNull);
       expect(asset!['name'], isA<String>());
+    });
+
+    test('Finds matching asset for specific AppPlatform target', () {
+      final win = DesktopUpdateService.findPlatformAsset(
+        assets,
+        targetPlatform: AppPlatform.windows,
+      );
+      expect(win?['name'], 'flanki-setup-1.1.0-windows.exe');
+
+      final mac = DesktopUpdateService.findPlatformAsset(
+        assets,
+        targetPlatform: AppPlatform.macos,
+      );
+      expect(mac?['name'], 'flanki-1.1.0-mac.dmg');
+
+      final lin = DesktopUpdateService.findPlatformAsset(
+        assets,
+        targetPlatform: AppPlatform.linux,
+      );
+      expect(lin?['name'], 'flanki-1.1.0-linux.AppImage');
+
+      final apk = DesktopUpdateService.findPlatformAsset(
+        assets,
+        targetPlatform: AppPlatform.android,
+      );
+      expect(apk?['name'], 'flanki-1.1.0-android.apk');
     });
 
     test('Returns null when assets list is empty', () {
@@ -146,5 +178,22 @@ void main() {
         expect(updateInfo.releaseUrl, equals(AppConfig.githubReleasesUrl));
       },
     );
+  });
+
+  group('Enum-safe Type Standardization Tests', () {
+    test('DesktopTrayAction correctly maps keys to actions', () {
+      expect(DesktopTrayAction.fromKey('show_window'), DesktopTrayAction.showWindow);
+      expect(DesktopTrayAction.fromKey('open_study'), DesktopTrayAction.openStudy);
+      expect(DesktopTrayAction.fromKey('exit_app'), DesktopTrayAction.exitApp);
+      expect(DesktopTrayAction.fromKey('unknown_action'), isNull);
+    });
+
+    test('UpdateErrorType supports all expected failure modes', () {
+      expect(UpdateErrorType.values, containsAll([
+        UpdateErrorType.checkFailed,
+        UpdateErrorType.downloadFailed,
+        UpdateErrorType.installFailed,
+      ]));
+    });
   });
 }

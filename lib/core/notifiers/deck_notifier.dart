@@ -1,9 +1,6 @@
-import 'dart:io' show Platform;
-import 'dart:ui' show Locale;
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 import '../models/custom_study_mode.dart';
 import '../models/deck.dart';
 import '../storage/database_service.dart';
@@ -86,31 +83,14 @@ class DeckNotifier extends Notifier<List<DeckModel>> {
   }
 
   static String _defaultCramTitle(String name, String filterTag) {
-    try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
-          ? 'vi'
-          : 'en';
-      final l10n = lookupAppLocalizations(Locale(code));
-      return filterTag.isNotEmpty
-          ? l10n.cramDeckTitleWithTag(name, filterTag)
-          : l10n.cramDeckTitlePrefix(name);
-    } catch (_) {
-      final l10n = lookupAppLocalizations(const Locale('vi'));
-      return filterTag.isNotEmpty
-          ? l10n.cramDeckTitleWithTag(name, filterTag)
-          : l10n.cramDeckTitlePrefix(name);
-    }
+    final l10n = AppConfig.getL10n();
+    return filterTag.isNotEmpty
+        ? l10n.cramDeckTitleWithTag(name, filterTag)
+        : l10n.cramDeckTitlePrefix(name);
   }
 
   static String _defaultCramDescription() {
-    try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
-          ? 'vi'
-          : 'en';
-      return lookupAppLocalizations(Locale(code)).cramDeckDefaultDesc;
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('vi')).cramDeckDefaultDesc;
-    }
+    return AppConfig.getL10n().cramDeckDefaultDesc;
   }
 
   void updateDueCount(String deckId, {int? dueCount, int? newCount}) {

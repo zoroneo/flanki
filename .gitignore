@@ -123,10 +123,17 @@ native/**/target/
 flanki-*.zip
 flanki-*.tar.gz
 flanki-*.exe
+flanki-*.msi
 flanki-*.dmg
 flanki-*.AppImage
 flanki-*.deb
 packaging/**/Output/
+
+# Temporary & Test artifacts
+flanki_test_*
+test_flanki*.db*
+*.tmp
+*.bak
 
 # Mobile release binaries
 *.apk

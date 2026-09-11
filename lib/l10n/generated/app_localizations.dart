@@ -2467,6 +2467,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Level 3: Advanced C1/C2'**
   String get grammarLevelAdvanced;
+
+  /// No description provided for @privacyPolicyTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Local-First • Zero Tracking • Open Source'**
+  String get privacyPolicyTagline;
+
+  /// No description provided for @privacySection1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Local-First Storage'**
+  String get privacySection1Title;
+
+  /// No description provided for @privacySection1Content.
+  ///
+  /// In en, this message translates to:
+  /// **'All your decks, flashcards, study schedules, and review history are stored locally on your device via SQLite. Flanki does not transmit your personal flashcard content to any developer servers.'**
+  String get privacySection1Content;
+
+  /// No description provided for @privacySection2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Zero Tracking & No Ads'**
+  String get privacySection2Title;
+
+  /// No description provided for @privacySection2Content.
+  ///
+  /// In en, this message translates to:
+  /// **'We do not integrate any third-party tracking frameworks, behavioral analytics SDKs (e.g., Google Analytics, Firebase, Sentry), or advertising networks. We do not sell or monetize your personal data.'**
+  String get privacySection2Content;
+
+  /// No description provided for @privacySection3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Optional AnkiWeb Sync'**
+  String get privacySection3Title;
+
+  /// No description provided for @privacySection3Content.
+  ///
+  /// In en, this message translates to:
+  /// **'If you choose to log in and synchronize with AnkiWeb, your credentials and collection data are transmitted directly between your device and official AnkiWeb servers over encrypted HTTPS. Authentication tokens are saved in platform-native secure vaults (Android Keystore, iOS Keychain, Windows DPAPI). We never store or access your password.'**
+  String get privacySection3Content;
+
+  /// No description provided for @privacySection4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'4. App Update Checks'**
+  String get privacySection4Title;
+
+  /// No description provided for @privacySection4Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Flanki periodically checks the public GitHub Releases API to notify you when a new version is available. No user-identifying information or device fingerprints are sent during update checks.'**
+  String get privacySection4Content;
+
+  /// No description provided for @privacySection5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Local Notifications'**
+  String get privacySection5Title;
+
+  /// No description provided for @privacySection5Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily study reminders and streak notifications are scheduled strictly on your local device. No remote push notification servers are used.'**
+  String get privacySection5Content;
+
+  /// No description provided for @privacySection6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Data Control & Deletion'**
+  String get privacySection6Title;
+
+  /// No description provided for @privacySection6Content.
+  ///
+  /// In en, this message translates to:
+  /// **'You retain 100% control of your data. You can delete decks, clear app data, or uninstall the app at any time to instantly remove all stored content.'**
+  String get privacySection6Content;
+
+  /// No description provided for @privacySection7Title.
+  ///
+  /// In en, this message translates to:
+  /// **'7. Full Policy & Source Code'**
+  String get privacySection7Title;
+
+  /// No description provided for @privacySection7Content.
+  ///
+  /// In en, this message translates to:
+  /// **'Flanki is an open-source project. You can inspect our complete source code and read our full legal Privacy Policy at: https://github.com/zoroneo/flanki'**
+  String get privacySection7Content;
+
+  /// No description provided for @grammarTableOfContents.
+  ///
+  /// In en, this message translates to:
+  /// **'Table of Contents'**
+  String get grammarTableOfContents;
+
+  /// No description provided for @grammarShortcutsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts & Guide'**
+  String get grammarShortcutsTitle;
+
+  /// No description provided for @grammarShortcutSelectCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Select & check option'**
+  String get grammarShortcutSelectCheck;
+
+  /// No description provided for @grammarShortcutNextQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Next question'**
+  String get grammarShortcutNextQuestion;
+
+  /// No description provided for @grammarPracticeTipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice Tip'**
+  String get grammarPracticeTipTitle;
+
+  /// No description provided for @grammarTipChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Carefully read the sentence and look for keywords or tense markers before picking an option.'**
+  String get grammarTipChoice;
+
+  /// No description provided for @grammarTipErrorId.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify the grammatically incorrect segment among underlined parts A, B, C, D.'**
+  String get grammarTipErrorId;
+
+  /// No description provided for @grammarTipCloze.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the blank with the appropriate word to make the sentence grammatically complete.'**
+  String get grammarTipCloze;
+
+  /// No description provided for @grammarGhostsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Ghost'**
+  String grammarGhostsCount(int count);
+
+  /// No description provided for @grammarUnitsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Units'**
+  String grammarUnitsCount(int count);
+
+  /// No description provided for @grammarBadgeDue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Due'**
+  String grammarBadgeDue(int count);
+
+  /// No description provided for @grammarOptionBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Option {letter}'**
+  String grammarOptionBadge(String letter);
+
+  /// No description provided for @updateDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download installer'**
+  String get updateDownloadFailed;
+
+  /// No description provided for @desktopSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop • Zinc'**
+  String get desktopSubtitle;
+
+  /// No description provided for @rslibLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'rslib (Linked)'**
+  String get rslibLinked;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
 }
 
 class _AppLocalizationsDelegate

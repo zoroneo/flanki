@@ -163,6 +163,29 @@ void main() {
     expect(queue.length, equals(75));
   });
 
+  test('DatabaseService getCustomStudyQueue correctly parses tags with underscores and limits from deckId', () async {
+    final taggedCards = List.generate(
+      15,
+      (i) => CardModel(
+        id: 'under_tag_$i',
+        deckId: 'tag_deck',
+        front: 'Front $i',
+        back: 'Back $i',
+        tags: ['unit_1_vocabulary'],
+      ),
+    );
+    await DatabaseService.instance.saveCards(taggedCards);
+
+    // Format: cram_<mode>_<tag>_<limit>_<timestamp>
+    // Here tag contains underscores: "unit_1_vocabulary"
+    final queue = DatabaseService.instance.getCustomStudyQueue(
+      deckId: 'cram_byTag_unit_1_vocabulary_10_1725000000000',
+    );
+
+    expect(queue.length, equals(10));
+    expect(queue.every((c) => c.tags.contains('unit_1_vocabulary')), isTrue);
+  });
+
   test('DatabaseService recalculateAllDeckCounts updates counts excluding suspended/buried cards', () async {
     const deck = DeckModel(
       id: 'd_recalc',

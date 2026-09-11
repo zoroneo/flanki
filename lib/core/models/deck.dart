@@ -17,6 +17,11 @@ class DeckModel {
     this.lastStudied,
   });
 
+  bool get isCram =>
+      id.startsWith('cram') ||
+      title.startsWith('⚡') ||
+      title.toLowerCase().contains('cram');
+
   DeckModel copyWith({
     String? id,
     String? title,

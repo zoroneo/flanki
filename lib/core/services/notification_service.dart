@@ -27,15 +27,7 @@ class NotificationService {
   bool _isInitialized = false;
   void Function(String? payload)? _onNotificationClick;
 
-  String currentLocaleCode =
-      (kIsWeb ||
-          (!Platform.isWindows &&
-              !Platform.isLinux &&
-              !Platform.isMacOS &&
-              !Platform.isAndroid &&
-              !Platform.isIOS))
-      ? 'vi'
-      : (Platform.localeName.toLowerCase().startsWith('vi') ? 'vi' : 'en');
+  String currentLocaleCode = AppConfig.resolveSystemLocaleCode();
 
   /// Updates current locale for notification text generation.
   void updateLocale(String? code) {
@@ -46,12 +38,7 @@ class NotificationService {
 
   /// Resolves AppLocalizations synchronously for any locale without BuildContext
   AppLocalizations getL10n([String? localeCode]) {
-    final code = localeCode ?? currentLocaleCode;
-    try {
-      return lookupAppLocalizations(Locale(code));
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('vi'));
-    }
+    return AppConfig.getL10n(localeCode ?? currentLocaleCode);
   }
 
   Timer? _desktopTimer;

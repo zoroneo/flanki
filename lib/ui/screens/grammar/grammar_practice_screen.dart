@@ -429,7 +429,7 @@ class _PracticeShortcutsGuide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isVi = Localizations.localeOf(context).languageCode == 'vi';
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -447,7 +447,7 @@ class _PracticeShortcutsGuide extends StatelessWidget {
               Icon(LucideIcons.keyboard, size: 20, color: theme.colorScheme.primary),
               const SizedBox(width: 8),
               Text(
-                isVi ? 'Phím tắt & Hướng dẫn' : 'Shortcuts & Guide',
+                l10n.grammarShortcutsTitle,
                 style: theme.typography.large.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
@@ -456,13 +456,13 @@ class _PracticeShortcutsGuide extends StatelessWidget {
           _buildShortcutRow(
             context,
             '1, 2, 3, 4',
-            isVi ? 'Chọn & kiểm tra đáp án' : 'Select & check option',
+            l10n.grammarShortcutSelectCheck,
           ),
           const SizedBox(height: 12),
           _buildShortcutRow(
             context,
             'Enter / Space',
-            isVi ? 'Chuyển câu kế tiếp' : 'Next question',
+            l10n.grammarShortcutNextQuestion,
           ),
           const SizedBox(height: 24),
           const Divider(),
@@ -472,14 +472,14 @@ class _PracticeShortcutsGuide extends StatelessWidget {
               Icon(LucideIcons.sparkles, size: 18, color: theme.colorScheme.mutedForeground),
               const SizedBox(width: 8),
               Text(
-                isVi ? 'Gợi ý làm bài' : 'Practice Tip',
+                l10n.grammarPracticeTipTitle,
                 style: theme.typography.base.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
           const SizedBox(height: 10),
           Text(
-            _getExerciseTip(exercise, isVi),
+            _getExerciseTip(exercise, l10n),
             style: theme.typography.small.copyWith(
               color: theme.colorScheme.mutedForeground,
               height: 1.5,
@@ -520,21 +520,15 @@ class _PracticeShortcutsGuide extends StatelessWidget {
     );
   }
 
-  String _getExerciseTip(GrammarExercise? ex, bool isVi) {
+  String _getExerciseTip(GrammarExercise? ex, AppLocalizations l10n) {
     if (ex == null) return '';
     switch (ex.type) {
       case GrammarExerciseType.choice:
-        return isVi
-            ? 'Đọc kỹ câu hỏi, tìm từ khóa hoặc thì của câu trước khi chọn đáp án.'
-            : 'Carefully read the sentence and look for keywords or tense markers before picking an option.';
+        return l10n.grammarTipChoice;
       case GrammarExerciseType.errorId:
-        return isVi
-            ? 'Xác định thành phần bị sai ngữ pháp giữa các phần được gạch chân A, B, C, D.'
-            : 'Identify the grammatically incorrect segment among underlined parts A, B, C, D.';
+        return l10n.grammarTipErrorId;
       case GrammarExerciseType.cloze:
-        return isVi
-            ? 'Điền từ hoặc cụm từ thích hợp vào ô trống để hoàn thiện câu đúng ngữ pháp.'
-            : 'Fill in the blank with the appropriate word to make the sentence grammatically complete.';
+        return l10n.grammarTipCloze;
     }
   }
 }

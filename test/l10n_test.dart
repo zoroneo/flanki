@@ -42,6 +42,16 @@ void main() {
       expect(l10nEn.trayOpenFlanki, 'Open Flanki');
       expect(l10nEn.trayStudyNow, 'Study Now');
       expect(l10nEn.trayExit, 'Quit Flanki');
+      expect(l10nEn.privacyPolicyTagline, 'Local-First • Zero Tracking • Open Source');
+      expect(l10nEn.privacySection1Title, '1. Local-First Storage');
+      expect(l10nEn.grammarTableOfContents, 'Table of Contents');
+      expect(l10nEn.grammarShortcutsTitle, 'Shortcuts & Guide');
+      expect(l10nEn.grammarGhostsCount(3), '3 Ghost');
+      expect(l10nEn.grammarUnitsCount(36), '36 Units');
+      expect(l10nEn.updateDownloadFailed, 'Failed to download installer');
+      expect(l10nEn.desktopSubtitle, 'Desktop • Zinc');
+      expect(l10nEn.rslibLinked, 'rslib (Linked)');
+      expect(l10nEn.unknown, 'Unknown');
     });
 
     test('Vietnamese translations load correctly', () async {
@@ -71,6 +81,16 @@ void main() {
       expect(l10nVi.trayOpenFlanki, 'Mở Flanki');
       expect(l10nVi.trayStudyNow, 'Ôn tập ngay');
       expect(l10nVi.trayExit, 'Thoát hoàn toàn');
+      expect(l10nVi.privacyPolicyTagline, 'Ưu tiên cục bộ • Không theo dõi • Mã nguồn mở');
+      expect(l10nVi.privacySection1Title, '1. Lưu trữ ưu tiên cục bộ');
+      expect(l10nVi.grammarTableOfContents, 'Mục Lục Chuyên Đề');
+      expect(l10nVi.grammarShortcutsTitle, 'Phím tắt & Hướng dẫn');
+      expect(l10nVi.grammarGhostsCount(3), '3 Ghost');
+      expect(l10nVi.grammarUnitsCount(36), '36 Chuyên đề');
+      expect(l10nVi.updateDownloadFailed, 'Tải tệp cài đặt thất bại');
+      expect(l10nVi.desktopSubtitle, 'Máy tính • Zinc');
+      expect(l10nVi.rslibLinked, 'rslib (Đã liên kết)');
+      expect(l10nVi.unknown, 'Không xác định');
     });
 
     test('LocaleNotifier can update and reset state', () async {

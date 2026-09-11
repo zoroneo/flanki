@@ -93,5 +93,57 @@ void main() {
       expect(state.length, 2);
       expect(state.map((d) => d.title), containsAll(['Deck A', 'Deck B']));
     });
+
+    test('DeckModel.isCram correctly identifies cram decks across locales and prefixes', () {
+      const normalDeck = DeckModel(
+        id: 'deck_1',
+        title: 'Tiếng Nhật N5',
+        description: '',
+        dueCount: 0,
+        newCount: 0,
+        totalCount: 0,
+      );
+      expect(normalDeck.isCram, isFalse);
+
+      const viCramDeck = DeckModel(
+        id: 'cram_byTag_N5_20_1725000000000',
+        title: '⚡ Ôn cấp tốc: Tiếng Nhật (N5)',
+        description: '',
+        dueCount: 10,
+        newCount: 0,
+        totalCount: 10,
+      );
+      expect(viCramDeck.isCram, isTrue);
+
+      const enCramDeck = DeckModel(
+        id: 'cram_flagged_all_10_1725000000000',
+        title: '⚡ Cram: Flagged cards',
+        description: '',
+        dueCount: 5,
+        newCount: 0,
+        totalCount: 5,
+      );
+      expect(enCramDeck.isCram, isTrue);
+
+      const customPrefixedDeck = DeckModel(
+        id: 'custom_123',
+        title: '⚡ Quick Review',
+        description: '',
+        dueCount: 0,
+        newCount: 0,
+        totalCount: 0,
+      );
+      expect(customPrefixedDeck.isCram, isTrue);
+
+      const caseInsensitiveCramDeck = DeckModel(
+        id: 'other_456',
+        title: 'My Custom cram Session',
+        description: '',
+        dueCount: 0,
+        newCount: 0,
+        totalCount: 0,
+      );
+      expect(caseInsensitiveCramDeck.isCram, isTrue);
+    });
   });
 }

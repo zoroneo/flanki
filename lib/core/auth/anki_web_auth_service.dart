@@ -5,6 +5,7 @@ import 'dart:ui' show Locale;
 import 'package:http/http.dart' as http;
 
 import '../../l10n/generated/app_localizations.dart';
+import '../config/app_config.dart';
 import '../sync/anki_web_config.dart';
 
 enum AuthErrorCode {
@@ -54,17 +55,7 @@ class AnkiWebAuthService {
        _config = config ?? const AnkiWebConfig(),
        _customL10n = l10n;
 
-  AppLocalizations get l10n {
-    if (_customL10n != null) return _customL10n;
-    try {
-      final code = (Platform.localeName.toLowerCase().startsWith('vi'))
-          ? 'vi'
-          : 'en';
-      return lookupAppLocalizations(Locale(code));
-    } catch (_) {
-      return lookupAppLocalizations(const Locale('vi'));
-    }
-  }
+  AppLocalizations get l10n => _customL10n ?? AppConfig.getL10n();
 
   /// Authenticate with AnkiWeb using username (email) and password.
   /// Returns [AnkiWebAuthResult] containing the session `hostKey`.

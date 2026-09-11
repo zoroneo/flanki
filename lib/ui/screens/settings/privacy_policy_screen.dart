@@ -68,7 +68,7 @@ class PrivacyPolicyScreen extends HookWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            'Local-First • Zero Tracking • Open Source',
+                            l10n.privacyPolicyTagline,
                             style: theme.typography.xSmall.copyWith(
                               color: theme.colorScheme.mutedForeground,
                             ),
@@ -83,50 +83,50 @@ class PrivacyPolicyScreen extends HookWidget {
 
               _PolicySectionCard(
                 icon: LucideIcons.hardDrive,
-                title: '1. Local-First Storage',
-                content: 'All your decks, flashcards, study schedules, and review history are stored locally on your device via SQLite. Flanki does not transmit your personal flashcard content to any developer servers.',
+                title: l10n.privacySection1Title,
+                content: l10n.privacySection1Content,
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.ban,
-                title: '2. Zero Tracking & No Ads',
-                content: 'We do not integrate any third-party tracking frameworks, behavioral analytics SDKs (e.g., Google Analytics, Firebase, Sentry), or advertising networks. We do not sell or monetize your personal data.',
+                title: l10n.privacySection2Title,
+                content: l10n.privacySection2Content,
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.cloud,
-                title: '3. Optional AnkiWeb Sync',
-                content: 'If you choose to log in and synchronize with AnkiWeb, your credentials and collection data are transmitted directly between your device and official AnkiWeb servers over encrypted HTTPS. Authentication tokens are saved in platform-native secure vaults (Android Keystore, iOS Keychain, Windows DPAPI). We never store or access your password.',
+                title: l10n.privacySection3Title,
+                content: l10n.privacySection3Content,
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.refreshCw,
-                title: '4. App Update Checks',
-                content: 'Flanki periodically checks the public GitHub Releases API to notify you when a new version is available. No user-identifying information or device fingerprints are sent during update checks.',
+                title: l10n.privacySection4Title,
+                content: l10n.privacySection4Content,
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.bell,
-                title: '5. Local Notifications',
-                content: 'Daily study reminders and streak notifications are scheduled strictly on your local device. No remote push notification servers are used.',
+                title: l10n.privacySection5Title,
+                content: l10n.privacySection5Content,
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.trash2,
-                title: '6. Data Control & Deletion',
-                content: 'You retain 100% control of your data. You can delete decks, clear app data, or uninstall the app at any time to instantly remove all stored content.',
+                title: l10n.privacySection6Title,
+                content: l10n.privacySection6Content,
               ),
               const SizedBox(height: 12),
 
               _PolicySectionCard(
                 icon: LucideIcons.globe,
-                title: '7. Full Policy & Source Code',
-                content: 'Flanki is an open-source project. You can inspect our complete source code and read our full legal Privacy Policy at: https://github.com/zoroneo/flanki',
+                title: l10n.privacySection7Title,
+                content: l10n.privacySection7Content,
               ),
               const SizedBox(height: 48),
             ],
