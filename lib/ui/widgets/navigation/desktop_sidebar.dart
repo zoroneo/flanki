@@ -271,10 +271,7 @@ class SidebarNavItem extends StatelessWidget {
 
   Widget _buildBadge(ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 2,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: theme.colorScheme.destructive,
         borderRadius: BorderRadius.circular(10),
@@ -308,10 +305,7 @@ class SidebarNavItem extends StatelessWidget {
       width: 6,
       height: 6,
       margin: const EdgeInsets.only(left: 6),
-      decoration: BoxDecoration(
-        color: indicatorColor,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: indicatorColor, shape: BoxShape.circle),
     );
   }
 }

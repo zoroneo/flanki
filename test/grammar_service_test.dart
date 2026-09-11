@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -59,13 +60,21 @@ void main() {
 
         // 15 exercises per unit
         expect(
-            unit.exercises.length, equals(GrammarConstants.exercisesPerUnit));
-        expect(unit.choiceExercises.length,
-            equals(GrammarConstants.choiceExercisesPerUnit));
-        expect(unit.errorIdExercises.length,
-            equals(GrammarConstants.errorIdExercisesPerUnit));
-        expect(unit.clozeExercises.length,
-            equals(GrammarConstants.clozeExercisesPerUnit));
+          unit.exercises.length,
+          equals(GrammarConstants.exercisesPerUnit),
+        );
+        expect(
+          unit.choiceExercises.length,
+          equals(GrammarConstants.choiceExercisesPerUnit),
+        );
+        expect(
+          unit.errorIdExercises.length,
+          equals(GrammarConstants.errorIdExercisesPerUnit),
+        );
+        expect(
+          unit.clozeExercises.length,
+          equals(GrammarConstants.clozeExercisesPerUnit),
+        );
 
         // Test individual exercises
         for (final ex in unit.exercises) {
@@ -87,8 +96,9 @@ void main() {
           } else if (ex.type == GrammarExerciseType.errorId) {
             expect(ex.options, equals(GrammarConstants.errorIdOptionLabels));
             expect(
-                GrammarConstants.errorIdOptionLabels.contains(ex.correctAnswer),
-                isTrue);
+              GrammarConstants.errorIdOptionLabels.contains(ex.correctAnswer),
+              isTrue,
+            );
           } else if (ex.type == GrammarExerciseType.cloze) {
             expect(ex.options, isEmpty);
           }
@@ -106,8 +116,10 @@ void main() {
       expect(level1.length, equals(GrammarConstants.level1UnitCount));
       expect(level2.length, equals(GrammarConstants.level2UnitCount));
       expect(level3.length, equals(GrammarConstants.level3UnitCount));
-      expect(level1.length + level2.length + level3.length,
-          equals(GrammarConstants.totalUnits));
+      expect(
+        level1.length + level2.length + level3.length,
+        equals(GrammarConstants.totalUnits),
+      );
 
       final categories = service.getCategories();
       expect(categories, isNotEmpty);
@@ -118,21 +130,27 @@ void main() {
     });
 
     test('Get single unit by unitId', () async {
-      final unit01 = await service
-          .getUnit('unit-01-present-simple-vs-continuous', bundle: testBundle);
+      final unit01 = await service.getUnit(
+        'unit-01-present-simple-vs-continuous',
+        bundle: testBundle,
+      );
       expect(unit01, isNotNull);
       expect(unit01!.category, equals(GrammarCategory.tenses));
       expect(unit01.level, equals(GrammarLevel.foundation));
       expect(unit01.extraGuides.containsKey('stativeVerbsGuide'), isTrue);
 
-      final nonExistent =
-          await service.getUnit('non-existent-unit', bundle: testBundle);
+      final nonExistent = await service.getUnit(
+        'non-existent-unit',
+        bundle: testBundle,
+      );
       expect(nonExistent, isNull);
     });
 
     test('Json roundtrip serialization for GrammarUnit', () async {
-      final unit = await service.getUnit('unit-01-present-simple-vs-continuous',
-          bundle: testBundle);
+      final unit = await service.getUnit(
+        'unit-01-present-simple-vs-continuous',
+        bundle: testBundle,
+      );
       expect(unit, isNotNull);
 
       final json = unit!.toJson();

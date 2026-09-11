@@ -116,8 +116,11 @@ class ExplanationSheet extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8, bottom: 6),
               child: Row(
                 children: [
-                  const Icon(LucideIcons.shieldAlert,
-                      size: 15, color: Colors.orange),
+                  const Icon(
+                    LucideIcons.shieldAlert,
+                    size: 15,
+                    color: Colors.orange,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     l10n.grammarSectionDistractors,
@@ -182,9 +185,7 @@ class ExplanationSheet extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                    ).copyWith(
-                      color: isCorrect ? Colors.green : Colors.red,
-                    ),
+                    ).copyWith(color: isCorrect ? Colors.green : Colors.red),
                   ),
                 ),
               ],
@@ -208,7 +209,9 @@ class ExplanationSheet extends StatelessWidget {
                           ? l10n.grammarViewResults
                           : l10n.grammarNextQuestion,
                       style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Icon(
@@ -276,7 +279,9 @@ class ExplanationSheet extends StatelessWidget {
   }
 
   (String badgeText, String? detailText) _parseDistractorKey(
-      String rawKey, AppLocalizations l10n) {
+    String rawKey,
+    AppLocalizations l10n,
+  ) {
     final match = RegExp(
       r'^(?:option\s*)?([A-D])(?:\s*[:(]\s*(.*?)[)]?)?$',
       caseSensitive: false,
@@ -286,7 +291,7 @@ class ExplanationSheet extends StatelessWidget {
       final detail = match.group(2)?.trim();
       return (
         l10n.grammarOptionBadge(letter),
-        detail != null && detail.isNotEmpty ? detail : null
+        detail != null && detail.isNotEmpty ? detail : null,
       );
     }
     return (rawKey, null);
@@ -350,8 +355,9 @@ class ExplanationSheet extends StatelessWidget {
                       fontSize: 12,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w600,
-                      color:
-                          theme.colorScheme.foreground.withValues(alpha: 0.8),
+                      color: theme.colorScheme.foreground.withValues(
+                        alpha: 0.8,
+                      ),
                     ),
                   ),
                 ),

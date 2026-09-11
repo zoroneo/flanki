@@ -9,11 +9,7 @@ class GrammarUnitCard extends StatelessWidget {
   final GrammarUnit unit;
   final UnitProgressSummary summary;
 
-  const GrammarUnitCard({
-    super.key,
-    required this.unit,
-    required this.summary,
-  });
+  const GrammarUnitCard({super.key, required this.unit, required this.summary});
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +148,8 @@ class GrammarUnitCard extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           l10n.grammarMasteryPercentage(
-              summary.masteryPercentage.toStringAsFixed(0)),
+            summary.masteryPercentage.toStringAsFixed(0),
+          ),
           style: theme.typography.xSmall.copyWith(
             fontWeight: FontWeight.bold,
             color: summary.isMastered

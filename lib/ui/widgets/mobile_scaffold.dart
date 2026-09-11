@@ -33,11 +33,7 @@ class MobileScaffold extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final decks = ref.watch(deckListProvider);
-    final authState = ref.watch(authNotifierProvider);
     final l10n = context.l10n;
-
-    final totalDue = decks.fold<int>(0, (sum, deck) => sum + deck.dueCount);
     final currentIndex = navigationShell.currentIndex;
 
     return Scaffold(
@@ -62,13 +58,25 @@ class MobileScaffold extends HookConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _BottomNavItem(
-                      icon: LucideIcons.layers,
-                      activeIcon: LucideIcons.layers2,
-                      label: l10n.navDecks,
-                      isSelected: currentIndex == 0,
-                      badgeCount: totalDue > 0 ? totalDue : null,
-                      onTap: () => _onTap(0, ref),
+                    Consumer(
+                      builder: (context, ref, _) {
+                        final totalDue = ref.watch(
+                          deckListProvider.select(
+                            (decks) => decks.fold<int>(
+                              0,
+                              (sum, d) => sum + d.dueCount,
+                            ),
+                          ),
+                        );
+                        return _BottomNavItem(
+                          icon: LucideIcons.layers,
+                          activeIcon: LucideIcons.layers2,
+                          label: l10n.navDecks,
+                          isSelected: currentIndex == 0,
+                          badgeCount: totalDue > 0 ? totalDue : null,
+                          onTap: () => _onTap(0, ref),
+                        );
+                      },
                     ),
                     _BottomNavItem(
                       icon: LucideIcons.search,
@@ -91,14 +99,22 @@ class MobileScaffold extends HookConsumerWidget {
                       isSelected: currentIndex == 3,
                       onTap: () => _onTap(3, ref),
                     ),
-                    _BottomNavItem(
-                      icon: LucideIcons.settings,
-                      activeIcon: LucideIcons.settings2,
-                      label: l10n.navSettings,
-                      isSelected: currentIndex == 4,
-                      indicatorColor:
-                          authState.isAuthenticated ? m.Colors.green : null,
-                      onTap: () => _onTap(4, ref),
+                    Consumer(
+                      builder: (context, ref, _) {
+                        final isAuthenticated = ref.watch(
+                          authNotifierProvider.select((s) => s.isAuthenticated),
+                        );
+                        return _BottomNavItem(
+                          icon: LucideIcons.settings,
+                          activeIcon: LucideIcons.settings2,
+                          label: l10n.navSettings,
+                          isSelected: currentIndex == 4,
+                          indicatorColor: isAuthenticated
+                              ? m.Colors.green
+                              : null,
+                          onTap: () => _onTap(4, ref),
+                        );
+                      },
                     ),
                   ],
                 ),

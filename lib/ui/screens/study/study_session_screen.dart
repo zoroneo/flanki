@@ -30,10 +30,33 @@ class StudySessionScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final sessionState = ref.watch(studySessionProvider);
+    final currentDeckId = ref.watch(
+      studySessionProvider.select((s) => s.deckId),
+    );
+    final isFinished = ref.watch(
+      studySessionProvider.select((s) => s.isFinished),
+    );
+    final completedCount = ref.watch(
+      studySessionProvider.select((s) => s.completedCount),
+    );
+    final currentCard = ref.watch(
+      studySessionProvider.select((s) => s.currentCard),
+    );
+    final isFlipped = ref.watch(
+      studySessionProvider.select((s) => s.isFlipped),
+    );
+    final canUndo = ref.watch(studySessionProvider.select((s) => s.canUndo));
+    final progress = ref.watch(studySessionProvider.select((s) => s.progress));
+    final remainingCount = ref.watch(
+      studySessionProvider.select(
+        (s) => s.queue.length + (s.currentCard != null ? 1 : 0),
+      ),
+    );
     final sessionNotifier = ref.read(studySessionProvider.notifier);
     final deckNotifier = ref.read(deckListProvider.notifier);
-    final studySettings = ref.watch(studySettingsProvider);
+    final (fsrsEnabled, desiredRetention) = ref.watch(
+      studySettingsProvider.select((s) => (s.fsrsEnabled, s.desiredRetention)),
+    );
 
     useEffect(() {
       Future.microtask(() => sessionNotifier.init(deckId));
@@ -50,19 +73,19 @@ class StudySessionScreen extends HookConsumerWidget {
     useEffect(() {
       userTypedAnswer.value = '';
       return null;
-    }, [sessionState.currentCard?.id]);
+    }, [currentCard?.id]);
 
     useEffect(() {
-      if (sessionState.isFlipped) {
+      if (isFlipped) {
         flipController.forward();
       } else {
         flipController.reverse();
       }
       return null;
-    }, [sessionState.isFlipped]);
+    }, [isFlipped]);
 
     useEffect(() {
-      if (sessionState.isFinished && sessionState.completedCount > 0) {
+      if (isFinished && completedCount > 0) {
         Future.microtask(() {
           if (!context.mounted) return;
           SyncFlowCoordinator.runAutoSync(
@@ -73,10 +96,10 @@ class StudySessionScreen extends HookConsumerWidget {
         });
       }
       return null;
-    }, [sessionState.isFinished]);
+    }, [isFinished]);
 
     void handleFlip() {
-      if (!sessionState.isFlipped) {
+      if (!isFlipped) {
         HapticFeedback.lightImpact();
         sessionNotifier.flip();
       }
@@ -113,7 +136,7 @@ class StudySessionScreen extends HookConsumerWidget {
     }
 
     void openCardActions() {
-      final card = sessionState.currentCard;
+      final card = currentCard;
       if (card == null) return;
 
       CardActionSheet.show(
@@ -127,23 +150,25 @@ class StudySessionScreen extends HookConsumerWidget {
       );
     }
 
-    if (sessionState.deckId != deckId) {
+    if (currentDeckId != deckId) {
       return const Scaffold(child: Center(child: CircularProgressIndicator()));
     }
 
-    if (sessionState.isFinished) {
+    if (isFinished) {
       return _buildFinishedState(
-          context, l10n, theme, sessionNotifier, sessionState.completedCount);
+        context,
+        l10n,
+        theme,
+        sessionNotifier,
+        completedCount,
+      );
     }
 
-    final currentCard = sessionState.currentCard;
     final intervals = useMemoized(
       () {
         if (currentCard == null) return <ReviewRating, String>{};
-        if (studySettings.fsrsEnabled) {
-          final engine = FsrsEngineService(
-            desiredRetention: studySettings.desiredRetention,
-          );
+        if (fsrsEnabled) {
+          final engine = FsrsEngineService(desiredRetention: desiredRetention);
           return engine.previewIntervals(currentCard, l10n: l10n);
         } else {
           const engine = Sm2EngineService();
@@ -156,48 +181,48 @@ class StudySessionScreen extends HookConsumerWidget {
         currentCard?.difficulty,
         currentCard?.reps,
         currentCard?.intervalDays,
-        studySettings.fsrsEnabled,
-        studySettings.desiredRetention,
+        fsrsEnabled,
+        desiredRetention,
         l10n,
       ],
     );
 
     final shortcuts = <ShortcutActivator, VoidCallback>{
       const SingleActivator(LogicalKeyboardKey.space): () {
-        sessionState.isFlipped ? handleRate(ReviewRating.good) : handleFlip();
+        isFlipped ? handleRate(ReviewRating.good) : handleFlip();
       },
       const SingleActivator(LogicalKeyboardKey.enter): () {
-        sessionState.isFlipped ? handleRate(ReviewRating.good) : handleFlip();
+        isFlipped ? handleRate(ReviewRating.good) : handleFlip();
       },
       const SingleActivator(LogicalKeyboardKey.digit1): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.again);
+        if (isFlipped) handleRate(ReviewRating.again);
       },
       const SingleActivator(LogicalKeyboardKey.numpad1): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.again);
+        if (isFlipped) handleRate(ReviewRating.again);
       },
       const SingleActivator(LogicalKeyboardKey.digit2): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.hard);
+        if (isFlipped) handleRate(ReviewRating.hard);
       },
       const SingleActivator(LogicalKeyboardKey.numpad2): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.hard);
+        if (isFlipped) handleRate(ReviewRating.hard);
       },
       const SingleActivator(LogicalKeyboardKey.digit3): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.good);
+        if (isFlipped) handleRate(ReviewRating.good);
       },
       const SingleActivator(LogicalKeyboardKey.numpad3): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.good);
+        if (isFlipped) handleRate(ReviewRating.good);
       },
       const SingleActivator(LogicalKeyboardKey.digit4): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.easy);
+        if (isFlipped) handleRate(ReviewRating.easy);
       },
       const SingleActivator(LogicalKeyboardKey.numpad4): () {
-        if (sessionState.isFlipped) handleRate(ReviewRating.easy);
+        if (isFlipped) handleRate(ReviewRating.easy);
       },
       const SingleActivator(LogicalKeyboardKey.keyZ, control: true): () {
-        if (sessionState.canUndo) handleUndo();
+        if (canUndo) handleUndo();
       },
       const SingleActivator(LogicalKeyboardKey.keyZ): () {
-        if (sessionState.canUndo) handleUndo();
+        if (canUndo) handleUndo();
       },
       const SingleActivator(LogicalKeyboardKey.escape): () => context.pop(),
     };
@@ -230,9 +255,8 @@ class StudySessionScreen extends HookConsumerWidget {
                   theme: theme,
                   l10n: l10n,
                   currentCard: currentCard,
-                  remainingCount:
-                      sessionState.queue.length + (currentCard != null ? 1 : 0),
-                  canUndo: sessionState.canUndo,
+                  remainingCount: remainingCount,
+                  canUndo: canUndo,
                   isWhiteboardOpen: isWhiteboardOpen.value,
                   onUndo: handleUndo,
                   onToggleWhiteboard: () =>
@@ -244,18 +268,16 @@ class StudySessionScreen extends HookConsumerWidget {
                 children: [
                   Column(
                     children: [
-                      Progress(progress: sessionState.progress),
+                      Progress(progress: progress),
                       Expanded(
                         child: GestureDetector(
                           onHorizontalDragUpdate: (details) {
-                            if (sessionState.isFlipped &&
-                                !isWhiteboardOpen.value) {
+                            if (isFlipped && !isWhiteboardOpen.value) {
                               dragOffset.value += details.primaryDelta ?? 0;
                             }
                           },
                           onHorizontalDragEnd: (details) {
-                            if (sessionState.isFlipped &&
-                                !isWhiteboardOpen.value) {
+                            if (isFlipped && !isWhiteboardOpen.value) {
                               if (dragOffset.value < -80) {
                                 handleRate(ReviewRating.again);
                               } else if (dragOffset.value > 80) {
@@ -277,7 +299,7 @@ class StudySessionScreen extends HookConsumerWidget {
                         ),
                       ),
                       _buildBottomActionArea(
-                        isFlipped: sessionState.isFlipped,
+                        isFlipped: isFlipped,
                         isMobile: isMobile,
                         intervals: intervals,
                         onRate: handleRate,
@@ -340,8 +362,9 @@ class StudySessionScreen extends HookConsumerWidget {
               const SizedBox(height: 24),
               Text(
                 l10n.studyCompleteTitle,
-                style:
-                    theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
+                style: theme.typography.h2.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
@@ -402,7 +425,8 @@ class StudySessionScreen extends HookConsumerWidget {
               width: 8,
               height: 8,
               decoration: BoxDecoration(
-                color: CardActionSheet.ankiFlagColors[currentCard.flag] ??
+                color:
+                    CardActionSheet.ankiFlagColors[currentCard.flag] ??
                     m.Colors.grey,
                 shape: BoxShape.circle,
               ),

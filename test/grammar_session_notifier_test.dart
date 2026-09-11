@@ -53,9 +53,7 @@ void main() {
       expect(GrammarAnswerEvaluator.isCorrect(ex, 'A'), isFalse);
     });
 
-    test(
-        'Evaluates Cloze with advanced normalization (case, spaces, quotes, punctuation)',
-        () {
+    test('Evaluates Cloze with advanced normalization (case, spaces, quotes, punctuation)', () {
       const ex = GrammarExercise(
         id: 'ex_11',
         type: GrammarExerciseType.cloze,
@@ -76,8 +74,10 @@ void main() {
       // Case insensitive
       expect(GrammarAnswerEvaluator.isCorrect(ex, "Haven't Arrived"), isTrue);
       // Extra spaces & trailing period
-      expect(GrammarAnswerEvaluator.isCorrect(ex, "  haven't   arrived. "),
-          isTrue);
+      expect(
+        GrammarAnswerEvaluator.isCorrect(ex, "  haven't   arrived. "),
+        isTrue,
+      );
       // Curly quote
       expect(GrammarAnswerEvaluator.isCorrect(ex, "haven’t arrived"), isTrue);
       // Wrong answer
@@ -119,9 +119,7 @@ void main() {
       await repo.init();
 
       container = ProviderContainer(
-        overrides: [
-          grammarRepositoryProvider.overrideWithValue(repo),
-        ],
+        overrides: [grammarRepositoryProvider.overrideWithValue(repo)],
       );
       notifier = container.read(grammarSessionNotifierProvider.notifier);
 
@@ -182,69 +180,73 @@ void main() {
       expect(notifier.state.progressFraction, equals(0.0));
     });
 
-    test('Submits correct answer, advances FSRS and moves to next question',
-        () async {
-      notifier.startUnitSession(sampleUnit);
+    test(
+      'Submits correct answer, advances FSRS and moves to next question',
+      () async {
+        notifier.startUnitSession(sampleUnit);
 
-      notifier.selectAnswer('A');
-      final isRight = await notifier.submitAnswer();
+        notifier.selectAnswer('A');
+        final isRight = await notifier.submitAnswer();
 
-      expect(isRight, isTrue);
-      expect(notifier.state.isSubmitted, isTrue);
-      expect(notifier.state.isCurrentCorrect, isTrue);
-      expect(notifier.state.ghostChallengeQueue, isEmpty);
+        expect(isRight, isTrue);
+        expect(notifier.state.isSubmitted, isTrue);
+        expect(notifier.state.isCurrentCorrect, isTrue);
+        expect(notifier.state.ghostChallengeQueue, isEmpty);
 
-      // Check SQLite FSRS record
-      final progress = repo.getProgress('unit-test', 'ex_01');
-      expect(progress, isNotNull);
-      expect(progress!.isCompleted, isTrue);
-      expect(progress.isGhost, isFalse);
-      expect(progress.stability, greaterThan(0.0));
+        // Check SQLite FSRS record
+        final progress = repo.getProgress('unit-test', 'ex_01');
+        expect(progress, isNotNull);
+        expect(progress!.isCompleted, isTrue);
+        expect(progress.isGhost, isFalse);
+        expect(progress.stability, greaterThan(0.0));
 
-      // Advance
-      notifier.nextQuestion();
-      expect(notifier.state.currentIndex, equals(1));
-      expect(notifier.state.currentExercise?.id, equals('ex_02'));
-      expect(notifier.state.isSubmitted, isFalse);
-      expect(notifier.state.selectedAnswer, isNull);
-    });
+        // Advance
+        notifier.nextQuestion();
+        expect(notifier.state.currentIndex, equals(1));
+        expect(notifier.state.currentExercise?.id, equals('ex_02'));
+        expect(notifier.state.isSubmitted, isFalse);
+        expect(notifier.state.selectedAnswer, isNull);
+      },
+    );
 
-    test('Submits incorrect answer, flags Ghost and activates Ghost Challenge',
-        () async {
-      notifier.startUnitSession(sampleUnit);
+    test(
+      'Submits incorrect answer, flags Ghost and activates Ghost Challenge',
+      () async {
+        notifier.startUnitSession(sampleUnit);
 
-      // Q1: Answer wrongly ('B' instead of 'A')
-      notifier.selectAnswer('B');
-      final isRight1 = await notifier.submitAnswer();
-      expect(isRight1, isFalse);
-      expect(notifier.state.isCurrentCorrect, isFalse);
-      expect(notifier.state.ghostChallengeQueue.length, equals(1));
+        // Q1: Answer wrongly ('B' instead of 'A')
+        notifier.selectAnswer('B');
+        final isRight1 = await notifier.submitAnswer();
+        expect(isRight1, isFalse);
+        expect(notifier.state.isCurrentCorrect, isFalse);
+        expect(notifier.state.ghostChallengeQueue.length, equals(1));
 
-      // Check SQLite Ghost flag
-      final progress1 = repo.getProgress('unit-test', 'ex_01');
-      expect(progress1, isNotNull);
-      expect(progress1!.isGhost, isTrue);
-      expect(progress1.lapses, equals(1));
+        // Check SQLite Ghost flag
+        final progress1 = repo.getProgress('unit-test', 'ex_01');
+        expect(progress1, isNotNull);
+        expect(progress1!.isGhost, isTrue);
+        expect(progress1.lapses, equals(1));
 
-      // Next to Q2
-      notifier.nextQuestion();
-      expect(notifier.state.isLastQuestion, isTrue);
+        // Next to Q2
+        notifier.nextQuestion();
+        expect(notifier.state.isLastQuestion, isTrue);
 
-      // Q2: Answer correctly
-      notifier.selectAnswer('B');
-      await notifier.submitAnswer();
+        // Q2: Answer correctly
+        notifier.selectAnswer('B');
+        await notifier.submitAnswer();
 
-      // Finish session
-      notifier.nextQuestion();
-      expect(notifier.state.isFinished, isTrue);
-      expect(notifier.state.correctCount, equals(1));
+        // Finish session
+        notifier.nextQuestion();
+        expect(notifier.state.isFinished, isTrue);
+        expect(notifier.state.correctCount, equals(1));
 
-      // Trigger Ghost Challenge for the failed question (Q1)
-      notifier.startGhostChallenge();
-      expect(notifier.state.isGhostChallenge, isTrue);
-      expect(notifier.state.exercises.length, equals(1));
-      expect(notifier.state.currentExercise?.id, equals('ex_01'));
-      expect(notifier.state.currentIndex, equals(0));
-    });
+        // Trigger Ghost Challenge for the failed question (Q1)
+        notifier.startGhostChallenge();
+        expect(notifier.state.isGhostChallenge, isTrue);
+        expect(notifier.state.exercises.length, equals(1));
+        expect(notifier.state.currentExercise?.id, equals('ex_01'));
+        expect(notifier.state.currentIndex, equals(0));
+      },
+    );
   });
 }

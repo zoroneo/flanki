@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
 import '../../core/extensions/responsive_extensions.dart';
 
 /// Shows an adaptive modal:

@@ -67,8 +67,9 @@ class GrammarUnit {
         if (item is Map<String, dynamic>) {
           exercisesList.add(GrammarExercise.fromJson(item));
         } else if (item is Map) {
-          exercisesList
-              .add(GrammarExercise.fromJson(Map<String, dynamic>.from(item)));
+          exercisesList.add(
+            GrammarExercise.fromJson(Map<String, dynamic>.from(item)),
+          );
         }
       }
     }
@@ -105,14 +106,14 @@ class GrammarUnit {
   }
 
   Map<String, dynamic> toJson() => {
-        'unitId': unitId,
-        'title': title,
-        'category': category.code,
-        'level': level.value,
-        'coreConcept': coreConcept,
-        'formulas': formulas,
-        'commonTraps': commonTraps.map((e) => e.toJson()).toList(),
-        'exercises': exercises.map((e) => e.toJson()).toList(),
-        ...extraGuides,
-      };
+    'unitId': unitId,
+    'title': title,
+    'category': category.code,
+    'level': level.value,
+    'coreConcept': coreConcept,
+    'formulas': formulas,
+    'commonTraps': commonTraps.map((e) => e.toJson()).toList(),
+    'exercises': exercises.map((e) => e.toJson()).toList(),
+    ...extraGuides,
+  };
 }

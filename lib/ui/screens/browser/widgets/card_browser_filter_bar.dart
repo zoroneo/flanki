@@ -20,8 +20,9 @@ class FilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color:
-              isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.muted,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

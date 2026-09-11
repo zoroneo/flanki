@@ -170,15 +170,17 @@ class AnkiWebSyncService {
     AnkiWebMediaSyncService? mediaSyncService,
     SyncProgressMessages? messages,
     AppLocalizations? l10n,
-  })  : _client = client ?? http.Client(),
-        _config = config ?? const AnkiWebConfig(),
-        _l10n = l10n,
-        _messages = messages ??
-            (l10n != null
-                ? SyncProgressMessages.fromL10n(l10n)
-                : const SyncProgressMessages()),
-        _mediaSyncService = mediaSyncService ??
-            AnkiWebMediaSyncService(client: client, config: config, l10n: l10n);
+  }) : _client = client ?? http.Client(),
+       _config = config ?? const AnkiWebConfig(),
+       _l10n = l10n,
+       _messages =
+           messages ??
+           (l10n != null
+               ? SyncProgressMessages.fromL10n(l10n)
+               : const SyncProgressMessages()),
+       _mediaSyncService =
+           mediaSyncService ??
+           AnkiWebMediaSyncService(client: client, config: config, l10n: l10n);
 
   AppLocalizations get l10n => _l10n ?? AppConfig.getL10n();
 
@@ -219,8 +221,9 @@ class AnkiWebSyncService {
         'v': AnkiWebConfig.protocolVersion,
         'cv': _config.effectiveClientVersion,
       });
-      final metaStreamed =
-          await _client.send(metaReq).timeout(_config.effectiveMetaTimeout);
+      final metaStreamed = await _client
+          .send(metaReq)
+          .timeout(_config.effectiveMetaTimeout);
       final metaResponse = await http.Response.fromStream(metaStreamed);
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
@@ -280,8 +283,9 @@ class AnkiWebSyncService {
         }
 
         onProgress?.call(_messages.uploadComplete, 1.0);
-        final mediaMsg =
-            mediaCount > 0 ? l10n.syncMediaCountPart(mediaCount) : '';
+        final mediaMsg = mediaCount > 0
+            ? l10n.syncMediaCountPart(mediaCount)
+            : '';
         return AnkiWebSyncResult.ok(
           message: l10n.syncSuccessWithMedia(
             importResult.decks.length,
@@ -358,8 +362,9 @@ class AnkiWebSyncService {
         'v': AnkiWebConfig.protocolVersion,
         'cv': _config.effectiveClientVersion,
       });
-      final metaStreamed =
-          await _client.send(metaReq).timeout(_config.effectiveMetaTimeout);
+      final metaStreamed = await _client
+          .send(metaReq)
+          .timeout(_config.effectiveMetaTimeout);
       final metaResponse = await http.Response.fromStream(metaStreamed);
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
@@ -377,7 +382,8 @@ class AnkiWebSyncService {
       DateTime? serverMod;
       try {
         final decoded = jsonDecode(metaResponse.body);
-        final Map<String, dynamic> data = (decoded is Map<String, dynamic> &&
+        final Map<String, dynamic> data =
+            (decoded is Map<String, dynamic> &&
                 decoded['data'] is Map<String, dynamic>)
             ? decoded['data'] as Map<String, dynamic>
             : (decoded is Map<String, dynamic> ? decoded : {});
@@ -404,7 +410,8 @@ class AnkiWebSyncService {
         );
       }
 
-      final isServerNewer = serverMod != null &&
+      final isServerNewer =
+          serverMod != null &&
           serverMod.isAfter(lastSyncTime.add(const Duration(seconds: 2)));
 
       if (isServerNewer && hasLocalChanges) {
@@ -473,8 +480,9 @@ class AnkiWebSyncService {
       );
 
       onProgress?.call(_messages.uploadingCloud, 0.6);
-      final streamed =
-          await _client.send(uploadReq).timeout(_config.effectiveUploadTimeout);
+      final streamed = await _client
+          .send(uploadReq)
+          .timeout(_config.effectiveUploadTimeout);
       final response = await http.Response.fromStream(streamed);
 
       if (response.statusCode == 200) {

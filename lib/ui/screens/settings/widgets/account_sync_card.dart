@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' as m;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/auth/auth_notifier.dart';
@@ -6,22 +7,20 @@ import '../../../../core/auth/auth_state.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../auth/anki_web_auth_sheet.dart';
 
-class AccountSyncCard extends StatelessWidget {
-  final AuthState authState;
-  final AuthNotifier authNotifier;
+class AccountSyncCard extends ConsumerWidget {
   final ValueNotifier<bool> isSyncing;
   final Future<void> Function() onSync;
 
   const AccountSyncCard({
     super.key,
-    required this.authState,
-    required this.authNotifier,
     required this.isSyncing,
     required this.onSync,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authNotifierProvider);
+    final authNotifier = ref.read(authNotifierProvider.notifier);
     final theme = Theme.of(context);
     final l10n = context.l10n;
 
@@ -40,11 +39,11 @@ class AccountSyncCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAccountStatusHeader(theme, l10n),
+              _buildAccountStatusHeader(theme, l10n, authState),
               const SizedBox(height: 16),
               const Divider(),
               const SizedBox(height: 12),
-              _buildActionsRow(context, theme, l10n),
+              _buildActionsRow(context, theme, l10n, authState, authNotifier),
             ],
           ),
         ),
@@ -52,7 +51,11 @@ class AccountSyncCard extends StatelessWidget {
     );
   }
 
-  Widget _buildAccountStatusHeader(ThemeData theme, dynamic l10n) {
+  Widget _buildAccountStatusHeader(
+    ThemeData theme,
+    dynamic l10n,
+    AuthState authState,
+  ) {
     return Row(
       children: [
         Container(
@@ -90,10 +93,10 @@ class AccountSyncCard extends StatelessWidget {
               Text(
                 authState.isAuthenticated
                     ? (authState.lastSyncedAt != null
-                        ? l10n.syncedAt(
-                            '${authState.lastSyncedAt!.hour.toString().padLeft(2, '0')}:${authState.lastSyncedAt!.minute.toString().padLeft(2, '0')}',
-                          )
-                        : l10n.readyToSync)
+                          ? l10n.syncedAt(
+                              '${authState.lastSyncedAt!.hour.toString().padLeft(2, '0')}:${authState.lastSyncedAt!.minute.toString().padLeft(2, '0')}',
+                            )
+                          : l10n.readyToSync)
                     : l10n.loginToSyncHint,
                 style: theme.typography.xSmall.copyWith(
                   color: theme.colorScheme.mutedForeground,
@@ -110,6 +113,8 @@ class AccountSyncCard extends StatelessWidget {
     BuildContext context,
     ThemeData theme,
     dynamic l10n,
+    AuthState authState,
+    AuthNotifier authNotifier,
   ) {
     if (authState.isAuthenticated) {
       return SizedBox(
@@ -202,10 +207,7 @@ class AccountSyncCard extends StatelessWidget {
           children: [
             const Icon(LucideIcons.logIn, size: 16),
             const SizedBox(width: 8),
-            Text(
-              l10n.connectAnkiWeb,
-              overflow: TextOverflow.visible,
-            ),
+            Text(l10n.connectAnkiWeb, overflow: TextOverflow.visible),
           ],
         ),
       ),

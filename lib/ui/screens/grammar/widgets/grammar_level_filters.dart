@@ -49,11 +49,7 @@ class GrammarLevelFilters extends StatelessWidget {
       );
     }
 
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: chips,
-    );
+    return Wrap(spacing: 8, runSpacing: 8, children: chips);
   }
 }
 

@@ -51,24 +51,24 @@ void main() {
   });
 
   testWidgets(
-      'Tablet layout renders navigation rail when 600px <= width < 1024px', (
-    WidgetTester tester,
-  ) async {
-    tester.view.physicalSize = const Size(768, 1024);
-    tester.view.devicePixelRatio = 1.0;
-    addTearDown(() {
-      tester.view.resetPhysicalSize();
-      tester.view.resetDevicePixelRatio();
-    });
+    'Tablet layout renders navigation rail when 600px <= width < 1024px',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(768, 1024);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-    await tester.pumpWidget(const ProviderScope(child: FlankiApp()));
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(const ProviderScope(child: FlankiApp()));
+      await tester.pumpAndSettle();
 
-    // Tablet view shows vertical divider between rail and content
-    expect(find.byType(VerticalDivider), findsOneWidget);
-    // Tablet rail has compact brand icon and does NOT show desktop subtitle
-    expect(find.text('Desktop • Zinc'), findsNothing);
-  });
+      // Tablet view shows vertical divider between rail and content
+      expect(find.byType(VerticalDivider), findsOneWidget);
+      // Tablet rail has compact brand icon and does NOT show desktop subtitle
+      expect(find.text('Desktop • Zinc'), findsNothing);
+    },
+  );
 
   testWidgets(
     'Mobile layout hides sidebar/rail and renders bottom nav when width < 600px',

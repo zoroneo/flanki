@@ -22,15 +22,23 @@ class CardBrowserScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final browserState = ref.watch(cardBrowserProvider);
+    final filteredCards = ref.watch(
+      cardBrowserProvider.select((s) => s.filteredCards),
+    );
+    final filterType = ref.watch(
+      cardBrowserProvider.select((s) => s.filterType),
+    );
+    final searchQuery = ref.watch(
+      cardBrowserProvider.select((s) => s.searchQuery),
+    );
+    final selectedDeckId = ref.watch(
+      cardBrowserProvider.select((s) => s.selectedDeckId),
+    );
     final browserNotifier = ref.read(cardBrowserProvider.notifier);
     final decks = ref.watch(deckListProvider);
     final deckMap = {for (final d in decks) d.id: d.title};
 
-    final searchController = useTextEditingController(
-      text: browserState.searchQuery,
-    );
-    final filteredCards = browserState.filteredCards;
+    final searchController = useTextEditingController(text: searchQuery);
 
     // Desktop selected card ID state
     final selectedCardId = useState<String?>(null);
@@ -47,17 +55,10 @@ class CardBrowserScreen extends HookConsumerWidget {
     const pageSize = 30;
     final displayedCount = useState(pageSize);
 
-    useEffect(
-      () {
-        displayedCount.value = pageSize;
-        return null;
-      },
-      [
-        browserState.searchQuery,
-        browserState.filterType,
-        browserState.selectedDeckId,
-      ],
-    );
+    useEffect(() {
+      displayedCount.value = pageSize;
+      return null;
+    }, [searchQuery, filterType, selectedDeckId]);
 
     final visibleCount = math.min(displayedCount.value, filteredCards.length);
     final hasMore = visibleCount < filteredCards.length;
@@ -83,7 +84,7 @@ class CardBrowserScreen extends HookConsumerWidget {
         context: context,
         theme: theme,
         l10n: l10n,
-        browserState: browserState,
+        filterType: filterType,
         browserNotifier: browserNotifier,
         decks: decks,
         deckMap: deckMap,
@@ -95,7 +96,7 @@ class CardBrowserScreen extends HookConsumerWidget {
         context: context,
         theme: theme,
         l10n: l10n,
-        browserState: browserState,
+        filterType: filterType,
         browserNotifier: browserNotifier,
         decks: decks,
         deckMap: deckMap,
@@ -114,7 +115,7 @@ class CardBrowserScreen extends HookConsumerWidget {
     required BuildContext context,
     required ThemeData theme,
     required dynamic l10n,
-    required CardBrowserState browserState,
+    required CardFilterType filterType,
     required CardBrowserNotifier browserNotifier,
     required List<dynamic> decks,
     required Map<String, String> deckMap,
@@ -123,9 +124,9 @@ class CardBrowserScreen extends HookConsumerWidget {
     required TextEditingController searchController,
   }) {
     final currentSelectedCard = filteredCards.cast<CardModel?>().firstWhere(
-          (c) => c?.id == selectedCardId.value,
-          orElse: () => filteredCards.isNotEmpty ? filteredCards.first : null,
-        );
+      (c) => c?.id == selectedCardId.value,
+      orElse: () => filteredCards.isNotEmpty ? filteredCards.first : null,
+    );
 
     return Scaffold(
       child: Row(
@@ -136,9 +137,20 @@ class CardBrowserScreen extends HookConsumerWidget {
             child: Column(
               children: [
                 _buildDesktopSearchBar(
-                    context, theme, l10n, searchController, browserNotifier),
+                  context,
+                  theme,
+                  l10n,
+                  searchController,
+                  browserNotifier,
+                ),
                 _buildDesktopFilterBar(
-                    context, theme, l10n, browserState, browserNotifier, decks),
+                  context,
+                  theme,
+                  l10n,
+                  filterType,
+                  browserNotifier,
+                  decks,
+                ),
                 const Divider(height: 1),
                 _buildDesktopHeaderCount(theme, l10n, filteredCards.length),
                 Expanded(
@@ -215,7 +227,7 @@ class CardBrowserScreen extends HookConsumerWidget {
     BuildContext context,
     ThemeData theme,
     dynamic l10n,
-    CardBrowserState browserState,
+    CardFilterType filterType,
     CardBrowserNotifier browserNotifier,
     List<dynamic> decks,
   ) {
@@ -227,33 +239,33 @@ class CardBrowserScreen extends HookConsumerWidget {
           children: [
             FilterChip(
               label: l10n.filterAll,
-              isSelected: browserState.filterType == CardFilterType.all,
+              isSelected: filterType == CardFilterType.all,
               onTap: () => browserNotifier.setFilterType(CardFilterType.all),
             ),
             const SizedBox(width: 6),
             FilterChip(
               label: l10n.filterDue,
-              isSelected: browserState.filterType == CardFilterType.due,
+              isSelected: filterType == CardFilterType.due,
               onTap: () => browserNotifier.setFilterType(CardFilterType.due),
             ),
             const SizedBox(width: 6),
             FilterChip(
               label: l10n.filterNew,
-              isSelected: browserState.filterType == CardFilterType.newCard,
+              isSelected: filterType == CardFilterType.newCard,
               onTap: () =>
                   browserNotifier.setFilterType(CardFilterType.newCard),
             ),
             const SizedBox(width: 6),
             FilterChip(
               label: l10n.filterFlagged,
-              isSelected: browserState.filterType == CardFilterType.flagged,
+              isSelected: filterType == CardFilterType.flagged,
               onTap: () =>
                   browserNotifier.setFilterType(CardFilterType.flagged),
             ),
             const SizedBox(width: 6),
             FilterChip(
               label: l10n.filterSuspended,
-              isSelected: browserState.filterType == CardFilterType.suspended,
+              isSelected: filterType == CardFilterType.suspended,
               onTap: () =>
                   browserNotifier.setFilterType(CardFilterType.suspended),
             ),
@@ -340,7 +352,7 @@ class CardBrowserScreen extends HookConsumerWidget {
     required BuildContext context,
     required ThemeData theme,
     required dynamic l10n,
-    required CardBrowserState browserState,
+    required CardFilterType filterType,
     required CardBrowserNotifier browserNotifier,
     required List<dynamic> decks,
     required Map<String, String> deckMap,
@@ -362,12 +374,22 @@ class CardBrowserScreen extends HookConsumerWidget {
                 delegate: SearchHeaderDelegate(
                   topPadding: topPadding,
                   theme: theme,
-                  titleRow:
-                      _buildMobileTitleRow(theme, l10n, filteredCards.length),
+                  titleRow: _buildMobileTitleRow(
+                    theme,
+                    l10n,
+                    filteredCards.length,
+                  ),
                   searchBox: _buildMobileSearchBox(
-                      theme, l10n, searchController, browserNotifier),
+                    theme,
+                    l10n,
+                    searchController,
+                    browserNotifier,
+                  ),
                   filterRow: _buildMobileFilterRow(
-                      l10n, browserState, browserNotifier),
+                    l10n,
+                    filterType,
+                    browserNotifier,
+                  ),
                 ),
               ),
               _buildMobileCardListSliver(
@@ -380,38 +402,17 @@ class CardBrowserScreen extends HookConsumerWidget {
                 theme: theme,
                 l10n: l10n,
               ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 100),
-              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           ),
           Positioned(
             bottom: 24,
             right: 20,
-            child: GestureDetector(
-              onTap: () => context.push('/cards/new'),
-              child: Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.35),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Icon(
-                    LucideIcons.plus,
-                    color: theme.colorScheme.primaryForeground,
-                    size: 26,
-                  ),
-                ),
-              ),
+            child: PrimaryButton(
+              size: ButtonSize.large,
+              leading: const Icon(LucideIcons.plus, size: 20),
+              child: Text(l10n.addCard),
+              onPressed: () => context.push('/cards/new'),
             ),
           ),
         ],
@@ -467,7 +468,7 @@ class CardBrowserScreen extends HookConsumerWidget {
 
   Widget _buildMobileFilterRow(
     dynamic l10n,
-    CardBrowserState browserState,
+    CardFilterType filterType,
     CardBrowserNotifier browserNotifier,
   ) {
     return SingleChildScrollView(
@@ -477,31 +478,31 @@ class CardBrowserScreen extends HookConsumerWidget {
         children: [
           FilterChip(
             label: l10n.filterAll,
-            isSelected: browserState.filterType == CardFilterType.all,
+            isSelected: filterType == CardFilterType.all,
             onTap: () => browserNotifier.setFilterType(CardFilterType.all),
           ),
           const SizedBox(width: 6),
           FilterChip(
             label: l10n.filterDue,
-            isSelected: browserState.filterType == CardFilterType.due,
+            isSelected: filterType == CardFilterType.due,
             onTap: () => browserNotifier.setFilterType(CardFilterType.due),
           ),
           const SizedBox(width: 6),
           FilterChip(
             label: l10n.filterNew,
-            isSelected: browserState.filterType == CardFilterType.newCard,
+            isSelected: filterType == CardFilterType.newCard,
             onTap: () => browserNotifier.setFilterType(CardFilterType.newCard),
           ),
           const SizedBox(width: 6),
           FilterChip(
             label: l10n.filterFlagged,
-            isSelected: browserState.filterType == CardFilterType.flagged,
+            isSelected: filterType == CardFilterType.flagged,
             onTap: () => browserNotifier.setFilterType(CardFilterType.flagged),
           ),
           const SizedBox(width: 6),
           FilterChip(
             label: l10n.filterSuspended,
-            isSelected: browserState.filterType == CardFilterType.suspended,
+            isSelected: filterType == CardFilterType.suspended,
             onTap: () =>
                 browserNotifier.setFilterType(CardFilterType.suspended),
           ),
@@ -547,30 +548,27 @@ class CardBrowserScreen extends HookConsumerWidget {
     return SliverPadding(
       padding: const EdgeInsets.all(16),
       sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            if (index == visibleCount) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(
-                  child: OutlineButton(
-                    child: Text(l10n.loadMoreCards),
-                    onPressed: () => displayedCount.value += 30,
-                  ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          if (index == visibleCount) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Center(
+                child: OutlineButton(
+                  child: Text(l10n.loadMoreCards),
+                  onPressed: () => displayedCount.value += 30,
                 ),
-              );
-            }
-
-            final card = filteredCards[index];
-            return MobileCardRowItem(
-              key: ValueKey('card_${card.id}'),
-              card: card,
-              deckTitle: deckMap[card.deckId],
-              onTap: () => openCardDetail(card),
+              ),
             );
-          },
-          childCount: visibleCount + (hasMore ? 1 : 0),
-        ),
+          }
+
+          final card = filteredCards[index];
+          return MobileCardRowItem(
+            key: ValueKey('card_${card.id}'),
+            card: card,
+            deckTitle: deckMap[card.deckId],
+            onTap: () => openCardDetail(card),
+          );
+        }, childCount: visibleCount + (hasMore ? 1 : 0)),
       ),
     );
   }

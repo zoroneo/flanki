@@ -1,55 +1,46 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import '../config/app_config.dart';
 import '../fsrs/fsrs_engine_service.dart';
 import '../fsrs/sm2_engine_service.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../models/card.dart';
+import '../services/notification_service.dart';
 import '../storage/database_service.dart';
 import 'card_browser_notifier.dart';
 import 'deck_notifier.dart';
 import 'settings_notifier.dart';
 import 'stats_notifier.dart';
-import '../services/notification_service.dart';
 
-class StudySessionSnapshot {
-  final List<CardModel> queue;
-  final CardModel? currentCard;
-  final bool isFlipped;
-  final int completedCount;
-  final bool isFinished;
+part 'study_session_notifier.freezed.dart';
+part 'study_session_notifier.g.dart';
 
-  const StudySessionSnapshot({
-    required this.queue,
-    required this.currentCard,
-    required this.isFlipped,
-    required this.completedCount,
-    required this.isFinished,
-  });
+@freezed
+abstract class StudySessionSnapshot with _$StudySessionSnapshot {
+  const factory StudySessionSnapshot({
+    required List<CardModel> queue,
+    required CardModel? currentCard,
+    required bool isFlipped,
+    required int completedCount,
+    required bool isFinished,
+  }) = _StudySessionSnapshot;
 }
 
-class StudySessionState {
-  final String deckId;
-  final List<CardModel> queue;
-  final CardModel? currentCard;
-  final bool isFlipped;
-  final int completedCount;
-  final int initialCount;
-  final bool isFinished;
-  final List<StudySessionSnapshot> history;
-  final DateTime? cardPresentedAt;
+@freezed
+abstract class StudySessionState with _$StudySessionState {
+  const StudySessionState._();
 
-  const StudySessionState({
-    required this.deckId,
-    required this.queue,
-    this.currentCard,
-    this.isFlipped = false,
-    this.completedCount = 0,
-    this.initialCount = 0,
-    this.isFinished = false,
-    this.history = const [],
-    this.cardPresentedAt,
-  });
+  const factory StudySessionState({
+    required String deckId,
+    required List<CardModel> queue,
+    CardModel? currentCard,
+    @Default(false) bool isFlipped,
+    @Default(0) int completedCount,
+    @Default(0) int initialCount,
+    @Default(false) bool isFinished,
+    @Default([]) List<StudySessionSnapshot> history,
+    DateTime? cardPresentedAt,
+  }) = _StudySessionState;
 
   bool get canUndo => history.isNotEmpty;
 
@@ -105,12 +96,8 @@ class StudySessionState {
       initialCount == 0 ? 1.0 : completedCount / initialCount;
 }
 
-final studySessionProvider =
-    NotifierProvider<StudySessionNotifier, StudySessionState>(
-  StudySessionNotifier.new,
-);
-
-class StudySessionNotifier extends Notifier<StudySessionState> {
+@Riverpod(keepAlive: true, name: 'studySessionProvider')
+class StudySessionNotifier extends _$StudySessionNotifier {
   @override
   StudySessionState build() {
     final settings = ref.watch(studySettingsProvider);

@@ -46,9 +46,7 @@ void main() {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: Scaffold(
-        child: child,
-      ),
+      home: Scaffold(child: child),
     );
   }
 
@@ -63,104 +61,107 @@ void main() {
 
   group('Grammar Question Widgets Tests', () {
     testWidgets(
-        'ChoiceQuestionWidget renders prompt and handles option selection',
-        (tester) async {
-      const ex = GrammarExercise(
-        id: 'ex_01',
-        type: GrammarExerciseType.choice,
-        difficulty: GrammarDifficulty.recognition,
-        prompt: 'He _______ hard every day.',
-        options: ['works', 'is working', 'work', 'worked'],
-        correctAnswer: 'works',
-        explanation: GrammarExplanation(
-          translation: 'Anh ấy làm việc chăm chỉ mỗi ngày.',
-          keySignal: 'every day',
-          rule: 'Hiện tại đơn chỉ thói quen',
-          whyCorrect: 'Chủ ngữ He số ít',
-        ),
-      );
-
-      String? selected;
-
-      await tester.pumpWidget(
-        wrapWithTheme(
-          StatefulBuilder(
-            builder: (context, setState) {
-              return ChoiceQuestionWidget(
-                exercise: ex,
-                selectedAnswer: selected,
-                isSubmitted: false,
-                onSelectAnswer: (val) {
-                  setState(() => selected = val);
-                },
-              );
-            },
+      'ChoiceQuestionWidget renders prompt and handles option selection',
+      (tester) async {
+        const ex = GrammarExercise(
+          id: 'ex_01',
+          type: GrammarExerciseType.choice,
+          difficulty: GrammarDifficulty.recognition,
+          prompt: 'He _______ hard every day.',
+          options: ['works', 'is working', 'work', 'worked'],
+          correctAnswer: 'works',
+          explanation: GrammarExplanation(
+            translation: 'Anh ấy làm việc chăm chỉ mỗi ngày.',
+            keySignal: 'every day',
+            rule: 'Hiện tại đơn chỉ thói quen',
+            whyCorrect: 'Chủ ngữ He số ít',
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
 
-      expect(findRichText('He _______ hard every day.'), findsOneWidget);
-      expect(find.text('works'), findsOneWidget);
-      expect(find.text('is working'), findsOneWidget);
+        String? selected;
 
-      // Tap 'works'
-      await tester.tap(find.text('works'));
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(
+          wrapWithTheme(
+            StatefulBuilder(
+              builder: (context, setState) {
+                return ChoiceQuestionWidget(
+                  exercise: ex,
+                  selectedAnswer: selected,
+                  isSubmitted: false,
+                  onSelectAnswer: (val) {
+                    setState(() => selected = val);
+                  },
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
 
-      expect(selected, equals('works'));
-    });
+        expect(findRichText('He _______ hard every day.'), findsOneWidget);
+        expect(find.text('works'), findsOneWidget);
+        expect(find.text('is working'), findsOneWidget);
+
+        // Tap 'works'
+        await tester.tap(find.text('works'));
+        await tester.pumpAndSettle();
+
+        expect(selected, equals('works'));
+      },
+    );
 
     testWidgets(
-        'ErrorIdQuestionWidget renders interactive tags and handles selection',
-        (tester) async {
-      const ex = GrammarExercise(
-        id: 'ex_06',
-        type: GrammarExerciseType.errorId,
-        difficulty: GrammarDifficulty.analysis,
-        prompt: 'She [A] are [B] reading [C] a [D] book.',
-        options: ['A', 'B', 'C', 'D'],
-        correctAnswer: 'A',
-        explanation: GrammarExplanation(
-          translation: 'Cô ấy đang đọc một cuốn sách.',
-          keySignal: 'Chủ ngữ She',
-          rule: 'Hòa hợp chủ vị',
-          whyCorrect: 'She đi với is, không phải are',
-        ),
-      );
-
-      String? selected;
-
-      await tester.pumpWidget(
-        wrapWithTheme(
-          StatefulBuilder(
-            builder: (context, setState) {
-              return ErrorIdQuestionWidget(
-                exercise: ex,
-                selectedAnswer: selected,
-                isSubmitted: false,
-                onSelectAnswer: (val) {
-                  setState(() => selected = val);
-                },
-              );
-            },
+      'ErrorIdQuestionWidget renders interactive tags and handles selection',
+      (tester) async {
+        const ex = GrammarExercise(
+          id: 'ex_06',
+          type: GrammarExerciseType.errorId,
+          difficulty: GrammarDifficulty.analysis,
+          prompt: 'She [A] are [B] reading [C] a [D] book.',
+          options: ['A', 'B', 'C', 'D'],
+          correctAnswer: 'A',
+          explanation: GrammarExplanation(
+            translation: 'Cô ấy đang đọc một cuốn sách.',
+            keySignal: 'Chủ ngữ She',
+            rule: 'Hòa hợp chủ vị',
+            whyCorrect: 'She đi với is, không phải are',
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
 
-      expect(find.text('[A]'), findsWidgets);
-      expect(find.text('[B]'), findsWidgets);
+        String? selected;
 
-      // Tap [A]
-      await tester.tap(find.text('[A]').last);
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(
+          wrapWithTheme(
+            StatefulBuilder(
+              builder: (context, setState) {
+                return ErrorIdQuestionWidget(
+                  exercise: ex,
+                  selectedAnswer: selected,
+                  isSubmitted: false,
+                  onSelectAnswer: (val) {
+                    setState(() => selected = val);
+                  },
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
 
-      expect(selected, equals('A'));
-    });
+        expect(find.text('[A]'), findsWidgets);
+        expect(find.text('[B]'), findsWidgets);
 
-    testWidgets('ClozeQuestionWidget renders input field and handles typing',
-        (tester) async {
+        // Tap [A]
+        await tester.tap(find.text('[A]').last);
+        await tester.pumpAndSettle();
+
+        expect(selected, equals('A'));
+      },
+    );
+
+    testWidgets('ClozeQuestionWidget renders input field and handles typing', (
+      tester,
+    ) async {
       const ex = GrammarExercise(
         id: 'ex_11',
         type: GrammarExerciseType.cloze,
@@ -198,8 +199,10 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(findRichText('Water ________ (boil) at 100 degrees.'),
-          findsOneWidget);
+      expect(
+        findRichText('Water ________ (boil) at 100 degrees.'),
+        findsOneWidget,
+      );
 
       await tester.enterText(find.byType(TextField), 'boils');
       await tester.pumpAndSettle();
@@ -208,137 +211,137 @@ void main() {
     });
 
     testWidgets(
-        'ExplanationSheet displays translation, signals and distractor breakdowns',
-        (tester) async {
-      const ex = GrammarExercise(
-        id: 'ex_01',
-        type: GrammarExerciseType.choice,
-        difficulty: GrammarDifficulty.recognition,
-        prompt: 'Prompt',
-        options: ['A', 'B'],
-        correctAnswer: 'A',
-        explanation: GrammarExplanation(
-          translation: 'Dịch nghĩa mẫu',
-          keySignal: 'Tín hiệu mẫu',
-          rule: 'Quy tắc mẫu',
-          whyCorrect: 'Lý do đúng',
-          distractorBreakdown: {
-            'Option B': 'Sai vì quá khứ',
+      'ExplanationSheet displays translation, signals and distractor breakdowns',
+      (tester) async {
+        const ex = GrammarExercise(
+          id: 'ex_01',
+          type: GrammarExerciseType.choice,
+          difficulty: GrammarDifficulty.recognition,
+          prompt: 'Prompt',
+          options: ['A', 'B'],
+          correctAnswer: 'A',
+          explanation: GrammarExplanation(
+            translation: 'Dịch nghĩa mẫu',
+            keySignal: 'Tín hiệu mẫu',
+            rule: 'Quy tắc mẫu',
+            whyCorrect: 'Lý do đúng',
+            distractorBreakdown: {'Option B': 'Sai vì quá khứ'},
+          ),
+        );
+
+        bool nextClicked = false;
+
+        await tester.pumpWidget(
+          wrapWithTheme(
+            ExplanationSheet(
+              exercise: ex,
+              isCorrect: true,
+              isLastQuestion: false,
+              onNext: () => nextClicked = true,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
+        expect(findRichText('Dịch nghĩa mẫu'), findsOneWidget);
+        expect(findRichText('Tín hiệu mẫu'), findsOneWidget);
+        expect(findRichText('Quy tắc mẫu'), findsOneWidget);
+        expect(findRichText('Lý do đúng'), findsOneWidget);
+        expect(findRichText('Đáp án B'), findsOneWidget);
+
+        await tester.tap(find.text('Câu Tiếp Theo'));
+        expect(nextClicked, isTrue);
+      },
+    );
+
+    testWidgets(
+      'GrammarTheoryScreen renders rich formatted sections via RichCardContent',
+      (tester) async {
+        const unit = GrammarUnit(
+          unitId: 'test_unit_01',
+          title: 'Present Simple vs Continuous',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept:
+              '<b>Hiện tại đơn</b> diễn tả chân lý:\n- Sự thật hiển nhiên',
+          formulas: {'presentSimple': 'Khẳng định: <code>S + V(s/es)</code>'},
+          commonTraps: [
+            GrammarTrap(
+              trap: 'Bẫy 1: <span style="color: #f59e0b;">Stative verb</span>',
+              exampleWrong: 'I am <b>knowing</b> you.',
+              exampleRight: 'I <b>know</b> you.',
+              note: 'Ghi chú: <span style="color:red">Không chia V-ing</span>',
+            ),
+          ],
+          extraGuides: {
+            'Stative Verbs': 'Các động từ chỉ trạng thái: <i>think, know</i>',
           },
-        ),
-      );
+          exercises: [],
+        );
 
-      bool nextClicked = false;
-
-      await tester.pumpWidget(
-        wrapWithTheme(
-          ExplanationSheet(
-            exercise: ex,
-            isCorrect: true,
-            isLastQuestion: false,
-            onNext: () => nextClicked = true,
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              grammarUnitsProvider.overrideWith((ref) async => [unit]),
+            ],
+            child: wrapWithTheme(
+              const GrammarTheoryScreen(unitId: 'test_unit_01'),
+            ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
-      expect(findRichText('Dịch nghĩa mẫu'), findsOneWidget);
-      expect(findRichText('Tín hiệu mẫu'), findsOneWidget);
-      expect(findRichText('Quy tắc mẫu'), findsOneWidget);
-      expect(findRichText('Lý do đúng'), findsOneWidget);
-      expect(findRichText('Đáp án B'), findsOneWidget);
-
-      await tester.tap(find.text('Câu Tiếp Theo'));
-      expect(nextClicked, isTrue);
-    });
+        expect(find.text('Present Simple vs Continuous'), findsOneWidget);
+        expect(findRichText('Stative verb'), findsOneWidget);
+        expect(find.byType(RichCardContent), findsWidgets);
+      },
+    );
 
     testWidgets(
-        'GrammarTheoryScreen renders rich formatted sections via RichCardContent',
-        (tester) async {
-      const unit = GrammarUnit(
-        unitId: 'test_unit_01',
-        title: 'Present Simple vs Continuous',
-        category: GrammarCategory.tenses,
-        level: GrammarLevel.foundation,
-        coreConcept:
-            '<b>Hiện tại đơn</b> diễn tả chân lý:\n- Sự thật hiển nhiên',
-        formulas: {
-          'presentSimple': 'Khẳng định: <code>S + V(s/es)</code>',
-        },
-        commonTraps: [
-          GrammarTrap(
-            trap: 'Bẫy 1: <span style="color: #f59e0b;">Stative verb</span>',
-            exampleWrong: 'I am <b>knowing</b> you.',
-            exampleRight: 'I <b>know</b> you.',
-            note: 'Ghi chú: <span style="color:red">Không chia V-ing</span>',
+      'GrammarTheoryScreen renders Two-Pane layout and TOC on desktop',
+      (tester) async {
+        tester.view.physicalSize = const Size(1280, 800);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        const unit = GrammarUnit(
+          unitId: 'test_unit_01',
+          title: 'Present Simple vs Continuous',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept: 'Core concept',
+          formulas: {'f1': 'formula 1'},
+          commonTraps: [],
+          extraGuides: {},
+          exercises: [],
+        );
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              grammarUnitsProvider.overrideWith((ref) async => [unit]),
+            ],
+            child: wrapWithTheme(
+              const GrammarTheoryScreen(unitId: 'test_unit_01'),
+            ),
           ),
-        ],
-        extraGuides: {
-          'Stative Verbs': 'Các động từ chỉ trạng thái: <i>think, know</i>',
-        },
-        exercises: [],
-      );
+        );
+        await tester.pumpAndSettle();
 
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            grammarUnitsProvider.overrideWith((ref) async => [unit]),
-          ],
-          child: wrapWithTheme(
-            const GrammarTheoryScreen(unitId: 'test_unit_01'),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        // Desktop shows Table of Contents sidebar
+        expect(find.text('Mục Lục Chuyên Đề'), findsOneWidget);
+        expect(find.text('Tư Duy Bản Xứ Cốt Lõi'), findsWidgets);
+        expect(find.text('Công Thức Cú Pháp (Formulas)'), findsWidgets);
+      },
+    );
 
-      expect(find.text('Present Simple vs Continuous'), findsOneWidget);
-      expect(findRichText('Stative verb'), findsOneWidget);
-      expect(find.byType(RichCardContent), findsWidgets);
-    });
-
-    testWidgets(
-        'GrammarTheoryScreen renders Two-Pane layout and TOC on desktop',
-        (tester) async {
-      tester.view.physicalSize = const Size(1280, 800);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      const unit = GrammarUnit(
-        unitId: 'test_unit_01',
-        title: 'Present Simple vs Continuous',
-        category: GrammarCategory.tenses,
-        level: GrammarLevel.foundation,
-        coreConcept: 'Core concept',
-        formulas: {'f1': 'formula 1'},
-        commonTraps: [],
-        extraGuides: {},
-        exercises: [],
-      );
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            grammarUnitsProvider.overrideWith((ref) async => [unit]),
-          ],
-          child: wrapWithTheme(
-            const GrammarTheoryScreen(unitId: 'test_unit_01'),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // Desktop shows Table of Contents sidebar
-      expect(find.text('Mục Lục Chuyên Đề'), findsOneWidget);
-      expect(find.text('Tư Duy Bản Xứ Cốt Lõi'), findsWidgets);
-      expect(find.text('Công Thức Cú Pháp (Formulas)'), findsWidgets);
-    });
-
-    testWidgets('GrammarTheoryScreen renders Sticky Bottom CTA on mobile',
-        (tester) async {
+    testWidgets('GrammarTheoryScreen renders Sticky Bottom CTA on mobile', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -377,51 +380,54 @@ void main() {
     });
 
     testWidgets(
-        'GrammarCatalogScreen renders 3-column grid and wrap filter on desktop',
-        (tester) async {
-      tester.view.physicalSize = const Size(1280, 800);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
+      'GrammarCatalogScreen renders 3-column grid and wrap filter on desktop',
+      (tester) async {
+        tester.view.physicalSize = const Size(1280, 800);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
 
-      const unit = GrammarUnit(
-        unitId: 'u1',
-        title: 'Present Simple',
-        category: GrammarCategory.tenses,
-        level: GrammarLevel.foundation,
-        coreConcept: 'Core',
-        formulas: {},
-        commonTraps: [],
-        exercises: [],
-      );
+        const unit = GrammarUnit(
+          unitId: 'u1',
+          title: 'Present Simple',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept: 'Core',
+          formulas: {},
+          commonTraps: [],
+          exercises: [],
+        );
 
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            grammarUnitsProvider.overrideWith((ref) async => [unit]),
-            grammarRepositoryProvider.overrideWithValue(repo),
-          ],
-          child: wrapWithTheme(const GrammarCatalogScreen()),
-        ),
-      );
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarRepositoryProvider.overrideWithValue(repo),
+            ],
+            child: wrapWithTheme(const GrammarCatalogScreen()),
+          ),
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.text('Present Simple'), findsOneWidget);
-      // On desktop, Wrap is used for level filters
-      expect(find.byType(Wrap), findsOneWidget);
-      // SliverGrid with 3 columns
-      final gridFinder = find.byType(SliverGrid);
-      expect(gridFinder, findsOneWidget);
-      final sliverGrid = tester.widget<SliverGrid>(gridFinder);
-      final delegate =
-          sliverGrid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
-      expect(delegate.crossAxisCount, equals(3));
-    });
+        expect(find.text('Present Simple'), findsOneWidget);
+        // On desktop, Wrap is used for level filters
+        expect(find.byType(Wrap), findsOneWidget);
+        // SliverGrid with 3 columns
+        final gridFinder = find.byType(SliverGrid);
+        expect(gridFinder, findsOneWidget);
+        final sliverGrid = tester.widget<SliverGrid>(gridFinder);
+        final delegate =
+            sliverGrid.gridDelegate
+                as SliverGridDelegateWithFixedCrossAxisCount;
+        expect(delegate.crossAxisCount, equals(3));
+      },
+    );
 
-    testWidgets('GrammarCatalogScreen renders 2-column grid on tablet',
-        (tester) async {
+    testWidgets('GrammarCatalogScreen renders 2-column grid on tablet', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(768, 1024);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -459,8 +465,9 @@ void main() {
       expect(delegate.crossAxisCount, equals(2));
     });
 
-    testWidgets('GrammarCatalogScreen renders 1-column grid on mobile',
-        (tester) async {
+    testWidgets('GrammarCatalogScreen renders 1-column grid on mobile', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -501,167 +508,168 @@ void main() {
     });
 
     testWidgets(
-        'ExplanationSheet renders side panel layout when isSidePanel is true',
-        (tester) async {
-      const ex = GrammarExercise(
-        id: 'ex_side_01',
-        type: GrammarExerciseType.choice,
-        difficulty: GrammarDifficulty.recognition,
-        prompt: 'Prompt side panel',
-        options: ['A', 'B'],
-        correctAnswer: 'A',
-        explanation: GrammarExplanation(
-          translation: 'Bản dịch side panel',
-          keySignal: 'Tín hiệu side panel',
-          rule: 'Quy tắc side panel',
-          whyCorrect: 'Lý do side panel',
-        ),
-      );
+      'ExplanationSheet renders side panel layout when isSidePanel is true',
+      (tester) async {
+        const ex = GrammarExercise(
+          id: 'ex_side_01',
+          type: GrammarExerciseType.choice,
+          difficulty: GrammarDifficulty.recognition,
+          prompt: 'Prompt side panel',
+          options: ['A', 'B'],
+          correctAnswer: 'A',
+          explanation: GrammarExplanation(
+            translation: 'Bản dịch side panel',
+            keySignal: 'Tín hiệu side panel',
+            rule: 'Quy tắc side panel',
+            whyCorrect: 'Lý do side panel',
+          ),
+        );
 
-      await tester.pumpWidget(
-        wrapWithTheme(
-          const SizedBox(
-            height: 600,
-            width: 400,
-            child: ExplanationSheet(
-              exercise: ex,
-              isCorrect: true,
-              isLastQuestion: false,
-              onNext: _noop,
-              isSidePanel: true,
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const SizedBox(
+              height: 600,
+              width: 400,
+              child: ExplanationSheet(
+                exercise: ex,
+                isCorrect: true,
+                isLastQuestion: false,
+                onNext: _noop,
+                isSidePanel: true,
+              ),
             ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
-      expect(findRichText('Bản dịch side panel'), findsOneWidget);
-      expect(findRichText('Tín hiệu side panel'), findsOneWidget);
-      expect(find.text('Câu Tiếp Theo'), findsOneWidget);
-    });
+        expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
+        expect(findRichText('Bản dịch side panel'), findsOneWidget);
+        expect(findRichText('Tín hiệu side panel'), findsOneWidget);
+        expect(find.text('Câu Tiếp Theo'), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'GrammarPracticeScreen renders dual-column layout with shortcut guide on desktop',
-        (tester) async {
-      tester.view.physicalSize = const Size(1280, 800);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
+      'GrammarPracticeScreen renders dual-column layout with shortcut guide on desktop',
+      (tester) async {
+        tester.view.physicalSize = const Size(1280, 800);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
 
-      const unit = GrammarUnit(
-        unitId: 'u_practice_desktop',
-        title: 'Present Perfect',
-        category: GrammarCategory.tenses,
-        level: GrammarLevel.intermediate,
-        coreConcept: 'Experience',
-        formulas: {},
-        commonTraps: [],
-        exercises: [
-          GrammarExercise(
-            id: 'ex_d1',
-            type: GrammarExerciseType.choice,
-            difficulty: GrammarDifficulty.recognition,
-            prompt: 'Have you ever _______ to Japan?',
-            options: ['been', 'went', 'go', 'gone'],
-            correctAnswer: 'been',
-            explanation: GrammarExplanation(
-              translation: 'Bạn đã từng đến Nhật Bản chưa?',
-              keySignal: 'ever',
-              rule: 'Present Perfect',
-              whyCorrect: 'been dùng cho trải nghiệm',
+        const unit = GrammarUnit(
+          unitId: 'u_practice_desktop',
+          title: 'Present Perfect',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.intermediate,
+          coreConcept: 'Experience',
+          formulas: {},
+          commonTraps: [],
+          exercises: [
+            GrammarExercise(
+              id: 'ex_d1',
+              type: GrammarExerciseType.choice,
+              difficulty: GrammarDifficulty.recognition,
+              prompt: 'Have you ever _______ to Japan?',
+              options: ['been', 'went', 'go', 'gone'],
+              correctAnswer: 'been',
+              explanation: GrammarExplanation(
+                translation: 'Bạn đã từng đến Nhật Bản chưa?',
+                keySignal: 'ever',
+                rule: 'Present Perfect',
+                whyCorrect: 'been dùng cho trải nghiệm',
+              ),
+            ),
+          ],
+        );
+
+        final container = ProviderContainer(
+          overrides: [grammarRepositoryProvider.overrideWithValue(repo)],
+        );
+        addTearDown(container.dispose);
+        container
+            .read(grammarSessionNotifierProvider.notifier)
+            .startUnitSession(unit);
+
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: wrapWithTheme(
+              const GrammarPracticeScreen(unitId: 'u_practice_desktop'),
             ),
           ),
-        ],
-      );
+        );
+        await tester.pumpAndSettle();
 
-      final container = ProviderContainer(
-        overrides: [
-          grammarRepositoryProvider.overrideWithValue(repo),
-        ],
-      );
-      addTearDown(container.dispose);
-      container
-          .read(grammarSessionNotifierProvider.notifier)
-          .startUnitSession(unit);
-
-      await tester.pumpWidget(
-        UncontrolledProviderScope(
-          container: container,
-          child: wrapWithTheme(
-              const GrammarPracticeScreen(unitId: 'u_practice_desktop')),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // On desktop, the shortcuts guide is visible on the right column
-      expect(find.byIcon(LucideIcons.keyboard), findsOneWidget);
-      expect(find.text('Phím tắt & Hướng dẫn'), findsOneWidget);
-      expect(find.text('1, 2, 3, 4'), findsOneWidget);
-      expect(find.text('Enter / Space'), findsOneWidget);
-    });
+        // On desktop, the shortcuts guide is visible on the right column
+        expect(find.byIcon(LucideIcons.keyboard), findsOneWidget);
+        expect(find.text('Phím tắt & Hướng dẫn'), findsOneWidget);
+        expect(find.text('1, 2, 3, 4'), findsOneWidget);
+        expect(find.text('Enter / Space'), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'GrammarPracticeScreen renders single-column layout without shortcut guide on mobile',
-        (tester) async {
-      tester.view.physicalSize = const Size(400, 800);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
+      'GrammarPracticeScreen renders single-column layout without shortcut guide on mobile',
+      (tester) async {
+        tester.view.physicalSize = const Size(400, 800);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
 
-      const unit = GrammarUnit(
-        unitId: 'u_practice_mobile',
-        title: 'Past Simple',
-        category: GrammarCategory.tenses,
-        level: GrammarLevel.foundation,
-        coreConcept: 'Finished past',
-        formulas: {},
-        commonTraps: [],
-        exercises: [
-          GrammarExercise(
-            id: 'ex_m1',
-            type: GrammarExerciseType.choice,
-            difficulty: GrammarDifficulty.recognition,
-            prompt: 'I _______ to school yesterday.',
-            options: ['went', 'go', 'gone', 'going'],
-            correctAnswer: 'went',
-            explanation: GrammarExplanation(
-              translation: 'Tôi đã đến trường hôm qua.',
-              keySignal: 'yesterday',
-              rule: 'Past Simple',
-              whyCorrect: 'went là V2 của go',
+        const unit = GrammarUnit(
+          unitId: 'u_practice_mobile',
+          title: 'Past Simple',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept: 'Finished past',
+          formulas: {},
+          commonTraps: [],
+          exercises: [
+            GrammarExercise(
+              id: 'ex_m1',
+              type: GrammarExerciseType.choice,
+              difficulty: GrammarDifficulty.recognition,
+              prompt: 'I _______ to school yesterday.',
+              options: ['went', 'go', 'gone', 'going'],
+              correctAnswer: 'went',
+              explanation: GrammarExplanation(
+                translation: 'Tôi đã đến trường hôm qua.',
+                keySignal: 'yesterday',
+                rule: 'Past Simple',
+                whyCorrect: 'went là V2 của go',
+              ),
+            ),
+          ],
+        );
+
+        final container = ProviderContainer(
+          overrides: [grammarRepositoryProvider.overrideWithValue(repo)],
+        );
+        addTearDown(container.dispose);
+        container
+            .read(grammarSessionNotifierProvider.notifier)
+            .startUnitSession(unit);
+
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: wrapWithTheme(
+              const GrammarPracticeScreen(unitId: 'u_practice_mobile'),
             ),
           ),
-        ],
-      );
+        );
+        await tester.pumpAndSettle();
 
-      final container = ProviderContainer(
-        overrides: [
-          grammarRepositoryProvider.overrideWithValue(repo),
-        ],
-      );
-      addTearDown(container.dispose);
-      container
-          .read(grammarSessionNotifierProvider.notifier)
-          .startUnitSession(unit);
-
-      await tester.pumpWidget(
-        UncontrolledProviderScope(
-          container: container,
-          child: wrapWithTheme(
-              const GrammarPracticeScreen(unitId: 'u_practice_mobile')),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // On mobile, shortcut guide is NOT rendered
-      expect(find.byIcon(LucideIcons.keyboard), findsNothing);
-      expect(find.text('Phím tắt & Hướng dẫn'), findsNothing);
-    });
+        // On mobile, shortcut guide is NOT rendered
+        expect(find.byIcon(LucideIcons.keyboard), findsNothing);
+        expect(find.text('Phím tắt & Hướng dẫn'), findsNothing);
+      },
+    );
   });
 }
 

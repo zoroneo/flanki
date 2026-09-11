@@ -298,8 +298,9 @@ class ApkgImporterService {
 
       // 3. Parse cards
       final columnsResult = db.select('PRAGMA table_info(cards)');
-      final columnNames =
-          columnsResult.map((r) => (r['name'] as String).toLowerCase()).toSet();
+      final columnNames = columnsResult
+          .map((r) => (r['name'] as String).toLowerCase())
+          .toSet();
       final ordExpr = columnNames.contains('ord') ? 'ord' : '0 as ord';
       final typeExpr = columnNames.contains('type') ? 'type' : '0 as type';
       final dueExpr = columnNames.contains('due') ? 'due' : '0 as due';
@@ -380,17 +381,20 @@ class ApkgImporterService {
         // Hint: take third field if non-empty, or null
         final hint =
             noteData.flds.length > 2 && noteData.flds[2].trim().isNotEmpty
-                ? noteData.flds[2].trim()
-                : null;
+            ? noteData.flds[2].trim()
+            : null;
 
         // Tags separated by space
-        final tags =
-            noteData.tags.split(' ').where((t) => t.isNotEmpty).toList();
+        final tags = noteData.tags
+            .split(' ')
+            .where((t) => t.isNotEmpty)
+            .toList();
 
         final deckId = 'deck-$did';
 
         // Anki note type detection (Cloze contains {{c1::...}})
-        final isCloze = front.contains('cloze') ||
+        final isCloze =
+            front.contains('cloze') ||
             noteData.flds.any((f) => f.contains('{{c'));
         final noteType = isCloze ? NoteType.cloze : NoteType.basic;
 

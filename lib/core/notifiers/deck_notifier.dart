@@ -1,9 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../config/app_config.dart';
 import '../models/custom_study_mode.dart';
 import '../models/deck.dart';
 import '../storage/database_service.dart';
+
+part 'deck_notifier.g.dart';
 
 class DeckTreeNode {
   final DeckModel deck;
@@ -21,11 +23,8 @@ class DeckTreeNode {
   });
 }
 
-final deckListProvider = NotifierProvider<DeckNotifier, List<DeckModel>>(
-  DeckNotifier.new,
-);
-
-class DeckNotifier extends Notifier<List<DeckModel>> {
+@Riverpod(keepAlive: true, name: 'deckListProvider')
+class DeckNotifier extends _$DeckNotifier {
   @override
   List<DeckModel> build() {
     return DatabaseService.instance.getAllDecks();

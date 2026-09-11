@@ -45,8 +45,9 @@ class DesktopCardRowItem extends StatelessWidget {
             : theme.colorScheme.card,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color:
-              isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.border,
           width: isSelected ? 1.5 : 1.0,
         ),
       ),
@@ -68,7 +69,8 @@ class DesktopCardRowItem extends StatelessWidget {
                         height: 7,
                         margin: const EdgeInsets.only(right: 8),
                         decoration: BoxDecoration(
-                          color: CardActionSheet.ankiFlagColors[card.flag] ??
+                          color:
+                              CardActionSheet.ankiFlagColors[card.flag] ??
                               m.Colors.grey,
                           shape: BoxShape.circle,
                         ),
@@ -80,8 +82,9 @@ class DesktopCardRowItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 13,
-                          fontWeight:
-                              isSelected ? FontWeight.w700 : FontWeight.w600,
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w600,
                           color: theme.colorScheme.foreground,
                           decoration: card.isSuspended
                               ? TextDecoration.lineThrough
@@ -168,7 +171,8 @@ class MobileCardRowItem extends StatelessWidget {
                       height: 8,
                       margin: const EdgeInsets.only(top: 5, right: 10),
                       decoration: BoxDecoration(
-                        color: CardActionSheet.ankiFlagColors[card.flag] ??
+                        color:
+                            CardActionSheet.ankiFlagColors[card.flag] ??
                             m.Colors.grey,
                         shape: BoxShape.circle,
                       ),
@@ -213,10 +217,7 @@ class MobileCardRowItem extends StatelessWidget {
       stripHtml(card.back),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontSize: 12,
-        color: theme.colorScheme.mutedForeground,
-      ),
+      style: TextStyle(fontSize: 12, color: theme.colorScheme.mutedForeground),
     );
   }
 

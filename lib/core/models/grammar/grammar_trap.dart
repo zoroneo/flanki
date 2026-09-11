@@ -21,9 +21,9 @@ class GrammarTrap {
   }
 
   Map<String, dynamic> toJson() => {
-        'trap': trap,
-        'exampleWrong': exampleWrong,
-        'exampleRight': exampleRight,
-        'note': note,
-      };
+    'trap': trap,
+    'exampleWrong': exampleWrong,
+    'exampleRight': exampleRight,
+    'note': note,
+  };
 }

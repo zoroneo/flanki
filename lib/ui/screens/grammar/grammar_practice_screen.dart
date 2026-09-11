@@ -56,9 +56,9 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
         for (final u in allUnits) {
           if (u.unitId == g.unitId) {
             final ex = u.exercises.cast<GrammarExercise?>().firstWhere(
-                  (e) => e?.id == g.exerciseId,
-                  orElse: () => null,
-                );
+              (e) => e?.id == g.exerciseId,
+              orElse: () => null,
+            );
             if (ex != null) ghostExercises.add(ex);
           }
         }
@@ -78,11 +78,23 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final session = ref.watch(grammarSessionNotifierProvider);
     final notifier = ref.read(grammarSessionNotifierProvider.notifier);
+    final isFinished = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.isFinished),
+    );
 
     // If session finished, show summary dialog
-    if (session.isFinished) {
+    if (isFinished) {
+      final summary = ref.watch(
+        grammarSessionNotifierProvider.select(
+          (s) => (
+            totalQuestions: s.totalQuestions,
+            correctCount: s.correctCount,
+            ghostCount: s.ghostChallengeQueue.length,
+            isGhostChallenge: s.isGhostChallenge,
+          ),
+        ),
+      );
       return Scaffold(
         headers: [
           AppBar(
@@ -96,10 +108,10 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
           ),
         ],
         child: SessionSummaryDialog(
-          totalQuestions: session.totalQuestions,
-          correctCount: session.correctCount,
-          ghostCount: session.ghostChallengeQueue.length,
-          isGhostChallenge: session.isGhostChallenge,
+          totalQuestions: summary.totalQuestions,
+          correctCount: summary.correctCount,
+          ghostCount: summary.ghostCount,
+          isGhostChallenge: summary.isGhostChallenge,
           onStartGhostChallenge: () => notifier.startGhostChallenge(),
           onReturnCatalog: () => context.pop(),
           onRestart: () => notifier.restartSession(),
@@ -107,10 +119,38 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       );
     }
 
-    final currentExercise = session.currentExercise;
+    final currentExercise = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.currentExercise),
+    );
+    final isSubmitted = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.isSubmitted),
+    );
+    final isCurrentCorrect = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.isCurrentCorrect),
+    );
+    final isLastQuestion = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.isLastQuestion),
+    );
+    final isGhostChallenge = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.isGhostChallenge),
+    );
+    final unitTitle = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.unit?.title),
+    );
+    final progressFraction = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.progressFraction),
+    );
+    final selectedAnswer = ref.watch(
+      grammarSessionNotifierProvider.select((s) => s.selectedAnswer),
+    );
+    final questionIndices = ref.watch(
+      grammarSessionNotifierProvider.select(
+        (s) => (s.currentIndex, s.totalQuestions),
+      ),
+    );
 
     final shortcuts = <ShortcutActivator, VoidCallback>{
-      if (session.isSubmitted) ...{
+      if (isSubmitted) ...{
         const SingleActivator(LogicalKeyboardKey.enter): () =>
             notifier.nextQuestion(),
         const SingleActivator(LogicalKeyboardKey.space): () =>
@@ -151,17 +191,19 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                 ),
               ],
               title: Text(
-                session.isGhostChallenge
+                isGhostChallenge
                     ? l10n.grammarGhostReviewScreenTitle
-                    : (session.unit?.title ?? l10n.grammarPracticeScreenTitle),
+                    : (unitTitle ?? l10n.grammarPracticeScreenTitle),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: [
                 if (currentExercise != null)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.muted,
                       borderRadius: BorderRadius.circular(6),
@@ -181,10 +223,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
             mobile: (context) => Column(
               children: [
                 // Step Progress Bar
-                LinearProgressIndicator(
-                  value: session.progressFraction,
-                  minHeight: 4,
-                ),
+                LinearProgressIndicator(value: progressFraction, minHeight: 4),
 
                 // Main Question Content
                 Expanded(
@@ -204,7 +243,11 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                                 context: context,
                                 theme: theme,
                                 l10n: l10n,
-                                session: session,
+                                currentIndex: questionIndices.$1,
+                                totalQuestions: questionIndices.$2,
+                                selectedAnswer: selectedAnswer,
+                                isSubmitted: isSubmitted,
+                                isCurrentCorrect: isCurrentCorrect,
                                 notifier: notifier,
                                 currentExercise: currentExercise,
                               ),
@@ -214,21 +257,18 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                 ),
 
                 // Bottom Explanation Sheet (when submitted)
-                if (session.isSubmitted && currentExercise != null)
+                if (isSubmitted && currentExercise != null)
                   ExplanationSheet(
                     exercise: currentExercise,
-                    isCorrect: session.isCurrentCorrect ?? false,
-                    isLastQuestion: session.isLastQuestion,
+                    isCorrect: isCurrentCorrect ?? false,
+                    isLastQuestion: isLastQuestion,
                     onNext: () => notifier.nextQuestion(),
                   ),
               ],
             ),
             desktop: (context) => Column(
               children: [
-                LinearProgressIndicator(
-                  value: session.progressFraction,
-                  minHeight: 4,
-                ),
+                LinearProgressIndicator(value: progressFraction, minHeight: 4),
                 Expanded(
                   child: currentExercise == null
                       ? const Center(child: CircularProgressIndicator())
@@ -252,7 +292,11 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                                       context: context,
                                       theme: theme,
                                       l10n: l10n,
-                                      session: session,
+                                      currentIndex: questionIndices.$1,
+                                      totalQuestions: questionIndices.$2,
+                                      selectedAnswer: selectedAnswer,
+                                      isSubmitted: isSubmitted,
+                                      isCurrentCorrect: isCurrentCorrect,
                                       notifier: notifier,
                                       currentExercise: currentExercise,
                                     ),
@@ -262,13 +306,11 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                                 // Right Column (45%): Live Explanation or Shortcut Guide
                                 Expanded(
                                   flex: 45,
-                                  child: session.isSubmitted
+                                  child: isSubmitted
                                       ? ExplanationSheet(
                                           exercise: currentExercise,
-                                          isCorrect:
-                                              session.isCurrentCorrect ?? false,
-                                          isLastQuestion:
-                                              session.isLastQuestion,
+                                          isCorrect: isCurrentCorrect ?? false,
+                                          isLastQuestion: isLastQuestion,
                                           onNext: () => notifier.nextQuestion(),
                                           isSidePanel: true,
                                         )
@@ -296,7 +338,11 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
     required BuildContext context,
     required ThemeData theme,
     required AppLocalizations l10n,
-    required GrammarSessionState session,
+    required int currentIndex,
+    required int totalQuestions,
+    required String? selectedAnswer,
+    required bool isSubmitted,
+    required bool? isCurrentCorrect,
     required GrammarSessionNotifier notifier,
     required GrammarExercise currentExercise,
   }) {
@@ -305,8 +351,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       children: [
         // Question counter
         Text(
-          l10n.grammarQuestionCounter(
-              session.currentIndex + 1, session.totalQuestions),
+          l10n.grammarQuestionCounter(currentIndex + 1, totalQuestions),
           style: theme.typography.small.copyWith(
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.mutedForeground,
@@ -318,8 +363,8 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
         if (currentExercise.type == GrammarExerciseType.choice)
           ChoiceQuestionWidget(
             exercise: currentExercise,
-            selectedAnswer: session.selectedAnswer,
-            isSubmitted: session.isSubmitted,
+            selectedAnswer: selectedAnswer,
+            isSubmitted: isSubmitted,
             onSelectAnswer: (ans) {
               notifier.selectAnswer(ans);
               notifier.submitAnswer();
@@ -328,8 +373,8 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
         else if (currentExercise.type == GrammarExerciseType.errorId)
           ErrorIdQuestionWidget(
             exercise: currentExercise,
-            selectedAnswer: session.selectedAnswer,
-            isSubmitted: session.isSubmitted,
+            selectedAnswer: selectedAnswer,
+            isSubmitted: isSubmitted,
             onSelectAnswer: (ans) {
               notifier.selectAnswer(ans);
               notifier.submitAnswer();
@@ -338,9 +383,9 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
         else if (currentExercise.type == GrammarExerciseType.cloze)
           ClozeQuestionWidget(
             exercise: currentExercise,
-            selectedAnswer: session.selectedAnswer,
-            isSubmitted: session.isSubmitted,
-            isCorrect: session.isCurrentCorrect,
+            selectedAnswer: selectedAnswer,
+            isSubmitted: isSubmitted,
+            isCorrect: isCurrentCorrect,
             onAnswerChanged: (ans) => notifier.selectAnswer(ans),
             onSubmit: () => notifier.submitAnswer(),
           ),
@@ -451,13 +496,17 @@ class _PracticeShortcutsGuide extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(LucideIcons.keyboard,
-                  size: 20, color: theme.colorScheme.primary),
+              Icon(
+                LucideIcons.keyboard,
+                size: 20,
+                color: theme.colorScheme.primary,
+              ),
               const SizedBox(width: 8),
               Text(
                 l10n.grammarShortcutsTitle,
-                style: theme.typography.large
-                    .copyWith(fontWeight: FontWeight.bold),
+                style: theme.typography.large.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -478,13 +527,17 @@ class _PracticeShortcutsGuide extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             children: [
-              Icon(LucideIcons.sparkles,
-                  size: 18, color: theme.colorScheme.mutedForeground),
+              Icon(
+                LucideIcons.sparkles,
+                size: 18,
+                color: theme.colorScheme.mutedForeground,
+              ),
               const SizedBox(width: 8),
               Text(
                 l10n.grammarPracticeTipTitle,
-                style:
-                    theme.typography.base.copyWith(fontWeight: FontWeight.bold),
+                style: theme.typography.base.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -521,12 +574,7 @@ class _PracticeShortcutsGuide extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            desc,
-            style: theme.typography.small,
-          ),
-        ),
+        Expanded(child: Text(desc, style: theme.typography.small)),
       ],
     );
   }

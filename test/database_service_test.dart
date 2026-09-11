@@ -18,9 +18,9 @@ void main() {
     tempDir = Directory.systemTemp.createTempSync('flanki_test_db_');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/path_provider'),
-      (MethodCall methodCall) async => tempDir.path,
-    );
+          const MethodChannel('plugins.flutter.io/path_provider'),
+          (MethodCall methodCall) async => tempDir.path,
+        );
     dbPath = '${tempDir.path}/test_flanki.db';
     await DatabaseService.instance.init(customPath: dbPath);
   });
@@ -133,9 +133,7 @@ void main() {
     expect(count, equals(1));
   });
 
-  test(
-      'DatabaseService getCustomStudyQueue falls back to registered deck totalCount when parsedLimit is absent',
-      () async {
+  test('DatabaseService getCustomStudyQueue falls back to registered deck totalCount when parsedLimit is absent', () async {
     const legacyCramDeck = DeckModel(
       id: 'cram_flagged_all',
       title: 'Legacy Cram',
@@ -165,9 +163,7 @@ void main() {
     expect(queue.length, equals(75));
   });
 
-  test(
-      'DatabaseService getCustomStudyQueue correctly parses tags with underscores and limits from deckId',
-      () async {
+  test('DatabaseService getCustomStudyQueue correctly parses tags with underscores and limits from deckId', () async {
     final taggedCards = List.generate(
       15,
       (i) => CardModel(
@@ -190,9 +186,7 @@ void main() {
     expect(queue.every((c) => c.tags.contains('unit_1_vocabulary')), isTrue);
   });
 
-  test(
-      'DatabaseService recalculateAllDeckCounts updates counts excluding suspended/buried cards',
-      () async {
+  test('DatabaseService recalculateAllDeckCounts updates counts excluding suspended/buried cards', () async {
     const deck = DeckModel(
       id: 'd_recalc',
       title: 'Math',
@@ -238,9 +232,7 @@ void main() {
     expect(mathDeck.dueCount, equals(1)); // mc2
   });
 
-  test(
-      'DatabaseService exportToAnkiDatabase correctly parses both native Flanki card IDs and Anki c_ IDs into revlog',
-      () async {
+  test('DatabaseService exportToAnkiDatabase correctly parses both native Flanki card IDs and Anki c_ IDs into revlog', () async {
     const deck = DeckModel(
       id: 'd_export_test',
       title: 'Export Test',
@@ -299,137 +291,147 @@ void main() {
     }
   });
 
-  test('DatabaseService saves review logs in batch and prevents duplicates',
-      () async {
-    const deck = DeckModel(
-      id: 'd_batch_test',
-      title: 'Batch Deck',
-      description: '',
-      dueCount: 0,
-      newCount: 0,
-      totalCount: 0,
-    );
-    await DatabaseService.instance.saveDeck(deck);
+  test(
+    'DatabaseService saves review logs in batch and prevents duplicates',
+    () async {
+      const deck = DeckModel(
+        id: 'd_batch_test',
+        title: 'Batch Deck',
+        description: '',
+        dueCount: 0,
+        newCount: 0,
+        totalCount: 0,
+      );
+      await DatabaseService.instance.saveDeck(deck);
 
-    const card = CardModel(
-      id: 'c_12345',
-      deckId: 'd_batch_test',
-      front: 'Front',
-      back: 'Back',
-    );
-    await DatabaseService.instance.saveCard(card);
+      const card = CardModel(
+        id: 'c_12345',
+        deckId: 'd_batch_test',
+        front: 'Front',
+        back: 'Back',
+      );
+      await DatabaseService.instance.saveCard(card);
 
-    final logTime1 = DateTime.utc(2026, 9, 1, 10, 0, 0);
-    final logTime2 = DateTime.utc(2026, 9, 2, 10, 0, 0);
+      final logTime1 = DateTime.utc(2026, 9, 1, 10, 0, 0);
+      final logTime2 = DateTime.utc(2026, 9, 2, 10, 0, 0);
 
-    final logs = [
-      ReviewLogModel(
-        id: logTime1.millisecondsSinceEpoch,
-        cardId: 'c_12345',
-        rating: ReviewRating.good,
-        reviewTime: logTime1,
-        scheduledDays: 1,
-        elapsedDays: 0,
-      ),
-      ReviewLogModel(
-        id: logTime2.millisecondsSinceEpoch,
-        cardId: 'c_12345',
-        rating: ReviewRating.easy,
-        reviewTime: logTime2,
-        scheduledDays: 4,
-        elapsedDays: 1,
-      ),
-    ];
+      final logs = [
+        ReviewLogModel(
+          id: logTime1.millisecondsSinceEpoch,
+          cardId: 'c_12345',
+          rating: ReviewRating.good,
+          reviewTime: logTime1,
+          scheduledDays: 1,
+          elapsedDays: 0,
+        ),
+        ReviewLogModel(
+          id: logTime2.millisecondsSinceEpoch,
+          cardId: 'c_12345',
+          rating: ReviewRating.easy,
+          reviewTime: logTime2,
+          scheduledDays: 4,
+          elapsedDays: 1,
+        ),
+      ];
 
-    await DatabaseService.instance.saveReviewLogs(logs);
+      await DatabaseService.instance.saveReviewLogs(logs);
 
-    var retrieved = DatabaseService.instance.getAllReviewLogs();
-    expect(retrieved.length, equals(2));
+      var retrieved = DatabaseService.instance.getAllReviewLogs();
+      expect(retrieved.length, equals(2));
 
-    // Saving the same logs again should be idempotent (no duplicate rows)
-    await DatabaseService.instance.saveReviewLogs(logs);
-    retrieved = DatabaseService.instance.getAllReviewLogs();
-    expect(retrieved.length, equals(2));
-  });
+      // Saving the same logs again should be idempotent (no duplicate rows)
+      await DatabaseService.instance.saveReviewLogs(logs);
+      retrieved = DatabaseService.instance.getAllReviewLogs();
+      expect(retrieved.length, equals(2));
+    },
+  );
 
-  test('DatabaseService mergeCards resolves card conflicts non-destructively',
-      () async {
-    const deck = DeckModel(
-      id: 'd_merge_test',
-      title: 'Merge Deck',
-      description: '',
-      dueCount: 0,
-      newCount: 0,
-      totalCount: 0,
-    );
-    await DatabaseService.instance.saveDeck(deck);
+  test(
+    'DatabaseService mergeCards resolves card conflicts non-destructively',
+    () async {
+      const deck = DeckModel(
+        id: 'd_merge_test',
+        title: 'Merge Deck',
+        description: '',
+        dueCount: 0,
+        newCount: 0,
+        totalCount: 0,
+      );
+      await DatabaseService.instance.saveDeck(deck);
 
-    final localCard1 = CardModel(
-      id: 'c_merge_1',
-      deckId: 'd_merge_test',
-      front: 'Local Card 1',
-      back: 'Back',
-      reps: 2,
-      lastStudied: DateTime.utc(2026, 9, 2, 12, 0, 0), // Local newer
-    );
+      final localCard1 = CardModel(
+        id: 'c_merge_1',
+        deckId: 'd_merge_test',
+        front: 'Local Card 1',
+        back: 'Back',
+        reps: 2,
+        lastStudied: DateTime.utc(2026, 9, 2, 12, 0, 0), // Local newer
+      );
 
-    final localCard2 = CardModel(
-      id: 'c_merge_2',
-      deckId: 'd_merge_test',
-      front: 'Local Card 2',
-      back: 'Back',
-      reps: 1,
-      lastStudied: DateTime.utc(2026, 9, 1, 10, 0, 0), // Local older
-    );
+      final localCard2 = CardModel(
+        id: 'c_merge_2',
+        deckId: 'd_merge_test',
+        front: 'Local Card 2',
+        back: 'Back',
+        reps: 1,
+        lastStudied: DateTime.utc(2026, 9, 1, 10, 0, 0), // Local older
+      );
 
-    const localOnlyCard = CardModel(
-      id: 'c_local_only',
-      deckId: 'd_merge_test',
-      front: 'Local Only',
-      back: 'Back',
-    );
+      const localOnlyCard = CardModel(
+        id: 'c_local_only',
+        deckId: 'd_merge_test',
+        front: 'Local Only',
+        back: 'Back',
+      );
 
-    await DatabaseService.instance
-        .saveCards([localCard1, localCard2, localOnlyCard]);
+      await DatabaseService.instance.saveCards([
+        localCard1,
+        localCard2,
+        localOnlyCard,
+      ]);
 
-    final remoteCard1 = CardModel(
-      id: 'c_merge_1',
-      deckId: 'd_merge_test',
-      front: 'Remote Card 1',
-      back: 'Back',
-      reps: 1,
-      lastStudied: DateTime.utc(2026, 9, 1, 10, 0, 0), // Remote older
-    );
+      final remoteCard1 = CardModel(
+        id: 'c_merge_1',
+        deckId: 'd_merge_test',
+        front: 'Remote Card 1',
+        back: 'Back',
+        reps: 1,
+        lastStudied: DateTime.utc(2026, 9, 1, 10, 0, 0), // Remote older
+      );
 
-    final remoteCard2 = CardModel(
-      id: 'c_merge_2',
-      deckId: 'd_merge_test',
-      front: 'Remote Card 2',
-      back: 'Back',
-      reps: 3,
-      lastStudied: DateTime.utc(2026, 9, 3, 15, 0, 0), // Remote newer
-    );
+      final remoteCard2 = CardModel(
+        id: 'c_merge_2',
+        deckId: 'd_merge_test',
+        front: 'Remote Card 2',
+        back: 'Back',
+        reps: 3,
+        lastStudied: DateTime.utc(2026, 9, 3, 15, 0, 0), // Remote newer
+      );
 
-    const remoteOnlyCard = CardModel(
-      id: 'c_remote_only',
-      deckId: 'd_merge_test',
-      front: 'Remote Only',
-      back: 'Back',
-    );
+      const remoteOnlyCard = CardModel(
+        id: 'c_remote_only',
+        deckId: 'd_merge_test',
+        front: 'Remote Only',
+        back: 'Back',
+      );
 
-    await DatabaseService.instance
-        .mergeCards([remoteCard1, remoteCard2, remoteOnlyCard]);
+      await DatabaseService.instance.mergeCards([
+        remoteCard1,
+        remoteCard2,
+        remoteOnlyCard,
+      ]);
 
-    final allCards = DatabaseService.instance.getAllCards();
-    expect(allCards.length, equals(4));
+      final allCards = DatabaseService.instance.getAllCards();
+      expect(allCards.length, equals(4));
 
-    final card1 = allCards.firstWhere((c) => c.id == 'c_merge_1');
-    expect(card1.reps, equals(2)); // Local won because studied later
+      final card1 = allCards.firstWhere((c) => c.id == 'c_merge_1');
+      expect(card1.reps, equals(2)); // Local won because studied later
 
-    final card2 = allCards.firstWhere((c) => c.id == 'c_merge_2');
-    expect(card2.reps, equals(3)); // Remote won because studied later
+      final card2 = allCards.firstWhere((c) => c.id == 'c_merge_2');
+      expect(card2.reps, equals(3)); // Remote won because studied later
 
-    expect(allCards.any((c) => c.id == 'c_local_only'), isTrue);
-    expect(allCards.any((c) => c.id == 'c_remote_only'), isTrue);
-  });
+      expect(allCards.any((c) => c.id == 'c_local_only'), isTrue);
+      expect(allCards.any((c) => c.id == 'c_remote_only'), isTrue);
+    },
+  );
 }

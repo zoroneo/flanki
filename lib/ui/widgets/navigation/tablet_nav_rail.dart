@@ -180,13 +180,12 @@ class NavRailItem extends StatelessWidget {
         ? theme.colorScheme.primary
         : theme.colorScheme.mutedForeground;
 
-    final tooltipContent =
-        shortcutHint != null ? '$label ($shortcutHint)' : label;
+    final tooltipContent = shortcutHint != null
+        ? '$label ($shortcutHint)'
+        : label;
 
     return Tooltip(
-      tooltip: (context) => TooltipContainer(
-        child: Text(tooltipContent),
-      ),
+      tooltip: (context) => TooltipContainer(child: Text(tooltipContent)),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
@@ -205,17 +204,9 @@ class NavRailItem extends StatelessWidget {
               clipBehavior: Clip.none,
               alignment: Alignment.center,
               children: [
-                Icon(
-                  isSelected ? activeIcon : icon,
-                  size: 22,
-                  color: color,
-                ),
+                Icon(isSelected ? activeIcon : icon, size: 22, color: color),
                 if (badgeCount != null)
-                  Positioned(
-                    top: 4,
-                    right: 4,
-                    child: _buildBadge(theme),
-                  ),
+                  Positioned(top: 4, right: 4, child: _buildBadge(theme)),
                 if (indicatorColor != null)
                   Positioned(
                     bottom: 6,
@@ -232,10 +223,7 @@ class NavRailItem extends StatelessWidget {
 
   Widget _buildBadge(ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 5,
-        vertical: 1.5,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
       decoration: BoxDecoration(
         color: theme.colorScheme.destructive,
         borderRadius: BorderRadius.circular(10),
@@ -259,10 +247,7 @@ class NavRailItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: indicatorColor,
         shape: BoxShape.circle,
-        border: Border.all(
-          color: theme.colorScheme.background,
-          width: 1.5,
-        ),
+        border: Border.all(color: theme.colorScheme.background, width: 1.5),
       ),
     );
   }

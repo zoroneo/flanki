@@ -1,22 +1,23 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'auth_state.dart';
 import 'anki_web_auth_service.dart';
 
-final authServiceProvider = Provider<AnkiWebAuthService>((ref) {
+part 'auth_notifier.g.dart';
+
+@Riverpod(keepAlive: true)
+AnkiWebAuthService authService(Ref ref) {
   return AnkiWebAuthService();
-});
+}
 
-final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
+@Riverpod(keepAlive: true)
+FlutterSecureStorage secureStorage(Ref ref) {
   return const FlutterSecureStorage();
-});
+}
 
-final authNotifierProvider = NotifierProvider<AuthNotifier, AuthState>(
-  AuthNotifier.new,
-);
-
-class AuthNotifier extends Notifier<AuthState> {
+@Riverpod(keepAlive: true, name: 'authNotifierProvider')
+class AuthNotifier extends _$AuthNotifier {
   static const _keyHostKey = 'flanki_ankiweb_hostkey';
   static const _keyEmail = 'flanki_ankiweb_email';
   static const _keyLastSync = 'flanki_ankiweb_last_sync';
@@ -32,7 +33,7 @@ class AuthNotifier extends Notifier<AuthState> {
     // Asynchronously restore persisted credentials on startup
     _restoreSession();
 
-    return const AuthState.unauthenticated();
+    return const AuthState();
   }
 
   Future<void> _restoreSession() async {
@@ -95,7 +96,7 @@ class AuthNotifier extends Notifier<AuthState> {
       await _storage.delete(key: _keyEmail);
       await _storage.delete(key: _keyLastSync);
     } catch (_) {}
-    state = const AuthState.unauthenticated();
+    state = const AuthState();
   }
 
   void recordSyncSuccess() {
@@ -114,7 +115,7 @@ class AuthNotifier extends Notifier<AuthState> {
               hostKey: state.hostKey ?? '',
               lastSyncedAt: state.lastSyncedAt,
             )
-          : const AuthState.unauthenticated();
+          : const AuthState();
     }
   }
 }

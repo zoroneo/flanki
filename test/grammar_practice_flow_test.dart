@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,8 +27,9 @@ void main() {
   late Directory tempDir;
 
   setUp(() async {
-    tempDir = Directory.systemTemp
-        .createTempSync('flanki_grammar_practice_flow_test_');
+    tempDir = Directory.systemTemp.createTempSync(
+      'flanki_grammar_practice_flow_test_',
+    );
     await DatabaseService.instance.init(
       customPath: '${tempDir.path}/test_practice_flow.db',
     );
@@ -104,139 +106,142 @@ void main() {
   );
 
   testWidgets(
-      'Grammar Practice Flow: choice, errorId, cloze, FSRS DB persistence & summary',
-      (
-    WidgetTester tester,
-  ) async {
-    tester.view.physicalSize = const Size(1024, 768);
-    tester.view.devicePixelRatio = 1.0;
-    addTearDown(() {
-      tester.view.resetPhysicalSize();
-      tester.view.resetDevicePixelRatio();
-    });
+    'Grammar Practice Flow: choice, errorId, cloze, FSRS DB persistence & summary',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1024, 768);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-    final container = ProviderContainer();
-    addTearDown(container.dispose);
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
 
-    // Initial session start
-    container
-        .read(grammarSessionNotifierProvider.notifier)
-        .startUnitSession(mockUnit);
+      // Initial session start
+      container
+          .read(grammarSessionNotifierProvider.notifier)
+          .startUnitSession(mockUnit);
 
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: const ShadcnApp(
-          locale: Locale('vi'),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            ShadcnLocalizationsViDelegate(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          home: GrammarPracticeScreen(unitId: 'unit_test_01'),
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const ShadcnApp(
+            locale: Locale('vi'),
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              ShadcnLocalizationsViDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            home: GrammarPracticeScreen(unitId: 'unit_test_01'),
+          ),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      );
+      await tester.pumpAndSettle();
 
-    // 1. QUESTION 1: Choice
-    expect(find.text('Câu 1 / 3'), findsOneWidget);
-    expect(find.text('TRẮC NGHIỆM'), findsOneWidget);
-    expect(findRichText('Choice question 1: She _______ every morning.'),
-        findsOneWidget);
+      // 1. QUESTION 1: Choice
+      expect(find.text('Câu 1 / 3'), findsOneWidget);
+      expect(find.text('TRẮC NGHIỆM'), findsOneWidget);
+      expect(
+        findRichText('Choice question 1: She _______ every morning.'),
+        findsOneWidget,
+      );
 
-    // Select wrong answer 'running' (auto-submits)
-    await tester.tap(find.text('running'));
-    await tester.pumpAndSettle();
+      // Select wrong answer 'running' (auto-submits)
+      await tester.tap(find.text('running'));
+      await tester.pumpAndSettle();
 
-    // Explanation sheet should show incorrect feedback
-    expect(find.text('Chưa chính xác — Ghi nhớ bẫy này!'), findsOneWidget);
-    expect(findRichText('Cô ấy chạy bộ mỗi sáng.'), findsOneWidget);
+      // Explanation sheet should show incorrect feedback
+      expect(find.text('Chưa chính xác — Ghi nhớ bẫy này!'), findsOneWidget);
+      expect(findRichText('Cô ấy chạy bộ mỗi sáng.'), findsOneWidget);
 
-    // Advance to Question 2
-    await tester.tap(find.text('Câu Tiếp Theo'));
-    await tester.pumpAndSettle();
+      // Advance to Question 2
+      await tester.tap(find.text('Câu Tiếp Theo'));
+      await tester.pumpAndSettle();
 
-    // 2. QUESTION 2: Error ID
-    expect(find.text('Câu 2 / 3'), findsOneWidget);
-    expect(find.text('TÌM LỖI SAI'), findsOneWidget);
+      // 2. QUESTION 2: Error ID
+      expect(find.text('Câu 2 / 3'), findsOneWidget);
+      expect(find.text('TÌM LỖI SAI'), findsOneWidget);
 
-    // Select correct answer [A] (auto-submits)
-    await tester.tap(find.text('[A]').last);
-    await tester.pumpAndSettle();
+      // Select correct answer [A] (auto-submits)
+      await tester.tap(find.text('[A]').last);
+      await tester.pumpAndSettle();
 
-    expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
-    expect(findRichText('Họ đã làm việc chăm chỉ.'), findsOneWidget);
+      expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
+      expect(findRichText('Họ đã làm việc chăm chỉ.'), findsOneWidget);
 
-    // Advance to Question 3
-    await tester.tap(find.text('Câu Tiếp Theo'));
-    await tester.pumpAndSettle();
+      // Advance to Question 3
+      await tester.tap(find.text('Câu Tiếp Theo'));
+      await tester.pumpAndSettle();
 
-    // 3. QUESTION 3: Cloze
-    expect(find.text('Câu 3 / 3'), findsOneWidget);
-    expect(find.text('ĐIỀN TỪ'), findsOneWidget);
+      // 3. QUESTION 3: Cloze
+      expect(find.text('Câu 3 / 3'), findsOneWidget);
+      expect(find.text('ĐIỀN TỪ'), findsOneWidget);
 
-    // Enter correct answer 'rises' and submit via onSubmitted
-    await tester.enterText(find.byType(TextField), 'rises');
-    await tester.testTextInput.receiveAction(TextInputAction.done);
-    await tester.pumpAndSettle();
+      // Enter correct answer 'rises' and submit via onSubmitted
+      await tester.enterText(find.byType(TextField), 'rises');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pumpAndSettle();
 
-    expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
+      expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
 
-    // Finish session
-    await tester.tap(find.text('Xem Tổng Kết Bài Học'));
-    await tester.pumpAndSettle();
+      // Finish session
+      await tester.tap(find.text('Xem Tổng Kết Bài Học'));
+      await tester.pumpAndSettle();
 
-    // 4. SUMMARY DIALOG
-    expect(find.text('Tổng Kết Phiên Luyện Tập'), findsOneWidget);
-    expect(find.text('2 / 3'), findsOneWidget); // 2 correct out of 3
-    expect(find.text('Xóa Điểm Yếu Ngay (1 câu sai)'), findsOneWidget);
+      // 4. SUMMARY DIALOG
+      expect(find.text('Tổng Kết Phiên Luyện Tập'), findsOneWidget);
+      expect(find.text('2 / 3'), findsOneWidget); // 2 correct out of 3
+      expect(find.text('Xóa Điểm Yếu Ngay (1 câu sai)'), findsOneWidget);
 
-    // 5. REPOSITORY & DRIFT DB VERIFICATION
-    final repo = container.read(grammarRepositoryProvider);
-    final summary = repo.getUnitSummary('unit_test_01', totalExercises: 3);
+      // 5. REPOSITORY & DRIFT DB VERIFICATION
+      final repo = container.read(grammarRepositoryProvider);
+      final summary = repo.getUnitSummary('unit_test_01', totalExercises: 3);
 
-    expect(summary.completedCount, equals(3));
-    expect(summary.ghostCount, equals(1)); // ex_c1 was answered wrongly
-    expect(repo.getAllGhosts().length, equals(1));
-    expect(repo.getAllGhosts().first.exerciseId, equals('ex_c1'));
+      expect(summary.completedCount, equals(3));
+      expect(summary.ghostCount, equals(1)); // ex_c1 was answered wrongly
+      expect(repo.getAllGhosts().length, equals(1));
+      expect(repo.getAllGhosts().first.exerciseId, equals('ex_c1'));
 
-    final exC1Progress = repo.getProgress('unit_test_01', 'ex_c1');
-    expect(exC1Progress, isNotNull);
-    expect(exC1Progress!.isGhost, isTrue);
-    expect(exC1Progress.isCompleted, isTrue);
-    expect(exC1Progress.lapses, equals(1));
+      final exC1Progress = repo.getProgress('unit_test_01', 'ex_c1');
+      expect(exC1Progress, isNotNull);
+      expect(exC1Progress!.isGhost, isTrue);
+      expect(exC1Progress.isCompleted, isTrue);
+      expect(exC1Progress.lapses, equals(1));
 
-    final exZ1Progress = repo.getProgress('unit_test_01', 'ex_z1');
-    expect(exZ1Progress, isNotNull);
-    expect(exZ1Progress!.isGhost, isFalse);
-    expect(exZ1Progress.isCompleted, isTrue);
+      final exZ1Progress = repo.getProgress('unit_test_01', 'ex_z1');
+      expect(exZ1Progress, isNotNull);
+      expect(exZ1Progress!.isGhost, isFalse);
+      expect(exZ1Progress.isCompleted, isTrue);
 
-    // 6. GHOST CHALLENGE CLEARING
-    // Start ghost challenge from summary
-    await tester.tap(find.text('Xóa Điểm Yếu Ngay (1 câu sai)'));
-    await tester.pumpAndSettle();
+      // 6. GHOST CHALLENGE CLEARING
+      // Start ghost challenge from summary
+      await tester.tap(find.text('Xóa Điểm Yếu Ngay (1 câu sai)'));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Thử Thách Ghost Review'), findsOneWidget);
-    expect(find.text('Câu 1 / 1'), findsOneWidget);
-    expect(findRichText('Choice question 1: She _______ every morning.'),
-        findsOneWidget);
+      expect(find.text('Thử Thách Ghost Review'), findsOneWidget);
+      expect(find.text('Câu 1 / 1'), findsOneWidget);
+      expect(
+        findRichText('Choice question 1: She _______ every morning.'),
+        findsOneWidget,
+      );
 
-    // Now answer correctly: 'runs' (auto-submits)
-    await tester.tap(find.text('runs'));
-    await tester.pumpAndSettle();
+      // Now answer correctly: 'runs' (auto-submits)
+      await tester.tap(find.text('runs'));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
+      expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
 
-    await tester.tap(find.text('Xem Tổng Kết Bài Học'));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('Xem Tổng Kết Bài Học'));
+      await tester.pumpAndSettle();
 
-    // Verify Ghost is now cleared!
-    final updatedGhostProgress = repo.getProgress('unit_test_01', 'ex_c1');
-    expect(updatedGhostProgress!.isGhost, isFalse);
-    expect(repo.getAllGhosts().length, equals(0));
-  });
+      // Verify Ghost is now cleared!
+      final updatedGhostProgress = repo.getProgress('unit_test_01', 'ex_c1');
+      expect(updatedGhostProgress!.isGhost, isFalse);
+      expect(repo.getAllGhosts().length, equals(0));
+    },
+  );
 }

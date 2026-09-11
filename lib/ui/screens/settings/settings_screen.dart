@@ -3,11 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/auth/auth_notifier.dart';
 import '../../../core/localization/locale_notifier.dart';
-import '../../../core/notifiers/settings_notifier.dart';
-import '../../../core/notifiers/update_notifier.dart';
-import '../../../core/theme/theme_notifier.dart';
 import '../../widgets/sync_flow_coordinator.dart';
 import 'widgets/about_info_card.dart';
 import 'widgets/account_sync_card.dart';
@@ -20,18 +16,7 @@ class SettingsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authNotifierProvider);
-    final authNotifier = ref.read(authNotifierProvider.notifier);
     final l10n = context.l10n;
-    final currentLocale = ref.watch(localeNotifierProvider);
-    final localeNotifier = ref.read(localeNotifierProvider.notifier);
-    final themeMode = ref.watch(themeNotifierProvider);
-    final themeNotifier = ref.read(themeNotifierProvider.notifier);
-    final studySettings = ref.watch(studySettingsProvider);
-    final studySettingsNotifier = ref.read(studySettingsProvider.notifier);
-    final updateState = ref.watch(updateProvider);
-    final updateNotifier = ref.read(updateProvider.notifier);
-
     final isSyncing = useState(false);
 
     Future<void> handleSync() async {
@@ -59,36 +44,15 @@ class SettingsScreen extends HookConsumerWidget {
                   vertical: 16.0,
                 ),
                 children: [
-                  AccountSyncCard(
-                    authState: authState,
-                    authNotifier: authNotifier,
-                    isSyncing: isSyncing,
-                    onSync: handleSync,
-                  ),
+                  AccountSyncCard(isSyncing: isSyncing, onSync: handleSync),
                   const SizedBox(height: 24),
-                  AppPreferencesCard(
-                    currentLocale: currentLocale,
-                    localeNotifier: localeNotifier,
-                    themeMode: themeMode,
-                    themeNotifier: themeNotifier,
-                  ),
+                  const AppPreferencesCard(),
                   const SizedBox(height: 24),
-                  SpacedRepetitionCard(
-                    studySettings: studySettings,
-                    studySettingsNotifier: studySettingsNotifier,
-                  ),
+                  const SpacedRepetitionCard(),
                   const SizedBox(height: 24),
-                  StudyRemindersCard(
-                    studySettings: studySettings,
-                    studySettingsNotifier: studySettingsNotifier,
-                  ),
+                  const StudyRemindersCard(),
                   const SizedBox(height: 24),
-                  AboutInfoCard(
-                    themeMode: themeMode,
-                    isFsrsEnabled: studySettings.fsrsEnabled,
-                    updateState: updateState,
-                    updateNotifier: updateNotifier,
-                  ),
+                  const AboutInfoCard(),
                   SizedBox(height: isMobile ? 110 : 40),
                 ],
               ),

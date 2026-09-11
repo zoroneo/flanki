@@ -54,9 +54,9 @@ class AnkiWebMediaSyncService {
     http.Client? client,
     AnkiWebConfig? config,
     AppLocalizations? l10n,
-  })  : _client = client ?? http.Client(),
-        _config = config ?? const AnkiWebConfig(),
-        _customL10n = l10n;
+  }) : _client = client ?? http.Client(),
+       _config = config ?? const AnkiWebConfig(),
+       _customL10n = l10n;
 
   AppLocalizations get l10n => _customL10n ?? AppConfig.getL10n();
 
@@ -77,8 +77,9 @@ class AnkiWebMediaSyncService {
       beginReq.fields['k'] = hostKey;
       beginReq.fields['v'] = _config.effectiveClientVersion;
 
-      final beginStreamed =
-          await _client.send(beginReq).timeout(_config.effectiveMetaTimeout);
+      final beginStreamed = await _client
+          .send(beginReq)
+          .timeout(_config.effectiveMetaTimeout);
       final beginRes = await http.Response.fromStream(beginStreamed);
 
       if (beginRes.statusCode >= 400) {
@@ -108,8 +109,9 @@ class AnkiWebMediaSyncService {
       changesReq.fields['k'] = sessionKey.isNotEmpty ? sessionKey : hostKey;
       changesReq.fields['data'] = jsonEncode({'lastUsn': lastUsn});
 
-      final changesStreamed =
-          await _client.send(changesReq).timeout(_config.effectiveMetaTimeout);
+      final changesStreamed = await _client
+          .send(changesReq)
+          .timeout(_config.effectiveMetaTimeout);
       final changesRes = await http.Response.fromStream(changesStreamed);
 
       if (changesRes.statusCode >= 400) {

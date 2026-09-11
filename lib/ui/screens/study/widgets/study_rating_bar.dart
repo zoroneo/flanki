@@ -27,7 +27,8 @@ class StudyRatingBar extends StatelessWidget {
           child: RatingButton(
             label: l10n.ratingAgain,
             shortcutHint: isMobile ? null : '1',
-            interval: intervals[ReviewRating.again] ??
+            interval:
+                intervals[ReviewRating.again] ??
                 '< ${l10n.intervalMinutes(10)}',
             backgroundColor: m.Colors.red.shade600,
             onTap: () => onRate(ReviewRating.again),
@@ -151,10 +152,7 @@ class RatingButton extends HookWidget {
         if (shortcutHint != null) ...[
           const SizedBox(width: 4),
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 4,
-              vertical: 1,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
             decoration: BoxDecoration(
               color: m.Colors.black.withValues(alpha: 0.25),
               borderRadius: BorderRadius.circular(4),

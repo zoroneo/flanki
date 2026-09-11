@@ -149,9 +149,10 @@ class ClozeQuestionWidget extends HookWidget {
                 const SizedBox(height: 8),
                 Text(
                   l10n.grammarClozeYourAnswer(
-                      selectedAnswer?.trim().isEmpty ?? true
-                          ? l10n.grammarClozeBlank
-                          : selectedAnswer!),
+                    selectedAnswer?.trim().isEmpty ?? true
+                        ? l10n.grammarClozeBlank
+                        : selectedAnswer!,
+                  ),
                   style: theme.typography.small.copyWith(
                     color: theme.colorScheme.mutedForeground,
                   ),
@@ -168,12 +169,15 @@ class ClozeQuestionWidget extends HookWidget {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 2),
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.green.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(
-                              color: Colors.green.withValues(alpha: 0.4)),
+                            color: Colors.green.withValues(alpha: 0.4),
+                          ),
                         ),
                         child: Text(
                           exercise.correctAnswer,

@@ -255,8 +255,9 @@ class AnkiTemplateEngine {
       if (idx == activeIndex) {
         if (!isBack) {
           // Question: show hint or [...]
-          final displayHint =
-              (hint != null && hint.isNotEmpty) ? '[$hint]' : '[...]';
+          final displayHint = (hint != null && hint.isNotEmpty)
+              ? '[$hint]'
+              : '[...]';
           return '<span class="cloze-hint" style="color: #3b82f6; font-weight: bold;">$displayHint</span>';
         } else {
           // Answer: show answer highlighted

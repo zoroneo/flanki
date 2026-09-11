@@ -1,7 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/update_info.dart';
 import '../services/desktop_update_service.dart';
+
+part 'update_notifier.freezed.dart';
+part 'update_notifier.g.dart';
 
 enum UpdateStatus {
   idle,
@@ -13,57 +17,24 @@ enum UpdateStatus {
   error,
 }
 
-enum UpdateErrorType {
-  checkFailed,
-  downloadFailed,
-  installFailed,
-}
+enum UpdateErrorType { checkFailed, downloadFailed, installFailed }
 
-class UpdateState {
-  final UpdateStatus status;
-  final UpdateInfo? updateInfo;
-  final double downloadProgress;
-  final String? downloadedFilePath;
-  final String? errorMessage;
-  final UpdateErrorType? errorType;
-  final DateTime? lastChecked;
-  final bool isBackgroundCheck;
-
-  const UpdateState({
-    this.status = UpdateStatus.idle,
-    this.updateInfo,
-    this.downloadProgress = 0.0,
-    this.downloadedFilePath,
-    this.errorMessage,
-    this.errorType,
-    this.lastChecked,
-    this.isBackgroundCheck = false,
-  });
-
-  UpdateState copyWith({
-    UpdateStatus? status,
+@freezed
+abstract class UpdateState with _$UpdateState {
+  const factory UpdateState({
+    @Default(UpdateStatus.idle) UpdateStatus status,
     UpdateInfo? updateInfo,
-    double? downloadProgress,
+    @Default(0.0) double downloadProgress,
     String? downloadedFilePath,
     String? errorMessage,
     UpdateErrorType? errorType,
     DateTime? lastChecked,
-    bool? isBackgroundCheck,
-  }) {
-    return UpdateState(
-      status: status ?? this.status,
-      updateInfo: updateInfo ?? this.updateInfo,
-      downloadProgress: downloadProgress ?? this.downloadProgress,
-      downloadedFilePath: downloadedFilePath ?? this.downloadedFilePath,
-      errorMessage: errorMessage,
-      errorType: errorType,
-      lastChecked: lastChecked ?? this.lastChecked,
-      isBackgroundCheck: isBackgroundCheck ?? this.isBackgroundCheck,
-    );
-  }
+    @Default(false) bool isBackgroundCheck,
+  }) = _UpdateState;
 }
 
-class UpdateNotifier extends Notifier<UpdateState> {
+@Riverpod(keepAlive: true, name: 'updateProvider')
+class UpdateNotifier extends _$UpdateNotifier {
   late final DesktopUpdateService _service;
 
   @override
@@ -169,7 +140,3 @@ class UpdateNotifier extends Notifier<UpdateState> {
     state = state.copyWith(status: UpdateStatus.idle);
   }
 }
-
-final updateProvider = NotifierProvider<UpdateNotifier, UpdateState>(
-  UpdateNotifier.new,
-);

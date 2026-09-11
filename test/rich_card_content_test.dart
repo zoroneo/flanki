@@ -21,20 +21,14 @@ void main() {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: Scaffold(
-        child: child,
-      ),
+      home: Scaffold(child: child),
     );
   }
 
   group('RichCardContent Enhanced Formatting Tests', () {
     testWidgets('renders default centered crossAxisAlignment', (tester) async {
       await tester.pumpWidget(
-        wrapWithTheme(
-          const RichCardContent(
-            content: '<b>Hello</b> World',
-          ),
-        ),
+        wrapWithTheme(const RichCardContent(content: '<b>Hello</b> World')),
       );
       await tester.pumpAndSettle();
 
@@ -52,8 +46,9 @@ void main() {
       expect(find.byType(HtmlWidget), findsOneWidget);
     });
 
-    testWidgets('renders custom start crossAxisAlignment and left textAlign',
-        (tester) async {
+    testWidgets('renders custom start crossAxisAlignment and left textAlign', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         wrapWithTheme(
           const RichCardContent(
@@ -83,111 +78,122 @@ void main() {
     });
 
     testWidgets(
-        'preserves existing html without inserting extra breaks on block tags',
-        (tester) async {
-      await tester.pumpWidget(
-        wrapWithTheme(
-          const RichCardContent(
-            content: '<p>Paragraph 1</p><p>Paragraph 2</p>',
-            crossAxisAlignment: CrossAxisAlignment.start,
+      'preserves existing html without inserting extra breaks on block tags',
+      (tester) async {
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const RichCardContent(
+              content: '<p>Paragraph 1</p><p>Paragraph 2</p>',
+              crossAxisAlignment: CrossAxisAlignment.start,
+            ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
-      expect(htmlWidget.html, contains('<p>Paragraph 1</p><p>Paragraph 2</p>'));
-    });
+        final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
+        expect(
+          htmlWidget.html,
+          contains('<p>Paragraph 1</p><p>Paragraph 2</p>'),
+        );
+      },
+    );
 
     testWidgets(
-        'backward compatibility: plain text without tags renders cleanly',
-        (tester) async {
-      await tester.pumpWidget(
-        wrapWithTheme(
-          const RichCardContent(
-            content: 'Plain unformatted text with no tags at all.',
-            crossAxisAlignment: CrossAxisAlignment.start,
+      'backward compatibility: plain text without tags renders cleanly',
+      (tester) async {
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const RichCardContent(
+              content: 'Plain unformatted text with no tags at all.',
+              crossAxisAlignment: CrossAxisAlignment.start,
+            ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
-      expect(htmlWidget.html,
-          contains('Plain unformatted text with no tags at all.'));
-    });
+        final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
+        expect(
+          htmlWidget.html,
+          contains('Plain unformatted text with no tags at all.'),
+        );
+      },
+    );
 
     testWidgets(
-        'rich HTML formatting tags (b, u, mark, span, code) render without issues',
-        (tester) async {
-      const richSample =
-          '<b>Bold</b> <u>Underline</u> <mark>Highlight</mark> <span style="color: #22c55e;">Green</span> <code>code</code>';
-      await tester.pumpWidget(
-        wrapWithTheme(
-          const RichCardContent(
-            content: richSample,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      'rich HTML formatting tags (b, u, mark, span, code) render without issues',
+      (tester) async {
+        const richSample =
+            '<b>Bold</b> <u>Underline</u> <mark>Highlight</mark> <span style="color: #22c55e;">Green</span> <code>code</code>';
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const RichCardContent(
+              content: richSample,
+              crossAxisAlignment: CrossAxisAlignment.start,
+            ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
-      expect(htmlWidget.html, contains('<b>Bold</b>'));
-      expect(htmlWidget.html, contains('<u>Underline</u>'));
-      expect(htmlWidget.html, contains('<mark>Highlight</mark>'));
-      expect(htmlWidget.html, contains('<code>code</code>'));
-    });
+        final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
+        expect(htmlWidget.html, contains('<b>Bold</b>'));
+        expect(htmlWidget.html, contains('<u>Underline</u>'));
+        expect(htmlWidget.html, contains('<mark>Highlight</mark>'));
+        expect(htmlWidget.html, contains('<code>code</code>'));
+      },
+    );
 
     testWidgets(
-        'renders audio button inline next to vocabulary label without trailing Wrap',
-        (tester) async {
-      await tester.pumpWidget(
-        wrapWithTheme(
-          const RichCardContent(
-            content: 'Vocabulary [sound:test.mp3]',
-            crossAxisAlignment: CrossAxisAlignment.start,
+      'renders audio button inline next to vocabulary label without trailing Wrap',
+      (tester) async {
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const RichCardContent(
+              content: 'Vocabulary [sound:test.mp3]',
+              crossAxisAlignment: CrossAxisAlignment.start,
+            ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      // No separate bottom Wrap
-      expect(find.byType(Wrap), findsNothing);
+        // No separate bottom Wrap
+        expect(find.byType(Wrap), findsNothing);
 
-      // Audio play button is rendered inline inside HtmlWidget
-      expect(find.text('test.mp3'), findsOneWidget);
-      expect(find.byIcon(LucideIcons.volume2), findsOneWidget);
-    });
+        // Audio play button is rendered inline inside HtmlWidget
+        expect(find.text('test.mp3'), findsOneWidget);
+        expect(find.byIcon(LucideIcons.volume2), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'renders audio buttons directly inline with Keyword, Meaning, Example labels',
-        (tester) async {
-      const cardContent = '''
+      'renders audio buttons directly inline with Keyword, Meaning, Example labels',
+      (tester) async {
+        const cardContent = '''
 <div>Keyword [sound:4000B1_agree.mp3]</div>
 <div>Meaning [sound:4000B1_agree_meaning.mp3]</div>
 <div>Example [sound:4000B1_agree_example.mp3]</div>
 ''';
-      await tester.pumpWidget(
-        wrapWithTheme(
-          const RichCardContent(
-            content: cardContent,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const RichCardContent(
+              content: cardContent,
+              crossAxisAlignment: CrossAxisAlignment.start,
+            ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      // All audio files rendered inline with their respective labels
-      expect(find.text('4000B1_agree.mp3'), findsOneWidget);
-      expect(find.text('4000B1_agree_meaning.mp3'), findsOneWidget);
-      expect(find.text('4000B1_agree_example.mp3'), findsOneWidget);
-      expect(find.byIcon(LucideIcons.volume2), findsNWidgets(3));
-      expect(find.byType(Wrap), findsNothing);
-    });
+        // All audio files rendered inline with their respective labels
+        expect(find.text('4000B1_agree.mp3'), findsOneWidget);
+        expect(find.text('4000B1_agree_meaning.mp3'), findsOneWidget);
+        expect(find.text('4000B1_agree_example.mp3'), findsOneWidget);
+        expect(find.byIcon(LucideIcons.volume2), findsNWidgets(3));
+        expect(find.byType(Wrap), findsNothing);
+      },
+    );
 
-    testWidgets('renders type result box in place within HtmlWidget',
-        (tester) async {
+    testWidgets('renders type result box in place within HtmlWidget', (
+      tester,
+    ) async {
       const cardContent = '''
 <div>Book 1 - Card No.: 2</div>
 <div>[[TYPE_RESULT:agree]]</div>
@@ -195,10 +201,7 @@ void main() {
 ''';
       await tester.pumpWidget(
         wrapWithTheme(
-          const RichCardContent(
-            content: cardContent,
-            typedAnswer: 'agree',
-          ),
+          const RichCardContent(content: cardContent, typedAnswer: 'agree'),
         ),
       );
       await tester.pumpAndSettle();

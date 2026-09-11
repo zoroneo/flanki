@@ -65,3 +65,8 @@ graph TD
 * Lưu trữ session token bảo mật với `flutter_secure_storage` (iOS Keychain / Android KeyStore / Windows DPAPI).
 * Đồng bộ 2 chiều toàn diện (Bộ thẻ, Thẻ học, Trạng thái FSRS, Lịch sử `revlog`) và Tệp tin đa phương tiện (`/msync/`).
 * Điều phối xung đột tự động với `SyncFlowCoordinator` và `SyncConflictDialog` (Responsive Modal / BottomSheet).
+
+### F. Reactive State Management & Code Generation (lib/core/notifiers/)
+* Toàn bộ trạng thái phiên học (`StudySessionState`), ngữ pháp (`GrammarSessionState`), cài đặt (`StudySettings`), thống kê (`StatsData`) được định nghĩa bằng **`@freezed`** bất biến với deep equality.
+* Di chuyển toàn bộ Notifiers sang **`riverpod_annotation: ^4.0.7`** với code generation tự động (`riverpod_generator: ^4.0.9`), giúp giảm thiểu boilerplate và đảm bảo an toàn kiểu dữ liệu cao nhất.
+* Chi tiết xem tại: [[01-Architecture/06-State-Management-and-Render-Optimization|06. Kiến Trúc State Freezed & Tối Ưu Hóa Rebuild Riverpod]].

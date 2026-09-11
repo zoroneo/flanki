@@ -174,8 +174,9 @@ class GroupedDeckCard extends HookWidget {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: theme.colorScheme.destructive
-                                .withValues(alpha: 0.15),
+                            color: theme.colorScheme.destructive.withValues(
+                              alpha: 0.15,
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -194,8 +195,9 @@ class GroupedDeckCard extends HookWidget {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: theme.colorScheme.primary
-                                .withValues(alpha: 0.15),
+                            color: theme.colorScheme.primary.withValues(
+                              alpha: 0.15,
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -241,9 +243,7 @@ class GroupedDeckCard extends HookWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.muted.withValues(alpha: 0.25),
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(8),
-        ),
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(8)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
@@ -282,10 +282,7 @@ class GroupedDeckCard extends HookWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () => onStudyDeck(deck.id),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 10,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Row(
           children: [
             Icon(
@@ -317,8 +314,9 @@ class GroupedDeckCard extends HookWidget {
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          theme.colorScheme.destructive.withValues(alpha: 0.15),
+                      color: theme.colorScheme.destructive.withValues(
+                        alpha: 0.15,
+                      ),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(

@@ -38,11 +38,14 @@ void useAttachTabFocusChain(
 
         // Tab / Shift+Tab handling
         if (event.logicalKey == LogicalKeyboardKey.tab) {
-          final isShift = HardwareKeyboard.instance.isShiftPressed ||
-              HardwareKeyboard.instance.logicalKeysPressed
-                  .contains(LogicalKeyboardKey.shiftLeft) ||
-              HardwareKeyboard.instance.logicalKeysPressed
-                  .contains(LogicalKeyboardKey.shiftRight);
+          final isShift =
+              HardwareKeyboard.instance.isShiftPressed ||
+              HardwareKeyboard.instance.logicalKeysPressed.contains(
+                LogicalKeyboardKey.shiftLeft,
+              ) ||
+              HardwareKeyboard.instance.logicalKeysPressed.contains(
+                LogicalKeyboardKey.shiftRight,
+              );
 
           if (isShift) {
             if (currentIndex > 0) {

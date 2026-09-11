@@ -47,9 +47,7 @@ void main() {
     return Uint8List.fromList(ZipEncoder().encode(archive));
   }
 
-  test(
-      'AnkiWebMediaSyncService performs begin, fetch changes, and downloads media files',
-      () async {
+  test('AnkiWebMediaSyncService performs begin, fetch changes, and downloads media files', () async {
     final mockZip = createMockMediaZip({
       '4000B1_008.jpg': [0xFF, 0xD8, 0xFF, 0xE0, 0x01, 0x02],
       'audio_sample.mp3': [0x49, 0x44, 0x33, 0x03, 0x00],

@@ -1,23 +1,19 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/notifiers/settings_notifier.dart';
 import 'settings_info_rows.dart';
 
-class SpacedRepetitionCard extends StatelessWidget {
-  final StudySettings studySettings;
-  final StudySettingsNotifier studySettingsNotifier;
-
-  const SpacedRepetitionCard({
-    super.key,
-    required this.studySettings,
-    required this.studySettingsNotifier,
-  });
+class SpacedRepetitionCard extends ConsumerWidget {
+  const SpacedRepetitionCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final studySettings = ref.watch(studySettingsProvider);
+    final studySettingsNotifier = ref.read(studySettingsProvider.notifier);
     final isFsrsEnabled = studySettings.fsrsEnabled;
 
     return Column(
@@ -35,17 +31,38 @@ class SpacedRepetitionCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAlgorithmSwitch(theme, l10n, isFsrsEnabled),
+              _buildAlgorithmSwitch(
+                theme,
+                l10n,
+                isFsrsEnabled,
+                studySettings,
+                studySettingsNotifier,
+              ),
               if (isFsrsEnabled) ...[
                 const SizedBox(height: 16),
-                _buildRetentionRates(theme, l10n),
+                _buildRetentionRates(
+                  theme,
+                  l10n,
+                  studySettings,
+                  studySettingsNotifier,
+                ),
               ],
               const SizedBox(height: 16),
               const Divider(),
               const SizedBox(height: 12),
-              _buildNewCardsPerDay(theme, l10n),
+              _buildNewCardsPerDay(
+                theme,
+                l10n,
+                studySettings,
+                studySettingsNotifier,
+              ),
               const SizedBox(height: 16),
-              _buildMaxReviewsPerDay(theme, l10n),
+              _buildMaxReviewsPerDay(
+                theme,
+                l10n,
+                studySettings,
+                studySettingsNotifier,
+              ),
             ],
           ),
         ),
@@ -57,6 +74,8 @@ class SpacedRepetitionCard extends StatelessWidget {
     ThemeData theme,
     dynamic l10n,
     bool isFsrsEnabled,
+    StudySettings studySettings,
+    StudySettingsNotifier studySettingsNotifier,
   ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +108,12 @@ class SpacedRepetitionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRetentionRates(ThemeData theme, dynamic l10n) {
+  Widget _buildRetentionRates(
+    ThemeData theme,
+    dynamic l10n,
+    StudySettings studySettings,
+    StudySettingsNotifier studySettingsNotifier,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -122,7 +146,12 @@ class SpacedRepetitionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildNewCardsPerDay(ThemeData theme, dynamic l10n) {
+  Widget _buildNewCardsPerDay(
+    ThemeData theme,
+    dynamic l10n,
+    StudySettings studySettings,
+    StudySettingsNotifier studySettingsNotifier,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -154,7 +183,12 @@ class SpacedRepetitionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildMaxReviewsPerDay(ThemeData theme, dynamic l10n) {
+  Widget _buildMaxReviewsPerDay(
+    ThemeData theme,
+    dynamic l10n,
+    StudySettings studySettings,
+    StudySettingsNotifier studySettingsNotifier,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

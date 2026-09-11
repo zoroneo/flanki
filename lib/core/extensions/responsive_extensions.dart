@@ -18,12 +18,7 @@ extension ResponsiveContext on BuildContext {
   bool get isDesktop => deviceScreenType == DeviceScreenType.desktop;
 
   /// Returns value based on screen type via [getValueForScreenType].
-  T responsive<T>({
-    required T mobile,
-    T? tablet,
-    T? desktop,
-    T? watch,
-  }) {
+  T responsive<T>({required T mobile, T? tablet, T? desktop, T? watch}) {
     return getValueForScreenType<T>(
       context: this,
       mobile: mobile,

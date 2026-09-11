@@ -16,7 +16,9 @@ class StatsScreen extends HookConsumerWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final stats = ref.watch(statsNotifierProvider);
-    final studySettings = ref.watch(studySettingsProvider);
+    final desiredRetention = ref.watch(
+      studySettingsProvider.select((s) => s.desiredRetention),
+    );
 
     useEffect(() {
       Future.microtask(
@@ -27,10 +29,9 @@ class StatsScreen extends HookConsumerWidget {
 
     final retentionPercentStr =
         '${(stats.retentionRate * 100).toStringAsFixed(1)}%';
-    final isTargetReached =
-        stats.retentionRate >= studySettings.desiredRetention;
+    final isTargetReached = stats.retentionRate >= desiredRetention;
     final targetLabel = l10n.targetSuffix(
-      '${(studySettings.desiredRetention * 100).toInt()}%',
+      '${(desiredRetention * 100).toInt()}%',
     );
 
     return ResponsiveBuilder(
@@ -49,7 +50,9 @@ class StatsScreen extends HookConsumerWidget {
               constraints: const BoxConstraints(maxWidth: 880),
               child: ListView(
                 padding: EdgeInsets.symmetric(
-                    horizontal: horizontalPadding, vertical: 16.0),
+                  horizontal: horizontalPadding,
+                  vertical: 16.0,
+                ),
                 children: [
                   // Retention & FSRS Overview Card
                   Card(
@@ -74,10 +77,11 @@ class StatsScreen extends HookConsumerWidget {
                                   vertical: 3,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: (isTargetReached
-                                          ? m.Colors.green
-                                          : m.Colors.orange)
-                                      .withValues(alpha: 0.15),
+                                  color:
+                                      (isTargetReached
+                                              ? m.Colors.green
+                                              : m.Colors.orange)
+                                          .withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(

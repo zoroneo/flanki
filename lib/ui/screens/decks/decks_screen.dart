@@ -32,9 +32,6 @@ class DecksScreen extends HookConsumerWidget {
     final theme = Theme.of(context);
     final decks = ref.watch(deckListProvider);
     final deckNotifier = ref.read(deckListProvider.notifier);
-    final authState = ref.watch(authNotifierProvider);
-    final stats = ref.watch(statsNotifierProvider);
-    final studySettings = ref.watch(studySettingsProvider);
     final l10n = context.l10n;
 
     // Hooks: Search query and filter state
@@ -47,11 +44,7 @@ class DecksScreen extends HookConsumerWidget {
         if (!context.mounted) return;
         deckNotifier.refresh();
         ref.read(statsNotifierProvider.notifier).refresh();
-        SyncFlowCoordinator.runAutoSync(
-          context: context,
-          ref: ref,
-          l10n: l10n,
-        );
+        SyncFlowCoordinator.runAutoSync(context: context, ref: ref, l10n: l10n);
       });
       return null;
     }, const []);
@@ -121,10 +114,7 @@ class DecksScreen extends HookConsumerWidget {
         final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
 
         return Scaffold(
-          headers: [
-            _buildAppBar(theme, studySettings, isSyncing, handleSyncTap,
-                authState, l10n),
-          ],
+          headers: [_buildAppBar(theme, isSyncing, handleSyncTap, l10n)],
           child: Stack(
             children: [
               Center(
@@ -138,12 +128,25 @@ class DecksScreen extends HookConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              DeckStatsBar(
-                                totalDue: totalDue,
-                                totalNew: totalNew,
-                                streakDays: stats.streakDays,
-                                desiredRetention:
-                                    studySettings.desiredRetention,
+                              Consumer(
+                                builder: (context, ref, _) {
+                                  final streakDays = ref.watch(
+                                    statsNotifierProvider.select(
+                                      (s) => s.streakDays,
+                                    ),
+                                  );
+                                  final desiredRetention = ref.watch(
+                                    studySettingsProvider.select(
+                                      (s) => s.desiredRetention,
+                                    ),
+                                  );
+                                  return DeckStatsBar(
+                                    totalDue: totalDue,
+                                    totalNew: totalNew,
+                                    streakDays: streakDays,
+                                    desiredRetention: desiredRetention,
+                                  );
+                                },
                               ),
                               const SizedBox(height: 16),
                               DeckToolbar(
@@ -155,11 +158,17 @@ class DecksScreen extends HookConsumerWidget {
                               ),
                               const SizedBox(height: 20),
                               _buildHeaderSection(
-                                  theme, l10n, filteredDecks.length),
+                                theme,
+                                l10n,
+                                filteredDecks.length,
+                              ),
                               const SizedBox(height: 12),
                               if (filteredDecks.isEmpty)
                                 _buildEmptyState(
-                                    theme, l10n, openCreateDeckModal),
+                                  theme,
+                                  l10n,
+                                  openCreateDeckModal,
+                                ),
                             ],
                           ),
                         ),
@@ -171,9 +180,7 @@ class DecksScreen extends HookConsumerWidget {
                           standaloneDecks: standaloneDecks,
                           searchQuery: searchQuery.value,
                         ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 120),
-                      ),
+                      const SliverToBoxAdapter(child: SizedBox(height: 120)),
                     ],
                   ),
                 ),
@@ -184,7 +191,8 @@ class DecksScreen extends HookConsumerWidget {
                     behavior: HitTestBehavior.opaque,
                     onTap: () => isDialOpen.value = false,
                     child: Container(
-                        color: m.Colors.black.withValues(alpha: 0.35)),
+                      color: m.Colors.black.withValues(alpha: 0.35),
+                    ),
                   ),
                 ),
               if (isMobile)
@@ -203,10 +211,8 @@ class DecksScreen extends HookConsumerWidget {
 
   AppBar _buildAppBar(
     ThemeData theme,
-    dynamic studySettings,
     ValueNotifier<bool> isSyncing,
     Future<void> Function() handleSyncTap,
-    dynamic authState,
     dynamic l10n,
   ) {
     return AppBar(
@@ -219,42 +225,56 @@ class DecksScreen extends HookConsumerWidget {
             style: theme.typography.h3.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              studySettings.fsrsEnabled ? 'FSRS v5' : 'SM-2',
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
-                color: theme.colorScheme.primary,
-              ),
-            ),
+          Consumer(
+            builder: (context, ref, _) {
+              final fsrsEnabled = ref.watch(
+                studySettingsProvider.select((s) => s.fsrsEnabled),
+              );
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  fsrsEnabled ? 'FSRS v5' : 'SM-2',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
       trailing: [
-        GhostButton(
-          onPressed: isSyncing.value ? null : handleSyncTap,
-          leading: isSyncing.value
-              ? const SizedBox(
-                  width: 14,
-                  height: 14,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Icon(
-                  LucideIcons.cloud,
-                  size: 16,
-                  color: authState.isAuthenticated ? m.Colors.green : null,
-                ),
-          child: Text(
-            authState.isAuthenticated ? l10n.linkedBadge : l10n.syncBadge,
-            maxLines: 1,
-            softWrap: false,
-          ),
+        Consumer(
+          builder: (context, ref, _) {
+            final isAuthenticated = ref.watch(
+              authNotifierProvider.select((s) => s.isAuthenticated),
+            );
+            return GhostButton(
+              onPressed: isSyncing.value ? null : handleSyncTap,
+              leading: isSyncing.value
+                  ? const SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Icon(
+                      LucideIcons.cloud,
+                      size: 16,
+                      color: isAuthenticated ? m.Colors.green : null,
+                    ),
+              child: Text(
+                isAuthenticated ? l10n.linkedBadge : l10n.syncBadge,
+                maxLines: 1,
+                softWrap: false,
+              ),
+            );
+          },
         ),
       ],
     );
@@ -264,10 +284,7 @@ class DecksScreen extends HookConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          '${l10n.navDecks} ($count)',
-          style: theme.typography.semiBold,
-        ),
+        Text('${l10n.navDecks} ($count)', style: theme.typography.semiBold),
       ],
     );
   }
@@ -299,11 +316,7 @@ class DecksScreen extends HookConsumerWidget {
               alignment: Alignment.center,
               onPressed: openCreateDeckModal,
               leading: const Icon(LucideIcons.plus, size: 16),
-              child: Text(
-                l10n.addNewDeck,
-                maxLines: 1,
-                softWrap: false,
-              ),
+              child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
             ),
           ],
         ),
@@ -339,9 +352,7 @@ class DecksScreen extends HookConsumerWidget {
           ),
         ),
       if (groupedEntries.isNotEmpty && standaloneDecks.isNotEmpty)
-        const SliverToBoxAdapter(
-          child: SizedBox(height: 12),
-        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 12)),
       if (standaloneDecks.isNotEmpty)
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -411,11 +422,12 @@ class DecksScreen extends HookConsumerWidget {
       if (result == null || result.files.isEmpty) return;
 
       final selectedFile = result.files.first;
-      final ext = (selectedFile.extension ??
-              (selectedFile.name.contains('.')
-                  ? selectedFile.name.split('.').last
-                  : ''))
-          .toLowerCase();
+      final ext =
+          (selectedFile.extension ??
+                  (selectedFile.name.contains('.')
+                      ? selectedFile.name.split('.').last
+                      : ''))
+              .toLowerCase();
 
       if (ext != 'apkg' && ext != 'zip' && ext != 'colpkg') {
         if (context.mounted) {
@@ -426,8 +438,10 @@ class DecksScreen extends HookConsumerWidget {
                 child: Basic(
                   title: Text(l10n.importApkgError),
                   subtitle: Text(l10n.selectApkgOrZipPrompt),
-                  leading:
-                      const Icon(LucideIcons.circleAlert, color: m.Colors.red),
+                  leading: const Icon(
+                    LucideIcons.circleAlert,
+                    color: m.Colors.red,
+                  ),
                   trailing: IconButton.ghost(
                     icon: const Icon(LucideIcons.x),
                     onPressed: () => overlay.close(),
@@ -502,8 +516,10 @@ class DecksScreen extends HookConsumerWidget {
                     importResult.mediaCount,
                   ),
                 ),
-                leading:
-                    const Icon(LucideIcons.circleCheck, color: m.Colors.green),
+                leading: const Icon(
+                  LucideIcons.circleCheck,
+                  color: m.Colors.green,
+                ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -522,8 +538,10 @@ class DecksScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.importApkgError),
                 subtitle: Text(e.toString()),
-                leading:
-                    const Icon(LucideIcons.circleAlert, color: m.Colors.red),
+                leading: const Icon(
+                  LucideIcons.circleAlert,
+                  color: m.Colors.red,
+                ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -603,8 +621,10 @@ class DecksScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.deckCreatedSuccess),
                 subtitle: Text(l10n.deckCreatedSuccessDesc(name)),
-                leading:
-                    const Icon(LucideIcons.circleCheck, color: m.Colors.green),
+                leading: const Icon(
+                  LucideIcons.circleCheck,
+                  color: m.Colors.green,
+                ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),

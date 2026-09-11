@@ -118,8 +118,7 @@ void main() {
           {
             'name': 'flanki-setup-windows.exe',
             'size': 25000000,
-            'browser_download_url':
-                'https://github.com/zoroneo/flanki/releases/download/v1.1.0/flanki-setup-windows.exe',
+            'browser_download_url': 'https://github.com/zoroneo/flanki/releases/download/v1.1.0/flanki-setup-windows.exe',
           },
         ],
       };
@@ -183,22 +182,27 @@ void main() {
 
   group('Enum-safe Type Standardization Tests', () {
     test('DesktopTrayAction correctly maps keys to actions', () {
-      expect(DesktopTrayAction.fromKey('show_window'),
-          DesktopTrayAction.showWindow);
       expect(
-          DesktopTrayAction.fromKey('open_study'), DesktopTrayAction.openStudy);
+        DesktopTrayAction.fromKey('show_window'),
+        DesktopTrayAction.showWindow,
+      );
+      expect(
+        DesktopTrayAction.fromKey('open_study'),
+        DesktopTrayAction.openStudy,
+      );
       expect(DesktopTrayAction.fromKey('exit_app'), DesktopTrayAction.exitApp);
       expect(DesktopTrayAction.fromKey('unknown_action'), isNull);
     });
 
     test('UpdateErrorType supports all expected failure modes', () {
       expect(
-          UpdateErrorType.values,
-          containsAll([
-            UpdateErrorType.checkFailed,
-            UpdateErrorType.downloadFailed,
-            UpdateErrorType.installFailed,
-          ]));
+        UpdateErrorType.values,
+        containsAll([
+          UpdateErrorType.checkFailed,
+          UpdateErrorType.downloadFailed,
+          UpdateErrorType.installFailed,
+        ]),
+      );
     });
   });
 }

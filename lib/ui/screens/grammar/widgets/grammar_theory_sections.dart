@@ -100,8 +100,11 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(LucideIcons.sigma,
-                    size: isMobile ? 18 : 20, color: m.Colors.blue),
+                Icon(
+                  LucideIcons.sigma,
+                  size: isMobile ? 18 : 20,
+                  color: m.Colors.blue,
+                ),
                 SizedBox(width: isMobile ? 8 : 10),
                 Expanded(
                   child: Text(
@@ -190,8 +193,11 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(LucideIcons.triangleAlert,
-                    size: isMobile ? 18 : 20, color: m.Colors.orange),
+                Icon(
+                  LucideIcons.triangleAlert,
+                  size: isMobile ? 18 : 20,
+                  color: m.Colors.orange,
+                ),
                 SizedBox(width: isMobile ? 8 : 10),
                 Expanded(
                   child: Text(
@@ -316,8 +322,11 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(LucideIcons.info,
-            size: isMobile ? 13 : 15, color: m.Colors.orange),
+        Icon(
+          LucideIcons.info,
+          size: isMobile ? 13 : 15,
+          color: m.Colors.orange,
+        ),
         const SizedBox(width: 6),
         Expanded(
           child: RichCardContent(
@@ -361,8 +370,11 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(LucideIcons.bookOpen,
-                    size: isMobile ? 18 : 20, color: m.Colors.purple),
+                Icon(
+                  LucideIcons.bookOpen,
+                  size: isMobile ? 18 : 20,
+                  color: m.Colors.purple,
+                ),
                 SizedBox(width: isMobile ? 8 : 10),
                 Expanded(
                   child: Text(

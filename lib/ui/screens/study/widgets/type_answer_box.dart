@@ -94,8 +94,8 @@ class TypeAnswerResultBox extends StatelessWidget {
           color: isEmpty
               ? theme.colorScheme.muted
               : (isCorrect
-                  ? m.Colors.green.withValues(alpha: 0.12)
-                  : m.Colors.red.withValues(alpha: 0.12)),
+                    ? m.Colors.green.withValues(alpha: 0.12)
+                    : m.Colors.red.withValues(alpha: 0.12)),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isEmpty
@@ -126,8 +126,11 @@ class TypeAnswerResultBox extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(LucideIcons.circleCheck,
-                color: m.Colors.green, size: 20),
+            const Icon(
+              LucideIcons.circleCheck,
+              color: m.Colors.green,
+              size: 20,
+            ),
             const SizedBox(width: 8),
             Text(
               l10n.correctAnswerLabel,
@@ -202,8 +205,11 @@ class TypeAnswerResultBox extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(LucideIcons.circleHelp,
-            color: theme.colorScheme.primary, size: 18),
+        Icon(
+          LucideIcons.circleHelp,
+          color: theme.colorScheme.primary,
+          size: 18,
+        ),
         const SizedBox(width: 6),
         Text(
           l10n.answerLabel,

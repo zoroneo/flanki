@@ -1,60 +1,29 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../config/app_config.dart';
 import '../services/desktop_window_service.dart';
 
-class StudySettings {
-  final bool fsrsEnabled;
-  final double desiredRetention;
-  final int newCardsPerDay;
-  final int maxReviewsPerDay;
-  final bool reminderEnabled;
-  final int reminderHour;
-  final int reminderMinute;
-  final bool streakSaverEnabled;
-  final bool minimizeToTrayOnClose;
-  final bool launchAtStartup;
+part 'settings_notifier.freezed.dart';
+part 'settings_notifier.g.dart';
 
-  const StudySettings({
-    this.fsrsEnabled = true,
-    this.desiredRetention = AppConfig.defaultDesiredRetention,
-    this.newCardsPerDay = AppConfig.defaultNewCardsPerDay,
-    this.maxReviewsPerDay = AppConfig.defaultReviewsPerDay,
-    this.reminderEnabled = true,
-    this.reminderHour = AppConfig.defaultReminderHour,
-    this.reminderMinute = AppConfig.defaultReminderMinute,
-    this.streakSaverEnabled = true,
-    this.minimizeToTrayOnClose = true,
-    this.launchAtStartup = false,
-  });
+@freezed
+abstract class StudySettings with _$StudySettings {
+  const StudySettings._();
 
-  StudySettings copyWith({
-    bool? fsrsEnabled,
-    double? desiredRetention,
-    int? newCardsPerDay,
-    int? maxReviewsPerDay,
-    bool? reminderEnabled,
-    int? reminderHour,
-    int? reminderMinute,
-    bool? streakSaverEnabled,
-    bool? minimizeToTrayOnClose,
-    bool? launchAtStartup,
-  }) {
-    return StudySettings(
-      fsrsEnabled: fsrsEnabled ?? this.fsrsEnabled,
-      desiredRetention: desiredRetention ?? this.desiredRetention,
-      newCardsPerDay: newCardsPerDay ?? this.newCardsPerDay,
-      maxReviewsPerDay: maxReviewsPerDay ?? this.maxReviewsPerDay,
-      reminderEnabled: reminderEnabled ?? this.reminderEnabled,
-      reminderHour: reminderHour ?? this.reminderHour,
-      reminderMinute: reminderMinute ?? this.reminderMinute,
-      streakSaverEnabled: streakSaverEnabled ?? this.streakSaverEnabled,
-      minimizeToTrayOnClose:
-          minimizeToTrayOnClose ?? this.minimizeToTrayOnClose,
-      launchAtStartup: launchAtStartup ?? this.launchAtStartup,
-    );
-  }
+  const factory StudySettings({
+    @Default(true) bool fsrsEnabled,
+    @Default(AppConfig.defaultDesiredRetention) double desiredRetention,
+    @Default(AppConfig.defaultNewCardsPerDay) int newCardsPerDay,
+    @Default(AppConfig.defaultReviewsPerDay) int maxReviewsPerDay,
+    @Default(true) bool reminderEnabled,
+    @Default(AppConfig.defaultReminderHour) int reminderHour,
+    @Default(AppConfig.defaultReminderMinute) int reminderMinute,
+    @Default(true) bool streakSaverEnabled,
+    @Default(true) bool minimizeToTrayOnClose,
+    @Default(false) bool launchAtStartup,
+  }) = _StudySettings;
 
   Map<String, dynamic> toMap() {
     return {
@@ -74,16 +43,21 @@ class StudySettings {
   factory StudySettings.fromMap(Map<String, dynamic> map) {
     return StudySettings(
       fsrsEnabled: map['fsrsEnabled'] as bool? ?? true,
-      desiredRetention: (map['desiredRetention'] as num?)?.toDouble() ??
+      desiredRetention:
+          (map['desiredRetention'] as num?)?.toDouble() ??
           AppConfig.defaultDesiredRetention,
-      newCardsPerDay: (map['newCardsPerDay'] as num?)?.toInt() ??
+      newCardsPerDay:
+          (map['newCardsPerDay'] as num?)?.toInt() ??
           AppConfig.defaultNewCardsPerDay,
-      maxReviewsPerDay: (map['maxReviewsPerDay'] as num?)?.toInt() ??
+      maxReviewsPerDay:
+          (map['maxReviewsPerDay'] as num?)?.toInt() ??
           AppConfig.defaultReviewsPerDay,
       reminderEnabled: map['reminderEnabled'] as bool? ?? true,
-      reminderHour: (map['reminderHour'] as num?)?.toInt() ??
+      reminderHour:
+          (map['reminderHour'] as num?)?.toInt() ??
           AppConfig.defaultReminderHour,
-      reminderMinute: (map['reminderMinute'] as num?)?.toInt() ??
+      reminderMinute:
+          (map['reminderMinute'] as num?)?.toInt() ??
           AppConfig.defaultReminderMinute,
       streakSaverEnabled: map['streakSaverEnabled'] as bool? ?? true,
       minimizeToTrayOnClose: map['minimizeToTrayOnClose'] as bool? ?? true,
@@ -103,12 +77,8 @@ const String _kStreakSaverEnabledKey = 'settings_streak_saver_enabled';
 const String _kMinimizeToTrayKey = 'settings_minimize_to_tray';
 const String _kLaunchAtStartupKey = 'settings_launch_at_startup';
 
-final studySettingsProvider =
-    NotifierProvider<StudySettingsNotifier, StudySettings>(
-  StudySettingsNotifier.new,
-);
-
-class StudySettingsNotifier extends Notifier<StudySettings> {
+@Riverpod(keepAlive: true, name: 'studySettingsProvider')
+class StudySettingsNotifier extends _$StudySettingsNotifier {
   final _storage = const FlutterSecureStorage();
 
   @override
@@ -131,8 +101,9 @@ class StudySettingsNotifier extends Notifier<StudySettings> {
       final launchStartupVal = await _storage.read(key: _kLaunchAtStartupKey);
 
       final minTray = minTrayVal != null ? minTrayVal == 'true' : true;
-      final launchStartup =
-          launchStartupVal != null ? launchStartupVal == 'true' : false;
+      final launchStartup = launchStartupVal != null
+          ? launchStartupVal == 'true'
+          : false;
 
       state = StudySettings(
         fsrsEnabled: fsrsVal != null ? fsrsVal == 'true' : true,
@@ -152,8 +123,9 @@ class StudySettingsNotifier extends Notifier<StudySettings> {
         reminderMinute: remMinVal != null
             ? (int.tryParse(remMinVal) ?? AppConfig.defaultReminderMinute)
             : AppConfig.defaultReminderMinute,
-        streakSaverEnabled:
-            streakSaverVal != null ? streakSaverVal == 'true' : true,
+        streakSaverEnabled: streakSaverVal != null
+            ? streakSaverVal == 'true'
+            : true,
         minimizeToTrayOnClose: minTray,
         launchAtStartup: launchStartup,
       );
@@ -303,11 +275,8 @@ class StudySettingsNotifier extends Notifier<StudySettings> {
   }
 }
 
-final fsrsEnabledProvider = NotifierProvider<FsrsEnabledNotifier, bool>(
-  FsrsEnabledNotifier.new,
-);
-
-class FsrsEnabledNotifier extends Notifier<bool> {
+@Riverpod(keepAlive: true, name: 'fsrsEnabledProvider')
+class FsrsEnabledNotifier extends _$FsrsEnabledNotifier {
   @override
   bool build() {
     return ref.watch(studySettingsProvider).fsrsEnabled;

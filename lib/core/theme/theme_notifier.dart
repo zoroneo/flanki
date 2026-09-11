@@ -1,14 +1,13 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+part 'theme_notifier.g.dart';
 
 const String _kThemeModeStorageKey = 'user_selected_theme_mode';
 
-final themeNotifierProvider = NotifierProvider<ThemeNotifier, ThemeMode>(
-  ThemeNotifier.new,
-);
-
-class ThemeNotifier extends Notifier<ThemeMode> {
+@Riverpod(keepAlive: true, name: 'themeNotifierProvider')
+class ThemeNotifier extends _$ThemeNotifier {
   final _storage = const FlutterSecureStorage();
 
   @override

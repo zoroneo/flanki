@@ -42,8 +42,10 @@ void main() {
       expect(l10nEn.trayOpenFlanki, 'Open Flanki');
       expect(l10nEn.trayStudyNow, 'Study Now');
       expect(l10nEn.trayExit, 'Quit Flanki');
-      expect(l10nEn.privacyPolicyTagline,
-          'Local-First • Zero Tracking • Open Source');
+      expect(
+        l10nEn.privacyPolicyTagline,
+        'Local-First • Zero Tracking • Open Source',
+      );
       expect(l10nEn.privacySection1Title, '1. Local-First Storage');
       expect(l10nEn.grammarTableOfContents, 'Table of Contents');
       expect(l10nEn.grammarShortcutsTitle, 'Shortcuts & Guide');
@@ -82,8 +84,10 @@ void main() {
       expect(l10nVi.trayOpenFlanki, 'Mở Flanki');
       expect(l10nVi.trayStudyNow, 'Ôn tập ngay');
       expect(l10nVi.trayExit, 'Thoát hoàn toàn');
-      expect(l10nVi.privacyPolicyTagline,
-          'Ưu tiên cục bộ • Không theo dõi • Mã nguồn mở');
+      expect(
+        l10nVi.privacyPolicyTagline,
+        'Ưu tiên cục bộ • Không theo dõi • Mã nguồn mở',
+      );
       expect(l10nVi.privacySection1Title, '1. Lưu trữ ưu tiên cục bộ');
       expect(l10nVi.grammarTableOfContents, 'Mục Lục Chuyên Đề');
       expect(l10nVi.grammarShortcutsTitle, 'Phím tắt & Hướng dẫn');

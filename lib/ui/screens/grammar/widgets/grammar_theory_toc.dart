@@ -31,13 +31,16 @@ class GrammarTheoryHeaderBanner extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2.5,
+                  ),
                   decoration: BoxDecoration(
                     color: levelColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(6),
-                    border:
-                        Border.all(color: levelColor.withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: levelColor.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Text(
                     levelLabel,
@@ -50,8 +53,10 @@ class GrammarTheoryHeaderBanner extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2.5,
+                  ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.muted,
                     borderRadius: BorderRadius.circular(6),
@@ -117,8 +122,11 @@ class GrammarTheoryTocCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(LucideIcons.listTree,
-                    size: 15, color: theme.colorScheme.primary),
+                Icon(
+                  LucideIcons.listTree,
+                  size: 15,
+                  color: theme.colorScheme.primary,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   l10n.grammarTableOfContents,
@@ -194,9 +202,7 @@ class GrammarTocItem extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
           child: Row(
             children: [
               Icon(icon, size: 15, color: iconColor),

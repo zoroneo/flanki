@@ -44,7 +44,11 @@ class DesktopCardDetailPane extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _buildFrontSection(
-                        theme, l10n, showAnswer, userTypedAnswer),
+                      theme,
+                      l10n,
+                      showAnswer,
+                      userTypedAnswer,
+                    ),
                     if (showAnswer.value) ...[
                       const SizedBox(height: 20),
                       _buildBackSection(theme, l10n, userTypedAnswer),
@@ -92,10 +96,7 @@ class DesktopCardDetailPane extends HookWidget {
           const SizedBox(width: 8),
           if (card.noteType == NoteType.cloze)
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 4,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: theme.colorScheme.muted,
                 borderRadius: BorderRadius.circular(6),
@@ -160,9 +161,7 @@ class DesktopCardDetailPane extends HookWidget {
                 showAnswer.value ? LucideIcons.eyeOff : LucideIcons.eye,
                 size: 14,
               ),
-              child: Text(
-                showAnswer.value ? l10n.hideAnswer : l10n.showAnswer,
-              ),
+              child: Text(showAnswer.value ? l10n.hideAnswer : l10n.showAnswer),
               onPressed: () => showAnswer.value = !showAnswer.value,
             ),
           ],

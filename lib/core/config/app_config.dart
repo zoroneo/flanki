@@ -11,10 +11,7 @@ class AppConfig {
 
   /// Centralized supported locales and default fallback
   static const Locale defaultLocale = Locale('vi');
-  static const List<Locale> supportedLocales = [
-    Locale('vi'),
-    Locale('en'),
-  ];
+  static const List<Locale> supportedLocales = [Locale('vi'), Locale('en')];
 
   /// Resolves standard language code ('vi' or 'en') from system platform.
   static String resolveSystemLocaleCode() {

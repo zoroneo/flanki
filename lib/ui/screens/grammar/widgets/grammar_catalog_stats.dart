@@ -56,8 +56,8 @@ class GrammarCatalogStats extends StatelessWidget {
             isCompact: isCompact,
             onTap: totalGhosts > 0
                 ? () => context.push(
-                      '/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}',
-                    )
+                    '/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}',
+                  )
                 : null,
           ),
         ),
@@ -108,8 +108,9 @@ class GrammarMetricCard extends StatelessWidget {
                     value,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.typography.small
-                        .copyWith(fontWeight: FontWeight.bold),
+                    style: theme.typography.small.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -145,8 +146,9 @@ class GrammarMetricCard extends StatelessWidget {
                       children: [
                         Text(
                           value,
-                          style: theme.typography.base
-                              .copyWith(fontWeight: FontWeight.bold),
+                          style: theme.typography.base.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           label,

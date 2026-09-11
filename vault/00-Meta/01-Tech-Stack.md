@@ -16,7 +16,10 @@ tags:
   - Bảng màu Zinc Dark / Light với typography hiện đại.
   - Component primitives: `SurfaceCard`, `Button`, `Badge`, `ActionSheet`, `Modal`, `Dialog`, `DropdownMenu`.
   - Hỗ trợ đa ngôn ngữ hoàn chỉnh: English (`app_en.arb`) và Tiếng Việt (`app_vi.arb`, `shadcn_localizations_vi.dart`).
-* **State Management**: **`flutter_riverpod`** & **`hooks_riverpod`** (v3.4.3).
+* **State Management & Immutability**:
+  - **`flutter_riverpod`** & **`hooks_riverpod`** (v3.4.3).
+  - **`riverpod_annotation`** (v4.0.7) & **`riverpod_generator`** (v4.0.9): Code generation cho class-based và functional notifiers, type-safe providers, override clean cho testing.
+  - **`freezed`** (v3.2.5) & **`freezed_annotation`** (v3.1.0): 100% immutable state modeling với deep equality cho collections, copyWith, và pattern matching.
 * **Local Storage & Database**:
   - **`sqlite3`** (v3.5.2) + **`drift`** (v2.24.2): Tương tác trực tiếp với file `collection.anki2` của Anki.
   - **Optimistic In-Memory Caching** trong `DatabaseService` để đảm bảo độ trễ UI bằng 0.

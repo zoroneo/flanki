@@ -2,6 +2,8 @@
 *.class
 *.log
 *.pyc
+__pycache__/
+tool/__pycache__/
 *.swp
 .DS_Store
 .atom/
@@ -16,12 +18,16 @@
 *.xccheckout
 migrate_working_dir/
 coverage/
+*.lcov
+lcov.info
 
 # SQLite Temporary files
 *.sqlite-shm
 *.sqlite-wal
+*.sqlite-journal
 *.db-shm
 *.db-wal
+*.db-journal
 
 # IntelliJ related
 *.iml
@@ -46,6 +52,8 @@ coverage/
 .pub-cache/
 .pub/
 /build/
+*.temp.dart
+*.types.temp.dart
 
 # FVM (Flutter Version Management)
 .fvm/*
@@ -150,3 +158,4 @@ ehthumbs.db
 **/.obsidian/workspace*.json
 **/.obsidian/cache/
 **/.obsidian/graph.json
+**/.obsidian/backups/

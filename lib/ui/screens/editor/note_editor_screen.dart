@@ -28,8 +28,9 @@ class NoteEditorScreen extends HookConsumerWidget {
     final isDesktop = !context.isMobile;
 
     final noteType = useState<NoteType>(NoteType.basic);
-    final selectedDeckId =
-        useState<String>(decks.isNotEmpty ? decks.first.id : '');
+    final selectedDeckId = useState<String>(
+      decks.isNotEmpty ? decks.first.id : '',
+    );
     final frontController = useTextEditingController();
     final backController = useTextEditingController();
     final tagInputController = useTextEditingController();
@@ -43,12 +44,16 @@ class NoteEditorScreen extends HookConsumerWidget {
       if (selection.isValid && selection.start != selection.end) {
         final selectedText = text.substring(selection.start, selection.end);
         final replacement = '{{$clozeTag::$selectedText}}';
-        final newText =
-            text.replaceRange(selection.start, selection.end, replacement);
+        final newText = text.replaceRange(
+          selection.start,
+          selection.end,
+          replacement,
+        );
         frontController.value = TextEditingValue(
           text: newText,
           selection: TextSelection.collapsed(
-              offset: selection.start + replacement.length),
+            offset: selection.start + replacement.length,
+          ),
         );
       } else {
         final offset = selection.isValid ? selection.start : text.length;
@@ -56,8 +61,10 @@ class NoteEditorScreen extends HookConsumerWidget {
         final newText = text.replaceRange(offset, offset, insertion);
         frontController.value = TextEditingValue(
           text: newText,
-          selection:
-              TextSelection(baseOffset: offset + 7, extentOffset: offset + 10),
+          selection: TextSelection(
+            baseOffset: offset + 7,
+            extentOffset: offset + 10,
+          ),
         );
       }
     }
@@ -82,8 +89,10 @@ class NoteEditorScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.missingContent),
                 subtitle: Text(l10n.missingContentDesc),
-                leading: const Icon(LucideIcons.triangleAlert,
-                    color: m.Colors.orange),
+                leading: const Icon(
+                  LucideIcons.triangleAlert,
+                  color: m.Colors.orange,
+                ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -146,14 +155,15 @@ class NoteEditorScreen extends HookConsumerWidget {
       child: Focus(
         autofocus: true,
         child: Scaffold(
-          headers: [
-            _buildAppBar(context, l10n, theme, isDesktop, handleSave),
-          ],
+          headers: [_buildAppBar(context, l10n, theme, isDesktop, handleSave)],
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxWidth: context.responsive(
-                    mobile: 640.0, tablet: 760.0, desktop: 1120.0),
+                  mobile: 640.0,
+                  tablet: 760.0,
+                  desktop: 1120.0,
+                ),
               ),
               child: SingleChildScrollView(
                 keyboardDismissBehavior:
@@ -436,8 +446,9 @@ class NoteEditorScreen extends HookConsumerWidget {
       children: [
         Text(
           l10n.noteType,
-          style: theme.typography.xSmall
-              .copyWith(color: theme.colorScheme.mutedForeground),
+          style: theme.typography.xSmall.copyWith(
+            color: theme.colorScheme.mutedForeground,
+          ),
         ),
         const SizedBox(height: 8),
         Row(
@@ -473,8 +484,9 @@ class NoteEditorScreen extends HookConsumerWidget {
         const SizedBox(height: 16),
         Text(
           l10n.deckLabel,
-          style: theme.typography.xSmall
-              .copyWith(color: theme.colorScheme.mutedForeground),
+          style: theme.typography.xSmall.copyWith(
+            color: theme.colorScheme.mutedForeground,
+          ),
         ),
         const SizedBox(height: 8),
         _buildDeckSelector(l10n, decks, selectedDeckId),
@@ -491,8 +503,9 @@ class NoteEditorScreen extends HookConsumerWidget {
         const SizedBox(height: 16),
         Text(
           l10n.tagsLabel,
-          style: theme.typography.xSmall
-              .copyWith(color: theme.colorScheme.mutedForeground),
+          style: theme.typography.xSmall.copyWith(
+            color: theme.colorScheme.mutedForeground,
+          ),
         ),
         const SizedBox(height: 8),
         Card(

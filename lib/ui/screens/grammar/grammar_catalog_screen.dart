@@ -64,13 +64,12 @@ class GrammarCatalogScreen extends HookConsumerWidget {
         );
 
         return Scaffold(
-          headers: [
-            _buildAppBar(context, l10n, totalGhosts, isMobile),
-          ],
+          headers: [_buildAppBar(context, l10n, totalGhosts, isMobile)],
           child: grammarAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (err, stack) => Center(
-                child: Text(l10n.grammarErrorLoadCatalog(err.toString()))),
+              child: Text(l10n.grammarErrorLoadCatalog(err.toString())),
+            ),
             data: (units) {
               final filteredUnits = units.where((u) {
                 if (selectedLevel.value != null &&
@@ -80,10 +79,12 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                 if (searchQuery.value.isNotEmpty) {
                   final query = searchQuery.value.toLowerCase();
                   final matchesTitle = u.title.toLowerCase().contains(query);
-                  final matchesCatName =
-                      u.category.displayName.toLowerCase().contains(query);
-                  final matchesCatCode =
-                      u.category.code.toLowerCase().contains(query);
+                  final matchesCatName = u.category.displayName
+                      .toLowerCase()
+                      .contains(query);
+                  final matchesCatCode = u.category.code.toLowerCase().contains(
+                    query,
+                  );
                   return matchesTitle || matchesCatName || matchesCatCode;
                 }
                 return true;
@@ -101,7 +102,8 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                             const SizedBox(height: 16),
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: horizontalPadding),
+                                horizontal: horizontalPadding,
+                              ),
                               child: GrammarCatalogStats(
                                 isCompact: isMobile,
                                 totalCompleted: totalCompleted,
@@ -112,7 +114,8 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                             const SizedBox(height: 16),
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: horizontalPadding),
+                                horizontal: horizontalPadding,
+                              ),
                               child: _buildSearchField(l10n, searchQuery),
                             ),
                             const SizedBox(height: 14),
@@ -125,7 +128,8 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                             else
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: horizontalPadding),
+                                  horizontal: horizontalPadding,
+                                ),
                                 child: GrammarLevelFilters(
                                   selectedLevel: selectedLevel,
                                   isMobile: false,
@@ -158,8 +162,12 @@ class GrammarCatalogScreen extends HookConsumerWidget {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context, AppLocalizations l10n,
-      int totalGhosts, bool isMobile) {
+  AppBar _buildAppBar(
+    BuildContext context,
+    AppLocalizations l10n,
+    int totalGhosts,
+    bool isMobile,
+  ) {
     return AppBar(
       title: Text(l10n.grammarAcademicTitle),
       trailing: [
@@ -187,12 +195,12 @@ class GrammarCatalogScreen extends HookConsumerWidget {
   }
 
   Widget _buildSearchField(
-      AppLocalizations l10n, ValueNotifier<String> searchQuery) {
+    AppLocalizations l10n,
+    ValueNotifier<String> searchQuery,
+  ) {
     return TextField(
       features: const [
-        InputFeature.leading(
-          Icon(LucideIcons.search, size: 16),
-        ),
+        InputFeature.leading(Icon(LucideIcons.search, size: 16)),
       ],
       placeholder: Text(l10n.grammarSearchPlaceholder),
       onChanged: (val) => searchQuery.value = val,
@@ -239,14 +247,11 @@ class GrammarCatalogScreen extends HookConsumerWidget {
           crossAxisSpacing: spacing,
           mainAxisExtent: mainAxisExtent,
         ),
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final unit = filteredUnits[index];
-            final summary = repo.getUnitSummary(unit.unitId);
-            return GrammarUnitCard(unit: unit, summary: summary);
-          },
-          childCount: filteredUnits.length,
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final unit = filteredUnits[index];
+          final summary = repo.getUnitSummary(unit.unitId);
+          return GrammarUnitCard(unit: unit, summary: summary);
+        }, childCount: filteredUnits.length),
       ),
     );
   }

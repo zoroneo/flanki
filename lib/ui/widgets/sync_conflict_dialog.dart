@@ -297,8 +297,9 @@ class SyncConflictDialog extends StatelessWidget {
                         Flexible(
                           child: Text(
                             title,
-                            style: theme.typography.semiBold
-                                .copyWith(fontSize: 13),
+                            style: theme.typography.semiBold.copyWith(
+                              fontSize: 13,
+                            ),
                           ),
                         ),
                         if (badge != null) ...[
@@ -309,8 +310,9 @@ class SyncConflictDialog extends StatelessWidget {
                               vertical: 1,
                             ),
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primary
-                                  .withValues(alpha: 0.15),
+                              color: theme.colorScheme.primary.withValues(
+                                alpha: 0.15,
+                              ),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(

@@ -36,11 +36,16 @@ class AdaptiveScaffold extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final decks = ref.watch(deckListProvider);
-    final authState = ref.watch(authNotifierProvider);
+    final totalDue = ref.watch(
+      deckListProvider.select(
+        (decks) => decks.fold<int>(0, (sum, d) => sum + d.dueCount),
+      ),
+    );
+    final isAuthenticated = ref.watch(
+      authNotifierProvider.select((s) => s.isAuthenticated),
+    );
     final l10n = context.l10n;
 
-    final totalDue = decks.fold<int>(0, (sum, deck) => sum + deck.dueCount);
     final currentIndex = navigationShell.currentIndex;
 
     return CallbackShortcuts(
@@ -52,21 +57,21 @@ class AdaptiveScaffold extends HookConsumerWidget {
             theme: theme,
             currentIndex: currentIndex,
             totalDue: totalDue,
-            isAuthenticated: authState.isAuthenticated,
+            isAuthenticated: isAuthenticated,
             l10n: l10n,
             ref: ref,
           ),
           tablet: (context) => _buildTabletLayout(
             currentIndex: currentIndex,
             totalDue: totalDue,
-            isAuthenticated: authState.isAuthenticated,
+            isAuthenticated: isAuthenticated,
             l10n: l10n,
             ref: ref,
           ),
           desktop: (context) => _buildDesktopLayout(
             currentIndex: currentIndex,
             totalDue: totalDue,
-            isAuthenticated: authState.isAuthenticated,
+            isAuthenticated: isAuthenticated,
             l10n: l10n,
             ref: ref,
           ),

@@ -1,17 +1,22 @@
 import 'dart:convert';
+
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/grammar/grammar_models.dart';
 
-final grammarServiceProvider = Provider<GrammarService>((ref) {
-  return GrammarService();
-});
+part 'grammar_service.g.dart';
 
-final grammarUnitsProvider = FutureProvider<List<GrammarUnit>>((ref) async {
+@Riverpod(keepAlive: true)
+GrammarService grammarService(Ref ref) {
+  return GrammarService();
+}
+
+@Riverpod(keepAlive: true)
+Future<List<GrammarUnit>> grammarUnits(Ref ref) async {
   final service = ref.watch(grammarServiceProvider);
   return service.loadAllUnits();
-});
+}
 
 class GrammarService {
   List<GrammarUnit>? _cachedUnits;

@@ -121,3 +121,15 @@ Tài liệu đặc tả toàn bộ các nguyên tắc bắt buộc về tổ ch�
     * `ListView(padding: ...)` hoặc `SliverPadding(...)`
 * **Safe Area Insets**:
   * Ở các thanh action dính đáy (Sticky Footer/CTA), bắt buộc cộng thêm `MediaQuery.paddingOf(context).bottom` để tránh bị thanh điều hướng ảo của hệ điều hành che khuất.
+
+---
+
+## 8. Tối Ưu Hóa Rebuild & Thu Gọn Consumer Scope (Render Isolation)
+
+Chi tiết quy chuẩn kiến trúc xem tại: [[01-Architecture/06-State-Management-and-Render-Optimization|06. Kiến Trúc State Freezed & Tối Ưu Hóa Rebuild Riverpod]].
+
+* **Tránh `ref.watch` rộng ở Screen Root**: Không lắng nghe toàn bộ Notifier State phức tạp ở gốc màn hình làm cả cây widget nặng nề rebuild lại khi chỉ có một trường thay đổi.
+* **Bọc `Consumer` cục bộ tại lá cây (Leaf Nodes)**:
+  * Huy hiệu badge, số lượng thẻ due, thanh tiến độ, icon trạng thái đồng bộ sync cần được bọc trong `Consumer` riêng hoặc dùng `ref.watch(provider.select(...))` để cô lập phạm vi dựng hình.
+* **Tách Sub-Card thành `ConsumerWidget` độc lập**:
+  * Các card cài đặt (như `AccountSyncCard`, `AppPreferencesCard`, `SpacedRepetitionCard`) tự quản lý lắng nghe state của mình, giải phóng màn hình cha `SettingsScreen` khỏi mọi thao tác re-render không cần thiết.

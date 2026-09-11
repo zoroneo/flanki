@@ -34,12 +34,12 @@ class GrammarExplanation {
   }
 
   Map<String, dynamic> toJson() => {
-        'translation': translation,
-        'keySignal': keySignal,
-        'rule': rule,
-        'whyCorrect': whyCorrect,
-        'distractorBreakdown': distractorBreakdown,
-      };
+    'translation': translation,
+    'keySignal': keySignal,
+    'rule': rule,
+    'whyCorrect': whyCorrect,
+    'distractorBreakdown': distractorBreakdown,
+  };
 }
 
 class GrammarExercise {
@@ -86,12 +86,12 @@ class GrammarExercise {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type.value,
-        'difficulty': difficulty.value,
-        'prompt': prompt,
-        'options': options,
-        'correctAnswer': correctAnswer,
-        'explanation': explanation.toJson(),
-      };
+    'id': id,
+    'type': type.value,
+    'difficulty': difficulty.value,
+    'prompt': prompt,
+    'options': options,
+    'correctAnswer': correctAnswer,
+    'explanation': explanation.toJson(),
+  };
 }

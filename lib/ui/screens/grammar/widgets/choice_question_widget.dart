@@ -50,8 +50,8 @@ class ChoiceQuestionWidget extends StatelessWidget {
           final option = options[index];
           final optionLetter =
               index < GrammarConstants.errorIdOptionLabels.length
-                  ? GrammarConstants.errorIdOptionLabels[index]
-                  : String.fromCharCode(65 + index);
+              ? GrammarConstants.errorIdOptionLabels[index]
+              : String.fromCharCode(65 + index);
           final isSelected = selectedAnswer == option;
           final isCorrectOption = option == exercise.correctAnswer;
 
@@ -82,8 +82,10 @@ class ChoiceQuestionWidget extends StatelessWidget {
               onTap: isSubmitted ? null : () => onSelectAnswer(option),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 9,
+                ),
                 decoration: BoxDecoration(
                   color: backgroundColor ?? theme.colorScheme.card,
                   borderRadius: BorderRadius.circular(8),
@@ -114,8 +116,8 @@ class ChoiceQuestionWidget extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color:
                               (isSelected || (isSubmitted && isCorrectOption))
-                                  ? theme.colorScheme.primaryForeground
-                                  : theme.colorScheme.foreground,
+                              ? theme.colorScheme.primaryForeground
+                              : theme.colorScheme.foreground,
                         ),
                       ),
                     ),
@@ -125,15 +127,19 @@ class ChoiceQuestionWidget extends StatelessWidget {
                         option,
                         style: TextStyle(
                           fontSize: 13.5,
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.normal,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.normal,
                           color: textColor ?? theme.colorScheme.foreground,
                         ),
                       ),
                     ),
                     if (isSubmitted && isCorrectOption)
-                      const Icon(LucideIcons.check,
-                          size: 16, color: Colors.green),
+                      const Icon(
+                        LucideIcons.check,
+                        size: 16,
+                        color: Colors.green,
+                      ),
                     if (isSubmitted && isSelected && !isCorrectOption)
                       const Icon(LucideIcons.x, size: 16, color: Colors.red),
                   ],

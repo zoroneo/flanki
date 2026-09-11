@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+
+part 'locale_notifier.g.dart';
 
 const String _kLocaleStorageKey = 'user_selected_locale';
 
@@ -25,11 +27,8 @@ enum AppLanguage {
   }
 }
 
-final localeNotifierProvider = NotifierProvider<LocaleNotifier, Locale?>(
-  LocaleNotifier.new,
-);
-
-class LocaleNotifier extends Notifier<Locale?> {
+@Riverpod(keepAlive: true, name: 'localeNotifierProvider')
+class LocaleNotifier extends _$LocaleNotifier {
   final _storage = const FlutterSecureStorage();
 
   @override

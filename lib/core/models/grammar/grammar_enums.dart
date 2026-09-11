@@ -36,9 +36,17 @@ enum GrammarExerciseType {
 enum GrammarLevel {
   foundation(1, 'Foundation', 'Level 1: Foundation (8)', m.Colors.blue),
   intermediate(
-      2, 'Intermediate', 'Level 2: Intermediate (17)', m.Colors.purple),
+    2,
+    'Intermediate',
+    'Level 2: Intermediate (17)',
+    m.Colors.purple,
+  ),
   advanced(
-      3, 'Advanced C1/C2', 'Level 3: Advanced C1/C2 (11)', m.Colors.orange);
+    3,
+    'Advanced C1/C2',
+    'Level 3: Advanced C1/C2 (11)',
+    m.Colors.orange,
+  );
 
   final int value;
   final String label;
@@ -60,8 +68,9 @@ enum GrammarLevel {
 
   static GrammarLevel fromValue(dynamic val) {
     if (val is GrammarLevel) return val;
-    final intVal =
-        (val is num) ? val.toInt() : int.tryParse(val?.toString() ?? '') ?? 1;
+    final intVal = (val is num)
+        ? val.toInt()
+        : int.tryParse(val?.toString() ?? '') ?? 1;
     switch (intVal) {
       case 2:
         return GrammarLevel.intermediate;
@@ -87,8 +96,9 @@ enum GrammarDifficulty {
 
   static GrammarDifficulty fromValue(dynamic val) {
     if (val is GrammarDifficulty) return val;
-    final intVal =
-        (val is num) ? val.toInt() : int.tryParse(val?.toString() ?? '') ?? 1;
+    final intVal = (val is num)
+        ? val.toInt()
+        : int.tryParse(val?.toString() ?? '') ?? 1;
     switch (intVal) {
       case 2:
         return GrammarDifficulty.analysis;
@@ -113,14 +123,18 @@ enum GrammarCategory {
   verbForms('verb_forms', 'Dạng Động Từ (Gerund & Infinitive)'),
   conjunctions('conjunctions', 'Liên Từ (Conjunctions)'),
   subjectVerbAgreement(
-      'subject_verb_agreement', 'Hòa Hợp Chủ Vị (Subject-Verb Agreement)'),
+    'subject_verb_agreement',
+    'Hòa Hợp Chủ Vị (Subject-Verb Agreement)',
+  ),
   comparisons('comparisons', 'Cấu Trúc So Sánh (Comparisons)'),
   articles('articles', 'Mạo Từ (Articles)'),
   determiners('determiners', 'Từ Hạn Định (Determiners)'),
   pronouns('pronouns', 'Đại Từ (Pronouns)'),
   prepositions('prepositions', 'Giới Từ (Prepositions)'),
   adjectivesAdverbs(
-      'adjectives_adverbs', 'Tính Từ & Trạng Từ (Adjectives & Adverbs)'),
+    'adjectives_adverbs',
+    'Tính Từ & Trạng Từ (Adjectives & Adverbs)',
+  ),
   nounClauses('noun_clauses', 'Mệnh Đề Danh Từ (Noun Clauses)'),
   sentenceStructure('sentence_structure', 'Cấu Trúc Câu (Sentence Structure)'),
   causativeVerbs('causative_verbs', 'Thể Sai Khiến (Causative Verbs)'),

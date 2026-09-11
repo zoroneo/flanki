@@ -1,27 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/theme_notifier.dart';
 import 'settings_info_rows.dart';
 
-class AppPreferencesCard extends StatelessWidget {
-  final Locale? currentLocale;
-  final LocaleNotifier localeNotifier;
-  final ThemeMode themeMode;
-  final ThemeNotifier themeNotifier;
-
-  const AppPreferencesCard({
-    super.key,
-    required this.currentLocale,
-    required this.localeNotifier,
-    required this.themeMode,
-    required this.themeNotifier,
-  });
+class AppPreferencesCard extends ConsumerWidget {
+  const AppPreferencesCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final currentLocale = ref.watch(localeNotifierProvider);
+    final localeNotifier = ref.read(localeNotifierProvider.notifier);
+    final themeMode = ref.watch(themeNotifierProvider);
+    final themeNotifier = ref.read(themeNotifierProvider.notifier);
 
     final isVi = currentLocale?.languageCode == 'vi';
     final isEn = currentLocale?.languageCode == 'en';
@@ -44,13 +38,13 @@ class AppPreferencesCard extends StatelessWidget {
             children: [
               _buildLanguageHeader(theme, l10n),
               const SizedBox(height: 14),
-              _buildLanguageOptions(l10n, isVi, isEn, isSystem),
+              _buildLanguageOptions(l10n, localeNotifier, isVi, isEn, isSystem),
               const SizedBox(height: 16),
               const Divider(),
               const SizedBox(height: 16),
               _buildAppearanceHeader(theme, l10n),
               const SizedBox(height: 14),
-              _buildThemeOptions(l10n),
+              _buildThemeOptions(l10n, themeMode, themeNotifier),
             ],
           ),
         ),
@@ -83,6 +77,7 @@ class AppPreferencesCard extends StatelessWidget {
 
   Widget _buildLanguageOptions(
     dynamic l10n,
+    LocaleNotifier localeNotifier,
     bool isVi,
     bool isEn,
     bool isSystem,
@@ -139,7 +134,11 @@ class AppPreferencesCard extends StatelessWidget {
     );
   }
 
-  Widget _buildThemeOptions(dynamic l10n) {
+  Widget _buildThemeOptions(
+    dynamic l10n,
+    ThemeMode themeMode,
+    ThemeNotifier themeNotifier,
+  ) {
     return Row(
       children: [
         Expanded(

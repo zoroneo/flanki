@@ -55,11 +55,7 @@ class DeckToolbar extends StatelessWidget {
                   alignment: Alignment.center,
                   leading: const Icon(LucideIcons.plus, size: 16),
                   onPressed: onAddDeck,
-                  child: Text(
-                    l10n.addNewDeck,
-                    maxLines: 1,
-                    softWrap: false,
-                  ),
+                  child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
                 ),
                 if (!isUltraCompact) ...[
                   const SizedBox(width: 8),
@@ -82,9 +78,7 @@ class DeckToolbar extends StatelessWidget {
   ) {
     if (isCompact) {
       return Tooltip(
-        tooltip: (context) => TooltipContainer(
-          child: Text(l10n.importApkg),
-        ),
+        tooltip: (context) => TooltipContainer(child: Text(l10n.importApkg)),
         child: IconButton.outline(
           icon: const Icon(LucideIcons.fileUp, size: 16),
           onPressed: onImportApkg,
@@ -95,11 +89,7 @@ class DeckToolbar extends StatelessWidget {
       alignment: Alignment.center,
       leading: const Icon(LucideIcons.fileUp, size: 16),
       onPressed: onImportApkg,
-      child: Text(
-        l10n.importApkg,
-        maxLines: 1,
-        softWrap: false,
-      ),
+      child: Text(l10n.importApkg, maxLines: 1, softWrap: false),
     );
   }
 
@@ -110,9 +100,7 @@ class DeckToolbar extends StatelessWidget {
   ) {
     if (isCompact) {
       return Tooltip(
-        tooltip: (context) => TooltipContainer(
-          child: Text(l10n.customStudy),
-        ),
+        tooltip: (context) => TooltipContainer(child: Text(l10n.customStudy)),
         child: IconButton.ghost(
           icon: const Icon(LucideIcons.zap, size: 16),
           onPressed: onCustomStudy,
@@ -123,11 +111,7 @@ class DeckToolbar extends StatelessWidget {
       alignment: Alignment.center,
       leading: const Icon(LucideIcons.zap, size: 16),
       onPressed: onCustomStudy,
-      child: Text(
-        l10n.customStudy,
-        maxLines: 1,
-        softWrap: false,
-      ),
+      child: Text(l10n.customStudy, maxLines: 1, softWrap: false),
     );
   }
 }

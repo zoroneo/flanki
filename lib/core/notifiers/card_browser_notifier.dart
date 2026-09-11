@@ -1,23 +1,25 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/card.dart';
 import '../storage/database_service.dart';
 import 'deck_notifier.dart';
 
+part 'card_browser_notifier.freezed.dart';
+part 'card_browser_notifier.g.dart';
+
 enum CardFilterType { all, due, newCard, flagged, suspended }
 
-class CardBrowserState {
-  final List<CardModel> allCards;
-  final String searchQuery;
-  final CardFilterType filterType;
-  final String? selectedDeckId;
+@freezed
+abstract class CardBrowserState with _$CardBrowserState {
+  const CardBrowserState._();
 
-  const CardBrowserState({
-    required this.allCards,
-    this.searchQuery = '',
-    this.filterType = CardFilterType.all,
-    this.selectedDeckId,
-  });
+  const factory CardBrowserState({
+    @Default([]) List<CardModel> allCards,
+    @Default('') String searchQuery,
+    @Default(CardFilterType.all) CardFilterType filterType,
+    String? selectedDeckId,
+  }) = _CardBrowserState;
 
   List<CardModel> get filteredCards {
     final now = DateTime.now();
@@ -58,28 +60,10 @@ class CardBrowserState {
       return true;
     }).toList();
   }
-
-  CardBrowserState copyWith({
-    List<CardModel>? allCards,
-    String? searchQuery,
-    CardFilterType? filterType,
-    String? selectedDeckId,
-  }) {
-    return CardBrowserState(
-      allCards: allCards ?? this.allCards,
-      searchQuery: searchQuery ?? this.searchQuery,
-      filterType: filterType ?? this.filterType,
-      selectedDeckId: selectedDeckId ?? this.selectedDeckId,
-    );
-  }
 }
 
-final cardBrowserProvider =
-    NotifierProvider<CardBrowserNotifier, CardBrowserState>(
-  CardBrowserNotifier.new,
-);
-
-class CardBrowserNotifier extends Notifier<CardBrowserState> {
+@Riverpod(keepAlive: true, name: 'cardBrowserProvider')
+class CardBrowserNotifier extends _$CardBrowserNotifier {
   @override
   CardBrowserState build() {
     final cards = DatabaseService.instance.getAllCards();

@@ -44,8 +44,9 @@ class AudioPlayButton extends HookWidget {
       }
     }
 
-    final displayName =
-        filename.length > 25 ? '${filename.substring(0, 22)}...' : filename;
+    final displayName = filename.length > 25
+        ? '${filename.substring(0, 22)}...'
+        : filename;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,

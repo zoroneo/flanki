@@ -54,8 +54,9 @@ class DesktopTypeOption extends StatelessWidget {
                     title,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight:
-                          isSelected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.w700
+                          : FontWeight.w500,
                       color: isSelected
                           ? theme.colorScheme.primary
                           : theme.colorScheme.foreground,
@@ -107,8 +108,9 @@ class TypeSelectButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
-          color:
-              isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.muted,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected

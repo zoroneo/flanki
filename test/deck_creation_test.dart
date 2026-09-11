@@ -94,9 +94,7 @@ void main() {
       expect(state.map((d) => d.title), containsAll(['Deck A', 'Deck B']));
     });
 
-    test(
-        'DeckModel.isCram correctly identifies cram decks across locales and prefixes',
-        () {
+    test('DeckModel.isCram correctly identifies cram decks across locales and prefixes', () {
       const normalDeck = DeckModel(
         id: 'deck_1',
         title: 'Tiếng Nhật N5',

@@ -40,12 +40,12 @@ void main() {
       expect(AppConfig.buildNumber, equals(AppConfig.defaultBuildNumber));
     });
 
-    test(
-        'AppConfig provides centralized locale resolution, fallback, and duration constants',
-        () {
+    test('AppConfig provides centralized locale resolution, fallback, and duration constants', () {
       expect(AppConfig.defaultLocale.languageCode, equals('vi'));
-      expect(AppConfig.supportedLocales.map((l) => l.languageCode),
-          containsAll(['vi', 'en']));
+      expect(
+        AppConfig.supportedLocales.map((l) => l.languageCode),
+        containsAll(['vi', 'en']),
+      );
 
       final systemCode = AppConfig.resolveSystemLocaleCode();
       expect(systemCode, isIn(['vi', 'en']));

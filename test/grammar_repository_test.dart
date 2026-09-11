@@ -75,33 +75,39 @@ void main() {
 
       // Add 3 exercises to unit-01
       // Ex 1: Stability masteryStabilityCapDays (100% item mastery)
-      await repo.saveProgress(GrammarProgressModel(
-        unitId: 'unit-01',
-        exerciseId: 'ex_01',
-        stability: GrammarConstants.masteryStabilityCapDays,
-        isCompleted: true,
-        updatedAt: now,
-      ));
+      await repo.saveProgress(
+        GrammarProgressModel(
+          unitId: 'unit-01',
+          exerciseId: 'ex_01',
+          stability: GrammarConstants.masteryStabilityCapDays,
+          isCompleted: true,
+          updatedAt: now,
+        ),
+      );
 
       // Ex 2: Stability 15 (50% item mastery), isGhost = true
-      await repo.saveProgress(GrammarProgressModel(
-        unitId: 'unit-01',
-        exerciseId: 'ex_02',
-        stability: 15.0,
-        isGhost: true,
-        isCompleted: true,
-        updatedAt: now,
-      ));
+      await repo.saveProgress(
+        GrammarProgressModel(
+          unitId: 'unit-01',
+          exerciseId: 'ex_02',
+          stability: 15.0,
+          isGhost: true,
+          isCompleted: true,
+          updatedAt: now,
+        ),
+      );
 
       // Ex 3: Due in the past
-      await repo.saveProgress(GrammarProgressModel(
-        unitId: 'unit-01',
-        exerciseId: 'ex_03',
-        stability: 3.0,
-        due: now.subtract(const Duration(hours: 1)),
-        isCompleted: true,
-        updatedAt: now,
-      ));
+      await repo.saveProgress(
+        GrammarProgressModel(
+          unitId: 'unit-01',
+          exerciseId: 'ex_03',
+          stability: 3.0,
+          due: now.subtract(const Duration(hours: 1)),
+          isCompleted: true,
+          updatedAt: now,
+        ),
+      );
 
       final summary = repo.getUnitSummary(
         'unit-01',
@@ -122,12 +128,14 @@ void main() {
 
     test('Resets unit progress cleanly', () async {
       final now = DateTime.now().toUtc();
-      await repo.saveProgress(GrammarProgressModel(
-        unitId: 'unit-01',
-        exerciseId: 'ex_01',
-        isCompleted: true,
-        updatedAt: now,
-      ));
+      await repo.saveProgress(
+        GrammarProgressModel(
+          unitId: 'unit-01',
+          exerciseId: 'ex_01',
+          isCompleted: true,
+          updatedAt: now,
+        ),
+      );
 
       expect(repo.getProgress('unit-01', 'ex_01'), isNotNull);
 

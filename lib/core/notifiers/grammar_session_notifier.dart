@@ -1,9 +1,13 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fsrs/fsrs.dart' as fsrs;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/card.dart';
 import '../models/grammar/grammar_models.dart';
 import '../storage/grammar_repository.dart';
+
+part 'grammar_session_notifier.freezed.dart';
+part 'grammar_session_notifier.g.dart';
 
 /// Evaluates and normalizes user answers for Choice, Error ID, and Cloze questions
 class GrammarAnswerEvaluator {
@@ -50,37 +54,25 @@ class GrammarAnswerEvaluator {
 }
 
 /// State of an active grammar practice or review session
-class GrammarSessionState {
-  final GrammarUnit? unit;
-  final List<GrammarExercise> exercises;
-  final int currentIndex;
-  final String? selectedAnswer;
-  final Map<String, String> userAnswers;
-  final Map<String, bool> results;
-  final bool isSubmitted;
-  final bool? isCurrentCorrect;
-  final List<GrammarExercise> ghostChallengeQueue;
-  final bool isGhostChallenge;
-  final bool isFinished;
-  final DateTime startTime;
-  final DateTime questionStartTime;
+@freezed
+abstract class GrammarSessionState with _$GrammarSessionState {
+  const GrammarSessionState._();
 
-  GrammarSessionState({
-    this.unit,
-    this.exercises = const [],
-    this.currentIndex = 0,
-    this.selectedAnswer,
-    this.userAnswers = const {},
-    this.results = const {},
-    this.isSubmitted = false,
-    this.isCurrentCorrect,
-    this.ghostChallengeQueue = const [],
-    this.isGhostChallenge = false,
-    this.isFinished = false,
+  const factory GrammarSessionState({
+    GrammarUnit? unit,
+    @Default([]) List<GrammarExercise> exercises,
+    @Default(0) int currentIndex,
+    String? selectedAnswer,
+    @Default({}) Map<String, String> userAnswers,
+    @Default({}) Map<String, bool> results,
+    @Default(false) bool isSubmitted,
+    bool? isCurrentCorrect,
+    @Default([]) List<GrammarExercise> ghostChallengeQueue,
+    @Default(false) bool isGhostChallenge,
+    @Default(false) bool isFinished,
     DateTime? startTime,
     DateTime? questionStartTime,
-  })  : startTime = startTime ?? DateTime.now(),
-        questionStartTime = questionStartTime ?? DateTime.now();
+  }) = _GrammarSessionState;
 
   GrammarExercise? get currentExercise {
     if (currentIndex >= 0 && currentIndex < exercises.length) {
@@ -106,59 +98,18 @@ class GrammarSessionState {
     if (results.isEmpty) return 0.0;
     return (correctCount / results.length) * 100.0;
   }
-
-  GrammarSessionState copyWith({
-    GrammarUnit? unit,
-    List<GrammarExercise>? exercises,
-    int? currentIndex,
-    String? selectedAnswer,
-    bool clearSelectedAnswer = false,
-    Map<String, String>? userAnswers,
-    Map<String, bool>? results,
-    bool? isSubmitted,
-    bool? isCurrentCorrect,
-    bool clearCurrentCorrect = false,
-    List<GrammarExercise>? ghostChallengeQueue,
-    bool? isGhostChallenge,
-    bool? isFinished,
-    DateTime? startTime,
-    DateTime? questionStartTime,
-  }) {
-    return GrammarSessionState(
-      unit: unit ?? this.unit,
-      exercises: exercises ?? this.exercises,
-      currentIndex: currentIndex ?? this.currentIndex,
-      selectedAnswer:
-          clearSelectedAnswer ? null : (selectedAnswer ?? this.selectedAnswer),
-      userAnswers: userAnswers ?? this.userAnswers,
-      results: results ?? this.results,
-      isSubmitted: isSubmitted ?? this.isSubmitted,
-      isCurrentCorrect: clearCurrentCorrect
-          ? null
-          : (isCurrentCorrect ?? this.isCurrentCorrect),
-      ghostChallengeQueue: ghostChallengeQueue ?? this.ghostChallengeQueue,
-      isGhostChallenge: isGhostChallenge ?? this.isGhostChallenge,
-      isFinished: isFinished ?? this.isFinished,
-      startTime: startTime ?? this.startTime,
-      questionStartTime: questionStartTime ?? this.questionStartTime,
-    );
-  }
 }
 
-final grammarSessionNotifierProvider =
-    NotifierProvider<GrammarSessionNotifier, GrammarSessionState>(
-  GrammarSessionNotifier.new,
-);
-
-class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
+@Riverpod(keepAlive: true, name: 'grammarSessionNotifierProvider')
+class GrammarSessionNotifier extends _$GrammarSessionNotifier {
   final GrammarRepository? _repoOverride;
   final fsrs.Scheduler? _schedOverride;
 
   GrammarSessionNotifier({
     GrammarRepository? repository,
     fsrs.Scheduler? scheduler,
-  })  : _repoOverride = repository,
-        _schedOverride = scheduler;
+  }) : _repoOverride = repository,
+       _schedOverride = scheduler;
 
   GrammarRepository get _repository =>
       _repoOverride ?? ref.read(grammarRepositoryProvider);
@@ -166,7 +117,8 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
   fsrs.Scheduler get _scheduler =>
       _schedOverride ??
       fsrs.Scheduler(
-          desiredRetention: GrammarConstants.defaultDesiredRetention);
+        desiredRetention: GrammarConstants.defaultDesiredRetention,
+      );
 
   @override
   GrammarSessionState build() {
@@ -185,8 +137,10 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
   }
 
   /// Start review session for Ghost questions
-  void startGhostSession(List<GrammarExercise> ghostExercises,
-      {GrammarUnit? unit}) {
+  void startGhostSession(
+    List<GrammarExercise> ghostExercises, {
+    GrammarUnit? unit,
+  }) {
     state = GrammarSessionState(
       unit: unit,
       exercises: ghostExercises,
@@ -219,8 +173,9 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
     final updatedResults = Map<String, bool>.from(state.results)
       ..[current.id] = isRight;
 
-    final updatedGhostQueue =
-        List<GrammarExercise>.from(state.ghostChallengeQueue);
+    final updatedGhostQueue = List<GrammarExercise>.from(
+      state.ghostChallengeQueue,
+    );
     if (!isRight && !updatedGhostQueue.any((e) => e.id == current.id)) {
       updatedGhostQueue.add(current);
     }
@@ -249,8 +204,8 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
     } else {
       state = state.copyWith(
         currentIndex: state.currentIndex + 1,
-        clearSelectedAnswer: true,
-        clearCurrentCorrect: true,
+        selectedAnswer: null,
+        isCurrentCorrect: null,
         isSubmitted: false,
         questionStartTime: DateTime.now(),
       );
@@ -287,7 +242,8 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
     String userAnswer,
   ) async {
     final now = DateTime.now().toUtc();
-    final existing = _repository.getProgress(unitId, exerciseId) ??
+    final existing =
+        _repository.getProgress(unitId, exerciseId) ??
         GrammarProgressModel(
           unitId: unitId,
           exerciseId: exerciseId,

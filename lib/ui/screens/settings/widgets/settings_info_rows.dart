@@ -165,10 +165,7 @@ class VersionInfoRow extends StatelessWidget {
       return GestureDetector(
         onTap: onShowDialog,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 2,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(
             color: theme.colorScheme.primary,
             borderRadius: BorderRadius.circular(4),

@@ -1,31 +1,29 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/anki_bridge.dart';
 import '../../../../core/config/app_config.dart';
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/notifiers/settings_notifier.dart';
 import '../../../../core/notifiers/update_notifier.dart';
+import '../../../../core/theme/theme_notifier.dart';
 import '../../../widgets/update_dialog.dart';
 import 'settings_info_rows.dart';
 
-class AboutInfoCard extends StatelessWidget {
-  final ThemeMode themeMode;
-  final bool isFsrsEnabled;
-  final UpdateState updateState;
-  final UpdateNotifier updateNotifier;
-
-  const AboutInfoCard({
-    super.key,
-    required this.themeMode,
-    required this.isFsrsEnabled,
-    required this.updateState,
-    required this.updateNotifier,
-  });
+class AboutInfoCard extends ConsumerWidget {
+  const AboutInfoCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final themeMode = ref.watch(themeNotifierProvider);
+    final isFsrsEnabled = ref.watch(
+      studySettingsProvider.select((s) => s.fsrsEnabled),
+    );
+    final updateState = ref.watch(updateProvider);
+    final updateNotifier = ref.read(updateProvider.notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

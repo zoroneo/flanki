@@ -26,11 +26,7 @@ import 'core/storage/media_storage_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
-    const ScreenBreakpoints(
-      desktop: 1024,
-      tablet: 600,
-      watch: 200,
-    ),
+    const ScreenBreakpoints(desktop: 1024, tablet: 600, watch: 200),
   );
   LicenseRegistry.addLicense(() async* {
     yield const LicenseEntryWithLineBreaks(
@@ -172,8 +168,9 @@ class FlankiApp extends ConsumerWidget {
                   onPointerDown: (event) {
                     final currentFocus = FocusManager.instance.primaryFocus;
                     if (currentFocus != null && currentFocus.hasFocus) {
-                      final renderBox = currentFocus.context?.findRenderObject()
-                          as RenderBox?;
+                      final renderBox =
+                          currentFocus.context?.findRenderObject()
+                              as RenderBox?;
                       if (renderBox != null && renderBox.hasSize) {
                         final position = renderBox.localToGlobal(Offset.zero);
                         final bounds = position & renderBox.size;

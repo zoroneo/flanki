@@ -1,15 +1,18 @@
 import 'package:drift/drift.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/grammar/grammar_models.dart';
 import 'app_database.dart';
 import 'database_service.dart';
 
-final grammarRepositoryProvider = Provider<GrammarRepository>((ref) {
+part 'grammar_repository.g.dart';
+
+@Riverpod(keepAlive: true)
+GrammarRepository grammarRepository(Ref ref) {
   final db = DatabaseService.instance.db;
   final repo = GrammarRepository(db);
   return repo;
-});
+}
 
 class GrammarRepository {
   final AppDatabase _db;
@@ -62,9 +65,11 @@ class GrammarRepository {
 
       // Mastery: capped at masteryStabilityCapDays = 100%
       final itemMastery =
-          (p.stability / GrammarConstants.masteryStabilityCapDays)
-                  .clamp(0.0, 1.0) *
-              100.0;
+          (p.stability / GrammarConstants.masteryStabilityCapDays).clamp(
+            0.0,
+            1.0,
+          ) *
+          100.0;
       totalStabilityRatio += itemMastery;
     }
 
@@ -132,9 +137,9 @@ class GrammarRepository {
   /// Clear all progress for a unit (e.g. user chooses to reset unit)
   Future<void> resetUnit(String unitId) async {
     _cache.removeWhere((k, v) => v.unitId == unitId);
-    await (_db.delete(_db.grammarProgressEntries)
-          ..where((tbl) => tbl.unitId.equals(unitId)))
-        .go();
+    await (_db.delete(
+      _db.grammarProgressEntries,
+    )..where((tbl) => tbl.unitId.equals(unitId))).go();
   }
 
   GrammarProgressModel _toModel(GrammarProgressEntry entry) {

@@ -38,13 +38,15 @@ class LicensesScreen extends HookWidget {
       final Map<String, List<String>> packageMap = {};
 
       await for (final entry in LicenseRegistry.licenses) {
-        final text = entry.paragraphs.map((p) {
-          if (p.indent == LicenseParagraph.centeredIndent) {
-            return p.text;
-          }
-          final indent = '  ' * (p.indent > 0 ? p.indent : 0);
-          return '$indent${p.text}';
-        }).join('\n\n');
+        final text = entry.paragraphs
+            .map((p) {
+              if (p.indent == LicenseParagraph.centeredIndent) {
+                return p.text;
+              }
+              final indent = '  ' * (p.indent > 0 ? p.indent : 0);
+              return '$indent${p.text}';
+            })
+            .join('\n\n');
 
         for (final pkg in entry.packages) {
           packageMap.putIfAbsent(pkg, () => []).add(text);
@@ -131,8 +133,10 @@ SOFTWARE.''';
           child: CustomScrollView(
             slivers: [
               SliverPadding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
                 sliver: SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,9 +174,7 @@ SOFTWARE.''';
                                           Text(
                                             'Flanki',
                                             style: theme.typography.semiBold
-                                                .copyWith(
-                                              fontSize: 16,
-                                            ),
+                                                .copyWith(fontSize: 16),
                                           ),
                                           const SizedBox(width: 8),
                                           Container(
@@ -189,10 +191,11 @@ SOFTWARE.''';
                                               'v${AppConfig.version}',
                                               style: theme.typography.xSmall
                                                   .copyWith(
-                                                color: theme.colorScheme
-                                                    .mutedForeground,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                                    color: theme
+                                                        .colorScheme
+                                                        .mutedForeground,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                             ),
                                           ),
                                         ],
@@ -374,8 +377,12 @@ SOFTWARE.''';
                             ),
                             if (isExpanded)
                               Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                                padding: const EdgeInsets.fromLTRB(
+                                  16,
+                                  0,
+                                  16,
+                                  14,
+                                ),
                                 child: _LicenseCodeBlock(
                                   licenseText: item.text,
                                   onCopy: () {
@@ -406,9 +413,7 @@ SOFTWARE.''';
                     },
                   ),
                 ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 48),
-              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 48)),
             ],
           ),
         ),

@@ -86,12 +86,14 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                 borderColor = Colors.red;
                 textColor = Colors.red;
               } else {
-                backgroundColor =
-                    theme.colorScheme.muted.withValues(alpha: 0.3);
+                backgroundColor = theme.colorScheme.muted.withValues(
+                  alpha: 0.3,
+                );
               }
             } else if (isSelected) {
-              backgroundColor =
-                  theme.colorScheme.primary.withValues(alpha: 0.1);
+              backgroundColor = theme.colorScheme.primary.withValues(
+                alpha: 0.1,
+              );
               borderColor = theme.colorScheme.primary;
             }
 
@@ -122,7 +124,8 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13.5,
                             fontWeight: FontWeight.bold,
-                            color: textColor ??
+                            color:
+                                textColor ??
                                 (isSelected
                                     ? theme.colorScheme.primary
                                     : theme.colorScheme.foreground),
@@ -130,13 +133,19 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                         ),
                         if (isSubmitted && isCorrectError) ...[
                           const SizedBox(width: 4),
-                          const Icon(LucideIcons.check,
-                              size: 15, color: Colors.green),
+                          const Icon(
+                            LucideIcons.check,
+                            size: 15,
+                            color: Colors.green,
+                          ),
                         ],
                         if (isSubmitted && isSelected && !isCorrectError) ...[
                           const SizedBox(width: 4),
-                          const Icon(LucideIcons.x,
-                              size: 15, color: Colors.red),
+                          const Icon(
+                            LucideIcons.x,
+                            size: 15,
+                            color: Colors.red,
+                          ),
                         ],
                       ],
                     ),
@@ -151,7 +160,10 @@ class ErrorIdQuestionWidget extends StatelessWidget {
   }
 
   Widget _buildRichPrompt(
-      BuildContext context, String prompt, ThemeData theme) {
+    BuildContext context,
+    String prompt,
+    ThemeData theme,
+  ) {
     // Regex splits on [A], [B], [C], [D]
     final regex = RegExp(r'(\[(?:A|B|C|D)\])');
     final parts = prompt.split(regex);
@@ -162,15 +174,17 @@ class ErrorIdQuestionWidget extends StatelessWidget {
 
     for (int i = 0; i < parts.length; i++) {
       if (parts[i].isNotEmpty) {
-        textSpans.add(TextSpan(
-          text: parts[i],
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.normal,
-            height: 1.45,
-            color: theme.colorScheme.foreground,
+        textSpans.add(
+          TextSpan(
+            text: parts[i],
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.normal,
+              height: 1.45,
+              color: theme.colorScheme.foreground,
+            ),
           ),
-        ));
+        );
       }
       if (matchIdx < matches.length) {
         final tag = matches[matchIdx];
@@ -210,8 +224,9 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color:
-                        isSelected ? badgeColor : theme.colorScheme.foreground,
+                    color: isSelected
+                        ? badgeColor
+                        : theme.colorScheme.foreground,
                   ),
                 ),
               ),
@@ -222,8 +237,6 @@ class ErrorIdQuestionWidget extends StatelessWidget {
       }
     }
 
-    return Text.rich(
-      TextSpan(children: textSpans),
-    );
+    return Text.rich(TextSpan(children: textSpans));
   }
 }

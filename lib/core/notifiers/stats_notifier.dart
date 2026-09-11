@@ -1,25 +1,25 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../config/app_config.dart';
 import '../models/card.dart';
 import '../storage/database_service.dart';
 
-class StatsData {
-  final double retentionRate;
-  final int reviewedToday;
-  final int totalReviews;
-  final int studyTimeMinutes;
-  final int streakDays;
-  final List<List<int>> heatmapLevels; // 5 weeks x 7 days (0..3)
+part 'stats_notifier.freezed.dart';
+part 'stats_notifier.g.dart';
 
-  const StatsData({
-    required this.retentionRate,
-    required this.reviewedToday,
-    required this.totalReviews,
-    required this.studyTimeMinutes,
-    required this.streakDays,
-    required this.heatmapLevels,
-  });
+@freezed
+abstract class StatsData with _$StatsData {
+  const StatsData._();
+
+  const factory StatsData({
+    required double retentionRate,
+    required int reviewedToday,
+    required int totalReviews,
+    required int studyTimeMinutes,
+    required int streakDays,
+    required List<List<int>> heatmapLevels,
+  }) = _StatsData;
 
   factory StatsData.initial() {
     return const StatsData(
@@ -33,11 +33,8 @@ class StatsData {
   }
 }
 
-final statsNotifierProvider = NotifierProvider<StatsNotifier, StatsData>(
-  StatsNotifier.new,
-);
-
-class StatsNotifier extends Notifier<StatsData> {
+@Riverpod(keepAlive: true, name: 'statsNotifierProvider')
+class StatsNotifier extends _$StatsNotifier {
   int _trackedStudySecondsToday = 0;
 
   @override

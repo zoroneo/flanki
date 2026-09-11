@@ -42,24 +42,16 @@ class DeckStatsBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(
-              LucideIcons.flame,
-              color: m.Colors.deepOrange,
-              size: 22,
-            ),
+            const Icon(LucideIcons.flame, color: m.Colors.deepOrange, size: 22),
             const SizedBox(width: 6),
             Text(
               l10n.streakDaysBadge(streakDays),
-              style: theme.typography.h4.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+              style: theme.typography.h4.copyWith(fontWeight: FontWeight.w700),
             ),
           ],
         ),
         Text(
-          l10n.targetRetentionBadge(
-            '${(desiredRetention * 100).toInt()}%',
-          ),
+          l10n.targetRetentionBadge('${(desiredRetention * 100).toInt()}%'),
           style: theme.typography.xSmall.copyWith(
             color: theme.colorScheme.foreground.withValues(alpha: 0.65),
             fontWeight: FontWeight.w500,
