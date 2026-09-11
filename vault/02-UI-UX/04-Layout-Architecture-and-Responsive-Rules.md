@@ -23,13 +23,26 @@ Tài liệu đặc tả toàn bộ các nguyên tắc bắt buộc về tổ ch�
 > Mỗi file màn hình (Screen) hoặc Widget chỉ nên dài **khoảng 300 dòng** (ngưỡng tối đa ~400 dòng). Bất kỳ file nào phình to đều phải phân rã thành các sub-widgets độc lập.
 
 * **Cấu trúc thư mục chuẩn**: Mỗi màn hình phức tạp bắt buộc phải có thư mục `widgets/` tương ứng:
-  * `lib/ui/screens/decks/widgets/` (DeckCard, DeckToolbar, DeckSpeedDial, DeckStatsBar)
-  * `lib/ui/screens/browser/widgets/` (CardBrowserFilterBar, DesktopCardDetailPane, CardBrowserListItem)
+  * `lib/ui/screens/decks/widgets/` (DeckAppBar, DeckEmptyState, DeckSlivers, DeckCard, DeckToolbar, DeckSpeedDial, DeckStatsBar)
+  * `lib/ui/screens/browser/widgets/` (BrowserDesktopLayout, BrowserMobileLayout, CardBrowserFilterBar, DesktopCardDetailPane, CardBrowserListItem)
   * `lib/ui/screens/settings/widgets/` (AccountSyncCard, SpacedRepetitionCard, SettingsInfoRows, ...)
-  * `lib/ui/screens/study/widgets/` (StudyRatingBar, CardFrontView, CardBackView, TypeAnswerBox)
-  * `lib/ui/screens/editor/widgets/` (NoteTypeSelectors, NoteEditorFields, NoteTagEditor)
-  * `lib/ui/screens/grammar/widgets/` (GrammarUnitCard, GrammarCatalogStats, GrammarLevelFilters, ...)
+  * `lib/ui/screens/study/widgets/` (StudyAppBar, StudyCardFlipper, StudyBottomActionArea, StudyFinishedView, StudyRatingBar, CardFrontView, CardBackView, TypeAnswerBox)
+  * `lib/ui/screens/editor/widgets/` (DeckPickerDropdown, NoteEditorDesktopLayout, NoteEditorMobileLayout, NoteTypeSelectors, NoteEditorFields, NoteTagEditor)
+  * `lib/ui/screens/grammar/widgets/` (GrammarPracticeQuestionContent, GrammarExitDialog, PracticeShortcutsGuide, GrammarUnitCard, GrammarCatalogStats, GrammarLevelFilters, ...)
 * **Đóng gói trách nhiệm**: Mỗi widget con tự quản lý phần hiển thị của mình và giao tiếp với màn hình cha thông qua các callback chuẩn (`ValueChanged<T>`, `VoidCallback`).
+
+### 1.1. Bảng Tiêu Biểu Phân Rã Màn Hình (Case Study: Decomposed Screens)
+
+Toàn bộ các file màn hình vượt quá ngưỡng cho phép đã được tái cấu trúc triệt để theo mô hình này:
+
+| File Gốc | Dòng Trước | Dòng Sau | Mức Giảm | Các Sub-Widgets & Helpers Được Tách |
+|---|---|---|---|---|
+| `lib/main.dart` | 403 | 191 | **-52.6%** | `AppLifecycleManager` (`lib/core/widgets/app_lifecycle_manager.dart`) |
+| `lib/ui/screens/decks/decks_screen.dart` | 640 | 308 | **-51.9%** | `deck_app_bar.dart`, `deck_empty_state.dart`, `deck_slivers.dart`, `deck_import_helper.dart` |
+| `lib/ui/screens/study/study_session_screen.dart` | 558 | 317 | **-43.2%** | `study_finished_view.dart`, `study_app_bar.dart`, `study_card_flipper.dart`, `study_bottom_action_area.dart` |
+| `lib/ui/screens/browser/card_browser_screen.dart` | 576 | 110 | **-80.9%** | `browser_desktop_layout.dart`, `browser_mobile_layout.dart` |
+| `lib/ui/screens/editor/note_editor_screen.dart` | 526 | 249 | **-52.7%** | `deck_picker_dropdown.dart`, `note_editor_desktop_layout.dart`, `note_editor_mobile_layout.dart` |
+| `lib/ui/screens/grammar/grammar_practice_screen.dart` | 594 | 334 | **-43.8%** | `grammar_practice_question_content.dart`, `grammar_exit_dialog.dart`, `practice_shortcuts_guide.dart` |
 
 ---
 

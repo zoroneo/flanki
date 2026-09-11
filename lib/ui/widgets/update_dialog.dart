@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../core/localization/locale_notifier.dart';
+import '../../core/notifiers/locale_notifier.dart';
 import '../../core/models/update_info.dart';
 import '../../core/notifiers/update_notifier.dart';
 import '../../core/services/desktop_update_service.dart';

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/config/app_config.dart';
-import '../../../core/localization/locale_notifier.dart';
+import '../../../core/notifiers/locale_notifier.dart';
 
 class PackageLicense {
   final String package;

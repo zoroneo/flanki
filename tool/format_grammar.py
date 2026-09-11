@@ -15,6 +15,7 @@ import argparse
 from typing import Dict, Any, List, Tuple
 
 GRAMMAR_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "data", "grammar")
+BACKUP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data_backup", "grammar")
 
 # Tag types to validate for balanced open/close pairs
 TRACKED_TAGS = ['b', 'i', 'u', 'mark', 'code', 'span']
@@ -57,12 +58,12 @@ def validate_unit_file(filepath: str) -> Tuple[bool, List[str]]:
     return len(issues) == 0, issues
 
 def backup_unit(unit_path: str) -> str:
-    """Create a unit_XX.original.json backup if it doesn't already exist."""
-    dir_name = os.path.dirname(unit_path)
+    """Create a unit_XX.original.json backup in tool/data_backup/grammar/ if it doesn't already exist."""
+    os.makedirs(BACKUP_DIR, exist_ok=True)
     base_name = os.path.basename(unit_path)
     # e.g. unit_02.json -> unit_02.original.json
     orig_name = base_name.replace('.json', '.original.json')
-    orig_path = os.path.join(dir_name, orig_name)
+    orig_path = os.path.join(BACKUP_DIR, orig_name)
 
     if not os.path.exists(orig_path):
         shutil.copy2(unit_path, orig_path)

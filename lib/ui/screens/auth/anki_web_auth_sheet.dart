@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/auth/anki_web_auth_service.dart';
-import '../../../core/auth/auth_notifier.dart';
-import '../../../core/auth/auth_state.dart';
-import '../../../core/localization/locale_notifier.dart';
+import '../../../core/notifiers/auth_notifier.dart';
+import '../../../core/notifiers/auth_state.dart';
+import '../../../core/notifiers/locale_notifier.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
 import '../../widgets/adaptive_modal.dart';

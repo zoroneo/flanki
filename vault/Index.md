@@ -53,6 +53,10 @@ Chào mừng đến với Knowledge Vault của dự án **Flanki** — Ứng d�
 - [[04-Sync-Engine/02-Delta-Media-Synchronization|02. Đồng Bộ Delta USN & Media SHA-1]]
 - [[04-Sync-Engine/03-Conflict-Resolution|03. Xử Lý Xung Đột Dữ Liệu & Hợp Nhất An Toàn]]
 
+### 05. Chiến Lược Kiểm Thử (Testing)
+
+- [[05-Testing/01-Test-Hierarchy-and-Coverage-Standards|01. Quy Chuẩn Phân Cấp Thư Mục Test & Tiêu Chuẩn Kiểm Thử]]
+
 ---
 
 ## 📌 Nguyên Tắc Kỹ Thuật Bất Biến (Guiding Principles)

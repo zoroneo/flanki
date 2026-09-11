@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/notifiers/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../study/widgets/card_action_sheet.dart';
 

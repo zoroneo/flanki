@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'auth_state.dart';
-import 'anki_web_auth_service.dart';
+import '../auth/anki_web_auth_service.dart';
 
 part 'auth_notifier.g.dart';
 

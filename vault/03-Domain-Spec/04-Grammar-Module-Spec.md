@@ -229,3 +229,22 @@ class GrammarProgressEntries extends Table {
    * `unit`: Luyện tập bài học theo từng Unit.
    * `ghost`: Chế độ thử thách sửa lỗi Ghost Review tập trung.
    * `due`: Ôn tập các câu hỏi đến hạn theo lịch FSRS.
+
+---
+
+## 7. Quản Lý Asset Bundle & Quy Trình Dọn Dẹp Dữ Liệu (Asset Hygiene & Backup Strategy)
+
+### 7.1. Vấn Đề Phình To Asset Bundle (Asset Bloat)
+- Ban đầu, thư mục `assets/data/grammar/` chứa 36 file dữ liệu chuẩn `.json` và 36 file sao lưu `.original.json`.
+- Mặc dù `pubspec.yaml` chỉ khai báo `assets/data/grammar/`, Flutter Asset Bundler mặc định đóng gói toàn bộ các file bên trong thư mục vào binary phát hành (`app.so` / `flutter_assets/`).
+- Hậu quả: Dư thừa ~1.64 MB dữ liệu không sử dụng trong file cài đặt APK/IPA/Desktop installer.
+
+### 7.2. Giải Pháp Tối Ưu Hóa & Di Chuyển Sao Lưu
+1. **Dọn Dẹp Asset Bundle**:
+   - Loại bỏ hoàn toàn toàn bộ 36 file `*.original.json` ra khỏi `assets/data/grammar/`.
+   - `assets/data/grammar/` chỉ giữ lại duy nhất 36 file JSON chính thức đã được định dạng và tối ưu hóa (`unit_01.json` ... `unit_36.json`).
+2. **Khu Vực Lưu Trữ Backup Ngoài Bundle (`tool/data_backup/grammar/`)**:
+   - Tất cả các file thô hoặc bản sao lưu gốc được lưu trữ tại `tool/data_backup/grammar/`. Thư mục này nằm ngoài luồng đóng gói asset của Flutter.
+3. **Chuẩn Hóa Công Cụ Xử Lý Dữ Liệu (`tool/format_grammar.py`)**:
+   - Script tự động định dạng `tool/format_grammar.py` được cập nhật: Khi cần sao lưu, script sẽ ghi vào `tool/data_backup/grammar/` thay vì tạo file tạm trong cây assets.
+   - Thêm cờ `--backup-dir` rõ ràng và đảm bảo không bao giờ làm ô nhiễm thư mục assets của ứng dụng.

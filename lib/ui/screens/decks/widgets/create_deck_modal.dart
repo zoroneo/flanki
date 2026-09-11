@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/notifiers/locale_notifier.dart';
 
 import '../../../widgets/adaptive_modal.dart';
 import '../../../widgets/form_focus_helper.dart';

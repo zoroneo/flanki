@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' show ToastOverlay;
 
-import '../../core/auth/auth_notifier.dart';
+import '../../core/notifiers/auth_notifier.dart';
 import '../../core/notifiers/card_browser_notifier.dart';
 import '../../core/notifiers/deck_notifier.dart';
 import '../../core/notifiers/stats_notifier.dart';

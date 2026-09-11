@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../ui/screens/auth/anki_web_auth_screen.dart';
-import '../../ui/screens/browser/card_browser_screen.dart';
-import '../../ui/screens/decks/decks_screen.dart';
-import '../../ui/screens/editor/note_editor_screen.dart';
-import '../models/grammar/grammar_models.dart';
-import '../../ui/screens/grammar/grammar_catalog_screen.dart';
-import '../../ui/screens/grammar/grammar_practice_screen.dart';
-import '../../ui/screens/grammar/grammar_theory_screen.dart';
-import '../../ui/screens/settings/licenses_screen.dart';
-import '../../ui/screens/settings/privacy_policy_screen.dart';
-import '../../ui/screens/settings/settings_screen.dart';
-import '../../ui/screens/stats/stats_screen.dart';
-import '../../ui/screens/study/study_session_screen.dart';
-import '../../ui/widgets/adaptive_scaffold.dart';
+import '../../core/models/grammar/grammar_models.dart';
+import '../screens/auth/anki_web_auth_screen.dart';
+import '../screens/browser/card_browser_screen.dart';
+import '../screens/decks/decks_screen.dart';
+import '../screens/editor/note_editor_screen.dart';
+import '../screens/grammar/grammar_catalog_screen.dart';
+import '../screens/grammar/grammar_practice_screen.dart';
+import '../screens/grammar/grammar_theory_screen.dart';
+import '../screens/settings/licenses_screen.dart';
+import '../screens/settings/privacy_policy_screen.dart';
+import '../screens/settings/settings_screen.dart';
+import '../screens/stats/stats_screen.dart';
+import '../screens/study/study_session_screen.dart';
+import '../widgets/adaptive_scaffold.dart';
+
+part 'app_router.g.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
-final appRouterProvider = Provider<GoRouter>((ref) {
+@Riverpod(keepAlive: true)
+GoRouter appRouter(Ref ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: '/decks',
@@ -138,4 +141,4 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
-});
+}

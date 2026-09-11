@@ -10,7 +10,7 @@ import 'package:flanki/main.dart';
 
 import 'package:flanki/core/models/grammar/grammar_models.dart';
 import 'package:flanki/core/services/grammar_service.dart';
-import 'package:flanki/core/localization/locale_notifier.dart';
+import 'package:flanki/core/notifiers/locale_notifier.dart';
 
 class TestVietnameseLocaleNotifier extends LocaleNotifier {
   @override
