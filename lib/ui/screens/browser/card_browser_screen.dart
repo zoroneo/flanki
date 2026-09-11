@@ -122,9 +122,7 @@ class CardBrowserScreen extends HookConsumerWidget {
     required ValueNotifier<String?> selectedCardId,
     required TextEditingController searchController,
   }) {
-    final currentSelectedCard = filteredCards
-        .cast<CardModel?>()
-        .firstWhere(
+    final currentSelectedCard = filteredCards.cast<CardModel?>().firstWhere(
           (c) => c?.id == selectedCardId.value,
           orElse: () => filteredCards.isNotEmpty ? filteredCards.first : null,
         );
@@ -137,8 +135,10 @@ class CardBrowserScreen extends HookConsumerWidget {
             width: 420,
             child: Column(
               children: [
-                _buildDesktopSearchBar(context, theme, l10n, searchController, browserNotifier),
-                _buildDesktopFilterBar(context, theme, l10n, browserState, browserNotifier, decks),
+                _buildDesktopSearchBar(
+                    context, theme, l10n, searchController, browserNotifier),
+                _buildDesktopFilterBar(
+                    context, theme, l10n, browserState, browserNotifier, decks),
                 const Divider(height: 1),
                 _buildDesktopHeaderCount(theme, l10n, filteredCards.length),
                 Expanded(
@@ -240,19 +240,22 @@ class CardBrowserScreen extends HookConsumerWidget {
             FilterChip(
               label: l10n.filterNew,
               isSelected: browserState.filterType == CardFilterType.newCard,
-              onTap: () => browserNotifier.setFilterType(CardFilterType.newCard),
+              onTap: () =>
+                  browserNotifier.setFilterType(CardFilterType.newCard),
             ),
             const SizedBox(width: 6),
             FilterChip(
               label: l10n.filterFlagged,
               isSelected: browserState.filterType == CardFilterType.flagged,
-              onTap: () => browserNotifier.setFilterType(CardFilterType.flagged),
+              onTap: () =>
+                  browserNotifier.setFilterType(CardFilterType.flagged),
             ),
             const SizedBox(width: 6),
             FilterChip(
               label: l10n.filterSuspended,
               isSelected: browserState.filterType == CardFilterType.suspended,
-              onTap: () => browserNotifier.setFilterType(CardFilterType.suspended),
+              onTap: () =>
+                  browserNotifier.setFilterType(CardFilterType.suspended),
             ),
           ],
         ),
@@ -359,9 +362,12 @@ class CardBrowserScreen extends HookConsumerWidget {
                 delegate: SearchHeaderDelegate(
                   topPadding: topPadding,
                   theme: theme,
-                  titleRow: _buildMobileTitleRow(theme, l10n, filteredCards.length),
-                  searchBox: _buildMobileSearchBox(theme, l10n, searchController, browserNotifier),
-                  filterRow: _buildMobileFilterRow(l10n, browserState, browserNotifier),
+                  titleRow:
+                      _buildMobileTitleRow(theme, l10n, filteredCards.length),
+                  searchBox: _buildMobileSearchBox(
+                      theme, l10n, searchController, browserNotifier),
+                  filterRow: _buildMobileFilterRow(
+                      l10n, browserState, browserNotifier),
                 ),
               ),
               _buildMobileCardListSliver(
@@ -496,7 +502,8 @@ class CardBrowserScreen extends HookConsumerWidget {
           FilterChip(
             label: l10n.filterSuspended,
             isSelected: browserState.filterType == CardFilterType.suspended,
-            onTap: () => browserNotifier.setFilterType(CardFilterType.suspended),
+            onTap: () =>
+                browserNotifier.setFilterType(CardFilterType.suspended),
           ),
         ],
       ),

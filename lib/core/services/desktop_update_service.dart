@@ -32,7 +32,7 @@ class DesktopUpdateService {
   final http.Client _client;
 
   DesktopUpdateService({http.Client? client})
-    : _client = client ?? http.Client();
+      : _client = client ?? http.Client();
 
   /// Check if current platform is a desktop platform.
   static bool get isDesktop =>
@@ -50,9 +50,8 @@ class DesktopUpdateService {
     final parts1 = clean(v1).split(RegExp(r'[\.-]'));
     final parts2 = clean(v2).split(RegExp(r'[\.-]'));
 
-    final maxLen = parts1.length > parts2.length
-        ? parts1.length
-        : parts2.length;
+    final maxLen =
+        parts1.length > parts2.length ? parts1.length : parts2.length;
     for (int i = 0; i < maxLen; i++) {
       final p1 = i < parts1.length ? int.tryParse(parts1[i]) ?? 0 : 0;
       final p2 = i < parts2.length ? int.tryParse(parts2[i]) ?? 0 : 0;
@@ -140,15 +139,13 @@ class DesktopUpdateService {
     final url = apiUrl ?? AppConfig.githubReleasesApiUrl;
 
     try {
-      final response = await _client
-          .get(
-            Uri.parse(url),
-            headers: {
-              'Accept': 'application/vnd.github+json',
-              'User-Agent': 'Flanki-Desktop-Updater',
-            },
-          )
-          .timeout(AppConfig.updateCheckTimeout);
+      final response = await _client.get(
+        Uri.parse(url),
+        headers: {
+          'Accept': 'application/vnd.github+json',
+          'User-Agent': 'Flanki-Desktop-Updater',
+        },
+      ).timeout(AppConfig.updateCheckTimeout);
 
       if (response.statusCode != 200) {
         return UpdateInfo(
@@ -167,9 +164,8 @@ class DesktopUpdateService {
       final htmlUrl =
           data['html_url'] as String? ?? AppConfig.githubReleasesUrl;
       final publishedAtStr = data['published_at'] as String?;
-      final publishedAt = publishedAtStr != null
-          ? DateTime.tryParse(publishedAtStr)
-          : null;
+      final publishedAt =
+          publishedAtStr != null ? DateTime.tryParse(publishedAtStr) : null;
 
       final assets = data['assets'] as List<dynamic>? ?? [];
       final matchedAsset = findPlatformAsset(assets);

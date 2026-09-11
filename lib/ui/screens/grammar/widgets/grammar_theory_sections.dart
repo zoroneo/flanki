@@ -100,7 +100,8 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(LucideIcons.sigma, size: isMobile ? 18 : 20, color: m.Colors.blue),
+                Icon(LucideIcons.sigma,
+                    size: isMobile ? 18 : 20, color: m.Colors.blue),
                 SizedBox(width: isMobile ? 8 : 10),
                 Expanded(
                   child: Text(
@@ -189,7 +190,8 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(LucideIcons.triangleAlert, size: isMobile ? 18 : 20, color: m.Colors.orange),
+                Icon(LucideIcons.triangleAlert,
+                    size: isMobile ? 18 : 20, color: m.Colors.orange),
                 SizedBox(width: isMobile ? 8 : 10),
                 Expanded(
                   child: Text(
@@ -211,7 +213,9 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
             ...commonTraps.map((trap) {
               return Container(
                 margin: EdgeInsets.only(bottom: isMobile ? 10 : 16),
-                padding: isMobile ? const EdgeInsets.all(12) : const EdgeInsets.all(16),
+                padding: isMobile
+                    ? const EdgeInsets.all(12)
+                    : const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.card,
                   borderRadius: BorderRadius.circular(10),
@@ -312,7 +316,8 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(LucideIcons.info, size: isMobile ? 13 : 15, color: m.Colors.orange),
+        Icon(LucideIcons.info,
+            size: isMobile ? 13 : 15, color: m.Colors.orange),
         const SizedBox(width: 6),
         Expanded(
           child: RichCardContent(
@@ -356,7 +361,8 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(LucideIcons.bookOpen, size: isMobile ? 18 : 20, color: m.Colors.purple),
+                Icon(LucideIcons.bookOpen,
+                    size: isMobile ? 18 : 20, color: m.Colors.purple),
                 SizedBox(width: isMobile ? 8 : 10),
                 Expanded(
                   child: Text(
@@ -378,7 +384,9 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
             ...extraGuides.entries.map((entry) {
               return Container(
                 margin: EdgeInsets.only(bottom: isMobile ? 10 : 14),
-                padding: isMobile ? const EdgeInsets.all(12) : const EdgeInsets.all(16),
+                padding: isMobile
+                    ? const EdgeInsets.all(12)
+                    : const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.muted.withValues(alpha: 0.25),
                   borderRadius: BorderRadius.circular(8),

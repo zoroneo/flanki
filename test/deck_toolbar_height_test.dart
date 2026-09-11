@@ -8,7 +8,7 @@ void main() {
         home: Scaffold(
           child: ListView(
             padding: const EdgeInsets.all(16.0),
-            children: [
+            children: const [
               SizedBox(
                 height: 38,
                 child: Row(
@@ -16,28 +16,28 @@ void main() {
                   children: [
                     Expanded(
                       child: TextField(
-                        features: const [
+                        features: [
                           InputFeature.leading(
                             Icon(LucideIcons.search, size: 18),
                           ),
                         ],
-                        placeholder: const Text('Search...'),
+                        placeholder: Text('Search...'),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     PrimaryButton(
-                      leading: const Icon(LucideIcons.plus, size: 16),
-                      child: const Text('Add Deck'),
+                      leading: Icon(LucideIcons.plus, size: 16),
+                      child: Text('Add Deck'),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     OutlineButton(
-                      leading: const Icon(LucideIcons.fileUp, size: 16),
-                      child: const Text('Import'),
+                      leading: Icon(LucideIcons.fileUp, size: 16),
+                      child: Text('Import'),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     GhostButton(
-                      leading: const Icon(LucideIcons.zap, size: 16),
-                      child: const Text('Custom'),
+                      leading: Icon(LucideIcons.zap, size: 16),
+                      child: Text('Custom'),
                     ),
                   ],
                 ),

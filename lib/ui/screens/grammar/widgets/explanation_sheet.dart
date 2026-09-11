@@ -116,7 +116,8 @@ class ExplanationSheet extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8, bottom: 6),
               child: Row(
                 children: [
-                  const Icon(LucideIcons.shieldAlert, size: 15, color: Colors.orange),
+                  const Icon(LucideIcons.shieldAlert,
+                      size: 15, color: Colors.orange),
                   const SizedBox(width: 8),
                   Text(
                     l10n.grammarSectionDistractors,
@@ -173,7 +174,9 @@ class ExplanationSheet extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    isCorrect ? l10n.grammarAnswerCorrect : l10n.grammarAnswerIncorrect,
+                    isCorrect
+                        ? l10n.grammarAnswerCorrect
+                        : l10n.grammarAnswerIncorrect,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -201,12 +204,17 @@ class ExplanationSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isLastQuestion ? l10n.grammarViewResults : l10n.grammarNextQuestion,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      isLastQuestion
+                          ? l10n.grammarViewResults
+                          : l10n.grammarNextQuestion,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(width: 6),
                     Icon(
-                      isLastQuestion ? LucideIcons.flag : LucideIcons.arrowRight,
+                      isLastQuestion
+                          ? LucideIcons.flag
+                          : LucideIcons.arrowRight,
                       size: 15,
                     ),
                   ],
@@ -267,7 +275,8 @@ class ExplanationSheet extends StatelessWidget {
     );
   }
 
-  (String badgeText, String? detailText) _parseDistractorKey(String rawKey, AppLocalizations l10n) {
+  (String badgeText, String? detailText) _parseDistractorKey(
+      String rawKey, AppLocalizations l10n) {
     final match = RegExp(
       r'^(?:option\s*)?([A-D])(?:\s*[:(]\s*(.*?)[)]?)?$',
       caseSensitive: false,
@@ -275,7 +284,10 @@ class ExplanationSheet extends StatelessWidget {
     if (match != null) {
       final letter = match.group(1)!.toUpperCase();
       final detail = match.group(2)?.trim();
-      return (l10n.grammarOptionBadge(letter), detail != null && detail.isNotEmpty ? detail : null);
+      return (
+        l10n.grammarOptionBadge(letter),
+        detail != null && detail.isNotEmpty ? detail : null
+      );
     }
     return (rawKey, null);
   }
@@ -338,7 +350,8 @@ class ExplanationSheet extends StatelessWidget {
                       fontSize: 12,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.foreground.withValues(alpha: 0.8),
+                      color:
+                          theme.colorScheme.foreground.withValues(alpha: 0.8),
                     ),
                   ),
                 ),

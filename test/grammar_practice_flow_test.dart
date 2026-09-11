@@ -26,7 +26,8 @@ void main() {
   late Directory tempDir;
 
   setUp(() async {
-    tempDir = Directory.systemTemp.createTempSync('flanki_grammar_practice_flow_test_');
+    tempDir = Directory.systemTemp
+        .createTempSync('flanki_grammar_practice_flow_test_');
     await DatabaseService.instance.init(
       customPath: '${tempDir.path}/test_practice_flow.db',
     );
@@ -102,7 +103,9 @@ void main() {
     ],
   );
 
-  testWidgets('Grammar Practice Flow: choice, errorId, cloze, FSRS DB persistence & summary', (
+  testWidgets(
+      'Grammar Practice Flow: choice, errorId, cloze, FSRS DB persistence & summary',
+      (
     WidgetTester tester,
   ) async {
     tester.view.physicalSize = const Size(1024, 768);
@@ -116,7 +119,9 @@ void main() {
     addTearDown(container.dispose);
 
     // Initial session start
-    container.read(grammarSessionNotifierProvider.notifier).startUnitSession(mockUnit);
+    container
+        .read(grammarSessionNotifierProvider.notifier)
+        .startUnitSession(mockUnit);
 
     await tester.pumpWidget(
       UncontrolledProviderScope(
@@ -140,7 +145,8 @@ void main() {
     // 1. QUESTION 1: Choice
     expect(find.text('Câu 1 / 3'), findsOneWidget);
     expect(find.text('TRẮC NGHIỆM'), findsOneWidget);
-    expect(findRichText('Choice question 1: She _______ every morning.'), findsOneWidget);
+    expect(findRichText('Choice question 1: She _______ every morning.'),
+        findsOneWidget);
 
     // Select wrong answer 'running' (auto-submits)
     await tester.tap(find.text('running'));
@@ -216,7 +222,8 @@ void main() {
 
     expect(find.text('Thử Thách Ghost Review'), findsOneWidget);
     expect(find.text('Câu 1 / 1'), findsOneWidget);
-    expect(findRichText('Choice question 1: She _______ every morning.'), findsOneWidget);
+    expect(findRichText('Choice question 1: She _______ every morning.'),
+        findsOneWidget);
 
     // Now answer correctly: 'runs' (auto-submits)
     await tester.tap(find.text('runs'));

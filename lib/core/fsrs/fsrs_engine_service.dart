@@ -1,6 +1,4 @@
-import 'dart:io' show Platform;
 import 'dart:math' as math;
-import 'dart:ui' show Locale;
 
 import 'package:fsrs/fsrs.dart' as fsrs;
 
@@ -16,9 +14,9 @@ class FsrsEngineService {
     double desiredRetention = 0.9,
     bool enableFuzzing = false, // deterministic intervals for UI preview
   }) : scheduler = fsrs.Scheduler(
-         desiredRetention: desiredRetention,
-         enableFuzzing: enableFuzzing,
-       );
+          desiredRetention: desiredRetention,
+          enableFuzzing: enableFuzzing,
+        );
 
   /// Convert Flanki's CardModel to fsrs.Card
   fsrs.Card toFsrsCard(CardModel card) {
@@ -31,8 +29,7 @@ class FsrsEngineService {
       state = fsrs.State.review;
     }
 
-    final cardId =
-        int.tryParse(card.id.replaceAll(RegExp(r'\D'), '')) ??
+    final cardId = int.tryParse(card.id.replaceAll(RegExp(r'\D'), '')) ??
         card.id.hashCode.abs();
 
     return fsrs.Card(
@@ -124,9 +121,8 @@ class FsrsEngineService {
       return resL10n.intervalMonths(clean);
     } else {
       final years = (duration.inDays / 365).toStringAsFixed(1);
-      final clean = years.endsWith('.0')
-          ? years.substring(0, years.length - 2)
-          : years;
+      final clean =
+          years.endsWith('.0') ? years.substring(0, years.length - 2) : years;
       return resL10n.intervalYears(clean);
     }
   }

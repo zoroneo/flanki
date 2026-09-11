@@ -52,7 +52,8 @@ void main() {
       expect(find.byType(HtmlWidget), findsOneWidget);
     });
 
-    testWidgets('renders custom start crossAxisAlignment and left textAlign', (tester) async {
+    testWidgets('renders custom start crossAxisAlignment and left textAlign',
+        (tester) async {
       await tester.pumpWidget(
         wrapWithTheme(
           const RichCardContent(
@@ -81,7 +82,9 @@ void main() {
       expect(htmlWidget.html, contains('<br/>'));
     });
 
-    testWidgets('preserves existing html without inserting extra breaks on block tags', (tester) async {
+    testWidgets(
+        'preserves existing html without inserting extra breaks on block tags',
+        (tester) async {
       await tester.pumpWidget(
         wrapWithTheme(
           const RichCardContent(
@@ -96,7 +99,9 @@ void main() {
       expect(htmlWidget.html, contains('<p>Paragraph 1</p><p>Paragraph 2</p>'));
     });
 
-    testWidgets('backward compatibility: plain text without tags renders cleanly', (tester) async {
+    testWidgets(
+        'backward compatibility: plain text without tags renders cleanly',
+        (tester) async {
       await tester.pumpWidget(
         wrapWithTheme(
           const RichCardContent(
@@ -108,11 +113,15 @@ void main() {
       await tester.pumpAndSettle();
 
       final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
-      expect(htmlWidget.html, contains('Plain unformatted text with no tags at all.'));
+      expect(htmlWidget.html,
+          contains('Plain unformatted text with no tags at all.'));
     });
 
-    testWidgets('rich HTML formatting tags (b, u, mark, span, code) render without issues', (tester) async {
-      const richSample = '<b>Bold</b> <u>Underline</u> <mark>Highlight</mark> <span style="color: #22c55e;">Green</span> <code>code</code>';
+    testWidgets(
+        'rich HTML formatting tags (b, u, mark, span, code) render without issues',
+        (tester) async {
+      const richSample =
+          '<b>Bold</b> <u>Underline</u> <mark>Highlight</mark> <span style="color: #22c55e;">Green</span> <code>code</code>';
       await tester.pumpWidget(
         wrapWithTheme(
           const RichCardContent(
@@ -130,7 +139,9 @@ void main() {
       expect(htmlWidget.html, contains('<code>code</code>'));
     });
 
-    testWidgets('renders audio button inline next to vocabulary label without trailing Wrap', (tester) async {
+    testWidgets(
+        'renders audio button inline next to vocabulary label without trailing Wrap',
+        (tester) async {
       await tester.pumpWidget(
         wrapWithTheme(
           const RichCardContent(
@@ -149,7 +160,9 @@ void main() {
       expect(find.byIcon(LucideIcons.volume2), findsOneWidget);
     });
 
-    testWidgets('renders audio buttons directly inline with Keyword, Meaning, Example labels', (tester) async {
+    testWidgets(
+        'renders audio buttons directly inline with Keyword, Meaning, Example labels',
+        (tester) async {
       const cardContent = '''
 <div>Keyword [sound:4000B1_agree.mp3]</div>
 <div>Meaning [sound:4000B1_agree_meaning.mp3]</div>
@@ -173,7 +186,8 @@ void main() {
       expect(find.byType(Wrap), findsNothing);
     });
 
-    testWidgets('renders type result box in place within HtmlWidget', (tester) async {
+    testWidgets('renders type result box in place within HtmlWidget',
+        (tester) async {
       const cardContent = '''
 <div>Book 1 - Card No.: 2</div>
 <div>[[TYPE_RESULT:agree]]</div>

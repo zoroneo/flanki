@@ -69,7 +69,8 @@ class StudyRemindersCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.settingsDailyReminder, style: theme.typography.semiBold),
+              Text(l10n.settingsDailyReminder,
+                  style: theme.typography.semiBold),
               const SizedBox(height: 2),
               Text(
                 l10n.settingsDailyReminderSubtitle,
@@ -109,8 +110,7 @@ class StudyRemindersCard extends StatelessWidget {
             final min = time[1];
             final label =
                 '${hour.toString().padLeft(2, '0')}:${min.toString().padLeft(2, '0')}';
-            final isSelected =
-                studySettings.reminderHour == hour &&
+            final isSelected = studySettings.reminderHour == hour &&
                 studySettings.reminderMinute == min;
             return Expanded(
               child: Padding(
@@ -177,7 +177,8 @@ class StudyRemindersCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.settingsMinimizeToTray, style: theme.typography.semiBold),
+              Text(l10n.settingsMinimizeToTray,
+                  style: theme.typography.semiBold),
               const SizedBox(height: 2),
               Text(
                 l10n.settingsMinimizeToTraySubtitle,
@@ -205,7 +206,8 @@ class StudyRemindersCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.settingsLaunchAtStartup, style: theme.typography.semiBold),
+              Text(l10n.settingsLaunchAtStartup,
+                  style: theme.typography.semiBold),
               const SizedBox(height: 2),
               Text(
                 l10n.settingsLaunchAtStartupSubtitle,

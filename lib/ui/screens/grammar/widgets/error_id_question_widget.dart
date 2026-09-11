@@ -86,10 +86,12 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                 borderColor = Colors.red;
                 textColor = Colors.red;
               } else {
-                backgroundColor = theme.colorScheme.muted.withValues(alpha: 0.3);
+                backgroundColor =
+                    theme.colorScheme.muted.withValues(alpha: 0.3);
               }
             } else if (isSelected) {
-              backgroundColor = theme.colorScheme.primary.withValues(alpha: 0.1);
+              backgroundColor =
+                  theme.colorScheme.primary.withValues(alpha: 0.1);
               borderColor = theme.colorScheme.primary;
             }
 
@@ -107,7 +109,9 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: borderColor ?? theme.colorScheme.border,
-                        width: (isSelected || (isSubmitted && isCorrectError)) ? 1.8 : 1.0,
+                        width: (isSelected || (isSubmitted && isCorrectError))
+                            ? 1.8
+                            : 1.0,
                       ),
                     ),
                     child: Row(
@@ -118,16 +122,21 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13.5,
                             fontWeight: FontWeight.bold,
-                            color: textColor ?? (isSelected ? theme.colorScheme.primary : theme.colorScheme.foreground),
+                            color: textColor ??
+                                (isSelected
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.foreground),
                           ),
                         ),
                         if (isSubmitted && isCorrectError) ...[
                           const SizedBox(width: 4),
-                          const Icon(LucideIcons.check, size: 15, color: Colors.green),
+                          const Icon(LucideIcons.check,
+                              size: 15, color: Colors.green),
                         ],
                         if (isSubmitted && isSelected && !isCorrectError) ...[
                           const SizedBox(width: 4),
-                          const Icon(LucideIcons.x, size: 15, color: Colors.red),
+                          const Icon(LucideIcons.x,
+                              size: 15, color: Colors.red),
                         ],
                       ],
                     ),
@@ -141,7 +150,8 @@ class ErrorIdQuestionWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildRichPrompt(BuildContext context, String prompt, ThemeData theme) {
+  Widget _buildRichPrompt(
+      BuildContext context, String prompt, ThemeData theme) {
     // Regex splits on [A], [B], [C], [D]
     final regex = RegExp(r'(\[(?:A|B|C|D)\])');
     final parts = prompt.split(regex);
@@ -200,7 +210,8 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: isSelected ? badgeColor : theme.colorScheme.foreground,
+                    color:
+                        isSelected ? badgeColor : theme.colorScheme.foreground,
                   ),
                 ),
               ),

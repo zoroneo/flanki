@@ -96,9 +96,8 @@ class MobileScaffold extends HookConsumerWidget {
                       activeIcon: LucideIcons.settings2,
                       label: l10n.navSettings,
                       isSelected: currentIndex == 4,
-                      indicatorColor: authState.isAuthenticated
-                          ? m.Colors.green
-                          : null,
+                      indicatorColor:
+                          authState.isAuthenticated ? m.Colors.green : null,
                       onTap: () => _onTap(4, ref),
                     ),
                   ],

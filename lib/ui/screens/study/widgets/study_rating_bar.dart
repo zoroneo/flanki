@@ -27,7 +27,8 @@ class StudyRatingBar extends StatelessWidget {
           child: RatingButton(
             label: l10n.ratingAgain,
             shortcutHint: isMobile ? null : '1',
-            interval: intervals[ReviewRating.again] ?? '< ${l10n.intervalMinutes(10)}',
+            interval: intervals[ReviewRating.again] ??
+                '< ${l10n.intervalMinutes(10)}',
             backgroundColor: m.Colors.red.shade600,
             onTap: () => onRate(ReviewRating.again),
           ),

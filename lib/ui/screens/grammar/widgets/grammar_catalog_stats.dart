@@ -50,7 +50,9 @@ class GrammarCatalogStats extends StatelessWidget {
             label: l10n.grammarMetricDueGhosts,
             value: '$totalDues / $totalGhosts',
             icon: LucideIcons.shieldAlert,
-            color: (totalGhosts > 0 || totalDues > 0) ? m.Colors.red : m.Colors.green,
+            color: (totalGhosts > 0 || totalDues > 0)
+                ? m.Colors.red
+                : m.Colors.green,
             isCompact: isCompact,
             onTap: totalGhosts > 0
                 ? () => context.push(
@@ -106,7 +108,8 @@ class GrammarMetricCard extends StatelessWidget {
                     value,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.typography.small.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.typography.small
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -142,7 +145,8 @@ class GrammarMetricCard extends StatelessWidget {
                       children: [
                         Text(
                           value,
-                          style: theme.typography.base.copyWith(fontWeight: FontWeight.bold),
+                          style: theme.typography.base
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           label,

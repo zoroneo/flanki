@@ -45,9 +45,8 @@ class DesktopCardRowItem extends StatelessWidget {
             : theme.colorScheme.card,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: isSelected
-              ? theme.colorScheme.primary
-              : theme.colorScheme.border,
+          color:
+              isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
           width: isSelected ? 1.5 : 1.0,
         ),
       ),
@@ -81,9 +80,8 @@ class DesktopCardRowItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 13,
-                          fontWeight: isSelected
-                              ? FontWeight.w700
-                              : FontWeight.w600,
+                          fontWeight:
+                              isSelected ? FontWeight.w700 : FontWeight.w600,
                           color: theme.colorScheme.foreground,
                           decoration: card.isSuspended
                               ? TextDecoration.lineThrough

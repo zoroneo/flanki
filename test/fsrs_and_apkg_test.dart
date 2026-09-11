@@ -36,7 +36,9 @@ void main() {
       expect(intervals[ReviewRating.easy], isNotEmpty);
     });
 
-    test('scheduleReview calculates increased stability and intervals on Good/Easy', () {
+    test(
+        'scheduleReview calculates increased stability and intervals on Good/Easy',
+        () {
       const card = CardModel(
         id: 'c_test_2',
         deckId: 'deck_1',
@@ -61,7 +63,8 @@ void main() {
   });
 
   group('APKG Importer Service Tests', () {
-    test('Correctly decodes synthetic .apkg archive and extracts decks & cards', () async {
+    test('Correctly decodes synthetic .apkg archive and extracts decks & cards',
+        () async {
       final sampleDecksJson = jsonEncode({
         "1": {"id": 1, "name": "Default", "desc": ""},
         "1600000000000": {
@@ -179,7 +182,9 @@ void main() {
       );
     });
 
-    test('formatInterval formats correctly with explicit English and Vietnamese l10n', () {
+    test(
+        'formatInterval formats correctly with explicit English and Vietnamese l10n',
+        () {
       final l10nVi = lookupAppLocalizations(const Locale('vi'));
       final l10nEn = lookupAppLocalizations(const Locale('en'));
 
@@ -240,8 +245,10 @@ void main() {
           AnkiTemplate(
             ord: 0,
             name: 'Card 1',
-            qfmt: '{{Word}}<br>{{#Phonetic}}[{{Phonetic}}]{{/Phonetic}}<br>{{Audio}}',
-            afmt: '{{FrontSide}}\n<hr id=answer>\n{{Meaning}}<br><i>{{Example}}</i><br>{{Image}}',
+            qfmt:
+                '{{Word}}<br>{{#Phonetic}}[{{Phonetic}}]{{/Phonetic}}<br>{{Audio}}',
+            afmt:
+                '{{FrontSide}}\n<hr id=answer>\n{{Meaning}}<br><i>{{Example}}</i><br>{{Image}}',
           ),
         ],
       );

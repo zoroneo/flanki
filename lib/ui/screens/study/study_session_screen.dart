@@ -132,7 +132,8 @@ class StudySessionScreen extends HookConsumerWidget {
     }
 
     if (sessionState.isFinished) {
-      return _buildFinishedState(context, l10n, theme, sessionNotifier, sessionState.completedCount);
+      return _buildFinishedState(
+          context, l10n, theme, sessionNotifier, sessionState.completedCount);
     }
 
     final currentCard = sessionState.currentCard;
@@ -207,7 +208,8 @@ class StudySessionScreen extends HookConsumerWidget {
         autofocus: true,
         child: ResponsiveBuilder(
           builder: (context, sizingInfo) {
-            final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
+            final isMobile =
+                sizingInfo.deviceScreenType == DeviceScreenType.mobile;
             final cardPadding = getValueForScreenType<double>(
               context: context,
               mobile: 16.0,
@@ -228,11 +230,13 @@ class StudySessionScreen extends HookConsumerWidget {
                   theme: theme,
                   l10n: l10n,
                   currentCard: currentCard,
-                  remainingCount: sessionState.queue.length + (currentCard != null ? 1 : 0),
+                  remainingCount:
+                      sessionState.queue.length + (currentCard != null ? 1 : 0),
                   canUndo: sessionState.canUndo,
                   isWhiteboardOpen: isWhiteboardOpen.value,
                   onUndo: handleUndo,
-                  onToggleWhiteboard: () => isWhiteboardOpen.value = !isWhiteboardOpen.value,
+                  onToggleWhiteboard: () =>
+                      isWhiteboardOpen.value = !isWhiteboardOpen.value,
                   onOpenActions: openCardActions,
                 ),
               ],
@@ -244,12 +248,14 @@ class StudySessionScreen extends HookConsumerWidget {
                       Expanded(
                         child: GestureDetector(
                           onHorizontalDragUpdate: (details) {
-                            if (sessionState.isFlipped && !isWhiteboardOpen.value) {
+                            if (sessionState.isFlipped &&
+                                !isWhiteboardOpen.value) {
                               dragOffset.value += details.primaryDelta ?? 0;
                             }
                           },
                           onHorizontalDragEnd: (details) {
-                            if (sessionState.isFlipped && !isWhiteboardOpen.value) {
+                            if (sessionState.isFlipped &&
+                                !isWhiteboardOpen.value) {
                               if (dragOffset.value < -80) {
                                 handleRate(ReviewRating.again);
                               } else if (dragOffset.value > 80) {
@@ -334,7 +340,8 @@ class StudySessionScreen extends HookConsumerWidget {
               const SizedBox(height: 24),
               Text(
                 l10n.studyCompleteTitle,
-                style: theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
+                style:
+                    theme.typography.h2.copyWith(fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
@@ -395,7 +402,8 @@ class StudySessionScreen extends HookConsumerWidget {
               width: 8,
               height: 8,
               decoration: BoxDecoration(
-                color: CardActionSheet.ankiFlagColors[currentCard.flag] ?? m.Colors.grey,
+                color: CardActionSheet.ankiFlagColors[currentCard.flag] ??
+                    m.Colors.grey,
                 shape: BoxShape.circle,
               ),
             ),
@@ -511,7 +519,9 @@ class StudySessionScreen extends HookConsumerWidget {
                       alignment: Alignment.center,
                       onPressed: onFlip,
                       child: Text(
-                        !isMobile ? '${l10n.tapToFlip}  [Space]' : l10n.tapToFlip,
+                        !isMobile
+                            ? '${l10n.tapToFlip}  [Space]'
+                            : l10n.tapToFlip,
                       ),
                     ),
                   ),

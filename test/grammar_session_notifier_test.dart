@@ -53,7 +53,9 @@ void main() {
       expect(GrammarAnswerEvaluator.isCorrect(ex, 'A'), isFalse);
     });
 
-    test('Evaluates Cloze with advanced normalization (case, spaces, quotes, punctuation)', () {
+    test(
+        'Evaluates Cloze with advanced normalization (case, spaces, quotes, punctuation)',
+        () {
       const ex = GrammarExercise(
         id: 'ex_11',
         type: GrammarExerciseType.cloze,
@@ -74,7 +76,8 @@ void main() {
       // Case insensitive
       expect(GrammarAnswerEvaluator.isCorrect(ex, "Haven't Arrived"), isTrue);
       // Extra spaces & trailing period
-      expect(GrammarAnswerEvaluator.isCorrect(ex, "  haven't   arrived. "), isTrue);
+      expect(GrammarAnswerEvaluator.isCorrect(ex, "  haven't   arrived. "),
+          isTrue);
       // Curly quote
       expect(GrammarAnswerEvaluator.isCorrect(ex, "haven’t arrived"), isTrue);
       // Wrong answer
@@ -179,7 +182,8 @@ void main() {
       expect(notifier.state.progressFraction, equals(0.0));
     });
 
-    test('Submits correct answer, advances FSRS and moves to next question', () async {
+    test('Submits correct answer, advances FSRS and moves to next question',
+        () async {
       notifier.startUnitSession(sampleUnit);
 
       notifier.selectAnswer('A');
@@ -205,7 +209,8 @@ void main() {
       expect(notifier.state.selectedAnswer, isNull);
     });
 
-    test('Submits incorrect answer, flags Ghost and activates Ghost Challenge', () async {
+    test('Submits incorrect answer, flags Ghost and activates Ghost Challenge',
+        () async {
       notifier.startUnitSession(sampleUnit);
 
       // Q1: Answer wrongly ('B' instead of 'A')

@@ -76,8 +76,8 @@ class CardBrowserState {
 
 final cardBrowserProvider =
     NotifierProvider<CardBrowserNotifier, CardBrowserState>(
-      CardBrowserNotifier.new,
-    );
+  CardBrowserNotifier.new,
+);
 
 class CardBrowserNotifier extends Notifier<CardBrowserState> {
   @override

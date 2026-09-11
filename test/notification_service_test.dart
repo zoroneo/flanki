@@ -42,7 +42,9 @@ void main() {
       },
     );
 
-    test('Streak saver strings localized correctly for active and inactive streaks', () {
+    test(
+        'Streak saver strings localized correctly for active and inactive streaks',
+        () {
       final vi = service.getL10n('vi');
       final en = service.getL10n('en');
 
@@ -67,7 +69,9 @@ void main() {
       expect(en.notificationStreakChannelName, 'Streak Saver');
     });
 
-    test('NotificationService updateLocale changes currentLocaleCode appropriately', () {
+    test(
+        'NotificationService updateLocale changes currentLocaleCode appropriately',
+        () {
       final service = NotificationService.instance;
 
       service.updateLocale('en');

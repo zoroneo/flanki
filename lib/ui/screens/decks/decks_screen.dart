@@ -122,7 +122,8 @@ class DecksScreen extends HookConsumerWidget {
 
         return Scaffold(
           headers: [
-            _buildAppBar(theme, studySettings, isSyncing, handleSyncTap, authState, l10n),
+            _buildAppBar(theme, studySettings, isSyncing, handleSyncTap,
+                authState, l10n),
           ],
           child: Stack(
             children: [
@@ -141,7 +142,8 @@ class DecksScreen extends HookConsumerWidget {
                                 totalDue: totalDue,
                                 totalNew: totalNew,
                                 streakDays: stats.streakDays,
-                                desiredRetention: studySettings.desiredRetention,
+                                desiredRetention:
+                                    studySettings.desiredRetention,
                               ),
                               const SizedBox(height: 16),
                               DeckToolbar(
@@ -152,10 +154,12 @@ class DecksScreen extends HookConsumerWidget {
                                 onCustomStudy: openCramModal,
                               ),
                               const SizedBox(height: 20),
-                              _buildHeaderSection(theme, l10n, filteredDecks.length),
+                              _buildHeaderSection(
+                                  theme, l10n, filteredDecks.length),
                               const SizedBox(height: 12),
                               if (filteredDecks.isEmpty)
-                                _buildEmptyState(theme, l10n, openCreateDeckModal),
+                                _buildEmptyState(
+                                    theme, l10n, openCreateDeckModal),
                             ],
                           ),
                         ),
@@ -179,7 +183,8 @@ class DecksScreen extends HookConsumerWidget {
                   child: GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () => isDialOpen.value = false,
-                    child: Container(color: m.Colors.black.withValues(alpha: 0.35)),
+                    child: Container(
+                        color: m.Colors.black.withValues(alpha: 0.35)),
                   ),
                 ),
               if (isMobile)
@@ -334,7 +339,9 @@ class DecksScreen extends HookConsumerWidget {
           ),
         ),
       if (groupedEntries.isNotEmpty && standaloneDecks.isNotEmpty)
-        const SliverToBoxAdapter(child: SizedBox(height: 12),),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 12),
+        ),
       if (standaloneDecks.isNotEmpty)
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -419,7 +426,8 @@ class DecksScreen extends HookConsumerWidget {
                 child: Basic(
                   title: Text(l10n.importApkgError),
                   subtitle: Text(l10n.selectApkgOrZipPrompt),
-                  leading: const Icon(LucideIcons.circleAlert, color: m.Colors.red),
+                  leading:
+                      const Icon(LucideIcons.circleAlert, color: m.Colors.red),
                   trailing: IconButton.ghost(
                     icon: const Icon(LucideIcons.x),
                     onPressed: () => overlay.close(),
@@ -494,7 +502,8 @@ class DecksScreen extends HookConsumerWidget {
                     importResult.mediaCount,
                   ),
                 ),
-                leading: const Icon(LucideIcons.circleCheck, color: m.Colors.green),
+                leading:
+                    const Icon(LucideIcons.circleCheck, color: m.Colors.green),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -513,7 +522,8 @@ class DecksScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.importApkgError),
                 subtitle: Text(e.toString()),
-                leading: const Icon(LucideIcons.circleAlert, color: m.Colors.red),
+                leading:
+                    const Icon(LucideIcons.circleAlert, color: m.Colors.red),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -593,7 +603,8 @@ class DecksScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.deckCreatedSuccess),
                 subtitle: Text(l10n.deckCreatedSuccessDesc(name)),
-                leading: const Icon(LucideIcons.circleCheck, color: m.Colors.green),
+                leading:
+                    const Icon(LucideIcons.circleCheck, color: m.Colors.green),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),

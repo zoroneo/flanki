@@ -128,9 +128,8 @@ class GrammarSessionState {
       unit: unit ?? this.unit,
       exercises: exercises ?? this.exercises,
       currentIndex: currentIndex ?? this.currentIndex,
-      selectedAnswer: clearSelectedAnswer
-          ? null
-          : (selectedAnswer ?? this.selectedAnswer),
+      selectedAnswer:
+          clearSelectedAnswer ? null : (selectedAnswer ?? this.selectedAnswer),
       userAnswers: userAnswers ?? this.userAnswers,
       results: results ?? this.results,
       isSubmitted: isSubmitted ?? this.isSubmitted,
@@ -166,7 +165,8 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
 
   fsrs.Scheduler get _scheduler =>
       _schedOverride ??
-      fsrs.Scheduler(desiredRetention: GrammarConstants.defaultDesiredRetention);
+      fsrs.Scheduler(
+          desiredRetention: GrammarConstants.defaultDesiredRetention);
 
   @override
   GrammarSessionState build() {
@@ -185,7 +185,8 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
   }
 
   /// Start review session for Ghost questions
-  void startGhostSession(List<GrammarExercise> ghostExercises, {GrammarUnit? unit}) {
+  void startGhostSession(List<GrammarExercise> ghostExercises,
+      {GrammarUnit? unit}) {
     state = GrammarSessionState(
       unit: unit,
       exercises: ghostExercises,
@@ -218,7 +219,8 @@ class GrammarSessionNotifier extends Notifier<GrammarSessionState> {
     final updatedResults = Map<String, bool>.from(state.results)
       ..[current.id] = isRight;
 
-    final updatedGhostQueue = List<GrammarExercise>.from(state.ghostChallengeQueue);
+    final updatedGhostQueue =
+        List<GrammarExercise>.from(state.ghostChallengeQueue);
     if (!isRight && !updatedGhostQueue.any((e) => e.id == current.id)) {
       updatedGhostQueue.add(current);
     }

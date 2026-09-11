@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io' show Platform;
-import 'dart:ui' show Locale;
 
 import 'package:http/http.dart' as http;
 
@@ -51,9 +49,9 @@ class AnkiWebAuthService {
     http.Client? client,
     AnkiWebConfig? config,
     AppLocalizations? l10n,
-  }) : _client = client ?? http.Client(),
-       _config = config ?? const AnkiWebConfig(),
-       _customL10n = l10n;
+  })  : _client = client ?? http.Client(),
+        _config = config ?? const AnkiWebConfig(),
+        _customL10n = l10n;
 
   AppLocalizations get l10n => _customL10n ?? AppConfig.getL10n();
 
@@ -78,9 +76,8 @@ class AnkiWebAuthService {
       request.fields['c'] = '0';
       request.fields['data'] = jsonEncode({'u': cleanUsername, 'p': password});
 
-      final streamedResponse = await _client
-          .send(request)
-          .timeout(_config.effectiveAuthTimeout);
+      final streamedResponse =
+          await _client.send(request).timeout(_config.effectiveAuthTimeout);
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {

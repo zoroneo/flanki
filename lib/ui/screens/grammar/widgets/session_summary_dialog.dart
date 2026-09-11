@@ -28,7 +28,8 @@ class SessionSummaryDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final accuracy = totalQuestions > 0 ? (correctCount / totalQuestions) * 100.0 : 0.0;
+    final accuracy =
+        totalQuestions > 0 ? (correctCount / totalQuestions) * 100.0 : 0.0;
     final isPerfect = correctCount == totalQuestions;
 
     return Center(
@@ -62,7 +63,9 @@ class SessionSummaryDialog extends StatelessWidget {
                 Text(
                   isGhostChallenge
                       ? l10n.grammarGhostChallengeCompleted
-                      : (isPerfect ? l10n.grammarPerfectScoreTitle : l10n.grammarUnitSessionCompleted),
+                      : (isPerfect
+                          ? l10n.grammarPerfectScoreTitle
+                          : l10n.grammarUnitSessionCompleted),
                   style: theme.typography.h3.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -82,7 +85,8 @@ class SessionSummaryDialog extends StatelessWidget {
 
                 // Stats Row
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.muted.withValues(alpha: 0.4),
                     borderRadius: BorderRadius.circular(12),
@@ -100,9 +104,10 @@ class SessionSummaryDialog extends StatelessWidget {
                         context,
                         label: l10n.grammarStatAccuracy,
                         value: '${accuracy.toStringAsFixed(1)}%',
-                        color: accuracy >= GrammarConstants.passAccuracyThreshold
-                            ? Colors.green
-                            : Colors.orange,
+                        color:
+                            accuracy >= GrammarConstants.passAccuracyThreshold
+                                ? Colors.green
+                                : Colors.orange,
                       ),
                       if (!isGhostChallenge)
                         _buildStatColumn(

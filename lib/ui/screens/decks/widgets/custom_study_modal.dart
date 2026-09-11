@@ -10,7 +10,7 @@ import '../../../widgets/form_focus_helper.dart';
 
 class CustomStudyModal extends HookWidget {
   final void Function(String name, String tag, int limit, CustomStudyMode mode)
-  onStartCram;
+      onStartCram;
   final bool isDesktop;
 
   const CustomStudyModal({
@@ -22,8 +22,9 @@ class CustomStudyModal extends HookWidget {
   /// Shows the custom study modal adaptively (bottom sheet on mobile, dialog on desktop).
   static Future<void> show(
     BuildContext context, {
-    required void Function(String name, String tag, int limit, CustomStudyMode mode)
-    onStartCram,
+    required void Function(
+            String name, String tag, int limit, CustomStudyMode mode)
+        onStartCram,
   }) {
     return showAdaptiveModal(
       context: context,
@@ -270,9 +271,8 @@ class _ModeButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected
-              ? theme.colorScheme.primary
-              : theme.colorScheme.muted,
+          color:
+              isSelected ? theme.colorScheme.primary : theme.colorScheme.muted,
           borderRadius: BorderRadius.circular(8),
         ),
         alignment: Alignment.center,

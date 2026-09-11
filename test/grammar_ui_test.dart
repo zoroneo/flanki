@@ -62,7 +62,9 @@ void main() {
   }
 
   group('Grammar Question Widgets Tests', () {
-    testWidgets('ChoiceQuestionWidget renders prompt and handles option selection', (tester) async {
+    testWidgets(
+        'ChoiceQuestionWidget renders prompt and handles option selection',
+        (tester) async {
       const ex = GrammarExercise(
         id: 'ex_01',
         type: GrammarExerciseType.choice,
@@ -109,7 +111,9 @@ void main() {
       expect(selected, equals('works'));
     });
 
-    testWidgets('ErrorIdQuestionWidget renders interactive tags and handles selection', (tester) async {
+    testWidgets(
+        'ErrorIdQuestionWidget renders interactive tags and handles selection',
+        (tester) async {
       const ex = GrammarExercise(
         id: 'ex_06',
         type: GrammarExerciseType.errorId,
@@ -155,7 +159,8 @@ void main() {
       expect(selected, equals('A'));
     });
 
-    testWidgets('ClozeQuestionWidget renders input field and handles typing', (tester) async {
+    testWidgets('ClozeQuestionWidget renders input field and handles typing',
+        (tester) async {
       const ex = GrammarExercise(
         id: 'ex_11',
         type: GrammarExerciseType.cloze,
@@ -193,7 +198,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(findRichText('Water ________ (boil) at 100 degrees.'), findsOneWidget);
+      expect(findRichText('Water ________ (boil) at 100 degrees.'),
+          findsOneWidget);
 
       await tester.enterText(find.byType(TextField), 'boils');
       await tester.pumpAndSettle();
@@ -201,7 +207,9 @@ void main() {
       expect(currentInput, equals('boils'));
     });
 
-    testWidgets('ExplanationSheet displays translation, signals and distractor breakdowns', (tester) async {
+    testWidgets(
+        'ExplanationSheet displays translation, signals and distractor breakdowns',
+        (tester) async {
       const ex = GrammarExercise(
         id: 'ex_01',
         type: GrammarExerciseType.choice,
@@ -245,13 +253,16 @@ void main() {
       expect(nextClicked, isTrue);
     });
 
-    testWidgets('GrammarTheoryScreen renders rich formatted sections via RichCardContent', (tester) async {
+    testWidgets(
+        'GrammarTheoryScreen renders rich formatted sections via RichCardContent',
+        (tester) async {
       const unit = GrammarUnit(
         unitId: 'test_unit_01',
         title: 'Present Simple vs Continuous',
         category: GrammarCategory.tenses,
         level: GrammarLevel.foundation,
-        coreConcept: '<b>Hiện tại đơn</b> diễn tả chân lý:\n- Sự thật hiển nhiên',
+        coreConcept:
+            '<b>Hiện tại đơn</b> diễn tả chân lý:\n- Sự thật hiển nhiên',
         formulas: {
           'presentSimple': 'Khẳng định: <code>S + V(s/es)</code>',
         },
@@ -286,7 +297,9 @@ void main() {
       expect(find.byType(RichCardContent), findsWidgets);
     });
 
-    testWidgets('GrammarTheoryScreen renders Two-Pane layout and TOC on desktop', (tester) async {
+    testWidgets(
+        'GrammarTheoryScreen renders Two-Pane layout and TOC on desktop',
+        (tester) async {
       tester.view.physicalSize = const Size(1280, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -324,7 +337,8 @@ void main() {
       expect(find.text('Công Thức Cú Pháp (Formulas)'), findsWidgets);
     });
 
-    testWidgets('GrammarTheoryScreen renders Sticky Bottom CTA on mobile', (tester) async {
+    testWidgets('GrammarTheoryScreen renders Sticky Bottom CTA on mobile',
+        (tester) async {
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -362,7 +376,9 @@ void main() {
       expect(find.text('Bắt Đầu Luyện Tập 15 Câu Ngay'), findsOneWidget);
     });
 
-    testWidgets('GrammarCatalogScreen renders 3-column grid and wrap filter on desktop', (tester) async {
+    testWidgets(
+        'GrammarCatalogScreen renders 3-column grid and wrap filter on desktop',
+        (tester) async {
       tester.view.physicalSize = const Size(1280, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -399,11 +415,13 @@ void main() {
       final gridFinder = find.byType(SliverGrid);
       expect(gridFinder, findsOneWidget);
       final sliverGrid = tester.widget<SliverGrid>(gridFinder);
-      final delegate = sliverGrid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
+      final delegate =
+          sliverGrid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
       expect(delegate.crossAxisCount, equals(3));
     });
 
-    testWidgets('GrammarCatalogScreen renders 2-column grid on tablet', (tester) async {
+    testWidgets('GrammarCatalogScreen renders 2-column grid on tablet',
+        (tester) async {
       tester.view.physicalSize = const Size(768, 1024);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -436,11 +454,13 @@ void main() {
       final gridFinder = find.byType(SliverGrid);
       expect(gridFinder, findsOneWidget);
       final sliverGrid = tester.widget<SliverGrid>(gridFinder);
-      final delegate = sliverGrid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
+      final delegate =
+          sliverGrid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
       expect(delegate.crossAxisCount, equals(2));
     });
 
-    testWidgets('GrammarCatalogScreen renders 1-column grid on mobile', (tester) async {
+    testWidgets('GrammarCatalogScreen renders 1-column grid on mobile',
+        (tester) async {
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -473,13 +493,16 @@ void main() {
       final gridFinder = find.byType(SliverGrid);
       expect(gridFinder, findsOneWidget);
       final sliverGrid = tester.widget<SliverGrid>(gridFinder);
-      final delegate = sliverGrid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
+      final delegate =
+          sliverGrid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
       expect(delegate.crossAxisCount, equals(1));
       // On mobile, Wrap is not used for filter
       expect(find.byType(Wrap), findsNothing);
     });
 
-    testWidgets('ExplanationSheet renders side panel layout when isSidePanel is true', (tester) async {
+    testWidgets(
+        'ExplanationSheet renders side panel layout when isSidePanel is true',
+        (tester) async {
       const ex = GrammarExercise(
         id: 'ex_side_01',
         type: GrammarExerciseType.choice,
@@ -518,7 +541,9 @@ void main() {
       expect(find.text('Câu Tiếp Theo'), findsOneWidget);
     });
 
-    testWidgets('GrammarPracticeScreen renders dual-column layout with shortcut guide on desktop', (tester) async {
+    testWidgets(
+        'GrammarPracticeScreen renders dual-column layout with shortcut guide on desktop',
+        (tester) async {
       tester.view.physicalSize = const Size(1280, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -558,12 +583,15 @@ void main() {
         ],
       );
       addTearDown(container.dispose);
-      container.read(grammarSessionNotifierProvider.notifier).startUnitSession(unit);
+      container
+          .read(grammarSessionNotifierProvider.notifier)
+          .startUnitSession(unit);
 
       await tester.pumpWidget(
         UncontrolledProviderScope(
           container: container,
-          child: wrapWithTheme(const GrammarPracticeScreen(unitId: 'u_practice_desktop')),
+          child: wrapWithTheme(
+              const GrammarPracticeScreen(unitId: 'u_practice_desktop')),
         ),
       );
       await tester.pumpAndSettle();
@@ -575,7 +603,9 @@ void main() {
       expect(find.text('Enter / Space'), findsOneWidget);
     });
 
-    testWidgets('GrammarPracticeScreen renders single-column layout without shortcut guide on mobile', (tester) async {
+    testWidgets(
+        'GrammarPracticeScreen renders single-column layout without shortcut guide on mobile',
+        (tester) async {
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
@@ -615,12 +645,15 @@ void main() {
         ],
       );
       addTearDown(container.dispose);
-      container.read(grammarSessionNotifierProvider.notifier).startUnitSession(unit);
+      container
+          .read(grammarSessionNotifierProvider.notifier)
+          .startUnitSession(unit);
 
       await tester.pumpWidget(
         UncontrolledProviderScope(
           container: container,
-          child: wrapWithTheme(const GrammarPracticeScreen(unitId: 'u_practice_mobile')),
+          child: wrapWithTheme(
+              const GrammarPracticeScreen(unitId: 'u_practice_mobile')),
         ),
       );
       await tester.pumpAndSettle();

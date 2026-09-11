@@ -83,7 +83,9 @@ class GrammarFilterChip extends StatelessWidget {
               : theme.colorScheme.muted.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.border,
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.border,
           ),
         ),
         child: Text(

@@ -151,10 +151,13 @@ class GrammarUnitCard extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Text(
-          l10n.grammarMasteryPercentage(summary.masteryPercentage.toStringAsFixed(0)),
+          l10n.grammarMasteryPercentage(
+              summary.masteryPercentage.toStringAsFixed(0)),
           style: theme.typography.xSmall.copyWith(
             fontWeight: FontWeight.bold,
-            color: summary.isMastered ? m.Colors.green : theme.colorScheme.mutedForeground,
+            color: summary.isMastered
+                ? m.Colors.green
+                : theme.colorScheme.mutedForeground,
           ),
         ),
       ],

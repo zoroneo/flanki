@@ -48,170 +48,170 @@ class StatsScreen extends HookConsumerWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 880),
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 16.0),
+                padding: EdgeInsets.symmetric(
+                    horizontal: horizontalPadding, vertical: 16.0),
                 children: [
-              // Retention & FSRS Overview Card
-              Card(
-                filled: true,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // Retention & FSRS Overview Card
+                  Card(
+                    filled: true,
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          l10n.retentionRate,
-                          style: theme.typography.xSmall.copyWith(
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                        if (stats.totalReviews > 0)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              l10n.retentionRate,
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              color:
-                                  (isTargetReached
+                            if (stats.totalReviews > 0)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: (isTargetReached
                                           ? m.Colors.green
                                           : m.Colors.orange)
                                       .withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              isTargetReached
-                                  ? l10n.targetReached
-                                  : l10n.targetNotReached,
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                                color: isTargetReached
-                                    ? m.Colors.green
-                                    : m.Colors.orange,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  isTargetReached
+                                      ? l10n.targetReached
+                                      : l10n.targetNotReached,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    color: isTargetReached
+                                        ? m.Colors.green
+                                        : m.Colors.orange,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              retentionPercentStr,
+                              style: theme.typography.h1.copyWith(
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: -1,
                               ),
                             ),
-                          ),
+                            const SizedBox(width: 8),
+                            Text(
+                              targetLabel,
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Progress(progress: stats.retentionRate),
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Text(
-                          retentionPercentStr,
-                          style: theme.typography.h1.copyWith(
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -1,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          targetLabel,
-                          style: theme.typography.xSmall.copyWith(
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Progress(progress: stats.retentionRate),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
+                  ),
+                  const SizedBox(height: 16),
 
-              // 3 Metric Grid
-              Row(
-                children: [
-                  Expanded(
-                    child: _MetricCard(
-                      label: l10n.reviewedToday,
-                      value: '${stats.reviewedToday}',
-                      subtitle: l10n.reviewedDiff,
-                      icon: LucideIcons.checkCheck,
+                  // 3 Metric Grid
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _MetricCard(
+                          label: l10n.reviewedToday,
+                          value: '${stats.reviewedToday}',
+                          subtitle: l10n.reviewedDiff,
+                          icon: LucideIcons.checkCheck,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _MetricCard(
+                          label: l10n.studyTime,
+                          value: l10n.studyMinutesUnit(stats.studyTimeMinutes),
+                          subtitle: l10n.studyTimePerCard,
+                          icon: LucideIcons.timer,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Study Activity Heatmap (GitHub / Anki style)
+                  Card(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                l10n.studyHistory,
+                                style: theme.typography.semiBold,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              l10n.streakDays(stats.streakDays),
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        _HeatmapGrid(theme: theme, levels: stats.heatmapLevels),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              l10n.less,
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            _HeatmapDot(level: 0, theme: theme),
+                            const SizedBox(width: 4),
+                            _HeatmapDot(level: 1, theme: theme),
+                            const SizedBox(width: 4),
+                            _HeatmapDot(level: 2, theme: theme),
+                            const SizedBox(width: 4),
+                            _HeatmapDot(level: 3, theme: theme),
+                            const SizedBox(width: 6),
+                            Text(
+                              l10n.more,
+                              style: theme.typography.xSmall.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _MetricCard(
-                      label: l10n.studyTime,
-                      value: l10n.studyMinutesUnit(stats.studyTimeMinutes),
-                      subtitle: l10n.studyTimePerCard,
-                      icon: LucideIcons.timer,
-                    ),
-                  ),
+                  const SizedBox(
+                    height: 110,
+                  ), // Safe scroll clearance for bottom navigation
                 ],
               ),
-              const SizedBox(height: 20),
-
-              // Study Activity Heatmap (GitHub / Anki style)
-              Card(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            l10n.studyHistory,
-                            style: theme.typography.semiBold,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          l10n.streakDays(stats.streakDays),
-                          style: theme.typography.xSmall.copyWith(
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    _HeatmapGrid(theme: theme, levels: stats.heatmapLevels),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          l10n.less,
-                          style: theme.typography.xSmall.copyWith(
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        _HeatmapDot(level: 0, theme: theme),
-                        const SizedBox(width: 4),
-                        _HeatmapDot(level: 1, theme: theme),
-                        const SizedBox(width: 4),
-                        _HeatmapDot(level: 2, theme: theme),
-                        const SizedBox(width: 4),
-                        _HeatmapDot(level: 3, theme: theme),
-                        const SizedBox(width: 6),
-                        Text(
-                          l10n.more,
-                          style: theme.typography.xSmall.copyWith(
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 110,
-              ), // Safe scroll clearance for bottom navigation
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
       },
     );
   }

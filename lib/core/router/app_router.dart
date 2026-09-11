@@ -130,7 +130,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'grammar-practice',
         builder: (context, state) {
           final unitId = state.pathParameters['unitId'] ?? '';
-          final mode = GrammarPracticeMode.fromString(state.uri.queryParameters['mode']);
+          final mode =
+              GrammarPracticeMode.fromString(state.uri.queryParameters['mode']);
           return GrammarPracticeScreen(unitId: unitId, mode: mode);
         },
       ),

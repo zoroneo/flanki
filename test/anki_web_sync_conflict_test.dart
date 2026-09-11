@@ -53,7 +53,9 @@ void main() {
       },
     );
 
-    test('recommends download when serverMod > lastSync and hasLocalChanges is false', () async {
+    test(
+        'recommends download when serverMod > lastSync and hasLocalChanges is false',
+        () async {
       final lastSync = DateTime.utc(2026, 9, 1, 10, 0, 0);
       final serverModSeconds =
           DateTime.utc(2026, 9, 2, 12, 0, 0).millisecondsSinceEpoch ~/ 1000;
@@ -82,7 +84,9 @@ void main() {
       expect(result.action, equals(SyncActionRequired.download));
     });
 
-    test('recommends upload when server has no newer changes but local has changes', () async {
+    test(
+        'recommends upload when server has no newer changes but local has changes',
+        () async {
       final lastSync = DateTime.utc(2026, 9, 5, 10, 0, 0);
       final serverModSeconds =
           DateTime.utc(2026, 9, 5, 10, 0, 0).millisecondsSinceEpoch ~/ 1000;

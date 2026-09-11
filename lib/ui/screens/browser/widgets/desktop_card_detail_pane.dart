@@ -43,7 +43,8 @@ class DesktopCardDetailPane extends HookWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _buildFrontSection(theme, l10n, showAnswer, userTypedAnswer),
+                    _buildFrontSection(
+                        theme, l10n, showAnswer, userTypedAnswer),
                     if (showAnswer.value) ...[
                       const SizedBox(height: 20),
                       _buildBackSection(theme, l10n, userTypedAnswer),

@@ -27,7 +27,8 @@ class GrammarPracticeScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<GrammarPracticeScreen> createState() => _GrammarPracticeScreenState();
+  ConsumerState<GrammarPracticeScreen> createState() =>
+      _GrammarPracticeScreenState();
 }
 
 class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
@@ -110,8 +111,10 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
 
     final shortcuts = <ShortcutActivator, VoidCallback>{
       if (session.isSubmitted) ...{
-        const SingleActivator(LogicalKeyboardKey.enter): () => notifier.nextQuestion(),
-        const SingleActivator(LogicalKeyboardKey.space): () => notifier.nextQuestion(),
+        const SingleActivator(LogicalKeyboardKey.enter): () =>
+            notifier.nextQuestion(),
+        const SingleActivator(LogicalKeyboardKey.space): () =>
+            notifier.nextQuestion(),
       } else if (currentExercise?.type != GrammarExerciseType.cloze) ...{
         if (currentExercise != null && currentExercise.options.length >= 4) ...{
           const SingleActivator(LogicalKeyboardKey.digit1): () {
@@ -157,7 +160,8 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
               trailing: [
                 if (currentExercise != null)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.muted,
                       borderRadius: BorderRadius.circular(6),
@@ -261,8 +265,10 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                                   child: session.isSubmitted
                                       ? ExplanationSheet(
                                           exercise: currentExercise,
-                                          isCorrect: session.isCurrentCorrect ?? false,
-                                          isLastQuestion: session.isLastQuestion,
+                                          isCorrect:
+                                              session.isCurrentCorrect ?? false,
+                                          isLastQuestion:
+                                              session.isLastQuestion,
                                           onNext: () => notifier.nextQuestion(),
                                           isSidePanel: true,
                                         )
@@ -299,7 +305,8 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       children: [
         // Question counter
         Text(
-          l10n.grammarQuestionCounter(session.currentIndex + 1, session.totalQuestions),
+          l10n.grammarQuestionCounter(
+              session.currentIndex + 1, session.totalQuestions),
           style: theme.typography.small.copyWith(
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.mutedForeground,
@@ -444,11 +451,13 @@ class _PracticeShortcutsGuide extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(LucideIcons.keyboard, size: 20, color: theme.colorScheme.primary),
+              Icon(LucideIcons.keyboard,
+                  size: 20, color: theme.colorScheme.primary),
               const SizedBox(width: 8),
               Text(
                 l10n.grammarShortcutsTitle,
-                style: theme.typography.large.copyWith(fontWeight: FontWeight.bold),
+                style: theme.typography.large
+                    .copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -469,11 +478,13 @@ class _PracticeShortcutsGuide extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             children: [
-              Icon(LucideIcons.sparkles, size: 18, color: theme.colorScheme.mutedForeground),
+              Icon(LucideIcons.sparkles,
+                  size: 18, color: theme.colorScheme.mutedForeground),
               const SizedBox(width: 8),
               Text(
                 l10n.grammarPracticeTipTitle,
-                style: theme.typography.base.copyWith(fontWeight: FontWeight.bold),
+                style:
+                    theme.typography.base.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -532,4 +543,3 @@ class _PracticeShortcutsGuide extends StatelessWidget {
     }
   }
 }
-

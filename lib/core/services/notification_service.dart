@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui' show Locale;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -107,19 +106,15 @@ class NotificationService {
 
     try {
       if (Platform.isAndroid) {
-        final android = _plugin
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
+        final android = _plugin.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
         final grantedNotif =
             await android?.requestNotificationsPermission() ?? false;
         await android?.requestExactAlarmsPermission();
         return grantedNotif;
       } else if (Platform.isIOS) {
-        final ios = _plugin
-            .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin
-            >();
+        final ios = _plugin.resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>();
         final granted = await ios?.requestPermissions(
           alert: true,
           badge: true,
@@ -127,10 +122,8 @@ class NotificationService {
         );
         return granted ?? false;
       } else if (Platform.isMacOS) {
-        final macos = _plugin
-            .resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin
-            >();
+        final macos = _plugin.resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin>();
         final granted = await macos?.requestPermissions(
           alert: true,
           badge: true,

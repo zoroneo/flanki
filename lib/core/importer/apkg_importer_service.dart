@@ -2,12 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
-import 'dart:ui' show Locale;
 
 import 'package:archive/archive.dart';
 import 'package:sqlite3/sqlite3.dart';
 
-import '../../l10n/generated/app_localizations.dart';
 import '../config/app_config.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
@@ -300,9 +298,8 @@ class ApkgImporterService {
 
       // 3. Parse cards
       final columnsResult = db.select('PRAGMA table_info(cards)');
-      final columnNames = columnsResult
-          .map((r) => (r['name'] as String).toLowerCase())
-          .toSet();
+      final columnNames =
+          columnsResult.map((r) => (r['name'] as String).toLowerCase()).toSet();
       final ordExpr = columnNames.contains('ord') ? 'ord' : '0 as ord';
       final typeExpr = columnNames.contains('type') ? 'type' : '0 as type';
       final dueExpr = columnNames.contains('due') ? 'due' : '0 as due';
@@ -354,8 +351,8 @@ class ApkgImporterService {
               ? factor / 1000.0
               : (AppConfig.defaultAnkiFactor / 1000.0);
           // Linear mapping: Ease [1.3, 3.0] -> Difficulty [10.0, 1.0]
-          final minEase = AppConfig.minAnkiFactor / 1000.0;
-          final maxEase = AppConfig.maxAnkiFactor / 1000.0;
+          const minEase = AppConfig.minAnkiFactor / 1000.0;
+          const maxEase = AppConfig.maxAnkiFactor / 1000.0;
           difficulty = ((maxEase - ease) / (maxEase - minEase) * 9.0 + 1.0)
               .clamp(1.0, 10.0);
           stability = math.max(0.1, ivl.toDouble());
@@ -383,20 +380,17 @@ class ApkgImporterService {
         // Hint: take third field if non-empty, or null
         final hint =
             noteData.flds.length > 2 && noteData.flds[2].trim().isNotEmpty
-            ? noteData.flds[2].trim()
-            : null;
+                ? noteData.flds[2].trim()
+                : null;
 
         // Tags separated by space
-        final tags = noteData.tags
-            .split(' ')
-            .where((t) => t.isNotEmpty)
-            .toList();
+        final tags =
+            noteData.tags.split(' ').where((t) => t.isNotEmpty).toList();
 
         final deckId = 'deck-$did';
 
         // Anki note type detection (Cloze contains {{c1::...}})
-        final isCloze =
-            front.contains('cloze') ||
+        final isCloze = front.contains('cloze') ||
             noteData.flds.any((f) => f.contains('{{c'));
         final noteType = isCloze ? NoteType.cloze : NoteType.basic;
 

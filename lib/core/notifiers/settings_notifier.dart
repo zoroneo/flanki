@@ -74,21 +74,16 @@ class StudySettings {
   factory StudySettings.fromMap(Map<String, dynamic> map) {
     return StudySettings(
       fsrsEnabled: map['fsrsEnabled'] as bool? ?? true,
-      desiredRetention:
-          (map['desiredRetention'] as num?)?.toDouble() ??
+      desiredRetention: (map['desiredRetention'] as num?)?.toDouble() ??
           AppConfig.defaultDesiredRetention,
-      newCardsPerDay:
-          (map['newCardsPerDay'] as num?)?.toInt() ??
+      newCardsPerDay: (map['newCardsPerDay'] as num?)?.toInt() ??
           AppConfig.defaultNewCardsPerDay,
-      maxReviewsPerDay:
-          (map['maxReviewsPerDay'] as num?)?.toInt() ??
+      maxReviewsPerDay: (map['maxReviewsPerDay'] as num?)?.toInt() ??
           AppConfig.defaultReviewsPerDay,
       reminderEnabled: map['reminderEnabled'] as bool? ?? true,
-      reminderHour:
-          (map['reminderHour'] as num?)?.toInt() ??
+      reminderHour: (map['reminderHour'] as num?)?.toInt() ??
           AppConfig.defaultReminderHour,
-      reminderMinute:
-          (map['reminderMinute'] as num?)?.toInt() ??
+      reminderMinute: (map['reminderMinute'] as num?)?.toInt() ??
           AppConfig.defaultReminderMinute,
       streakSaverEnabled: map['streakSaverEnabled'] as bool? ?? true,
       minimizeToTrayOnClose: map['minimizeToTrayOnClose'] as bool? ?? true,
@@ -110,8 +105,8 @@ const String _kLaunchAtStartupKey = 'settings_launch_at_startup';
 
 final studySettingsProvider =
     NotifierProvider<StudySettingsNotifier, StudySettings>(
-      StudySettingsNotifier.new,
-    );
+  StudySettingsNotifier.new,
+);
 
 class StudySettingsNotifier extends Notifier<StudySettings> {
   final _storage = const FlutterSecureStorage();
@@ -136,9 +131,8 @@ class StudySettingsNotifier extends Notifier<StudySettings> {
       final launchStartupVal = await _storage.read(key: _kLaunchAtStartupKey);
 
       final minTray = minTrayVal != null ? minTrayVal == 'true' : true;
-      final launchStartup = launchStartupVal != null
-          ? launchStartupVal == 'true'
-          : false;
+      final launchStartup =
+          launchStartupVal != null ? launchStartupVal == 'true' : false;
 
       state = StudySettings(
         fsrsEnabled: fsrsVal != null ? fsrsVal == 'true' : true,
@@ -158,9 +152,8 @@ class StudySettingsNotifier extends Notifier<StudySettings> {
         reminderMinute: remMinVal != null
             ? (int.tryParse(remMinVal) ?? AppConfig.defaultReminderMinute)
             : AppConfig.defaultReminderMinute,
-        streakSaverEnabled: streakSaverVal != null
-            ? streakSaverVal == 'true'
-            : true,
+        streakSaverEnabled:
+            streakSaverVal != null ? streakSaverVal == 'true' : true,
         minimizeToTrayOnClose: minTray,
         launchAtStartup: launchStartup,
       );

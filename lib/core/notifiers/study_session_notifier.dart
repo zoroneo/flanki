@@ -107,8 +107,8 @@ class StudySessionState {
 
 final studySessionProvider =
     NotifierProvider<StudySessionNotifier, StudySessionState>(
-      StudySessionNotifier.new,
-    );
+  StudySessionNotifier.new,
+);
 
 class StudySessionNotifier extends Notifier<StudySessionState> {
   @override

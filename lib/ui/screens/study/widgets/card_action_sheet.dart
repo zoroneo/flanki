@@ -126,7 +126,6 @@ class CardActionSheet extends HookWidget {
                 ),
                 const SizedBox(height: 16),
               ],
-
               if (isEditing.value) ...[
                 Row(
                   children: [

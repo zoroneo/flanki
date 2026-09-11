@@ -62,7 +62,8 @@ class GrammarRepository {
 
       // Mastery: capped at masteryStabilityCapDays = 100%
       final itemMastery =
-          (p.stability / GrammarConstants.masteryStabilityCapDays).clamp(0.0, 1.0) *
+          (p.stability / GrammarConstants.masteryStabilityCapDays)
+                  .clamp(0.0, 1.0) *
               100.0;
       totalStabilityRatio += itemMastery;
     }

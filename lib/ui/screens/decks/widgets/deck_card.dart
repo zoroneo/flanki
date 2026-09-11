@@ -30,9 +30,8 @@ class DeckCard extends StatelessWidget {
     // Parse Hierarchical deck title (Parent::Child)
     final parts = title.split('::');
     final hasHierarchy = parts.length > 1;
-    final parentPath = hasHierarchy
-        ? parts.sublist(0, parts.length - 1).join(' › ')
-        : null;
+    final parentPath =
+        hasHierarchy ? parts.sublist(0, parts.length - 1).join(' › ') : null;
     final leafName = parts.last;
     final isCram = deckId.startsWith('cram') ||
         title.startsWith('⚡') ||
@@ -136,7 +135,8 @@ class DeckCard extends StatelessWidget {
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.destructive.withValues(alpha: 0.15),
+                    color:
+                        theme.colorScheme.destructive.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(

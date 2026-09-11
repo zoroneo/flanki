@@ -66,7 +66,9 @@ void useAttachTabFocusChain(
         if (event.logicalKey == LogicalKeyboardKey.enter ||
             event.logicalKey == LogicalKeyboardKey.numpadEnter) {
           final isShift = HardwareKeyboard.instance.isShiftPressed;
-          if (currentIndex == nodes.length - 1 && onSubmit != null && !isShift) {
+          if (currentIndex == nodes.length - 1 &&
+              onSubmit != null &&
+              !isShift) {
             onSubmit();
             return KeyEventResult.handled;
           }

@@ -50,7 +50,8 @@ void main() {
     expect(find.text('Ctrl+1'), findsOneWidget);
   });
 
-  testWidgets('Tablet layout renders navigation rail when 600px <= width < 1024px', (
+  testWidgets(
+      'Tablet layout renders navigation rail when 600px <= width < 1024px', (
     WidgetTester tester,
   ) async {
     tester.view.physicalSize = const Size(768, 1024);

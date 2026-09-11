@@ -38,15 +38,13 @@ class LicensesScreen extends HookWidget {
       final Map<String, List<String>> packageMap = {};
 
       await for (final entry in LicenseRegistry.licenses) {
-        final text = entry.paragraphs
-            .map((p) {
-              if (p.indent == LicenseParagraph.centeredIndent) {
-                return p.text;
-              }
-              final indent = '  ' * (p.indent > 0 ? p.indent : 0);
-              return '$indent${p.text}';
-            })
-            .join('\n\n');
+        final text = entry.paragraphs.map((p) {
+          if (p.indent == LicenseParagraph.centeredIndent) {
+            return p.text;
+          }
+          final indent = '  ' * (p.indent > 0 ? p.indent : 0);
+          return '$indent${p.text}';
+        }).join('\n\n');
 
         for (final pkg in entry.packages) {
           packageMap.putIfAbsent(pkg, () => []).add(text);
@@ -319,7 +317,6 @@ SOFTWARE.''';
                   ),
                 ),
               ),
-
               if (snapshot.connectionState != ConnectionState.waiting &&
                   filteredPackages.isNotEmpty)
                 SliverPadding(
@@ -409,7 +406,6 @@ SOFTWARE.''';
                     },
                   ),
                 ),
-
               const SliverToBoxAdapter(
                 child: SizedBox(height: 48),
               ),

@@ -146,28 +146,28 @@ class UpdateDialog extends ConsumerWidget {
               builder: (context, constraints) {
                 final primaryButton = switch (updateState.status) {
                   _ when updateInfo.downloadUrl == null => PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      DesktopUpdateService.openUrl(updateInfo.releaseUrl);
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(l10n.openDownloadPage),
-                  ),
+                      alignment: Alignment.center,
+                      onPressed: () {
+                        DesktopUpdateService.openUrl(updateInfo.releaseUrl);
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(l10n.openDownloadPage),
+                    ),
                   UpdateStatus.readyToInstall => PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: () => notifier.installAndRestart(),
-                    child: Text(l10n.restartAndInstall),
-                  ),
+                      alignment: Alignment.center,
+                      onPressed: () => notifier.installAndRestart(),
+                      child: Text(l10n.restartAndInstall),
+                    ),
                   UpdateStatus.downloading => PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: null,
-                    child: Text(l10n.syncing),
-                  ),
+                      alignment: Alignment.center,
+                      onPressed: null,
+                      child: Text(l10n.syncing),
+                    ),
                   _ => PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: () => notifier.downloadUpdate(),
-                    child: Text(l10n.downloadAndInstall),
-                  ),
+                      alignment: Alignment.center,
+                      onPressed: () => notifier.downloadUpdate(),
+                      child: Text(l10n.downloadAndInstall),
+                    ),
                 };
 
                 final outlineButton = OutlineButton(

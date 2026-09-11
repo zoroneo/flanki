@@ -86,14 +86,14 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
   );
   @override
   List<GeneratedColumn> get $columns => [
-    id,
-    title,
-    description,
-    dueCount,
-    newCount,
-    totalCount,
-    lastStudied,
-  ];
+        id,
+        title,
+        description,
+        dueCount,
+        newCount,
+        totalCount,
+        lastStudied,
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -286,30 +286,28 @@ class Deck extends DataClass implements Insertable<Deck> {
     int? newCount,
     int? totalCount,
     Value<DateTime?> lastStudied = const Value.absent(),
-  }) => Deck(
-    id: id ?? this.id,
-    title: title ?? this.title,
-    description: description ?? this.description,
-    dueCount: dueCount ?? this.dueCount,
-    newCount: newCount ?? this.newCount,
-    totalCount: totalCount ?? this.totalCount,
-    lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
-  );
+  }) =>
+      Deck(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        dueCount: dueCount ?? this.dueCount,
+        newCount: newCount ?? this.newCount,
+        totalCount: totalCount ?? this.totalCount,
+        lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
+      );
   Deck copyWithCompanion(DecksCompanion data) {
     return Deck(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
-      description: data.description.present
-          ? data.description.value
-          : this.description,
+      description:
+          data.description.present ? data.description.value : this.description,
       dueCount: data.dueCount.present ? data.dueCount.value : this.dueCount,
       newCount: data.newCount.present ? data.newCount.value : this.newCount,
-      totalCount: data.totalCount.present
-          ? data.totalCount.value
-          : this.totalCount,
-      lastStudied: data.lastStudied.present
-          ? data.lastStudied.value
-          : this.lastStudied,
+      totalCount:
+          data.totalCount.present ? data.totalCount.value : this.totalCount,
+      lastStudied:
+          data.lastStudied.present ? data.lastStudied.value : this.lastStudied,
     );
   }
 
@@ -329,14 +327,14 @@ class Deck extends DataClass implements Insertable<Deck> {
 
   @override
   int get hashCode => Object.hash(
-    id,
-    title,
-    description,
-    dueCount,
-    newCount,
-    totalCount,
-    lastStudied,
-  );
+        id,
+        title,
+        description,
+        dueCount,
+        newCount,
+        totalCount,
+        lastStudied,
+      );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -378,9 +376,9 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     this.totalCount = const Value.absent(),
     this.lastStudied = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       title = Value(title),
-       description = Value(description);
+  })  : id = Value(id),
+        title = Value(title),
+        description = Value(description);
   static Insertable<Deck> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -675,25 +673,25 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, Card> {
   );
   @override
   List<GeneratedColumn> get $columns => [
-    id,
-    deckId,
-    front,
-    back,
-    hint,
-    noteType,
-    flag,
-    isSuspended,
-    isBuried,
-    tags,
-    intervalDays,
-    stability,
-    difficulty,
-    reps,
-    lapses,
-    due,
-    lastStudied,
-    createdAt,
-  ];
+        id,
+        deckId,
+        front,
+        back,
+        hint,
+        noteType,
+        flag,
+        isSuspended,
+        isBuried,
+        tags,
+        intervalDays,
+        stability,
+        difficulty,
+        reps,
+        lapses,
+        due,
+        lastStudied,
+        createdAt,
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1086,26 +1084,27 @@ class Card extends DataClass implements Insertable<Card> {
     Value<DateTime?> due = const Value.absent(),
     Value<DateTime?> lastStudied = const Value.absent(),
     Value<DateTime?> createdAt = const Value.absent(),
-  }) => Card(
-    id: id ?? this.id,
-    deckId: deckId ?? this.deckId,
-    front: front ?? this.front,
-    back: back ?? this.back,
-    hint: hint.present ? hint.value : this.hint,
-    noteType: noteType ?? this.noteType,
-    flag: flag ?? this.flag,
-    isSuspended: isSuspended ?? this.isSuspended,
-    isBuried: isBuried ?? this.isBuried,
-    tags: tags ?? this.tags,
-    intervalDays: intervalDays ?? this.intervalDays,
-    stability: stability ?? this.stability,
-    difficulty: difficulty ?? this.difficulty,
-    reps: reps ?? this.reps,
-    lapses: lapses ?? this.lapses,
-    due: due.present ? due.value : this.due,
-    lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
-    createdAt: createdAt.present ? createdAt.value : this.createdAt,
-  );
+  }) =>
+      Card(
+        id: id ?? this.id,
+        deckId: deckId ?? this.deckId,
+        front: front ?? this.front,
+        back: back ?? this.back,
+        hint: hint.present ? hint.value : this.hint,
+        noteType: noteType ?? this.noteType,
+        flag: flag ?? this.flag,
+        isSuspended: isSuspended ?? this.isSuspended,
+        isBuried: isBuried ?? this.isBuried,
+        tags: tags ?? this.tags,
+        intervalDays: intervalDays ?? this.intervalDays,
+        stability: stability ?? this.stability,
+        difficulty: difficulty ?? this.difficulty,
+        reps: reps ?? this.reps,
+        lapses: lapses ?? this.lapses,
+        due: due.present ? due.value : this.due,
+        lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
+        createdAt: createdAt.present ? createdAt.value : this.createdAt,
+      );
   Card copyWithCompanion(CardsCompanion data) {
     return Card(
       id: data.id.present ? data.id.value : this.id,
@@ -1115,24 +1114,21 @@ class Card extends DataClass implements Insertable<Card> {
       hint: data.hint.present ? data.hint.value : this.hint,
       noteType: data.noteType.present ? data.noteType.value : this.noteType,
       flag: data.flag.present ? data.flag.value : this.flag,
-      isSuspended: data.isSuspended.present
-          ? data.isSuspended.value
-          : this.isSuspended,
+      isSuspended:
+          data.isSuspended.present ? data.isSuspended.value : this.isSuspended,
       isBuried: data.isBuried.present ? data.isBuried.value : this.isBuried,
       tags: data.tags.present ? data.tags.value : this.tags,
       intervalDays: data.intervalDays.present
           ? data.intervalDays.value
           : this.intervalDays,
       stability: data.stability.present ? data.stability.value : this.stability,
-      difficulty: data.difficulty.present
-          ? data.difficulty.value
-          : this.difficulty,
+      difficulty:
+          data.difficulty.present ? data.difficulty.value : this.difficulty,
       reps: data.reps.present ? data.reps.value : this.reps,
       lapses: data.lapses.present ? data.lapses.value : this.lapses,
       due: data.due.present ? data.due.value : this.due,
-      lastStudied: data.lastStudied.present
-          ? data.lastStudied.value
-          : this.lastStudied,
+      lastStudied:
+          data.lastStudied.present ? data.lastStudied.value : this.lastStudied,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -1164,25 +1160,25 @@ class Card extends DataClass implements Insertable<Card> {
 
   @override
   int get hashCode => Object.hash(
-    id,
-    deckId,
-    front,
-    back,
-    hint,
-    noteType,
-    flag,
-    isSuspended,
-    isBuried,
-    tags,
-    intervalDays,
-    stability,
-    difficulty,
-    reps,
-    lapses,
-    due,
-    lastStudied,
-    createdAt,
-  );
+        id,
+        deckId,
+        front,
+        back,
+        hint,
+        noteType,
+        flag,
+        isSuspended,
+        isBuried,
+        tags,
+        intervalDays,
+        stability,
+        difficulty,
+        reps,
+        lapses,
+        due,
+        lastStudied,
+        createdAt,
+      );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1268,10 +1264,10 @@ class CardsCompanion extends UpdateCompanion<Card> {
     this.lastStudied = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       deckId = Value(deckId),
-       front = Value(front),
-       back = Value(back);
+  })  : id = Value(id),
+        deckId = Value(deckId),
+        front = Value(front),
+        back = Value(back);
   static Insertable<Card> custom({
     Expression<String>? id,
     Expression<String>? deckId,
@@ -1527,13 +1523,13 @@ class $ReviewLogsTable extends ReviewLogs
   );
   @override
   List<GeneratedColumn> get $columns => [
-    id,
-    cardId,
-    rating,
-    reviewTime,
-    scheduledDays,
-    elapsedDays,
-  ];
+        id,
+        cardId,
+        rating,
+        reviewTime,
+        scheduledDays,
+        elapsedDays,
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1705,28 +1701,27 @@ class ReviewLog extends DataClass implements Insertable<ReviewLog> {
     DateTime? reviewTime,
     int? scheduledDays,
     int? elapsedDays,
-  }) => ReviewLog(
-    id: id ?? this.id,
-    cardId: cardId ?? this.cardId,
-    rating: rating ?? this.rating,
-    reviewTime: reviewTime ?? this.reviewTime,
-    scheduledDays: scheduledDays ?? this.scheduledDays,
-    elapsedDays: elapsedDays ?? this.elapsedDays,
-  );
+  }) =>
+      ReviewLog(
+        id: id ?? this.id,
+        cardId: cardId ?? this.cardId,
+        rating: rating ?? this.rating,
+        reviewTime: reviewTime ?? this.reviewTime,
+        scheduledDays: scheduledDays ?? this.scheduledDays,
+        elapsedDays: elapsedDays ?? this.elapsedDays,
+      );
   ReviewLog copyWithCompanion(ReviewLogsCompanion data) {
     return ReviewLog(
       id: data.id.present ? data.id.value : this.id,
       cardId: data.cardId.present ? data.cardId.value : this.cardId,
       rating: data.rating.present ? data.rating.value : this.rating,
-      reviewTime: data.reviewTime.present
-          ? data.reviewTime.value
-          : this.reviewTime,
+      reviewTime:
+          data.reviewTime.present ? data.reviewTime.value : this.reviewTime,
       scheduledDays: data.scheduledDays.present
           ? data.scheduledDays.value
           : this.scheduledDays,
-      elapsedDays: data.elapsedDays.present
-          ? data.elapsedDays.value
-          : this.elapsedDays,
+      elapsedDays:
+          data.elapsedDays.present ? data.elapsedDays.value : this.elapsedDays,
     );
   }
 
@@ -1780,9 +1775,9 @@ class ReviewLogsCompanion extends UpdateCompanion<ReviewLog> {
     required DateTime reviewTime,
     this.scheduledDays = const Value.absent(),
     this.elapsedDays = const Value.absent(),
-  }) : cardId = Value(cardId),
-       rating = Value(rating),
-       reviewTime = Value(reviewTime);
+  })  : cardId = Value(cardId),
+        rating = Value(rating),
+        reviewTime = Value(reviewTime);
   static Insertable<ReviewLog> custom({
     Expression<int>? id,
     Expression<String>? cardId,
@@ -1950,13 +1945,13 @@ class $GrammarProgressEntriesTable extends GrammarProgressEntries
   @override
   late final GeneratedColumnWithTypeConverter<CardState, int> state =
       GeneratedColumn<int>(
-        'state',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: false,
-        defaultValue: const Constant(0),
-      ).withConverter<CardState>($GrammarProgressEntriesTable.$converterstate);
+    'state',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  ).withConverter<CardState>($GrammarProgressEntriesTable.$converterstate);
   static const VerificationMeta _isGhostMeta = const VerificationMeta(
     'isGhost',
   );
@@ -2012,20 +2007,20 @@ class $GrammarProgressEntriesTable extends GrammarProgressEntries
   );
   @override
   List<GeneratedColumn> get $columns => [
-    unitId,
-    exerciseId,
-    stability,
-    difficulty,
-    due,
-    lastStudied,
-    reps,
-    lapses,
-    state,
-    isGhost,
-    isCompleted,
-    lastUserAnswer,
-    updatedAt,
-  ];
+        unitId,
+        exerciseId,
+        stability,
+        difficulty,
+        due,
+        lastStudied,
+        reps,
+        lapses,
+        state,
+        isGhost,
+        isCompleted,
+        lastUserAnswer,
+        updatedAt,
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2338,44 +2333,40 @@ class GrammarProgressEntry extends DataClass
     bool? isCompleted,
     Value<String?> lastUserAnswer = const Value.absent(),
     DateTime? updatedAt,
-  }) => GrammarProgressEntry(
-    unitId: unitId ?? this.unitId,
-    exerciseId: exerciseId ?? this.exerciseId,
-    stability: stability ?? this.stability,
-    difficulty: difficulty ?? this.difficulty,
-    due: due.present ? due.value : this.due,
-    lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
-    reps: reps ?? this.reps,
-    lapses: lapses ?? this.lapses,
-    state: state ?? this.state,
-    isGhost: isGhost ?? this.isGhost,
-    isCompleted: isCompleted ?? this.isCompleted,
-    lastUserAnswer: lastUserAnswer.present
-        ? lastUserAnswer.value
-        : this.lastUserAnswer,
-    updatedAt: updatedAt ?? this.updatedAt,
-  );
+  }) =>
+      GrammarProgressEntry(
+        unitId: unitId ?? this.unitId,
+        exerciseId: exerciseId ?? this.exerciseId,
+        stability: stability ?? this.stability,
+        difficulty: difficulty ?? this.difficulty,
+        due: due.present ? due.value : this.due,
+        lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
+        reps: reps ?? this.reps,
+        lapses: lapses ?? this.lapses,
+        state: state ?? this.state,
+        isGhost: isGhost ?? this.isGhost,
+        isCompleted: isCompleted ?? this.isCompleted,
+        lastUserAnswer:
+            lastUserAnswer.present ? lastUserAnswer.value : this.lastUserAnswer,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
   GrammarProgressEntry copyWithCompanion(GrammarProgressEntriesCompanion data) {
     return GrammarProgressEntry(
       unitId: data.unitId.present ? data.unitId.value : this.unitId,
-      exerciseId: data.exerciseId.present
-          ? data.exerciseId.value
-          : this.exerciseId,
+      exerciseId:
+          data.exerciseId.present ? data.exerciseId.value : this.exerciseId,
       stability: data.stability.present ? data.stability.value : this.stability,
-      difficulty: data.difficulty.present
-          ? data.difficulty.value
-          : this.difficulty,
+      difficulty:
+          data.difficulty.present ? data.difficulty.value : this.difficulty,
       due: data.due.present ? data.due.value : this.due,
-      lastStudied: data.lastStudied.present
-          ? data.lastStudied.value
-          : this.lastStudied,
+      lastStudied:
+          data.lastStudied.present ? data.lastStudied.value : this.lastStudied,
       reps: data.reps.present ? data.reps.value : this.reps,
       lapses: data.lapses.present ? data.lapses.value : this.lapses,
       state: data.state.present ? data.state.value : this.state,
       isGhost: data.isGhost.present ? data.isGhost.value : this.isGhost,
-      isCompleted: data.isCompleted.present
-          ? data.isCompleted.value
-          : this.isCompleted,
+      isCompleted:
+          data.isCompleted.present ? data.isCompleted.value : this.isCompleted,
       lastUserAnswer: data.lastUserAnswer.present
           ? data.lastUserAnswer.value
           : this.lastUserAnswer,
@@ -2405,20 +2396,20 @@ class GrammarProgressEntry extends DataClass
 
   @override
   int get hashCode => Object.hash(
-    unitId,
-    exerciseId,
-    stability,
-    difficulty,
-    due,
-    lastStudied,
-    reps,
-    lapses,
-    state,
-    isGhost,
-    isCompleted,
-    lastUserAnswer,
-    updatedAt,
-  );
+        unitId,
+        exerciseId,
+        stability,
+        difficulty,
+        due,
+        lastStudied,
+        reps,
+        lapses,
+        state,
+        isGhost,
+        isCompleted,
+        lastUserAnswer,
+        updatedAt,
+      );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2485,8 +2476,8 @@ class GrammarProgressEntriesCompanion
     this.lastUserAnswer = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : unitId = Value(unitId),
-       exerciseId = Value(exerciseId);
+  })  : unitId = Value(unitId),
+        exerciseId = Value(exerciseId);
   static Insertable<GrammarProgressEntry> custom({
     Expression<String>? unitId,
     Expression<String>? exerciseId,
@@ -2640,28 +2631,28 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-    decks,
-    cards,
-    reviewLogs,
-    grammarProgressEntries,
-  ];
+        decks,
+        cards,
+        reviewLogs,
+        grammarProgressEntries,
+      ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'decks',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('cards', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'cards',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('review_logs', kind: UpdateKind.delete)],
-    ),
-  ]);
+        WritePropagation(
+          on: TableUpdateQuery.onTableName(
+            'decks',
+            limitUpdateKind: UpdateKind.delete,
+          ),
+          result: [TableUpdate('cards', kind: UpdateKind.delete)],
+        ),
+        WritePropagation(
+          on: TableUpdateQuery.onTableName(
+            'cards',
+            limitUpdateKind: UpdateKind.delete,
+          ),
+          result: [TableUpdate('review_logs', kind: UpdateKind.delete)],
+        ),
+      ]);
 }
 
 typedef $$DecksTableCreateCompanionBuilder = DecksCompanion Function({
@@ -2691,10 +2682,11 @@ final class $$DecksTableReferences
 
   static MultiTypedResultKey<$CardsTable, List<Card>> _cardsRefsTable(
     _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.cards,
-    aliasName: 'decks__id__cards__deck_id',
-  );
+  ) =>
+      MultiTypedResultKey.fromTable(
+        db.cards,
+        aliasName: 'decks__id__cards__deck_id',
+      );
 
   $$CardsTableProcessedTableManager get cardsRefs {
     final manager = $$CardsTableTableManager(
@@ -2718,39 +2710,39 @@ class $$DecksTableFilterComposer extends Composer<_$AppDatabase, $DecksTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.id,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.title,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.description,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get dueCount => $composableBuilder(
-    column: $table.dueCount,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.dueCount,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get newCount => $composableBuilder(
-    column: $table.newCount,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.newCount,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get totalCount => $composableBuilder(
-    column: $table.totalCount,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.totalCount,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.lastStudied,
+        builder: (column) => ColumnFilters(column),
+      );
 
   Expression<bool> cardsRefs(
     Expression<bool> Function($$CardsTableFilterComposer f) f,
@@ -2760,19 +2752,18 @@ class $$DecksTableFilterComposer extends Composer<_$AppDatabase, $DecksTable> {
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.cards,
       getReferencedColumn: (t) => t.deckId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CardsTableFilterComposer(
-            $db: $db,
-            $table: $db.cards,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$CardsTableFilterComposer(
+        $db: $db,
+        $table: $db.cards,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return f(composer);
   }
@@ -2788,39 +2779,39 @@ class $$DecksTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.id,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.title,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.description,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get dueCount => $composableBuilder(
-    column: $table.dueCount,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.dueCount,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get newCount => $composableBuilder(
-    column: $table.newCount,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.newCount,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get totalCount => $composableBuilder(
-    column: $table.totalCount,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.totalCount,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.lastStudied,
+        builder: (column) => ColumnOrderings(column),
+      );
 }
 
 class $$DecksTableAnnotationComposer
@@ -2839,9 +2830,9 @@ class $$DecksTableAnnotationComposer
       $composableBuilder(column: $table.title, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => column,
-  );
+        column: $table.description,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<int> get dueCount =>
       $composableBuilder(column: $table.dueCount, builder: (column) => column);
@@ -2850,14 +2841,14 @@ class $$DecksTableAnnotationComposer
       $composableBuilder(column: $table.newCount, builder: (column) => column);
 
   GeneratedColumn<int> get totalCount => $composableBuilder(
-    column: $table.totalCount,
-    builder: (column) => column,
-  );
+        column: $table.totalCount,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => column,
-  );
+        column: $table.lastStudied,
+        builder: (column) => column,
+      );
 
   Expression<T> cardsRefs<T extends Object>(
     Expression<T> Function($$CardsTableAnnotationComposer a) f,
@@ -2867,139 +2858,134 @@ class $$DecksTableAnnotationComposer
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.cards,
       getReferencedColumn: (t) => t.deckId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CardsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.cards,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$CardsTableAnnotationComposer(
+        $db: $db,
+        $table: $db.cards,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return f(composer);
   }
 }
 
-class $$DecksTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $DecksTable,
-          Deck,
-          $$DecksTableFilterComposer,
-          $$DecksTableOrderingComposer,
-          $$DecksTableAnnotationComposer,
-          $$DecksTableCreateCompanionBuilder,
-          $$DecksTableUpdateCompanionBuilder,
-          (Deck, $$DecksTableReferences),
-          Deck,
-          PrefetchHooks Function({bool cardsRefs})
-        > {
+class $$DecksTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $DecksTable,
+    Deck,
+    $$DecksTableFilterComposer,
+    $$DecksTableOrderingComposer,
+    $$DecksTableAnnotationComposer,
+    $$DecksTableCreateCompanionBuilder,
+    $$DecksTableUpdateCompanionBuilder,
+    (Deck, $$DecksTableReferences),
+    Deck,
+    PrefetchHooks Function({bool cardsRefs})> {
   $$DecksTableTableManager(_$AppDatabase db, $DecksTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$DecksTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$DecksTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$DecksTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> title = const Value.absent(),
-                Value<String> description = const Value.absent(),
-                Value<int> dueCount = const Value.absent(),
-                Value<int> newCount = const Value.absent(),
-                Value<int> totalCount = const Value.absent(),
-                Value<DateTime?> lastStudied = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => DecksCompanion(
-                id: id,
-                title: title,
-                description: description,
-                dueCount: dueCount,
-                newCount: newCount,
-                totalCount: totalCount,
-                lastStudied: lastStudied,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String title,
-                required String description,
-                Value<int> dueCount = const Value.absent(),
-                Value<int> newCount = const Value.absent(),
-                Value<int> totalCount = const Value.absent(),
-                Value<DateTime?> lastStudied = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => DecksCompanion.insert(
-                id: id,
-                title: title,
-                description: description,
-                dueCount: dueCount,
-                newCount: newCount,
-                totalCount: totalCount,
-                lastStudied: lastStudied,
-                rowid: rowid,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable<$DecksTable, Deck>(table),
-                  $$DecksTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({cardsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (cardsRefs) db.cards],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (cardsRefs)
-                    await $_getPrefetchedData<Deck, $DecksTable, Card>(
-                      currentTable: table,
-                      referencedTable: $$DecksTableReferences._cardsRefsTable(
-                        db,
+      : super(
+          TableManagerState(
+            db: db,
+            table: table,
+            createFilteringComposer: () =>
+                $$DecksTableFilterComposer($db: db, $table: table),
+            createOrderingComposer: () =>
+                $$DecksTableOrderingComposer($db: db, $table: table),
+            createComputedFieldComposer: () =>
+                $$DecksTableAnnotationComposer($db: db, $table: table),
+            updateCompanionCallback: ({
+              Value<String> id = const Value.absent(),
+              Value<String> title = const Value.absent(),
+              Value<String> description = const Value.absent(),
+              Value<int> dueCount = const Value.absent(),
+              Value<int> newCount = const Value.absent(),
+              Value<int> totalCount = const Value.absent(),
+              Value<DateTime?> lastStudied = const Value.absent(),
+              Value<int> rowid = const Value.absent(),
+            }) =>
+                DecksCompanion(
+              id: id,
+              title: title,
+              description: description,
+              dueCount: dueCount,
+              newCount: newCount,
+              totalCount: totalCount,
+              lastStudied: lastStudied,
+              rowid: rowid,
+            ),
+            createCompanionCallback: ({
+              required String id,
+              required String title,
+              required String description,
+              Value<int> dueCount = const Value.absent(),
+              Value<int> newCount = const Value.absent(),
+              Value<int> totalCount = const Value.absent(),
+              Value<DateTime?> lastStudied = const Value.absent(),
+              Value<int> rowid = const Value.absent(),
+            }) =>
+                DecksCompanion.insert(
+              id: id,
+              title: title,
+              description: description,
+              dueCount: dueCount,
+              newCount: newCount,
+              totalCount: totalCount,
+              lastStudied: lastStudied,
+              rowid: rowid,
+            ),
+            withReferenceMapper: (p0) => p0
+                .map(
+                  (e) => (
+                    e.readTable<$DecksTable, Deck>(table),
+                    $$DecksTableReferences(db, table, e),
+                  ),
+                )
+                .toList(),
+            prefetchHooksCallback: ({cardsRefs = false}) {
+              return PrefetchHooks(
+                db: db,
+                explicitlyWatchedTables: [if (cardsRefs) db.cards],
+                addJoins: null,
+                getPrefetchedDataCallback: (items) async {
+                  return [
+                    if (cardsRefs)
+                      await $_getPrefetchedData<Deck, $DecksTable, Card>(
+                        currentTable: table,
+                        referencedTable: $$DecksTableReferences._cardsRefsTable(
+                          db,
+                        ),
+                        managerFromTypedResult: (p0) =>
+                            $$DecksTableReferences(db, table, p0).cardsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.deckId == item.id),
+                        typedResults: items,
                       ),
-                      managerFromTypedResult: (p0) =>
-                          $$DecksTableReferences(db, table, p0).cardsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.deckId == item.id),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
+                  ];
+                },
+              );
+            },
+          ),
+        );
 }
 
-typedef $$DecksTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $DecksTable,
-      Deck,
-      $$DecksTableFilterComposer,
-      $$DecksTableOrderingComposer,
-      $$DecksTableAnnotationComposer,
-      $$DecksTableCreateCompanionBuilder,
-      $$DecksTableUpdateCompanionBuilder,
-      (Deck, $$DecksTableReferences),
-      Deck,
-      PrefetchHooks Function({bool cardsRefs})
-    >;
+typedef $$DecksTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $DecksTable,
+    Deck,
+    $$DecksTableFilterComposer,
+    $$DecksTableOrderingComposer,
+    $$DecksTableAnnotationComposer,
+    $$DecksTableCreateCompanionBuilder,
+    $$DecksTableUpdateCompanionBuilder,
+    (Deck, $$DecksTableReferences),
+    Deck,
+    PrefetchHooks Function({bool cardsRefs})>;
 typedef $$CardsTableCreateCompanionBuilder = CardsCompanion Function({
   required String id,
   required String deckId,
@@ -3065,10 +3051,10 @@ final class $$CardsTableReferences
   }
 
   static MultiTypedResultKey<$ReviewLogsTable, List<ReviewLog>>
-  _reviewLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.reviewLogs,
-    aliasName: 'cards__id__review_logs__card_id',
-  );
+      _reviewLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+            db.reviewLogs,
+            aliasName: 'cards__id__review_logs__card_id',
+          );
 
   $$ReviewLogsTableProcessedTableManager get reviewLogsRefs {
     final manager = $$ReviewLogsTableTableManager(
@@ -3092,89 +3078,89 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.id,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get front => $composableBuilder(
-    column: $table.front,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.front,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get back => $composableBuilder(
-    column: $table.back,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.back,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get hint => $composableBuilder(
-    column: $table.hint,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.hint,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get noteType => $composableBuilder(
-    column: $table.noteType,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.noteType,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get flag => $composableBuilder(
-    column: $table.flag,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.flag,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<bool> get isSuspended => $composableBuilder(
-    column: $table.isSuspended,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.isSuspended,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<bool> get isBuried => $composableBuilder(
-    column: $table.isBuried,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.isBuried,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get tags => $composableBuilder(
-    column: $table.tags,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.tags,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get intervalDays => $composableBuilder(
-    column: $table.intervalDays,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.intervalDays,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<double> get stability => $composableBuilder(
-    column: $table.stability,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.stability,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<double> get difficulty => $composableBuilder(
-    column: $table.difficulty,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.difficulty,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get reps => $composableBuilder(
-    column: $table.reps,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.reps,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get lapses => $composableBuilder(
-    column: $table.lapses,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.lapses,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get due => $composableBuilder(
-    column: $table.due,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.due,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.lastStudied,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.createdAt,
+        builder: (column) => ColumnFilters(column),
+      );
 
   $$DecksTableFilterComposer get deckId {
     final $$DecksTableFilterComposer composer = $composerBuilder(
@@ -3182,19 +3168,18 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
       getCurrentColumn: (t) => t.deckId,
       referencedTable: $db.decks,
       getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$DecksTableFilterComposer(
-            $db: $db,
-            $table: $db.decks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$DecksTableFilterComposer(
+        $db: $db,
+        $table: $db.decks,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return composer;
   }
@@ -3207,19 +3192,18 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.reviewLogs,
       getReferencedColumn: (t) => t.cardId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ReviewLogsTableFilterComposer(
-            $db: $db,
-            $table: $db.reviewLogs,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$ReviewLogsTableFilterComposer(
+        $db: $db,
+        $table: $db.reviewLogs,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return f(composer);
   }
@@ -3235,89 +3219,89 @@ class $$CardsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.id,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get front => $composableBuilder(
-    column: $table.front,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.front,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get back => $composableBuilder(
-    column: $table.back,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.back,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get hint => $composableBuilder(
-    column: $table.hint,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.hint,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get noteType => $composableBuilder(
-    column: $table.noteType,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.noteType,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get flag => $composableBuilder(
-    column: $table.flag,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.flag,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<bool> get isSuspended => $composableBuilder(
-    column: $table.isSuspended,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.isSuspended,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<bool> get isBuried => $composableBuilder(
-    column: $table.isBuried,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.isBuried,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get tags => $composableBuilder(
-    column: $table.tags,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.tags,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get intervalDays => $composableBuilder(
-    column: $table.intervalDays,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.intervalDays,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<double> get stability => $composableBuilder(
-    column: $table.stability,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.stability,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<double> get difficulty => $composableBuilder(
-    column: $table.difficulty,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.difficulty,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get reps => $composableBuilder(
-    column: $table.reps,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.reps,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get lapses => $composableBuilder(
-    column: $table.lapses,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.lapses,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get due => $composableBuilder(
-    column: $table.due,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.due,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.lastStudied,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.createdAt,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   $$DecksTableOrderingComposer get deckId {
     final $$DecksTableOrderingComposer composer = $composerBuilder(
@@ -3325,19 +3309,18 @@ class $$CardsTableOrderingComposer
       getCurrentColumn: (t) => t.deckId,
       referencedTable: $db.decks,
       getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$DecksTableOrderingComposer(
-            $db: $db,
-            $table: $db.decks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$DecksTableOrderingComposer(
+        $db: $db,
+        $table: $db.decks,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return composer;
   }
@@ -3371,9 +3354,9 @@ class $$CardsTableAnnotationComposer
       $composableBuilder(column: $table.flag, builder: (column) => column);
 
   GeneratedColumn<bool> get isSuspended => $composableBuilder(
-    column: $table.isSuspended,
-    builder: (column) => column,
-  );
+        column: $table.isSuspended,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<bool> get isBuried =>
       $composableBuilder(column: $table.isBuried, builder: (column) => column);
@@ -3382,17 +3365,17 @@ class $$CardsTableAnnotationComposer
       $composableBuilder(column: $table.tags, builder: (column) => column);
 
   GeneratedColumn<int> get intervalDays => $composableBuilder(
-    column: $table.intervalDays,
-    builder: (column) => column,
-  );
+        column: $table.intervalDays,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<double> get stability =>
       $composableBuilder(column: $table.stability, builder: (column) => column);
 
   GeneratedColumn<double> get difficulty => $composableBuilder(
-    column: $table.difficulty,
-    builder: (column) => column,
-  );
+        column: $table.difficulty,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<int> get reps =>
       $composableBuilder(column: $table.reps, builder: (column) => column);
@@ -3404,9 +3387,9 @@ class $$CardsTableAnnotationComposer
       $composableBuilder(column: $table.due, builder: (column) => column);
 
   GeneratedColumn<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => column,
-  );
+        column: $table.lastStudied,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -3417,19 +3400,18 @@ class $$CardsTableAnnotationComposer
       getCurrentColumn: (t) => t.deckId,
       referencedTable: $db.decks,
       getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$DecksTableAnnotationComposer(
-            $db: $db,
-            $table: $db.decks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$DecksTableAnnotationComposer(
+        $db: $db,
+        $table: $db.decks,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return composer;
   }
@@ -3442,212 +3424,204 @@ class $$CardsTableAnnotationComposer
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.reviewLogs,
       getReferencedColumn: (t) => t.cardId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ReviewLogsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.reviewLogs,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$ReviewLogsTableAnnotationComposer(
+        $db: $db,
+        $table: $db.reviewLogs,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return f(composer);
   }
 }
 
-class $$CardsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $CardsTable,
-          Card,
-          $$CardsTableFilterComposer,
-          $$CardsTableOrderingComposer,
-          $$CardsTableAnnotationComposer,
-          $$CardsTableCreateCompanionBuilder,
-          $$CardsTableUpdateCompanionBuilder,
-          (Card, $$CardsTableReferences),
-          Card,
-          PrefetchHooks Function({bool deckId, bool reviewLogsRefs})
-        > {
+class $$CardsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $CardsTable,
+    Card,
+    $$CardsTableFilterComposer,
+    $$CardsTableOrderingComposer,
+    $$CardsTableAnnotationComposer,
+    $$CardsTableCreateCompanionBuilder,
+    $$CardsTableUpdateCompanionBuilder,
+    (Card, $$CardsTableReferences),
+    Card,
+    PrefetchHooks Function({bool deckId, bool reviewLogsRefs})> {
   $$CardsTableTableManager(_$AppDatabase db, $CardsTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$CardsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$CardsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$CardsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> deckId = const Value.absent(),
-                Value<String> front = const Value.absent(),
-                Value<String> back = const Value.absent(),
-                Value<String?> hint = const Value.absent(),
-                Value<String> noteType = const Value.absent(),
-                Value<int> flag = const Value.absent(),
-                Value<bool> isSuspended = const Value.absent(),
-                Value<bool> isBuried = const Value.absent(),
-                Value<String> tags = const Value.absent(),
-                Value<int> intervalDays = const Value.absent(),
-                Value<double> stability = const Value.absent(),
-                Value<double> difficulty = const Value.absent(),
-                Value<int> reps = const Value.absent(),
-                Value<int> lapses = const Value.absent(),
-                Value<DateTime?> due = const Value.absent(),
-                Value<DateTime?> lastStudied = const Value.absent(),
-                Value<DateTime?> createdAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => CardsCompanion(
-                id: id,
-                deckId: deckId,
-                front: front,
-                back: back,
-                hint: hint,
-                noteType: noteType,
-                flag: flag,
-                isSuspended: isSuspended,
-                isBuried: isBuried,
-                tags: tags,
-                intervalDays: intervalDays,
-                stability: stability,
-                difficulty: difficulty,
-                reps: reps,
-                lapses: lapses,
-                due: due,
-                lastStudied: lastStudied,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String deckId,
-                required String front,
-                required String back,
-                Value<String?> hint = const Value.absent(),
-                Value<String> noteType = const Value.absent(),
-                Value<int> flag = const Value.absent(),
-                Value<bool> isSuspended = const Value.absent(),
-                Value<bool> isBuried = const Value.absent(),
-                Value<String> tags = const Value.absent(),
-                Value<int> intervalDays = const Value.absent(),
-                Value<double> stability = const Value.absent(),
-                Value<double> difficulty = const Value.absent(),
-                Value<int> reps = const Value.absent(),
-                Value<int> lapses = const Value.absent(),
-                Value<DateTime?> due = const Value.absent(),
-                Value<DateTime?> lastStudied = const Value.absent(),
-                Value<DateTime?> createdAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => CardsCompanion.insert(
-                id: id,
-                deckId: deckId,
-                front: front,
-                back: back,
-                hint: hint,
-                noteType: noteType,
-                flag: flag,
-                isSuspended: isSuspended,
-                isBuried: isBuried,
-                tags: tags,
-                intervalDays: intervalDays,
-                stability: stability,
-                difficulty: difficulty,
-                reps: reps,
-                lapses: lapses,
-                due: due,
-                lastStudied: lastStudied,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable<$CardsTable, Card>(table),
-                  $$CardsTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({deckId = false, reviewLogsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (reviewLogsRefs) db.reviewLogs],
-              addJoins:
-                  <
+      : super(
+          TableManagerState(
+            db: db,
+            table: table,
+            createFilteringComposer: () =>
+                $$CardsTableFilterComposer($db: db, $table: table),
+            createOrderingComposer: () =>
+                $$CardsTableOrderingComposer($db: db, $table: table),
+            createComputedFieldComposer: () =>
+                $$CardsTableAnnotationComposer($db: db, $table: table),
+            updateCompanionCallback: ({
+              Value<String> id = const Value.absent(),
+              Value<String> deckId = const Value.absent(),
+              Value<String> front = const Value.absent(),
+              Value<String> back = const Value.absent(),
+              Value<String?> hint = const Value.absent(),
+              Value<String> noteType = const Value.absent(),
+              Value<int> flag = const Value.absent(),
+              Value<bool> isSuspended = const Value.absent(),
+              Value<bool> isBuried = const Value.absent(),
+              Value<String> tags = const Value.absent(),
+              Value<int> intervalDays = const Value.absent(),
+              Value<double> stability = const Value.absent(),
+              Value<double> difficulty = const Value.absent(),
+              Value<int> reps = const Value.absent(),
+              Value<int> lapses = const Value.absent(),
+              Value<DateTime?> due = const Value.absent(),
+              Value<DateTime?> lastStudied = const Value.absent(),
+              Value<DateTime?> createdAt = const Value.absent(),
+              Value<int> rowid = const Value.absent(),
+            }) =>
+                CardsCompanion(
+              id: id,
+              deckId: deckId,
+              front: front,
+              back: back,
+              hint: hint,
+              noteType: noteType,
+              flag: flag,
+              isSuspended: isSuspended,
+              isBuried: isBuried,
+              tags: tags,
+              intervalDays: intervalDays,
+              stability: stability,
+              difficulty: difficulty,
+              reps: reps,
+              lapses: lapses,
+              due: due,
+              lastStudied: lastStudied,
+              createdAt: createdAt,
+              rowid: rowid,
+            ),
+            createCompanionCallback: ({
+              required String id,
+              required String deckId,
+              required String front,
+              required String back,
+              Value<String?> hint = const Value.absent(),
+              Value<String> noteType = const Value.absent(),
+              Value<int> flag = const Value.absent(),
+              Value<bool> isSuspended = const Value.absent(),
+              Value<bool> isBuried = const Value.absent(),
+              Value<String> tags = const Value.absent(),
+              Value<int> intervalDays = const Value.absent(),
+              Value<double> stability = const Value.absent(),
+              Value<double> difficulty = const Value.absent(),
+              Value<int> reps = const Value.absent(),
+              Value<int> lapses = const Value.absent(),
+              Value<DateTime?> due = const Value.absent(),
+              Value<DateTime?> lastStudied = const Value.absent(),
+              Value<DateTime?> createdAt = const Value.absent(),
+              Value<int> rowid = const Value.absent(),
+            }) =>
+                CardsCompanion.insert(
+              id: id,
+              deckId: deckId,
+              front: front,
+              back: back,
+              hint: hint,
+              noteType: noteType,
+              flag: flag,
+              isSuspended: isSuspended,
+              isBuried: isBuried,
+              tags: tags,
+              intervalDays: intervalDays,
+              stability: stability,
+              difficulty: difficulty,
+              reps: reps,
+              lapses: lapses,
+              due: due,
+              lastStudied: lastStudied,
+              createdAt: createdAt,
+              rowid: rowid,
+            ),
+            withReferenceMapper: (p0) => p0
+                .map(
+                  (e) => (
+                    e.readTable<$CardsTable, Card>(table),
+                    $$CardsTableReferences(db, table, e),
+                  ),
+                )
+                .toList(),
+            prefetchHooksCallback: ({deckId = false, reviewLogsRefs = false}) {
+              return PrefetchHooks(
+                db: db,
+                explicitlyWatchedTables: [if (reviewLogsRefs) db.reviewLogs],
+                addJoins: <
                     T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (deckId) {
-                      state = state.withJoin(
-                        currentTable: table,
-                        currentColumn: table.deckId,
-                        referencedTable: $$CardsTableReferences._deckIdTable(
-                          db,
-                        ),
-                        referencedColumn: $$CardsTableReferences
-                            ._deckIdTable(db)
-                            .id,
-                      ) as T;
-                    }
-
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (reviewLogsRefs)
-                    await $_getPrefetchedData<Card, $CardsTable, ReviewLog>(
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic>>(state) {
+                  if (deckId) {
+                    state = state.withJoin(
                       currentTable: table,
-                      referencedTable: $$CardsTableReferences
-                          ._reviewLogsRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$CardsTableReferences(db, table, p0).reviewLogsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.cardId == item.id),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
+                      currentColumn: table.deckId,
+                      referencedTable: $$CardsTableReferences._deckIdTable(
+                        db,
+                      ),
+                      referencedColumn:
+                          $$CardsTableReferences._deckIdTable(db).id,
+                    ) as T;
+                  }
+
+                  return state;
+                },
+                getPrefetchedDataCallback: (items) async {
+                  return [
+                    if (reviewLogsRefs)
+                      await $_getPrefetchedData<Card, $CardsTable, ReviewLog>(
+                        currentTable: table,
+                        referencedTable:
+                            $$CardsTableReferences._reviewLogsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$CardsTableReferences(db, table, p0)
+                                .reviewLogsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.cardId == item.id),
+                        typedResults: items,
+                      ),
+                  ];
+                },
+              );
+            },
+          ),
+        );
 }
 
-typedef $$CardsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $CardsTable,
-      Card,
-      $$CardsTableFilterComposer,
-      $$CardsTableOrderingComposer,
-      $$CardsTableAnnotationComposer,
-      $$CardsTableCreateCompanionBuilder,
-      $$CardsTableUpdateCompanionBuilder,
-      (Card, $$CardsTableReferences),
-      Card,
-      PrefetchHooks Function({bool deckId, bool reviewLogsRefs})
-    >;
+typedef $$CardsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CardsTable,
+    Card,
+    $$CardsTableFilterComposer,
+    $$CardsTableOrderingComposer,
+    $$CardsTableAnnotationComposer,
+    $$CardsTableCreateCompanionBuilder,
+    $$CardsTableUpdateCompanionBuilder,
+    (Card, $$CardsTableReferences),
+    Card,
+    PrefetchHooks Function({bool deckId, bool reviewLogsRefs})>;
 typedef $$ReviewLogsTableCreateCompanionBuilder = ReviewLogsCompanion Function({
   Value<int> id,
   required String cardId,
@@ -3697,29 +3671,29 @@ class $$ReviewLogsTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.id,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get rating => $composableBuilder(
-    column: $table.rating,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.rating,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get reviewTime => $composableBuilder(
-    column: $table.reviewTime,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.reviewTime,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get scheduledDays => $composableBuilder(
-    column: $table.scheduledDays,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.scheduledDays,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get elapsedDays => $composableBuilder(
-    column: $table.elapsedDays,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.elapsedDays,
+        builder: (column) => ColumnFilters(column),
+      );
 
   $$CardsTableFilterComposer get cardId {
     final $$CardsTableFilterComposer composer = $composerBuilder(
@@ -3727,19 +3701,18 @@ class $$ReviewLogsTableFilterComposer
       getCurrentColumn: (t) => t.cardId,
       referencedTable: $db.cards,
       getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CardsTableFilterComposer(
-            $db: $db,
-            $table: $db.cards,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$CardsTableFilterComposer(
+        $db: $db,
+        $table: $db.cards,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return composer;
   }
@@ -3755,29 +3728,29 @@ class $$ReviewLogsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.id,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get rating => $composableBuilder(
-    column: $table.rating,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.rating,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get reviewTime => $composableBuilder(
-    column: $table.reviewTime,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.reviewTime,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get scheduledDays => $composableBuilder(
-    column: $table.scheduledDays,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.scheduledDays,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get elapsedDays => $composableBuilder(
-    column: $table.elapsedDays,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.elapsedDays,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   $$CardsTableOrderingComposer get cardId {
     final $$CardsTableOrderingComposer composer = $composerBuilder(
@@ -3785,19 +3758,18 @@ class $$ReviewLogsTableOrderingComposer
       getCurrentColumn: (t) => t.cardId,
       referencedTable: $db.cards,
       getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CardsTableOrderingComposer(
-            $db: $db,
-            $table: $db.cards,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$CardsTableOrderingComposer(
+        $db: $db,
+        $table: $db.cards,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return composer;
   }
@@ -3819,19 +3791,19 @@ class $$ReviewLogsTableAnnotationComposer
       $composableBuilder(column: $table.rating, builder: (column) => column);
 
   GeneratedColumn<DateTime> get reviewTime => $composableBuilder(
-    column: $table.reviewTime,
-    builder: (column) => column,
-  );
+        column: $table.reviewTime,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<int> get scheduledDays => $composableBuilder(
-    column: $table.scheduledDays,
-    builder: (column) => column,
-  );
+        column: $table.scheduledDays,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<int> get elapsedDays => $composableBuilder(
-    column: $table.elapsedDays,
-    builder: (column) => column,
-  );
+        column: $table.elapsedDays,
+        builder: (column) => column,
+      );
 
   $$CardsTableAnnotationComposer get cardId {
     final $$CardsTableAnnotationComposer composer = $composerBuilder(
@@ -3839,181 +3811,171 @@ class $$ReviewLogsTableAnnotationComposer
       getCurrentColumn: (t) => t.cardId,
       referencedTable: $db.cards,
       getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$CardsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.cards,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
+      builder: (
+        joinBuilder, {
+        $addJoinBuilderToRootComposer,
+        $removeJoinBuilderFromRootComposer,
+      }) =>
+          $$CardsTableAnnotationComposer(
+        $db: $db,
+        $table: $db.cards,
+        $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+        joinBuilder: joinBuilder,
+        $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+      ),
     );
     return composer;
   }
 }
 
-class $$ReviewLogsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $ReviewLogsTable,
-          ReviewLog,
-          $$ReviewLogsTableFilterComposer,
-          $$ReviewLogsTableOrderingComposer,
-          $$ReviewLogsTableAnnotationComposer,
-          $$ReviewLogsTableCreateCompanionBuilder,
-          $$ReviewLogsTableUpdateCompanionBuilder,
-          (ReviewLog, $$ReviewLogsTableReferences),
-          ReviewLog,
-          PrefetchHooks Function({bool cardId})
-        > {
+class $$ReviewLogsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ReviewLogsTable,
+    ReviewLog,
+    $$ReviewLogsTableFilterComposer,
+    $$ReviewLogsTableOrderingComposer,
+    $$ReviewLogsTableAnnotationComposer,
+    $$ReviewLogsTableCreateCompanionBuilder,
+    $$ReviewLogsTableUpdateCompanionBuilder,
+    (ReviewLog, $$ReviewLogsTableReferences),
+    ReviewLog,
+    PrefetchHooks Function({bool cardId})> {
   $$ReviewLogsTableTableManager(_$AppDatabase db, $ReviewLogsTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$ReviewLogsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$ReviewLogsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$ReviewLogsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> cardId = const Value.absent(),
-                Value<int> rating = const Value.absent(),
-                Value<DateTime> reviewTime = const Value.absent(),
-                Value<int> scheduledDays = const Value.absent(),
-                Value<int> elapsedDays = const Value.absent(),
-              }) => ReviewLogsCompanion(
-                id: id,
-                cardId: cardId,
-                rating: rating,
-                reviewTime: reviewTime,
-                scheduledDays: scheduledDays,
-                elapsedDays: elapsedDays,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String cardId,
-                required int rating,
-                required DateTime reviewTime,
-                Value<int> scheduledDays = const Value.absent(),
-                Value<int> elapsedDays = const Value.absent(),
-              }) => ReviewLogsCompanion.insert(
-                id: id,
-                cardId: cardId,
-                rating: rating,
-                reviewTime: reviewTime,
-                scheduledDays: scheduledDays,
-                elapsedDays: elapsedDays,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable<$ReviewLogsTable, ReviewLog>(table),
-                  $$ReviewLogsTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({cardId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
+      : super(
+          TableManagerState(
+            db: db,
+            table: table,
+            createFilteringComposer: () =>
+                $$ReviewLogsTableFilterComposer($db: db, $table: table),
+            createOrderingComposer: () =>
+                $$ReviewLogsTableOrderingComposer($db: db, $table: table),
+            createComputedFieldComposer: () =>
+                $$ReviewLogsTableAnnotationComposer($db: db, $table: table),
+            updateCompanionCallback: ({
+              Value<int> id = const Value.absent(),
+              Value<String> cardId = const Value.absent(),
+              Value<int> rating = const Value.absent(),
+              Value<DateTime> reviewTime = const Value.absent(),
+              Value<int> scheduledDays = const Value.absent(),
+              Value<int> elapsedDays = const Value.absent(),
+            }) =>
+                ReviewLogsCompanion(
+              id: id,
+              cardId: cardId,
+              rating: rating,
+              reviewTime: reviewTime,
+              scheduledDays: scheduledDays,
+              elapsedDays: elapsedDays,
+            ),
+            createCompanionCallback: ({
+              Value<int> id = const Value.absent(),
+              required String cardId,
+              required int rating,
+              required DateTime reviewTime,
+              Value<int> scheduledDays = const Value.absent(),
+              Value<int> elapsedDays = const Value.absent(),
+            }) =>
+                ReviewLogsCompanion.insert(
+              id: id,
+              cardId: cardId,
+              rating: rating,
+              reviewTime: reviewTime,
+              scheduledDays: scheduledDays,
+              elapsedDays: elapsedDays,
+            ),
+            withReferenceMapper: (p0) => p0
+                .map(
+                  (e) => (
+                    e.readTable<$ReviewLogsTable, ReviewLog>(table),
+                    $$ReviewLogsTableReferences(db, table, e),
+                  ),
+                )
+                .toList(),
+            prefetchHooksCallback: ({cardId = false}) {
+              return PrefetchHooks(
+                db: db,
+                explicitlyWatchedTables: [],
+                addJoins: <
                     T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (cardId) {
-                      state = state.withJoin(
-                        currentTable: table,
-                        currentColumn: table.cardId,
-                        referencedTable: $$ReviewLogsTableReferences
-                            ._cardIdTable(db),
-                        referencedColumn: $$ReviewLogsTableReferences
-                            ._cardIdTable(db)
-                            .id,
-                      ) as T;
-                    }
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic,
+                        dynamic>>(state) {
+                  if (cardId) {
+                    state = state.withJoin(
+                      currentTable: table,
+                      currentColumn: table.cardId,
+                      referencedTable:
+                          $$ReviewLogsTableReferences._cardIdTable(db),
+                      referencedColumn:
+                          $$ReviewLogsTableReferences._cardIdTable(db).id,
+                    ) as T;
+                  }
 
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ),
-      );
+                  return state;
+                },
+                getPrefetchedDataCallback: (items) async {
+                  return [];
+                },
+              );
+            },
+          ),
+        );
 }
 
-typedef $$ReviewLogsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $ReviewLogsTable,
-      ReviewLog,
-      $$ReviewLogsTableFilterComposer,
-      $$ReviewLogsTableOrderingComposer,
-      $$ReviewLogsTableAnnotationComposer,
-      $$ReviewLogsTableCreateCompanionBuilder,
-      $$ReviewLogsTableUpdateCompanionBuilder,
-      (ReviewLog, $$ReviewLogsTableReferences),
-      ReviewLog,
-      PrefetchHooks Function({bool cardId})
-    >;
-typedef $$GrammarProgressEntriesTableCreateCompanionBuilder =
-    GrammarProgressEntriesCompanion Function({
-      required String unitId,
-      required String exerciseId,
-      Value<double> stability,
-      Value<double> difficulty,
-      Value<DateTime?> due,
-      Value<DateTime?> lastStudied,
-      Value<int> reps,
-      Value<int> lapses,
-      Value<CardState> state,
-      Value<bool> isGhost,
-      Value<bool> isCompleted,
-      Value<String?> lastUserAnswer,
-      Value<DateTime> updatedAt,
-      Value<int> rowid,
-    });
-typedef $$GrammarProgressEntriesTableUpdateCompanionBuilder =
-    GrammarProgressEntriesCompanion Function({
-      Value<String> unitId,
-      Value<String> exerciseId,
-      Value<double> stability,
-      Value<double> difficulty,
-      Value<DateTime?> due,
-      Value<DateTime?> lastStudied,
-      Value<int> reps,
-      Value<int> lapses,
-      Value<CardState> state,
-      Value<bool> isGhost,
-      Value<bool> isCompleted,
-      Value<String?> lastUserAnswer,
-      Value<DateTime> updatedAt,
-      Value<int> rowid,
-    });
+typedef $$ReviewLogsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ReviewLogsTable,
+    ReviewLog,
+    $$ReviewLogsTableFilterComposer,
+    $$ReviewLogsTableOrderingComposer,
+    $$ReviewLogsTableAnnotationComposer,
+    $$ReviewLogsTableCreateCompanionBuilder,
+    $$ReviewLogsTableUpdateCompanionBuilder,
+    (ReviewLog, $$ReviewLogsTableReferences),
+    ReviewLog,
+    PrefetchHooks Function({bool cardId})>;
+typedef $$GrammarProgressEntriesTableCreateCompanionBuilder
+    = GrammarProgressEntriesCompanion Function({
+  required String unitId,
+  required String exerciseId,
+  Value<double> stability,
+  Value<double> difficulty,
+  Value<DateTime?> due,
+  Value<DateTime?> lastStudied,
+  Value<int> reps,
+  Value<int> lapses,
+  Value<CardState> state,
+  Value<bool> isGhost,
+  Value<bool> isCompleted,
+  Value<String?> lastUserAnswer,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+typedef $$GrammarProgressEntriesTableUpdateCompanionBuilder
+    = GrammarProgressEntriesCompanion Function({
+  Value<String> unitId,
+  Value<String> exerciseId,
+  Value<double> stability,
+  Value<double> difficulty,
+  Value<DateTime?> due,
+  Value<DateTime?> lastStudied,
+  Value<int> reps,
+  Value<int> lapses,
+  Value<CardState> state,
+  Value<bool> isGhost,
+  Value<bool> isCompleted,
+  Value<String?> lastUserAnswer,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
 
 class $$GrammarProgressEntriesTableFilterComposer
     extends Composer<_$AppDatabase, $GrammarProgressEntriesTable> {
@@ -4025,44 +3987,44 @@ class $$GrammarProgressEntriesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get unitId => $composableBuilder(
-    column: $table.unitId,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.unitId,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get exerciseId => $composableBuilder(
-    column: $table.exerciseId,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.exerciseId,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<double> get stability => $composableBuilder(
-    column: $table.stability,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.stability,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<double> get difficulty => $composableBuilder(
-    column: $table.difficulty,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.difficulty,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get due => $composableBuilder(
-    column: $table.due,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.due,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.lastStudied,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get reps => $composableBuilder(
-    column: $table.reps,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.reps,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<int> get lapses => $composableBuilder(
-    column: $table.lapses,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.lapses,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnWithTypeConverterFilters<CardState, CardState, int> get state =>
       $composableBuilder(
@@ -4071,24 +4033,24 @@ class $$GrammarProgressEntriesTableFilterComposer
       );
 
   ColumnFilters<bool> get isGhost => $composableBuilder(
-    column: $table.isGhost,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.isGhost,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<bool> get isCompleted => $composableBuilder(
-    column: $table.isCompleted,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.isCompleted,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<String> get lastUserAnswer => $composableBuilder(
-    column: $table.lastUserAnswer,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.lastUserAnswer,
+        builder: (column) => ColumnFilters(column),
+      );
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnFilters(column),
-  );
+        column: $table.updatedAt,
+        builder: (column) => ColumnFilters(column),
+      );
 }
 
 class $$GrammarProgressEntriesTableOrderingComposer
@@ -4101,69 +4063,69 @@ class $$GrammarProgressEntriesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get unitId => $composableBuilder(
-    column: $table.unitId,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.unitId,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get exerciseId => $composableBuilder(
-    column: $table.exerciseId,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.exerciseId,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<double> get stability => $composableBuilder(
-    column: $table.stability,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.stability,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<double> get difficulty => $composableBuilder(
-    column: $table.difficulty,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.difficulty,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get due => $composableBuilder(
-    column: $table.due,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.due,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.lastStudied,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get reps => $composableBuilder(
-    column: $table.reps,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.reps,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get lapses => $composableBuilder(
-    column: $table.lapses,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.lapses,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<int> get state => $composableBuilder(
-    column: $table.state,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.state,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<bool> get isGhost => $composableBuilder(
-    column: $table.isGhost,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.isGhost,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<bool> get isCompleted => $composableBuilder(
-    column: $table.isCompleted,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.isCompleted,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<String> get lastUserAnswer => $composableBuilder(
-    column: $table.lastUserAnswer,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.lastUserAnswer,
+        builder: (column) => ColumnOrderings(column),
+      );
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+        column: $table.updatedAt,
+        builder: (column) => ColumnOrderings(column),
+      );
 }
 
 class $$GrammarProgressEntriesTableAnnotationComposer
@@ -4179,25 +4141,25 @@ class $$GrammarProgressEntriesTableAnnotationComposer
       $composableBuilder(column: $table.unitId, builder: (column) => column);
 
   GeneratedColumn<String> get exerciseId => $composableBuilder(
-    column: $table.exerciseId,
-    builder: (column) => column,
-  );
+        column: $table.exerciseId,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<double> get stability =>
       $composableBuilder(column: $table.stability, builder: (column) => column);
 
   GeneratedColumn<double> get difficulty => $composableBuilder(
-    column: $table.difficulty,
-    builder: (column) => column,
-  );
+        column: $table.difficulty,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<DateTime> get due =>
       $composableBuilder(column: $table.due, builder: (column) => column);
 
   GeneratedColumn<DateTime> get lastStudied => $composableBuilder(
-    column: $table.lastStudied,
-    builder: (column) => column,
-  );
+        column: $table.lastStudied,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<int> get reps =>
       $composableBuilder(column: $table.reps, builder: (column) => column);
@@ -4212,168 +4174,153 @@ class $$GrammarProgressEntriesTableAnnotationComposer
       $composableBuilder(column: $table.isGhost, builder: (column) => column);
 
   GeneratedColumn<bool> get isCompleted => $composableBuilder(
-    column: $table.isCompleted,
-    builder: (column) => column,
-  );
+        column: $table.isCompleted,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<String> get lastUserAnswer => $composableBuilder(
-    column: $table.lastUserAnswer,
-    builder: (column) => column,
-  );
+        column: $table.lastUserAnswer,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 }
 
-class $$GrammarProgressEntriesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $GrammarProgressEntriesTable,
-          GrammarProgressEntry,
-          $$GrammarProgressEntriesTableFilterComposer,
-          $$GrammarProgressEntriesTableOrderingComposer,
-          $$GrammarProgressEntriesTableAnnotationComposer,
-          $$GrammarProgressEntriesTableCreateCompanionBuilder,
-          $$GrammarProgressEntriesTableUpdateCompanionBuilder,
-          (
-            GrammarProgressEntry,
-            BaseReferences<
-              _$AppDatabase,
-              $GrammarProgressEntriesTable,
-              GrammarProgressEntry
-            >,
-          ),
-          GrammarProgressEntry,
-          PrefetchHooks Function()
-        > {
+class $$GrammarProgressEntriesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $GrammarProgressEntriesTable,
+    GrammarProgressEntry,
+    $$GrammarProgressEntriesTableFilterComposer,
+    $$GrammarProgressEntriesTableOrderingComposer,
+    $$GrammarProgressEntriesTableAnnotationComposer,
+    $$GrammarProgressEntriesTableCreateCompanionBuilder,
+    $$GrammarProgressEntriesTableUpdateCompanionBuilder,
+    (
+      GrammarProgressEntry,
+      BaseReferences<_$AppDatabase, $GrammarProgressEntriesTable,
+          GrammarProgressEntry>,
+    ),
+    GrammarProgressEntry,
+    PrefetchHooks Function()> {
   $$GrammarProgressEntriesTableTableManager(
     _$AppDatabase db,
     $GrammarProgressEntriesTable table,
   ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$GrammarProgressEntriesTableFilterComposer(
-                $db: db,
-                $table: table,
-              ),
-          createOrderingComposer: () =>
-              $$GrammarProgressEntriesTableOrderingComposer(
-                $db: db,
-                $table: table,
-              ),
-          createComputedFieldComposer: () =>
-              $$GrammarProgressEntriesTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<String> unitId = const Value.absent(),
-                Value<String> exerciseId = const Value.absent(),
-                Value<double> stability = const Value.absent(),
-                Value<double> difficulty = const Value.absent(),
-                Value<DateTime?> due = const Value.absent(),
-                Value<DateTime?> lastStudied = const Value.absent(),
-                Value<int> reps = const Value.absent(),
-                Value<int> lapses = const Value.absent(),
-                Value<CardState> state = const Value.absent(),
-                Value<bool> isGhost = const Value.absent(),
-                Value<bool> isCompleted = const Value.absent(),
-                Value<String?> lastUserAnswer = const Value.absent(),
-                Value<DateTime> updatedAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => GrammarProgressEntriesCompanion(
-                unitId: unitId,
-                exerciseId: exerciseId,
-                stability: stability,
-                difficulty: difficulty,
-                due: due,
-                lastStudied: lastStudied,
-                reps: reps,
-                lapses: lapses,
-                state: state,
-                isGhost: isGhost,
-                isCompleted: isCompleted,
-                lastUserAnswer: lastUserAnswer,
-                updatedAt: updatedAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String unitId,
-                required String exerciseId,
-                Value<double> stability = const Value.absent(),
-                Value<double> difficulty = const Value.absent(),
-                Value<DateTime?> due = const Value.absent(),
-                Value<DateTime?> lastStudied = const Value.absent(),
-                Value<int> reps = const Value.absent(),
-                Value<int> lapses = const Value.absent(),
-                Value<CardState> state = const Value.absent(),
-                Value<bool> isGhost = const Value.absent(),
-                Value<bool> isCompleted = const Value.absent(),
-                Value<String?> lastUserAnswer = const Value.absent(),
-                Value<DateTime> updatedAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => GrammarProgressEntriesCompanion.insert(
-                unitId: unitId,
-                exerciseId: exerciseId,
-                stability: stability,
-                difficulty: difficulty,
-                due: due,
-                lastStudied: lastStudied,
-                reps: reps,
-                lapses: lapses,
-                state: state,
-                isGhost: isGhost,
-                isCompleted: isCompleted,
-                lastUserAnswer: lastUserAnswer,
-                updatedAt: updatedAt,
-                rowid: rowid,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable<
-                    $GrammarProgressEntriesTable,
-                    GrammarProgressEntry
-                  >(table),
-                  BaseReferences<
-                    _$AppDatabase,
-                    $GrammarProgressEntriesTable,
-                    GrammarProgressEntry
-                  >(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: null,
-        ),
-      );
+          TableManagerState(
+            db: db,
+            table: table,
+            createFilteringComposer: () =>
+                $$GrammarProgressEntriesTableFilterComposer(
+              $db: db,
+              $table: table,
+            ),
+            createOrderingComposer: () =>
+                $$GrammarProgressEntriesTableOrderingComposer(
+              $db: db,
+              $table: table,
+            ),
+            createComputedFieldComposer: () =>
+                $$GrammarProgressEntriesTableAnnotationComposer(
+              $db: db,
+              $table: table,
+            ),
+            updateCompanionCallback: ({
+              Value<String> unitId = const Value.absent(),
+              Value<String> exerciseId = const Value.absent(),
+              Value<double> stability = const Value.absent(),
+              Value<double> difficulty = const Value.absent(),
+              Value<DateTime?> due = const Value.absent(),
+              Value<DateTime?> lastStudied = const Value.absent(),
+              Value<int> reps = const Value.absent(),
+              Value<int> lapses = const Value.absent(),
+              Value<CardState> state = const Value.absent(),
+              Value<bool> isGhost = const Value.absent(),
+              Value<bool> isCompleted = const Value.absent(),
+              Value<String?> lastUserAnswer = const Value.absent(),
+              Value<DateTime> updatedAt = const Value.absent(),
+              Value<int> rowid = const Value.absent(),
+            }) =>
+                GrammarProgressEntriesCompanion(
+              unitId: unitId,
+              exerciseId: exerciseId,
+              stability: stability,
+              difficulty: difficulty,
+              due: due,
+              lastStudied: lastStudied,
+              reps: reps,
+              lapses: lapses,
+              state: state,
+              isGhost: isGhost,
+              isCompleted: isCompleted,
+              lastUserAnswer: lastUserAnswer,
+              updatedAt: updatedAt,
+              rowid: rowid,
+            ),
+            createCompanionCallback: ({
+              required String unitId,
+              required String exerciseId,
+              Value<double> stability = const Value.absent(),
+              Value<double> difficulty = const Value.absent(),
+              Value<DateTime?> due = const Value.absent(),
+              Value<DateTime?> lastStudied = const Value.absent(),
+              Value<int> reps = const Value.absent(),
+              Value<int> lapses = const Value.absent(),
+              Value<CardState> state = const Value.absent(),
+              Value<bool> isGhost = const Value.absent(),
+              Value<bool> isCompleted = const Value.absent(),
+              Value<String?> lastUserAnswer = const Value.absent(),
+              Value<DateTime> updatedAt = const Value.absent(),
+              Value<int> rowid = const Value.absent(),
+            }) =>
+                GrammarProgressEntriesCompanion.insert(
+              unitId: unitId,
+              exerciseId: exerciseId,
+              stability: stability,
+              difficulty: difficulty,
+              due: due,
+              lastStudied: lastStudied,
+              reps: reps,
+              lapses: lapses,
+              state: state,
+              isGhost: isGhost,
+              isCompleted: isCompleted,
+              lastUserAnswer: lastUserAnswer,
+              updatedAt: updatedAt,
+              rowid: rowid,
+            ),
+            withReferenceMapper: (p0) => p0
+                .map(
+                  (e) => (
+                    e.readTable<$GrammarProgressEntriesTable,
+                        GrammarProgressEntry>(table),
+                    BaseReferences<_$AppDatabase, $GrammarProgressEntriesTable,
+                        GrammarProgressEntry>(db, table, e),
+                  ),
+                )
+                .toList(),
+            prefetchHooksCallback: null,
+          ),
+        );
 }
 
-typedef $$GrammarProgressEntriesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $GrammarProgressEntriesTable,
-      GrammarProgressEntry,
-      $$GrammarProgressEntriesTableFilterComposer,
-      $$GrammarProgressEntriesTableOrderingComposer,
-      $$GrammarProgressEntriesTableAnnotationComposer,
-      $$GrammarProgressEntriesTableCreateCompanionBuilder,
-      $$GrammarProgressEntriesTableUpdateCompanionBuilder,
-      (
+typedef $$GrammarProgressEntriesTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $GrammarProgressEntriesTable,
         GrammarProgressEntry,
-        BaseReferences<
-          _$AppDatabase,
-          $GrammarProgressEntriesTable,
-          GrammarProgressEntry
-        >,
-      ),
-      GrammarProgressEntry,
-      PrefetchHooks Function()
-    >;
+        $$GrammarProgressEntriesTableFilterComposer,
+        $$GrammarProgressEntriesTableOrderingComposer,
+        $$GrammarProgressEntriesTableAnnotationComposer,
+        $$GrammarProgressEntriesTableCreateCompanionBuilder,
+        $$GrammarProgressEntriesTableUpdateCompanionBuilder,
+        (
+          GrammarProgressEntry,
+          BaseReferences<_$AppDatabase, $GrammarProgressEntriesTable,
+              GrammarProgressEntry>,
+        ),
+        GrammarProgressEntry,
+        PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

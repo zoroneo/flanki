@@ -100,7 +100,8 @@ class CardFrontView extends StatelessWidget {
             width: 8,
             height: 8,
             decoration: BoxDecoration(
-              color: CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
+              color:
+                  CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
               shape: BoxShape.circle,
             ),
           ),

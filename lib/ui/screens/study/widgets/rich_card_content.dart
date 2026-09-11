@@ -127,8 +127,7 @@ class RichCardContent extends HookWidget {
     };
     final formattedHtml = '<div style="text-align: $alignCss">$cleanHtml</div>';
 
-    final defaultStyle =
-        textStyle ??
+    final defaultStyle = textStyle ??
         theme.typography.h3.copyWith(
           color: theme.colorScheme.foreground,
           fontWeight: FontWeight.w500,
@@ -149,7 +148,8 @@ class RichCardContent extends HookWidget {
                 return InlineCustomWidget(
                   alignment: PlaceholderAlignment.middle,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     child: AudioPlayButton(
                       filename: filename,
                       player: audioPlayer,
@@ -189,8 +189,8 @@ class RichCardContent extends HookWidget {
                   }
 
                   final filename = p.basename(rawSrc.replaceAll('file://', ''));
-                  final localPath = MediaStorageService.instance
-                      .getMediaFilePath(filename);
+                  final localPath =
+                      MediaStorageService.instance.getMediaFilePath(filename);
                   final file = File(localPath);
 
                   if (file.existsSync()) {
@@ -204,7 +204,7 @@ class RichCardContent extends HookWidget {
                             child: Image.file(
                               file,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, _, _) =>
+                              errorBuilder: (_, __, ___) =>
                                   _buildMissingMediaBadge(theme, filename),
                             ),
                           ),

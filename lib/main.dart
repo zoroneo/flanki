@@ -90,13 +90,13 @@ class FlankiApp extends ConsumerWidget {
     final currentLocale = ref.watch(localeNotifierProvider);
     final themeMode = ref.watch(themeNotifierProvider);
 
-    final baseTextStyle = const TextStyle(
+    const baseTextStyle = TextStyle(
       fontFamily: 'BeVietnamPro',
       height: 1.35,
       leadingDistribution: TextLeadingDistribution.even,
     );
 
-    final monoTextStyle = const TextStyle(
+    const monoTextStyle = TextStyle(
       fontFamily: 'JetBrainsMono',
       height: 1.35,
       leadingDistribution: TextLeadingDistribution.even,
@@ -172,9 +172,8 @@ class FlankiApp extends ConsumerWidget {
                   onPointerDown: (event) {
                     final currentFocus = FocusManager.instance.primaryFocus;
                     if (currentFocus != null && currentFocus.hasFocus) {
-                      final renderBox =
-                          currentFocus.context?.findRenderObject()
-                              as RenderBox?;
+                      final renderBox = currentFocus.context?.findRenderObject()
+                          as RenderBox?;
                       if (renderBox != null && renderBox.hasSize) {
                         final position = renderBox.localToGlobal(Offset.zero);
                         final bounds = position & renderBox.size;

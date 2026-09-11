@@ -43,8 +43,7 @@ class SyncFlowCoordinator {
 
     if (isSyncing != null) isSyncing.value = true;
 
-    final service =
-        syncService ??
+    final service = syncService ??
         AnkiWebSyncService(
           messages: SyncProgressMessages.fromL10n(l10n),
           l10n: l10n,
@@ -74,8 +73,7 @@ class SyncFlowCoordinator {
       }
 
       final shouldMerge = choice == SyncConflictChoice.merge;
-      final shouldUpload =
-          choice == SyncConflictChoice.upload ||
+      final shouldUpload = choice == SyncConflictChoice.upload ||
           (choice == null && check.action == SyncActionRequired.upload);
 
       final statusNotifier = ValueNotifier<SyncProgressStatus>(
@@ -141,7 +139,8 @@ class SyncFlowCoordinator {
             ref.read(cardBrowserProvider.notifier).refresh();
           }
           if (downloadResult.reviewLogs.isNotEmpty) {
-            await DatabaseService.instance.saveReviewLogs(downloadResult.reviewLogs);
+            await DatabaseService.instance
+                .saveReviewLogs(downloadResult.reviewLogs);
             ref.read(statsNotifierProvider.notifier).refresh();
           }
           await ref.read(deckListProvider.notifier).refresh();
@@ -208,7 +207,8 @@ class SyncFlowCoordinator {
                   .addCards(syncResult.cards);
             }
             if (syncResult.reviewLogs.isNotEmpty) {
-              await DatabaseService.instance.saveReviewLogs(syncResult.reviewLogs);
+              await DatabaseService.instance
+                  .saveReviewLogs(syncResult.reviewLogs);
               ref.read(statsNotifierProvider.notifier).refresh();
             }
             await ref.read(deckListProvider.notifier).refresh();
@@ -269,8 +269,7 @@ class SyncFlowCoordinator {
 
     _isAutoSyncRunning = true;
     try {
-      final service =
-          syncService ??
+      final service = syncService ??
           AnkiWebSyncService(
             messages: SyncProgressMessages.fromL10n(l10n),
             l10n: l10n,
@@ -303,7 +302,8 @@ class SyncFlowCoordinator {
             ref.read(cardBrowserProvider.notifier).refresh();
           }
           if (syncResult.reviewLogs.isNotEmpty) {
-            await DatabaseService.instance.saveReviewLogs(syncResult.reviewLogs);
+            await DatabaseService.instance
+                .saveReviewLogs(syncResult.reviewLogs);
             ref.read(statsNotifierProvider.notifier).refresh();
           }
           await ref.read(deckListProvider.notifier).refresh();

@@ -18,9 +18,9 @@ void main() {
     tempDir = Directory.systemTemp.createTempSync('flanki_test_db_');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-          const MethodChannel('plugins.flutter.io/path_provider'),
-          (MethodCall methodCall) async => tempDir.path,
-        );
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (MethodCall methodCall) async => tempDir.path,
+    );
     dbPath = '${tempDir.path}/test_flanki.db';
     await DatabaseService.instance.init(customPath: dbPath);
   });
@@ -57,7 +57,7 @@ void main() {
   });
 
   test('DatabaseService saves and retrieves cards', () async {
-    final newCard = CardModel(
+    const newCard = CardModel(
       id: 'test_card_1',
       deckId: 'deck-toeic-600',
       front: 'Ephemeral',
@@ -88,7 +88,7 @@ void main() {
   });
 
   test('DatabaseService queries custom study queue by tag and flag', () async {
-    final c1 = CardModel(
+    const c1 = CardModel(
       id: 'c1',
       deckId: 'd1',
       front: 'Flagged card',
@@ -96,14 +96,14 @@ void main() {
       flag: CardFlag.red,
       tags: ['ielts'],
     );
-    final c2 = CardModel(
+    const c2 = CardModel(
       id: 'c2',
       deckId: 'd1',
       front: 'Tag card',
       back: 'Back 2',
       tags: ['toeic'],
     );
-    final c3 = CardModel(
+    const c3 = CardModel(
       id: 'c3',
       deckId: 'd1',
       front: 'Suspended card',
@@ -133,7 +133,9 @@ void main() {
     expect(count, equals(1));
   });
 
-  test('DatabaseService getCustomStudyQueue falls back to registered deck totalCount when parsedLimit is absent', () async {
+  test(
+      'DatabaseService getCustomStudyQueue falls back to registered deck totalCount when parsedLimit is absent',
+      () async {
     const legacyCramDeck = DeckModel(
       id: 'cram_flagged_all',
       title: 'Legacy Cram',
@@ -163,7 +165,9 @@ void main() {
     expect(queue.length, equals(75));
   });
 
-  test('DatabaseService getCustomStudyQueue correctly parses tags with underscores and limits from deckId', () async {
+  test(
+      'DatabaseService getCustomStudyQueue correctly parses tags with underscores and limits from deckId',
+      () async {
     final taggedCards = List.generate(
       15,
       (i) => CardModel(
@@ -186,7 +190,9 @@ void main() {
     expect(queue.every((c) => c.tags.contains('unit_1_vocabulary')), isTrue);
   });
 
-  test('DatabaseService recalculateAllDeckCounts updates counts excluding suspended/buried cards', () async {
+  test(
+      'DatabaseService recalculateAllDeckCounts updates counts excluding suspended/buried cards',
+      () async {
     const deck = DeckModel(
       id: 'd_recalc',
       title: 'Math',
@@ -198,7 +204,7 @@ void main() {
     await DatabaseService.instance.saveDeck(deck);
 
     final now = DateTime.now();
-    final newCard = CardModel(
+    const newCard = CardModel(
       id: 'mc1',
       deckId: 'd_recalc',
       front: '1+1',
@@ -213,7 +219,7 @@ void main() {
       reps: 1,
       due: now.subtract(const Duration(days: 1)),
     );
-    final suspendedCard = CardModel(
+    const suspendedCard = CardModel(
       id: 'mc3',
       deckId: 'd_recalc',
       front: '3+3',
@@ -232,7 +238,9 @@ void main() {
     expect(mathDeck.dueCount, equals(1)); // mc2
   });
 
-  test('DatabaseService exportToAnkiDatabase correctly parses both native Flanki card IDs and Anki c_ IDs into revlog', () async {
+  test(
+      'DatabaseService exportToAnkiDatabase correctly parses both native Flanki card IDs and Anki c_ IDs into revlog',
+      () async {
     const deck = DeckModel(
       id: 'd_export_test',
       title: 'Export Test',
@@ -244,13 +252,13 @@ void main() {
     await DatabaseService.instance.saveDeck(deck);
 
     // Native Flanki card id and Anki imported card id
-    final nativeCard = CardModel(
+    const nativeCard = CardModel(
       id: 'card-1709812345678',
       deckId: 'd_export_test',
       front: 'Front 1',
       back: 'Back 1',
     );
-    final ankiCard = CardModel(
+    const ankiCard = CardModel(
       id: 'c_998877',
       deckId: 'd_export_test',
       front: 'Front 2',
@@ -291,7 +299,8 @@ void main() {
     }
   });
 
-  test('DatabaseService saves review logs in batch and prevents duplicates', () async {
+  test('DatabaseService saves review logs in batch and prevents duplicates',
+      () async {
     const deck = DeckModel(
       id: 'd_batch_test',
       title: 'Batch Deck',
@@ -302,7 +311,7 @@ void main() {
     );
     await DatabaseService.instance.saveDeck(deck);
 
-    final card = CardModel(
+    const card = CardModel(
       id: 'c_12345',
       deckId: 'd_batch_test',
       front: 'Front',
@@ -343,7 +352,8 @@ void main() {
     expect(retrieved.length, equals(2));
   });
 
-  test('DatabaseService mergeCards resolves card conflicts non-destructively', () async {
+  test('DatabaseService mergeCards resolves card conflicts non-destructively',
+      () async {
     const deck = DeckModel(
       id: 'd_merge_test',
       title: 'Merge Deck',
@@ -372,14 +382,15 @@ void main() {
       lastStudied: DateTime.utc(2026, 9, 1, 10, 0, 0), // Local older
     );
 
-    final localOnlyCard = CardModel(
+    const localOnlyCard = CardModel(
       id: 'c_local_only',
       deckId: 'd_merge_test',
       front: 'Local Only',
       back: 'Back',
     );
 
-    await DatabaseService.instance.saveCards([localCard1, localCard2, localOnlyCard]);
+    await DatabaseService.instance
+        .saveCards([localCard1, localCard2, localOnlyCard]);
 
     final remoteCard1 = CardModel(
       id: 'c_merge_1',
@@ -399,14 +410,15 @@ void main() {
       lastStudied: DateTime.utc(2026, 9, 3, 15, 0, 0), // Remote newer
     );
 
-    final remoteOnlyCard = CardModel(
+    const remoteOnlyCard = CardModel(
       id: 'c_remote_only',
       deckId: 'd_merge_test',
       front: 'Remote Only',
       back: 'Back',
     );
 
-    await DatabaseService.instance.mergeCards([remoteCard1, remoteCard2, remoteOnlyCard]);
+    await DatabaseService.instance
+        .mergeCards([remoteCard1, remoteCard2, remoteOnlyCard]);
 
     final allCards = DatabaseService.instance.getAllCards();
     expect(allCards.length, equals(4));

@@ -1,12 +1,10 @@
 import 'dart:io';
-import 'dart:ui' show Locale;
 
 import 'package:flutter/foundation.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
-import '../../l10n/generated/app_localizations.dart';
 import '../config/app_config.dart';
 
 enum DesktopTrayAction {

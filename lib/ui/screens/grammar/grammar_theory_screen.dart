@@ -54,7 +54,8 @@ class GrammarTheoryScreen extends HookConsumerWidget {
           ],
           child: grammarAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) => Center(child: Text(l10n.grammarErrorLoadUnit(err.toString()))),
+            error: (err, stack) =>
+                Center(child: Text(l10n.grammarErrorLoadUnit(err.toString()))),
             data: (units) {
               final unit = units.cast<GrammarUnit?>().firstWhere(
                     (u) => u?.unitId == unitId,
@@ -66,7 +67,8 @@ class GrammarTheoryScreen extends HookConsumerWidget {
               }
 
               return ScreenTypeLayout.builder(
-                mobile: (context) => _buildMobileTheoryList(context, l10n, unit),
+                mobile: (context) =>
+                    _buildMobileTheoryList(context, l10n, unit),
                 desktop: (context) => _buildDesktopTheoryLayout(
                   context,
                   l10n,
@@ -85,7 +87,8 @@ class GrammarTheoryScreen extends HookConsumerWidget {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context, AppLocalizations l10n, bool isMobile) {
+  AppBar _buildAppBar(
+      BuildContext context, AppLocalizations l10n, bool isMobile) {
     return AppBar(
       leading: [
         IconButton.ghost(
@@ -105,7 +108,8 @@ class GrammarTheoryScreen extends HookConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(l10n.grammarPracticeCountButton(GrammarConstants.exercisesPerUnit)),
+                Text(l10n.grammarPracticeCountButton(
+                    GrammarConstants.exercisesPerUnit)),
                 const SizedBox(width: 6),
                 const Icon(LucideIcons.play, size: 14),
               ],
@@ -173,15 +177,18 @@ class GrammarTheoryScreen extends HookConsumerWidget {
             ),
             const SizedBox(height: 10),
             if (unit.formulas.isNotEmpty) ...[
-              GrammarTheoryFormulasCard(formulas: unit.formulas, isMobile: true),
+              GrammarTheoryFormulasCard(
+                  formulas: unit.formulas, isMobile: true),
               const SizedBox(height: 10),
             ],
             if (unit.commonTraps.isNotEmpty) ...[
-              GrammarTheoryTrapsCard(commonTraps: unit.commonTraps, isMobile: true),
+              GrammarTheoryTrapsCard(
+                  commonTraps: unit.commonTraps, isMobile: true),
               const SizedBox(height: 10),
             ],
             if (unit.extraGuides.isNotEmpty) ...[
-              GrammarTheoryGuidesCard(extraGuides: unit.extraGuides, isMobile: true),
+              GrammarTheoryGuidesCard(
+                  extraGuides: unit.extraGuides, isMobile: true),
               const SizedBox(height: 10),
             ],
           ],
@@ -245,21 +252,24 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                       if (unit.formulas.isNotEmpty) ...[
                         KeyedSubtree(
                           key: formulasKey,
-                          child: GrammarTheoryFormulasCard(formulas: unit.formulas),
+                          child: GrammarTheoryFormulasCard(
+                              formulas: unit.formulas),
                         ),
                         const SizedBox(height: 20),
                       ],
                       if (unit.commonTraps.isNotEmpty) ...[
                         KeyedSubtree(
                           key: trapsKey,
-                          child: GrammarTheoryTrapsCard(commonTraps: unit.commonTraps),
+                          child: GrammarTheoryTrapsCard(
+                              commonTraps: unit.commonTraps),
                         ),
                         const SizedBox(height: 20),
                       ],
                       if (unit.extraGuides.isNotEmpty) ...[
                         KeyedSubtree(
                           key: guidesKey,
-                          child: GrammarTheoryGuidesCard(extraGuides: unit.extraGuides),
+                          child: GrammarTheoryGuidesCard(
+                              extraGuides: unit.extraGuides),
                         ),
                         const SizedBox(height: 20),
                       ],

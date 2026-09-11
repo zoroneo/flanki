@@ -67,7 +67,8 @@ class GrammarUnit {
         if (item is Map<String, dynamic>) {
           exercisesList.add(GrammarExercise.fromJson(item));
         } else if (item is Map) {
-          exercisesList.add(GrammarExercise.fromJson(Map<String, dynamic>.from(item)));
+          exercisesList
+              .add(GrammarExercise.fromJson(Map<String, dynamic>.from(item)));
         }
       }
     }
