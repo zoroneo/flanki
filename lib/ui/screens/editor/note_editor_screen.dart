@@ -224,7 +224,13 @@ class NoteEditorScreen extends HookConsumerWidget {
           onPressed: () => context.pop(),
         ),
       ],
-      title: Text(l10n.addCardTitle),
+      title: Text(
+        l10n.addCardTitle,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: (isDesktop ? theme.typography.large : theme.typography.base)
+            .copyWith(fontWeight: FontWeight.w600),
+      ),
       trailing: [
         if (isDesktop)
           Padding(
@@ -237,9 +243,10 @@ class NoteEditorScreen extends HookConsumerWidget {
             ),
           ),
         PrimaryButton(
+          size: ButtonSize.small,
           alignment: Alignment.center,
           onPressed: onSave,
-          leading: const Icon(LucideIcons.check, size: 16),
+          leading: const Icon(LucideIcons.check, size: 14),
           child: Text(l10n.saveCard, maxLines: 1, softWrap: false),
         ),
       ],

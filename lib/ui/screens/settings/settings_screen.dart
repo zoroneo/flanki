@@ -31,10 +31,21 @@ class SettingsScreen extends HookConsumerWidget {
     return ResponsiveBuilder(
       builder: (context, sizingInfo) {
         final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
+        final theme = Theme.of(context);
         final horizontalPadding = isMobile ? 16.0 : 24.0;
 
         return Scaffold(
-          headers: [AppBar(title: Text(l10n.settingsTitle))],
+          headers: [
+            AppBar(
+              title: Text(
+                l10n.settingsTitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: (isMobile ? theme.typography.large : theme.typography.h4)
+                    .copyWith(fontWeight: FontWeight.w700),
+              ),
+            ),
+          ],
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 720),

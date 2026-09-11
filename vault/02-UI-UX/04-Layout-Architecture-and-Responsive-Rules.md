@@ -115,8 +115,12 @@ Toàn bộ các file màn hình vượt quá ngưỡng cho phép đã được t
 
 ## 6. Đồng Bộ Header (AppBar) & Điều Hướng Hệ Thống
 
-* **Nhất quán giữa các Tab**:
-  * Tất cả các màn hình chính (Decks, Browser, Stats, Grammar, Settings) phải dùng chung phong cách AppBar: chiều cao, độ đậm chữ, icon hành động và lề hai bên.
+* **Nhất quán giữa các Tab & Sub-screens**:
+  * Tất cả các màn hình chính (Decks, Browser, Stats, Grammar, Settings) và các màn hình phụ/modal (NoteEditor, GrammarTheory, GrammarPractice, Licenses, PrivacyPolicy) phải dùng chung phong cách AppBar: chiều cao, cỡ chữ, độ đậm chữ, icon hành động và lề hai bên.
+* **Quy chuẩn Title AppBar trên Mobile**:
+  * **Tránh rớt dòng & font quá khổ**: Bắt buộc giới hạn `maxLines: 1` và `overflow: TextOverflow.ellipsis`.
+  * **Typography quy chuẩn**: Dùng `(isMobile ? theme.typography.base : theme.typography.large).copyWith(fontWeight: FontWeight.w600)` (hoặc `theme.typography.base` ~16px) thay vì để Shadcn mặc định kế thừa `h4` (20px - 24px) gây tràn chữ và phình to mất cân đối.
+  * **Nút hành động Trailing trên Mobile**: Các nút submit/save trên AppBar phải đặt `size: ButtonSize.small` để không chiếm dụng bề ngang của tiêu đề.
 * **Quy chuẩn Icon điều hướng**:
   * Quay lại màn hình trước: Luôn dùng `LucideIcons.chevronLeft` hoặc `LucideIcons.arrowLeft`.
   * Đóng cửa sổ / Modal / BottomSheet: Luôn dùng `LucideIcons.x`.

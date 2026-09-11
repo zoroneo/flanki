@@ -124,7 +124,12 @@ SOFTWARE.''';
               },
             ),
           ],
-          title: Text(l10n.openSourceLicenses),
+          title: Text(
+            l10n.openSourceLicenses,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.typography.base.copyWith(fontWeight: FontWeight.w600),
+          ),
         ),
       ],
       child: Center(

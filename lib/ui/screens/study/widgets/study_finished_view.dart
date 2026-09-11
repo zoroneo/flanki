@@ -29,7 +29,12 @@ class StudyFinishedView extends StatelessWidget {
               onPressed: () => context.pop(),
             ),
           ],
-          title: Text(l10n.studyCompleteTitle),
+          title: Text(
+            l10n.studyCompleteTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.typography.base.copyWith(fontWeight: FontWeight.w600),
+          ),
         ),
       ],
       child: Center(

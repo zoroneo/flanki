@@ -43,8 +43,20 @@ class StatsScreen extends HookConsumerWidget {
           desktop: 24.0,
         );
 
+        final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
+
         return Scaffold(
-          headers: [AppBar(title: Text(l10n.statsTitle))],
+          headers: [
+            AppBar(
+              title: Text(
+                l10n.statsTitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: (isMobile ? theme.typography.large : theme.typography.h4)
+                    .copyWith(fontWeight: FontWeight.w700),
+              ),
+            ),
+          ],
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 880),

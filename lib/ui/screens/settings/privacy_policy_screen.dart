@@ -27,7 +27,12 @@ class PrivacyPolicyScreen extends HookWidget {
               },
             ),
           ],
-          title: Text(l10n.privacyPolicy),
+          title: Text(
+            l10n.privacyPolicy,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.typography.base.copyWith(fontWeight: FontWeight.w600),
+          ),
         ),
       ],
       child: Center(

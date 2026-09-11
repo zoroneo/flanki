@@ -168,8 +168,15 @@ class GrammarCatalogScreen extends HookConsumerWidget {
     int totalGhosts,
     bool isMobile,
   ) {
+    final theme = Theme.of(context);
     return AppBar(
-      title: Text(l10n.grammarAcademicTitle),
+      title: Text(
+        l10n.grammarAcademicTitle,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: (isMobile ? theme.typography.base : theme.typography.large)
+            .copyWith(fontWeight: FontWeight.w600),
+      ),
       trailing: [
         if (totalGhosts > 0)
           GhostButton(

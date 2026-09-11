@@ -97,7 +97,14 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       return Scaffold(
         headers: [
           AppBar(
-            title: Text(l10n.grammarPracticeSummaryTitle),
+            title: Text(
+              l10n.grammarPracticeSummaryTitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.typography.base.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             trailing: [
               IconButton.ghost(
                 icon: const Icon(LucideIcons.x, size: 20),
@@ -195,6 +202,9 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                     : (unitTitle ?? l10n.grammarPracticeScreenTitle),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+                style: theme.typography.base.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               trailing: [
                 if (currentExercise != null)

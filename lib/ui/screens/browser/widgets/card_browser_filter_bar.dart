@@ -47,7 +47,7 @@ class SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget filterRow;
   final ThemeData theme;
 
-  static const double _titleHeight = 44.0;
+  static const double _titleHeight = 36.0;
   static const double _searchHeight = 46.0;
   static const double _filterHeight = 38.0;
 

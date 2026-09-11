@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -62,11 +63,33 @@ class BrowserMobileLayout extends StatelessWidget {
           Positioned(
             bottom: 24,
             right: 20,
-            child: PrimaryButton(
-              size: ButtonSize.large,
-              leading: const Icon(LucideIcons.plus, size: 20),
-              child: Text(l10n.addCard),
-              onPressed: () => context.push('/editor'),
+            child: GestureDetector(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                context.push('/editor');
+              },
+              child: Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.35),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Icon(
+                    LucideIcons.plus,
+                    color: theme.colorScheme.primaryForeground,
+                    size: 24,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -78,16 +101,21 @@ class BrowserMobileLayout extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
         children: [
           Text(
             l10n.navBrowser,
-            style: theme.typography.h3.copyWith(fontWeight: FontWeight.w700),
+            style: theme.typography.large.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 6),
           Text(
             '(${filteredCards.length})',
-            style: theme.typography.small.copyWith(
+            style: theme.typography.xSmall.copyWith(
               color: theme.colorScheme.mutedForeground,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

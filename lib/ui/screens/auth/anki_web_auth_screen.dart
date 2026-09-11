@@ -10,6 +10,7 @@ class AnkiWebAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
 
     return Scaffold(
       headers: [
@@ -26,7 +27,12 @@ class AnkiWebAuthScreen extends StatelessWidget {
               },
             ),
           ],
-          title: Text(l10n.authScreenTitle),
+          title: Text(
+            l10n.authScreenTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.typography.base.copyWith(fontWeight: FontWeight.w600),
+          ),
         ),
       ],
       child: Center(

@@ -90,6 +90,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
     AppLocalizations l10n,
     bool isMobile,
   ) {
+    final theme = Theme.of(context);
     return AppBar(
       leading: [
         IconButton.ghost(
@@ -101,6 +102,8 @@ class GrammarTheoryScreen extends HookConsumerWidget {
         l10n.grammarTheoryScreenTitle,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
+        style: (isMobile ? theme.typography.base : theme.typography.large)
+            .copyWith(fontWeight: FontWeight.w600),
       ),
       trailing: [
         if (!isMobile)
