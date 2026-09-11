@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/models/grammar/grammar_models.dart';
@@ -112,17 +113,23 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
         const SingleActivator(LogicalKeyboardKey.enter): () => notifier.nextQuestion(),
         const SingleActivator(LogicalKeyboardKey.space): () => notifier.nextQuestion(),
       } else if (currentExercise?.type != GrammarExerciseType.cloze) ...{
-        if (session.selectedAnswer?.trim().isNotEmpty ?? false)
-          const SingleActivator(LogicalKeyboardKey.enter): () => notifier.submitAnswer(),
         if (currentExercise != null && currentExercise.options.length >= 4) ...{
-          const SingleActivator(LogicalKeyboardKey.digit1): () =>
-              notifier.selectAnswer(currentExercise.options[0]),
-          const SingleActivator(LogicalKeyboardKey.digit2): () =>
-              notifier.selectAnswer(currentExercise.options[1]),
-          const SingleActivator(LogicalKeyboardKey.digit3): () =>
-              notifier.selectAnswer(currentExercise.options[2]),
-          const SingleActivator(LogicalKeyboardKey.digit4): () =>
-              notifier.selectAnswer(currentExercise.options[3]),
+          const SingleActivator(LogicalKeyboardKey.digit1): () {
+            notifier.selectAnswer(currentExercise.options[0]);
+            notifier.submitAnswer();
+          },
+          const SingleActivator(LogicalKeyboardKey.digit2): () {
+            notifier.selectAnswer(currentExercise.options[1]);
+            notifier.submitAnswer();
+          },
+          const SingleActivator(LogicalKeyboardKey.digit3): () {
+            notifier.selectAnswer(currentExercise.options[2]);
+            notifier.submitAnswer();
+          },
+          const SingleActivator(LogicalKeyboardKey.digit4): () {
+            notifier.selectAnswer(currentExercise.options[3]);
+            notifier.submitAnswer();
+          },
         },
       },
     };
@@ -132,162 +139,403 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       child: Focus(
         autofocus: true,
         child: Scaffold(
-      headers: [
-        AppBar(
-          leading: [
-            IconButton.ghost(
-              icon: const Icon(LucideIcons.x, size: 20),
-              onPressed: () => _confirmExit(context),
-            ),
-          ],
-          title: Text(
-            session.isGhostChallenge
-                ? l10n.grammarGhostReviewScreenTitle
-                : (session.unit?.title ?? l10n.grammarPracticeScreenTitle),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: [
-            if (currentExercise != null)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.muted,
-                  borderRadius: BorderRadius.circular(6),
+          headers: [
+            AppBar(
+              leading: [
+                IconButton.ghost(
+                  icon: const Icon(LucideIcons.x, size: 20),
+                  onPressed: () => _confirmExit(context),
                 ),
-                child: Text(
-                  currentExercise.type.getLocalizedLabel(l10n),
-                  style: theme.typography.xSmall.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11,
-                  ),
-                ),
+              ],
+              title: Text(
+                session.isGhostChallenge
+                    ? l10n.grammarGhostReviewScreenTitle
+                    : (session.unit?.title ?? l10n.grammarPracticeScreenTitle),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-          ],
-        ),
-      ],
-      child: Column(
-        children: [
-          // Step Progress Bar
-          LinearProgressIndicator(
-            value: session.progressFraction,
-            minHeight: 4,
-          ),
-
-          // Main Question Content
-          Expanded(
-            child: currentExercise == null
-                ? const Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                    padding: EdgeInsets.fromLTRB(
-                      20,
-                      24,
-                      20,
-                      28 + MediaQuery.paddingOf(context).bottom,
+              trailing: [
+                if (currentExercise != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.muted,
+                      borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Center(
-                      child: Container(
-                        constraints: const BoxConstraints(maxWidth: 720),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Question counter
-                            Text(
-                              l10n.grammarQuestionCounter(session.currentIndex + 1, session.totalQuestions),
-                              style: theme.typography.small.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-
-                            // Dynamic Question Formats
-                            if (currentExercise.type == GrammarExerciseType.choice)
-                              ChoiceQuestionWidget(
-                                exercise: currentExercise,
-                                selectedAnswer: session.selectedAnswer,
-                                isSubmitted: session.isSubmitted,
-                                onSelectAnswer: (ans) => notifier.selectAnswer(ans),
-                              )
-                            else if (currentExercise.type == GrammarExerciseType.errorId)
-                              ErrorIdQuestionWidget(
-                                exercise: currentExercise,
-                                selectedAnswer: session.selectedAnswer,
-                                isSubmitted: session.isSubmitted,
-                                onSelectAnswer: (ans) => notifier.selectAnswer(ans),
-                              )
-                            else if (currentExercise.type == GrammarExerciseType.cloze)
-                              ClozeQuestionWidget(
-                                exercise: currentExercise,
-                                selectedAnswer: session.selectedAnswer,
-                                isSubmitted: session.isSubmitted,
-                                isCorrect: session.isCurrentCorrect,
-                                onAnswerChanged: (ans) => notifier.selectAnswer(ans),
-                                onSubmit: () => notifier.submitAnswer(),
-                              ),
-
-                            // Submit Button (only when not submitted)
-                            if (!session.isSubmitted) ...[
-                              const SizedBox(height: 24),
-                              PrimaryButton(
-                                size: ButtonSize.large,
-                                onPressed: (session.selectedAnswer?.trim().isNotEmpty ?? false)
-                                    ? () => notifier.submitAnswer()
-                                    : null,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(LucideIcons.checkCheck, size: 18),
-                                    const SizedBox(width: 8),
-                                    Text(l10n.grammarSubmitAnswer),
-                                  ],
-                                ),
-                              ),
-                            ],
-                            const SizedBox(height: 24),
-                          ],
-                        ),
+                    child: Text(
+                      currentExercise.type.getLocalizedLabel(l10n),
+                      style: theme.typography.xSmall.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
                       ),
                     ),
                   ),
-          ),
-
-          // Bottom Explanation Sheet (when submitted)
-          if (session.isSubmitted && currentExercise != null)
-            ExplanationSheet(
-              exercise: currentExercise,
-              isCorrect: session.isCurrentCorrect ?? false,
-              isLastQuestion: session.isLastQuestion,
-              onNext: () => notifier.nextQuestion(),
+              ],
             ),
-        ],
+          ],
+          child: ScreenTypeLayout.builder(
+            mobile: (context) => Column(
+              children: [
+                // Step Progress Bar
+                LinearProgressIndicator(
+                  value: session.progressFraction,
+                  minHeight: 4,
+                ),
+
+                // Main Question Content
+                Expanded(
+                  child: currentExercise == null
+                      ? const Center(child: CircularProgressIndicator())
+                      : SingleChildScrollView(
+                          padding: EdgeInsets.fromLTRB(
+                            12,
+                            12,
+                            12,
+                            16 + MediaQuery.paddingOf(context).bottom,
+                          ),
+                          child: Center(
+                            child: Container(
+                              constraints: const BoxConstraints(maxWidth: 720),
+                              child: _buildQuestionContent(
+                                context: context,
+                                theme: theme,
+                                l10n: l10n,
+                                session: session,
+                                notifier: notifier,
+                                currentExercise: currentExercise,
+                              ),
+                            ),
+                          ),
+                        ),
+                ),
+
+                // Bottom Explanation Sheet (when submitted)
+                if (session.isSubmitted && currentExercise != null)
+                  ExplanationSheet(
+                    exercise: currentExercise,
+                    isCorrect: session.isCurrentCorrect ?? false,
+                    isLastQuestion: session.isLastQuestion,
+                    onNext: () => notifier.nextQuestion(),
+                  ),
+              ],
+            ),
+            desktop: (context) => Column(
+              children: [
+                LinearProgressIndicator(
+                  value: session.progressFraction,
+                  minHeight: 4,
+                ),
+                Expanded(
+                  child: currentExercise == null
+                      ? const Center(child: CircularProgressIndicator())
+                      : Center(
+                          child: Container(
+                            constraints: const BoxConstraints(maxWidth: 1200),
+                            height: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 20,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                // Left Column (55%): Question & Actions
+                                Expanded(
+                                  flex: 55,
+                                  child: SingleChildScrollView(
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: _buildQuestionContent(
+                                      context: context,
+                                      theme: theme,
+                                      l10n: l10n,
+                                      session: session,
+                                      notifier: notifier,
+                                      currentExercise: currentExercise,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                // Right Column (45%): Live Explanation or Shortcut Guide
+                                Expanded(
+                                  flex: 45,
+                                  child: session.isSubmitted
+                                      ? ExplanationSheet(
+                                          exercise: currentExercise,
+                                          isCorrect: session.isCurrentCorrect ?? false,
+                                          isLastQuestion: session.isLastQuestion,
+                                          onNext: () => notifier.nextQuestion(),
+                                          isSidePanel: true,
+                                        )
+                                      : Align(
+                                          alignment: Alignment.topCenter,
+                                          child: _PracticeShortcutsGuide(
+                                            exercise: currentExercise,
+                                          ),
+                                        ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-    ),
-    ),
+    );
+  }
+
+  Widget _buildQuestionContent({
+    required BuildContext context,
+    required ThemeData theme,
+    required AppLocalizations l10n,
+    required GrammarSessionState session,
+    required GrammarSessionNotifier notifier,
+    required GrammarExercise currentExercise,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Question counter
+        Text(
+          l10n.grammarQuestionCounter(session.currentIndex + 1, session.totalQuestions),
+          style: theme.typography.small.copyWith(
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.mutedForeground,
+          ),
+        ),
+        const SizedBox(height: 8),
+
+        // Dynamic Question Formats
+        if (currentExercise.type == GrammarExerciseType.choice)
+          ChoiceQuestionWidget(
+            exercise: currentExercise,
+            selectedAnswer: session.selectedAnswer,
+            isSubmitted: session.isSubmitted,
+            onSelectAnswer: (ans) {
+              notifier.selectAnswer(ans);
+              notifier.submitAnswer();
+            },
+          )
+        else if (currentExercise.type == GrammarExerciseType.errorId)
+          ErrorIdQuestionWidget(
+            exercise: currentExercise,
+            selectedAnswer: session.selectedAnswer,
+            isSubmitted: session.isSubmitted,
+            onSelectAnswer: (ans) {
+              notifier.selectAnswer(ans);
+              notifier.submitAnswer();
+            },
+          )
+        else if (currentExercise.type == GrammarExerciseType.cloze)
+          ClozeQuestionWidget(
+            exercise: currentExercise,
+            selectedAnswer: session.selectedAnswer,
+            isSubmitted: session.isSubmitted,
+            isCorrect: session.isCurrentCorrect,
+            onAnswerChanged: (ans) => notifier.selectAnswer(ans),
+            onSubmit: () => notifier.submitAnswer(),
+          ),
+        const SizedBox(height: 8),
+      ],
     );
   }
 
   void _confirmExit(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
     m.showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.grammarExitDialogTitle),
-        content: Text(l10n.grammarExitDialogContent),
-        actions: [
-          OutlineButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(l10n.grammarContinueStudying),
+      barrierDismissible: true,
+      builder: (ctx) => Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 420),
+          margin: const EdgeInsets.all(24),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          LucideIcons.triangleAlert,
+                          size: 20,
+                          color: Colors.red,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          l10n.grammarExitDialogTitle,
+                          style: theme.typography.large.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.grammarExitDialogContent,
+                    style: theme.typography.small.copyWith(
+                      color: theme.colorScheme.mutedForeground,
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      OutlineButton(
+                        onPressed: () => Navigator.of(ctx).pop(),
+                        child: Text(l10n.grammarContinueStudying),
+                      ),
+                      const SizedBox(width: 10),
+                      DestructiveButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                          context.pop();
+                        },
+                        child: Text(l10n.grammarExitConfirm),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
-          DestructiveButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              context.pop();
-            },
-            child: Text(l10n.grammarExitConfirm),
+        ),
+      ),
+    );
+  }
+}
+
+class _PracticeShortcutsGuide extends StatelessWidget {
+  final GrammarExercise? exercise;
+
+  const _PracticeShortcutsGuide({this.exercise});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isVi = Localizations.localeOf(context).languageCode == 'vi';
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: theme.colorScheme.border),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(LucideIcons.keyboard, size: 20, color: theme.colorScheme.primary),
+              const SizedBox(width: 8),
+              Text(
+                isVi ? 'Phím tắt & Hướng dẫn' : 'Shortcuts & Guide',
+                style: theme.typography.large.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          _buildShortcutRow(
+            context,
+            '1, 2, 3, 4',
+            isVi ? 'Chọn & kiểm tra đáp án' : 'Select & check option',
+          ),
+          const SizedBox(height: 12),
+          _buildShortcutRow(
+            context,
+            'Enter / Space',
+            isVi ? 'Chuyển câu kế tiếp' : 'Next question',
+          ),
+          const SizedBox(height: 24),
+          const Divider(),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Icon(LucideIcons.sparkles, size: 18, color: theme.colorScheme.mutedForeground),
+              const SizedBox(width: 8),
+              Text(
+                isVi ? 'Gợi ý làm bài' : 'Practice Tip',
+                style: theme.typography.base.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            _getExerciseTip(exercise, isVi),
+            style: theme.typography.small.copyWith(
+              color: theme.colorScheme.mutedForeground,
+              height: 1.5,
+            ),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildShortcutRow(BuildContext context, String keyText, String desc) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.muted,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: theme.colorScheme.border),
+          ),
+          child: Text(
+            keyText,
+            style: theme.typography.xSmall.copyWith(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'monospace',
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            desc,
+            style: theme.typography.small,
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _getExerciseTip(GrammarExercise? ex, bool isVi) {
+    if (ex == null) return '';
+    switch (ex.type) {
+      case GrammarExerciseType.choice:
+        return isVi
+            ? 'Đọc kỹ câu hỏi, tìm từ khóa hoặc thì của câu trước khi chọn đáp án.'
+            : 'Carefully read the sentence and look for keywords or tense markers before picking an option.';
+      case GrammarExerciseType.errorId:
+        return isVi
+            ? 'Xác định thành phần bị sai ngữ pháp giữa các phần được gạch chân A, B, C, D.'
+            : 'Identify the grammatically incorrect segment among underlined parts A, B, C, D.';
+      case GrammarExerciseType.cloze:
+        return isVi
+            ? 'Điền từ hoặc cụm từ thích hợp vào ô trống để hoàn thiện câu đúng ngữ pháp.'
+            : 'Fill in the blank with the appropriate word to make the sentence grammatically complete.';
+    }
+  }
 }
+

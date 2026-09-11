@@ -5,31 +5,31 @@
   "level": 2,
   "coreConcept": "Tư duy bản xứ về Sự hòa hợp giữa Chủ ngữ và Động từ (Subject-Verb Agreement - SVA) không dừng lại ở việc đếm số lượng 'nhiều' hay 'ít' một cách cảm tính, mà dựa trên 3 TRỤ CỘT NHẬN THỨC CÚ PHÁP CỐT LÕI:\n\n1. Ảo giác tiếp giáp tuyến tính (Linear Proximity Illusion) vs Danh từ trung tâm (Head Noun):\n- Bản chất ảo giác: Trong quá trình làm bài thi (đặc biệt là ETS TOEIC Part 5 & THPTQG Chuyên), thí sinh thường có phản xạ tự nhiên nhìn vào từ nằm ngay sát trước khoảng trống và chia động từ theo từ đó. Đây là 'bẫy khoảng cách' phổ biến nhất.\n- Bản chất cú pháp bản xứ: Chủ ngữ quyết định hình thái động từ luôn luôn là DANH TỪ TRUNG TÂM (Head Noun) đứng ở đầu cụm chủ ngữ. Toàn bộ các thành phần đứng xen giữa Head Noun và Động từ vị ngữ chỉ là THÀNH PHẦN NHIỄU CAN THIỆP (Intervening Modifiers), bao gồm: Cụm giới từ (Prepositional Phrases: of, with, in, for, on, under...), Mệnh đề quan hệ xác định hoặc không xác định (Relative Clauses: who, which, that...), Cụm phân từ rút gọn (Participle Phrases: V-ing / V-ed), hoặc Ngữ đồng vị (Appositives nằm giữa hai dấu phẩy).\n- Kỹ thuật giải quyết triệt để: Rèn luyện kỹ năng 'Đóng ngoặc đơn tư duy' (Mental Parenthesizing) - lập tức gạch bỏ hoặc bỏ qua toàn bộ cụm bổ ngữ can thiệp để nối trực tiếp Head Noun với Động từ chính.\n\n2. Đơn vị thống nhất (Single Unit) vs Thành viên riêng lẻ (Individual Members) trong Danh từ tập hợp (Collective Nouns):\n- Bản chất nhận thức: Danh từ tập thể (committee, board, jury, team, audience, staff, council, orchestra, family...) đại diện cho một nhóm người hoặc cá thể. Người bản ngữ xác định dạng động từ dựa trên 'Tâm thế hành động' (Action Framing):\n  + Khi tập thể đó hành động như MỘT KHỐI THỐNG NHẤT (Single Entity) với một quyết định chung, một ý chí đồng thuận (unanimous decision, collective policy) -> Động từ chia SỐ ÍT.\n  + Khi các thành viên trong tập thể hành động ĐỘC LẬP, RỜI RẠC hoặc CÓ SỰ BẤT ĐỒNG QUAN ĐIỂM (individual actions, divided opinions, performing separate tasks) -> Động từ chia SỐ NHIỀU (trong văn phong quốc tế trang trọng, người ta thường thêm 'members of...' để cấu trúc tự nhiên tuyệt đối).\n\n3. Đại lượng đo lường trọn gói (Lump-sum Measurements as a Singular Block):\n- Bản chất nhận thức: Các cụm từ chỉ Tiền tệ (Five million dollars), Thời gian (Three weeks), Khoảng cách (Ten kilometers), Khối lượng (Fifty kilograms) tuy mang hình thức số nhiều với hậu tố '-s', nhưng trong tư duy người bản xứ, chúng được tri giác như MỘT KHỐI LƯỢNG / MỘT GÓI DUY NHẤT (A Single Package / Singular Block of Quantity). 5 triệu đô-la được nhìn nhận là 'một khoản tiền', 3 tuần là 'một kỳ hạn'. Do đó, toàn bộ các đại lượng đo lường trọn gói này LUÔN LUÔN đi kèm ĐỘNG TỪ SỐ ÍT.",
   "formulas": {
-    "correlativeAndIntervening": "CÁC CẤU TRÚC HÔ ỨNG VÀ THÀNH PHẦN CAN THIỆP (CORRELATIVE & INTERVENING STRUCTURES):\n\n1. Quy tắc tiếp cận gần nhất với Liên từ hô ứng (Proximity Rule):\n- Either S1 or S2 + Verb (chia theo S2 - Chủ ngữ đứng sát động từ nhất)\n- Neither S1 nor S2 + Verb (chia theo S2)\n- Not only S1 but also S2 + Verb (chia theo S2)\n- S1 or S2 + Verb (chia theo S2)\n* Bản chất: Trọng tâm thông tin cuối câu (End-focus) và nhịp điệu phát âm tự nhiên khiến động từ bị chi phối trực tiếp bởi danh từ tiếp giáp ngay trước nó.\nVí dụ 1: Either the project manager or the software developers ARE responsible for system testing.\nVí dụ 2: Neither the marketing directors nor the chief executive IS attending the global summit.\n\n2. Phụ ngữ can thiệp đi kèm chủ ngữ thứ nhất (Intervening Parenthetical Modifiers):\n- S1 + [along with / together with / as well as / accompanied by / in addition to / with / including / besides / except for] + S2 + Verb (LUÔN CHIA THEO S1)\n* Bản chất: Các liên từ giả (pseudo-conjunctions) này về bản chất ngữ pháp chỉ là CỤM GIỚI TỪ hoặc PHỤ NGỮ CHÈN GIỮA, hoàn toàn không có năng lực liên kết đẳng lập để tạo ra chủ ngữ số nhiều như liên từ 'and'. Chủ ngữ danh chính ngôn thuận duy nhất của mệnh đề vẫn là S1.\nVí dụ: The chief executive officer, along with six regional vice presidents, HAS approved the merger agreement.\n\n3. Liên từ đẳng lập song hành:\n- Both S1 and S2 + PLURAL VERB (Luôn luôn chia động từ số nhiều vì biểu thị hai thực thể độc lập được cộng gộp).\n- S1 and S2 + PLURAL VERB (Ngoại lệ: Khi hai danh từ nối bằng 'and' cùng chỉ MỘT THỰC THỂ DUY NHẤT, MỘT CHỨC DANH KÉP hoặc MỘT KHÁI NIỆM/MÓN ĂN KẾT HỢP KHÔNG TÁCH RỜI -> Chia động từ số ít: 'The CEO and Founder of the enterprise IS...', 'Bread and butter IS...').",
-    "quantifiersAndIndefinite": "TỪ ĐỊNH LƯỢNG, PHÂN SỐ VÀ ĐẠI TỪ BẤT ĐỊNH (QUANTIFIERS, FRACTIONS & INDEFINITE PRONOUNS):\n\n1. Phân biệt kinh điển: 'A number of' vs 'The number of':\n- A NUMBER OF + Plural Noun + PLURAL VERB: 'A number of' đóng vai trò là cụm từ định lượng (= Many / Several - Nhiều / Một số lượng những...). Danh từ số nhiều đứng sau chính là chủ thể thực hiện hành động.\n  Ví dụ: A number of financial analysts HAVE upgraded their price target for the technology stock.\n- THE NUMBER OF + Plural Noun + SINGULAR VERB: 'The number' (= Con số / Tổng số lượng cụ thể) chính là Head Noun số ít của câu. Cụm 'of + Plural Noun' chỉ là cụm giới từ bổ nghĩa.\n  Ví dụ: The number of international applicants seeking work visas HAS declined by 12% this quarter.\n\n2. Quy tắc chia động từ với 'OF' (Phân số, Phần trăm, Tổng lượng):\n- (Fraction / Percentage / All / Most / Some / None / Half / A majority of / A minority of) + OF + NOUN + VERB:\n  + Nếu Noun sau 'OF' là Danh từ đếm được số nhiều -> Động từ chia SỐ NHIỀU.\n    Ví dụ: Approximately 40% of the manufacturing components ARE sourced from local suppliers.\n  + Nếu Noun sau 'OF' là Danh từ không đếm được -> Động từ chia SỐ ÍT.\n    Ví dụ: More than two-thirds of the agricultural land WAS inundated by monsoon floodwaters.\n* Bản chất: Các từ chỉ tỷ lệ hoặc phân số không thể tự đại diện cho một khối lượng độc lập mà phụ thuộc hoàn toàn vào bản chất đếm được hay không đếm được của đối tượng gốc đứng sau giới từ 'of'.\n\n3. Đại từ bất định (Indefinite Pronouns) & Cấu trúc 'Each / Every':\n- Each / Every + Singular Countable Noun + SINGULAR VERB.\n- Each of + Plural Noun / Pronoun + SINGULAR VERB (Nhấn mạnh từng cá thể riêng biệt trong nhóm).\n- Every S1 and every S2 + SINGULAR VERB (Dù nối bằng 'and', việc xuất hiện 'every' biến từng phần tử thành các thực thể độc lập đơn lẻ).\n- Đại từ bất định (Everyone, everybody, someone, somebody, anyone, anybody, no one, nobody, everything, something, anything, nothing) + SINGULAR VERB (Luôn chia số ít).",
-    "specialNounsAndMeasurements": "DANH TỪ ĐẶC BIỆT, ĐẠI LƯỢNG ĐO LƯỜNG VÀ CẤU TRÚC 'THE + ADJECTIVE':\n\n1. Danh từ có tận cùng bằng đuôi '-s' nhưng mang nghĩa số ít (Singular in meaning):\n- Tên các môn học & ngành nghiên cứu: Economics (Kinh tế học), Mathematics / Maths (Toán học), Physics (Vật lý học), Politics (Chính trị học), Linguistics (Ngôn ngữ học), Statistics (khi chỉ môn Thống kê học)...\n- Tin tức & Bệnh tật: News (Tin tức), Diabetes (Bệnh tiểu đường), Measles (Bệnh sởi), Mumps (Bệnh quai bị), Rabies (Bệnh dại)...\n- Trò chơi & Môn thể thao: Billiards (Bida), Darts (Phi tiêu), Aerobics (Thể dục nhịp điệu), Gymnastics (Thể dục dụng cụ)...\n* Bẫy phân biệt Statistics / Politics: Khi 'Statistics' chỉ môn học -> Chia số ít ('Statistics is a required course'); khi 'Statistics' chỉ các con số thống kê cụ thể -> Chia số nhiều ('Recent employment statistics show that...').\n\n2. Danh từ số nhiều bất quy tắc gốc Hy Lạp / La Tinh & Danh từ tập thể luôn số nhiều:\n- Gốc Hy Lạp / La Tinh:\n  + Criterion (Số ít: Tiêu chí) -> CRITERIA (Số nhiều: Các tiêu chí -> Plural Verb)\n  + Phenomenon (Số ít: Hiện tượng) -> PHENOMENA (Số nhiều: Các hiện tượng -> Plural Verb)\n  + Medium (Số ít: Phương tiện) -> MEDIA (Số nhiều: Truyền thông / Các phương tiện -> Plural Verb)\n  + Datum (Số ít: Dữ liệu) -> DATA (Trong ngữ pháp chuẩn mực học thuật là Số nhiều -> Plural Verb)\n  + Analysis (Số ít) -> ANALYSES (Số nhiều) | Crisis (Số ít) -> CRISES (Số nhiều)\n- Danh từ tập thể mang bản chất số nhiều (Không có đuôi -s nhưng luôn chia động từ số nhiều):\n  + Police (Lực lượng cảnh sát), Personnel (Nhân sự / Cán bộ nhân viên), Cattle (Gia súc), Poultry (Gia cầm), People (Người ta / Mọi người).\n  Ví dụ: The internal security personnel ARE reviewing access logs across all server nodes.\n\n3. Đại lượng đo lường trọn gói (Lump-sum Measurements):\n- Tiền tệ (Ten million dollars), Quãng đường (Fifty kilometers), Thời gian (Four months), Khối lượng (Twenty kilograms) -> LUÔN CHIA SỐ ÍT khi đóng vai trò là một lượng duy nhất.\n  Ví dụ: Twenty-five thousand dollars WAS wire-transferred to the escrow account yesterday.\n\n4. Cấu trúc 'The + Adjective':\n- The + Adjective (The elderly, the unemployed, the disadvantaged, the wealthy, the injured, the underprivileged) = Chỉ tập hợp toàn bộ những người mang đặc điểm đó -> LUÔN CHIA ĐỘNG TỪ SỐ NHIỀU.\n  Ví dụ: The elderly ARE increasingly vulnerable to sophisticated digital banking fraud."
+    "correlativeAndIntervening": "CÁC CẤU TRÚC HÔ ỨNG VÀ THÀNH PHẦN CAN THIỆP (CORRELATIVE & INTERVENING STRUCTURES):<br/><br/>1. Quy tắc tiếp cận gần nhất với Liên từ hô ứng (Proximity Rule):<br/>- Either S1 or S2 + Verb (chia theo S2 - Chủ ngữ đứng sát động từ nhất)<br/>- Neither S1 nor S2 + Verb (chia theo S2)<br/>- Not only S1 but also S2 + Verb (chia theo S2)<br/>- S1 or S2 + Verb (chia theo S2)<br/>* Bản chất: Trọng tâm thông tin cuối câu (End-focus) và nhịp điệu phát âm tự nhiên khiến động từ bị chi phối trực tiếp bởi danh từ tiếp giáp ngay trước nó.<br/>Ví dụ 1: Either the project manager or the software developers ARE responsible for system testing.<br/>Ví dụ 2: Neither the marketing directors nor the chief executive IS attending the global summit.<br/><br/>2. Phụ ngữ can thiệp đi kèm chủ ngữ thứ nhất (Intervening Parenthetical Modifiers):<br/>- S1 + [along with / together with / as well as / accompanied by / in addition to / with / including / besides / except for] + S2 + Verb (LUÔN CHIA THEO S1)<br/>* Bản chất: Các liên từ giả (pseudo-conjunctions) này về bản chất ngữ pháp chỉ là CỤM GIỚI TỪ hoặc PHỤ NGỮ CHÈN GIỮA, hoàn toàn không có năng lực liên kết đẳng lập để tạo ra chủ ngữ số nhiều như liên từ 'and'. Chủ ngữ danh chính ngôn thuận duy nhất của mệnh đề vẫn là S1.<br/>Ví dụ: The chief executive officer, along with six regional vice presidents, HAS approved the merger agreement.<br/><br/>3. Liên từ đẳng lập song hành:<br/>- Both S1 and S2 + PLURAL VERB (Luôn luôn chia động từ số nhiều vì biểu thị hai thực thể độc lập được cộng gộp).<br/>- S1 and S2 + PLURAL VERB (Ngoại lệ: Khi hai danh từ nối bằng 'and' cùng chỉ MỘT THỰC THỂ DUY NHẤT, MỘT CHỨC DANH KÉP hoặc MỘT KHÁI NIỆM/MÓN ĂN KẾT HỢP KHÔNG TÁCH RỜI -> Chia động từ số ít: 'The CEO and Founder of the enterprise IS...', 'Bread and butter IS...').",
+    "quantifiersAndIndefinite": "TỪ ĐỊNH LƯỢNG, PHÂN SỐ VÀ ĐẠI TỪ BẤT ĐỊNH (QUANTIFIERS, FRACTIONS & INDEFINITE PRONOUNS):<br/><br/>1. Phân biệt kinh điển: 'A number of' vs 'The number of':<br/>- A NUMBER OF + Plural Noun + PLURAL VERB: 'A number of' đóng vai trò là cụm từ định lượng (= Many / Several - Nhiều / Một số lượng những...). Danh từ số nhiều đứng sau chính là chủ thể thực hiện hành động.<br/>  Ví dụ: A number of financial analysts HAVE upgraded their price target for the technology stock.<br/>- THE NUMBER OF + Plural Noun + SINGULAR VERB: 'The number' (= Con số / Tổng số lượng cụ thể) chính là Head Noun số ít của câu. Cụm 'of + Plural Noun' chỉ là cụm giới từ bổ nghĩa.<br/>  Ví dụ: The number of international applicants seeking work visas HAS declined by 12% this quarter.<br/><br/>2. Quy tắc chia động từ với 'OF' (Phân số, Phần trăm, Tổng lượng):<br/>- (Fraction / Percentage / All / Most / Some / None / Half / A majority of / A minority of) + OF + NOUN + VERB:<br/>  + Nếu Noun sau 'OF' là Danh từ đếm được số nhiều -> Động từ chia SỐ NHIỀU.<br/>    Ví dụ: Approximately 40% of the manufacturing components ARE sourced from local suppliers.<br/>  + Nếu Noun sau 'OF' là Danh từ không đếm được -> Động từ chia SỐ ÍT.<br/>    Ví dụ: More than two-thirds of the agricultural land WAS inundated by monsoon floodwaters.<br/>* Bản chất: Các từ chỉ tỷ lệ hoặc phân số không thể tự đại diện cho một khối lượng độc lập mà phụ thuộc hoàn toàn vào bản chất đếm được hay không đếm được của đối tượng gốc đứng sau giới từ 'of'.<br/><br/>3. Đại từ bất định (Indefinite Pronouns) & Cấu trúc 'Each / Every':<br/>- Each / Every + Singular Countable Noun + SINGULAR VERB.<br/>- Each of + Plural Noun / Pronoun + SINGULAR VERB (Nhấn mạnh từng cá thể riêng biệt trong nhóm).<br/>- Every S1 and every S2 + SINGULAR VERB (Dù nối bằng 'and', việc xuất hiện 'every' biến từng phần tử thành các thực thể độc lập đơn lẻ).<br/>- Đại từ bất định (Everyone, everybody, someone, somebody, anyone, anybody, no one, nobody, everything, something, anything, nothing) + SINGULAR VERB (Luôn chia số ít).",
+    "specialNounsAndMeasurements": "DANH TỪ ĐẶC BIỆT, ĐẠI LƯỢNG ĐO LƯỜNG VÀ CẤU TRÚC 'THE + ADJECTIVE':\n\n1. Danh từ có tận cùng bằng đuôi '-s' nhưng mang nghĩa số ít (Singular in meaning):\n- Tên các môn học & ngành nghiên cứu: Economics (Kinh tế học), Mathematics / Maths (Toán học), Physics (Vật lý học), Politics (Chính trị học), Linguistics (Ngôn ngữ học), Statistics (khi chỉ môn Thống kê học)...\n- Tin tức & Bệnh tật: News (Tin tức), Diabetes (Bệnh tiểu đường), Measles (Bệnh sởi), Mumps (Bệnh quai bị), Rabies (Bệnh dại)...\n- Trò chơi & Môn thể thao: Billiards (Bida), Darts (Phi tiêu), Aerobics (Thể dục nhịp điệu), Gymnastics (Thể dục dụng cụ)...\n* Bẫy phân biệt Statistics / Politics: Khi 'Statistics' chỉ môn học -> Chia số ít ('Statistics is a required course'); khi 'Statistics' chỉ các con số thống kê cụ thể -> Chia số nhiều ('Recent employment statistics show that...').\n\n2. Danh từ số nhiều bất quy tắc gốc Hy Lạp / La Tinh & Danh từ tập thể luôn số nhiều:\n- Gốc Hy Lạp / La Tinh:\n  + Criterion (Số ít: Tiêu chí) -> CRITERIA (Số nhiều: Các tiêu chí -> Plural Verb)\n  + Phenomenon (Số ít: Hiện tượng) -> PHENOMENA (Số nhiều: Các hiện tượng -> Plural Verb)\n  + Medium (Số ít: Phương tiện) -> MEDIA (Số nhiều: Truyền thông / Các phương tiện -> Plural Verb)\n  + Datum (Số ít: Dữ liệu) -> DATA (Trong ngữ pháp chuẩn mực học thuật là Số nhiều -> Plural Verb)\n  + Analysis (Số ít) -> ANALYSES (Số nhiều)<br/>Crisis (Số ít) -> CRISES (Số nhiều)\n- Danh từ tập thể mang bản chất số nhiều (Không có đuôi -s nhưng luôn chia động từ số nhiều):\n  + Police (Lực lượng cảnh sát), Personnel (Nhân sự / Cán bộ nhân viên), Cattle (Gia súc), Poultry (Gia cầm), People (Người ta / Mọi người).\n  Ví dụ: The internal security personnel ARE reviewing access logs across all server nodes.\n\n3. Đại lượng đo lường trọn gói (Lump-sum Measurements):\n- Tiền tệ (Ten million dollars), Quãng đường (Fifty kilometers), Thời gian (Four months), Khối lượng (Twenty kilograms) -> LUÔN CHIA SỐ ÍT khi đóng vai trò là một lượng duy nhất.\n  Ví dụ: Twenty-five thousand dollars WAS wire-transferred to the escrow account yesterday.\n\n4. Cấu trúc 'The + Adjective':\n- The + Adjective (The elderly, the unemployed, the disadvantaged, the wealthy, the injured, the underprivileged) = Chỉ tập hợp toàn bộ những người mang đặc điểm đó -> LUÔN CHIA ĐỘNG TỪ SỐ NHIỀU.\n  Ví dụ: The elderly ARE increasingly vulnerable to sophisticated digital banking fraud."
   },
   "commonTraps": [
     {
-      "trap": "Bẫy 1: Bị cụm giới từ xen giữa (Prepositional Phrase Intrusion) đánh lừa thị giác khiến chia động từ theo danh từ nằm sát khoảng trống",
+      "trap": "<b>Bẫy 1:</b> Bị cụm giới từ xen giữa (Prepositional Phrase Intrusion) đánh lừa thị giác khiến chia động từ theo danh từ nằm sát khoảng trống",
       "exampleWrong": "The initial shipment of high-precision microchips for advanced radar systems have arrived at the designated aerospace assembly warehouse.",
       "exampleRight": "The initial shipment of high-precision microchips for advanced radar systems has arrived at the designated aerospace assembly warehouse.",
       "note": "Thí sinh nhìn thấy danh từ số nhiều 'microchips' hoặc 'systems' đứng ngay trước chỗ trống nên vội vã chia trợ động từ số nhiều 'have arrived'. Tuy nhiên, 'of high-precision microchips' và 'for advanced radar systems' chỉ là hai cụm giới từ bổ nghĩa xen giữa. Danh từ trung tâm (Head Noun) làm chủ ngữ thực sự của câu là 'The initial shipment' (danh từ số ít đếm được). Do đó, động từ bắt buộc phải chia ở ngôi thứ ba số ít: 'has arrived'."
     },
     {
-      "trap": "Bẫy 2: Nhầm lẫn giữa 'A number of' (chia động từ số nhiều) và 'The number of' (chia động từ số ít)",
+      "trap": "<b>Bẫy 2:</b> Nhầm lẫn giữa 'A number of' (chia động từ số nhiều) và 'The number of' (chia động từ số ít)",
       "exampleWrong": "The number of certified cybersecurity engineers specializing in cloud defense infrastructure are increasing rapidly this quarter.",
       "exampleRight": "The number of certified cybersecurity engineers specializing in cloud defense infrastructure is increasing rapidly this quarter.",
       "note": "'A number of' mang nghĩa 'nhiều / một số lượng', đóng vai trò là cụm từ định lượng (quantifier) bổ nghĩa cho danh từ số nhiều đứng sau -> chia động từ SỐ NHIỀU. Ngược lại, 'The number of' mang nghĩa 'con số / tổng số lượng cụ thể' -> Head Noun thực sự là danh từ trừu tượng số ít 'The number', do đó bắt buộc phải chia động từ SỐ ÍT ('is increasing')."
     },
     {
-      "trap": "Bẫy 3: Đánh đồng quy tắc chia động từ của 'as well as / along with / together with' với liên từ đẳng lập 'and'",
+      "trap": "<b>Bẫy 3:</b> Đánh đồng quy tắc chia động từ của 'as well as / along with / together with' với liên từ đẳng lập 'and'",
       "exampleWrong": "The managing partner of the international law firm, as well as several senior legal associates, were invited to arbitrate the commercial dispute.",
       "exampleRight": "The managing partner of the international law firm, as well as several senior legal associates, was invited to arbitrate the commercial dispute.",
       "note": "Liên từ 'and' liên kết hai danh từ để tạo nên một chủ ngữ kép số nhiều (S1 and S2 + Plural Verb). Tuy nhiên, các cụm từ như 'as well as', 'along with', 'together with', 'accompanied by', 'in addition to' chỉ là CỤM PHỤ NGỮ CHÈN GIỮA (Parenthetical Phrases). Quy tắc ngữ pháp bất biến quy định động từ phải chia hòa hợp duy nhất với chủ ngữ thứ nhất (S1). Vì S1 'The managing partner' là số ít, động từ đúng phải là 'was invited'."
     },
     {
-      "trap": "Bẫy 4: Nhầm lẫn hình thái số ít/số nhiều của danh từ gốc Hy Lạp/La Tinh (Criteria, Phenomena) hoặc các đại lượng đo lường trọn gói",
+      "trap": "<b>Bẫy 4:</b> Nhầm lẫn hình thái số ít/số nhiều của danh từ gốc Hy Lạp/La Tinh (Criteria, Phenomena) hoặc các đại lượng đo lường trọn gói",
       "exampleWrong": "The primary qualitative criteria applied by the venture capital investment committee was clearly outlined in the prospectus.",
       "exampleRight": "The primary qualitative criteria applied by the venture capital investment committee were clearly outlined in the prospectus.",
       "note": "Từ 'Criteria' là hình thái số nhiều bất quy tắc gốc Hy Lạp của danh từ số ít 'Criterion' (tương tự 'Phenomena' là số nhiều của 'Phenomenon'). Nhiều thí sinh nhầm lẫn do không thấy đuôi '-s' nên chia động từ số ít 'was'. Ngược lại, đối với đại lượng tiền tệ hoặc thời gian có đuôi '-s' ('Five million dollars', 'Three hours'), người học lại nhầm thành số nhiều trong khi bản chất của chúng là một khối lượng trọn gói (Singular Block) đòi hỏi động từ số ít."
@@ -40,7 +40,7 @@
       "id": "ex_01",
       "type": "choice",
       "difficulty": 1,
-      "prompt": "The comprehensive feasibility study on offshore wind farm installations across five coastal provinces ________ formally submitted to the national energy regulatory commission yesterday.",
+      "prompt": "The comprehensive feasibility study on offshore wind farm installations across five coastal provinces <u>_______</u> formally submitted to the national energy regulatory commission yesterday.",
       "options": [
         "was",
         "were",
@@ -50,13 +50,13 @@
       "correctAnswer": "was",
       "explanation": {
         "translation": "Báo cáo nghiên cứu khả thi toàn diện về việc lắp đặt các trang trại điện gió ngoài khơi tại năm tỉnh ven biển đã chính thức được đệ trình lên ủy ban điều tiết năng lượng quốc gia vào ngày hôm qua.",
-        "keySignal": "Head Noun là danh từ số ít 'The comprehensive feasibility study'. Thành phần can thiệp gồm hai cụm giới từ 'on offshore wind farm installations' và 'across five coastal provinces'. Trạng từ thời gian là 'yesterday'.",
+        "keySignal": "Head Noun là danh từ số ít <mark>The comprehensive feasibility study</mark>. Thành phần can thiệp gồm hai cụm giới từ <mark>on offshore wind farm installations</mark> và <mark>across five coastal provinces</mark>. Trạng từ thời gian là <mark>yesterday</mark>.",
         "rule": "Subject-Verb Agreement với Intervening Prepositional Phrases: Động từ hòa hợp với Danh từ trung tâm (Head Noun), bỏ qua các cụm giới từ can thiệp xen giữa; trạng từ 'yesterday' yêu cầu thì Quá khứ đơn.",
-        "whyCorrect": "Chủ ngữ cốt lõi của câu là 'The comprehensive feasibility study' (số ít). Các danh từ số nhiều 'installations' và 'provinces' chỉ nằm trong các cụm giới từ bổ nghĩa. Kết hợp với dấu mốc thời gian quá khứ xác định 'yesterday', dạng động từ bị động quá khứ số ít chính xác duy nhất là 'was'.",
+        "whyCorrect": "Chủ ngữ cốt lõi của câu là 'The comprehensive feasibility study' (số ít). Các danh từ số nhiều 'installations' và 'provinces' chỉ nằm trong các cụm giới từ bổ nghĩa. Kết hợp với dấu mốc thời gian quá khứ xác định 'yesterday', dạng động từ bị động quá khứ số ít chính xác duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'was'</span>.",
         "distractorBreakdown": {
           "were": "Bẫy tiếp giáp tuyến tính (Linear Proximity Trap): Thí sinh nhìn thấy danh từ số nhiều đứng sát trước khoảng trống ('provinces' hoặc 'installations') nên vội vàng chia động từ số nhiều 'were'.",
-          "are": "Sai cả về số lượng lẫn thì: 'are' là động từ số nhiều và ở thì hiện tại, mâu thuẫn hoàn toàn với chủ ngữ số ít và trạng từ thời gian quá khứ 'yesterday'.",
-          "have been": "Sai thì và số lượng: 'have been' ở thì Hiện tại hoàn thành và dành cho chủ ngữ số nhiều, không thể kết hợp với trạng từ thời gian xác định trong quá khứ ('yesterday')."
+          "are": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cả về số lượng lẫn thì: 'are' là động từ số nhiều và ở thì hiện tại, mâu thuẫn hoàn toàn với chủ ngữ số ít và trạng từ thời gian quá khứ 'yesterday'.",
+          "have been": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'have been' ở thì Hiện tại hoàn thành và dành cho chủ ngữ số nhiều, không thể kết hợp với trạng từ thời gian xác định trong quá khứ ('yesterday')."
         }
       }
     },
@@ -64,7 +64,7 @@
       "id": "ex_02",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Although consumer demand for commercial electric vehicles has surged dramatically, the number of certified high-voltage battery technicians ________ inadequate to handle warranty inspections.",
+      "prompt": "Although consumer demand for commercial electric vehicles has surged dramatically, the number of certified high-voltage battery technicians <u>_______</u> inadequate to handle warranty inspections.",
       "options": [
         "remains",
         "remain",
@@ -74,13 +74,13 @@
       "correctAnswer": "remains",
       "explanation": {
         "translation": "Mặc dù nhu cầu của người tiêu dùng đối với xe điện thương mại đã tăng vọt đáng kể, số lượng kỹ thuật viên pin cao áp được cấp chứng chỉ vẫn chưa đủ để xử lý các cuộc kiểm tra bảo hành.",
-        "keySignal": "Cụm chủ ngữ bắt đầu bằng 'The number of certified high-voltage battery technicians' đi với liên từ thời hiện tại 'has surged'.",
+        "keySignal": "Cụm chủ ngữ bắt đầu bằng <mark>The number of certified high-voltage battery technicians</mark> đi với liên từ thời hiện tại <mark>has surged</mark>.",
         "rule": "The number of + Plural Noun + SINGULAR VERB (Chỉ con số, số lượng cụ thể); A number of + Plural Noun + PLURAL VERB (Chỉ số lượng nhiều đối tượng).",
-        "whyCorrect": "Cấu trúc 'The number of' có Head Noun là 'The number' (danh từ số ít chỉ một con số thống kê), do đó động từ chính bắt buộc phải chia ở ngôi thứ ba số ít. Ở thì Hiện tại đơn với linking verb diễn tả thực trạng hiện tại, đáp án đúng duy nhất là 'remains'.",
+        "whyCorrect": "Cấu trúc 'The number of' có Head Noun là 'The number' (danh từ số ít chỉ một con số thống kê), do đó động từ chính bắt buộc phải chia ở ngôi thứ ba số ít. Ở thì Hiện tại đơn với linking verb diễn tả thực trạng hiện tại, đáp án đúng duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'remains'</span>.",
         "distractorBreakdown": {
           "remain": "Bẫy 'A number of': Thí sinh nhầm lẫn 'The number of' với 'A number of', hoặc bị danh từ số nhiều 'technicians' đứng sát khoảng trống đánh lừa nên chia động từ nguyên mẫu số nhiều 'remain'.",
-          "are remaining": "Sai về hòa hợp chủ vị: 'are remaining' chia ở số nhiều, trong khi chủ ngữ 'The number' đòi hỏi động từ số ít; đồng thời động từ nối 'remain' chỉ trạng thái thường không ưu tiên chia ở thì tiếp diễn trong ngữ cảnh này.",
-          "have remained": "Sai về hòa hợp chủ vị: Trợ động từ 'have' chỉ dùng cho chủ ngữ số nhiều, không thể đi với Head Noun số ít 'The number'."
+          "are remaining": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> về hòa hợp chủ vị: 'are remaining' chia ở số nhiều, trong khi chủ ngữ 'The number' đòi hỏi động từ số ít; đồng thời động từ nối 'remain' chỉ trạng thái thường không ưu tiên chia ở thì tiếp diễn trong ngữ cảnh này.",
+          "have remained": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> về hòa hợp chủ vị: Trợ động từ 'have' chỉ dùng cho chủ ngữ số nhiều, không thể đi với Head Noun số ít 'The number'."
         }
       }
     },
@@ -88,7 +88,7 @@
       "id": "ex_03",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "The senior vice president of strategic partnerships, as well as three regional marketing directors, ________ scheduled to deliver the keynote address at tomorrow's technology symposium.",
+      "prompt": "The senior vice president of strategic partnerships, as well as three regional marketing directors, <u>_______</u> scheduled to deliver the keynote address at tomorrow's technology symposium.",
       "options": [
         "is",
         "are",
@@ -98,13 +98,13 @@
       "correctAnswer": "is",
       "explanation": {
         "translation": "Phó chủ tịch cấp cao phụ trách quan hệ đối tác chiến lược, cùng với ba giám đốc tiếp thị khu vực, dự kiến sẽ trình bày bài phát biểu khai mạc tại hội nghị chuyên đề công nghệ vào ngày mai.",
-        "keySignal": "Cấu trúc chủ ngữ có chứa phụ ngữ can thiệp: 'The senior vice president... [as well as three regional marketing directors]...'. Dấu mốc thời gian là 'tomorrow's technology symposium'.",
+        "keySignal": "Cấu trúc chủ ngữ có chứa phụ ngữ can thiệp: <mark>The senior vice president... [as well as three regional marketing directors]...</mark>. Dấu mốc thời gian là 'tomorrow's technology symposium'.",
         "rule": "S1 + as well as / along with / together with + S2 + Verb (chia hòa hợp theo S1). Cấu trúc 'be scheduled to do sth' diễn tả lịch trình tương lai.",
-        "whyCorrect": "Cụm từ 'as well as...' chỉ là thành phần phụ ngữ chèn giữa đặt giữa hai dấu phẩy, không có giá trị cộng gộp chủ ngữ. Động từ bắt buộc phải chia hòa hợp với S1 là 'The senior vice president' (ngôi thứ ba số ít). Kết hợp với lịch trình cho sự kiện ngày mai ('tomorrow'), động từ số ít ở thì Hiện tại đơn mang nghĩa lịch trình tương lai là 'is'.",
+        "whyCorrect": "Cụm từ 'as well as...' chỉ là thành phần phụ ngữ chèn giữa đặt giữa hai dấu phẩy, không có giá trị cộng gộp chủ ngữ. Động từ bắt buộc phải chia hòa hợp với S1 là 'The senior vice president' (ngôi thứ ba số ít). Kết hợp với lịch trình cho sự kiện ngày mai ('tomorrow'), động từ số ít ở thì Hiện tại đơn mang nghĩa lịch trình tương lai là <span style=\"color: #22c55e; font-weight: bold;\">'is'</span>.",
         "distractorBreakdown": {
           "are": "Bẫy liên từ 'and': Thí sinh nhầm lẫn cụm 'as well as' tương đương với liên từ đẳng lập 'and' nên cộng S1 với S2 để chia động từ số nhiều 'are'.",
-          "were": "Sai thì và số lượng: 'were' vừa là động từ số nhiều, vừa ở thì quá khứ, hoàn toàn mâu thuẫn với sự kiện diễn ra vào ngày mai ('tomorrow').",
-          "have been": "Sai thì và số lượng: 'have been' chia theo chủ ngữ số nhiều và ở thì Hiện tại hoàn thành, không phù hợp với cấu trúc ấn định lịch trình tương lai 'be scheduled to'."
+          "were": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'were' vừa là động từ số nhiều, vừa ở thì quá khứ, hoàn toàn mâu thuẫn với sự kiện diễn ra vào ngày mai ('tomorrow').",
+          "have been": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'have been' chia theo chủ ngữ số nhiều và ở thì Hiện tại hoàn thành, không phù hợp với cấu trúc ấn định lịch trình tương lai 'be scheduled to'."
         }
       }
     },
@@ -112,7 +112,7 @@
       "id": "ex_04",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Neither the internal compliance auditor nor the independent forensic accountants ________ able to uncover the sophisticated embezzlement scheme during the preliminary investigation.",
+      "prompt": "Neither the internal compliance auditor nor the independent forensic accountants <u>_______</u> able to uncover the sophisticated embezzlement scheme during the preliminary investigation.",
       "options": [
         "were",
         "was",
@@ -122,13 +122,13 @@
       "correctAnswer": "were",
       "explanation": {
         "translation": "Cả kiểm toán viên tuân thủ nội bộ lẫn các kế toán viên pháp y độc lập đều không thể phát hiện ra thủ đoạn tham ô tinh vi trong cuộc điều tra sơ bộ.",
-        "keySignal": "Cặp liên từ hô ứng 'Neither S1 nor S2', trong đó S2 là 'the independent forensic accountants' (danh từ số nhiều). Dấu mốc thời gian là 'during the preliminary investigation' (sự việc đã hoàn tất trong quá khứ).",
+        "keySignal": "Cặp liên từ hô ứng <mark>Neither S1 nor S2</mark>, trong đó S2 là <mark>the independent forensic accountants</mark> (danh từ số nhiều). Dấu mốc thời gian là <mark>during the preliminary investigation</mark> (sự việc đã hoàn tất trong quá khứ).",
         "rule": "Proximity Rule (Quy tắc gần nhất): Neither S1 nor S2 + Verb chia theo S2 (chủ ngữ đứng sát động từ nhất).",
-        "whyCorrect": "Theo quy tắc tiếp cận gần nhất (Proximity Rule), khi sử dụng cấu trúc 'Neither... nor...', động từ vị ngữ phải hòa hợp với chủ ngữ đứng liền kề nó (S2). Ở đây S2 là 'the independent forensic accountants' (số nhiều). Do hành động điều tra sơ bộ đã diễn ra trong quá khứ ('during the preliminary investigation'), dạng quá khứ số nhiều chính xác là 'were'.",
+        "whyCorrect": "Theo quy tắc tiếp cận gần nhất (Proximity Rule), khi sử dụng cấu trúc 'Neither... nor...', động từ vị ngữ phải hòa hợp với chủ ngữ đứng liền kề nó (S2). Ở đây S2 là 'the independent forensic accountants' (số nhiều). Do hành động điều tra sơ bộ đã diễn ra trong quá khứ ('during the preliminary investigation'), dạng quá khứ số nhiều chính xác là <span style=\"color: #22c55e; font-weight: bold;\">'were'</span>.",
         "distractorBreakdown": {
           "was": "Bẫy chia theo S1: Thí sinh chia động từ theo chủ ngữ thứ nhất 'the internal compliance auditor' (số ít), vi phạm quy tắc tiếp cận gần nhất của liên từ 'neither... nor'.",
-          "is": "Sai thì và số lượng: 'is' là động từ số ít ở thì hiện tại, mâu thuẫn hoàn toàn với chủ ngữ số nhiều S2 và ngữ cảnh quá khứ của cuộc điều tra sơ bộ.",
-          "has been": "Sai thì và số lượng: 'has been' là trợ động từ số ít ở thì Hiện tại hoàn thành, không hòa hợp với chủ ngữ số nhiều 'accountants' và ngữ cảnh quá khứ dứt khoát."
+          "is": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'is' là động từ số ít ở thì hiện tại, mâu thuẫn hoàn toàn với chủ ngữ số nhiều S2 và ngữ cảnh quá khứ của cuộc điều tra sơ bộ.",
+          "has been": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'has been' là trợ động từ số ít ở thì Hiện tại hoàn thành, không hòa hợp với chủ ngữ số nhiều 'accountants' và ngữ cảnh quá khứ dứt khoát."
         }
       }
     },
@@ -136,7 +136,7 @@
       "id": "ex_05",
       "type": "choice",
       "difficulty": 3,
-      "prompt": "According to the municipal water authority's annual environmental report, approximately sixty percent of the agricultural land in the drought-affected delta ________ suffered severe salinization over the past three fiscal quarters.",
+      "prompt": "According to the municipal water authority's annual environmental report, approximately sixty percent of the agricultural land in the drought-affected delta <u>_______</u> suffered severe salinization over the past three fiscal quarters.",
       "options": [
         "has",
         "have",
@@ -146,13 +146,13 @@
       "correctAnswer": "has",
       "explanation": {
         "translation": "Theo báo cáo môi trường hàng năm của cơ quan quản lý nguồn nước thành phố, khoảng sáu mươi phần trăm diện tích đất nông nghiệp ở vùng đồng bằng bị hạn hán đã phải chịu tình trạng xâm nhập mặn nghiêm trọng trong ba quý tài chính vừa qua.",
-        "keySignal": "Cụm chủ ngữ chỉ tỷ lệ phần trăm: 'sixty percent of the agricultural land', theo sau bởi quá khứ phân từ 'suffered' và cụm trạng từ chỉ thời gian kéo dài 'over the past three fiscal quarters'.",
+        "keySignal": "Cụm chủ ngữ chỉ tỷ lệ phần trăm: <mark>sixty percent of the agricultural land</mark>, theo sau bởi quá khứ phân từ <mark>suffered</mark> và cụm trạng từ chỉ thời gian kéo dài <mark>over the past three fiscal quarters</mark>.",
         "rule": "Percentage / Fraction + OF + Uncountable Noun + SINGULAR VERB. 'Over the past + khoảng thời gian' yêu cầu thì Hiện tại hoàn thành.",
-        "whyCorrect": "Đối với phân số và phần trăm đi với giới từ 'of', động từ hòa hợp theo danh từ đứng sau 'of'. Danh từ 'land' (đất đai) là danh từ không đếm được, do đó phân số của nó vẫn là một lượng không đếm được và bắt buộc đi với động từ số ít. Cụm thời gian 'over the past three fiscal quarters' đòi hỏi thì Hiện tại hoàn thành chủ động ('has + V3/ed'). Do đó, đáp án đúng duy nhất là 'has'.",
+        "whyCorrect": "Đối với phân số và phần trăm đi với giới từ 'of', động từ hòa hợp theo danh từ đứng sau 'of'. Danh từ 'land' (đất đai) là danh từ không đếm được, do đó phân số của nó vẫn là một lượng không đếm được và bắt buộc đi với động từ số ít. Cụm thời gian 'over the past three fiscal quarters' đòi hỏi thì Hiện tại hoàn thành chủ động ('has + V3/ed'). Do đó, đáp án đúng duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'has'</span>.",
         "distractorBreakdown": {
           "have": "Bẫy con số phần trăm: Thí sinh thấy con số 'sixty percent' (60%) có giá trị lớn hơn 1 nên tưởng là số nhiều, chọn 'have'. Quy tắc chuẩn mực là phải chia theo danh từ sau 'of' ('land' - không đếm được).",
-          "are": "Sai thì và cấu trúc: 'are' là thì Hiện tại đơn số nhiều, không thể kết hợp với phân từ 'suffered' để diễn tả hành động chủ động trong thì Hiện tại hoàn thành.",
-          "were": "Sai thì và số lượng: 'were' là thì Quá khứ đơn số nhiều, không phù hợp với cấu trúc Hiện tại hoàn thành được kích hoạt bởi 'over the past three fiscal quarters'."
+          "are": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và cấu trúc: 'are' là thì Hiện tại đơn số nhiều, không thể kết hợp với phân từ 'suffered' để diễn tả hành động chủ động trong thì Hiện tại hoàn thành.",
+          "were": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'were' là thì Quá khứ đơn số nhiều, không phù hợp với cấu trúc Hiện tại hoàn thành được kích hoạt bởi 'over the past three fiscal quarters'."
         }
       }
     },
@@ -170,13 +170,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Sự mở rộng nhanh chóng của các trung tâm hoàn tất đơn hàng tự động tiên tiến trên khắp các khu công nghiệp ngoại ô đã đẩy nhanh đáng kể tiến độ giao hàng trong ngày cho người tiêu dùng thương mại điện tử trong khu vực.",
-        "keySignal": "Head Noun là 'The rapid expansion' (số ít). Thành phần can thiệp là hai cụm giới từ 'of advanced automated fulfillment centers' và 'across suburban industrial zones'. Động từ ở vị trí [B] đang chia là 'have significantly accelerated'.",
+        "keySignal": "Head Noun là <mark>The rapid expansion</mark> (số ít). Thành phần can thiệp là hai cụm giới từ <mark>of advanced automated fulfillment centers</mark> và <mark>across suburban industrial zones</mark>. Động từ ở vị trí [B] đang chia là <mark>have significantly accelerated</mark>.",
         "rule": "Subject-Verb Agreement: Danh từ trung tâm số ít (expansion) bắt buộc phải đi với trợ động từ số ít (has).",
         "whyCorrect": "Vị trí [B] sai vì phạm lỗi hòa hợp chủ vị do ảo giác tiếp giáp tuyến tính (Linear Proximity Trap). Người viết nhìn thấy các danh từ số nhiều 'centers' và 'zones' đứng liền trước nên chia nhầm thành 'have accelerated'. Chủ ngữ thực sự là danh từ số ít 'The rapid expansion', do đó phải sửa 'have significantly accelerated' thành 'has significantly accelerated'.",
         "distractorBreakdown": {
-          "A (expansion)": "Đúng ngữ pháp: Danh từ trừu tượng đếm được số ít làm chủ ngữ trung tâm, đi kèm mạo từ xác định 'The' và tính từ 'rapid'.",
-          "C (for)": "Đúng ngữ pháp: Giới từ chỉ đối tượng hưởng lợi chuẩn xác ('schedules for consumers').",
-          "D (regional e-commerce consumers)": "Đúng ngữ pháp: Cụm danh từ hoàn chỉnh đóng vai trò làm tân ngữ cho giới từ 'for'."
+          "A (expansion)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ trừu tượng đếm được số ít làm chủ ngữ trung tâm, đi kèm mạo từ xác định 'The' và tính từ 'rapid'.",
+          "C (for)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Giới từ chỉ đối tượng hưởng lợi chuẩn xác ('schedules for consumers').",
+          "D (regional e-commerce consumers)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ hoàn chỉnh đóng vai trò làm tân ngữ cho giới từ 'for'."
         }
       }
     },
@@ -194,13 +194,13 @@
       "correctAnswer": "C",
       "explanation": {
         "translation": "Kiến trúc sư trưởng doanh nghiệp, cùng với một số kỹ sư cơ sở hạ tầng đám mây cấp cao, đang đánh giá các lỗ hổng an ninh mạng của kiến trúc vi dịch vụ mới được triển khai.",
-        "keySignal": "Chủ ngữ thứ nhất là 'The chief enterprise architect' (danh từ số ít), theo sau bởi cụm phụ ngữ 'along with several senior cloud infrastructure engineers' đặt giữa hai dấu phẩy.",
+        "keySignal": "Chủ ngữ thứ nhất là <mark>The chief enterprise architect</mark> (danh từ số ít), theo sau bởi cụm phụ ngữ <mark>along with several senior cloud infrastructure engineers</mark> đặt giữa hai dấu phẩy.",
         "rule": "S1 + along with / together with / as well as + S2 + Verb (chia hòa hợp duy nhất với S1).",
         "whyCorrect": "Vị trí [C] sai vì 'along with...' chỉ là một cụm giới từ chèn giữa (Parenthetical phrase), không làm biến đổi chủ ngữ thành số nhiều như liên từ 'and'. Chủ ngữ danh chính ngôn thuận duy nhất là 'The chief enterprise architect' (ngôi thứ ba số ít). Do đó, động từ 'are evaluating' phải được sửa thành 'is evaluating'.",
         "distractorBreakdown": {
-          "A (chief enterprise architect)": "Đúng ngữ pháp: Danh từ chức danh nghề nghiệp số ít làm chủ ngữ chính của câu.",
-          "B (engineers)": "Đúng ngữ pháp: Danh từ số nhiều đứng sau từ định lượng 'several' trong cụm giới từ phụ ngữ 'along with'.",
-          "D (newly deployed)": "Đúng ngữ pháp: Trạng từ 'newly' bổ nghĩa đúng cho quá khứ phân từ 'deployed' làm tính từ cho danh từ 'architecture'."
+          "A (chief enterprise architect)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ chức danh nghề nghiệp số ít làm chủ ngữ chính của câu.",
+          "B (engineers)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ số nhiều đứng sau từ định lượng 'several' trong cụm giới từ phụ ngữ 'along with'.",
+          "D (newly deployed)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Trạng từ 'newly' bổ nghĩa đúng cho quá khứ phân từ 'deployed' làm tính từ cho danh từ 'architecture'."
         }
       }
     },
@@ -218,13 +218,13 @@
       "correctAnswer": "C",
       "explanation": {
         "translation": "Số lượng các tập đoàn đa quốc gia chuyển trụ sở khu vực đến Singapore đã tăng lên đáng kể trong hai quý tài chính vừa qua.",
-        "keySignal": "Cụm chủ ngữ mở đầu bằng 'The number of multinational corporations relocating...'. Động từ ở vị trí [C] đang chia là 'have increased'.",
+        "keySignal": "Cụm chủ ngữ mở đầu bằng <mark>The number of multinational corporations relocating...</mark>. Động từ ở vị trí [C] đang chia là <mark>have increased</mark>.",
         "rule": "The number of + Plural Noun + SINGULAR VERB; A number of + Plural Noun + PLURAL VERB.",
         "whyCorrect": "Vị trí [C] sai vì chủ ngữ của câu là 'The number' (biểu thị một con số thống kê cụ thể - danh từ số ít). Cụm 'of multinational corporations' chỉ là cụm giới từ chỉ đối tượng của con số đó. Theo quy tắc chuẩn mực, 'The number of + N' luôn đi với động từ số ít. Do đó, phải sửa 'have increased' thành 'has increased'.",
         "distractorBreakdown": {
-          "A (The number)": "Đúng ngữ pháp: Cụm từ chỉ số lượng cụ thể, đóng vai trò Head Noun số ít.",
-          "B (relocating)": "Đúng ngữ pháp: Hiện tại phân từ (V-ing) đóng vai trò mệnh đề quan hệ rút gọn ở thể chủ động bổ nghĩa cho 'corporations' ('who are relocating').",
-          "D (over the past two fiscal quarters)": "Đúng ngữ pháp: Cụm trạng từ thời gian chuẩn xác kích hoạt thì Hiện tại hoàn thành."
+          "A (The number)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm từ chỉ số lượng cụ thể, đóng vai trò Head Noun số ít.",
+          "B (relocating)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Hiện tại phân từ (V-ing) đóng vai trò mệnh đề quan hệ rút gọn ở thể chủ động bổ nghĩa cho 'corporations' ('who are relocating').",
+          "D (over the past two fiscal quarters)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm trạng từ thời gian chuẩn xác kích hoạt thì Hiện tại hoàn thành."
         }
       }
     },
@@ -242,13 +242,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Các tiêu chí nghiêm ngặt về tính bền vững môi trường được hội đồng quy hoạch thành phố ban hành gần đây yêu cầu tất cả các nhà phát triển bất động sản thương mại phải lắp đặt các tấm pin thu năng lượng mặt trời.",
-        "keySignal": "Chủ ngữ là 'The rigorous environmental sustainability criteria' [A]. Mệnh đề phân từ rút gọn bổ nghĩa là 'recently enacted by the municipal zoning board'. Động từ chính ở vị trí [B] là 'requires'.",
+        "keySignal": "Chủ ngữ là <mark>The rigorous environmental sustainability criteria</mark> [A]. Mệnh đề phân từ rút gọn bổ nghĩa là <mark>recently enacted by the municipal zoning board</mark>. Động từ chính ở vị trí [B] là <mark>requires</mark>.",
         "rule": "Danh từ số nhiều bất quy tắc gốc Hy Lạp: Criterion (số ít) -> CRITERIA (số nhiều) + PLURAL VERB.",
         "whyCorrect": "Vị trí [B] sai vì danh từ 'criteria' là hình thái số nhiều bất quy tắc của 'criterion' (các tiêu chí). Mặc dù không có hậu tố '-s', danh từ này vẫn mang bản chất số nhiều và đòi hỏi động từ chính phải chia ở dạng số nhiều không có đuôi 's'. Phải sửa 'requires' thành 'require'.",
         "distractorBreakdown": {
-          "A (criteria)": "Đúng ngữ pháp: Danh từ số nhiều chuẩn xác trong văn phong pháp lý và chính sách học thuật.",
-          "C (to install)": "Đúng ngữ pháp: Cấu trúc 'require somebody to do something' (yêu cầu ai làm gì) đi kèm To-Infinitive.",
-          "D (solar energy harvesting panels)": "Đúng ngữ pháp: Cụm danh từ ghép kỹ thuật đóng vai trò tân ngữ cho động từ 'install'."
+          "A (criteria)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ số nhiều chuẩn xác trong văn phong pháp lý và chính sách học thuật.",
+          "C (to install)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cấu trúc 'require somebody to do something' (yêu cầu ai làm gì) đi kèm To-Infinitive.",
+          "D (solar energy harvesting panels)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ ghép kỹ thuật đóng vai trò tân ngữ cho động từ 'install'."
         }
       }
     },
@@ -266,13 +266,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Mười triệu đô-la đã được nghiệp đoàn đầu tư mạo hiểm phân bổ để tài trợ cho việc thử nghiệm lâm sàng hợp chất dược phẩm mới được tổng hợp.",
-        "keySignal": "Chủ ngữ là đại lượng tiền tệ 'Ten million dollars' [A]. Động từ bị động ở vị trí [B] đang chia là 'were allocated'.",
+        "keySignal": "Chủ ngữ là đại lượng tiền tệ <mark>Ten million dollars</mark> [A]. Động từ bị động ở vị trí [B] đang chia là <mark>were allocated</mark>.",
         "rule": "Đại lượng đo lường trọn gói (Lump-sum Measurements): Tiền tệ, thời gian, khoảng cách, khối lượng luôn được nhìn nhận như một khối thống nhất (Singular Block) -> Chia ĐỘNG TỪ SỐ ÍT.",
         "whyCorrect": "Vị trí [B] sai vì cụm từ chỉ khoản tiền 'Ten million dollars' biểu thị một tổng số tiền trọn gói duy nhất được phân bổ cho một dự án cụ thể. Người bản ngữ nhìn nhận khoản tiền này như một thể thống nhất nên bắt buộc phải chia động từ số ít. Phải sửa 'were allocated' thành 'was allocated'.",
         "distractorBreakdown": {
-          "A (Ten million dollars)": "Đúng ngữ pháp: Cụm danh từ chỉ số tiền với mạo từ/từ chỉ số lượng và danh từ 'dollars' có đuôi '-s'.",
-          "C (to finance)": "Đúng ngữ pháp: To-Infinitive chỉ mục đích hành động phân bổ ngân sách.",
-          "D (compound)": "Đúng ngữ pháp: Danh từ đếm được số ít chỉ hợp chất hóa dược, đi kèm mạo từ 'the' và các tính từ bổ nghĩa."
+          "A (Ten million dollars)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ chỉ số tiền với mạo từ/từ chỉ số lượng và danh từ 'dollars' có đuôi '-s'.",
+          "C (to finance)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: To-Infinitive chỉ mục đích hành động phân bổ ngân sách.",
+          "D (compound)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ đếm được số ít chỉ hợp chất hóa dược, đi kèm mạo từ 'the' và các tính từ bổ nghĩa."
         }
       }
     },
@@ -280,17 +280,17 @@
       "id": "ex_11",
       "type": "cloze",
       "difficulty": 1,
-      "prompt": "Each of the prospective candidates for the chief financial officer position ________ (be) required to undergo an exhaustive background check and deliver an executive case presentation.",
+      "prompt": "Each of the prospective candidates for the chief financial officer position <u>_______</u> (be) required to undergo an exhaustive background check and deliver an executive case presentation.",
       "options": [],
       "correctAnswer": "is",
       "explanation": {
         "translation": "Mỗi một ứng viên tiềm năng cho vị trí giám đốc tài chính đều được yêu cầu phải trải qua một cuộc kiểm tra lý lịch toàn diện và thực hiện một bài thuyết trình tình huống điều hành.",
-        "keySignal": "Cấu trúc chủ ngữ 'Each of + Plural Noun' ('Each of the prospective candidates...'). Động từ gợi ý trong ngoặc là '(be)'.",
+        "keySignal": "Cấu trúc chủ ngữ <mark>Each of + Plural Noun</mark> (<mark>Each of the prospective candidates...</mark>). Động từ gợi ý trong ngoặc là <mark>(be)</mark>.",
         "rule": "Each of + Plural Noun + SINGULAR VERB: 'Each' mang nghĩa từng cá thể riêng biệt trong một tập thể, luôn luôn đòi hỏi động từ số ít.",
-        "whyCorrect": "Dù danh từ đứng sau 'of' là số nhiều ('candidates'), Head Noun thực sự chi phối ngữ pháp là đại từ phân phối 'Each' (mỗi một cá thể). Ở thể bị động thì Hiện tại đơn diễn tả quy trình tuyển dụng chuẩn tắc của công ty, dạng to be số ít chuẩn xác là 'is'.",
+        "whyCorrect": "Dù danh từ đứng sau 'of' là số nhiều ('candidates'), Head Noun thực sự chi phối ngữ pháp là đại từ phân phối 'Each' (mỗi một cá thể). Ở thể bị động thì Hiện tại đơn diễn tả quy trình tuyển dụng chuẩn tắc của công ty, dạng to be số ít chuẩn xác là <span style=\"color: #22c55e; font-weight: bold;\">'is'</span>.",
         "distractorBreakdown": {
           "are": "Bẫy tiếp giáp danh từ: Thí sinh nhìn thấy danh từ số nhiều 'candidates' đứng trước chỗ trống nên chia nhầm động từ số nhiều 'are'.",
-          "were": "Sai thì và số lượng: 'were' vừa là dạng quá khứ không phù hợp với quy chế tuyển dụng hiện hành, vừa là số nhiều vi phạm quy tắc của 'Each of'.",
+          "were": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'were' vừa là dạng quá khứ không phù hợp với quy chế tuyển dụng hiện hành, vừa là số nhiều vi phạm quy tắc của 'Each of'.",
           "be": "Chưa chia động từ: Để nguyên dạng nguyên mẫu không chia theo chủ ngữ là lỗi ngữ pháp cơ bản."
         }
       }
@@ -299,18 +299,18 @@
       "id": "ex_12",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Every retail branch and every regional distribution warehouse in the metropolitan area ________ (have) implemented strict energy-conservation measures to reduce operating overhead.",
+      "prompt": "Every retail branch and every regional distribution warehouse in the metropolitan area <u>_______</u> (have) implemented strict energy-conservation measures to reduce operating overhead.",
       "options": [],
       "correctAnswer": "has",
       "explanation": {
         "translation": "Mọi chi nhánh bán lẻ và mọi kho phân phối khu vực trong khu vực đô thị đều đã thực hiện các biện pháp bảo tồn năng lượng nghiêm ngặt nhằm cắt giảm chi phí vận hành.",
-        "keySignal": "Cấu trúc chủ ngữ kép có chứa từ định lượng lặp lại: 'Every retail branch and every regional distribution warehouse...'. Động từ gợi ý trong ngoặc là '(have)'. Phía sau có quá khứ phân từ 'implemented'.",
+        "keySignal": "Cấu trúc chủ ngữ kép có chứa từ định lượng lặp lại: <mark>Every retail branch and every regional distribution warehouse...</mark>. Động từ gợi ý trong ngoặc là <mark>(have)</mark>. Phía sau có quá khứ phân từ <mark>implemented</mark>.",
         "rule": "Every S1 and every S2 + SINGULAR VERB: Khi các danh từ số ít được bổ nghĩa bởi 'Every' hoặc 'Each', dù được nối với nhau bằng liên từ 'and', động từ vẫn LUÔN CHIA SỐ ÍT.",
-        "whyCorrect": "Theo quy tắc tư duy bản xứ, từ 'Every' biến từng đối tượng trong danh sách thành các thực thể độc lập được xét riêng rẽ (distributive sense). Do đó, sự kết hợp 'Every N1 and every N2' không tạo ra chủ ngữ số nhiều. Kết hợp với quá khứ phân từ 'implemented' trong thì Hiện tại hoàn thành, trợ động từ số ít bắt buộc là 'has'.",
+        "whyCorrect": "Theo quy tắc tư duy bản xứ, từ 'Every' biến từng đối tượng trong danh sách thành các thực thể độc lập được xét riêng rẽ (distributive sense). Do đó, sự kết hợp 'Every N1 and every N2' không tạo ra chủ ngữ số nhiều. Kết hợp với quá khứ phân từ 'implemented' trong thì Hiện tại hoàn thành, trợ động từ số ít bắt buộc là <span style=\"color: #22c55e; font-weight: bold;\">'has'</span>.",
         "distractorBreakdown": {
           "have": "Bẫy liên từ 'and': Thí sinh thấy liên từ 'and' nối hai đối tượng ('branch' và 'warehouse') nên suy diễn máy móc rằng đây là chủ ngữ số nhiều và điền 'have'.",
-          "had": "Sai thì: 'had implemented' ở thì Quá khứ hoàn thành chỉ dùng khi có một mốc thời gian hoặc hành động khác trong quá khứ làm mốc so sánh (Past in the Past), không phù hợp với câu thông báo kết quả thực tế hiện hành.",
-          "having": "Sai dạng ngữ pháp: Dạng V-ing không thể đóng vai trò làm trợ động từ tạo thì Hiện tại hoàn thành cho mệnh đề chính."
+          "had": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì: 'had implemented' ở thì Quá khứ hoàn thành chỉ dùng khi có một mốc thời gian hoặc hành động khác trong quá khứ làm mốc so sánh (Past in the Past), không phù hợp với câu thông báo kết quả thực tế hiện hành.",
+          "having": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> dạng ngữ pháp: Dạng V-ing không thể đóng vai trò làm trợ động từ tạo thì Hiện tại hoàn thành cho mệnh đề chính."
         }
       }
     },
@@ -318,18 +318,18 @@
       "id": "ex_13",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "According to the ministry's revised welfare guidelines, the unemployed ________ (be) entitled to subsidized public healthcare and vocational re-skilling programs.",
+      "prompt": "According to the ministry's revised welfare guidelines, the unemployed <u>_______</u> (be) entitled to subsidized public healthcare and vocational re-skilling programs.",
       "options": [],
       "correctAnswer": "are",
       "explanation": {
         "translation": "Các hướng dẫn phúc lợi sửa đổi của bộ quy định rằng những người thất nghiệp được hưởng quyền tiếp cận dịch vụ chăm sóc sức khỏe công được trợ cấp và các chương trình đào tạo lại kỹ năng nghề.",
-        "keySignal": "Chủ ngữ của mệnh đề phụ 'that' là cụm 'the unemployed' (The + Tính từ chỉ một nhóm người trong xã hội). Động từ chính trong mệnh đề chính là 'stipulate' (thì Hiện tại đơn).",
+        "keySignal": "Chủ ngữ của mệnh đề phụ <mark>that</mark> là cụm <mark>the unemployed</mark> (The + Tính từ chỉ một nhóm người trong xã hội). Động từ chính trong mệnh đề chính là <mark>stipulate</mark> (thì Hiện tại đơn).",
         "rule": "The + Adjective (chỉ tập hợp người) + PLURAL VERB.",
-        "whyCorrect": "Cấu trúc 'The + Adjective' (The unemployed = những người đang trong tình trạng thất nghiệp) đại diện cho một tầng lớp / tập hợp nhiều cá nhân trong xã hội, do đó luôn đòi hỏi động từ số nhiều. Vì động từ mệnh đề chính 'stipulate' ở thì Hiện tại đơn biểu thị quy định chung, dạng động từ 'to be' số nhiều ở thì hiện tại là 'are'.",
+        "whyCorrect": "Cấu trúc 'The + Adjective' (The unemployed = những người đang trong tình trạng thất nghiệp) đại diện cho một tầng lớp / tập hợp nhiều cá nhân trong xã hội, do đó luôn đòi hỏi động từ số nhiều. Vì động từ mệnh đề chính 'stipulate' ở thì Hiện tại đơn biểu thị quy định chung, dạng động từ 'to be' số nhiều ở thì hiện tại là <span style=\"color: #22c55e; font-weight: bold;\">'are'</span>.",
         "distractorBreakdown": {
           "is": "Bẫy từ loại không có '-s': Thí sinh thấy từ 'unemployed' không có đuôi '-s' nên lầm tưởng đây là danh từ trừu tượng số ít và chọn 'is'.",
-          "was": "Sai thì và số lượng: 'was' là động từ số ít ở thì quá khứ, mâu thuẫn cả về nguyên tắc hòa hợp 'The + Adj' lẫn thì Hiện tại đơn của câu quy định ('stipulate').",
-          "were": "Sai thì: 'were' là động từ số nhiều nhưng ở thì quá khứ, không phù hợp với mệnh đề sau động từ trần thuật hiện tại 'stipulate'."
+          "was": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì và số lượng: 'was' là động từ số ít ở thì quá khứ, mâu thuẫn cả về nguyên tắc hòa hợp 'The + Adj' lẫn thì Hiện tại đơn của câu quy định ('stipulate').",
+          "were": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì: 'were' là động từ số nhiều nhưng ở thì quá khứ, không phù hợp với mệnh đề sau động từ trần thuật hiện tại 'stipulate'."
         }
       }
     },
@@ -337,18 +337,18 @@
       "id": "ex_14",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "The executive steering committee ________ (have) reached a unanimous consensus regarding the acquisition of the overseas manufacturing subsidiary after several rounds of due diligence.",
+      "prompt": "The executive steering committee <u>_______</u> (have) reached a unanimous consensus regarding the acquisition of the overseas manufacturing subsidiary after several rounds of due diligence.",
       "options": [],
       "correctAnswer": "has",
       "explanation": {
         "translation": "Ủy ban chỉ đạo điều hành đã đạt được sự đồng thuận nhất trí về việc mua lại công ty con sản xuất ở nước ngoài sau nhiều vòng thẩm định chuyên sâu.",
-        "keySignal": "Chủ ngữ là danh từ tập hợp 'The executive steering committee', kết hợp với cụm từ chỉ sự đồng thuận tuyệt đối 'a unanimous consensus'. Động từ gợi ý trong ngoặc là '(have)'.",
+        "keySignal": "Chủ ngữ là danh từ tập hợp <mark>The executive steering committee</mark>, kết hợp với cụm từ chỉ sự đồng thuận tuyệt đối <mark>a unanimous consensus</mark>. Động từ gợi ý trong ngoặc là <mark>(have)</mark>.",
         "rule": "Collective Nouns acting as a Single Unified Entity + SINGULAR VERB.",
-        "whyCorrect": "Danh từ tập thể 'committee' (ủy ban) có thể đi với động từ số ít hoặc số nhiều tùy thuộc vào hành động của các thành viên. Trong câu này, việc đạt được 'a unanimous consensus' (sự đồng thuận nhất trí 100%) chứng minh toàn bộ ủy ban đang hành động như MỘT KHỐI THỐNG NHẤT DUY NHẤT. Do đó, tư duy bản xứ bắt buộc phải dùng trợ động từ số ít 'has' trong thì Hiện tại hoàn thành ('has reached').",
+        "whyCorrect": "Danh từ tập thể 'committee' (ủy ban) có thể đi với động từ số ít hoặc số nhiều tùy thuộc vào hành động của các thành viên. Trong câu này, việc đạt được 'a unanimous consensus' (sự đồng thuận nhất trí 100%) chứng minh toàn bộ ủy ban đang hành động như MỘT KHỐI THỐNG NHẤT DUY NHẤT. Do đó, tư duy bản xứ bắt buộc phải dùng trợ động từ số ít <span style=\"color: #22c55e; font-weight: bold;\">'has'</span> trong thì Hiện tại hoàn thành ('has reached').",
         "distractorBreakdown": {
           "have": "Bẫy ngộ nhận tập thể: Thí sinh nghĩ ủy ban gồm nhiều người nên tự động dùng số nhiều 'have'. Tuy nhiên, khi có dấu hiệu 'unanimous consensus' (nhất trí tuyệt đối), ủy ban được định vị là một pháp nhân duy nhất.",
-          "had": "Sai ngữ cảnh thì: Không có mốc thời gian quá khứ nào để thiết lập thì Quá khứ hoàn thành; câu văn thông báo kết quả vừa đạt được sau quá trình thẩm định.",
-          "having": "Sai dạng thức: 'having' là dạng phân từ, không thể làm trợ động từ chia thì trong câu độc lập."
+          "had": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ cảnh thì: Không có mốc thời gian quá khứ nào để thiết lập thì Quá khứ hoàn thành; câu văn thông báo kết quả vừa đạt được sau quá trình thẩm định.",
+          "having": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> dạng thức: 'having' là dạng phân từ, không thể làm trợ động từ chia thì trong câu độc lập."
         }
       }
     },
@@ -356,18 +356,18 @@
       "id": "ex_15",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "Behavioral economics ________ (provide) indispensable empirical insights into how consumer cognitive biases undermine conventional financial decision-making models.",
+      "prompt": "Behavioral economics <u>_______</u> (provide) indispensable empirical insights into how consumer cognitive biases undermine conventional financial decision-making models.",
       "options": [],
       "correctAnswer": "provides",
       "explanation": {
         "translation": "Kinh tế học hành vi cung cấp những hiểu biết thực nghiệm không thể thiếu về cách thức mà các thiên kiến nhận thức của người tiêu dùng làm xói mòn các mô hình ra quyết định tài chính truyền thống.",
-        "keySignal": "Chủ ngữ là tên một chuyên ngành học thuật 'Behavioral economics' (có đuôi '-s'). Động từ gợi ý trong ngoặc là '(provide)'. Câu diễn tả một sự thật khoa học hiển nhiên ở thì Hiện tại đơn.",
+        "keySignal": "Chủ ngữ là tên một chuyên ngành học thuật <mark>Behavioral economics</mark> (có đuôi <mark>-s</mark>). Động từ gợi ý trong ngoặc là <mark>(provide)</mark>. Câu diễn tả một sự thật khoa học hiển nhiên ở thì Hiện tại đơn.",
         "rule": "Nouns ending in '-s' representing academic fields / disciplines + SINGULAR VERB.",
-        "whyCorrect": "Mặc dù danh từ 'economics' (Kinh tế học) kết thúc bằng chữ 's', đây là tên của một phân ngành khoa học, đại diện cho một lĩnh vực tri thức đơn lẻ (Singular entity). Khi diễn đạt chân lý học thuật ở thì Hiện tại đơn, động từ phải thêm '-s' ở ngôi thứ ba số ít. Do đó, dạng đúng duy nhất là 'provides'.",
+        "whyCorrect": "Mặc dù danh từ 'economics' (Kinh tế học) kết thúc bằng chữ 's', đây là tên của một phân ngành khoa học, đại diện cho một lĩnh vực tri thức đơn lẻ (Singular entity). Khi diễn đạt chân lý học thuật ở thì Hiện tại đơn, động từ phải thêm '-s' ở ngôi thứ ba số ít. Do đó, dạng đúng duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'provides'</span>.",
         "distractorBreakdown": {
           "provide": "Bẫy đuôi '-s': Thí sinh thấy từ 'economics' có chữ 's' ở cuối nên tưởng lầm là danh từ số nhiều và để nguyên động từ không chia ('provide').",
-          "provided": "Sai thì: Câu văn diễn tả một giá trị thực tiễn và nguyên lý khoa học luôn đúng ở hiện tại, không dùng thì quá khứ đơn 'provided'.",
-          "providing": "Sai ngữ pháp: Dạng V-ing không thể đứng một mình làm động từ vị ngữ chính mà không có trợ động từ 'to be'."
+          "provided": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì: Câu văn diễn tả một giá trị thực tiễn và nguyên lý khoa học luôn đúng ở hiện tại, không dùng thì quá khứ đơn 'provided'.",
+          "providing": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Dạng V-ing không thể đứng một mình làm động từ vị ngữ chính mà không có trợ động từ 'to be'."
         }
       }
     }

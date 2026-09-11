@@ -41,7 +41,7 @@ class CustomStudyModal extends HookWidget {
     final mode = useState<CustomStudyMode>(CustomStudyMode.byTag);
     final tagController = useTextEditingController();
     final limit = useState<int>(20);
-    final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
+    final isDesktopMode = isDesktop;
 
     void handleStartCram() {
       final tagName = switch (mode.value) {

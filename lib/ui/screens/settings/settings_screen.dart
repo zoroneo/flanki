@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/anki_bridge.dart';
@@ -51,14 +52,22 @@ class SettingsScreen extends HookConsumerWidget {
       );
     }
 
-    return Scaffold(
-      headers: [AppBar(title: Text(l10n.settingsTitle))],
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 720),
-          child: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
+    return ResponsiveBuilder(
+      builder: (context, sizingInfo) {
+        final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
+        final horizontalPadding = isMobile ? 16.0 : 24.0;
+
+        return Scaffold(
+          headers: [AppBar(title: Text(l10n.settingsTitle))],
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 720),
+              child: ListView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: horizontalPadding,
+                  vertical: 16.0,
+                ),
+                children: [
               // AnkiWeb Account Card
               Text(
                 l10n.accountAndSync,
@@ -775,11 +784,13 @@ class SettingsScreen extends HookConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 110),
+              SizedBox(height: isMobile ? 110 : 40),
             ],
           ),
         ),
       ),
+    );
+      },
     );
   }
 }

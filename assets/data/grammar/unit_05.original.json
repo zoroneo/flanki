@@ -1,0 +1,377 @@
+{
+  "unitId": "unit-05-future-forms",
+  "title": "Unit 05: Future Forms (Will vs. Be Going To vs. Present Continuous for Future vs. Timetable)",
+  "category": "tenses",
+  "level": 1,
+  "coreConcept": "Tư duy cốt lõi của người bản xứ khi lựa chọn giữa 4 hình thái diễn đạt tương lai (Will vs. Be going to vs. Present Continuous vs. Present Simple) không nằm ở việc dịch từ 'sẽ' sang tiếng Việt, mà nằm ở NGUỒN GỐC CỦA QUYẾT ĐỊNH (Decision Origin), MỨC ĐỘ CHUẨN BỊ (Level of Preparation) và BẢN CHẤT CĂN CỨ (Nature of Evidence):\n\n1. 'Will + V_bare' - The Spontaneous & Subjective Mindset (Quyết định bộc phát & Phán đoán chủ quan):\n- Quyết định tức thì (Spontaneous decision): Ý định nảy ra ngay tại thời điểm nói, hoàn toàn chưa có dự tính từ trước (Ví dụ: 'The phone is ringing. I'll answer it.').\n- Lời hứa (Promises), lời đề nghị (Offers), lời đe dọa (Threats), lời yêu cầu (Requests): 'I will send you the quotation by 5 PM.'\n- Phán đoán dựa trên cảm tính cá nhân (Speculation / Personal opinion): Dự đoán tương lai dựa trên niềm tin, linh cảm hoặc quan điểm chủ quan, KHÔNG CÓ BẰNG CHỨNG TRỰC QUAN tại hiện trường. Thường đi kèm các động từ/trạng từ nhận thức: think, believe, doubt, hope, suppose, probably, perhaps, definitely (Ví dụ: 'I think the tech stocks will rebound next quarter.').\n\n2. 'Be going to + V_bare' - The Prior Plan & Tangible Evidence Mindset (Kế hoạch định sẵn & Bằng chứng thực tế trước mắt):\n- Dự định nung nấu từ trước (Prior intention / Plan): Quyết định đã hình thành trong đầu trước khi nói, nhưng chưa sắp xếp thành lịch trình cụ thể hay đặt chỗ chính thức (Ví dụ: 'I am going to change my job this year.' -> Đã có ý định, nhưng chưa nộp đơn hay phỏng vấn ở đâu).\n- Phán đoán dựa trên BẰNG CHỨNG TRỰC QUAN / VẬT LÝ NGAY TRƯỚC MẮT (Present evidence): Nhìn thấy, nghe thấy hoặc cảm nhận được dấu hiệu vật lý hiển nhiên cho thấy sự việc chắc chắn sắp diễn ra (Ví dụ: 'Look at those dark clouds! It is going to rain.' -> Mây đen là bằng chứng trực quan hiển hiện, cấm dùng 'will rain').\n\n3. 'Present Continuous (Be + V-ing)' mang nghĩa tương lai - The Fixed Personal Arrangement Mindset (Lịch trình cá nhân đã chốt):\n- Sự sắp xếp cá nhân đã được cố định (Personal arrangement): Không chỉ là 'ý định trong đầu' (như be going to), mà ĐÃ CÓ HÀNH ĐỘNG THỰC TẾ ĐỂ HIỆN THỰC HÓA: đã mua vé máy bay, đã đặt bàn nhà hàng, đã chốt lịch hẹn với người thứ hai (Mutual agreement / Preparation done).\n- Bắt buộc có mốc thời gian cụ thể trong tương lai để tránh nhầm với hành động đang diễn ra ngay lúc nói.\n- Ví dụ: 'I am meeting the regional director tomorrow at 2 PM; we have reserved the private boardroom.' -> Đã chốt hẹn với sếp và đã đặt phòng họp.\n\n4. 'Present Simple (V / V-s/es)' mang nghĩa tương lai - The Timetable & Official Schedule Mindset (Thời gian biểu khách quan):\n- Lịch trình, thời khóa biểu chính thức của hệ thống công cộng, cơ quan, hội nghị hoặc lịch thiên văn (Timetables / Programs / Public schedules): Giờ khởi hành của máy bay, tàu hỏa, xe buýt; giờ khai mạc hội nghị; lịch chiếu phim; ngày khai giảng.\n- Tính chất: Khách quan, cố định, vận hành theo quy chuẩn tổ chức, không phụ thuộc vào ý chí hay cảm xúc cá nhân của người nói.\n- Ví dụ: 'The direct flight to Tokyo departs at 6:30 AM tomorrow.' -> Chuyến bay cất cánh theo lịch trình của hãng hàng không, dù hành khách có đến kịp hay không.\n\n5. Bảng kiểm tra trực diện (The Side-by-Side Reality Check):\n- 'I will buy a new laptop.' -> Vừa mới nảy ra ý nghĩ muốn mua laptop (vừa làm rơi máy tính cũ).\n- 'I am going to buy a new laptop.' -> Đã lên kế hoạch tiết kiệm tiền để mua laptop từ tuần trước.\n- 'I am picking up my new laptop at the store this afternoon.' -> Đã đặt cọc, cửa hàng đã gọi điện báo ra nhận máy.",
+  "formulas": {
+    "will": "Khẳng định: S + will ('ll) + V_bare | Phủ định: S + will not (won't) + V_bare | Nghi vấn: Will + S + V_bare?",
+    "beGoingTo": "Khẳng định: S + am/is/are + going to + V_bare | Phủ định: S + am/is/are + not + going to + V_bare | Nghi vấn: Am/Is/Are + S + going to + V_bare?",
+    "presentContinuousForFuture": "Khẳng định: S + am/is/are + V-ing | Phủ định: S + am/is/are + not + V-ing | Nghi vấn: Am/Is/Are + S + V-ing (+ future time marker)",
+    "presentSimpleForTimetable": "Khẳng định: S + V(s/es) | Phủ định: S + do/does + not + V_bare | Nghi vấn: Do/Does + S + V_bare (+ official schedule/timetable)"
+  },
+  "futureTimeClauses": "QUY TẮC BẤT DI BẤT DỊCH VỀ MỆNH ĐỀ TRẠNG NGỮ CHỈ THỜI GIAN TRONG TƯƠNG LAI (FUTURE TIME CLAUSES):\n\n1. Bản chất ngữ pháp:\n- Các mệnh đề phụ chỉ thời gian bắt đầu bằng các liên từ: WHEN (khi), AS SOON AS (ngay khi), UNTIL / TILL (cho đến khi), BEFORE (trước khi), AFTER (sau khi), BY THE TIME (vào thời điểm), ONCE (một khi).\n- Tư duy bản xứ: Mệnh đề chỉ thời gian đóng vai trò là 'mốc quy chiếu / tiền đề điều kiện' cho hành động chính. Trong tiềm thức người bản ngữ, mốc thời gian này được coi như một sự việc hiển nhiên (fact) khi nó xảy ra, do đó TUYỆT ĐỐI KHÔNG BAO GIỜ DÙNG 'WILL' HOẶC 'WOULD' trong mệnh đề chứa liên từ thời gian.\n\n2. Cấu trúc chuẩn mực đề thi TOEIC / IELTS / THPTQG:\n- Công thức: [Liên từ thời gian: When / As soon as / Until / Before / After / By the time / Once] + S + V(s/es) (Hiện tại đơn) [hoặc have/has + V3/ed (Hiện tại hoàn thành)], S + will + V_bare\n- Chú ý đặc biệt về Hiện tại hoàn thành: Dùng Present Perfect trong mệnh đề thời gian khi người nói muốn nhấn mạnh hành động đó phải HOÀN TẤT TRIỆT ĐỂ xong xuôi thì hành động ở mệnh đề chính mới được phép bắt đầu.\n- Ví dụ thực chiến 1: 'As soon as the CEO arrives (KHÔNG DÙNG: will arrive) at the headquarters tomorrow, we will commence the executive briefing.'\n- Ví dụ thực chiến 2: 'The financial director will not sign the disbursement voucher until the audit team has verified (hoặc verifies, KHÔNG DÙNG: will verify) all expense invoices.'\n- Ví dụ thực chiến 3: 'Once we finalize the licensing agreement, the marketing department will launch the national advertising campaign.'",
+  "commonTraps": [
+    {
+      "trap": "Bẫy 1: Sử dụng 'will' trong mệnh đề trạng ngữ chỉ thời gian trong tương lai (When/As soon as/Until/Before/Once + S + will...)",
+      "exampleWrong": "The chief logistics officer will dispatch the emergency shipment as soon as the supplier will confirm the inventory.",
+      "exampleRight": "The chief logistics officer will dispatch the emergency shipment as soon as the supplier confirms the inventory.",
+      "note": "Đây là bẫy ngữ pháp phổ biến số 1 trong các đề thi TOEIC Part 5 và THPTQG. Thí sinh thấy ngữ cảnh tương lai ('will dispatch') liền vội vã chọn 'will confirm' cho mệnh đề sau 'as soon as'. Quy tắc: Mọi mệnh đề chứa liên từ thời gian đều phải chia ở Hiện tại đơn (hoặc Hiện tại hoàn thành)."
+    },
+    {
+      "trap": "Bẫy 2: Dùng 'will' thay vì 'be going to' khi có BẰNG CHỨNG TRỰC QUAN / HIỆN TƯỢNG VẬT LÝ rõ ràng trước mắt",
+      "exampleWrong": "Look at those deep structural cracks along the retaining wall! It will collapse onto the highway!",
+      "exampleRight": "Look at those deep structural cracks along the retaining wall! It is going to collapse onto the highway!",
+      "note": "Khi câu xuất hiện các thán từ cảnh báo gây chú ý thị giác ('Look at...', 'Watch out!', 'Be careful!', 'Listen to that noise!') hoặc mô tả hiện tượng vật lý đang diễn biến (vết nứt lan rộng, xe lạng lách, mây đen dày đặc), bản ngữ bắt buộc dùng 'be going to' vì sự việc là kết quả tất yếu của bằng chứng hiện hữu. Dùng 'will' là sai vì 'will' chỉ mang tính phỏng đoán cảm tính."
+    },
+    {
+      "trap": "Bẫy 3: Dùng 'will' cho lịch trình, thời gian biểu khách quan của cơ quan, tổ chức hoặc phương tiện giao thông (Official Timetable)",
+      "exampleWrong": "According to the official conference agenda, the international symposium will commence at 8:30 AM tomorrow.",
+      "exampleRight": "According to the official conference agenda, the international symposium commences at 8:30 AM tomorrow.",
+      "note": "Khi hành động xảy ra theo một chương trình làm việc chính thức, lịch tàu xe, chuyến bay, lịch chiếu phim hoặc thời khóa biểu cố định của tổ chức (có các từ tín hiệu: according to the schedule/itinerary/timetable), bắt buộc dùng Hiện tại đơn (Present Simple: commences, departs, leaves, starts) để phản ánh tính bất biến, không phụ thuộc vào ý chí cá nhân."
+    },
+    {
+      "trap": "Bẫy 4: Nhầm lẫn giữa 'Be about to + V' (sắp sửa diễn ra ngay lập tức) với các mốc thời gian tương lai xa hoặc 'Be bound to / Be likely to'",
+      "exampleWrong": "The strategic planning committee is about to unveil the five-year corporate expansion plan next month.",
+      "exampleRight": "The strategic planning committee is scheduled to unveil the five-year corporate expansion plan next month. (Hoặc: The committee is about to unveil the plan right now; please remain seated.)",
+      "note": "'Be about to + V' diễn tả hành động chuẩn bị xảy ra trong tích tắc tiếp theo (imminent future - tính bằng giây, phút), tuyệt đối không bao giờ đi kèm với các mốc thời gian xa như 'next week', 'next month'. Nếu có mốc thời gian ấn định trong tương lai, phải dùng 'be scheduled to', 'is going to' hoặc 'is unveiling'."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex_01",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "During the board meeting, when the projector suddenly stopped working, the IT specialist stood up and said, 'Don't worry, everyone. I ________ a backup cable from the storage room immediately.'",
+      "options": [
+        "will fetch",
+        "am fetching",
+        "fetch",
+        "am going to fetch"
+      ],
+      "correctAnswer": "will fetch",
+      "explanation": {
+        "translation": "Trong cuộc họp hội đồng quản trị, khi máy chiếu bất ngờ ngừng hoạt động, chuyên viên CNTT đứng lên và nói: 'Mọi người đừng lo. Tôi sẽ đi lấy ngay dây cáp dự phòng từ phòng kho.'",
+        "keySignal": "Ngữ cảnh sự cố phát sinh bất ngờ ('suddenly stopped working') kết hợp lời trấn an và trạng từ quyết định tức thì ('Don't worry', 'immediately').",
+        "rule": "Spontaneous Decision & Offer: Khi quyết định được đưa ra tức thì ngay tại thời điểm nói để giải quyết một tình huống phát sinh đột xuất, người bản xứ dùng 'will + V_bare'.",
+        "whyCorrect": "Chuyên viên IT đưa ra quyết định lấy cáp ngay lúc máy chiếu bị hỏng, hoàn toàn không có kế hoạch từ trước, do đó 'will fetch' là phương án chính xác duy nhất.",
+        "distractorBreakdown": {
+          "optionB (am fetching)": "Sai vì Hiện tại tiếp diễn chỉ dùng cho lịch trình cá nhân đã được thu xếp và chuẩn bị từ trước, không dùng cho quyết định bột phát tại chỗ.",
+          "optionC (fetch)": "Sai vì Hiện tại đơn chỉ diễn tả thói quen hoặc sự thật hiển nhiên, không dùng để diễn đạt hành động sẽ thực hiện ngay sau lời nói.",
+          "optionD (am going to fetch)": "Không tự nhiên trong ngữ cảnh này vì 'be going to' ngụ ý ý định đã được lên kế hoạch từ trước khi sự cố máy chiếu xảy ra."
+        }
+      }
+    },
+    {
+      "id": "ex_02",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Ms. Patterson ________ the chief financial auditor tomorrow at 2:00 PM; her administrative assistant has already reserved the executive conference room and prepared the portfolio.",
+      "options": [
+        "is meeting",
+        "will meet",
+        "meets",
+        "is going to be met"
+      ],
+      "correctAnswer": "is meeting",
+      "explanation": {
+        "translation": "Bà Patterson sẽ gặp kiểm toán viên tài chính trưởng vào lúc 2:00 chiều mai; trợ lý hành chính của bà đã đặt trước phòng hội nghị điều hành và chuẩn bị sẵn hồ sơ.",
+        "keySignal": "Hành động chuẩn bị và đặt chỗ cụ thể đã hoàn tất ('has already reserved the executive conference room and prepared the portfolio') kết hợp với giờ hẹn chính xác ('tomorrow at 2:00 PM').",
+        "rule": "Fixed Personal Arrangement: Khi một kế hoạch tương lai đã được thỏa thuận với bên thứ hai và các khâu chuẩn bị thực tế (đặt phòng, mua vé, làm tài liệu) đã hoàn thành, ta dùng thì Hiện tại tiếp diễn (Present Continuous) mang nghĩa tương lai.",
+        "whyCorrect": "Cuộc gặp gỡ đã được ấn định giờ giấc và phòng họp đã được đặt trước chu đáo, thể hiện tính sắp xếp cá nhân chặt chẽ. Do đó, 'is meeting' là đáp án chuẩn xác nhất.",
+        "distractorBreakdown": {
+          "optionB (will meet)": "Kém chuẩn xác vì 'will' chỉ diễn tả quyết định bộc phát hoặc lời hứa/phỏng đoán, không phản ánh được tính chuẩn bị và sắp xếp thực tế đã hoàn thành.",
+          "optionC (meets)": "Sai vì Hiện tại đơn chỉ dùng cho lịch trình công cộng, phương tiện giao thông hoặc thời khóa biểu cố định của tổ chức, không dùng cho cuộc hẹn mang tính cá nhân giữa hai chuyên gia.",
+          "optionD (is going to be met)": "Sai thể bị động vì chủ ngữ 'Ms. Patterson' là chủ thể chủ động tham gia cuộc họp với kiểm toán viên."
+        }
+      }
+    },
+    {
+      "id": "ex_03",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "According to the official symposium itinerary distributed to all delegates, the opening keynote address on clean energy ________ promptly at 8:45 AM tomorrow.",
+      "options": [
+        "begins",
+        "will begin",
+        "is beginning",
+        "is going to begin"
+      ],
+      "correctAnswer": "begins",
+      "explanation": {
+        "translation": "Theo lịch trình hội thảo chính thức được phát cho tất cả đại biểu, bài phát biểu khai mạc về năng lượng sạch sẽ bắt đầu chính xác vào lúc 8:45 sáng mai.",
+        "keySignal": "Cụm từ báo hiệu thời gian biểu chính thức 'According to the official symposium itinerary distributed to all delegates'.",
+        "rule": "Official Timetable / Program: Đối với các sự kiện công cộng, hội nghị, chương trình làm việc đã được ấn định trên văn bản/thời khóa biểu chính thức, bắt buộc dùng thì Hiện tại đơn (Present Simple) để diễn đạt tương lai.",
+        "whyCorrect": "Bài phát biểu diễn ra theo lịch trình cố định của hội thảo quốc tế đã in sẵn trong chương trình nghị sự. Động từ chia ở Hiện tại đơn ngôi thứ ba số ít là 'begins'.",
+        "distractorBreakdown": {
+          "optionB (will begin)": "Sai bẫy văn phong đề thi: Không dùng 'will' khi sự kiện tương lai đã được quy định bởi thời gian biểu chính thức của một hội thảo.",
+          "optionC (is beginning)": "Sai vì Hiện tại tiếp diễn dùng cho sự thu xếp cá nhân, không áp dụng cho thời gian biểu khách quan của hội nghị tổ chức.",
+          "optionD (is going to begin)": "Không chuẩn xác vì 'be going to' biểu thị ý định cá nhân hoặc phán đoán có bằng chứng, không dùng cho chương trình cố định đã công bố."
+        }
+      }
+    },
+    {
+      "id": "ex_04",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Look at the severe structural cracks spreading rapidly across that foundation pillar! The entire mezzanine floor ________ within minutes if we do not evacuate.",
+      "options": [
+        "is going to collapse",
+        "will collapse",
+        "collapses",
+        "is collapsing"
+      ],
+      "correctAnswer": "is going to collapse",
+      "explanation": {
+        "translation": "Hãy nhìn những vết nứt kết cấu nghiêm trọng đang lan nhanh qua cột móng kìa! Toàn bộ tầng lửng sắp sập xuống chỉ trong vài phút nếu chúng ta không sơ tán.",
+        "keySignal": "Lời cảnh báo trực quan trước mắt 'Look at the severe structural cracks spreading rapidly...'.",
+        "rule": "Prediction Based on Present Tangible Evidence: Khi người nói đưa ra dự đoán dựa trên hiện tượng vật lý, bằng chứng mắt thấy tai nghe ngay tại thời điểm hiện tại, bắt buộc dùng cấu trúc 'be going to + V_bare'.",
+        "whyCorrect": "Vết nứt đang lan nhanh là bằng chứng trực quan hiển nhiên dẫn đến sự sụp đổ tất yếu, do đó phải chia 'is going to collapse'.",
+        "distractorBreakdown": {
+          "optionB (will collapse)": "Sai bẫy tư duy: 'Will' chỉ dùng cho dự đoán cảm tính chủ quan (I think, I believe) không có bằng chứng trực quan, không dùng khi có dấu hiệu nhãn tiền.",
+          "optionC (collapses)": "Sai vì Hiện tại đơn chỉ dùng cho lịch trình thời gian biểu hoặc sự thật khoa học muôn thuở, không dùng cho biến cố khẩn cấp sắp xảy ra.",
+          "optionD (is collapsing)": "Không chính xác vì sàn nhà chưa thực sự sập ngay lúc này, mà là nguy cơ hiển nhiên sắp xảy ra ('within minutes')."
+        }
+      }
+    },
+    {
+      "id": "ex_05",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "The corporate communications department will release the quarterly earnings statement as soon as the independent auditor ________ the consolidated financial records.",
+      "options": [
+        "approves",
+        "will approve",
+        "is approving",
+        "approved"
+      ],
+      "correctAnswer": "approves",
+      "explanation": {
+        "translation": "Phòng truyền thông doanh nghiệp sẽ phát hành báo cáo thu nhập hàng quý ngay khi kiểm toán viên độc lập phê duyệt các hồ sơ tài chính hợp nhất.",
+        "keySignal": "Liên từ chỉ thời gian trong tương lai 'as soon as' đứng sau mệnh đề chính dùng thì tương lai đơn ('will release').",
+        "rule": "Future Time Clause Rule: Trong mệnh đề trạng ngữ chỉ thời gian bắt đầu bằng as soon as, when, until, before, after, tuyệt đối không dùng thì tương lai (will/would), bắt buộc dùng Hiện tại đơn (Present Simple).",
+        "whyCorrect": "Sau liên từ 'as soon as', chủ ngữ ngôi thứ ba số ít 'the independent auditor' đi với động từ Hiện tại đơn thêm 's': 'approves'.",
+        "distractorBreakdown": {
+          "optionB (will approve)": "Sai lỗi kinh điển: Tuyệt đối cấm dùng 'will' trong mệnh đề trạng ngữ chỉ thời gian.",
+          "optionC (is approving)": "Sai thì vì mệnh đề thời gian tương lai quy định dùng Hiện tại đơn thể hiện điều kiện tiên quyết, không dùng Hiện tại tiếp diễn.",
+          "optionD (approved)": "Sai thì vì Quá khứ đơn không thể kết hợp với mệnh đề chính chỉ hành động tương lai ('will release')."
+        }
+      }
+    },
+    {
+      "id": "ex_06",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "The senior procurement manager [A] will not authorize [B] the release of capital expenditure until the technical division [C] will verify [D] all machinery specifications.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "D",
+      "explanation": {
+        "translation": "Trưởng phòng mua sắm cấp cao sẽ không phê duyệt việc giải ngân chi phí đầu tư vốn cho đến khi bộ phận kỹ thuật xác minh toàn bộ thông số máy móc.",
+        "keySignal": "Liên từ thời gian 'until' đứng đầu mệnh đề phụ chỉ điều kiện thời gian tương lai.",
+        "rule": "Bẫy dùng 'will' trong mệnh đề thời gian: Trong mệnh đề trạng ngữ chỉ thời gian bắt đầu bằng 'until', 'when', 'as soon as', không được dùng trợ động từ 'will', phải dùng thì Hiện tại đơn (hoặc Hiện tại hoàn thành).",
+        "whyCorrect": "Phần gạch chân [D] 'will verify' phạm lỗi nghiêm trọng khi dùng 'will' sau 'until'. Phải sửa thành thì Hiện tại đơn: 'verifies' (hoặc 'has verified').",
+        "distractorBreakdown": {
+          "A (The senior procurement manager)": "Đúng ngữ pháp: Cụm danh từ hoàn chỉnh làm chủ ngữ ngôi thứ ba số ít.",
+          "B (will not authorize)": "Đúng ngữ pháp: Dạng phủ định của thì Tương lai đơn trong mệnh đề chính thể hiện quyết định hành động.",
+          "C (the technical division)": "Đúng ngữ pháp: Cụm danh từ làm chủ ngữ cho mệnh đề phụ chỉ thời gian."
+        }
+      }
+    },
+    {
+      "id": "ex_07",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "Be cautious [A] near that unstable retaining wall; the loose bedrock [B] will collapse [C] onto the access ramp at any moment [D]!",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Hãy cẩn thận gần bức tường chắn không vững chắc đó; lớp đá nền lỏng lẻo sắp sụp xuống đường dốc dẫn vào bất kỳ lúc nào!",
+        "keySignal": "Lời cảnh báo khẩn cấp 'Be cautious' kết hợp với hiện trạng vật lý nguy hiểm nhãn tiền 'unstable retaining wall' và 'loose bedrock'.",
+        "rule": "Bẫy nhầm giữa 'will' và 'be going to' khi có bằng chứng thực tế: Khi có dấu hiệu trực quan hoặc hiện tượng vật lý nguy hiểm đang đe dọa trực tiếp, bắt buộc dùng 'be going to + V_bare' để cảnh báo biến cố sắp xảy ra, cấm dùng 'will'.",
+        "whyCorrect": "Phần gạch chân [C] 'will collapse' sai bản chất tư duy vì đây là phán đoán có bằng chứng trực quan nhãn tiền. Cần sửa thành 'is going to collapse'.",
+        "distractorBreakdown": {
+          "A (Be cautious)": "Đúng ngữ pháp: Câu mệnh lệnh thức dùng tính từ 'cautious' sau động từ liên kết 'be'.",
+          "B (the loose bedrock)": "Đúng ngữ pháp: Cụm danh từ làm chủ ngữ số ít chỉ lớp đá nền bị rạn nứt.",
+          "D (at any moment)": "Đúng ngữ pháp: Cụm trạng từ chỉ thời gian rất gần (bất cứ lúc nào)."
+        }
+      }
+    },
+    {
+      "id": "ex_08",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "According to [A] the updated global transit schedule, the high-speed cargo freight [B] will depart [C] from platform 4 at exactly 6:15 AM tomorrow [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Theo lịch trình vận chuyển toàn cầu mới được cập nhật, chuyến tàu chở hàng tốc độ cao sẽ khởi hành từ sân ga số 4 vào đúng 6:15 sáng mai.",
+        "keySignal": "Cụm từ xác định lịch trình vận tải chính thức 'According to the updated global transit schedule'.",
+        "rule": "Bẫy dùng 'will' cho lịch trình thời gian biểu: Khi nói về giờ tàu xe, máy bay hoặc lịch trình công cộng đã được công bố chính thức, người bản ngữ dùng thì Hiện tại đơn (Present Simple), không dùng 'will'.",
+        "whyCorrect": "Phần gạch chân [C] 'will depart' sai văn phong chuẩn mực cho lịch trình phương tiện giao thông. Phải sửa thành thì Hiện tại đơn: 'departs'.",
+        "distractorBreakdown": {
+          "A (According to)": "Đúng ngữ pháp: Cụm giới từ chuẩn xác dùng để dẫn nguồn thông tin lịch trình.",
+          "B (the high-speed cargo freight)": "Đúng ngữ pháp: Cụm danh từ số ít làm chủ ngữ chỉ chuyến tàu chở hàng tốc độ cao.",
+          "D (at exactly 6:15 AM tomorrow)": "Đúng ngữ pháp: Trạng ngữ chỉ thời gian kết hợp giới từ 'at' đi với giờ chính xác."
+        }
+      }
+    },
+    {
+      "id": "ex_09",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "The corporate executive committee [A] is about to unveil [B] its comprehensive overseas expansion strategy [C] next December [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Ủy ban điều hành doanh nghiệp dự kiến công bố chiến lược mở rộng ra thị trường nước ngoài toàn diện vào tháng 12 tới.",
+        "keySignal": "Mốc thời gian tương lai xa 'next December' (tháng 12 tới) mâu thuẫn hoàn toàn với cấu trúc tương lai tức thì.",
+        "rule": "Bẫy lạm dụng 'Be about to + V': Cấu trúc 'be about to + V' chỉ diễn tả sự việc sắp xảy ra ngay trong tích tắc (imminent future), tuyệt đối không đi kèm mốc thời gian xa trong tương lai như 'next month' hay 'next December'.",
+        "whyCorrect": "Phần gạch chân [B] 'is about to unveil' xung đột nghiêm trọng với trạng từ 'next December'. Cần sửa thành cấu trúc kế hoạch tương lai: 'is going to unveil' hoặc 'is scheduled to unveil' / 'plans to unveil'.",
+        "distractorBreakdown": {
+          "A (The corporate executive committee)": "Đúng ngữ pháp: Cụm danh từ tập hợp làm chủ ngữ ngôi thứ ba số ít.",
+          "C (its comprehensive overseas expansion strategy)": "Đúng ngữ pháp: Cụm tân ngữ trực tiếp với tính từ sở hữu 'its' quy chiếu về 'committee'.",
+          "D (next December)": "Đúng ngữ pháp: Cụm trạng từ chỉ mốc thời gian cụ thể trong tương lai."
+        }
+      }
+    },
+    {
+      "id": "ex_10",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "Once the independent compliance auditors [A] will complete [B] their comprehensive inspection of the manufacturing plant, they will submit [C] a certified evaluation report [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Một khi các kiểm toán viên tuân thủ độc lập hoàn thành cuộc kiểm tra toàn diện đối với nhà máy sản xuất, họ sẽ nộp một bản báo cáo đánh giá có chứng nhận.",
+        "keySignal": "Liên từ phụ thuộc chỉ điều kiện thời gian 'Once' (một khi) đứng đầu mệnh đề trạng ngữ.",
+        "rule": "Quy tắc liên từ 'Once': Tương tự như 'as soon as' và 'when', mệnh đề đi liền sau liên từ thời gian 'Once' tuyệt đối không dùng 'will', bắt buộc phải dùng thì Hiện tại đơn hoặc Hiện tại hoàn thành.",
+        "whyCorrect": "Phần gạch chân [B] 'will complete' vi phạm quy tắc cấm dùng 'will' trong mệnh đề trạng ngữ chỉ thời gian. Cần sửa thành 'complete' (hoặc 'have completed' để nhấn mạnh tính hoàn tất).",
+        "distractorBreakdown": {
+          "A (the independent compliance auditors)": "Đúng ngữ pháp: Cụm danh từ số nhiều làm chủ ngữ cho mệnh đề thời gian.",
+          "C (they will submit)": "Đúng ngữ pháp: Mệnh đề chính chia ở thì Tương lai đơn để chỉ hành động xảy ra sau.",
+          "D (a certified evaluation report)": "Đúng ngữ pháp: Cụm danh từ làm tân ngữ với quá khứ phân từ 'certified' đóng vai trò tính từ."
+        }
+      }
+    },
+    {
+      "id": "ex_11",
+      "type": "cloze",
+      "difficulty": 1,
+      "prompt": "Listen to that terrible rattling sound in the central turbine! The entire generator unit ________ (break) down at any moment if the engineer does not cut the power.",
+      "options": [],
+      "correctAnswer": "is going to break",
+      "explanation": {
+        "translation": "Hãy lắng nghe tiếng lạch cạch khủng khiếp đó trong tuabin trung tâm kìa! Toàn bộ tổ máy phát điện sắp hỏng đến nơi bất kỳ lúc nào nếu kỹ sư không ngắt nguồn điện.",
+        "keySignal": "Lời cảnh báo dựa trên thính giác tại hiện trường 'Listen to that terrible rattling sound...'.",
+        "rule": "Auditory Evidence & Imminent Future: Khi có bằng chứng âm thanh/vật lý rõ rệt ngay trước mắt báo trước một sự cố hiển nhiên, người bản xứ dùng 'be going to + V_bare'.",
+        "whyCorrect": "Tiếng kêu lạch cạch bất thường là bằng chứng trực quan cho thấy máy phát điện sắp bị hỏng. Chủ ngữ 'The entire generator unit' là số ít nên đi với 'is going to break'.",
+        "distractorBreakdown": {
+          "will break": "Kém chính xác vì 'will' mang tính phỏng đoán chủ quan, không thể hiện được tính tất yếu phát sinh từ bằng chứng âm thanh thực tế đang nghe thấy.",
+          "breaks": "Sai vì Hiện tại đơn chỉ diễn tả lịch trình hoặc chân lý hiển nhiên, không dùng cho sự cố khẩn cấp sắp diễn ra.",
+          "are going to break": "Sai lỗi hòa hợp chủ-vị vì chủ ngữ 'The entire generator unit' là danh từ số ít."
+        }
+      }
+    },
+    {
+      "id": "ex_12",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "Dr. Aris ________ (deliver) the keynote address at the International Arbitration Summit in Geneva next Thursday; her plane tickets and accommodation have already been finalized.",
+      "options": [],
+      "correctAnswer": "is delivering",
+      "explanation": {
+        "translation": "Tiến sĩ Aris sẽ trình bày bài diễn văn khai mạc tại Hội nghị Thượng đỉnh Trọng tài Quốc tế ở Geneva vào thứ Năm tới; vé máy bay và chỗ ở của bà đã được hoàn tất xong xuôi.",
+        "keySignal": "Bằng chứng chuẩn bị thực tế đã hoàn thành 100% ('plane tickets and accommodation have already been finalized') kết hợp mốc thời gian cụ thể ('next Thursday').",
+        "rule": "Fixed Personal Arrangement (Sự sắp xếp cá nhân đã chốt): Khi các bước chuẩn bị (mua vé, đặt phòng) đã hoàn tất và lịch trình đã chốt cố định, thì Hiện tại tiếp diễn (Present Continuous) là hình thái chuẩn mực nhất.",
+        "whyCorrect": "Hành động có sự chuẩn bị và cam kết thực tế chắc chắn, chủ ngữ 'Dr. Aris' là ngôi thứ ba số ít nên chia 'is delivering'.",
+        "distractorBreakdown": {
+          "will deliver": "Kém chuẩn xác vì không thể hiện được mức độ sắp xếp chu đáo và các khâu chuẩn bị cụ thể đã hoàn thành.",
+          "delivers": "Không tối ưu vì đây là lịch trình cá nhân của một chuyên gia đi công tác, không phải thời khóa biểu công cộng cố định muôn thuở.",
+          "is going to deliver": "Dù có thể chấp nhận trong giao tiếp thông thường, 'is delivering' là phương án vượt trội và chính xác tuyệt đối trong văn phong học thuật/công sở khi khâu đặt vé đã xong."
+        }
+      }
+    },
+    {
+      "id": "ex_13",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "The automated packaging line will commence final dispatch operations as soon as the terminal scanner ________ (verify) the barcode on each container.",
+      "options": [],
+      "correctAnswer": "verifies",
+      "explanation": {
+        "translation": "Dây chuyền đóng gói tự động sẽ bắt đầu các hoạt động xuất hàng cuối cùng ngay khi máy quét tại ga xác minh mã vạch trên từng thùng hàng.",
+        "keySignal": "Liên từ chỉ thời gian trong tương lai 'as soon as' đi sau mệnh đề chính dùng 'will commence'.",
+        "rule": "Future Time Clauses: Trong mệnh đề phụ bắt đầu bằng liên từ thời gian 'as soon as', động từ bắt buộc chia ở thì Hiện tại đơn (Present Simple) để làm mốc điều kiện cho thì tương lai ở mệnh đề chính.",
+        "whyCorrect": "Chủ ngữ 'the terminal scanner' là danh từ số ít, do đó động từ 'verify' đổi 'y' thành 'i' và thêm 'es' tạo thành 'verifies'. (Dạng 'has verified' cũng đúng về ngữ pháp hoàn tất nhưng 'verifies' là đáp án chuẩn mực trực tiếp nhất).",
+        "distractorBreakdown": {
+          "will verify": "Sai lỗi nghiêm trọng vì 'will' không bao giờ được phép xuất hiện trong mệnh đề trạng ngữ chỉ thời gian.",
+          "is verifying": "Sai vì Hiện tại tiếp diễn không diễn tả điều kiện tiên quyết trong mệnh đề thời gian tương lai.",
+          "verified": "Sai thì vì Quá khứ đơn không thể làm mệnh đề điều kiện thời gian cho hành động tương lai 'will commence'."
+        }
+      }
+    },
+    {
+      "id": "ex_14",
+      "type": "cloze",
+      "difficulty": 1,
+      "prompt": "Colleague A: 'We don't have enough printed marketing brochures for the client orientation this afternoon.' - Colleague B: 'Don't stress about it; I ________ (print) forty additional copies right away.'",
+      "options": [],
+      "correctAnswer": "will print",
+      "explanation": {
+        "translation": "Đồng nghiệp A: 'Chúng ta không có đủ tài liệu quảng cáo in sẵn cho buổi định hướng khách hàng chiều nay.' - Đồng nghiệp B: 'Đừng lo lắng về việc đó; tôi sẽ in thêm 40 bản ngay bây giờ.'",
+        "keySignal": "Ngữ cảnh đối thoại tức thời, lời trấn an 'Don't stress about it' và trạng từ chỉ hành động tức thì 'right away'.",
+        "rule": "Instant Offer & Spontaneous Decision: Khi người nói quyết định thực hiện một hành động hoặc đưa ra lời đề nghị giúp đỡ ngay tại thời điểm nghe thấy thông tin, ta dùng 'will + V_bare'.",
+        "whyCorrect": "Người đồng nghiệp B đưa ra quyết định in thêm tài liệu bộc phát tại chỗ nhằm giải quyết vấn đề của người A, do đó đáp án chuẩn mực là 'will print'.",
+        "distractorBreakdown": {
+          "am printing": "Sai vì B chưa hề thực hiện hành động in trước đó, đây mới chỉ là quyết định vừa đưa ra trong lời nói.",
+          "am going to print": "Không tự nhiên bằng 'will print' vì 'be going to' ngụ ý ý định đã được trăn trở từ trước khi người A thông báo thiếu tài liệu.",
+          "print": "Sai vì Hiện tại đơn không dùng để diễn đạt phản ứng hay lời hứa hành động bộc phát trong giao tiếp."
+        }
+      }
+    },
+    {
+      "id": "ex_15",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "According to the official cross-border rail timetable, the overnight express to Zurich ________ (depart) from platform 3 at 22:45 tonight.",
+      "options": [],
+      "correctAnswer": "departs",
+      "explanation": {
+        "translation": "Theo thời khóa biểu đường sắt xuyên biên giới chính thức, chuyến tàu tốc hành qua đêm đi Zurich sẽ khởi hành từ sân ga số 3 vào lúc 22:45 tối nay.",
+        "keySignal": "Cụm từ chỉ thời gian biểu chính thức của ngành đường sắt 'According to the official cross-border rail timetable'.",
+        "rule": "Present Simple for Official Schedules: Lịch trình cố định của các phương tiện giao thông công cộng (tàu hỏa, máy bay, xe buýt) khi nói về tương lai bắt buộc chia ở thì Hiện tại đơn (Present Simple).",
+        "whyCorrect": "Chủ ngữ 'the overnight express to Zurich' là danh từ số ít chỉ chuyến tàu cụ thể, động từ 'depart' thêm 's' thành 'departs'.",
+        "distractorBreakdown": {
+          "will depart": "Không chuẩn mực trong văn phong thi cử và tiếng Anh chuẩn bản xứ khi đã có thời gian biểu in sẵn ('rail timetable').",
+          "is departing": "Sai vì đây là lịch trình cố định của hệ thống đường sắt quốc gia, không phải sự thu xếp cá nhân.",
+          "is going to depart": "Sai phong cách ngôn ngữ vì 'be going to' diễn tả ý định hoặc phán đoán, không dùng cho bảng giờ tàu xe cố định."
+        }
+      }
+    }
+  ]
+}

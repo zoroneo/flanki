@@ -5,32 +5,32 @@
   "level": 2,
   "coreConcept": "Tư duy bản xứ về Danh động từ (Gerund - V-ing) và Động từ nguyên mẫu (To-Infinitive / Bare-Infinitive) không dựa trên việc học vẹt danh sách từ vựng rời rạc, mà được định hình bởi 3 TRỤ CỘT BẢN CHẤT NGÔN NGỮ HỌC THỰC CHIẾN:\n\n1. Gerund (V-ing) - Tính Thực tế, Trải nghiệm Đã/Đang Diễn Ra (Concrete / Experienced / Real / Ongoing Process):\n- Bản chất: V-ing biến một động từ thành một danh từ mang tính hành vi hoặc quá trình thực tế. Trong tâm thức người bản xứ, khi dùng V-ing, hành động đó được nhìn nhận như một sự việc ĐÃ HOẶC ĐANG TỒN TẠI, một trải nghiệm đã nếm trải, một sự thật hiển nhiên (Fact / Vivid reality), hoặc một hoạt động quen thuộc.\n- Đó là lý do tại sao các động từ chỉ sự thừa nhận/phủ nhận (admit, deny), tận hưởng/chán ghét (enjoy, mind, dislike), trì hoãn/né tránh một việc có thật (avoid, postpone), hoặc hồi tưởng quá khứ (remember doing, regret doing) bắt buộc phải đi với V-ing.\n\n2. To-Infinitive (To-V) - Tính Tiềm năng, Định hướng Tương lai & Nghĩa vụ Chưa Hoàn Thành (Potential / Future-oriented / Objective / Unfulfilled Purpose):\n- Bản chất: Từ 'To' trong 'To-V' bắt nguồn từ giới từ chỉ hướng đích (direction / destination). Vì vậy, To-Infinitive luôn mang tính phóng chiếu về phía trước (Forward-looking). Người bản ngữ dùng To-V khi nói về một hành động CHƯA DIỄN RA TẠI THỜI ĐIỂM XÉT, một viễn cảnh, một mục tiêu cần chinh phục, một lời hứa, hoặc một trách nhiệm/bổn phận phải hoàn thành.\n- Đó là lý do tại sao các động từ chỉ kế hoạch (plan, decide, intend), mong đợi/hy vọng (hope, expect, want), cam kết/hứa hẹn (promise, agree, refuse), hoặc nỗ lực hướng đích (attempt, strive, manage) luôn đi kèm To-V.\n\n3. Bare Infinitive (V_bare - Nguyên mẫu không To) - Tác động Lực Trực tiếp & Trọn vẹn Tiến trình:\n- Nhóm Động từ Sai khiến (Causative verbs: make, let, have): Phản ánh quy luật 'Tác động không độ trễ' (Zero-latency causation). Khi chủ thể tác động lực (bắt buộc, cho phép, yêu cầu), hành động của đối tượng xảy ra ngay lập tức mà không có sự đắn đo hay quá trình định hướng, do đó giới từ định hướng 'to' bị triệt tiêu hoàn toàn (make/let/have someone DO something).\n- Nhóm Động từ Giác quan (Verbs of perception: see, hear, watch, notice, observe):\n  + S + V_sense + O + V_bare: Người nói chứng kiến TOÀN BỘ TIẾN TRÌNH từ đầu đến cuối của hành động (Complete action).\n  + S + V_sense + O + V-ing: Người nói chỉ bắt gặp MỘT PHẦN KHOẢNH KHẮC hành động đang diễn ra dang dở (Incomplete / Ongoing snapshot).",
   "formulas": {
-    "verbsTakingGerund": "NHÓM ĐỘNG TỪ CHỈ KẾT HỢP VỚI V-ING (GERUND-ONLY VERBS):\n\n1. Cấu trúc cốt lõi: S + Verb + V-ing / S + Verb + Possessive (my/his/their...) + V-ing\n\n2. Phân loại theo trường ngữ nghĩa tư duy:\n- Nhóm Thừa nhận & Phủ nhận: admit (thừa nhận), deny (phủ nhận).\n  Ví dụ: The CFO admitted misallocating company funds during the audit.\n- Nhóm Trì hoãn & Né tránh: avoid (tránh), delay (trì hoãn), postpone (hoãn lại), put off (hoãn), evade (trốn tránh).\n  Ví dụ: The corporation avoided paying punitive tariffs by restructuring its supply chain.\n- Nhóm Cân nhắc & Đề xuất: consider (cân nhắc), suggest (gợi ý), recommend (đề xuất), propose (đề nghị).\n  Ví dụ: We are considering expanding our operations into Southeast Asian markets.\n- Nhóm Rủi ro & Mạo hiểm: risk (liều lĩnh/chấp nhận rủi ro).\n  Ví dụ: The startup risked losing its initial venture capital by missing the deployment deadline.\n- Nhóm Trải nghiệm & Cảm xúc thực tế: enjoy (thích thú), appreciate (đánh giá cao/cảm kích), mind (ngại/phiền), fancy (thích thú), tolerate (khoan dung/chịu đựng).\n  Ví dụ: I greatly appreciate your assisting us with the compliance review.\n- Nhóm Duy trì & Chấm dứt: practice (luyện tập), keep (tiếp tục), resist (kháng cự/nhịn được), quit / give up (từ bỏ).\n  Ví dụ: Despite technical difficulties, the engineers kept running simulation stress tests.\n- Nhóm Bàn luận & Liên quan: discuss (thảo luận), mention (đề cập), involve (liên quan/đòi hỏi).\n  Ví dụ: The restructuring plan involves consolidating regional branch offices.",
-    "verbsTakingInfinitive": "NHÓM ĐỘNG TỪ CHỈ KẾT HỢP VỚI TO-V (INFINITIVE-ONLY VERBS):\n\n1. Cấu trúc 1 (Chủ động hướng đích): S + Verb + TO-V\n- Nhóm Ý định, Kế hoạch & Quyết định: decide (quyết định), plan (lên kế hoạch), arrange (thu xếp), intend (có ý định), prepare (chuẩn bị), determine / resolve (quyết tâm).\n  Ví dụ: The steering committee decided to launch the enterprise software in November.\n- Nhóm Mong đợi, Hy vọng & Hứa hẹn: hope (hy vọng), expect (kỳ vọng), want / wish (mong muốn), promise (hứa), agree (đồng ý), offer (đề nghị giúp), pledge (cam kết).\n  Ví dụ: The vendor promised to resolve all server vulnerabilities within 24 hours.\n- Nhóm Từ chối, Do dự & Thất bại: refuse (từ chối), decline (khước từ), hesitate (do dự), fail (thất bại/không làm được việc gì).\n  Ví dụ: The financial controller refused to sign the unverified expense vouchers.\n- Nhóm Năng lực, Nỗ lực & Xu hướng: afford (đủ khả năng chi trả), manage (xoay xở hoàn thành), strive / attempt (nỗ lực), tend (có xu hướng), demand (yêu cầu), claim (tuyên bố).\n  Ví dụ: Against all market forecasts, the firm managed to maintain robust profitability.\n\n2. Cấu trúc 2 (Định hướng đối tượng): S + Verb + Object + TO-V\n- Bao gồm: advise, allow, enable, encourage, forbid, force, compel, permit, require, remind, request, urge, warn.\n  Ví dụ: The new cybersecurity mandate requires all personnel to update two-factor authentication credentials.",
-    "dualMeaningVerbs": "CÁC ĐỘNG TỪ LƯỠNG TÍNH ĐỔI NGHĨA HOÀN TOÀN (DUAL-MEANING VERBS):\n\n1. REMEMBER / FORGET / REGRET:\n- + TO-V: Nhớ / Quên / Tiếc PHẢI LÀM GÌ (Hành động hướng tới tương lai, nghĩa vụ hoặc việc chuẩn bị diễn ra).\n  + Remember to turn off the air conditioning before leaving the office. (Hãy nhớ tắt điều hòa - việc cần làm).\n  + Don't forget to submit the quarterly audit report by Friday. (Đừng quên nộp báo cáo - việc sắp tới).\n  + We regret to inform you that your application was unsuccessful. (Chúng tôi rất tiếc phải thông báo - việc chuẩn bị nói ra).\n- + V-ING: Nhớ / Quên / Tiếc ĐÃ LÀM GÌ (Hồi tưởng lại một hành động, trải nghiệm đã hoàn tất trong quá khứ).\n  + I distinctly remember turning off the server power switch. (Tôi nhớ rõ ràng là đã tắt công tắc rồi).\n  + She will never forget meeting the keynote speaker at the summit. (Cô ấy sẽ không bao giờ quên lần đã gặp...).\n  + The director regretted approving the risky subprime mortgage investment. (Giám đốc hối tiếc vì đã phê duyệt khoản đầu tư rủi ro).\n\n2. STOP:\n- STOP + TO-V: Tạm dừng việc đang làm ĐỂ BẮT ĐẦU một hành động khác (Chỉ mục đích = In order to).\n  Ví dụ: After five consecutive hours of debugging, the developers stopped to have lunch.\n- STOP + V-ING: Chấm dứt, đình chỉ vĩnh viễn hoặc từ bỏ hẳn một thói quen/hành vi.\n  Ví dụ: The pharmaceutical firm stopped producing the drug due to hazardous side effects.\n\n3. TRY:\n- TRY + TO-V: Nỗ lực, cố gắng hết sức để vượt qua trở ngại nhằm đạt được kết quả (Đòi hỏi sự gắng sức gian nan).\n  Ví dụ: We are trying to negotiate better credit terms with our commercial suppliers.\n- TRY + V-ING: Thử nghiệm một phương pháp, giải pháp xem có mang lại hiệu quả hay giải quyết được vấn đề không.\n  Ví dụ: If the encrypted file fails to open, try rebooting the operating system in safe mode.\n\n4. NEED:\n- S (Chủ ngữ Người) + NEED + TO-V: Thể chủ động - Người nào cần làm việc gì.\n  Ví dụ: The chief architect needs to inspect the foundation before construction proceeds.\n- S (Chủ ngữ Vật) + NEED + V-ING (= NEED + TO BE V3/ed): Thể bị động - Vật/hệ thống nào cần được sửa chữa, bảo trì, nâng cấp.\n  Ví dụ: The corporate web server urgently needs updating (= needs to be updated).\n\n5. MEAN:\n- MEAN + TO-V: Có ý định, dự tính làm việc gì (= intend to do something).\n  Ví dụ: I did not mean to breach company data confidentiality protocols.\n- MEAN + V-ING: Kéo theo hệ quả, đồng nghĩa với việc, bao hàm việc gì (= involve, entail, result in).\n  Ví dụ: Expanding into the European Union will mean complying strictly with GDPR data privacy directives.",
-    "idiomaticExpressions": "CÁC CỤM THÀNH NGỮ VÀ DIỄN ĐẠT CỐ ĐỊNH KINH ĐIỂN VỚI V-ING:\n\n1. Nhóm 'TO' đóng vai trò là GIỚI TỪ (Preposition) bắt buộc đi với Danh từ / V-ing:\n- look forward to + V-ing: Trông mong, háo hức chờ đợi điều gì.\n- be / get used to + V-ing / be accustomed to + V-ing: Đã quen / dần quen với việc gì (Khác với 'used to + V_bare': đã từng làm gì trong quá khứ nay không còn nữa).\n- be committed to / dedicated to / devoted to + V-ing: Tận tụy, cam kết cống hiến cho việc gì.\n- with a view to / with an eye to + V-ing: Với mục đích, nhằm hướng tới việc gì (= in order to).\n- object to / have an objection to + V-ing: Phản đối việc gì.\n- in addition to / prior to + V-ing: Bên cạnh việc / Trước khi làm việc gì.\n\n2. Cấu trúc cảm thán & Đánh giá mức độ:\n- can't help / can't resist + V-ing: Không thể không làm gì / không thể kìm nén được.\n- can't stand / can't bear + V-ing: Không thể chịu đựng nổi việc gì.\n- It's no use / It's no good + V-ing: Chẳng có ích gì / Vô ích khi làm việc gì.\n- There is no point (in) + V-ing: Không có lý do / mục đích gì khi làm việc gì.\n- be worth + V-ing: Đáng để làm gì (Ví dụ: The proposal is well worth considering).\n\n3. Cấu trúc tiêu tốn & Khó khăn:\n- have difficulty / trouble / a hard time (in) + V-ing: Gặp khó khăn, trở ngại trong việc gì.\n- spend / waste + time / money + (on) + V-ing: Dành / lãng phí thời gian, tiền bạc vào việc gì."
+    "verbsTakingGerund": "NHÓM ĐỘNG TỪ CHỈ KẾT HỢP VỚI V-ING (GERUND-ONLY VERBS):<br/><br/>1. Cấu trúc cốt lõi: S + Verb + V-ing / S + Verb + Possessive (my/his/their...) + V-ing<br/><br/>2. Phân loại theo trường ngữ nghĩa tư duy:<br/>- Nhóm Thừa nhận & Phủ nhận: admit (thừa nhận), deny (phủ nhận).<br/>  Ví dụ: The CFO admitted misallocating company funds during the audit.<br/>- Nhóm Trì hoãn & Né tránh: avoid (tránh), delay (trì hoãn), postpone (hoãn lại), put off (hoãn), evade (trốn tránh).<br/>  Ví dụ: The corporation avoided paying punitive tariffs by restructuring its supply chain.<br/>- Nhóm Cân nhắc & Đề xuất: consider (cân nhắc), suggest (gợi ý), recommend (đề xuất), propose (đề nghị).<br/>  Ví dụ: We are considering expanding our operations into Southeast Asian markets.<br/>- Nhóm Rủi ro & Mạo hiểm: risk (liều lĩnh/chấp nhận rủi ro).<br/>  Ví dụ: The startup risked losing its initial venture capital by missing the deployment deadline.<br/>- Nhóm Trải nghiệm & Cảm xúc thực tế: enjoy (thích thú), appreciate (đánh giá cao/cảm kích), mind (ngại/phiền), fancy (thích thú), tolerate (khoan dung/chịu đựng).<br/>  Ví dụ: I greatly appreciate your assisting us with the compliance review.<br/>- Nhóm Duy trì & Chấm dứt: practice (luyện tập), keep (tiếp tục), resist (kháng cự/nhịn được), quit / give up (từ bỏ).<br/>  Ví dụ: Despite technical difficulties, the engineers kept running simulation stress tests.<br/>- Nhóm Bàn luận & Liên quan: discuss (thảo luận), mention (đề cập), involve (liên quan/đòi hỏi).<br/>  Ví dụ: The restructuring plan involves consolidating regional branch offices.",
+    "verbsTakingInfinitive": "NHÓM ĐỘNG TỪ CHỈ KẾT HỢP VỚI TO-V (INFINITIVE-ONLY VERBS):<br/><br/>1. Cấu trúc 1 (Chủ động hướng đích): S + Verb + TO-V<br/>- Nhóm Ý định, Kế hoạch & Quyết định: decide (quyết định), plan (lên kế hoạch), arrange (thu xếp), intend (có ý định), prepare (chuẩn bị), determine / resolve (quyết tâm).<br/>  Ví dụ: The steering committee decided to launch the enterprise software in November.<br/>- Nhóm Mong đợi, Hy vọng & Hứa hẹn: hope (hy vọng), expect (kỳ vọng), want / wish (mong muốn), promise (hứa), agree (đồng ý), offer (đề nghị giúp), pledge (cam kết).<br/>  Ví dụ: The vendor promised to resolve all server vulnerabilities within 24 hours.<br/>- Nhóm Từ chối, Do dự & Thất bại: refuse (từ chối), decline (khước từ), hesitate (do dự), fail (thất bại/không làm được việc gì).<br/>  Ví dụ: The financial controller refused to sign the unverified expense vouchers.<br/>- Nhóm Năng lực, Nỗ lực & Xu hướng: afford (đủ khả năng chi trả), manage (xoay xở hoàn thành), strive / attempt (nỗ lực), tend (có xu hướng), demand (yêu cầu), claim (tuyên bố).<br/>  Ví dụ: Against all market forecasts, the firm managed to maintain robust profitability.<br/><br/>2. Cấu trúc 2 (Định hướng đối tượng): S + Verb + Object + TO-V<br/>- Bao gồm: advise, allow, enable, encourage, forbid, force, compel, permit, require, remind, request, urge, warn.<br/>  Ví dụ: The new cybersecurity mandate requires all personnel to update two-factor authentication credentials.",
+    "dualMeaningVerbs": "CÁC ĐỘNG TỪ LƯỠNG TÍNH ĐỔI NGHĨA HOÀN TOÀN (DUAL-MEANING VERBS):<br/><br/>1. REMEMBER / FORGET / REGRET:<br/>- + TO-V: Nhớ / Quên / Tiếc PHẢI LÀM GÌ (Hành động hướng tới tương lai, nghĩa vụ hoặc việc chuẩn bị diễn ra).<br/>  + Remember to turn off the air conditioning before leaving the office. (Hãy nhớ tắt điều hòa - việc cần làm).<br/>  + Don't forget to submit the quarterly audit report by Friday. (Đừng quên nộp báo cáo - việc sắp tới).<br/>  + We regret to inform you that your application was unsuccessful. (Chúng tôi rất tiếc phải thông báo - việc chuẩn bị nói ra).<br/>- + V-ING: Nhớ / Quên / Tiếc ĐÃ LÀM GÌ (Hồi tưởng lại một hành động, trải nghiệm đã hoàn tất trong quá khứ).<br/>  + I distinctly remember turning off the server power switch. (Tôi nhớ rõ ràng là đã tắt công tắc rồi).<br/>  + She will never forget meeting the keynote speaker at the summit. (Cô ấy sẽ không bao giờ quên lần đã gặp...).<br/>  + The director regretted approving the risky subprime mortgage investment. (Giám đốc hối tiếc vì đã phê duyệt khoản đầu tư rủi ro).<br/><br/>2. STOP:<br/>- STOP + TO-V: Tạm dừng việc đang làm ĐỂ BẮT ĐẦU một hành động khác (Chỉ mục đích = In order to).<br/>  Ví dụ: After five consecutive hours of debugging, the developers stopped to have lunch.<br/>- STOP + V-ING: Chấm dứt, đình chỉ vĩnh viễn hoặc từ bỏ hẳn một thói quen/hành vi.<br/>  Ví dụ: The pharmaceutical firm stopped producing the drug due to hazardous side effects.<br/><br/>3. TRY:<br/>- TRY + TO-V: Nỗ lực, cố gắng hết sức để vượt qua trở ngại nhằm đạt được kết quả (Đòi hỏi sự gắng sức gian nan).<br/>  Ví dụ: We are trying to negotiate better credit terms with our commercial suppliers.<br/>- TRY + V-ING: Thử nghiệm một phương pháp, giải pháp xem có mang lại hiệu quả hay giải quyết được vấn đề không.<br/>  Ví dụ: If the encrypted file fails to open, try rebooting the operating system in safe mode.<br/><br/>4. NEED:<br/>- S (Chủ ngữ Người) + NEED + TO-V: Thể chủ động - Người nào cần làm việc gì.<br/>  Ví dụ: The chief architect needs to inspect the foundation before construction proceeds.<br/>- S (Chủ ngữ Vật) + NEED + V-ING (= NEED + TO BE V3/ed): Thể bị động - Vật/hệ thống nào cần được sửa chữa, bảo trì, nâng cấp.<br/>  Ví dụ: The corporate web server urgently needs updating (= needs to be updated).<br/><br/>5. MEAN:<br/>- MEAN + TO-V: Có ý định, dự tính làm việc gì (= intend to do something).<br/>  Ví dụ: I did not mean to breach company data confidentiality protocols.<br/>- MEAN + V-ING: Kéo theo hệ quả, đồng nghĩa với việc, bao hàm việc gì (= involve, entail, result in).<br/>  Ví dụ: Expanding into the European Union will mean complying strictly with GDPR data privacy directives.",
+    "idiomaticExpressions": "CÁC CỤM THÀNH NGỮ VÀ DIỄN ĐẠT CỐ ĐỊNH KINH ĐIỂN VỚI V-ING:<br/><br/>1. Nhóm 'TO' đóng vai trò là GIỚI TỪ (Preposition) bắt buộc đi với Danh từ / V-ing:<br/>- look forward to + V-ing: Trông mong, háo hức chờ đợi điều gì.<br/>- be / get used to + V-ing / be accustomed to + V-ing: Đã quen / dần quen với việc gì (Khác với 'used to + V_bare': đã từng làm gì trong quá khứ nay không còn nữa).<br/>- be committed to / dedicated to / devoted to + V-ing: Tận tụy, cam kết cống hiến cho việc gì.<br/>- with a view to / with an eye to + V-ing: Với mục đích, nhằm hướng tới việc gì (= in order to).<br/>- object to / have an objection to + V-ing: Phản đối việc gì.<br/>- in addition to / prior to + V-ing: Bên cạnh việc / Trước khi làm việc gì.<br/><br/>2. Cấu trúc cảm thán & Đánh giá mức độ:<br/>- can't help / can't resist + V-ing: Không thể không làm gì / không thể kìm nén được.<br/>- can't stand / can't bear + V-ing: Không thể chịu đựng nổi việc gì.<br/>- It's no use / It's no good + V-ing: Chẳng có ích gì / Vô ích khi làm việc gì.<br/>- There is no point (in) + V-ing: Không có lý do / mục đích gì khi làm việc gì.<br/>- be worth + V-ing: Đáng để làm gì (Ví dụ: The proposal is well worth considering).<br/><br/>3. Cấu trúc tiêu tốn & Khó khăn:<br/>- have difficulty / trouble / a hard time (in) + V-ing: Gặp khó khăn, trở ngại trong việc gì.<br/>- spend / waste + time / money + (on) + V-ing: Dành / lãng phí thời gian, tiền bạc vào việc gì."
   },
   "commonTraps": [
     {
-      "trap": "Bẫy 1: Nhầm lẫn giới từ 'to' với động từ nguyên mẫu 'To-Infinitive', dẫn đến việc chia V_bare thay vì V-ing",
+      "trap": "<b>Bẫy 1:</b> Nhầm lẫn giới từ 'to' với động từ nguyên mẫu 'To-Infinitive', dẫn đến việc chia V_bare thay vì V-ing",
       "exampleWrong": "The multinational conglomerate is fully committed to reduce carbon emissions and looks forward to collaborate with international agencies.",
       "exampleRight": "The multinational conglomerate is fully committed to reducing carbon emissions and looks forward to collaborating with international agencies.",
       "note": "Thí sinh nhìn thấy chữ 'to' thường phản xạ máy móc chọn ngay động từ nguyên mẫu (V_bare). Tuy nhiên, trong các cụm như 'be committed to', 'look forward to', 'with a view to', 'object to', 'be accustomed to', từ 'to' đóng vai trò là một GIỚI TỪ (Preposition). Theo quy tắc bất biến của ngữ pháp tiếng Anh, sau giới từ bắt buộc phải là một Danh từ hoặc Danh động từ (V-ing)."
     },
     {
-      "trap": "Bẫy 2: Bẫy động từ lưỡng tính (remember / forget / regret / stop / try) nhầm lẫn giữa bổn phận tương lai và trải nghiệm quá khứ",
+      "trap": "<b>Bẫy 2:</b> Bẫy động từ lưỡng tính (remember / forget / regret / stop / try) nhầm lẫn giữa bổn phận tương lai và trải nghiệm quá khứ",
       "exampleWrong": "Please remember emailing the audited quarterly report to the supervisory board before noon tomorrow.",
       "exampleRight": "Please remember to email the audited quarterly report to the supervisory board before noon tomorrow.",
       "note": "Đề thi ETS TOEIC và THPTQG thường cố tình đưa vào các trạng ngữ chỉ thời gian như 'tomorrow', 'before 5 PM' hoặc 'yesterday', 'last month' để thử thách thí sinh. Với 'remember / forget / regret': nếu là nghĩa vụ cần làm trong tương lai thì bắt buộc dùng 'To-V'; chỉ khi nói về ký ức hoặc sự việc đã hoàn thành trong quá khứ mới dùng 'V-ing'. Với 'stop': dừng để làm việc khác dùng 'stop to-V', chấm dứt hẳn dùng 'stop V-ing'."
     },
     {
-      "trap": "Bẫy 3: Cấu trúc bị động đặc biệt với 'Need': Nhầm lẫn giữa 'Need + V-ing' và dạng danh từ hoặc chủ động",
+      "trap": "<b>Bẫy 3:</b> Cấu trúc bị động đặc biệt với 'Need': Nhầm lẫn giữa 'Need + V-ing' và dạng danh từ hoặc chủ động",
       "exampleWrong": "The high-availability production database crashed repeatedly and urgently needs update before tomorrow morning.",
       "exampleRight": "The high-availability production database crashed repeatedly and urgently needs updating (hoặc: needs to be updated) before tomorrow morning.",
       "note": "Khi chủ ngữ là VẬT (vô tri vô giác: machinery, server, report...), động từ 'need' diễn đạt ý nghĩa bị động ('cần được sửa chữa, cập nhật'). Công thức chuẩn mực là: S (vật) + need + V-ING (hoặc: need + to be V3/ed). Thí sinh thường mắc hai lỗi: một là chọn danh từ trơ trọi không có mạo từ ('needs update' - sai ngữ pháp), hai là chọn dạng chủ động 'needs to update' (sai logic bản chất)."
     },
     {
-      "trap": "Bẫy 4: Thể bị động của Động từ sai khiến (make/let) và Động từ giác quan (see/hear/watch)",
+      "trap": "<b>Bẫy 4:</b> Thể bị động của Động từ sai khiến (make/let) và Động từ giác quan (see/hear/watch)",
       "exampleWrong": "During the regulatory antitrust interrogation, the compliance director was made disclose the encrypted server credentials.",
       "exampleRight": "During the regulatory antitrust interrogation, the compliance director was made to disclose the encrypted server credentials.",
       "note": "Ở thể CHỦ ĐỘNG, các động từ sai khiến (make, have, let) và động từ giác quan (see, hear, watch) đi với tân ngữ và động từ nguyên mẫu không 'to' (make someone DO something). Tuy nhiên, khi chuyển sang BỊ ĐỘNG, quy tắc bắt buộc của tiếng Anh là 'TO' PHẢI XUẤT HIỆN TRỞ LẠI: 'be made TO do something', 'be seen TO do something'. Riêng với 'let', dạng bị động thường được thay thế bằng 'be allowed / permitted to do something'."
@@ -41,7 +41,7 @@
       "id": "ex_01",
       "type": "choice",
       "difficulty": 1,
-      "prompt": "The executive steering committee remains steadfastly committed to ________ the enterprise cloud infrastructure to bolster cybersecurity resilience.",
+      "prompt": "The executive steering committee remains steadfastly committed to <u>_______</u> the enterprise cloud infrastructure to bolster cybersecurity resilience.",
       "options": [
         "upgrading",
         "upgrade",
@@ -51,13 +51,13 @@
       "correctAnswer": "upgrading",
       "explanation": {
         "translation": "Ủy ban chỉ đạo điều hành vẫn kiên định cam kết nâng cấp cơ sở hạ tầng đám mây của doanh nghiệp nhằm tăng cường khả năng phục hồi an ninh mạng.",
-        "keySignal": "Cấu trúc cố định 'be committed to' đi với giới từ 'to'.",
+        "keySignal": "Cấu trúc cố định <mark>be committed to</mark> đi với giới từ <mark>to</mark>.",
         "rule": "Giới từ 'to' trong cụm 'be committed to' bắt buộc theo sau bởi Danh động từ (V-ing).",
-        "whyCorrect": "Trong cụm thành ngữ 'be committed to' (cam kết với điều gì), 'to' là giới từ chỉ hướng đích cam kết, không phải to-infinitive. Do đó, động từ theo sau bắt buộc phải ở dạng V-ing: 'upgrading'.",
+        "whyCorrect": "Trong cụm thành ngữ 'be committed to' (cam kết với điều gì), 'to' là giới từ chỉ hướng đích cam kết, không phải to-infinitive. Do đó, động từ theo sau bắt buộc phải ở dạng V-ing: <span style=\"color: #22c55e; font-weight: bold;\">'upgrading'</span>.",
         "distractorBreakdown": {
           "upgrade": "Bẫy ngộ nhận to-infinitive: Thí sinh tưởng nhầm 'to' là dấu hiệu của động từ nguyên mẫu nên chọn động từ nguyên thể không chia (V_bare).",
           "to upgrade": "Thừa từ 'to': Đã có giới từ 'to' trong 'committed to', việc thêm 'to upgrade' tạo ra cấu trúc lặp giới từ vô nghĩa ('to to upgrade').",
-          "upgraded": "Sai ngữ pháp: Quá khứ phân từ hoặc thì quá khứ không thể đứng sau giới từ 'to' trong ngữ cảnh này."
+          "upgraded": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Quá khứ phân từ hoặc thì quá khứ không thể đứng sau giới từ 'to' trong ngữ cảnh này."
         }
       }
     },
@@ -65,7 +65,7 @@
       "id": "ex_02",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "We regret ________ all unsuccessful candidates that due to the high volume of applications, individual interview feedback cannot be provided.",
+      "prompt": "We regret <u>_______</u> all unsuccessful candidates that due to the high volume of applications, individual interview feedback cannot be provided.",
       "options": [
         "to inform",
         "informing",
@@ -75,13 +75,13 @@
       "correctAnswer": "to inform",
       "explanation": {
         "translation": "Chúng tôi rất lấy làm tiếc phải thông báo tới tất cả các ứng viên không trúng tuyển rằng do số lượng hồ sơ quá lớn, phản hồi phỏng vấn cho từng cá nhân không thể được cung cấp.",
-        "keySignal": "Động từ 'regret' dùng trong thông báo tuyển dụng chính thức gửi tới các ứng viên.",
+        "keySignal": "Động từ <mark>regret</mark> dùng trong thông báo tuyển dụng chính thức gửi tới các ứng viên.",
         "rule": "Regret + To-V: Lấy làm tiếc khi phải làm/nói điều gì (sự việc chuẩn bị xảy ra hoặc nghĩa vụ trang trọng); Regret + V-ing: Hối hận vì đã làm việc gì trong quá khứ.",
-        "whyCorrect": "Người nói đang chuẩn bị đưa ra một tin không vui một cách lịch sự, trang trọng ('lấy làm tiếc phải thông báo'). Đây là hành động sắp được thực hiện, do đó phải dùng 'to inform'.",
+        "whyCorrect": "Người nói đang chuẩn bị đưa ra một tin không vui một cách lịch sự, trang trọng ('lấy làm tiếc phải thông báo'). Đây là hành động sắp được thực hiện, do đó phải dùng <span style=\"color: #22c55e; font-weight: bold;\">'to inform'</span>.",
         "distractorBreakdown": {
           "informing": "Bẫy động từ lưỡng tính: 'regret informing' mang nghĩa hối hận vì đã trót thông báo điều gì trong quá khứ, hoàn toàn trái ngược với ngữ cảnh văn thư thông báo lịch sự hiện tại.",
-          "inform": "Sai ngữ pháp: Động từ 'regret' không kết hợp trực tiếp với động từ nguyên mẫu không 'to' (V_bare).",
-          "informed": "Sai cấu trúc: Phân từ hai 'informed' không thể làm tân ngữ trực tiếp cho động từ 'regret' trong cấu trúc này."
+          "inform": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Động từ 'regret' không kết hợp trực tiếp với động từ nguyên mẫu không 'to' (V_bare).",
+          "informed": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Phân từ hai 'informed' không thể làm tân ngữ trực tiếp cho động từ 'regret' trong cấu trúc này."
         }
       }
     },
@@ -89,7 +89,7 @@
       "id": "ex_03",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Due to unprecedented shipping delays in the Panama Canal, the supply chain director recommended ________ the nationwide rollout of the new smart appliances.",
+      "prompt": "Due to unprecedented shipping delays in the Panama Canal, the supply chain director recommended <u>_______</u> the nationwide rollout of the new smart appliances.",
       "options": [
         "postponing",
         "to postpone",
@@ -99,13 +99,13 @@
       "correctAnswer": "postponing",
       "explanation": {
         "translation": "Do sự chậm trễ vận chuyển chưa từng có tại kênh đào Panama, giám đốc chuỗi cung ứng đã đề xuất hoãn việc triển khai ra mắt các thiết bị thông minh mới trên toàn quốc.",
-        "keySignal": "Động từ chính 'recommended' đứng trước tân ngữ chỉ hành động mà không có tân ngữ chỉ người.",
+        "keySignal": "Động từ chính <mark>recommended</mark> đứng trước tân ngữ chỉ hành động mà không có tân ngữ chỉ người.",
         "rule": "Quy tắc động từ chỉ đi với Gerund: recommend + V-ing (khi không có tân ngữ chỉ người đứng giữa).",
-        "whyCorrect": "'Recommend' là một trong những động từ điển hình chỉ đi với V-ing khi đứng trực tiếp sau động từ ('recommend doing something'). Do đó, dạng chính xác duy nhất là 'postponing'.",
+        "whyCorrect": "'Recommend' là một trong những động từ điển hình chỉ đi với V-ing khi đứng trực tiếp sau động từ ('recommend doing something'). Do đó, dạng chính xác duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'postponing'</span>.",
         "distractorBreakdown": {
           "to postpone": "Bẫy dịch xuôi tiếng Việt: Người học thường dịch là 'đề xuất ĐỂ hoãn' nên chọn nhầm to-infinitive. 'Recommend' chỉ đi với 'to-V' khi có cấu trúc 'recommend someone to do something'.",
-          "postpone": "Sai ngữ pháp: 'Recommend' không đi kèm động từ nguyên mẫu không 'to' ở vị trí tân ngữ.",
-          "postponed": "Sai ngữ pháp: Không thể dùng dạng phân từ quá khứ làm tân ngữ trực tiếp cho động từ 'recommend'."
+          "postpone": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: 'Recommend' không đi kèm động từ nguyên mẫu không 'to' ở vị trí tân ngữ.",
+          "postponed": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Không thể dùng dạng phân từ quá khứ làm tân ngữ trực tiếp cho động từ 'recommend'."
         }
       }
     },
@@ -113,7 +113,7 @@
       "id": "ex_04",
       "type": "choice",
       "difficulty": 3,
-      "prompt": "Under intense scrutiny from the federal antitrust committee, the chief executive officer was made ________ all unredacted transcripts of the clandestine price-fixing meetings.",
+      "prompt": "Under intense scrutiny from the federal antitrust committee, the chief executive officer was made <u>_______</u> all unredacted transcripts of the clandestine price-fixing meetings.",
       "options": [
         "to produce",
         "produce",
@@ -123,12 +123,12 @@
       "correctAnswer": "to produce",
       "explanation": {
         "translation": "Dưới sự giám sát gắt gao từ ủy ban chống độc quyền liên bang, tổng giám đốc điều hành đã bị buộc phải giao nộp toàn bộ bản ghi chép chưa chỉnh sửa của các cuộc họp ngầm nhằm ấn định giá.",
-        "keySignal": "Cấu trúc bị động của động từ sai khiến: 'was made'.",
+        "keySignal": "Cấu trúc bị động của động từ sai khiến: <mark>was made</mark>.",
         "rule": "Thể bị động của động từ sai khiến Make: S + be made + TO-V (buộc phải làm việc gì).",
-        "whyCorrect": "Ở thể chủ động, cấu trúc là 'make someone do something' (V_bare). Tuy nhiên, khi chuyển sang thể bị động, tiếng Anh bắt buộc phải khôi phục giới từ 'to': 'be made to do something'. Vì vậy, phương án đúng duy nhất là 'to produce'.",
+        "whyCorrect": "Ở thể chủ động, cấu trúc là 'make someone do something' (V_bare). Tuy nhiên, khi chuyển sang thể bị động, tiếng Anh bắt buộc phải khôi phục giới từ 'to': 'be made to do something'. Vì vậy, phương án đúng duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'to produce'</span>.",
         "distractorBreakdown": {
           "produce": "Bẫy thể chủ động: Người học nhớ máy móc 'make + V_bare' mà quên mất rằng khi chuyển sang bị động ('was made'), động từ bắt buộc phải có 'to'.",
-          "producing": "Sai cấu trúc: Động từ 'make' không đi kèm V-ing dù ở thể chủ động hay bị động.",
+          "producing": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Động từ 'make' không đi kèm V-ing dù ở thể chủ động hay bị động.",
           "produced": "Lỗi ngữ pháp: Đã có trợ động từ to be 'was' và phân từ 'made', không thể tiếp tục đặt thêm một phân từ 'produced' liền kề mà không có liên từ."
         }
       }
@@ -137,7 +137,7 @@
       "id": "ex_05",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Before the offshore drilling platform can resume operations, several structural support cables urgently need ________ by certified marine inspectors.",
+      "prompt": "Before the offshore drilling platform can resume operations, several structural support cables urgently need <u>_______</u> by certified marine inspectors.",
       "options": [
         "replacing",
         "to replace",
@@ -147,12 +147,12 @@
       "correctAnswer": "replacing",
       "explanation": {
         "translation": "Trước khi giàn khoan ngoài khơi có thể tiếp tục hoạt động, một số dây cáp hỗ trợ kết cấu cần phải được thay thế khẩn cấp bởi các thanh tra viên hàng hải được cấp chứng chỉ.",
-        "keySignal": "Chủ ngữ là danh từ chỉ vật vô tri 'several structural support cables' đi liền với động từ 'need' và tác nhân 'by certified marine inspectors'.",
+        "keySignal": "Chủ ngữ là danh từ chỉ vật vô tri <mark>several structural support cables</mark> đi liền với động từ <mark>need</mark> và tác nhân <mark>by certified marine inspectors</mark>.",
         "rule": "Bị động đặc biệt với Need: S (vật) + need + V-ING (= need + to be V3/ed).",
-        "whyCorrect": "Chủ ngữ là các dây cáp ('cables' - sự vật), mang ý nghĩa bị động ('cần được thay thế'). Trong tiếng Anh, cấu trúc tương đương chuẩn mực của 'need to be replaced' chính là 'need replacing'. Do đó 'replacing' là đáp án chính xác.",
+        "whyCorrect": "Chủ ngữ là các dây cáp ('cables' - sự vật), mang ý nghĩa bị động ('cần được thay thế'). Trong tiếng Anh, cấu trúc tương đương chuẩn mực của 'need to be replaced' chính là 'need replacing'. Do đó <span style=\"color: #22c55e; font-weight: bold;\">'replacing'</span> là đáp án chính xác.",
         "distractorBreakdown": {
           "to replace": "Bẫy thể chủ động: Dùng 'to replace' biến câu thành nghĩa chủ động (dây cáp tự thay thế ai đó), hoàn toàn sai lệch về mặt ngữ nghĩa và mâu thuẫn với cụm tác nhân 'by certified marine inspectors'.",
-          "replace": "Sai ngữ pháp: Động từ 'need' không đi trực tiếp với động từ nguyên mẫu không 'to'.",
+          "replace": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Động từ 'need' không đi trực tiếp với động từ nguyên mẫu không 'to'.",
           "replaced": "Bẫy giản lược sai: 'need replaced' là cách nói khẩu ngữ địa phương không chuẩn mực, hoàn toàn bị coi là sai trong các kỳ thi chuẩn hóa quốc tế (TOEIC/IELTS)."
         }
       }
@@ -171,13 +171,13 @@
       "correctAnswer": "C",
       "explanation": {
         "translation": "Quỹ tài sản quốc gia đã mua lại lượng cổ phần lớn tại doanh nghiệp năng lượng tái tạo nhằm mục đích đẩy nhanh quá trình chuyển đổi xanh trên khắp các thị trường châu Âu.",
-        "keySignal": "Cụm thành ngữ chỉ mục đích 'with a view to' ở vị trí [C].",
+        "keySignal": "Cụm thành ngữ chỉ mục đích <mark>with a view to</mark> ở vị trí [C].",
         "rule": "With a view to + V-ing: Cụm từ cố định mang nghĩa 'nhằm mục đích làm gì', trong đó 'to' là giới từ.",
         "whyCorrect": "Vị trí [C] sai vì sau cụm giới từ 'with a view to', động từ bắt buộc phải ở dạng Danh động từ (V-ing). Phải sửa 'with a view to accelerate' thành 'with a view to accelerating'.",
         "distractorBreakdown": {
-          "A (sovereign wealth fund)": "Đúng ngữ pháp: Cụm danh từ chuẩn xác trong lĩnh vực tài chính mang nghĩa quỹ tài sản quốc gia.",
-          "B (acquired a major stake)": "Đúng ngữ pháp: Collocation kinh doanh chuẩn xác ở thì Quá khứ đơn mang nghĩa mua lại lượng cổ phần lớn.",
-          "D (across European markets)": "Đúng ngữ pháp: Cụm giới từ chỉ phạm vi địa lý chuẩn xác đi với danh từ số nhiều."
+          "A (sovereign wealth fund)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ chuẩn xác trong lĩnh vực tài chính mang nghĩa quỹ tài sản quốc gia.",
+          "B (acquired a major stake)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Collocation kinh doanh chuẩn xác ở thì Quá khứ đơn mang nghĩa mua lại lượng cổ phần lớn.",
+          "D (across European markets)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ phạm vi địa lý chuẩn xác đi với danh từ số nhiều."
         }
       }
     },
@@ -195,13 +195,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Để phản hồi lại làn sóng phản đối dữ dội của công chúng về việc ô nhiễm đất, nhà máy hóa chất đã dừng hẳn việc xả thải chất độc công nghiệp vào mạng lưới thoát nước đô thị một cách vĩnh viễn.",
-        "keySignal": "Động từ 'stopped' kết hợp với trạng từ chỉ mức độ triệt để 'permanently' (vĩnh viễn) ở vị trí [D].",
+        "keySignal": "Động từ <mark>stopped</mark> kết hợp với trạng từ chỉ mức độ triệt để <mark>permanently</mark> (vĩnh viễn) ở vị trí [D].",
         "rule": "Stop + V-ing: Chấm dứt hoàn toàn một hành vi/thói quen; Stop + To-V: Tạm dừng việc đang làm để làm việc khác.",
         "whyCorrect": "Vị trí [B] sai về mặt bản chất ngữ nghĩa. Ngữ cảnh nêu rõ nhà máy chấm dứt hẳn hành vi xả thải độc hại ('permanently'), do đó bắt buộc phải dùng 'stopped discharging'. Dùng 'stopped to discharge' sẽ mang nghĩa phi lý: 'nhà máy dừng việc đang làm lại để bắt đầu xả chất độc'.",
         "distractorBreakdown": {
-          "A (In response to)": "Đúng ngữ pháp: Cụm giới từ chỉ phản ứng/hồi đáp lại một sự việc, theo sau là cụm danh từ 'public outcry'.",
-          "C (into the municipal drainage network)": "Đúng ngữ pháp: Cụm giới từ chỉ hướng chuyển động của chất lỏng vào mạng lưới thoát nước.",
-          "D (permanently)": "Đúng ngữ pháp: Phó từ chỉ phương thức bổ nghĩa cho hành vi chấm dứt hoàn toàn."
+          "A (In response to)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ phản ứng/hồi đáp lại một sự việc, theo sau là cụm danh từ 'public outcry'.",
+          "C (into the municipal drainage network)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ hướng chuyển động của chất lỏng vào mạng lưới thoát nước.",
+          "D (permanently)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Phó từ chỉ phương thức bổ nghĩa cho hành vi chấm dứt hoàn toàn."
         }
       }
     },
@@ -219,13 +219,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Mặc dù phải chịu sự sụt giảm doanh thu đáng kể trong thời kỳ suy thoái, tập đoàn đa quốc gia ngành logistics vẫn xoay xở duy trì được toàn bộ lực lượng lao động tuyến đầu mà không phải thực hiện các đợt sa thải nghiêm trọng.",
-        "keySignal": "Động từ chính 'managed' ở vị trí [B].",
+        "keySignal": "Động từ chính <mark>managed</mark> ở vị trí [B].",
         "rule": "Manage + TO-V: Xoay xở, thành công trong việc nỗ lực thực hiện một việc khó khăn.",
         "whyCorrect": "Vị trí [B] sai vì động từ 'manage' chỉ kết hợp với động từ nguyên mẫu có 'to' (manage to do something), tuyệt đối không đi trực tiếp với V-ing. Phải sửa 'maintaining' thành 'to maintain'.",
         "distractorBreakdown": {
-          "A (Despite suffering)": "Đúng ngữ pháp: 'Despite' là giới từ chỉ sự tương phản, đi kèm Danh động từ 'suffering' hoàn toàn chính xác.",
-          "C (without)": "Đúng ngữ pháp: Giới từ mang nghĩa phủ định 'mà không', đi liền sau là Danh động từ 'implementing'.",
-          "D (severe layoffs)": "Đúng ngữ pháp: Cụm danh từ chỉ các đợt cắt giảm nhân sự nghiêm trọng."
+          "A (Despite suffering)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: 'Despite' là giới từ chỉ sự tương phản, đi kèm Danh động từ 'suffering' hoàn toàn chính xác.",
+          "C (without)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Giới từ mang nghĩa phủ định 'mà không', đi liền sau là Danh động từ 'implementing'.",
+          "D (severe layoffs)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ chỉ các đợt cắt giảm nhân sự nghiêm trọng."
         }
       }
     },
@@ -243,13 +243,13 @@
       "correctAnswer": "A",
       "explanation": {
         "translation": "Trong phiên điều trần tuân thủ quy định, cựu kế toán trưởng đã bị nhìn thấy đang tiêu hủy các dấu vết kiểm toán mật ngay sau khi trát hầu tòa của liên bang được tống đạt chính thức tới trụ sở tập đoàn.",
-        "keySignal": "Thể bị động của động từ giác quan: 'was seen' ở vị trí [A].",
+        "keySignal": "Thể bị động của động từ giác quan: <mark>was seen</mark> ở vị trí [A].",
         "rule": "Bị động của Động từ giác quan (see/hear/watch): S + be seen + TO-V (chứng kiến toàn bộ) hoặc + V-ING (chứng kiến khoảnh khắc hành động đang diễn ra).",
         "whyCorrect": "Vị trí [A] sai vì ở thể bị động của động từ giác quan, động từ theo sau KHÔNG BAO GIỜ được ở dạng nguyên mẫu không 'to' (shred). Bắt buộc phải chuyển thành 'to shred' (nếu chứng kiến toàn bộ sự việc) hoặc 'shredding' (nếu chứng kiến hành vi đang diễn ra dang dở). Phải sửa 'shred' thành 'to shred' hoặc 'shredding'.",
         "distractorBreakdown": {
-          "B (shortly after)": "Đúng ngữ pháp: Cụm liên từ thời gian chuẩn xác mang nghĩa 'ngay sau khi'.",
-          "C (had been officially served)": "Đúng ngữ pháp: Thì Quá khứ hoàn thành ở thể bị động, diễn tả hành động tống đạt trát hầu tòa xảy ra trước thời điểm bị bắt gặp tiêu hủy tài liệu.",
-          "D (on the corporate headquarters)": "Đúng ngữ pháp: Cụm giới từ chuẩn xác trong thuật ngữ pháp lý 'serve a subpoena on someone/something'."
+          "B (shortly after)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm liên từ thời gian chuẩn xác mang nghĩa 'ngay sau khi'.",
+          "C (had been officially served)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Thì Quá khứ hoàn thành ở thể bị động, diễn tả hành động tống đạt trát hầu tòa xảy ra trước thời điểm bị bắt gặp tiêu hủy tài liệu.",
+          "D (on the corporate headquarters)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chuẩn xác trong thuật ngữ pháp lý 'serve a subpoena on someone/something'."
         }
       }
     },
@@ -267,13 +267,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Vừa mới di chuyển sang hạ tầng gốc đám mây gần đây, các lập trình viên backend sơ cấp của chúng tôi vẫn chưa quen với việc triển khai các đường ống container tự động mà không có sự can thiệp thủ công từ các kỹ sư DevOps cao cấp.",
-        "keySignal": "Cấu trúc 'be not used to' ở vị trí [B].",
+        "keySignal": "Cấu trúc <mark>be not used to</mark> ở vị trí [B].",
         "rule": "Be used to + V-ing: Đã quen với việc gì (trong đó 'to' là giới từ); phân biệt với 'used to + V_bare': đã từng làm gì trong quá khứ.",
         "whyCorrect": "Vị trí [B] sai do nhầm lẫn giữa hai cấu trúc 'used to'. Ở đây có động từ to be 'are ... used to' mang nghĩa 'chưa quen với việc gì', từ 'to' là giới từ nên động từ đi liền sau phải ở dạng V-ing. Phải sửa 'deploy' thành 'deploying'.",
         "distractorBreakdown": {
-          "A (Having recently migrated)": "Đúng ngữ pháp: Phân từ hoàn thành (Perfect Participle) đứng đầu câu nhấn mạnh hành động di chuyển lên đám mây đã hoàn tất trước đó.",
-          "C (without manual intervention)": "Đúng ngữ pháp: Cụm giới từ chỉ cách thức 'mà không có sự can thiệp thủ công'.",
-          "D (from senior DevOps engineers)": "Đúng ngữ pháp: Cụm giới từ chỉ nguồn gốc/tác nhân can thiệp."
+          "A (Having recently migrated)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Phân từ hoàn thành (Perfect Participle) đứng đầu câu nhấn mạnh hành động di chuyển lên đám mây đã hoàn tất trước đó.",
+          "C (without manual intervention)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ cách thức 'mà không có sự can thiệp thủ công'.",
+          "D (from senior DevOps engineers)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ nguồn gốc/tác nhân can thiệp."
         }
       }
     },
@@ -281,19 +281,19 @@
       "id": "ex_11",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "The municipal transport authority is actively considering ________ (expand) the light rail transit network into the southern industrial suburbs.",
+      "prompt": "The municipal transport authority is actively considering <u>_______</u> (expand) the light rail transit network into the southern industrial suburbs.",
       "options": [],
       "correctAnswer": "expanding",
       "explanation": {
         "translation": "Cơ quan quản lý giao thông đô thị đang tích cực cân nhắc mở rộng mạng lưới đường sắt đô thị hạng nhẹ vào các khu ngoại ô công nghiệp phía nam.",
-        "keySignal": "Động từ 'considering' đứng trước hành động được xem xét.",
+        "keySignal": "Động từ <mark>considering</mark> đứng trước hành động được xem xét.",
         "rule": "Quy tắc động từ đi với Gerund: consider + V-ing (cân nhắc làm việc gì).",
-        "whyCorrect": "'Consider' là động từ thuộc nhóm chỉ kết hợp với V-ing khi đề cập đến một hành động/phương án đang được cân nhắc. Do đó, động từ 'expand' phải chia thành 'expanding'.",
+        "whyCorrect": "'Consider' là động từ thuộc nhóm chỉ kết hợp với V-ing khi đề cập đến một hành động/phương án đang được cân nhắc. Do đó, động từ 'expand' phải chia thành <span style=\"color: #22c55e; font-weight: bold;\">'expanding'</span>.",
         "distractorBreakdown": {
           "to expand": "Bẫy to-infinitive: Thí sinh quen dịch là 'cân nhắc để mở rộng' nên dùng nhầm 'to-V', vi phạm quy tắc bắt buộc của động từ 'consider'.",
-          "expand": "Sai ngữ pháp: Không thể để động từ ở dạng nguyên thể không chia sau 'consider'.",
-          "expansion": "Sai từ loại và cấu trúc: Dù 'expansion' là danh từ, nhưng phía sau có tân ngữ trực tiếp 'the light rail transit network' nên bắt buộc phải dùng Danh động từ (Gerund) để mang theo tân ngữ.",
-          "expanded": "Sai ngữ pháp: Không dùng phân từ hai sau động từ 'consider' khi diễn đạt hành động chủ động."
+          "expand": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Không thể để động từ ở dạng nguyên thể không chia sau 'consider'.",
+          "expansion": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> từ loại và cấu trúc: Dù 'expansion' là danh từ, nhưng phía sau có tân ngữ trực tiếp 'the light rail transit network' nên bắt buộc phải dùng Danh động từ (Gerund) để mang theo tân ngữ.",
+          "expanded": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Không dùng phân từ hai sau động từ 'consider' khi diễn đạt hành động chủ động."
         }
       }
     },
@@ -301,19 +301,19 @@
       "id": "ex_12",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Before leaving the high-security facility tonight, all laboratory technicians must remember ________ (calibrate) the thermal sensors for tomorrow's experiment.",
+      "prompt": "Before leaving the high-security facility tonight, all laboratory technicians must remember <u>_______</u> (calibrate) the thermal sensors for tomorrow's experiment.",
       "options": [],
       "correctAnswer": "to calibrate",
       "explanation": {
         "translation": "Trước khi rời khỏi cơ sở bảo mật cao tối nay, tất cả các kỹ thuật viên phòng thí nghiệm phải nhớ hiệu chuẩn các cảm biến nhiệt cho thí nghiệm ngày mai.",
-        "keySignal": "Thời điểm thực hiện hành động được định vị ở tương lai: 'tonight', 'for tomorrow's experiment'.",
+        "keySignal": "Thời điểm thực hiện hành động được định vị ở tương lai: <mark>tonight</mark>, 'for tomorrow's experiment'.",
         "rule": "Remember + TO-V: Nhớ phải thực hiện một nhiệm vụ, bổn phận chưa hoàn thành trong tương lai.",
         "whyCorrect": "Câu diễn tả một lời nhắc nhở thực hiện nhiệm vụ trước khi ra về ('phải nhớ hiệu chuẩn'). Vì đây là hành động cần làm trong tương lai, công thức bắt buộc là 'remember to calibrate'.",
         "distractorBreakdown": {
           "calibrating": "Bẫy động từ lưỡng tính: 'remember calibrating' diễn tả ký ức nhớ lại một việc đã làm xong trong quá khứ, mâu thuẫn hoàn toàn với ngữ cảnh nhắc nhở công việc chuẩn bị cho ngày mai ('tonight ... tomorrow').",
-          "calibrate": "Sai ngữ pháp: 'Remember' không kết hợp trực tiếp với động từ nguyên mẫu không 'to'.",
-          "to be calibrated": "Sai thể: Chủ ngữ là 'technicians' (người) chủ động thực hiện hành động hiệu chuẩn thiết bị, không chia ở thể bị động.",
-          "calibrated": "Sai ngữ pháp: Phân từ hai không thể làm tân ngữ trực tiếp cho động từ 'remember'."
+          "calibrate": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: 'Remember' không kết hợp trực tiếp với động từ nguyên mẫu không 'to'.",
+          "to be calibrated": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thể: Chủ ngữ là 'technicians' (người) chủ động thực hiện hành động hiệu chuẩn thiết bị, không chia ở thể bị động.",
+          "calibrated": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Phân từ hai không thể làm tân ngữ trực tiếp cho động từ 'remember'."
         }
       }
     },
@@ -321,7 +321,7 @@
       "id": "ex_13",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "When the automated pipeline failed to establish a secure database handshake, the network engineers tried ________ (clear) the encrypted SSL session cache.",
+      "prompt": "When the automated pipeline failed to establish a secure database handshake, the network engineers tried <u>_______</u> (clear) the encrypted SSL session cache.",
       "options": [],
       "correctAnswer": "clearing",
       "explanation": {
@@ -331,9 +331,9 @@
         "whyCorrect": "Trong tình huống khắc phục sự cố máy chủ, hành động \"xóa bộ nhớ đệm\" là một giải pháp thử nghiệm nhằm giải quyết lỗi kết nối. Theo chuẩn bản ngữ, cấu trúc thử nghiệm phương án là \"try + V-ing\" (\"clearing\"). Dùng \"tried to clear\" sẽ mang nghĩa họ gặp khó khăn vật lý không thể xóa nổi bộ nhớ đệm, không phù hợp với tư duy xử lý sự cố.",
         "distractorBreakdown": {
           "to clear": "Bẫy động từ lưỡng tính: \"try to clear\" ám chỉ sự gắng sức gian nan để thực hiện hành động xóa, không phản ánh đúng ý đồ \"thử nghiệm một biện pháp kỹ thuật\" (try doing something).",
-          "clear": "Sai ngữ pháp: Động từ \"try\" không đi kèm động từ nguyên mẫu không \"to\".",
-          "cleared": "Sai ngữ pháp: Phân từ hai không thể đứng sau động từ \"try\" ở vị trí tân ngữ hành động.",
-          "clearing to": "Sai cấu trúc cú pháp hoàn toàn."
+          "clear": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Động từ \"try\" không đi kèm động từ nguyên mẫu không \"to\".",
+          "cleared": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Phân từ hai không thể đứng sau động từ \"try\" ở vị trí tân ngữ hành động.",
+          "clearing to": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc cú pháp hoàn toàn."
         }
       }
     },
@@ -341,19 +341,19 @@
       "id": "ex_14",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "Transitioning our entire product architecture to a distributed microservices framework will inevitably mean ________ (overhaul) our existing automated deployment pipelines.",
+      "prompt": "Transitioning our entire product architecture to a distributed microservices framework will inevitably mean <u>_______</u> (overhaul) our existing automated deployment pipelines.",
       "options": [],
       "correctAnswer": "overhauling",
       "explanation": {
         "translation": "Việc chuyển đổi toàn bộ kiến trúc sản phẩm sang mô hình vi dịch vụ phân tán chắc chắn sẽ đồng nghĩa với việc đại tu toàn bộ các đường ống triển khai tự động hiện có của chúng ta.",
-        "keySignal": "Chủ ngữ là hành động 'Transitioning...' đi với động từ 'mean' diễn đạt hệ quả/kết quả tất yếu.",
+        "keySignal": "Chủ ngữ là hành động <mark>Transitioning...</mark> đi với động từ <mark>mean</mark> diễn đạt hệ quả/kết quả tất yếu.",
         "rule": "Mean + V-ing: Đồng nghĩa với việc, kéo theo hệ quả là... (Mean + To-V: Có ý định, dự tính làm gì).",
-        "whyCorrect": "Chủ ngữ là một tiến trình chuyển đổi công nghệ, và động từ 'mean' ở đây mang nghĩa kéo theo hệ quả tất yếu (= entail, involve). Do đó, động từ 'overhaul' bắt buộc phải chia ở dạng Danh động từ: 'overhauling'.",
+        "whyCorrect": "Chủ ngữ là một tiến trình chuyển đổi công nghệ, và động từ 'mean' ở đây mang nghĩa kéo theo hệ quả tất yếu (= entail, involve). Do đó, động từ 'overhaul' bắt buộc phải chia ở dạng Danh động từ: <span style=\"color: #22c55e; font-weight: bold;\">'overhauling'</span>.",
         "distractorBreakdown": {
           "to overhaul": "Bẫy ý định: 'mean to-V' chỉ dùng khi chủ ngữ là con người thể hiện ý định/dự tính ('I meant to call you'). Ở đây chủ ngữ là sự việc công nghệ ('Transitioning...'), không thể có 'ý định' mà chỉ tạo ra 'hệ quả'.",
-          "overhaul": "Sai ngữ pháp: Không thể để động từ nguyên mẫu không 'to' đứng sau động từ 'mean'.",
-          "overhauled": "Sai ngữ pháp: Không dùng phân từ quá khứ làm tân ngữ trực tiếp cho động từ 'mean'.",
-          "an overhaul to": "Sai yêu cầu: Yêu cầu của bài là chia dạng đúng của động từ trong ngoặc (overhaul), không tự ý chèn mạo từ và giới từ."
+          "overhaul": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Không thể để động từ nguyên mẫu không 'to' đứng sau động từ 'mean'.",
+          "overhauled": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Không dùng phân từ quá khứ làm tân ngữ trực tiếp cho động từ 'mean'.",
+          "an overhaul to": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> yêu cầu: Yêu cầu của bài là chia dạng đúng của động từ trong ngoặc (overhaul), không tự ý chèn mạo từ và giới từ."
         }
       }
     },
@@ -361,7 +361,7 @@
       "id": "ex_15",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Several institutional shareholders strongly objected to ________ (dilute) their equity holdings through the proposed issuance of convertible debt notes.",
+      "prompt": "Several institutional shareholders strongly objected to <u>_______</u> (dilute) their equity holdings through the proposed issuance of convertible debt notes.",
       "options": [],
       "correctAnswer": "diluting",
       "explanation": {
@@ -373,7 +373,7 @@
           "dilute": "Bẫy ngộ nhận to-infinitive: Thí sinh thấy chữ \"to\" liền chia động từ nguyên mẫu \"dilute\", quên mất \"to\" ở đây là giới từ.",
           "to dilute": "Lỗi lặp giới từ: Đã có \"to\" trong \"objected to\", nếu điền \"to dilute\" sẽ thành \"objected to to dilute\".",
           "dilution": "Bẫy danh từ trơ: Mặc dù \"dilution\" là danh từ, nhưng phía sau có cụm tân ngữ trực tiếp \"their equity holdings\" nên bắt buộc phải dùng Danh động từ (Gerund) mới có thể chi phối tân ngữ này.",
-          "diluted": "Sai ngữ pháp: Quá khứ phân từ không thể làm tân ngữ trực tiếp sau giới từ \"to\" trong cấu trúc này."
+          "diluted": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Quá khứ phân từ không thể làm tân ngữ trực tiếp sau giới từ \"to\" trong cấu trúc này."
         }
       }
     }

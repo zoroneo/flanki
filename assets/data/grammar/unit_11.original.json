@@ -1,0 +1,375 @@
+{
+  "unitId": "unit-11-relative-clauses",
+  "title": "Unit 11: Relative Clauses & Reduced Relative Clauses (Mệnh đề quan hệ & Rút gọn mệnh đề quan hệ)",
+  "category": "clauses",
+  "level": 2,
+  "coreConcept": "Tư duy bản xứ về Mệnh đề quan hệ (Relative Clauses) và Rút gọn mệnh đề quan hệ (Reduced Relative Clauses) được xây dựng dựa trên bốn trụ cột ngữ nghĩa và cú pháp nền tảng:\n\n1. Bản chất bản ngữ của Defining (Mệnh đề xác định) vs Non-defining (Mệnh đề không xác định):\n- Mệnh đề quan hệ xác định (Defining / Restrictive Clause): Đóng vai trò cung cấp 'thông tin định danh cốt lõi' (essential defining identity). Nếu lược bỏ mệnh đề này, danh từ đi trước sẽ mất đi tính cá biệt, khiến người nghe/người đọc không thể biết chính xác đối tượng được nhắc đến là ai hoặc cái gì. Vì liên kết hữu cơ trực tiếp với danh từ, loại mệnh đề này KHÔNG dùng dấu phẩy, ĐƯỢC PHÉP dùng 'that' thay cho 'who/which', và ĐƯỢC PHÉP lược bỏ đại từ quan hệ khi nó đóng vai trò tân ngữ.\n- Mệnh đề quan hệ không xác định (Non-defining / Non-restrictive Clause): Danh từ đi trước vốn đã được xác định hoàn toàn và duy nhất về mặt ngữ cảnh (là danh từ riêng, có tính từ sở hữu 'my/our/their', có đại từ chỉ định 'this/that/these/those', hoặc là đối tượng độc nhất như 'the sun', 'the CEO'). Mệnh đề này chỉ mang tính chất 'chú thích bổ sung ngoài lề' (parenthetical extra info). Về ngữ điệu, người bản xứ hạ giọng và ngắt quãng; về chữ viết, bắt buộc phải kẹp giữa hai dấu phẩy (hoặc một dấu phẩy nếu đứng cuối câu). Vì chỉ là thông tin phụ trợ, TUYỆT ĐỐI KHÔNG dùng 'that' (bởi 'that' trong tiềm thức người bản xứ mang tính gắn kết định danh thiết yếu) và TUYỆT ĐỐI KHÔNG được lược bỏ đại từ quan hệ (để tránh gây đứt gãy cú pháp câu chính).\n\n2. Mệnh đề quan hệ quy chiếu toàn câu (Sentential Relative Clause với ', which'):\n- Thay vì bổ nghĩa cho một danh từ riêng lẻ đứng ngay trước nó, người bản xứ dùng cụm ', which' để đại diện và đưa ra lời bình luận, nhận xét (commentary / result) cho TOÀN BỘ Ý NIỆM HOẶC HÀNH ĐỘNG của cả mệnh đề phía trước.\n- Dấu hiệu đặc trưng: Luôn có dấu phẩy đứng trước (', which') và động từ theo sau luôn chia ở ngôi thứ 3 số ít (singular verb) vì sự việc/ý niệm phía trước được quy về một đơn vị hành động duy nhất.\n\n3. Giới từ đi kèm Đại từ quan hệ (Preposition + Relative Pronoun):\n- Trong văn phong học thuật, pháp lý và thương mại chuyên nghiệp (Formal / Professional Register), người bản ngữ di chuyển giới từ lên đầu mệnh đề quan hệ (fronting preposition) tạo thành cấu trúc: 'prep + whom' (cho người), 'prep + which' (cho vật), 'prep + whose + noun' (chỉ quan hệ sở hữu).\n- Quy tắc cấm kỵ: Tuyệt đối KHÔNG đặt giới từ trước 'that' (in that = bởi vì, là liên từ phụ thuộc chứ không phải MĐQH) hoặc trước 'who' (to who -> SAI, bắt buộc phải là to whom).\n- Khi kết hợp với các từ chỉ số lượng / tỷ lệ / phân số: 'quantifier + of which / of whom' (ví dụ: two of which, all of whom, neither of which...). Cần phân biệt rõ: 'all of whom' giữ chức năng nối hai mệnh đề bằng dấu phẩy; nếu dùng 'all of them' thì bắt buộc phải có liên từ liên kết 'and' (hoặc tách câu bằng dấu chấm).\n\n4. Phân biệt triệt để 'Where' vs 'Which':\n- 'Where' là TRẠNG TỪ quan hệ chỉ nơi chốn (Relative Adverb), bản chất ngữ nghĩa tương đương 'in / at / on / to which'. Vì 'where' chỉ đóng vai trò trạng ngữ bổ sung không gian, mệnh đề đi sau nó PHẢI LÀ MỘT MỆNH ĐỀ HOÀN CHỈNH (đầy đủ Chủ ngữ - Động từ - Tân ngữ, S-V-O).\n- 'Which' là ĐẠI TỪ quan hệ (Relative Pronoun). Bản thân 'which' trực tiếp ĐÓNG VAI TRÒ làm Chủ ngữ (S) hoặc Tân ngữ (O) trong mệnh đề quan hệ. Do đó, mệnh đề đi sau 'which' BỊ KHUYẾT Chủ ngữ hoặc khuyết Tân ngữ.\n- Phép thử tư duy bản ngữ: Ngay cả khi danh từ đứng trước là một địa điểm (laboratory, factory, city...), nhưng nếu động từ phía sau là một ngoại động từ chưa có tân ngữ (ví dụ: inspect, visit, acquire, lease...), ta BẮT BUỘC dùng 'which', tuyệt đối không được dùng 'where'.",
+  "formulas": {
+    "relativePronounsAndAdverbs": "BẢNG QUY TẮC ĐẠI TỪ VÀ TRẠNG TỪ QUAN HỆ:\n\n1. Phân loại theo Chức năng Cú pháp:\n- Who: Thay cho danh từ chỉ người; làm Chủ ngữ (S) hoặc Tân ngữ (O) trong MĐQH.\n- Whom: Thay cho danh từ chỉ người; CHỈ làm Tân ngữ (O) trong MĐQH (Văn phong trang trọng; bắt buộc sau giới từ).\n- Which: Thay cho danh từ chỉ vật / động vật / sự việc; làm Chủ ngữ (S) hoặc Tân ngữ (O).\n- That: Thay cho cả người và vật; CHỈ dùng trong Mệnh đề xác định (Defining Clause). CẤM DÙNG sau dấu phẩy hoặc sau giới từ. Bắt buộc/ưu tiên dùng sau các tiền từ bất định (everything, anything, all, none, little, much) và sau tính từ so sánh nhất.\n- Whose: Thay cho tính từ sở hữu / sở hữu cách của cả người và vật. Cấu trúc: ... N (người/vật) + WHOSE + N (vật sở hữu - không có mạo từ the/a/an) + V...\n- Where (= in/at/on which): Trạng từ chỉ nơi chốn + Mệnh đề hoàn chỉnh (S + V + O).\n- When (= in/on/at which): Trạng từ chỉ thời gian + Mệnh đề hoàn chỉnh (S + V).\n- Why (= for which): Trạng từ chỉ lý do sau cụm 'the reason' + Mệnh đề hoàn chỉnh (S + V).\n\n2. Quy tắc Lược bỏ Đại từ quan hệ (Omission of Relative Pronouns):\n- Đại từ quan hệ (who, whom, which, that) ĐƯỢC PHÉP LƯỢC BỎ khi và chỉ khi thỏa mãn đồng thời 2 điều kiện:\n  (1) Nó đóng vai trò làm TÂN NGỮ trong MĐQH (phía sau có ngay S + V).\n  (2) Nằm trong Mệnh đề xác định (KHÔNG có dấu phẩy) và KHÔNG có giới từ đứng trực tiếp phía trước.",
+    "prepositionsWithRelativePronouns": "QUY TẮC GIỚI TỪ ĐI KÈM ĐẠI TỪ QUAN HỆ:\n\n1. Cấu trúc Giới từ đảo lên trước (Fronted Prepositions):\n- Với người: Prep + WHOM (ví dụ: the executive to whom we presented the proposal).\n- Với vật: Prep + WHICH (ví dụ: the contractual clause under which penalties apply).\n- Với sở hữu: Prep + WHOSE + Noun (ví dụ: the director with whose permission we entered).\n- Cấm kỵ tuyệt đối: KHÔNG BAO GIỜ viết 'prep + who' hoặc 'prep + that'.\n\n2. Cấu trúc Định lượng (Quantifiers + of which / whom):\n- Công thức: S1 + V1, + [all / both / each / either / neither / none / several / most / many / number / percentage] + OF + WHOM (người) / WHICH (vật) + V2...\n- Phân biệt bẫy dấu câu (Comma Splice Trap):\n  + Đúng (MĐQH): The firm employed fifty engineers, most of whom graduated from MIT.\n  + Đúng (Liên từ kết hợp): The firm employed fifty engineers, and most of them graduated from MIT.\n  + Đúng (Tách câu): The firm employed fifty engineers. Most of them graduated from MIT.\n  + SAI NGHIÊM TRỌNG: The firm employed fifty engineers, most of them graduated from MIT. (Lỗi nối hai mệnh đề độc lập chỉ bằng dấu phẩy).",
+    "reducedRelativeClauses": "BẢN CHẤT & CÔNG THỨC RÚT GỌN MỆNH ĐỀ QUAN HỆ (REDUCED RELATIVE CLAUSES):\n\n1. Rút gọn Mệnh đề Chủ động -> Hiện tại phân từ (Present Participle: V-ing):\n- Điều kiện: Động từ trong MĐQH ở thể chủ động.\n- Cách làm: Bỏ đại từ quan hệ, bỏ to be (nếu có), đưa động từ chính về dạng V-ing.\n- Ví dụ đầy đủ: The regulatory inspectors who monitor the pharmaceutical supply chain have arrived.\n- Dạng rút gọn: The regulatory inspectors monitoring the pharmaceutical supply chain have arrived.\n\n2. Rút gọn Mệnh đề Bị động -> Quá khứ phân từ (Past Participle: V3/ed):\n- Điều kiện: Động từ trong MĐQH ở thể bị động (be + V3/ed).\n- Cách làm: Bỏ đại từ quan hệ, bỏ to be, giữ nguyên V3/ed.\n- Ví dụ đầy đủ: Financial audits that were conducted by independent forensic accountants revealed no discrepancies.\n- Dạng rút gọn: Financial audits conducted by independent forensic accountants revealed no discrepancies.\n\n3. Rút gọn bằng To-infinitive (To-V / To be V3):\n- Điều kiện bắt buộc: Danh từ đứng trước đi kèm các từ chỉ thứ tự (the first, the second, the next, the last), từ duy nhất (the only), hoặc tính từ ở cấp so sánh nhất (the best, the most effective...).\n- Thể chủ động: To + V_bare (The first astronaut who set foot on the moon -> The first astronaut to set foot on the moon).\n- Thể bị động: To + BE + V3/ed (The only candidate who was shortlisted for the managerial role -> The only candidate to be shortlisted for the managerial role).\n\n4. Rút gọn với Cụm tính từ (Adjective Phrase) và Cụm đồng vị danh từ (Appositive Noun Phrase):\n- Bỏ đại từ quan hệ và to be, chỉ giữ lại tính từ/cụm giới từ hoặc danh từ bổ nghĩa.\n- Cụm tính từ: Products that are available on the market -> Products available on the market.\n- Đồng vị ngữ: Dr. Rachel Green, who is our chief medical officer, will deliver the keynote -> Dr. Rachel Green, our chief medical officer, will deliver the keynote."
+  },
+  "commonTraps": [
+    {
+      "trap": "Bẫy 1: Dùng 'that' trong mệnh đề quan hệ không xác định (sau dấu phẩy) hoặc đứng ngay sau giới từ",
+      "exampleWrong": "The venture capital consortium invested heavily in the clean energy startup, that eventually patented an ultra-efficient battery cell.",
+      "exampleRight": "The venture capital consortium invested heavily in the clean energy startup, which eventually patented an ultra-efficient battery cell.",
+      "note": "Học viên thường quen miệng dùng 'that' thay thế linh hoạt cho 'who' và 'which' trong giao tiếp thường ngày. Tuy nhiên, trong ngữ pháp học thuật và đề thi chuẩn hóa, 'that' tuyệt đối không được đứng sau dấu phẩy (mệnh đề không xác định) hoặc đứng ngay sau giới từ (ví dụ: 'the committee in that we trust' -> SAI; phải sửa thành 'in which' hoặc 'in whom')."
+    },
+    {
+      "trap": "Bẫy 2: Nhầm lẫn giữa 'Where' và 'Which' khi danh từ phía trước là địa điểm nhưng mệnh đề sau khuyết tân ngữ hoặc chủ ngữ",
+      "exampleWrong": "The pharmaceutical research laboratory where the multinational conglomerate acquired last quarter specializes in targeted oncology therapies.",
+      "exampleRight": "The pharmaceutical research laboratory which the multinational conglomerate acquired last quarter specializes in targeted oncology therapies.",
+      "note": "Thí sinh thấy danh từ 'laboratory' (phòng nghiên cứu - chỉ địa điểm) nên theo phản xạ vội vàng chọn 'where'. Tuy nhiên, mệnh đề sau có ngoại động từ 'acquired' (mua lại) đang bị khuyết tân ngữ trực tiếp (mua lại cái gì?). 'Where' là trạng từ chỉ nơi chốn (= in which), không thể làm tân ngữ cho động từ. Do đó bắt buộc phải dùng đại từ 'which' (hoặc 'that') để làm tân ngữ cho 'acquired'."
+    },
+    {
+      "trap": "Bẫy 3: Nhầm lẫn giữa V-ing và V3/ed trong rút gọn mệnh đề quan hệ (Bẫy nhận diện ngoại động từ có tân ngữ trực tiếp)",
+      "exampleWrong": "The investigative taskforce submitted a comprehensive dossier detailed several severe environmental infractions committed by the refinery.",
+      "exampleRight": "The investigative taskforce submitted a comprehensive dossier detailing several severe environmental infractions committed by the refinery.",
+      "note": "Nhiều thí sinh nhầm tưởng danh từ 'dossier' (hồ sơ) là vật vô tri nên tự động chia bị động rút gọn thành 'detailed'. Tuy nhiên, ngay phía sau khoảng trống là cụm danh từ đóng vai trò tân ngữ trực tiếp: 'several severe environmental infractions'. Khi một ngoại động từ có tân ngữ trực tiếp theo sau, hành động đó phải ở thể chủ động rút gọn thành V-ing ('detailing' = which details). Ngược lại, nếu theo sau là giới từ (by, in, at) hoặc không có tân ngữ thì mới rút gọn thành V3/ed."
+    },
+    {
+      "trap": "Bẫy 4: Bỏ qua các tín hiệu 'the first / the only / the most...' dẫn đến việc chọn nhầm V-ing thay vì To-V khi rút gọn",
+      "exampleWrong": "Dr. Elena Vance was the first biomedical engineer receiving international acclaim for synthesizing biodegradable vascular stents.",
+      "exampleRight": "Dr. Elena Vance was the first biomedical engineer to receive international acclaim for synthesizing biodegradable vascular stents.",
+      "note": "Khi danh từ đứng trước có các từ chỉ thứ tự ('the first', 'the second', 'the last'), từ duy nhất ('the only') hoặc dạng so sánh nhất ('the most promising candidate'), mệnh đề quan hệ rút gọn bắt buộc phải sử dụng dạng To-infinitive ('to receive'), tuyệt đối không dùng hiện tại phân từ V-ing ('receiving')."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex_01",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "The international venture capital syndicate evaluated twenty artificial intelligence startups, three of ________ secured substantial Series B funding from sovereign wealth funds.",
+      "options": [
+        "which",
+        "them",
+        "whom",
+        "that"
+      ],
+      "correctAnswer": "which",
+      "explanation": {
+        "translation": "Ngoại hội đầu tư mạo hiểm quốc tế đã thẩm định hai mươi công ty khởi nghiệp trí tuệ nhân tạo, ba trong số đó đã huy động được nguồn tài trợ vòng Series B đáng kể từ các quỹ đầu tư quốc gia.",
+        "keySignal": "Hai mệnh đề được ngăn cách bằng dấu phẩy, đứng sau cụm từ chỉ số lượng kết hợp giới từ 'three of ________'.",
+        "rule": "Cấu trúc lượng từ đi kèm mệnh đề quan hệ chỉ vật: Quantifier + OF + WHICH. Cấm dùng 'that' sau giới từ, và không thể dùng đại từ nhân xưng 'them' nếu không có liên từ liên kết.",
+        "whyCorrect": "Tiền từ đứng trước là 'twenty artificial intelligence startups' (danh từ chỉ vật/doanh nghiệp). Sau giới từ 'of' trong mệnh đề quan hệ chỉ vật, bắt buộc sử dụng đại từ quan hệ 'which' ('three of which').",
+        "distractorBreakdown": {
+          "them": "Bẫy lỗi phẩy nối (Comma Splice): Nếu dùng đại từ nhân xưng 'three of them', câu sẽ chứa 2 mệnh đề độc lập bị nối sai chỉ bằng một dấu phẩy. Muốn dùng 'them', phải có liên từ nối ('and three of them') hoặc tách thành câu mới.",
+          "whom": "Bẫy đối tượng quy chiếu: 'whom' chỉ dùng sau giới từ để thay thế cho danh từ chỉ người, trong khi 'startups' là danh từ chỉ vật/tổ chức doanh nghiệp.",
+          "that": "Bẫy cấm kỵ sau giới từ: Đại từ quan hệ 'that' tuyệt đối không được phép đứng ngay sau giới từ (không bao giờ có 'of that' trong MĐQH)."
+        }
+      }
+    },
+    {
+      "id": "ex_02",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "The advanced semiconductor fabrication facility ________ the European trade commission inspected last Thursday complies fully with international zero-emission standards.",
+      "options": [
+        "where",
+        "which",
+        "in where",
+        "whose"
+      ],
+      "correctAnswer": "which",
+      "explanation": {
+        "translation": "Cơ sở sản xuất chất bán dẫn tiên tiến mà ủy ban thương mại châu Âu đã thanh tra vào thứ Năm tuần trước tuân thủ đầy đủ các tiêu chuẩn quốc tế về phát thải ròng bằng không.",
+        "keySignal": "Danh từ đứng trước là 'facility' (chỉ địa điểm), nhưng mệnh đề quan hệ phía sau chứa ngoại động từ 'inspected' đang bị khuyết tân ngữ trực tiếp (thanh tra cái gì?).",
+        "rule": "Phân biệt 'Where' và 'Which': 'Where' là trạng từ chỉ nơi chốn, theo sau phải là mệnh đề hoàn chỉnh (S-V-O). Nếu mệnh đề sau bị khuyết chủ ngữ hoặc tân ngữ, bắt buộc phải dùng đại từ quan hệ 'which' (hoặc 'that').",
+        "whyCorrect": "Động từ 'inspected' là ngoại động từ bắt buộc đòi hỏi một tân ngữ theo sau. Đại từ quan hệ 'which' đóng vai trò làm tân ngữ trực tiếp cho 'inspected' (the commission inspected the facility). Do đó 'which' là phương án chính xác duy nhất.",
+        "distractorBreakdown": {
+          "where": "Bẫy chỉ địa điểm: Thí sinh thấy 'facility' (cơ sở/nhà máy) nên chọn 'where', nhưng 'where' là trạng từ, không thể làm tân ngữ cho ngoại động từ 'inspected'.",
+          "in where": "Sai ngữ pháp hoàn toàn: 'where' vốn đã bằng 'in which', không bao giờ kết hợp giới từ trước 'where' ('in where' là cấu trúc sai).",
+          "whose": "Bẫy quan hệ sở hữu: 'whose' phải đi kèm trực tiếp với một danh từ thuộc sở hữu đứng sau nó (whose + N), không thể đi trực tiếp với cụm chủ ngữ 'the European trade commission'."
+        }
+      }
+    },
+    {
+      "id": "ex_03",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "The regional distribution logistics hub consistently exceeded its operational efficiency targets by fifteen percent, ________ prompted the executive board to authorize mid-year performance bonuses.",
+      "options": [
+        "that",
+        "what",
+        "which",
+        "whereby"
+      ],
+      "correctAnswer": "which",
+      "explanation": {
+        "translation": "Trung tâm hậu cần phân phối khu vực đã liên tục vượt mục tiêu hiệu quả vận hành mười lăm phần trăm, điều này đã thôi thúc ban điều hành phê duyệt các khoản tiền thưởng hiệu suất giữa năm.",
+        "keySignal": "Vị trí cần điền đứng ngay sau dấu phẩy (', ________ prompted') và thay thế cho toàn bộ sự việc vượt chỉ tiêu ở mệnh đề phía trước.",
+        "rule": "Mệnh đề quan hệ quy chiếu toàn câu (Sentential Relative Clause): Dùng đại từ ', which' sau dấu phẩy để đại diện cho toàn bộ nội dung/hành động của mệnh đề đứng trước và đóng vai trò làm chủ ngữ cho động từ theo sau.",
+        "whyCorrect": "Cả hành động vượt mục tiêu hiệu quả là nguyên nhân dẫn đến việc ban giám đốc thưởng. Trong tiếng Anh, chỉ có đại từ ', which' mới có chức năng thay thế cho cả một mệnh đề đứng trước dấu phẩy.",
+        "distractorBreakdown": {
+          "that": "Bẫy mệnh đề không xác định: Đại từ 'that' tuyệt đối không được dùng sau dấu phẩy và không có chức năng thay thế cho cả một mệnh đề.",
+          "what": "Bẫy mệnh đề danh từ: 'what' đóng vai trò mệnh đề danh từ (= the thing that), không bao giờ dùng làm đại từ quan hệ đứng sau dấu phẩy để bổ nghĩa cho câu trước.",
+          "whereby": "Sai chức năng cú pháp: 'whereby' là trạng từ quan hệ mang nghĩa 'nhờ đó / bằng cách đó' (= by which), theo sau nó phải là một mệnh đề hoàn chỉnh (S + V), không thể đóng vai trò làm chủ ngữ trực tiếp cho động từ 'prompted'."
+        }
+      }
+    },
+    {
+      "id": "ex_04",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Commercial airlines ________ within domestic sovereign airspace must comply strictly with updated flight telemetry guidelines issued by the civil aviation regulatory agency.",
+      "options": [
+        "operate",
+        "operating",
+        "operated",
+        "are operating"
+      ],
+      "correctAnswer": "operating",
+      "explanation": {
+        "translation": "Các hãng hàng không thương mại hoạt động trong không phận quốc gia nội địa phải tuân thủ nghiêm ngặt các hướng dẫn đo đạc từ xa của chuyến bay vừa được cơ quan quản lý hàng không dân dụng ban hành.",
+        "keySignal": "Mệnh đề chính đã có vị ngữ đầy đủ là 'must comply strictly with'. Do đó, khoảng trống đứng sau danh từ 'Commercial airlines' phải là mệnh đề quan hệ rút gọn.",
+        "rule": "Rút gọn Mệnh đề quan hệ chủ động sang Hiện tại phân từ (Present Participle: V-ing): N + which/who + V(chủ động) -> N + V-ing.",
+        "whyCorrect": "Bản thân các hãng hàng không tự thực hiện hành động vận hành, bay lượn (nội động từ mang tính chủ động: airlines which operate...). Khi rút gọn mệnh đề quan hệ dạng chủ động, động từ chuyển thành hiện tại phân từ 'operating'.",
+        "distractorBreakdown": {
+          "operate": "Bẫy thừa động từ vị ngữ: Nếu chọn 'operate', câu sẽ xuất hiện hai động từ chia thì độc lập ('operate' và 'must comply') cùng tranh chấp một chủ ngữ mà không có liên từ nối.",
+          "operated": "Bẫy thể bị động: 'operated' là quá khứ phân từ dùng cho hành động bị tác động, nhưng ở đây các hãng hàng không đóng vai trò chủ thể tự vận hành.",
+          "are operating": "Bẫy động từ chính: Tương tự như 'operate', 'are operating' biến phần bổ nghĩa thành động từ chính thứ hai gây lỗi sai cú pháp cấu trúc câu."
+        }
+      }
+    },
+    {
+      "id": "ex_05",
+      "type": "choice",
+      "difficulty": 3,
+      "prompt": "Chief Technology Officer Marcus Reynolds was the only senior executive ________ serious reservations regarding the aggressive implementation schedule of the enterprise cloud migration.",
+      "options": [
+        "expressed",
+        "expressing",
+        "to express",
+        "express"
+      ],
+      "correctAnswer": "to express",
+      "explanation": {
+        "translation": "Giám đốc công nghệ Marcus Reynolds là lãnh đạo cấp cao duy nhất bày tỏ sự dè dặt nghiêm túc đối với tiến độ triển khai gấp rút của dự án di chuyển dữ liệu đám mây doanh nghiệp.",
+        "keySignal": "Danh từ đi trước chứa cụm từ hạn định duy nhất: 'the only senior executive'.",
+        "rule": "Rút gọn mệnh đề quan hệ sau 'the only / the first / the last / so sánh nhất': Bắt buộc rút gọn bằng động từ nguyên mẫu có 'to' (To-infinitive: To + V_bare ở thể chủ động, To be V3/ed ở thể bị động).",
+        "whyCorrect": "Sau cấu trúc 'the only + N', mệnh đề quan hệ chủ động (who expressed...) bắt buộc phải được rút gọn thành 'to express'.",
+        "distractorBreakdown": {
+          "expressing": "Bẫy rút gọn V-ing thông thường: Thí sinh thấy nghĩa chủ động nên vội vàng chọn 'expressing', nhưng bỏ qua quy tắc tối thượng: khi có 'the only', bắt buộc phải dùng To-V thay vì V-ing.",
+          "expressed": "Bẫy chia thì quá khứ: Mệnh đề đã có động từ chính là 'was'. Nếu chọn 'expressed' câu sẽ bị thừa động từ vị ngữ mà không có đại từ quan hệ.",
+          "express": "Sai cấu trúc ngữ pháp: Động từ nguyên mẫu không 'to' (bare infinitive) không bao giờ được dùng để rút gọn mệnh đề quan hệ sau danh từ."
+        }
+      }
+    },
+    {
+      "id": "ex_06",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "The newly appointed [A] chief operating officer, that [B] previously orchestrated the restructuring of several international subsidiaries, unveiled [C] an aggressive cost containment roadmap [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Giám đốc vận hành mới được bổ nhiệm, người từng tổ chức tái cấu trúc thành công một số công ty con quốc tế, đã công bố một lộ trình kiểm soát chi phí quyết liệt.",
+        "keySignal": "Đại từ quan hệ đứng ngay sau dấu phẩy kẹp giữa hai vế câu: ', that [B] previously...'",
+        "rule": "Quy tắc mệnh đề không xác định (Non-defining Relative Clause): Tuyệt đối KHÔNG dùng đại từ 'that' sau dấu phẩy. Đối với danh từ chỉ người ('chief operating officer'), bắt buộc dùng 'who'.",
+        "whyCorrect": "Vị trí [B] sai nghiêm trọng vì 'that' không được dùng trong mệnh đề quan hệ không xác định. Phải sửa 'that' thành 'who'.",
+        "distractorBreakdown": {
+          "A (newly appointed)": "Đúng ngữ pháp: Cụm phó từ kết hợp quá khứ phân từ ('newly appointed') đóng vai trò tính từ ghép bổ nghĩa chính xác cho chức danh 'chief operating officer'.",
+          "C (unveiled)": "Đúng ngữ pháp: Động từ vị ngữ chính của câu được chia ở thì Quá khứ đơn để thuật lại sự kiện công bố lộ trình.",
+          "D (cost containment roadmap)": "Đúng ngữ pháp: Cụm danh từ ghép chuẩn văn phong doanh nghiệp mang nghĩa 'lộ trình kiểm soát chi phí'."
+        }
+      }
+    },
+    {
+      "id": "ex_07",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "The suburban logistics distribution center where [A] the multinational retailer acquired [B] during the commercial property auction requires [C] substantial structural rehabilitation [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Trung tâm phân phối hậu cần ngoại ô mà nhà bán lẻ đa quốc gia đã mua được trong buổi đấu giá bất động sản thương mại đòi hỏi phải phục hồi kết cấu đáng kể.",
+        "keySignal": "Vị trí [A] dùng 'where', nhưng mệnh đề phụ đi kèm có ngoại động từ 'acquired' ở vị trí [B] đang bị khuyết tân ngữ trực tiếp.",
+        "rule": "Phân biệt 'Where' vs 'Which': 'Where' là trạng từ chỉ nơi chốn, không thể làm tân ngữ cho một ngoại động từ. Khi mệnh đề thiếu tân ngữ trực tiếp, bắt buộc dùng đại từ quan hệ 'which' hoặc 'that'.",
+        "whyCorrect": "Vị trí [A] sai vì 'acquired' (mua lại) là ngoại động từ chuyển tiếp, cần tân ngữ chỉ vật chịu tác động. Phải sửa 'where' thành 'which' (hoặc 'that').",
+        "distractorBreakdown": {
+          "B (acquired)": "Đúng ngữ pháp: Động từ chia ở thì Quá khứ đơn diễn tả giao dịch mua bán đã hoàn tất tại buổi đấu giá trong quá khứ.",
+          "C (requires)": "Đúng ngữ pháp: Động từ chính chia thì Hiện tại đơn hòa hợp chính xác với chủ ngữ số ít 'The suburban logistics distribution center'.",
+          "D (structural rehabilitation)": "Đúng ngữ pháp: Cụm danh từ học thuật chỉ sự phục hồi kết cấu công trình."
+        }
+      }
+    },
+    {
+      "id": "ex_08",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "Dr. Aris Thorne was the first [A] molecular biophysicist receiving [B] the international research fellowship for deciphering [C] the crystallographic structure of viral RNA [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Tiến sĩ Aris Thorne là nhà vật lý sinh học phân tử đầu tiên nhận được học bổng nghiên cứu quốc tế nhờ giải mã cấu trúc tinh thể học của RNA virus.",
+        "keySignal": "Tín hiệu số thứ tự 'the first [A]' đứng trước danh từ chỉ người 'molecular biophysicist'.",
+        "rule": "Rút gọn mệnh đề quan hệ sau từ chỉ thứ tự: The first / second / last + N + TO-V (chủ động) hoặc TO BE V3/ed (bị động). Tuyệt đối không dùng V-ing.",
+        "whyCorrect": "Vị trí [B] sai vì sử dụng hiện tại phân từ 'receiving'. Khi đứng sau tiền từ có 'the first', mệnh đề quan hệ rút gọn bắt buộc phải dùng To-infinitive. Phải sửa 'receiving' thành 'to receive'.",
+        "distractorBreakdown": {
+          "A (the first)": "Đúng ngữ pháp: Tín hiệu chỉ số thứ tự chuẩn mực xác định người tiên phong.",
+          "C (for deciphering)": "Đúng ngữ pháp: Giới từ 'for' đi kèm danh động từ V-ing ('deciphering') diễn tả nguyên do được trao giải thưởng.",
+          "D (viral RNA)": "Đúng ngữ pháp: Thuật ngữ sinh học chuẩn xác chỉ RNA của virus."
+        }
+      }
+    },
+    {
+      "id": "ex_09",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "The stringent environmental protocol by that [A] all chemical processing refineries must abide [B] was enacted [C] to prevent industrial contaminants from seeping [D] into subterranean aquifers.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Nghị định thư môi trường nghiêm ngặt mà tất cả các nhà máy lọc hóa chất phải tuân theo đã được ban hành nhằm ngăn ngừa các chất gây ô nhiễm công nghiệp rò rỉ vào các tầng ngậm nước ngầm.",
+        "keySignal": "Giới từ 'by' kết hợp trực tiếp với đại từ quan hệ 'that' ở vị trí [A]: 'by that'.",
+        "rule": "Cấm kỵ tuyệt đối trong mệnh đề quan hệ: KHÔNG BAO GIỜ đặt giới từ trực tiếp trước 'that' (prep + that -> SAI). Sau giới từ chỉ vật, bắt buộc phải dùng 'which' (prep + which).",
+        "whyCorrect": "Vị trí [A] sai quy tắc nghiêm ngặt của ngữ pháp tiếng Anh chuẩn mực. Cấu trúc đi với động từ 'abide by' khi đảo giới từ lên đầu mệnh đề bắt buộc phải là 'by which'. Phải sửa 'by that' thành 'by which'.",
+        "distractorBreakdown": {
+          "B (abide)": "Đúng ngữ pháp: Động từ nguyên mẫu đi sau động từ khuyết thiếu 'must' (kết hợp với giới từ đã được đảo ra trước 'by which all refineries must abide').",
+          "C (was enacted)": "Đúng ngữ pháp: Động từ vị ngữ chính chia ở thể bị động thì Quá khứ đơn hòa hợp chuẩn xác với chủ ngữ số ít 'The stringent environmental protocol'.",
+          "D (from seeping)": "Đúng ngữ pháp: Cấu trúc phòng ngừa 'prevent O from doing something'."
+        }
+      }
+    },
+    {
+      "id": "ex_10",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "The independent auditing commission submitted [A] a classified investigative dossier detailed [B] extensive fraudulent transactions orchestrated [C] by senior treasury managers [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Ủy ban kiểm toán độc lập đã đệ trình một hồ sơ điều tra mật trình bày chi tiết các giao dịch gian lận quy mô lớn do các nhà quản lý ngân quỹ cấp cao dàn dựng.",
+        "keySignal": "Khoảng trống đứng sau danh từ 'dossier', nhưng ngay phía sau lại có cụm danh từ làm tân ngữ trực tiếp: 'extensive fraudulent transactions'.",
+        "rule": "Rút gọn mệnh đề quan hệ dạng Chủ động vs Bị động: Khi động từ có tân ngữ trực tiếp theo sau (ngoại động từ), hành động mang tính chủ động, mệnh đề quan hệ bắt buộc phải rút gọn thành hiện tại phân từ V-ing ('which details...' -> 'detailing').",
+        "whyCorrect": "Vị trí [B] sai vì dùng quá khứ phân từ 'detailed'. Bản thân hồ sơ đóng vai trò trình bày chi tiết các giao dịch (hành động chủ động có tân ngữ). Phải sửa 'detailed' thành 'detailing'.",
+        "distractorBreakdown": {
+          "A (submitted)": "Đúng ngữ pháp: Động từ chính chia ở thì Quá khứ đơn thuật lại việc đệ trình báo cáo.",
+          "C (orchestrated)": "Đúng ngữ pháp: Dạng rút gọn bị động V3/ed chuẩn xác bổ nghĩa cho 'fraudulent transactions' (các giao dịch được dàn dựng bởi ban quản lý).",
+          "D (by senior treasury managers)": "Đúng ngữ pháp: Cụm giới từ chỉ tác nhân thực hiện hành vi gian lận sau phân từ bị động."
+        }
+      }
+    },
+    {
+      "id": "ex_11",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "Discounted electronic merchandise ________ (purchase) during the annual clearance promotional event cannot be exchanged without a valid original register receipt.",
+      "options": [],
+      "correctAnswer": "purchased",
+      "explanation": {
+        "translation": "Hàng hóa điện tử giảm giá được mua trong sự kiện khuyến mãi xả kho hàng năm không thể đổi trả nếu không có hóa đơn thu ngân gốc hợp lệ.",
+        "keySignal": "Chủ ngữ là 'Discounted electronic merchandise' (hàng hóa vô tri), câu đã có động từ chính là 'cannot be exchanged'.",
+        "rule": "Rút gọn Mệnh đề quan hệ thể Bị động: N + which/that + be + V3/ed -> N + V3/ed.",
+        "whyCorrect": "Hàng hóa không thể tự mua mà phải 'được mua' bởi khách hàng (which was purchased during...). Do đó, mệnh đề quan hệ rút gọn ở thể bị động sử dụng dạng quá khứ phân từ 'purchased'.",
+        "distractorBreakdown": {
+          "purchasing": "Bẫy thể chủ động: 'purchasing' (V-ing) chỉ dùng khi danh từ đứng trước tự thực hiện hành động mua và có tân ngữ theo sau.",
+          "to purchase": "Bẫy To-V: Không có dấu hiệu số thứ tự hay so sánh nhất để sử dụng dạng To-infinitive.",
+          "was purchased": "Bẫy thừa vị ngữ: Nếu điền 'was purchased', câu sẽ có hai động từ chính chia thì mà không có đại từ quan hệ nối ('merchandise was purchased... cannot be exchanged' -> lỗi cú pháp nặng)."
+        }
+      }
+    },
+    {
+      "id": "ex_12",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "Any international airline passengers ________ (carry) cash or negotiable monetary instruments exceeding ten thousand dollars must declare the assets at the customs border control desk.",
+      "options": [],
+      "correctAnswer": "carrying",
+      "explanation": {
+        "translation": "Bất kỳ hành khách đi máy bay quốc tế nào mang theo tiền mặt hoặc các công cụ chuyển nhượng có giá trị vượt quá mười nghìn đô la đều phải khai báo tài sản tại bàn kiểm soát hải quan biên giới.",
+        "keySignal": "Phía sau khoảng trống có cụm danh từ làm tân ngữ trực tiếp: 'cash or negotiable monetary instruments', và câu đã có động từ chính là 'must declare'.",
+        "rule": "Rút gọn Mệnh đề quan hệ thể Chủ động: N + who + V(chủ động) + O -> N + V-ing + O.",
+        "whyCorrect": "Hành khách là chủ thể chủ động mang theo tài sản (who carry cash...). Vì là hành động chủ động có tân ngữ theo sau, mệnh đề quan hệ được rút gọn thành hiện tại phân từ 'carrying'.",
+        "distractorBreakdown": {
+          "carried": "Bẫy thể bị động: 'carried' (V3/ed) biểu thị nghĩa bị động, mâu thuẫn hoàn toàn với việc hành khách chủ động mang tài sản và có tân ngữ trực tiếp phía sau.",
+          "to carry": "Bẫy To-infinitive: Không có các tín hiệu thứ tự ('the first') hay duy nhất ('the only') để dùng To-V.",
+          "carry": "Bẫy thừa động từ vị ngữ: Làm xuất hiện hai động từ chia thì tranh chấp cùng một chủ ngữ."
+        }
+      }
+    },
+    {
+      "id": "ex_13",
+      "type": "cloze",
+      "difficulty": 3,
+      "prompt": "The historic municipal clocktower was the last architectural landmark ________ (demolish) under the contentious downtown commercial renewal project.",
+      "options": [],
+      "correctAnswer": "to be demolished",
+      "explanation": {
+        "translation": "Tháp đồng hồ thành phố mang tính lịch sử là công trình kiến trúc cuối cùng bị phá dỡ theo dự án đổi mới thương mại khu trung tâm đầy tranh cãi.",
+        "keySignal": "Tiền từ đứng trước chứa từ chỉ thứ tự 'the last architectural landmark', kết hợp với bản chất bị động của công trình kiến trúc đối với hành động 'demolish' (phá dỡ).",
+        "rule": "Rút gọn Mệnh đề quan hệ sau 'the last' ở Thể Bị động: The last + N + TO BE + V3/ed.",
+        "whyCorrect": "Khi danh từ đi kèm 'the last', mệnh đề quan hệ rút gọn bắt buộc dùng dạng To-infinitive. Đồng thời, tòa tháp là đối tượng chịu tác động phá dỡ (bị động: which was demolished...). Kết hợp cả hai yếu tố, dạng rút gọn chuẩn xác duy nhất là 'to be demolished'.",
+        "distractorBreakdown": {
+          "to demolish": "Bẫy thiếu bị động: 'to demolish' là thể chủ động, sai bản chất vì tòa tháp không thể tự phá dỡ chính nó.",
+          "demolished": "Bẫy rút gọn V3/ed thông thường: Thí sinh thấy bị động nên chọn ngay 'demolished', nhưng quên mất quy tắc bắt buộc phải có 'to be' khi có tín hiệu 'the last'.",
+          "being demolished": "Sai cấu trúc ngữ pháp: Dạng hiện tại phân từ bị động 'being demolished' không kết hợp sau cấu trúc 'the last'."
+        }
+      }
+    },
+    {
+      "id": "ex_14",
+      "type": "cloze",
+      "difficulty": 3,
+      "prompt": "Professor Evelyn Vance was recognized by the faculty senate as the most qualified forensic researcher ________ (lead) the newly established genomics laboratory.",
+      "options": [],
+      "correctAnswer": "to lead",
+      "explanation": {
+        "translation": "Giáo sư Evelyn Vance đã được hội đồng khoa công nhận là nhà nghiên cứu pháp y có đủ năng lực nhất để lãnh đạo phòng thí nghiệm bộ gen mới được thành lập.",
+        "keySignal": "Tiền từ đứng trước chứa cấu trúc so sánh nhất: 'the most qualified forensic researcher', hành động mang tính chủ động (lãnh đạo phòng thí nghiệm).",
+        "rule": "Rút gọn Mệnh đề quan hệ sau Tính từ so sánh nhất: The most + Adj + N + TO + V_bare (chủ động).",
+        "whyCorrect": "Sau cụm so sánh nhất 'the most qualified', mệnh đề quan hệ chủ động (who should lead...) bắt buộc phải được rút gọn bằng động từ nguyên mẫu có 'to' ('to lead').",
+        "distractorBreakdown": {
+          "leading": "Bẫy V-ing: Người học thường áp dụng máy móc quy tắc rút gọn chủ động thành V-ing mà không để ý tính từ so sánh nhất 'the most qualified' đòi hỏi To-infinitive.",
+          "led": "Bẫy thì quá khứ/bị động: 'led' sai cả về cấu trúc rút gọn và thể của câu (chủ thể là người chủ động lãnh đạo).",
+          "to be led": "Bẫy thể bị động: Giáo sư là người lãnh đạo phòng lab chứ không phải người bị lãnh đạo."
+        }
+      }
+    },
+    {
+      "id": "ex_15",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "The revised commercial lease agreement ________ (sign) by both corporate representatives yesterday afternoon has been submitted to the legal department for formal archival.",
+      "options": [],
+      "correctAnswer": "signed",
+      "explanation": {
+        "translation": "Bản hợp đồng thuê mặt bằng thương mại sửa đổi được ký bởi đại diện của cả hai công ty vào chiều hôm qua đã được gửi tới phòng pháp chế để lưu trữ chính thức.",
+        "keySignal": "Chủ ngữ là hợp đồng ('agreement'), theo sau có giới từ chỉ tác nhân 'by both corporate representatives', và vị ngữ chính của câu là 'has been submitted'.",
+        "rule": "Rút gọn Mệnh đề quan hệ thể Bị động: N + which was + V3/ed + by O -> N + V3/ed + by O.",
+        "whyCorrect": "Hợp đồng được ký kết (bị động: which was signed by...). Khi rút gọn mệnh đề quan hệ bị động, ta lược bỏ đại từ quan hệ và to be, chỉ giữ lại quá khứ phân từ 'signed'.",
+        "distractorBreakdown": {
+          "signing": "Bẫy thể chủ động: Hợp đồng không thể tự ký kết; ngoài ra có giới từ tác nhân 'by' là dấu hiệu nhận biết thể bị động rõ ràng.",
+          "was signed": "Bẫy động từ vị ngữ: Nếu điền 'was signed', câu sẽ có hai động từ chính chia thì ('was signed' và 'has been submitted') gây lỗi sai cấu trúc câu nghiêm trọng.",
+          "to sign": "Sai cấu trúc: Không có tín hiệu số thứ tự hay so sánh nhất để sử dụng dạng To-V."
+        }
+      }
+    }
+  ]
+}

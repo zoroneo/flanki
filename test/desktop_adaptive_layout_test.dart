@@ -29,10 +29,10 @@ void main() {
     } catch (_) {}
   });
 
-  testWidgets('Desktop layout renders sidebar when width >= 768px', (
+  testWidgets('Desktop layout renders full sidebar when width >= 1024px', (
     WidgetTester tester,
   ) async {
-    tester.view.physicalSize = const Size(1024, 768);
+    tester.view.physicalSize = const Size(1200, 800);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(() {
       tester.view.resetPhysicalSize();
@@ -44,12 +44,33 @@ void main() {
 
     // Desktop view shows vertical divider between sidebar and content
     expect(find.byType(VerticalDivider), findsOneWidget);
-    // Flanki text is visible in sidebar and/or header
+    // Flanki brand and desktop subtitle are visible in sidebar
     expect(find.text('Flanki'), findsAtLeast(1));
+    expect(find.text('Desktop • Zinc'), findsOneWidget);
+    expect(find.text('Ctrl+1'), findsOneWidget);
+  });
+
+  testWidgets('Tablet layout renders navigation rail when 600px <= width < 1024px', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(768, 1024);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    await tester.pumpWidget(const ProviderScope(child: FlankiApp()));
+    await tester.pumpAndSettle();
+
+    // Tablet view shows vertical divider between rail and content
+    expect(find.byType(VerticalDivider), findsOneWidget);
+    // Tablet rail has compact brand icon and does NOT show desktop subtitle
+    expect(find.text('Desktop • Zinc'), findsNothing);
   });
 
   testWidgets(
-    'Mobile layout hides sidebar and renders bottom nav when width < 768px',
+    'Mobile layout hides sidebar/rail and renders bottom nav when width < 600px',
     (WidgetTester tester) async {
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
@@ -61,8 +82,10 @@ void main() {
       await tester.pumpWidget(const ProviderScope(child: FlankiApp()));
       await tester.pumpAndSettle();
 
-      // In mobile layout, VerticalDivider (from desktop sidebar) is NOT present
+      // In mobile layout, VerticalDivider is NOT present
       expect(find.byType(VerticalDivider), findsNothing);
+      // Desktop subtitle is NOT present
+      expect(find.text('Desktop • Zinc'), findsNothing);
     },
   );
 }

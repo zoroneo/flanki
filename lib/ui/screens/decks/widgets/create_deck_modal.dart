@@ -73,7 +73,7 @@ class CreateDeckModal extends HookWidget {
     final descFocusNode = focusNodes[1];
 
     final viewInsets = MediaQuery.of(context).viewInsets;
-    final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
+    final isDesktopMode = isDesktop;
 
     return AnimatedPadding(
       padding: EdgeInsets.only(bottom: viewInsets.bottom),

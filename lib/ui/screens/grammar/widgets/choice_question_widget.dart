@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/grammar/grammar_models.dart';
+import '../../study/widgets/rich_card_content.dart';
 
 class ChoiceQuestionWidget extends StatelessWidget {
   final GrammarExercise exercise;
@@ -28,17 +29,21 @@ class ChoiceQuestionWidget extends StatelessWidget {
         // Prompt container
         Card(
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              exercise.prompt,
-              style: theme.typography.large.copyWith(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: RichCardContent(
+              content: exercise.prompt,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              textAlign: TextAlign.start,
+              textStyle: TextStyle(
+                fontSize: 15,
                 fontWeight: FontWeight.w600,
-                height: 1.5,
+                height: 1.45,
+                color: theme.colorScheme.foreground,
               ),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 10),
 
         // 4 Options
         ...List.generate(options.length, (index) {
@@ -71,12 +76,12 @@ class ChoiceQuestionWidget extends StatelessWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: 8),
             child: GestureDetector(
               onTap: isSubmitted ? null : () => onSelectAnswer(option),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
                 decoration: BoxDecoration(
                   color: backgroundColor ?? theme.colorScheme.card,
                   borderRadius: BorderRadius.circular(8),
@@ -89,8 +94,8 @@ class ChoiceQuestionWidget extends StatelessWidget {
                   children: [
                     // Badge A, B, C, D
                     Container(
-                      width: 28,
-                      height: 28,
+                      width: 24,
+                      height: 24,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: (isSelected || (isSubmitted && isCorrectOption))
@@ -101,7 +106,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
                       child: Text(
                         optionLetter,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: (isSelected || (isSubmitted && isCorrectOption))
                               ? theme.colorScheme.primaryForeground
@@ -109,20 +114,21 @@ class ChoiceQuestionWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         option,
-                        style: theme.typography.base.copyWith(
+                        style: TextStyle(
+                          fontSize: 13.5,
                           fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                           color: textColor ?? theme.colorScheme.foreground,
                         ),
                       ),
                     ),
                     if (isSubmitted && isCorrectOption)
-                      const Icon(LucideIcons.check, size: 18, color: Colors.green),
+                      const Icon(LucideIcons.check, size: 16, color: Colors.green),
                     if (isSubmitted && isSelected && !isCorrectOption)
-                      const Icon(LucideIcons.x, size: 18, color: Colors.red),
+                      const Icon(LucideIcons.x, size: 16, color: Colors.red),
                   ],
                 ),
               ),

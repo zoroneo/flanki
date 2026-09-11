@@ -71,7 +71,7 @@ class CardActionSheet extends HookWidget {
     final isEditing = useState(false);
     final frontController = useTextEditingController(text: card.front);
     final backController = useTextEditingController(text: card.back);
-    final isDesktopMode = isDesktop || MediaQuery.sizeOf(context).width >= 600;
+    final isDesktopMode = isDesktop;
 
     void handleSave() {
       onEdit(frontController.text, backController.text);

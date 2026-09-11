@@ -12,6 +12,15 @@ import 'package:flanki/core/storage/grammar_repository.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flanki/ui/screens/grammar/grammar_practice_screen.dart';
 
+Finder findRichText(String text) {
+  return find.byWidgetPredicate((widget) {
+    if (widget is RichText) {
+      return widget.text.toPlainText().contains(text);
+    }
+    return false;
+  });
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late Directory tempDir;
@@ -131,19 +140,15 @@ void main() {
     // 1. QUESTION 1: Choice
     expect(find.text('Câu 1 / 3'), findsOneWidget);
     expect(find.text('TRẮC NGHIỆM'), findsOneWidget);
-    expect(find.text('Choice question 1: She _______ every morning.'), findsOneWidget);
+    expect(findRichText('Choice question 1: She _______ every morning.'), findsOneWidget);
 
-    // Select wrong answer 'running'
+    // Select wrong answer 'running' (auto-submits)
     await tester.tap(find.text('running'));
-    await tester.pumpAndSettle();
-
-    // Submit answer
-    await tester.tap(find.text('Kiểm Tra Đáp Án'));
     await tester.pumpAndSettle();
 
     // Explanation sheet should show incorrect feedback
     expect(find.text('Chưa chính xác — Ghi nhớ bẫy này!'), findsOneWidget);
-    expect(find.text('Cô ấy chạy bộ mỗi sáng.'), findsOneWidget);
+    expect(findRichText('Cô ấy chạy bộ mỗi sáng.'), findsOneWidget);
 
     // Advance to Question 2
     await tester.tap(find.text('Câu Tiếp Theo'));
@@ -153,16 +158,12 @@ void main() {
     expect(find.text('Câu 2 / 3'), findsOneWidget);
     expect(find.text('TÌM LỖI SAI'), findsOneWidget);
 
-    // Select correct answer [A]
+    // Select correct answer [A] (auto-submits)
     await tester.tap(find.text('[A]').last);
     await tester.pumpAndSettle();
 
-    // Submit answer
-    await tester.tap(find.text('Kiểm Tra Đáp Án'));
-    await tester.pumpAndSettle();
-
     expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
-    expect(find.text('Họ đã làm việc chăm chỉ.'), findsOneWidget);
+    expect(findRichText('Họ đã làm việc chăm chỉ.'), findsOneWidget);
 
     // Advance to Question 3
     await tester.tap(find.text('Câu Tiếp Theo'));
@@ -172,12 +173,9 @@ void main() {
     expect(find.text('Câu 3 / 3'), findsOneWidget);
     expect(find.text('ĐIỀN TỪ'), findsOneWidget);
 
-    // Enter correct answer 'rises'
+    // Enter correct answer 'rises' and submit via onSubmitted
     await tester.enterText(find.byType(TextField), 'rises');
-    await tester.pumpAndSettle();
-
-    // Submit answer
-    await tester.tap(find.text('Kiểm Tra Đáp Án'));
+    await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
 
     expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
@@ -218,12 +216,10 @@ void main() {
 
     expect(find.text('Thử Thách Ghost Review'), findsOneWidget);
     expect(find.text('Câu 1 / 1'), findsOneWidget);
-    expect(find.text('Choice question 1: She _______ every morning.'), findsOneWidget);
+    expect(findRichText('Choice question 1: She _______ every morning.'), findsOneWidget);
 
-    // Now answer correctly: 'runs'
+    // Now answer correctly: 'runs' (auto-submits)
     await tester.tap(find.text('runs'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Kiểm Tra Đáp Án'));
     await tester.pumpAndSettle();
 
     expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);

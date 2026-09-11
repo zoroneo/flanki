@@ -5,31 +5,31 @@
   "level": 3,
   "coreConcept": "Tư duy bản xứ về Đảo ngữ (Inversion) và Cấu trúc Nhấn mạnh (Emphasis & Cleft Sentences) được xây dựng dựa trên 5 trụ cột ngôn ngữ học thực chiến:\n\n1. Bản chất Hùng biện & Tiêu điểm Kịch tính (Dramatic Focus & Rhetoric):\n- Đảo ngữ không phải là phép đảo trật tự từ ngẫu nhiên hay máy móc, mà là một kỹ thuật ngữ dụng (pragmatic tool) đỉnh cao trong diễn thuyết, văn bản pháp lý/học thuật và các bài thi chuẩn hóa phân loại cao (TOEIC 850+, IELTS 7.5+, THPTQG Chuyên).\n- Trong tâm lý ngôn ngữ bản xứ, trật tự câu xuôi (S-V-O) phản ánh tiến trình tư duy mặc định, bình thản. Khi người nói cố ý kéo một thành tố hạn định hoặc phủ định lên vị trí đầu câu (fronting), toàn bộ câu văn bị gián đoạn và bao trùm bởi sắc thái cảnh báo, khẩn cấp hoặc phân định ranh giới tuyệt đối. Để cân bằng âm luật và phát tín hiệu cho người nghe rằng 'đây là cấu trúc bất thường cần tập trung cao độ', trật tự cú pháp bị phá vỡ để kích hoạt dạng nghi vấn (Auxiliary + Subject + Main Verb).\n\n2. Negative Inversion (Đảo ngữ Phủ định & Bán phủ định):\n- Khi các phó từ mang tính phủ định tuyệt đối (Never, Under no circumstances, On no account, At no time) hoặc bán phủ định (Hardly, Scarcely, Seldom, Rarely, Little) đứng ở đầu mệnh đề, câu BẮT BUỘC đảo trợ động từ (auxiliary verb) hoặc động từ khuyết thiếu (modal verb) lên trước chủ ngữ.\n- Động từ chính theo sau luôn ở dạng nguyên mẫu không chia (V_bare) nếu mượn trợ động từ do/does/did, hoặc ở dạng phân từ tương ứng nếu dùng have/has/had/be. Bản chất là tách trợ động từ làm nhiệm vụ 'chịu tải ngữ pháp' (tense & agreement), giải phóng động từ chính để giữ nguyên nghĩa cốt lõi.\n\n3. Cơ chế Hai Tầng (Two-Tier Mechanism) trong 'Not until' và 'Only when/after/by/if':\n- Mệnh đề đi liền sau 'Not until' và 'Only' thực chất là MỆNH ĐỀ PHỤ CHỈ THỜI GIAN HOẶC ĐIỀU KIỆN (Adverbial Clause). Về mặt tư duy, mệnh đề này chỉ thiết lập điều kiện tiên quyết hoặc mốc thời gian xảy ra sự việc, nên TRẬT TỰ TỪ PHẢI GIỮ NGUYÊN DẠNG TRỰC THUYẾT (Subject + Verb).\n- Sự kiện chính diễn ra sau đó mới là nội dung kịch tính cần làm nổi bật. Do đó, QUY TẮC ĐẢO NGỮ CHỈ DIỄN RA Ở MỆNH ĐỀ CHÍNH (Main Clause: Aux + S + V). Đảo ngữ ở mệnh đề phụ là sai bản chất tư duy bản ngữ.\n\n4. Đảo ngữ Toàn phần Nơi chốn & Định hướng (Locative & Directional Inversion):\n- Khác với Negative Inversion (chỉ đảo trợ động từ - Partial Inversion), đảo ngữ nơi chốn đưa TOÀN BỘ ĐỘNG TỪ CHÍNH lên trước chủ ngữ (Verb + Subject) và TUYỆT ĐỐI KHÔNG mượn trợ động từ do/does/did.\n- Hiệu ứng điện ảnh (Cinematic Camera Panning): Cụm giới từ không gian xuất hiện trước như góc máy lia vào bối cảnh (Under the ancient oak tree...), tiếp đến là hành động diễn ra (sat...), và cuối cùng mới hé lộ chủ thể (an elderly scholar).\n- NGOẠI LỆ BẮT BUỘC: Nếu chủ ngữ là ĐẠI TỪ NHÂN XƯNG (he, she, it, they, we...), người bản xứ mặc định đại từ này đã được xác định rõ ràng trong tâm thức người nghe, không thể tạo bất ngờ điện ảnh, nên TUYỆT ĐỐI GIỮ NGUYÊN TRẬT TỰ THUẬN (Here comes the bus vs Here it comes; Down fell the rain vs Down it fell).\n\n5. Câu chẻ (Cleft Sentences - Phân tách Tiêu điểm & Nền tảng):\n- Kỹ thuật phân tách thông tin thành hai tầng (Focus-Background Split): 'It is/was [Focus] THAT [Background]' cô lập duy nhất một thành phần (Chủ ngữ, Tân ngữ hoặc Trạng từ) nhằm triệt tiêu mọi sự nhầm lẫn hoặc bác bỏ ý kiến đối nghịch ('Chính đối tượng này, chứ không phải ai khác, đã thực hiện hành động').\n- Chuẩn mực khảo thí quốc tế: Khi tiêu điểm nhấn mạnh là trạng ngữ thời gian hoặc nơi chốn, tiếng Anh học thuật chuẩn mực ưu tiên tuyệt đối liên từ 'THAT' thay vì 'when' hay 'where' (ví dụ: It was in Zurich THAT the contract was signed).",
   "formulas": {
-    "negativeInversion": "CÁC CẤU TRÚC ĐẢO NGỮ PHỦ ĐỊNH KINH ĐIỂN:\n\n1. Trạng từ tần suất & Mức độ bán phủ định:\n- Never / Rarely / Seldom / Scarcely / Little + AUX + S + V...\nVí dụ: Seldom has the global economy experienced such acute supply chain shocks.\n\n2. Cặp hành động xảy ra liên tiếp kịch tính ('Vừa mới... thì đã...'):\n- Hardly / Scarcely / Barely + HAD + S + V3/ed + WHEN / BEFORE + S + V2/ed\n- No sooner + HAD + S + V3/ed + THAN + S + V2/ed\nVí dụ: No sooner had the merger received antitrust approval than stock prices surged.\n\n3. Nhấn mạnh tương quan tăng tiến:\n- Not only + AUX + S + V_bare, but S + also + V...\nVí dụ: Not only did the startup surpass revenue targets, but it also expanded internationally.\n\n4. Cụm giới từ mang nghĩa phủ định tuyệt đối ('Trong bất kỳ tình huống nào cũng không'):\n- Under no circumstances / On no account / In no way / At no time / By no means + AUX + S + V...\nVí dụ: Under no circumstances are employees permitted to bypass protocol.\n\n5. Cơ chế hai tầng với Not until & Only:\n- Not until + Time / S1 + V1, + AUX + S2 + V2...\n- Only when / Only after / Only if / Only by + Time / Clause / V-ing, + AUX + S2 + V2...\nVí dụ: Only after conducting exhaustive clinical trials did the laboratory release the vaccine.",
-    "soSuchAndLocative": "CẤU TRÚC ĐẢO NGỮ VỚI SO / SUCH VÀ NƠI CHỐN / ĐỊNH HƯỚNG:\n\n1. Đảo ngữ với So... That:\n- So + Adj + be + S + THAT + Clause\n- So + Adv + AUX + S + V + THAT + Clause\nVí dụ: So catastrophic was the fiscal deficit that the administration imposed strict austerity measures.\n\n2. Đảo ngữ với Such... That:\n- Such + be + Noun (Subject) + THAT + Clause\n- Such + a/an + Adj + Noun + be + S + THAT + Clause\nVí dụ: Such was the public backlash that the prime minister withdrew the proposal.\n\n3. Đảo ngữ Nơi chốn & Chuyển động (Locative & Directional Inversion - Đảo ngữ toàn phần):\n- Cụm giới từ chỉ nơi chốn / Trạng từ chỉ hướng (In, On, Under, Out, Away, Down...) + Main Verb + Noun Subject\n- Lưu ý cốt tử: KHÔNG mượn trợ động từ do/does/did; động từ chính giữ nguyên dạng và chia theo danh từ phía sau.\n- Quy tắc đại từ: Nếu chủ ngữ là đại từ nhân xưng (I, you, he, she, it, we, they), GIỮ NGUYÊN TRẬT TỰ THUẬN (Prep/Direction + Pronoun + Verb).\nVí dụ: Across the valley stretched a massive aqueduct (Danh từ -> Đảo) vs Across the valley it stretched (Đại từ -> Không đảo).\n\n4. Đảo ngữ Câu điều kiện (Conditional Inversion):\n- Loại 1: Should + S + V_bare, S + will/can + V_bare\n- Loại 2: Were + S + to-V... / Were + S + Adj/Noun...\n- Loại 3: Had + S + V3/ed, S + would/could have + V3/ed",
-    "cleftSentences": "CẤU TRÚC NHẤN MẠNH (CLEFT SENTENCES - CÂU CHẺ):\n\n1. Câu chẻ chuẩn mực (It-cleft Sentences):\n- Nhấn mạnh Chủ ngữ: It is/was + Subject (Noun/Pronoun) + THAT / WHO + Verb...\n- Nhấn mạnh Tân ngữ: It is/was + Object + THAT + S + Verb...\n- Nhấn mạnh Trạng ngữ (Thời gian / Địa điểm / Phương thức / Cụm giới từ): It is/was + Adverbial Modifier + THAT + S + Verb...\n- Quy chuẩn học thuật: Tuyệt đối dùng 'THAT' khi nhấn mạnh cụm trạng từ thời gian/nơi chốn, không dùng 'when/where'.\nVí dụ: It was during the international summit that the diplomatic treaty was ratified.\n\n2. Wh-cleft (Pseudo-cleft Sentences - Câu chẻ với từ để hỏi):\n- What + S + V + is/was + Focus (Noun phrase / Bare infinitive / Clause)\nVí dụ: What the auditing firm questioned was the authenticity of the overseas asset declarations.\n\n3. Câu chẻ với 'All (that)':\n- All (that) + S + V + is/was + Focus\nVí dụ: All that the prospective buyer requested was an independent property valuation report."
+    "negativeInversion": "CÁC CẤU TRÚC ĐẢO NGỮ PHỦ ĐỊNH KINH ĐIỂN:<br/><br/>1. Trạng từ tần suất & Mức độ bán phủ định:<br/>- Never / Rarely / Seldom / Scarcely / Little + AUX + S + V...<br/>Ví dụ: Seldom has the global economy experienced such acute supply chain shocks.<br/><br/>2. Cặp hành động xảy ra liên tiếp kịch tính ('Vừa mới... thì đã...'):<br/>- Hardly / Scarcely / Barely + HAD + S + V3/ed + WHEN / BEFORE + S + V2/ed<br/>- No sooner + HAD + S + V3/ed + THAN + S + V2/ed<br/>Ví dụ: No sooner had the merger received antitrust approval than stock prices surged.<br/><br/>3. Nhấn mạnh tương quan tăng tiến:<br/>- Not only + AUX + S + V_bare, but S + also + V...<br/>Ví dụ: Not only did the startup surpass revenue targets, but it also expanded internationally.<br/><br/>4. Cụm giới từ mang nghĩa phủ định tuyệt đối ('Trong bất kỳ tình huống nào cũng không'):<br/>- Under no circumstances / On no account / In no way / At no time / By no means + AUX + S + V...<br/>Ví dụ: Under no circumstances are employees permitted to bypass protocol.<br/><br/>5. Cơ chế hai tầng với Not until & Only:<br/>- Not until + Time / S1 + V1, + AUX + S2 + V2...<br/>- Only when / Only after / Only if / Only by + Time / Clause / V-ing, + AUX + S2 + V2...<br/>Ví dụ: Only after conducting exhaustive clinical trials did the laboratory release the vaccine.",
+    "soSuchAndLocative": "CẤU TRÚC ĐẢO NGỮ VỚI SO / SUCH VÀ NƠI CHỐN / ĐỊNH HƯỚNG:<br/><br/>1. Đảo ngữ với So... That:<br/>- So + Adj + be + S + THAT + Clause<br/>- So + Adv + AUX + S + V + THAT + Clause<br/>Ví dụ: So catastrophic was the fiscal deficit that the administration imposed strict austerity measures.<br/><br/>2. Đảo ngữ với Such... That:<br/>- Such + be + Noun (Subject) + THAT + Clause<br/>- Such + a/an + Adj + Noun + be + S + THAT + Clause<br/>Ví dụ: Such was the public backlash that the prime minister withdrew the proposal.<br/><br/>3. Đảo ngữ Nơi chốn & Chuyển động (Locative & Directional Inversion - Đảo ngữ toàn phần):<br/>- Cụm giới từ chỉ nơi chốn / Trạng từ chỉ hướng (In, On, Under, Out, Away, Down...) + Main Verb + Noun Subject<br/>- Lưu ý cốt tử: KHÔNG mượn trợ động từ do/does/did; động từ chính giữ nguyên dạng và chia theo danh từ phía sau.<br/>- Quy tắc đại từ: Nếu chủ ngữ là đại từ nhân xưng (I, you, he, she, it, we, they), GIỮ NGUYÊN TRẬT TỰ THUẬN (Prep/Direction + Pronoun + Verb).<br/>Ví dụ: Across the valley stretched a massive aqueduct (Danh từ -> Đảo) vs Across the valley it stretched (Đại từ -> Không đảo).<br/><br/>4. Đảo ngữ Câu điều kiện (Conditional Inversion):<br/>- Loại 1: Should + S + V_bare, S + will/can + V_bare<br/>- Loại 2: Were + S + to-V... / Were + S + Adj/Noun...<br/>- Loại 3: Had + S + V3/ed, S + would/could have + V3/ed",
+    "cleftSentences": "CẤU TRÚC NHẤN MẠNH (CLEFT SENTENCES - CÂU CHẺ):<br/><br/>1. Câu chẻ chuẩn mực (It-cleft Sentences):<br/>- Nhấn mạnh Chủ ngữ: It is/was + Subject (Noun/Pronoun) + THAT / WHO + Verb...<br/>- Nhấn mạnh Tân ngữ: It is/was + Object + THAT + S + Verb...<br/>- Nhấn mạnh Trạng ngữ (Thời gian / Địa điểm / Phương thức / Cụm giới từ): It is/was + Adverbial Modifier + THAT + S + Verb...<br/>- Quy chuẩn học thuật: Tuyệt đối dùng 'THAT' khi nhấn mạnh cụm trạng từ thời gian/nơi chốn, không dùng 'when/where'.<br/>Ví dụ: It was during the international summit that the diplomatic treaty was ratified.<br/><br/>2. Wh-cleft (Pseudo-cleft Sentences - Câu chẻ với từ để hỏi):<br/>- What + S + V + is/was + Focus (Noun phrase / Bare infinitive / Clause)<br/>Ví dụ: What the auditing firm questioned was the authenticity of the overseas asset declarations.<br/><br/>3. Câu chẻ với 'All (that)':<br/>- All (that) + S + V + is/was + Focus<br/>Ví dụ: All that the prospective buyer requested was an independent property valuation report."
   },
   "commonTraps": [
     {
-      "trap": "Bẫy 1: Đảo ngữ nhầm ở mệnh đề phụ với 'Not until' và 'Only when/after' thay vì mệnh đề chính",
+      "trap": "<b>Bẫy 1:</b> Đảo ngữ nhầm ở mệnh đề phụ với 'Not until' và 'Only when/after' thay vì mệnh đề chính",
       "exampleWrong": "Not until did the oversight committee conclude its formal review did the board approve the dividend distribution.",
       "exampleRight": "Not until the oversight committee concluded its formal review did the board approve the dividend distribution.",
       "note": "Học viên thấy 'Not until' đứng đầu câu liền vội vã mượn trợ động từ đảo ngữ ngay ở mệnh đề đi kèm. Hãy nhớ: Mệnh đề phụ sau 'Not until' hay 'Only after/when' chỉ đóng vai trò mệnh đề trạng ngữ chỉ thời gian/điều kiện, phải giữ nguyên trật tự trực thuyết (S + V). Sự đảo ngữ CHỈ ĐƯỢC PHÉP DIỄN RA Ở MỆNH ĐỀ CHÍNH."
     },
     {
-      "trap": "Bẫy 2: Nhầm lẫn cặp liên từ tương quan giữa 'No sooner... THAN' và 'Hardly / Scarcely... WHEN'",
+      "trap": "<b>Bẫy 2:</b> Nhầm lẫn cặp liên từ tương quan giữa 'No sooner... THAN' và 'Hardly / Scarcely... WHEN'",
       "exampleWrong": "No sooner had the pharmaceutical laboratory registered the clinical trial findings when the regulatory agency issued market authorization.",
       "exampleRight": "No sooner had the pharmaceutical laboratory registered the clinical trial findings than the regulatory agency issued market authorization.",
       "note": "Bản chất của 'No sooner' chứa hình thái so sánh hơn ('sooner'), do đó liên từ tương quan đi kèm bắt buộc phải là 'THAN'. Ngược lại, 'Hardly', 'Scarcely' và 'Barely' là các trạng từ mức độ đi liền với liên từ chỉ mốc thời điểm là 'WHEN' (hoặc 'BEFORE'). Ghép 'No sooner... when' hoặc 'Hardly... than' là lỗi nghiêm trọng trong các bài thi quốc tế."
     },
     {
-      "trap": "Bẫy 3: Đảo ngữ nơi chốn mượn nhầm trợ động từ 'do/does/did' hoặc đảo ngữ khi chủ ngữ là đại từ nhân xưng",
+      "trap": "<b>Bẫy 3:</b> Đảo ngữ nơi chốn mượn nhầm trợ động từ 'do/does/did' hoặc đảo ngữ khi chủ ngữ là đại từ nhân xưng",
       "exampleWrong": "Along the historic shipping canal did stand several grain silos, and into the command center ran they when the alarm sounded.",
       "exampleRight": "Along the historic shipping canal stood several grain silos, and into the command center they ran when the alarm sounded.",
       "note": "Đảo ngữ nơi chốn (Locative Inversion) là hình thức đảo ngữ toàn phần: chuyển toàn bộ động từ chính ra trước chủ ngữ danh từ ('stood several grain silos'), tuyệt đối không mượn trợ động từ 'do/does/did'. Đặc biệt, khi chủ ngữ là đại từ nhân xưng ('they', 'he', 'it'), trật tự câu bắt buộc giữ nguyên trật tự thuận ('into the center they ran', không dùng 'ran they')."
     },
     {
-      "trap": "Bẫy 4: Lạm dụng 'where / when / which' thay cho liên từ chuẩn mực 'THAT' trong câu chẻ nhấn mạnh",
+      "trap": "<b>Bẫy 4:</b> Lạm dụng 'where / when / which' thay cho liên từ chuẩn mực 'THAT' trong câu chẻ nhấn mạnh",
       "exampleWrong": "It was in the high-security cryptographic vault where the lead software architect discovered the unauthorized backdoor code.",
       "exampleRight": "It was in the high-security cryptographic vault that the lead software architect discovered the unauthorized backdoor code.",
       "note": "Nhiều thí sinh bị đánh lừa bởi tư duy Mệnh đề quan hệ: thấy 'vault' (căn phòng bảo mật - nơi chốn) nên chọn 'where'. Tuy nhiên, đây là cấu trúc câu chẻ (Cleft Sentence: It is/was... that...). Trong văn phong tiếng Anh học thuật và các bài thi chuẩn hóa, liên từ nối mệnh đề nền tảng bắt buộc phải dùng 'THAT', bất kể thành phần được nhấn mạnh là thời gian, địa điểm hay phương thức."
@@ -40,7 +40,7 @@
       "id": "ex_01",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Under no circumstances ________ proprietary client data without prior written authorization from the compliance committee.",
+      "prompt": "Under no circumstances <u>_______</u> proprietary client data without prior written authorization from the compliance committee.",
       "options": [
         "are corporate associates permitted to disclose",
         "corporate associates are permitted to disclose",
@@ -50,13 +50,13 @@
       "correctAnswer": "are corporate associates permitted to disclose",
       "explanation": {
         "translation": "Trong bất kỳ hoàn cảnh nào, các nhân viên công ty cũng không được phép tiết lộ dữ liệu độc quyền của khách hàng nếu không có sự ủy quyền bằng văn bản trước đó từ ủy ban tuân thủ.",
-        "keySignal": "Cụm giới từ mang nghĩa phủ định tuyệt đối đứng đầu câu: 'Under no circumstances'.",
+        "keySignal": "Cụm giới từ mang nghĩa phủ định tuyệt đối đứng đầu câu: <mark>Under no circumstances</mark>.",
         "rule": "Đảo ngữ với cụm phủ định: Under no circumstances + be / modal / aux + S + V...",
-        "whyCorrect": "Khi 'Under no circumstances' đứng đầu câu, trợ động từ hoặc to be phải đảo lên trước chủ ngữ. 'Associates' là đối tượng chịu tác động (thể bị động: are permitted to disclose). Do đó cấu trúc chính xác duy nhất là 'are corporate associates permitted to disclose'.",
+        "whyCorrect": "Khi 'Under no circumstances' đứng đầu câu, trợ động từ hoặc to be phải đảo lên trước chủ ngữ. 'Associates' là đối tượng chịu tác động (thể bị động: are permitted to disclose). Do đó cấu trúc chính xác duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'are corporate associates permitted to disclose'</span>.",
         "distractorBreakdown": {
           "corporate associates are permitted to disclose": "Bẫy trật tự trực thuyết: Giữ nguyên trật tự câu thông thường mà không thực hiện đảo ngữ khi cụm phủ định đứng đầu câu.",
           "do corporate associates permit disclosing": "Bẫy thể chủ động: 'Corporate associates' không tự cấp phép cho hành vi tiết lộ mà phải là người 'được cấp phép' (thể bị động).",
-          "should corporate associates permit to disclose": "Sai ngữ pháp: Động từ 'permit' không kết hợp trực tiếp với 'to-V' ở thể chủ động (chỉ dùng 'permit V-ing' hoặc 'permit someone to do something')."
+          "should corporate associates permit to disclose": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp: Động từ 'permit' không kết hợp trực tiếp với 'to-V' ở thể chủ động (chỉ dùng 'permit V-ing' hoặc 'permit someone to do something')."
         }
       }
     },
@@ -64,7 +64,7 @@
       "id": "ex_02",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Hardly had the chief financial officer finalized the quarterly earnings projection ________ the international currency exchange market experienced extreme volatility.",
+      "prompt": "Hardly had the chief financial officer finalized the quarterly earnings projection <u>_______</u> the international currency exchange market experienced extreme volatility.",
       "options": [
         "when",
         "than",
@@ -74,13 +74,13 @@
       "correctAnswer": "when",
       "explanation": {
         "translation": "Giám đốc tài chính vừa mới hoàn tất dự báo lợi nhuận quý thì thị trường ngoại hối quốc tế đã trải qua sự biến động dữ dội.",
-        "keySignal": "Cấu trúc đảo ngữ quá khứ hoàn thành bắt đầu bằng 'Hardly had the chief financial officer finalized...'.",
+        "keySignal": "Cấu trúc đảo ngữ quá khứ hoàn thành bắt đầu bằng <mark>Hardly had the chief financial officer finalized...</mark>.",
         "rule": "Cặp liên từ tương quan đảo ngữ: Hardly / Scarcely + had + S + V3/ed + WHEN + S + V2/ed.",
-        "whyCorrect": "Liên từ tương quan chuẩn mực đi kèm với 'Hardly' là 'when' (hoặc 'before') để diễn tả hai hành động diễn ra nối tiếp nhau trong quá khứ.",
+        "whyCorrect": "Liên từ tương quan chuẩn mực đi kèm với 'Hardly' là <span style=\"color: #22c55e; font-weight: bold;\">'when'</span> (hoặc 'before') để diễn tả hai hành động diễn ra nối tiếp nhau trong quá khứ.",
         "distractorBreakdown": {
           "than": "Bẫy nhầm lẫn liên từ: 'than' là liên từ so sánh, chỉ đi kèm với cấu trúc 'No sooner had... than', không kết hợp với 'Hardly'.",
           "that": "Bẫy cấu trúc kết quả: 'that' dùng trong cấu trúc 'So/Such... that' hoặc câu chẻ, không dùng nối hai hành động liên tiếp thời gian.",
-          "then": "Sai cú pháp liên kết: 'then' là phó từ chỉ thời gian, không có chức năng của liên từ phụ thuộc để liên kết hai mệnh đề."
+          "then": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cú pháp liên kết: 'then' là phó từ chỉ thời gian, không có chức năng của liên từ phụ thuộc để liên kết hai mệnh đề."
         }
       }
     },
@@ -88,7 +88,7 @@
       "id": "ex_03",
       "type": "choice",
       "difficulty": 3,
-      "prompt": "Not until the independent arbitration panel delivered its final binding ruling ________ to sign the revised intellectual property cross-licensing agreement.",
+      "prompt": "Not until the independent arbitration panel delivered its final binding ruling <u>_______</u> to sign the revised intellectual property cross-licensing agreement.",
       "options": [
         "did both pharmaceutical conglomerates agree",
         "both pharmaceutical conglomerates agreed",
@@ -98,13 +98,13 @@
       "correctAnswer": "did both pharmaceutical conglomerates agree",
       "explanation": {
         "translation": "Mãi cho đến khi hội đồng trọng tài độc lập đưa ra phán quyết ràng buộc cuối cùng thì cả hai tập đoàn dược phẩm mới đồng ý ký hợp đồng cấp phép chéo sở hữu trí tuệ sửa đổi.",
-        "keySignal": "Cấu trúc đảo ngữ 'Not until' với mệnh đề phụ ở thì Quá khứ đơn: 'Not until the panel delivered...'.",
+        "keySignal": "Cấu trúc đảo ngữ <mark>Not until</mark> với mệnh đề phụ ở thì Quá khứ đơn: <mark>Not until the panel delivered...</mark>.",
         "rule": "Cơ chế hai tầng của Not until: Not until + S1 + V1 (giữ nguyên), + AUX + S2 + V2 (đảo ngữ mệnh đề chính).",
         "whyCorrect": "Mệnh đề phụ sau 'Not until' giữ nguyên trật tự trực thuyết. Đảo ngữ chỉ xảy ra ở mệnh đề chính. Do hành động ở mệnh đề phụ diễn ra ở quá khứ đơn ('delivered'), mệnh đề chính diễn tả hành động tiếp sau cũng ở thì Quá khứ đơn, đảo trợ động từ 'did' lên trước chủ ngữ và giữ động từ nguyên thể 'agree'.",
         "distractorBreakdown": {
           "both pharmaceutical conglomerates agreed": "Bẫy bỏ quên đảo ngữ: Để mệnh đề chính ở trật tự câu khẳng định thông thường.",
           "had both pharmaceutical conglomerates agreed": "Bẫy hòa hợp thì: Hành động đồng ý ký kết xảy ra SAU khi hội đồng ra phán quyết, không thể lùi về thì Quá khứ hoàn thành.",
-          "that both pharmaceutical conglomerates agreed": "Sai cấu trúc cú pháp: 'Not until' không dùng liên từ 'that' để kết nối mệnh đề chính."
+          "that both pharmaceutical conglomerates agreed": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc cú pháp: 'Not until' không dùng liên từ 'that' để kết nối mệnh đề chính."
         }
       }
     },
@@ -112,7 +112,7 @@
       "id": "ex_04",
       "type": "choice",
       "difficulty": 3,
-      "prompt": "So ________ the technological complexity of the newly deployed artificial intelligence engine that external software consultants required six weeks of orientation.",
+      "prompt": "So <u>_______</u> the technological complexity of the newly deployed artificial intelligence engine that external software consultants required six weeks of orientation.",
       "options": [
         "immense was",
         "was immense",
@@ -122,13 +122,13 @@
       "correctAnswer": "immense was",
       "explanation": {
         "translation": "Độ phức tạp công nghệ của hệ thống trí tuệ nhân tạo mới được triển khai lớn đến mức các chuyên gia tư vấn phần mềm bên ngoài đã phải mất sáu tuần định hướng.",
-        "keySignal": "Cấu trúc câu bắt đầu bằng 'So' kết hợp liên từ 'that' ở vế sau diễn tả nguyên nhân - kết quả.",
+        "keySignal": "Cấu trúc câu bắt đầu bằng <mark>So</mark> kết hợp liên từ <mark>that</mark> ở vế sau diễn tả nguyên nhân - kết quả.",
         "rule": "Đảo ngữ với So... That: So + Adj + be + S + THAT + Clause.",
         "whyCorrect": "Theo công thức đảo ngữ với 'So', tính từ 'immense' đứng ngay sau 'So', tiếp theo là động từ to be 'was' hòa hợp với chủ ngữ số ít 'the technological complexity'.",
         "distractorBreakdown": {
           "was immense": "Bẫy trật tự từ: Đặt to be 'was' trước tính từ 'immense' là sai cấu trúc cú pháp đảo ngữ.",
           "immense it was": "Bẫy thiếu đảo ngữ: Sử dụng đại từ giả 'it' và giữ nguyên trật tự câu trực thuyết 'it was' thay vì đảo động từ ra trước chủ ngữ.",
-          "did immense be": "Sai ngữ pháp nghiêm trọng: Động từ to be ở dạng tính từ vị ngữ không mượn trợ động từ 'did' trong đảo ngữ."
+          "did immense be": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp nghiêm trọng: Động từ to be ở dạng tính từ vị ngữ không mượn trợ động từ 'did' trong đảo ngữ."
         }
       }
     },
@@ -136,7 +136,7 @@
       "id": "ex_05",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "It was precisely during the global economic symposium in Zurich ________ the multinational logistics conglomerate announced its ambitious zero-carbon fleet transition.",
+      "prompt": "It was precisely during the global economic symposium in Zurich <u>_______</u> the multinational logistics conglomerate announced its ambitious zero-carbon fleet transition.",
       "options": [
         "that",
         "when",
@@ -146,13 +146,13 @@
       "correctAnswer": "that",
       "explanation": {
         "translation": "Chính là trong khuôn khổ hội nghị chuyên đề kinh tế toàn cầu tại Zurich mà tập đoàn hậu cần đa quốc gia đã công bố quá trình chuyển đổi đội xe phát thải ròng bằng không đầy tham vọng của mình.",
-        "keySignal": "Cấu trúc câu chẻ nhấn mạnh trạng ngữ thời gian: 'It was precisely during the symposium...'.",
+        "keySignal": "Cấu trúc câu chẻ nhấn mạnh trạng ngữ thời gian: <mark>It was precisely during the symposium...</mark>.",
         "rule": "Cleft Sentence nhấn mạnh Trạng từ: It is/was + Adverbial Modifier + THAT + S + V.",
-        "whyCorrect": "Trong câu chẻ (It-cleft), liên từ chuẩn mực và bắt buộc trong văn phong học thuật để nối mệnh đề nền tảng phía sau luôn là 'that'.",
+        "whyCorrect": "Trong câu chẻ (It-cleft), liên từ chuẩn mực và bắt buộc trong văn phong học thuật để nối mệnh đề nền tảng phía sau luôn là <span style=\"color: #22c55e; font-weight: bold;\">'that'</span>.",
         "distractorBreakdown": {
           "when": "Bẫy ngữ nghĩa thời gian: Thí sinh thấy 'during the symposium' (chỉ thời gian) nên chọn 'when', nhưng trong câu chẻ học thuật chuẩn hóa, 'that' là từ kết nối chuẩn mực duy nhất.",
           "where": "Bẫy trạng từ nơi chốn: Nhìn thấy địa danh 'in Zurich' nên vội vàng chọn 'where', vi phạm cấu trúc câu chẻ 'It was... that'.",
-          "which": "Sai chức năng cú pháp: 'which' là đại từ quan hệ thay thế cho danh từ bị khuyết trong mệnh đề quan hệ, trong khi mệnh đề phía sau đã hoàn chỉnh đầy đủ S-V-O."
+          "which": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> chức năng cú pháp: 'which' là đại từ quan hệ thay thế cho danh từ bị khuyết trong mệnh đề quan hệ, trong khi mệnh đề phía sau đã hoàn chỉnh đầy đủ S-V-O."
         }
       }
     },
@@ -170,13 +170,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Trên đỉnh dãy núi gồ ghề tọa lạc một đài quan sát nghiên cứu thời tiết đã ghi nhận dữ liệu khí quyển suốt nhiều thập kỷ qua.",
-        "keySignal": "Cụm giới từ chỉ nơi chốn đứng đầu câu 'At the summit of the rugged mountain range' kết hợp với trợ động từ 'did' ở vị trí [B].",
+        "keySignal": "Cụm giới từ chỉ nơi chốn đứng đầu câu <mark>At the summit of the rugged mountain range</mark> kết hợp với trợ động từ <mark>did</mark> ở vị trí [B].",
         "rule": "Đảo ngữ Nơi chốn (Locative Inversion): Prepositional phrase of place + Main Verb (nguyên động từ chia theo thì) + Noun Subject. TUYỆT ĐỐI KHÔNG mượn trợ động từ do/does/did.",
         "whyCorrect": "Vị trí [B] sai vì đảo ngữ nơi chốn là hình thức đảo toàn bộ động từ chính ra trước chủ ngữ danh từ. Mượn trợ động từ 'did stand' là sai quy tắc. Phải sửa 'did stand' thành 'stood'.",
         "distractorBreakdown": {
-          "A (At the summit)": "Đúng ngữ pháp: Cụm giới từ chỉ địa điểm đóng vai trò trạng ngữ đưa lên đầu câu để kích hoạt đảo ngữ nơi chốn.",
-          "C (that)": "Đúng ngữ pháp: Đại từ quan hệ 'that' làm chủ ngữ thay thế cho danh từ số ít 'observatory' trong mệnh đề xác định.",
-          "D (for several decades)": "Đúng ngữ pháp: Cụm giới từ chỉ khoảng thời gian kết hợp hoàn hảo với thì Hiện tại hoàn thành 'has recorded'."
+          "A (At the summit)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ địa điểm đóng vai trò trạng ngữ đưa lên đầu câu để kích hoạt đảo ngữ nơi chốn.",
+          "C (that)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Đại từ quan hệ 'that' làm chủ ngữ thay thế cho danh từ số ít 'observatory' trong mệnh đề xác định.",
+          "D (for several decades)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ khoảng thời gian kết hợp hoàn hảo với thì Hiện tại hoàn thành 'has recorded'."
         }
       }
     },
@@ -194,13 +194,13 @@
       "correctAnswer": "C",
       "explanation": {
         "translation": "Ban kiểm soát vừa mới hoàn tất lộ trình tái cấu trúc thì các đại diện công đoàn đã tiến hành một cuộc rời bàn họp bất ngờ để phản đối.",
-        "keySignal": "Cụm phó từ đảo ngữ 'No sooner had...' ở đầu câu kết hợp với liên từ 'when' ở vị trí [C].",
+        "keySignal": "Cụm phó từ đảo ngữ <mark>No sooner had...</mark> ở đầu câu kết hợp với liên từ <mark>when</mark> ở vị trí [C].",
         "rule": "Cặp liên từ tương quan đảo ngữ: No sooner had + S + V3/ed + THAN + S + V2/ed. 'When' chỉ đi kèm với 'Hardly / Scarcely'.",
         "whyCorrect": "Vị trí [C] sai vì 'No sooner' bắt buộc phải đi với 'THAN' (do có tính từ so sánh hơn 'sooner'). Phải sửa 'when' thành 'than'.",
         "distractorBreakdown": {
-          "A (No sooner)": "Đúng ngữ pháp: Cụm từ phủ định thời gian chuẩn mực đứng đầu câu để nhấn mạnh hành động liên tiếp.",
-          "B (finalized)": "Đúng ngữ pháp: Quá khứ phân từ kết hợp chuẩn xác với trợ động từ 'had' trong cấu trúc thì Quá khứ hoàn thành.",
-          "D (walkout)": "Đúng ngữ pháp: Danh từ đếm được chỉ cuộc đình công, bãi công hoặc bỏ họp phản đối."
+          "A (No sooner)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm từ phủ định thời gian chuẩn mực đứng đầu câu để nhấn mạnh hành động liên tiếp.",
+          "B (finalized)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Quá khứ phân từ kết hợp chuẩn xác với trợ động từ 'had' trong cấu trúc thì Quá khứ hoàn thành.",
+          "D (walkout)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ đếm được chỉ cuộc đình công, bãi công hoặc bỏ họp phản đối."
         }
       }
     },
@@ -218,13 +218,13 @@
       "correctAnswer": "A",
       "explanation": {
         "translation": "Chỉ sau khi các kế toán viên pháp y thanh tra các giao dịch ở nước ngoài thì cơ quan quản lý mới phát hiện ra những sai lệch kế toán ngầm do các cựu giám đốc dàn dựng.",
-        "keySignal": "Vị trí [A] đảo trợ động từ 'did' ngay trong mệnh đề phụ đi sau liên từ 'Only after'.",
+        "keySignal": "Vị trí [A] đảo trợ động từ <mark>did</mark> ngay trong mệnh đề phụ đi sau liên từ <mark>Only after</mark>.",
         "rule": "Cơ chế hai tầng với Only after: Mệnh đề phụ đi liền sau 'Only after' giữ nguyên trật tự trực thuyết (S + V). Đảo ngữ CHỈ ĐƯỢC DIỄN RA Ở MỆNH ĐỀ CHÍNH.",
         "whyCorrect": "Vị trí [A] sai nghiêm trọng do đảo ngữ nhầm vị trí. Mệnh đề phụ chỉ thời gian sau 'Only after' không được đảo ngữ. Phải sửa 'did the forensic accountants inspect' thành 'the forensic accountants inspected'.",
         "distractorBreakdown": {
-          "B (did the regulatory agency uncover)": "Đúng ngữ pháp: Mệnh đề chính đã thực hiện đảo ngữ hoàn toàn chính xác với trợ động từ 'did' + chủ ngữ + V_bare.",
-          "C (orchestrated)": "Đúng ngữ pháp: Quá khứ phân từ rút gọn mệnh đề quan hệ ở thể bị động (= which were orchestrated).",
-          "D (by former executives)": "Đúng ngữ pháp: Cụm giới từ chỉ tác nhân của hành động bị động."
+          "B (did the regulatory agency uncover)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Mệnh đề chính đã thực hiện đảo ngữ hoàn toàn chính xác với trợ động từ 'did' + chủ ngữ + V_bare.",
+          "C (orchestrated)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Quá khứ phân từ rút gọn mệnh đề quan hệ ở thể bị động (= which were orchestrated).",
+          "D (by former executives)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ tác nhân của hành động bị động."
         }
       }
     },
@@ -242,13 +242,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Chính là bên trong phòng thí nghiệm dưới lòng đất tối tân mà các nhà nghiên cứu y sinh đã thiết kế thành công chuỗi peptide kháng khuẩn tổng hợp mới.",
-        "keySignal": "Cấu trúc câu chẻ 'It was + [cụm trạng từ nơi chốn]...' kết hợp với từ nối 'where' ở vị trí [B].",
+        "keySignal": "Cấu trúc câu chẻ <mark>It was + [cụm trạng từ nơi chốn]...</mark> kết hợp với từ nối <mark>where</mark> ở vị trí [B].",
         "rule": "Cleft Sentence nhấn mạnh Trạng ngữ: It is/was + Adverbial Modifier + THAT + S + V. Tiêu chuẩn khảo thí quốc tế không dùng 'where' trong câu chẻ.",
         "whyCorrect": "Vị trí [B] sai vì đây là cấu trúc câu chẻ nhấn mạnh (It-cleft), không phải mệnh đề quan hệ thông thường. Liên từ nối bắt buộc phải là 'that'. Phải sửa 'where' thành 'that'.",
         "distractorBreakdown": {
-          "A (state-of-the-art)": "Đúng ngữ pháp: Tính từ ghép mang nghĩa hiện đại nhất, tối tân nhất.",
-          "C (engineered)": "Đúng ngữ pháp: Động từ vị ngữ thì Quá khứ đơn mang nghĩa chế tạo, thiết kế kỹ thuật y sinh.",
-          "D (peptide)": "Đúng ngữ pháp: Danh từ thuật ngữ sinh hóa học chỉ chuỗi axit amin."
+          "A (state-of-the-art)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Tính từ ghép mang nghĩa hiện đại nhất, tối tân nhất.",
+          "C (engineered)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ vị ngữ thì Quá khứ đơn mang nghĩa chế tạo, thiết kế kỹ thuật y sinh.",
+          "D (peptide)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ thuật ngữ sinh hóa học chỉ chuỗi axit amin."
         }
       }
     },
@@ -266,13 +266,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Chuông báo động khẩn cấp vang lên khắp cơ sở bán dẫn, và họ chạy ùa vào sân trong để thoát khỏi luồng hơi hóa chất độc hại.",
-        "keySignal": "Cụm trạng từ chỉ hướng chuyển động 'into the courtyard' kết hợp với chủ ngữ là đại từ nhân xưng 'they' ở vị trí [B].",
+        "keySignal": "Cụm trạng từ chỉ hướng chuyển động <mark>into the courtyard</mark> kết hợp với chủ ngữ là đại từ nhân xưng <mark>they</mark> ở vị trí [B].",
         "rule": "Quy tắc Đảo ngữ Nơi chốn & Chuyển động với Đại từ: Nếu chủ ngữ là Đại từ nhân xưng (Personal Pronoun: he, she, it, they, we...), TUYỆT ĐỐI KHÔNG ĐẢO NGỮ (Prep Phrase + Pronoun + Verb).",
         "whyCorrect": "Vị trí [B] sai vì chủ ngữ là đại từ nhân xưng 'they'. Người bản xứ không bao giờ đảo động từ lên trước đại từ nhân xưng trong cấu trúc chỉ hướng. Phải sửa 'ran they' thành 'they ran'.",
         "distractorBreakdown": {
-          "A (sounded)": "Đúng ngữ pháp: Động từ chia ở thì Quá khứ đơn diễn tả âm thanh chuông báo động vang lên.",
-          "C (to escape)": "Đúng ngữ pháp: Động từ nguyên mẫu có 'to' diễn tả mục đích của hành động (Infinitive of purpose).",
-          "D (vapor plume)": "Đúng ngữ pháp: Cụm danh từ chuyên ngành chỉ cột khói / luồng hơi bốc lên."
+          "A (sounded)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ chia ở thì Quá khứ đơn diễn tả âm thanh chuông báo động vang lên.",
+          "C (to escape)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ nguyên mẫu có 'to' diễn tả mục đích của hành động (Infinitive of purpose).",
+          "D (vapor plume)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ chuyên ngành chỉ cột khói / luồng hơi bốc lên."
         }
       }
     },
@@ -280,12 +280,12 @@
       "id": "ex_11",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "Little ________ (the executive committee / suspect) that the rival telecommunications conglomerate had already registered the patent for the ultra-fast optical sensor.",
+      "prompt": "Little <u>_______</u> (the executive committee / suspect) that the rival telecommunications conglomerate had already registered the patent for the ultra-fast optical sensor.",
       "options": [],
       "correctAnswer": "did the executive committee suspect",
       "explanation": {
         "translation": "Ủy ban điều hành hầu như không mảy may ngờ rằng tập đoàn viễn thông đối thủ đã đăng ký bản quyền cho cảm biến quang học siêu tốc.",
-        "keySignal": "Phó từ bán phủ định 'Little' đứng đầu câu kết hợp mệnh đề sau chia thì Quá khứ hoàn thành 'had already registered'.",
+        "keySignal": "Phó từ bán phủ định <mark>Little</mark> đứng đầu câu kết hợp mệnh đề sau chia thì Quá khứ hoàn thành <mark>had already registered</mark>.",
         "rule": "Đảo ngữ với Little: Little + did + S + V_bare (trong ngữ cảnh quá khứ).",
         "whyCorrect": "'Little' mang nghĩa phủ định ('hầu như không biết/không ngờ'). Khi đứng đầu câu trong ngữ cảnh hành động đã qua, ta mượn trợ động từ 'did' đảo lên trước chủ ngữ 'the executive committee' và đưa động từ chính về nguyên mẫu 'suspect'.",
         "distractorBreakdown": {
@@ -299,14 +299,14 @@
       "id": "ex_12",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "Only after the municipal council had approved the environmental mitigation plan ________ (the construction enterprise / commence) drilling the subterranean drainage tunnels.",
+      "prompt": "Only after the municipal council had approved the environmental mitigation plan <u>_______</u> (the construction enterprise / commence) drilling the subterranean drainage tunnels.",
       "options": [],
       "correctAnswer": "did the construction enterprise commence",
       "explanation": {
         "translation": "Chỉ sau khi hội đồng thành phố phê duyệt kế hoạch giảm thiểu tác động môi trường thì doanh nghiệp xây dựng mới bắt đầu khoan các đường hầm thoát nước ngầm.",
-        "keySignal": "Cấu trúc liên từ hai tầng 'Only after + S1 + had V3/ed' đứng đầu câu.",
+        "keySignal": "Cấu trúc liên từ hai tầng <mark>Only after + S1 + had V3/ed</mark> đứng đầu câu.",
         "rule": "Cơ chế hai tầng với Only after: Only after + clause, + did + S + V_bare.",
-        "whyCorrect": "Mệnh đề phụ sau 'Only after' giữ nguyên trật tự trực thuyết, còn mệnh đề chính bắt buộc phải đảo ngữ. Do hành động ở mệnh đề phụ dùng Quá khứ hoàn thành ('had approved'), mệnh đề chính diễn tả hành động tiếp theo trong quá khứ nên dùng trợ động từ 'did' + V_bare ('did the construction enterprise commence').",
+        "whyCorrect": "Mệnh đề phụ sau 'Only after' giữ nguyên trật tự trực thuyết, còn mệnh đề chính bắt buộc phải đảo ngữ. Do hành động ở mệnh đề phụ dùng Quá khứ hoàn thành ('had approved'), mệnh đề chính diễn tả hành động tiếp theo trong quá khứ nên dùng trợ động từ 'did' + V_bare (<span style=\"color: #22c55e; font-weight: bold;\">'did the construction enterprise commence'</span>).",
         "distractorBreakdown": {
           "the construction enterprise commenced": "Bẫy trật tự trực thuyết: Bỏ quên trợ động từ đảo ngữ ở mệnh đề chính.",
           "did the construction enterprise commenced": "Lỗi chia động từ: Vẫn giữ đuôi '-ed' ở động từ chính sau khi đã có trợ động từ 'did'.",
@@ -318,18 +318,18 @@
       "id": "ex_13",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "No sooner had the senior compliance officer detected the accounting anomaly ________ (than / when / that) the internal audit committee launched an immediate investigation.",
+      "prompt": "No sooner had the senior compliance officer detected the accounting anomaly <u>_______</u> (than / when / that) the internal audit committee launched an immediate investigation.",
       "options": [],
       "correctAnswer": "than",
       "explanation": {
         "translation": "Viên chức tuân thủ cấp cao vừa mới phát hiện ra điểm bất thường trong sổ sách kế toán thì ủy ban kiểm toán nội bộ đã ngay lập tức mở một cuộc điều tra.",
-        "keySignal": "Cấu trúc đảo ngữ thời gian 'No sooner had + S + V3/ed'.",
+        "keySignal": "Cấu trúc đảo ngữ thời gian <mark>No sooner had + S + V3/ed</mark>.",
         "rule": "Cặp liên từ cố định: No sooner... THAN...",
-        "whyCorrect": "'No sooner' bản chất mang cấu trúc so sánh hơn ('sooner'), do đó liên từ tương quan bắt buộc đi kèm là 'than'. Tuyệt đối không dùng 'when' hay 'that'.",
+        "whyCorrect": "'No sooner' bản chất mang cấu trúc so sánh hơn ('sooner'), do đó liên từ tương quan bắt buộc đi kèm là <span style=\"color: #22c55e; font-weight: bold;\">'than'</span>. Tuyệt đối không dùng 'when' hay 'that'.",
         "distractorBreakdown": {
           "when": "Bẫy lẫn lộn liên từ: 'when' chỉ đi kèm với 'Hardly / Scarcely / Barely', không đi với 'No sooner'.",
           "that": "Bẫy cấu trúc So/Such: 'that' chỉ dùng trong cấu trúc kết quả 'so/such... that' hoặc câu chẻ.",
-          "then": "Sai cú pháp: 'then' là phó từ, không đóng vai trò liên từ phụ thuộc để nối mệnh đề."
+          "then": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cú pháp: 'then' là phó từ, không đóng vai trò liên từ phụ thuộc để nối mệnh đề."
         }
       }
     },
@@ -337,18 +337,18 @@
       "id": "ex_14",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "So delicate ________ (be) the diplomatic negotiations surrounding the border demarcation that neither delegation issued an official press release.",
+      "prompt": "So delicate <u>_______</u> (be) the diplomatic negotiations surrounding the border demarcation that neither delegation issued an official press release.",
       "options": [],
       "correctAnswer": "were",
       "explanation": {
         "translation": "Các cuộc đàm phán ngoại giao xoay quanh việc phân định biên giới nhạy cảm đến mức không phái đoàn nào đưa ra thông cáo báo chí chính thức.",
-        "keySignal": "Cấu trúc đảo ngữ 'So + Adj + be + S + that', chủ ngữ là danh từ số nhiều 'the diplomatic negotiations', động từ mệnh đề kết quả chia quá khứ đơn 'issued'.",
+        "keySignal": "Cấu trúc đảo ngữ <mark>So + Adj + be + S + that</mark>, chủ ngữ là danh từ số nhiều <mark>the diplomatic negotiations</mark>, động từ mệnh đề kết quả chia quá khứ đơn <mark>issued</mark>.",
         "rule": "Đảo ngữ với So: So + Adj + was/were + Plural Subject + that + Clause.",
-        "whyCorrect": "Chủ ngữ sau to be là 'the diplomatic negotiations' (danh từ số nhiều), và sự việc xảy ra trong quá khứ (thể hiện qua động từ 'issued'). Do đó, to be bắt buộc phải chia ở dạng số nhiều thì Quá khứ đơn là 'were'.",
+        "whyCorrect": "Chủ ngữ sau to be là 'the diplomatic negotiations' (danh từ số nhiều), và sự việc xảy ra trong quá khứ (thể hiện qua động từ 'issued'). Do đó, to be bắt buộc phải chia ở dạng số nhiều thì Quá khứ đơn là <span style=\"color: #22c55e; font-weight: bold;\">'were'</span>.",
         "distractorBreakdown": {
           "was": "Bẫy hòa hợp chủ - vị: Không nhận ra 'negotiations' là danh từ số nhiều nên chia nhầm to be số ít 'was'.",
           "are": "Bẫy thì hiện tại: Chia ở thì hiện tại mâu thuẫn với động từ quá khứ 'issued' ở mệnh đề sau.",
-          "had been": "Sai cấu trúc: Đảo ngữ của 'So + Adj' dùng trực tiếp động từ to be ở thì đơn (was/were), không dùng 'had been'."
+          "had been": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Đảo ngữ của 'So + Adj' dùng trực tiếp động từ to be ở thì đơn (was/were), không dùng 'had been'."
         }
       }
     },
@@ -356,18 +356,18 @@
       "id": "ex_15",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "It was directly to the federal ombudsman ________ (that / whom / which) the aerospace whistleblower submitted the confidential documentation on structural fatigue.",
+      "prompt": "It was directly to the federal ombudsman <u>_______</u> (that / whom / which) the aerospace whistleblower submitted the confidential documentation on structural fatigue.",
       "options": [],
       "correctAnswer": "that",
       "explanation": {
         "translation": "Chính là trực tiếp gửi tới thanh tra liên bang mà người tố giác ngành hàng không vũ trụ đã nộp các tài liệu mật về sự mỏi kết cấu.",
-        "keySignal": "Cấu trúc câu chẻ nhấn mạnh 'It was + [cụm giới từ: directly to the federal ombudsman] + ...'.",
+        "keySignal": "Cấu trúc câu chẻ nhấn mạnh <mark>It was + [cụm giới từ: directly to the federal ombudsman] + ...</mark>.",
         "rule": "Câu chẻ (Cleft sentence) nhấn mạnh Trạng ngữ/Cụm giới từ: It was + Prep Phrase + THAT + S + V.",
-        "whyCorrect": "Trong văn phong khảo thí học thuật quốc tế (IELTS/TOEIC/THPTQG Chuyên), khi câu chẻ nhấn mạnh một cụm trạng từ hoặc cụm giới từ, liên từ chuẩn mực duy nhất kết nối mệnh đề phía sau bắt buộc phải là 'that'.",
+        "whyCorrect": "Trong văn phong khảo thí học thuật quốc tế (IELTS/TOEIC/THPTQG Chuyên), khi câu chẻ nhấn mạnh một cụm trạng từ hoặc cụm giới từ, liên từ chuẩn mực duy nhất kết nối mệnh đề phía sau bắt buộc phải là <span style=\"color: #22c55e; font-weight: bold;\">'that'</span>.",
         "distractorBreakdown": {
           "whom": "Bẫy đại từ chỉ người: Thí sinh thấy 'ombudsman' (thanh tra) là người nên chọn 'whom', nhưng ở đây đối tượng nhấn mạnh là cả cụm giới từ 'to the federal ombudsman' chứ không phải tân ngữ danh từ đơn lẻ.",
-          "which": "Sai đối tượng: 'which' chỉ thay thế cho danh từ chỉ vật.",
-          "where": "Sai bản chất câu chẻ: 'where' chỉ dùng chỉ nơi chốn trong mệnh đề quan hệ thường, không dùng để nhấn mạnh cụm đối tượng giới từ trong câu chẻ."
+          "which": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> đối tượng: 'which' chỉ thay thế cho danh từ chỉ vật.",
+          "where": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> bản chất câu chẻ: 'where' chỉ dùng chỉ nơi chốn trong mệnh đề quan hệ thường, không dùng để nhấn mạnh cụm đối tượng giới từ trong câu chẻ."
         }
       }
     }

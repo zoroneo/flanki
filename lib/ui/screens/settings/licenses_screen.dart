@@ -130,234 +130,109 @@ SOFTWARE.''';
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            children: [
-              // Flanki Featured License Card
-              Card(
-                padding: const EdgeInsets.all(18),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withValues(
-                              alpha: 0.12,
-                            ),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            LucideIcons.shieldCheck,
-                            size: 22,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'Flanki',
-                                    style: theme.typography.semiBold.copyWith(
-                                      fontSize: 16,
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Flanki Featured License Card
+                      Card(
+                        padding: const EdgeInsets.all(18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary.withValues(
+                                      alpha: 0.12,
                                     ),
+                                    shape: BoxShape.circle,
                                   ),
-                                  const SizedBox(width: 8),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 7,
-                                      vertical: 2,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: theme.colorScheme.muted,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Text(
-                                      'v${AppConfig.version}',
-                                      style: theme.typography.xSmall.copyWith(
-                                        color:
-                                            theme.colorScheme.mutedForeground,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+                                  child: Icon(
+                                    LucideIcons.shieldCheck,
+                                    size: 22,
+                                    color: theme.colorScheme.primary,
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 3),
-                              Text(
-                                'Copyright © 2026 ZoroNeo. MIT License.',
-                                style: theme.typography.xSmall.copyWith(
-                                  color: theme.colorScheme.mutedForeground,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        IconButton.ghost(
-                          icon: Icon(
-                            expandedPackages.value.contains('flanki')
-                                ? LucideIcons.chevronDown
-                                : LucideIcons.chevronRight,
-                            size: 18,
-                            color: theme.colorScheme.mutedForeground,
-                          ),
-                          onPressed: () => toggleExpanded('flanki'),
-                        ),
-                      ],
-                    ),
-                    if (expandedPackages.value.contains('flanki')) ...[
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 12),
-                      _LicenseCodeBlock(
-                        licenseText: flankiLicenseText,
-                        onCopy: () {
-                          Clipboard.setData(
-                            const ClipboardData(text: flankiLicenseText),
-                          );
-                          showToast(
-                            context: context,
-                            builder: (ctx, overlay) => SurfaceCard(
-                              child: Basic(
-                                title: Text(l10n.licenseCopied),
-                                trailing: IconButton.ghost(
-                                  icon: const Icon(LucideIcons.x, size: 14),
-                                  onPressed: () => overlay.close(),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Search & Filter
-              TextField(
-                controller: searchController,
-                placeholder: Text(l10n.searchLicensesPlaceholder),
-                features: [
-                  InputFeature.leading(
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4, right: 6),
-                      child: Icon(
-                        LucideIcons.search,
-                        size: 16,
-                        color: theme.colorScheme.mutedForeground,
-                      ),
-                    ),
-                  ),
-                  if (searchQuery.value.isNotEmpty)
-                    InputFeature.trailing(
-                      IconButton.ghost(
-                        icon: const Icon(LucideIcons.x, size: 14),
-                        onPressed: () => searchController.clear(),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 18),
-
-              // Third-party packages header
-              Text(
-                l10n.thirdPartyLicenses(filteredPackages.length),
-                style: theme.typography.xSmall.copyWith(
-                  color: theme.colorScheme.mutedForeground,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              if (snapshot.connectionState == ConnectionState.waiting) ...[
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 48),
-                  child: Center(
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                ),
-              ] else if (filteredPackages.isEmpty) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 48),
-                  child: Center(
-                    child: Text(
-                      l10n.noLicensesFound,
-                      style: theme.typography.small.copyWith(
-                        color: theme.colorScheme.mutedForeground,
-                      ),
-                    ),
-                  ),
-                ),
-              ] else ...[
-                Card(
-                  padding: EdgeInsets.zero,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: filteredPackages.length,
-                    separatorBuilder: (context, index) =>
-                        const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final item = filteredPackages[index];
-                      final isExpanded = expandedPackages.value.contains(
-                        item.package,
-                      );
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => toggleExpanded(item.package),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    LucideIcons.package,
-                                    size: 16,
-                                    color: theme.colorScheme.mutedForeground,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Text(
-                                      item.package,
-                                      style: theme.typography.small.copyWith(
-                                        fontWeight: FontWeight.w500,
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Flanki',
+                                            style: theme.typography.semiBold
+                                                .copyWith(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 7,
+                                              vertical: 2,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: theme.colorScheme.muted,
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                            ),
+                                            child: Text(
+                                              'v${AppConfig.version}',
+                                              style: theme.typography.xSmall
+                                                  .copyWith(
+                                                color: theme.colorScheme
+                                                    .mutedForeground,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
+                                      const SizedBox(height: 3),
+                                      Text(
+                                        'Copyright © 2026 ZoroNeo. MIT License.',
+                                        style: theme.typography.xSmall.copyWith(
+                                          color:
+                                              theme.colorScheme.mutedForeground,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Icon(
-                                    isExpanded
+                                ),
+                                IconButton.ghost(
+                                  icon: Icon(
+                                    expandedPackages.value.contains('flanki')
                                         ? LucideIcons.chevronDown
                                         : LucideIcons.chevronRight,
-                                    size: 16,
+                                    size: 18,
                                     color: theme.colorScheme.mutedForeground,
                                   ),
-                                ],
-                              ),
+                                  onPressed: () => toggleExpanded('flanki'),
+                                ),
+                              ],
                             ),
-                          ),
-                          if (isExpanded)
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-                              child: _LicenseCodeBlock(
-                                licenseText: item.text,
+                            if (expandedPackages.value.contains('flanki')) ...[
+                              const SizedBox(height: 14),
+                              const Divider(),
+                              const SizedBox(height: 12),
+                              _LicenseCodeBlock(
+                                licenseText: flankiLicenseText,
                                 onCopy: () {
                                   Clipboard.setData(
-                                    ClipboardData(text: item.text),
+                                    const ClipboardData(
+                                      text: flankiLicenseText,
+                                    ),
                                   );
                                   showToast(
                                     context: context,
@@ -376,14 +251,168 @@ SOFTWARE.''';
                                   );
                                 },
                               ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Search & Filter
+                      TextField(
+                        controller: searchController,
+                        placeholder: Text(l10n.searchLicensesPlaceholder),
+                        features: [
+                          InputFeature.leading(
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4, right: 6),
+                              child: Icon(
+                                LucideIcons.search,
+                                size: 16,
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ),
+                          if (searchQuery.value.isNotEmpty)
+                            InputFeature.trailing(
+                              IconButton.ghost(
+                                icon: const Icon(LucideIcons.x, size: 14),
+                                onPressed: () => searchController.clear(),
+                              ),
                             ),
                         ],
+                      ),
+                      const SizedBox(height: 18),
+
+                      // Third-party packages header
+                      Text(
+                        l10n.thirdPartyLicenses(filteredPackages.length),
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colorScheme.mutedForeground,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      if (snapshot.connectionState ==
+                          ConnectionState.waiting) ...[
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 48),
+                          child: Center(
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+                      ] else if (filteredPackages.isEmpty) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 48),
+                          child: Center(
+                            child: Text(
+                              l10n.noLicensesFound,
+                              style: theme.typography.small.copyWith(
+                                color: theme.colorScheme.mutedForeground,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+
+              if (snapshot.connectionState != ConnectionState.waiting &&
+                  filteredPackages.isNotEmpty)
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverList.separated(
+                    itemCount: filteredPackages.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 8),
+                    itemBuilder: (context, index) {
+                      final item = filteredPackages[index];
+                      final isExpanded = expandedPackages.value.contains(
+                        item.package,
+                      );
+
+                      return Card(
+                        key: ValueKey('pkg_${item.package}'),
+                        padding: EdgeInsets.zero,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => toggleExpanded(item.package),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      LucideIcons.package,
+                                      size: 16,
+                                      color: theme.colorScheme.mutedForeground,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        item.package,
+                                        style: theme.typography.small.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      isExpanded
+                                          ? LucideIcons.chevronDown
+                                          : LucideIcons.chevronRight,
+                                      size: 16,
+                                      color: theme.colorScheme.mutedForeground,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            if (isExpanded)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                                child: _LicenseCodeBlock(
+                                  licenseText: item.text,
+                                  onCopy: () {
+                                    Clipboard.setData(
+                                      ClipboardData(text: item.text),
+                                    );
+                                    showToast(
+                                      context: context,
+                                      builder: (ctx, overlay) => SurfaceCard(
+                                        child: Basic(
+                                          title: Text(l10n.licenseCopied),
+                                          trailing: IconButton.ghost(
+                                            icon: const Icon(
+                                              LucideIcons.x,
+                                              size: 14,
+                                            ),
+                                            onPressed: () => overlay.close(),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                          ],
+                        ),
                       );
                     },
                   ),
                 ),
-              ],
-              const SizedBox(height: 48),
+
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 48),
+              ),
             ],
           ),
         ),

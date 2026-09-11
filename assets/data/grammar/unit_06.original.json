@@ -1,0 +1,375 @@
+{
+  "unitId": "unit-06-past-perfect-vs-past-simple",
+  "title": "Unit 06: Past Perfect vs. Past Simple (Quá khứ hoàn thành vs. Quá khứ đơn)",
+  "category": "tenses",
+  "level": 1,
+  "coreConcept": "Tư duy cốt lõi của người bản xứ khi lựa chọn giữa Quá khứ hoàn thành (Past Perfect) và Quá khứ đơn (Past Simple) bắt nguồn từ BẢN ĐỒ THỜI GIAN ĐA TẦNG (Multi-layered Timeline) và ĐIỂM QUY CHIẾU QUÁ KHỨ (Past Reference Point / Anchor):\n\n1. Past Perfect (Had + V3/ed) - 'The Past before the Past' (Quá khứ trước quá khứ):\n- Bản chất: Diễn tả một hành động xảy ra và ĐÃ HOÀN TẤT TRỌN VẸN TRƯỚC một thời điểm hoặc trước một hành động khác trong quá khứ.\n- Nguyên lý điểm tựa (The Anchor Principle): Past Perfect KHÔNG THỂ đứng một mình một cách cô lập nếu không có một mốc quy chiếu trong quá khứ (Past Anchor). Người bản ngữ dùng 'had + V3/ed' để báo hiệu cho người nghe: 'Hãy lùi lại một bước nữa trong dòng thời gian, sự kiện này là tiền đề / nguyên nhân cho sự kiện quá khứ mà tôi sắp kể'.\n- Ví dụ: 'When I arrived at the station, the train had left.' -> Điểm tựa là lúc tôi đến (arrived - Past Simple), còn đoàn tàu rời đi trước đó (had left - Past Perfect).\n\n2. Past Simple (V2/ed) - 'The Primary Past & Narrative Sequence' (Quá khứ chính & Chuỗi tự sự nối tiếp):\n- Hành động xảy ra sau trong mối quan hệ trước - sau với Past Perfect.\n- Chuỗi hành động liên tiếp tự nhiên (Narrative Sequence: A -> B -> C): Khi người nói liệt kê các sự kiện diễn ra tuần tự theo dòng thời gian tự nhiên của câu chuyện, TẤT CẢ đều chia ở Quá khứ đơn (Past Simple), hoàn toàn không cần dùng Past Perfect. Bản ngữ chuộng sự tinh gọn, không lạm dụng Past Perfect khi thứ tự thời gian đã hiển nhiên.\n- Ví dụ: 'He entered the office, turned on the computer, and checked his email.' (Chuỗi hành động A -> B -> C đều chia Past Simple).\n\n3. Bảng so sánh trực quan tư duy bản xứ:\n- 'I lost my keys yesterday.' (Past Simple: Kể lại một sự kiện xảy ra tại mốc thời gian xác định hôm qua).\n- 'I couldn't enter the house because I had lost my keys.' (Past Perfect: Giải thích nguyên nhân xảy ra trước việc không vào được nhà trong quá khứ).",
+  "formulas": {
+    "pastPerfect": "Khẳng định: S + had + V3/ed | Phủ định: S + had not (hadn't) + V3/ed | Nghi vấn: Had + S + V3/ed?",
+    "pastSimple": "Khẳng định: S + V2/ed | Phủ định: S + did not (didn't) + V_bare | Nghi vấn: Did + S + V_bare?"
+  },
+  "timeConnectorsAndStructures": "CÁC LIÊN TỪ VÀ CẤU TRÚC PHỐI THÌ THEN CHỐT TRONG CÁC KỲ THI TOEIC / THPTQG / IELTS:\n\n1. Nhóm liên từ thời gian kinh điển:\n- By the time + S + V2/ed (Quá khứ đơn), S + had + V3/ed (Quá khứ hoàn thành)\n  Ví dụ: By the time the auditors arrived, the accountant had organized all receipts.\n- By + mốc thời gian quá khứ (by 2015, by 5 PM yesterday, by the end of last month), S + had + V3/ed\n  Ví dụ: By 2020, the corporation had expanded into five new overseas markets.\n- Before + S + V2/ed, S + had + V3/ed (hoặc: S + had + V3/ed + before + S + V2/ed)\n  Ví dụ: She had reviewed the portfolio carefully before she attended the client pitch.\n- After + S + had + V3/ed, S + V2/ed (hoặc: S + V2/ed + after + S + had + V3/ed)\n  Ví dụ: After the board had approved the budget, the project manager purchased the machinery.\n- When + S + V2/ed, S + had + V3/ed (Nhấn mạnh hành động A đã xong trước khi sự việc B xảy ra)\n  Ví dụ: When we reached the cinema, the premiere had already started.\n- Until / Till: S + hadn't + V3/ed + until + S + V2/ed (Mãi cho đến khi hành động B diễn ra thì hành động A mới xảy ra)\n  Ví dụ: The director hadn't realized the discrepancy until the internal audit team reported it.\n\n2. Cấu trúc ĐẢO NGỮ (Inversion) điểm 9-10 trong đề thi THPTQG & Tiếng Anh chuyên:\n- Cấu trúc 1: Hardly / Scarcely / Barely + had + S + V3/ed + WHEN / BEFORE + S + V2/ed\n  Nghĩa: 'Ngay khi / Vừa mới... thì...'\n  Ví dụ: Hardly had the keynote speaker stepped onto the stage when the power went out.\n- Cấu trúc 2: No sooner + had + S + V3/ed + THAN + S + V2/ed\n  Nghĩa: 'Vừa mới... thì...'\n  Ví dụ: No sooner had the CEO announced the merger than the company's stock surged by 15%.\n- Lưu ý cốt lõi: Trợ động từ 'had' bắt buộc đảo lên trước chủ ngữ S, động từ chính giữ V3/ed; mệnh đề đi sau 'when/than' luôn chia ở Quá khứ đơn (Past Simple).",
+  "commonTraps": [
+    {
+      "trap": "Bẫy 1: Máy móc chia Quá khứ hoàn thành sau Before/After mà quên mất chuỗi hành động kế tiếp tức thì (Immediate Sequence)",
+      "exampleWrong": "He had locked the entrance door before he had walked to his car.",
+      "exampleRight": "He locked the entrance door before he walked to his car.",
+      "note": "Khi hai hành động diễn ra liên tiếp ngay tức thì hoặc khi mối quan hệ thời gian đã hoàn toàn rõ ràng nhờ liên từ 'before' hoặc 'after', người bản ngữ có xu hướng dùng Quá khứ đơn (Past Simple) cho cả hai vế để tránh câu văn nặng nề. Past Perfect chỉ thực sự bắt buộc khi cần nhấn mạnh tính hoàn tất hoặc có khoảng cách thời gian đáng kể giữa hai sự kiện."
+    },
+    {
+      "trap": "Bẫy 2: Nhầm lẫn giữa 'By the time' trong quá khứ vs. 'By the time' trong tương lai",
+      "exampleWrong": "By the time the delivery truck arrived yesterday, the logistics team will have unloaded the cargo.",
+      "exampleRight": "By the time the delivery truck arrived yesterday, the logistics team had unloaded the cargo.",
+      "note": "Rất nhiều thí sinh học vẹt cấu trúc 'By the time + hoàn thành' nhưng không chú ý thì của động từ trong mệnh đề phụ: Nếu sau 'By the time' là Quá khứ đơn (arrived), mệnh đề chính bắt buộc chia Quá khứ hoàn thành (had unloaded); nếu sau 'By the time' là Hiện tại đơn (arrives), mệnh đề chính phải chia Tương lai hoàn thành (will have unloaded)."
+    },
+    {
+      "trap": "Bẫy 3: Sai quy tắc đảo ngữ với 'No sooner... than' và 'Hardly... when'",
+      "exampleWrong": "No sooner the manager had signed the agreement when the partners requested a revision.",
+      "exampleRight": "No sooner had the manager signed the agreement than the partners requested a revision.",
+      "note": "Đây là bẫy xuất hiện với tần suất cực cao trong đề thi THPTQG. Lỗi sai gồm 2 dạng: (1) Quên đảo trợ động từ 'had' lên trước chủ ngữ ('No sooner the manager had...' là sai); (2) Nhầm lẫn cặp liên từ: 'No sooner' bắt buộc đi với 'THAN', còn 'Hardly / Scarcely' bắt buộc đi với 'WHEN' (hoặc 'BEFORE')."
+    },
+    {
+      "trap": "Bẫy 4: Lạm dụng Past Perfect khi câu chỉ có một mốc thời gian quá khứ đơn lẻ mà không có điểm quy chiếu",
+      "exampleWrong": "In 2012, the multinational corporation had opened its first automated warehouse in Vietnam.",
+      "exampleRight": "In 2012, the multinational corporation opened its first automated warehouse in Vietnam.",
+      "note": "Nhiều học viên quan niệm sai lầm rằng 'sự việc xảy ra lâu rồi trong quá khứ thì chia Quá khứ hoàn thành'. Thực tế: Nếu câu chỉ có một mốc thời gian quá khứ đơn lẻ (in 2012, yesterday, two years ago) mà không có hành động hoặc mốc thời gian quá khứ thứ hai làm điểm tựa so sánh, BẮT BUỘC dùng Quá khứ đơn (Past Simple)."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex_01",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "By the time the regional director arrived at the factory for the annual inspection, the production team ________ all mandatory safety audits.",
+      "options": [
+        "had already completed",
+        "already completed",
+        "has already completed",
+        "was completing"
+      ],
+      "correctAnswer": "had already completed",
+      "explanation": {
+        "translation": "Vào thời điểm giám đốc khu vực đến nhà máy để thanh tra thường niên, đội sản xuất đã hoàn thành tất cả các cuộc kiểm toán an toàn bắt buộc.",
+        "keySignal": "Cụm liên từ 'By the time' đi kèm mệnh đề quá khứ đơn 'the regional director arrived'.",
+        "rule": "Cấu trúc: By the time + S + V2/ed, S + had + V3/ed. Hành động kiểm toán an toàn hoàn tất trước mốc giám đốc đến trong quá khứ.",
+        "whyCorrect": "Hành động 'hoàn thành kiểm toán' xảy ra và kết thúc trọn vẹn trước thời điểm 'giám đốc đến' (arrived), do đó bắt buộc chia Quá khứ hoàn thành 'had already completed'.",
+        "distractorBreakdown": {
+          "optionB (already completed)": "Sai vì thiếu trợ động từ 'had', không diễn đạt được mối quan hệ thời gian 'xảy ra trước một mốc quá khứ'.",
+          "optionC (has already completed)": "Sai vì dùng Hiện tại hoàn thành, trong khi điểm tựa thời gian 'arrived' nằm ở quá khứ.",
+          "optionD (was completing)": "Sai vì Quá khứ tiếp diễn diễn tả hành động đang diễn ra dở dang, mâu thuẫn với trạng từ 'already' (đã xong xuôi)."
+        }
+      }
+    },
+    {
+      "id": "ex_02",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "No sooner ________ the revised contract terms than the foreign investors requested further clarification on the tax clauses.",
+      "options": [
+        "had the legal counsel finalized",
+        "the legal counsel had finalized",
+        "did the legal counsel finalize",
+        "has the legal counsel finalized"
+      ],
+      "correctAnswer": "had the legal counsel finalized",
+      "explanation": {
+        "translation": "Cố vấn pháp lý vừa mới hoàn tất các điều khoản hợp đồng sửa đổi thì các nhà đầu tư nước ngoài đã yêu cầu làm rõ thêm về các điều khoản thuế.",
+        "keySignal": "Cụm từ đứng đầu câu 'No sooner' kết hợp với liên từ 'than' ở mệnh đề sau.",
+        "rule": "Đảo ngữ với No sooner: No sooner + had + S + V3/ed + than + S + V2/ed (Vừa mới... thì...).",
+        "whyCorrect": "Khi 'No sooner' đứng đầu câu, trợ động từ 'had' phải đảo lên trước chủ ngữ 'the legal counsel', theo sau là V3 'finalized'.",
+        "distractorBreakdown": {
+          "optionB (the legal counsel had finalized)": "Sai vì không thực hiện đảo ngữ trợ động từ 'had' lên trước chủ ngữ khi No sooner đứng đầu câu.",
+          "optionC (did the legal counsel finalize)": "Sai cấu trúc ngữ pháp chuẩn; đảo ngữ thời gian 'vừa mới... thì...' bắt buộc dùng Quá khứ hoàn thành với 'had', không dùng trợ động từ 'did'.",
+          "optionD (has the legal counsel finalized)": "Sai thì vì toàn bộ ngữ cảnh sự việc diễn ra trong quá khứ ('requested')."
+        }
+      }
+    },
+    {
+      "id": "ex_03",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "The cybersecurity firm discovered that an unauthorized entity ________ the client database several hours before the anomaly detection alarm sounded.",
+      "options": [
+        "had breached",
+        "breached",
+        "has breached",
+        "was breaching"
+      ],
+      "correctAnswer": "had breached",
+      "explanation": {
+        "translation": "Công ty an ninh mạng phát hiện ra rằng một thực thể trái phép đã xâm nhập cơ sở dữ liệu khách hàng vài giờ trước khi chuông cảnh báo bất thường vang lên.",
+        "keySignal": "Mốc thời gian 'several hours before the anomaly detection alarm sounded' kết hợp với động từ trần thuật 'discovered' ở quá khứ đơn.",
+        "rule": "Hành động xảy ra trước một hành động khác trong quá khứ: S + had + V3/ed + before + S + V2/ed.",
+        "whyCorrect": "Vụ xâm nhập ('breached') xảy ra trước thời điểm chuông báo động kêu ('sounded') vài giờ, nên phải dùng Quá khứ hoàn thành 'had breached'.",
+        "distractorBreakdown": {
+          "optionB (breached)": "Kém chính xác vì không làm nổi bật được khoảng cách thời gian xảy ra trước ('several hours before') của sự cố an ninh đối với mốc phát hiện.",
+          "optionC (has breached)": "Sai vì mốc quy chiếu 'discovered' và 'sounded' đều ở quá khứ đơn, không thể dùng thì Hiện tại hoàn thành.",
+          "optionD (was breaching)": "Sai vì hành động xâm nhập đã hoàn tất và để lại hậu quả dữ liệu bị đánh cắp, không phải hành động đang kéo dài liên tục."
+        }
+      }
+    },
+    {
+      "id": "ex_04",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Until the senior external auditor explained the newly introduced international standards, the finance team ________ how to categorize the offshore revenue properly.",
+      "options": [
+        "had not known",
+        "was not knowing",
+        "has not known",
+        "would not know"
+      ],
+      "correctAnswer": "had not known",
+      "explanation": {
+        "translation": "Cho đến khi kiểm toán viên độc lập cấp cao giải thích các chuẩn mực quốc tế mới ban hành, đội ngũ tài chính vẫn chưa hề biết cách phân loại doanh thu hải ngoại một cách chuẩn xác.",
+        "keySignal": "Liên từ 'Until' đứng đầu mệnh đề quá khứ đơn 'the senior external auditor explained'.",
+        "rule": "Cấu trúc: Until + S + V2/ed, S + had not + V3/ed (Trước một thời điểm quá khứ, một trạng thái nhận thức chưa từng hoàn tất hoặc kéo dài liên tục).",
+        "whyCorrect": "Tình trạng 'chưa biết cách phân loại' kéo dài liên tục trong suốt giai đoạn trước khi được kiểm toán viên can thiệp giải thích, do đó dùng Quá khứ hoàn thành 'had not known' là chuẩn xác nhất.",
+        "distractorBreakdown": {
+          "optionB (was not knowing)": "Sai vì 'know' là động từ trạng thái (stative verb), tuyệt đối không chia ở thì tiếp diễn.",
+          "optionC (has not known)": "Sai thì vì điểm tựa thời gian 'explained' thuộc về quá khứ, không dùng Hiện tại hoàn thành.",
+          "optionD (would not know)": "Sai vì 'would not know' diễn tả giả định hoặc tương lai trong quá khứ, không dùng để diễn đạt thực tế nhận thức trước một sự kiện."
+        }
+      }
+    },
+    {
+      "id": "ex_05",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "Hardly had the keynote speaker stepped onto the podium ________ the presentation screen experienced an unexpected blackout.",
+      "options": [
+        "when",
+        "than",
+        "then",
+        "after"
+      ],
+      "correctAnswer": "when",
+      "explanation": {
+        "translation": "Diễn giả chính vừa mới bước lên bục phát biểu thì màn hình trình chiếu bất ngờ gặp sự cố mất điện.",
+        "keySignal": "Cấu trúc đảo ngữ bắt đầu bằng 'Hardly had + S + V3/ed'.",
+        "rule": "Cấu trúc tương quan cố định: Hardly / Scarcely + had + S + V3/ed + WHEN + S + V2/ed.",
+        "whyCorrect": "'Hardly had' bắt buộc đi liền với liên từ 'when' để kết nối với mệnh đề chỉ hành động xảy ra ngay sau đó.",
+        "distractorBreakdown": {
+          "optionB (than)": "Sai liên từ vì 'than' chỉ kết hợp với 'No sooner' (No sooner... than).",
+          "optionC (then)": "Sai ngữ pháp vì 'then' là phó từ liên kết, không thể đóng vai trò liên từ phụ thuộc kết nối hai mệnh đề trong cấu trúc đảo ngữ.",
+          "optionD (after)": "Sai vì 'after' làm vỡ cấu trúc đảo ngữ tương quan chuẩn 'Hardly... when'."
+        }
+      }
+    },
+    {
+      "id": "ex_06",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "By the time [A] the emergency response crew arrived at [B] the chemical plant, the hazardous solvent leak already contaminated [C] the main groundwater reservoir [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Vào thời điểm đội ứng phó khẩn cấp đến nhà máy hóa chất, vụ rò rỉ dung môi nguy hại đã làm ô nhiễm nguồn nước ngầm chính.",
+        "keySignal": "Mệnh đề 'By the time the emergency response crew arrived at...' nằm ở Quá khứ đơn.",
+        "rule": "Quy tắc phối thì với 'By the time': Mệnh đề chính phải ở Quá khứ hoàn thành (had + V3/ed) để chỉ hành động hoàn tất trước.",
+        "whyCorrect": "Phần gạch chân [C] 'already contaminated' sai thì vì thiếu trợ động từ 'had'. Cần sửa thành 'had already contaminated'.",
+        "distractorBreakdown": {
+          "A (By the time)": "Đúng ngữ pháp: Liên từ chỉ thời gian 'vào lúc/trước lúc' dùng làm mốc so sánh.",
+          "B (arrived at)": "Đúng ngữ pháp: Động từ chia ở Quá khứ đơn làm mốc thời gian trong quá khứ.",
+          "D (the main groundwater reservoir)": "Đúng ngữ pháp: Cụm danh từ hoàn chỉnh làm tân ngữ chỉ nguồn nước ngầm."
+        }
+      }
+    },
+    {
+      "id": "ex_07",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "No sooner the strategic planning committee had [A] announced the corporate restructuring than [B] the trade union representatives demanded [C] an emergency consultation [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Ủy ban hoạch định chiến lược vừa mới công bố việc tái cấu trúc doanh nghiệp thì các đại diện công đoàn đã yêu cầu một cuộc tham vấn khẩn cấp.",
+        "keySignal": "Cụm từ phủ định mang tính thời gian 'No sooner' đứng đầu câu và liên từ 'than' ở vế sau.",
+        "rule": "Bẫy đảo ngữ: Khi 'No sooner' đứng đầu câu, bắt buộc phải đảo trợ động từ 'had' lên trước chủ ngữ.",
+        "whyCorrect": "Phần gạch chân [A] 'the strategic planning committee had' vi phạm cấu trúc đảo ngữ. Cần sửa thành 'had the strategic planning committee'.",
+        "distractorBreakdown": {
+          "B (than)": "Đúng ngữ pháp: Liên từ tương quan chuẩn mực đi kèm với 'No sooner'.",
+          "C (demanded)": "Đúng ngữ pháp: Động từ ở Quá khứ đơn diễn tả hành động kế tiếp.",
+          "D (an emergency consultation)": "Đúng ngữ pháp: Cụm danh từ làm tân ngữ trực tiếp cho động từ 'demanded'."
+        }
+      }
+    },
+    {
+      "id": "ex_08",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "By 2021 [A], the multinational telecommunications corporation has consolidated [B] all regional branch offices into [C] a centralized European headquarters [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Tính đến trước năm 2021, tập đoàn viễn thông đa quốc gia đã hợp nhất toàn bộ các văn phòng chi nhánh khu vực vào một trụ sở trung tâm tại châu Âu.",
+        "keySignal": "Cụm trạng ngữ thời gian 'By 2021' (By + mốc năm trong quá khứ).",
+        "rule": "By + mốc thời gian quá khứ -> Động từ bắt buộc chia ở thì Quá khứ hoàn thành (Past Perfect), tuyệt đối không dùng Hiện tại hoàn thành.",
+        "whyCorrect": "Phần gạch chân [B] 'has consolidated' dùng thì Hiện tại hoàn thành là sai. Phải sửa thành Quá khứ hoàn thành: 'had consolidated'.",
+        "distractorBreakdown": {
+          "A (By 2021)": "Đúng ngữ pháp: Giới từ 'by' kết hợp mốc năm quá khứ biểu thị thời hạn hoàn tất.",
+          "C (into)": "Đúng ngữ pháp: Giới từ chỉ sự chuyển đổi/sáp nhập đi kèm động từ 'consolidate... into'.",
+          "D (a centralized European headquarters)": "Đúng ngữ pháp: Cụm danh từ chỉ trụ sở châu Âu tập trung (headquarters có thể là danh từ số ít hoặc số nhiều)."
+        }
+      }
+    },
+    {
+      "id": "ex_09",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "Scarcely had [A] the newly appointed chief executive taken [B] office than [C] the board of directors initiated [D] an unforeseen fiscal audit.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Tổng giám đốc điều hành mới được bổ nhiệm vừa mới nhậm chức thì hội đồng quản trị đã khởi xướng một cuộc kiểm toán tài chính bất thường.",
+        "keySignal": "Cấu trúc đảo ngữ bắt đầu bằng 'Scarcely had'.",
+        "rule": "Bẫy liên từ tương quan: Scarcely / Hardly đi với 'WHEN' (hoặc 'BEFORE'), chỉ có 'No sooner' mới đi với 'THAN'.",
+        "whyCorrect": "Phần gạch chân [C] dùng 'than' là sai cấu trúc. Cần sửa thành 'when' (hoặc 'before').",
+        "distractorBreakdown": {
+          "A (Scarcely had)": "Đúng ngữ pháp: Đảo trợ động từ 'had' lên trước chủ ngữ theo quy tắc đảo ngữ.",
+          "B (taken)": "Đúng ngữ pháp: Dạng phân từ hai V3 của động từ 'take' trong cụm 'take office' (nhậm chức).",
+          "D (initiated)": "Đúng ngữ pháp: Động từ chia ở thì Quá khứ đơn cho hành động xảy ra tiếp theo sau liên từ 'when'."
+        }
+      }
+    },
+    {
+      "id": "ex_10",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "In 2018 [A], the biomedical enterprise had secured [B] an exclusive patent for an innovative therapeutic compound that transformed [C] oncological treatment protocols [D].",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Vào năm 2018, doanh nghiệp y sinh đã bảo hộ thành công bằng sáng chế độc quyền cho một hợp chất điều trị đột phá giúp thay đổi các phác đồ điều trị ung thư.",
+        "keySignal": "Mốc thời gian đơn lẻ xác định trong quá khứ 'In 2018' mà không có bất kỳ mốc quá khứ thứ hai nào làm điểm tựa.",
+        "rule": "Bẫy lạm dụng Quá khứ hoàn thành: Khi câu chỉ có một mốc thời gian duy nhất trong quá khứ (In 2018), hành động xảy ra và chấm dứt tại mốc đó phải chia Quá khứ đơn (Past Simple), không được dùng Quá khứ hoàn thành.",
+        "whyCorrect": "Phần gạch chân [B] 'had secured' bị lạm dụng sai thì. Phải sửa thành Quá khứ đơn: 'secured'.",
+        "distractorBreakdown": {
+          "A (In 2018)": "Đúng ngữ pháp: Cụm giới từ chỉ mốc thời gian quá khứ xác định.",
+          "C (transformed)": "Đúng ngữ pháp: Động từ ở Quá khứ đơn trong mệnh đề quan hệ bổ nghĩa cho phát minh đã thay đổi y học.",
+          "D (oncological treatment protocols)": "Đúng ngữ pháp: Cụm danh từ chuyên ngành y khoa chỉ các phác đồ điều trị ung thư."
+        }
+      }
+    },
+    {
+      "id": "ex_11",
+      "type": "cloze",
+      "difficulty": 1,
+      "prompt": "By the time the lead architect submitted the finalized project blueprints, the construction contractor ________ (already / erect) the primary structural pillars.",
+      "options": [],
+      "correctAnswer": "had already erected",
+      "explanation": {
+        "translation": "Vào thời điểm kiến trúc sư trưởng nộp bản thiết kế dự án hoàn chỉnh, nhà thầu thi công đã dựng xong các cột kết cấu chính.",
+        "keySignal": "Cụm liên từ 'By the time' đi kèm động từ quá khứ đơn 'submitted'.",
+        "rule": "By the time + S + V2/ed, S + had + (already) + V3/ed.",
+        "whyCorrect": "Việc dựng cột kết cấu hoàn tất trước mốc nộp bản thiết kế trong quá khứ, kết hợp với trạng từ 'already' nằm giữa trợ động từ và động từ chính, dạng đúng là 'had already erected'.",
+        "distractorBreakdown": {
+          "already erected": "Sai vì thiếu trợ động từ 'had', không diễn đạt được thì Quá khứ hoàn thành.",
+          "has already erected": "Sai vì dùng Hiện tại hoàn thành trong khi mốc đối chiếu 'submitted' thuộc về quá khứ.",
+          "was already erecting": "Sai vì Quá khứ tiếp diễn chỉ hành động đang diễn ra dở dang, không phù hợp với ngữ cảnh đã hoàn tất trước mốc thời gian."
+        }
+      }
+    },
+    {
+      "id": "ex_12",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "The compliance inspector discovered that the chemical refinery ________ (accumulate) over thirty safety violations before the regulatory agency intervened.",
+      "options": [],
+      "correctAnswer": "had accumulated",
+      "explanation": {
+        "translation": "Thanh tra tuân thủ phát hiện ra rằng nhà máy lọc hóa chất đã tích lũy hơn ba mươi vi phạm an toàn trước khi cơ quan quản lý can thiệp.",
+        "keySignal": "Động từ 'discovered' ở quá khứ đơn, cụm số lượng kết quả 'over thirty safety violations' và mệnh đề 'before the regulatory agency intervened'.",
+        "rule": "Hành động tích lũy số lượng thành phẩm/kết quả cụ thể hoàn tất trước một mốc quá khứ: S + had + V3/ed (quy tắc cấm thể tiếp diễn khi có số lượng cụ thể).",
+        "whyCorrect": "Hành động tích lũy vi phạm diễn ra và hoàn tất trước thời điểm can thiệp ('intervened') và bị phát hiện ('discovered'). Có số lượng cụ thể 'over thirty' nên bắt buộc chia Quá khứ hoàn thành đơn 'had accumulated'.",
+        "distractorBreakdown": {
+          "accumulated": "Kém chính xác vì không thể hiện được tính tiền đề và kết quả hoàn tất trước mốc can thiệp trong quá khứ.",
+          "has accumulated": "Sai thì vì toàn bộ sự việc đều được phát hiện và xử lý trong quá khứ.",
+          "had been accumulating": "Sai nguyên tắc kiểm định vì khi có số lượng cụ thể (over thirty safety violations), người bản ngữ bắt buộc dùng thì hoàn thành đơn, cấm dùng thì tiếp diễn."
+        }
+      }
+    },
+    {
+      "id": "ex_13",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "Hardly had the chief financial officer ________ (conclude) the quarterly earnings briefing when several institutional investors began asking aggressive questions.",
+      "options": [],
+      "correctAnswer": "concluded",
+      "explanation": {
+        "translation": "Giám đốc tài chính vừa mới kết thúc buổi báo cáo kết quả kinh doanh quý thì một số nhà đầu tư tổ chức đã bắt đầu đặt ra những câu hỏi gay gắt.",
+        "keySignal": "Cấu trúc đảo ngữ 'Hardly had + S + V3/ed + when...'. Trợ động từ 'had' đã đứng trước chủ ngữ.",
+        "rule": "Sau trợ động từ 'had' trong cấu trúc đảo ngữ, động từ chính bắt buộc ở dạng Quá khứ phân từ (V3/ed).",
+        "whyCorrect": "Động từ 'conclude' là động từ có quy tắc, dạng V3 là 'concluded'.",
+        "distractorBreakdown": {
+          "conclude": "Sai vì để nguyên thể sau trợ động từ 'had'.",
+          "concluding": "Sai vì dùng dạng V-ing trong khi cấu trúc yêu cầu phân từ hai V3/ed.",
+          "was concluded": "Sai vì thừa động từ to be và làm biến đổi câu thành thể bị động vô nghĩa."
+        }
+      }
+    },
+    {
+      "id": "ex_14",
+      "type": "cloze",
+      "difficulty": 1,
+      "prompt": "Before she ________ (accept) the executive management position at the Zurich branch, Dr. Elena had consulted extensively with her senior academic advisors.",
+      "options": [],
+      "correctAnswer": "accepted",
+      "explanation": {
+        "translation": "Trước khi chấp nhận vị trí quản lý điều hành tại chi nhánh Zurich, Tiến sĩ Elena đã tham vấn kỹ lưỡng với các cố vấn học thuật cấp cao của mình.",
+        "keySignal": "Liên từ 'Before' kết hợp mệnh đề chính đã chia Quá khứ hoàn thành 'Dr. Elena had consulted'.",
+        "rule": "Cấu trúc: Before + S + V2/ed (Quá khứ đơn), S + had + V3/ed (Quá khứ hoàn thành).",
+        "whyCorrect": "Hành động tham vấn xảy ra trước (đã chia 'had consulted'), nên hành động xảy ra sau đứng ngay sau liên từ 'Before' phải chia ở thì Quá khứ đơn: 'accepted'.",
+        "distractorBreakdown": {
+          "had accepted": "Sai vì mệnh đề đi sau 'Before' là mốc xảy ra sau, không được chia Quá khứ hoàn thành.",
+          "has accepted": "Sai thì vì ngữ cảnh sự việc hoàn toàn nằm trong quá khứ.",
+          "accepts": "Sai thì vì không hòa hợp với ngữ cảnh quá khứ của câu chuyện."
+        }
+      }
+    },
+    {
+      "id": "ex_15",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "By 10:00 PM yesterday, the emergency disaster recovery team ________ (restore) all disrupted core banking databases and verified data integrity across all nodes.",
+      "options": [],
+      "correctAnswer": "had restored",
+      "explanation": {
+        "translation": "Tính đến 10:00 tối hôm qua, đội ngũ khôi phục sau thảm họa khẩn cấp đã phục hồi toàn bộ cơ sở dữ liệu ngân hàng cốt lõi bị gián đoạn và xác minh tính toàn vẹn dữ liệu trên tất cả các nút.",
+        "keySignal": "Cụm trạng ngữ 'By 10:00 PM yesterday' (By + mốc giờ trong quá khứ) song hành cùng động từ 'verified' (rút gọn had verified).",
+        "rule": "By + mốc thời gian quá khứ -> Hành động hoàn tất trước mốc đó chia ở Quá khứ hoàn thành (had + V3/ed).",
+        "whyCorrect": "Hành động khôi phục dữ liệu đã xong xuôi trước thời điểm 10 giờ tối qua, do đó phải chia 'had restored'.",
+        "distractorBreakdown": {
+          "restored": "Sai vì Quá khứ đơn không thể hiện được tính hoàn tất trước thời hạn 'By 10:00 PM yesterday'.",
+          "has restored": "Sai thì vì mốc thời gian 'yesterday' thuộc về quá khứ, không dùng Hiện tại hoàn thành.",
+          "was restoring": "Sai vì Quá khứ tiếp diễn chỉ hành động đang diễn ra dở dang, mâu thuẫn với việc đã hoàn thành và đối chiếu với 'verified'."
+        }
+      }
+    }
+  ]
+}

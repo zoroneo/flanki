@@ -5,31 +5,31 @@
   "level": 2,
   "coreConcept": "Tư duy cốt lõi của người bản ngữ về Wish, Would Rather và Thể giả định (Subjunctive Mood) bắt nguồn từ hai nguyên lý ngôn ngữ học nền tảng: KHOẢNG CÁCH TÂM LÝ (Psychological Distance) và TÍNH PHI THÌ CỦA Ý NIỆM (Tenselessness of Abstract Mandates).\n\n1. Khoảng cách tâm lý trong Wish và If only:\n- Trong tư duy tiếng Anh, khi người nói đối diện với một sự việc trái với mong muốn, họ không dùng các thì trực thuyết (indicative tenses). Thay vào đó, họ lùi thì động từ về một bậc như một tín hiệu tâm lý nhằm thông báo: 'Điều này hoàn toàn phi thực tế, xa rời sự thật hiện tại hoặc quá khứ'.\n  + Hiện tại -> Quá khứ đơn (Past Simple): Diễn tả điều ước trái ngược với sự thật hiển nhiên ở hiện tại. To be luôn chuẩn hóa thành 'were' cho mọi ngôi để khẳng định tính hư cấu.\n  + Quá khứ -> Quá khứ hoàn thành (Past Perfect): Sự việc quá khứ đã kết thúc và không thể vãn hồi. Lùi về Past Perfect biểu thị sự tiếc nuối (regret) sâu sắc.\n  + Tương lai -> Would / Could: Thể hiện mong muốn một tình trạng tương lai xảy ra hoặc hy vọng một khả năng mới.\n\n2. Sự khác biệt tinh tế giữa 'I wish I could' và 'I wish you/they would':\n- 'I wish I could': Ước về năng lực, khả năng của chính bản thân người nói (Tôi ước tôi có thể...).\n- 'I wish + S (ngôi khác) + would + V': Dùng để bộc lộ sự phàn nàn, bực bội (annoyance/complaint) trước một thói quen hoặc hành động lặp đi lặp lại của đối tượng khác và mong muốn họ thay đổi hành vi đó.\n- Quy tắc cấm kỵ: Tuyệt đối KHÔNG dùng 'I wish I would' hoặc 'We wish we would' vì người nói hoàn toàn có quyền chủ động quyết định hành vi của chính mình, không thể dùng 'would' mang hàm nghĩa chờ đợi ý chí từ bên ngoài.\n\n3. Would rather & It's (high / about) time:\n- 'Would rather' khi có 2 chủ ngữ (S1 + would rather + S2...): Mang bản chất áp đặt nguyện vọng chủ quan của người này lên hành động của người khác. Vì người khác có thể không làm theo ý mình, người bản ngữ lùi thì (lùi về Quá khứ đơn cho mong muốn hiện tại/tương lai; lùi về Quá khứ hoàn thành cho sự việc quá khứ) để thể hiện tính phi thực tế.\n- 'It's (high / about) time + S + V2/ed': Thể hiện sự thúc bách và khiển trách nhẹ. Cấu trúc này ngụ ý: 'Đã đến lúc lẽ ra hành động này phải được thực hiện từ trước đó rồi, hiện tại đã là quá trễ!'. Vì mang tính chậm trễ so với kỳ vọng, động từ bắt buộc phải chia ở thì Quá khứ đơn.\n\n4. Mandative / Present Subjunctive (Thể giả định thức mệnh lệnh) - Tính phi thì tuyệt đối:\n- Trong môi trường công sở, y tế, pháp lý và học thuật, khi một mệnh lệnh, yêu cầu, đề xuất hoặc tính cấp bách được tuyên bố (suggest, recommend, demand, imperative, essential...), hành động trong mệnh đề 'that' chưa hề diễn ra. Nó chỉ tồn tại dưới dạng một 'ý niệm trừu tượng' (abstract notion) hoặc một 'nghĩa vụ pháp lý/quy chuẩn'.\n- Vì không phải là một sự việc có thật đang diễn ra theo trục thời gian, động từ bị TƯỚC BỎ TOÀN BỘ CÁC DẤU HIỆU CHIA THÌ (tenseless). Động từ luôn giữ nguyên ở dạng NGUYÊN MẪU KHÔNG CHIA (bare infinitive: be, have, do, submit, provide...) cho TẤT CẢ các ngôi (kể cả he, she, it hay danh từ số ít), bất chấp thì của mệnh đề chính là hiện tại, tương lai hay quá khứ.",
   "formulas": {
-    "wishAndIfOnly": "CÔNG THỨC & QUY TẮC CÂU ƯỚC (WISH & IF ONLY):\n\n1. Ước trái ngược với Thực tế ở Hiện tại (Present Counterfactual):\n- Cấu trúc: S + wish(es) + (that) + S + V2/ed (To be: WERE cho mọi ngôi)\n- Tương đương: If only + S + V2/ed (were)\n- Ví dụ: The operations director wishes our overseas production plant were closer to the regional distribution hub. (Thực tế: Nhà máy ở rất xa).\n\n2. Ước trái ngược với Sự việc trong Quá khứ (Past Regret):\n- Cấu trúc: S + wish(es) + (that) + S + had + V3/ed (hoặc could have + V3/ed)\n- Tương đương: If only + S + had + V3/ed\n- Ví dụ: The audit committee wishes that the chief accountant had retained the original invoice receipts before the system migration. (Thực tế: Kế toán trưởng đã không lưu hóa đơn gốc).\n\n3. Ước cho Tương lai hoặc Thể hiện sự Phàn nàn (Future Wish & Annoyance):\n- Cấu trúc: S1 + wish(es) + (that) + S2 + would / could + V_bare\n- Tương đương: If only + S + would / could + V_bare\n- Lưu ý cốt lõi: Chỉ dùng 'would' khi S1 khác S2 để diễn tả lời phàn nàn/mong đối tượng khác thay đổi. Nếu cùng chủ ngữ, bắt buộc dùng 'could' (I wish I could attend the seminar; KHÔNG DÙNG: I wish I would attend).",
-    "wouldRatherAndTime": "CÔNG THỨC & BẢN CHẤT WOULD RATHER VÀ IT'S TIME:\n\n1. Would Rather cùng chủ ngữ (1 Chủ ngữ - Sở thích/Lựa chọn của bản thân):\n- Hiện tại/Tương lai: S + would rather + V_bare + (than + V_bare)\n  + Phủ định: S + would rather NOT + V_bare\n  + Ví dụ: The project manager would rather negotiate directly with the vendor than exchange endless emails.\n- Quá khứ: S + would rather + HAVE + V3/ed (Tiếc nuối một lựa chọn trong quá khứ)\n  + Ví dụ: We would rather have launched the beta testing last month before our competitor unveiled their product.\n\n2. Would Rather khác chủ ngữ (2 Chủ ngữ - Giả định ý muốn lên đối tượng khác):\n- Mong muốn ở Hiện tại/Tương lai: S1 + would rather + (that) + S2 + V2/ed (To be: were)\n  + Phủ định: S1 + would rather + (that) + S2 + DID NOT + V_bare\n  + Ví dụ: The CEO would rather that the media relations team did not release the preliminary quarterly earnings statement yet.\n- Tiếc nuối một sự việc ở Quá khứ: S1 + would rather + (that) + S2 + HAD + V3/ed\n  + Phủ định: S1 + would rather + (that) + S2 + HAD NOT + V3/ed\n  + Ví dụ: The client would rather our engineering firm had completed the structural retrofit prior to the monsoon season.\n\n3. Cấu trúc It's (high / about) time (Đã đến lúc cần phải làm gì):\n- Cấu trúc giả định thúc bách: It is (high / about) time + S + V2/ed\n  + Bản chất: Nhấn mạnh sự chậm trễ, trách cứ nhẹ, thúc giục thực hiện ngay vì đã trễ so với thời điểm lẽ ra phải hoàn thành.\n  + Ví dụ: It is high time the municipal transport authority upgraded the automated ticketing barriers.\n- Dạng nguyên mẫu trung tính: It is time + (for O) + TO + V_bare (Đã đến giờ làm gì - thông báo lịch trình bình thường, không mang sắc thái thúc bách lùi thì).",
-    "presentSubjunctive": "CÔNG THỨC & QUY TẮC THỂ GIẢ ĐỊNH THỨC MỆNH LỆNH (MANDATIVE SUBJUNCTIVE):\n\n1. Các Động từ đòi hỏi Giả định thức (Verbs of Mandate / Recommendation):\n- suggest, recommend, demand, insist, propose, require, request, urge, mandate, stipulate, advise, order, decree.\n- Cấu trúc: S1 + V(bất kỳ thì nào) + that + S2 + (should) + V_bare\n- Ví dụ: The regulatory agency requires that every pharmaceutical batch undergo rigorous purity testing.\n\n2. Các Tính từ đòi hỏi Giả định thức (Adjectives of Urgency / Importance):\n- essential, vital, imperative, crucial, mandatory, necessary, advisable, urgent, critical, obligatory.\n- Cấu trúc: It is / was + Adj + that + S + (should) + V_bare\n- Ví dụ: It is imperative that the lead investigator remain neutral throughout the corporate inquiry.\n\n3. Thể Bị động trong Subjunctive (Passive Subjunctive):\n- Cấu trúc: that + S + (should) + BE + V3/ed\n- Động từ to be luôn cố định là 'BE', tuyệt đối không chia 'is / are / was / were / been'.\n- Ví dụ: The committee recommended that the surplus budget be allocated to employee training programs.\n\n4. Thể Phủ định trong Subjunctive (Negative Subjunctive):\n- Cấu trúc: that + S + (should) + NOT + V_bare / that + S + (should) + NOT BE + V3/ed\n- Tuyệt đối KHÔNG mượn trợ động từ don't, doesn't, didn't. Đặt trực tiếp 'NOT' trước động từ nguyên thể.\n- Ví dụ: The legal advisor urged that the executive not disclose confidential merger terms to unauthorized third parties."
+    "wishAndIfOnly": "CÔNG THỨC & QUY TẮC CÂU ƯỚC (WISH & IF ONLY):<br/><br/>1. Ước trái ngược với Thực tế ở Hiện tại (Present Counterfactual):<br/>- Cấu trúc: S + wish(es) + (that) + S + V2/ed (To be: WERE cho mọi ngôi)<br/>- Tương đương: If only + S + V2/ed (were)<br/>- Ví dụ: The operations director wishes our overseas production plant were closer to the regional distribution hub. (Thực tế: Nhà máy ở rất xa).<br/><br/>2. Ước trái ngược với Sự việc trong Quá khứ (Past Regret):<br/>- Cấu trúc: S + wish(es) + (that) + S + had + V3/ed (hoặc could have + V3/ed)<br/>- Tương đương: If only + S + had + V3/ed<br/>- Ví dụ: The audit committee wishes that the chief accountant had retained the original invoice receipts before the system migration. (Thực tế: Kế toán trưởng đã không lưu hóa đơn gốc).<br/><br/>3. Ước cho Tương lai hoặc Thể hiện sự Phàn nàn (Future Wish & Annoyance):<br/>- Cấu trúc: S1 + wish(es) + (that) + S2 + would / could + V_bare<br/>- Tương đương: If only + S + would / could + V_bare<br/>- Lưu ý cốt lõi: Chỉ dùng 'would' khi S1 khác S2 để diễn tả lời phàn nàn/mong đối tượng khác thay đổi. Nếu cùng chủ ngữ, bắt buộc dùng 'could' (I wish I could attend the seminar; KHÔNG DÙNG: I wish I would attend).",
+    "wouldRatherAndTime": "CÔNG THỨC & BẢN CHẤT WOULD RATHER VÀ IT'S TIME:<br/><br/>1. Would Rather cùng chủ ngữ (1 Chủ ngữ - Sở thích/Lựa chọn của bản thân):<br/>- Hiện tại/Tương lai: S + would rather + V_bare + (than + V_bare)<br/>  + <b>Phủ định:</b> S + would rather NOT + V_bare<br/>  + Ví dụ: The project manager would rather negotiate directly with the vendor than exchange endless emails.<br/>- Quá khứ: S + would rather + HAVE + V3/ed (Tiếc nuối một lựa chọn trong quá khứ)<br/>  + Ví dụ: We would rather have launched the beta testing last month before our competitor unveiled their product.<br/><br/>2. Would Rather khác chủ ngữ (2 Chủ ngữ - Giả định ý muốn lên đối tượng khác):<br/>- Mong muốn ở Hiện tại/Tương lai: S1 + would rather + (that) + S2 + V2/ed (To be: were)<br/>  + <b>Phủ định:</b> S1 + would rather + (that) + S2 + DID NOT + V_bare<br/>  + Ví dụ: The CEO would rather that the media relations team did not release the preliminary quarterly earnings statement yet.<br/>- Tiếc nuối một sự việc ở Quá khứ: S1 + would rather + (that) + S2 + HAD + V3/ed<br/>  + <b>Phủ định:</b> S1 + would rather + (that) + S2 + HAD NOT + V3/ed<br/>  + Ví dụ: The client would rather our engineering firm had completed the structural retrofit prior to the monsoon season.<br/><br/>3. Cấu trúc It's (high / about) time (Đã đến lúc cần phải làm gì):<br/>- Cấu trúc giả định thúc bách: It is (high / about) time + S + V2/ed<br/>  + Bản chất: Nhấn mạnh sự chậm trễ, trách cứ nhẹ, thúc giục thực hiện ngay vì đã trễ so với thời điểm lẽ ra phải hoàn thành.<br/>  + Ví dụ: It is high time the municipal transport authority upgraded the automated ticketing barriers.<br/>- Dạng nguyên mẫu trung tính: It is time + (for O) + TO + V_bare (Đã đến giờ làm gì - thông báo lịch trình bình thường, không mang sắc thái thúc bách lùi thì).",
+    "presentSubjunctive": "CÔNG THỨC & QUY TẮC THỂ GIẢ ĐỊNH THỨC MỆNH LỆNH (MANDATIVE SUBJUNCTIVE):<br/><br/>1. Các Động từ đòi hỏi Giả định thức (Verbs of Mandate / Recommendation):<br/>- suggest, recommend, demand, insist, propose, require, request, urge, mandate, stipulate, advise, order, decree.<br/>- Cấu trúc: S1 + V(bất kỳ thì nào) + that + S2 + (should) + V_bare<br/>- Ví dụ: The regulatory agency requires that every pharmaceutical batch undergo rigorous purity testing.<br/><br/>2. Các Tính từ đòi hỏi Giả định thức (Adjectives of Urgency / Importance):<br/>- essential, vital, imperative, crucial, mandatory, necessary, advisable, urgent, critical, obligatory.<br/>- Cấu trúc: It is / was + Adj + that + S + (should) + V_bare<br/>- Ví dụ: It is imperative that the lead investigator remain neutral throughout the corporate inquiry.<br/><br/>3. Thể Bị động trong Subjunctive (Passive Subjunctive):<br/>- Cấu trúc: that + S + (should) + BE + V3/ed<br/>- Động từ to be luôn cố định là 'BE', tuyệt đối không chia 'is / are / was / were / been'.<br/>- Ví dụ: The committee recommended that the surplus budget be allocated to employee training programs.<br/><br/>4. Thể Phủ định trong Subjunctive (Negative Subjunctive):<br/>- Cấu trúc: that + S + (should) + NOT + V_bare / that + S + (should) + NOT BE + V3/ed<br/>- Tuyệt đối KHÔNG mượn trợ động từ don't, doesn't, didn't. Đặt trực tiếp 'NOT' trước động từ nguyên thể.<br/>- Ví dụ: The legal advisor urged that the executive not disclose confidential merger terms to unauthorized third parties."
   },
   "commonTraps": [
     {
-      "trap": "Bẫy 1: Chia thì thông thường (thêm -s/-es hoặc chia quá khứ) cho động từ sau 'that' trong mệnh đề Subjunctive thay vì giữ nguyên mẫu bare infinitive",
+      "trap": "<b>Bẫy 1:</b> Chia thì thông thường (thêm -s/-es hoặc chia quá khứ) cho động từ sau 'that' trong mệnh đề Subjunctive thay vì giữ nguyên mẫu bare infinitive",
       "exampleWrong": "The supervising engineer demanded that the construction contractor accelerates the concrete pouring schedule to meet the fiscal deadline.",
       "exampleRight": "The supervising engineer demanded that the construction contractor accelerate the concrete pouring schedule to meet the fiscal deadline.",
       "note": "Thí sinh thường mắc phản xạ chia động từ theo chủ ngữ ngôi thứ ba số ít ('the construction contractor' -> 'accelerates') hoặc chia quá khứ theo mệnh đề chính ('demanded' -> 'accelerated'). Trong cấu trúc Mandative Subjunctive, động từ sau 'that' mang tính phi thì (tenseless) và bắt buộc phải ở dạng nguyên mẫu không chia (bare infinitive) cho mọi chủ ngữ."
     },
     {
-      "trap": "Bẫy 2: Phủ định trong mệnh đề Subjunctive mượn trợ động từ 'doesn't / didn't' thay vì dùng trực tiếp 'not + V_bare'",
+      "trap": "<b>Bẫy 2:</b> Phủ định trong mệnh đề Subjunctive mượn trợ động từ 'doesn't / didn't' thay vì dùng trực tiếp 'not + V_bare'",
       "exampleWrong": "It is critical that the chief financial officer does not execute the foreign currency transaction until exchange rates stabilize.",
       "exampleRight": "It is critical that the chief financial officer not execute the foreign currency transaction until exchange rates stabilize.",
       "note": "Vì mệnh đề Subjunctive không mang thì, nó không thể kết hợp với các trợ động từ mang thì như 'does not', 'do not' hay 'did not'. Quy tắc ngữ pháp chuẩn hóa quy định chỉ cần đặt phó từ phủ định 'not' trực tiếp ngay trước động từ nguyên mẫu: 'that + S + NOT + V_bare' (hoặc 'should not + V_bare')."
     },
     {
-      "trap": "Bẫy 3: Would rather với 2 chủ ngữ bị chia ở Hiện tại đơn thay vì lùi thì sang Quá khứ đơn (hoặc Quá khứ hoàn thành)",
+      "trap": "<b>Bẫy 3:</b> Would rather với 2 chủ ngữ bị chia ở Hiện tại đơn thay vì lùi thì sang Quá khứ đơn (hoặc Quá khứ hoàn thành)",
       "exampleWrong": "The regional sales director would rather our marketing department allocates the promotional budget to digital advertising this quarter.",
       "exampleRight": "The regional sales director would rather our marketing department allocated the promotional budget to digital advertising this quarter.",
       "note": "Khi cấu trúc 'would rather' có 2 chủ ngữ (S1 muốn S2 làm gì), câu mang sắc thái giả định phi thực tế. Do đó, với mong muốn ở hiện tại hoặc tương lai, động từ của S2 bắt buộc phải lùi một thì về Quá khứ đơn ('allocated'). Nếu mong muốn một việc trong quá khứ xảy ra khác đi, phải lùi về Quá khứ hoàn thành ('had allocated'). Tuyệt đối không giữ ở Hiện tại đơn."
     },
     {
-      "trap": "Bẫy 4: Wish dùng 'would' với chủ ngữ 'I' hoặc 'We' (Lỗi lẫn lộn giữa ý chí chủ quan và sự phàn nàn khách quan)",
+      "trap": "<b>Bẫy 4:</b> Wish dùng 'would' với chủ ngữ 'I' hoặc 'We' (Lỗi lẫn lộn giữa ý chí chủ quan và sự phàn nàn khách quan)",
       "exampleWrong": "I wish I would have more professional leadership experience to qualify for the executive vice president position.",
       "exampleRight": "I wish I had more professional leadership experience to qualify for the executive vice president position. (hoặc: I wish I could obtain...)",
       "note": "Cấu trúc 'wish + would + V' chỉ dùng khi chủ ngữ của 'wish' KHÁC với chủ ngữ của mệnh đề sau (S1 != S2) nhằm bộc lộ sự bực bội hoặc mong muốn đối tượng khác thay đổi. Bản thân người nói ('I' hoặc 'We') có toàn quyền kiểm soát hành vi của chính mình nên không thể 'phàn nàn' chính mình bằng 'would'. Đối với mong muốn về khả năng bản thân, phải dùng 'could' hoặc lùi về Quá khứ đơn."
@@ -40,7 +40,7 @@
       "id": "ex_01",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "It is imperative that the lead pharmaceutical researcher ________ the anomalous clinical trial data to the supervisory ethics board before publishing the final drug efficacy report.",
+      "prompt": "It is imperative that the lead pharmaceutical researcher <u>_______</u> the anomalous clinical trial data to the supervisory ethics board before publishing the final drug efficacy report.",
       "options": [
         "submit",
         "submits",
@@ -50,13 +50,13 @@
       "correctAnswer": "submit",
       "explanation": {
         "translation": "Điều cấp thiết là nghiên cứu viên dược phẩm trưởng phải trình nộp dữ liệu thử nghiệm lâm sàng bất thường cho hội đồng đạo đức giám sát trước khi công bố báo cáo hiệu quả thuốc cuối cùng.",
-        "keySignal": "Cấu trúc tính từ giả định chỉ tính khẩn cấp: 'It is imperative that' kết hợp với chủ ngữ số ít 'the lead pharmaceutical researcher'.",
+        "keySignal": "Cấu trúc tính từ giả định chỉ tính khẩn cấp: <mark>It is imperative that</mark> kết hợp với chủ ngữ số ít <mark>the lead pharmaceutical researcher</mark>.",
         "rule": "Thể giả định thức mệnh lệnh (Mandative Subjunctive với tính từ): It is + imperative/essential/crucial + that + S + (should) + V_bare.",
-        "whyCorrect": "Sau cấu trúc 'It is imperative that', động từ trong mệnh đề 'that' phải ở dạng nguyên mẫu không chia (bare infinitive) cho mọi chủ ngữ. Do đó, 'submit' là đáp án chính xác duy nhất.",
+        "whyCorrect": "Sau cấu trúc 'It is imperative that', động từ trong mệnh đề 'that' phải ở dạng nguyên mẫu không chia (bare infinitive) cho mọi chủ ngữ. Do đó, <span style=\"color: #22c55e; font-weight: bold;\">'submit'</span> là đáp án chính xác duy nhất.",
         "distractorBreakdown": {
           "submits": "Bẫy hòa hợp chủ - vị thông thường: Thí sinh thấy chủ ngữ số ít 'the lead pharmaceutical researcher' nên chọn 'submits', nhưng mệnh đề giả định thức mệnh lệnh không chia đuôi -s/-es.",
           "submitted": "Bẫy chia thì quá khứ: Mặc dù cấu trúc giả định ở câu điều kiện hay câu ước lùi về quá khứ, nhưng thể giả định thức mệnh lệnh (Mandative Subjunctive) không lùi thì mà cố định ở dạng nguyên mẫu.",
-          "has submitted": "Sai thì: Thì Hiện tại hoàn thành không được sử dụng trong mệnh đề giả định sau tính từ 'imperative'."
+          "has submitted": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì: Thì Hiện tại hoàn thành không được sử dụng trong mệnh đề giả định sau tính từ 'imperative'."
         }
       }
     },
@@ -64,7 +64,7 @@
       "id": "ex_02",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "The corporate board of directors mandated that all confidential merger dossiers ________ under triple-layer encryption prior to the international shareholder assembly.",
+      "prompt": "The corporate board of directors mandated that all confidential merger dossiers <u>_______</u> under triple-layer encryption prior to the international shareholder assembly.",
       "options": [
         "be stored",
         "are stored",
@@ -74,13 +74,13 @@
       "correctAnswer": "be stored",
       "explanation": {
         "translation": "Ban giám đốc công ty đã ra quy định bắt buộc rằng tất cả các hồ sơ sáp nhập mật phải được lưu trữ dưới cơ chế mã hóa ba lớp trước đại hội cổ đông quốc tế.",
-        "keySignal": "Động từ chính chỉ mệnh lệnh pháp quy 'mandated that' kết hợp với chủ ngữ chịu tác động 'all confidential merger dossiers'.",
+        "keySignal": "Động từ chính chỉ mệnh lệnh pháp quy <mark>mandated that</mark> kết hợp với chủ ngữ chịu tác động <mark>all confidential merger dossiers</mark>.",
         "rule": "Thể giả định bị động (Passive Mandative Subjunctive): S + mandate/require/order + that + S + (should) + BE + V3/ed.",
-        "whyCorrect": "Vì hồ sơ tài liệu ('dossiers') là đối tượng tiếp nhận hành động (bị động), và mệnh đề đứng sau động từ chỉ mệnh lệnh 'mandated that', động từ to be phải giữ nguyên thể 'be' kết hợp quá khứ phân từ 'stored' ('be stored').",
+        "whyCorrect": "Vì hồ sơ tài liệu ('dossiers') là đối tượng tiếp nhận hành động (bị động), và mệnh đề đứng sau động từ chỉ mệnh lệnh 'mandated that', động từ to be phải giữ nguyên thể 'be' kết hợp quá khứ phân từ 'stored' (<span style=\"color: #22c55e; font-weight: bold;\">'be stored'</span>).",
         "distractorBreakdown": {
           "are stored": "Bẫy chia thì hiện tại: Mệnh đề Subjunctive không chia to be thành 'are' theo chủ ngữ số nhiều, mà bắt buộc giữ nguyên thể 'be'.",
           "were stored": "Bẫy hòa hợp thì theo quá khứ: Mệnh đề chính có 'mandated' ở quá khứ khiến thí sinh dễ chọn 'were stored', nhưng Mandative Subjunctive mang tính phi thì (tenseless) nên không phụ thuộc vào thì của động từ chính.",
-          "to be stored": "Sai cấu trúc: Sau 'that + S' phải là một mệnh đề hoàn chỉnh với động từ nguyên mẫu không 'to', không dùng dạng to-infinitive."
+          "to be stored": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Sau 'that + S' phải là một mệnh đề hoàn chỉnh với động từ nguyên mẫu không 'to', không dùng dạng to-infinitive."
         }
       }
     },
@@ -88,7 +88,7 @@
       "id": "ex_03",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "The chief compliance officer requested that the external forensic auditor ________ proprietary financial statements to third parties without prior executive authorization.",
+      "prompt": "The chief compliance officer requested that the external forensic auditor <u>_______</u> proprietary financial statements to third parties without prior executive authorization.",
       "options": [
         "not disclose",
         "does not disclose",
@@ -98,13 +98,13 @@
       "correctAnswer": "not disclose",
       "explanation": {
         "translation": "Giám đốc tuân thủ yêu cầu kiểm toán viên pháp y độc lập không được tiết lộ các báo cáo tài chính độc quyền cho bên thứ ba khi chưa có sự cho phép trước của ban điều hành.",
-        "keySignal": "Động từ 'requested that' đi kèm mệnh đề mang ý nghĩa phủ định, cấm đoán.",
+        "keySignal": "Động từ <mark>requested that</mark> đi kèm mệnh đề mang ý nghĩa phủ định, cấm đoán.",
         "rule": "Thể phủ định của Mandative Subjunctive: S + request/demand/urge + that + S + (should) + NOT + V_bare.",
-        "whyCorrect": "Trong thể giả định thức mệnh lệnh, dạng phủ định được tạo thành bằng cách đặt trực tiếp phó từ 'not' trước động từ nguyên mẫu không chia mà không mượn bất kỳ trợ động từ nào. Do đó, 'not disclose' là đáp án chuẩn xác.",
+        "whyCorrect": "Trong thể giả định thức mệnh lệnh, dạng phủ định được tạo thành bằng cách đặt trực tiếp phó từ 'not' trước động từ nguyên mẫu không chia mà không mượn bất kỳ trợ động từ nào. Do đó, <span style=\"color: #22c55e; font-weight: bold;\">'not disclose'</span> là đáp án chuẩn xác.",
         "distractorBreakdown": {
           "does not disclose": "Bẫy mượn trợ động từ hiện tại: Trong Mandative Subjunctive, tuyệt đối không mượn trợ động từ 'does/do' vì mệnh đề không mang thì trực thuyết.",
           "did not disclose": "Bẫy mượn trợ động từ quá khứ: Tương tự, không dùng trợ động từ 'did not' trong cấu trúc giả định thức mệnh lệnh.",
-          "will not disclose": "Sai cấu trúc: Không sử dụng modal verb 'will' trong mệnh đề Subjunctive."
+          "will not disclose": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Không sử dụng modal verb 'will' trong mệnh đề Subjunctive."
         }
       }
     },
@@ -112,7 +112,7 @@
       "id": "ex_04",
       "type": "choice",
       "difficulty": 3,
-      "prompt": "The regional supply chain director would rather our overseas logistics partner ________ the consignment via maritime freight last Friday instead of utilizing costly air express transport.",
+      "prompt": "The regional supply chain director would rather our overseas logistics partner <u>_______</u> the consignment via maritime freight last Friday instead of utilizing costly air express transport.",
       "options": [
         "had dispatched",
         "dispatched",
@@ -122,13 +122,13 @@
       "correctAnswer": "had dispatched",
       "explanation": {
         "translation": "Giám đốc chuỗi cung ứng khu vực muốn đối tác hậu cần ở nước ngoài của chúng tôi gửi lô hàng bằng đường biển vào thứ Sáu tuần trước hơn là sử dụng hình thức chuyển phát nhanh đường hàng không tốn kém.",
-        "keySignal": "Cấu trúc 'would rather' với 2 chủ ngữ khác nhau ('director' và 'partner') kết hợp trạng từ thời gian quá khứ rõ rệt 'last Friday'.",
+        "keySignal": "Cấu trúc <mark>would rather</mark> với 2 chủ ngữ khác nhau (<mark>director</mark> và <mark>partner</mark>) kết hợp trạng từ thời gian quá khứ rõ rệt <mark>last Friday</mark>.",
         "rule": "Would rather với 2 chủ ngữ giả định sự việc trái ngược quá khứ: S1 + would rather + (that) + S2 + HAD + V3/ed.",
-        "whyCorrect": "Hành động gửi hàng bằng máy bay đã diễn ra vào thứ Sáu tuần trước ('last Friday'). Để bày tỏ mong muốn một sự việc trong quá khứ diễn ra khác đi (tiếc nuối quá khứ), mệnh đề sau 'would rather' bắt buộc phải chia ở thì Quá khứ hoàn thành ('had dispatched').",
+        "whyCorrect": "Hành động gửi hàng bằng máy bay đã diễn ra vào thứ Sáu tuần trước ('last Friday'). Để bày tỏ mong muốn một sự việc trong quá khứ diễn ra khác đi (tiếc nuối quá khứ), mệnh đề sau 'would rather' bắt buộc phải chia ở thì Quá khứ hoàn thành (<span style=\"color: #22c55e; font-weight: bold;\">'had dispatched'</span>).",
         "distractorBreakdown": {
           "dispatched": "Bẫy lùi thì hiện tại: Thì Quá khứ đơn 'dispatched' chỉ dùng cho giả định mong muốn ở hiện tại hoặc tương lai, mâu thuẫn với mốc thời gian quá khứ 'last Friday'.",
           "dispatches": "Bẫy thì hiện tại: Cấu trúc Would rather 2 chủ ngữ không bao giờ chia ở thì Hiện tại đơn vì đây là tình huống giả định phi thực tế.",
-          "would dispatch": "Sai cấu trúc: Không dùng 'would + V' ngay sau chủ ngữ thứ hai trong mệnh đề Would rather."
+          "would dispatch": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Không dùng 'would + V' ngay sau chủ ngữ thứ hai trong mệnh đề Would rather."
         }
       }
     },
@@ -136,7 +136,7 @@
       "id": "ex_05",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Several departmental team leaders wish that the senior executive board ________ altering established operational workflows without offering adequate advance notice.",
+      "prompt": "Several departmental team leaders wish that the senior executive board <u>_______</u> altering established operational workflows without offering adequate advance notice.",
       "options": [
         "would cease",
         "will cease",
@@ -146,13 +146,13 @@
       "correctAnswer": "would cease",
       "explanation": {
         "translation": "Một số trưởng nhóm phòng ban ước gì ban điều hành cấp cao ngừng thay đổi các quy trình vận hành đã thiết lập mà không thông báo trước thỏa đáng.",
-        "keySignal": "Động từ 'wish that' bộc lộ sự phàn nàn (annoyance) về hành động lặp đi lặp lại của một chủ thể khác ('the senior executive board').",
+        "keySignal": "Động từ <mark>wish that</mark> bộc lộ sự phàn nàn (annoyance) về hành động lặp đi lặp lại của một chủ thể khác (<mark>the senior executive board</mark>).",
         "rule": "Câu ước bộc lộ sự phàn nàn và mong muốn người khác thay đổi hành vi: S1 + wish(es) + that + S2 + WOULD + V_bare (với S1 != S2).",
-        "whyCorrect": "Các trưởng nhóm đang thể hiện sự không hài lòng trước hành vi tự ý thay đổi quy trình của ban điều hành và mong họ chấm dứt thói quen này trong tương lai. Cấu trúc chuẩn xác là 'would + V_bare' ('would cease').",
+        "whyCorrect": "Các trưởng nhóm đang thể hiện sự không hài lòng trước hành vi tự ý thay đổi quy trình của ban điều hành và mong họ chấm dứt thói quen này trong tương lai. Cấu trúc chuẩn xác là 'would + V_bare' (<span style=\"color: #22c55e; font-weight: bold;\">'would cease'</span>).",
         "distractorBreakdown": {
           "will cease": "Bẫy trợ động từ tương lai: Sau 'wish', không bao giờ dùng 'will' vì câu ước thể hiện tính phi thực tế, buộc phải lùi thành 'would'.",
           "ceases": "Bẫy thì hiện tại đơn: Mệnh đề sau 'wish' không bao giờ chia ở thì Hiện tại đơn.",
-          "has ceased": "Sai cấu trúc: Thì Hiện tại hoàn thành không dùng trong mệnh đề sau động từ 'wish'."
+          "has ceased": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Thì Hiện tại hoàn thành không dùng trong mệnh đề sau động từ 'wish'."
         }
       }
     },
@@ -170,13 +170,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Ban quản lý bệnh viện đã khăng khăng yêu cầu rằng mọi bác sĩ phân loại bệnh nhân phải xem xét kỹ lưỡng bệnh án chẩn đoán trước khi tiếp nhận các ca cấp cứu vào phòng chăm sóc đặc biệt.",
-        "keySignal": "Động từ 'insisted that' đòi hỏi thể giả định thức mệnh lệnh, nhưng vị trí [B] lại chia động từ thêm 's' ('reviews').",
+        "keySignal": "Động từ <mark>insisted that</mark> đòi hỏi thể giả định thức mệnh lệnh, nhưng vị trí [B] lại chia động từ thêm <mark>s</mark> (<mark>reviews</mark>).",
         "rule": "Mandative Subjunctive với động từ insist: S + insist + that + S + (should) + V_bare.",
         "whyCorrect": "Vị trí [B] sai vì động từ sau 'insisted that' bắt buộc phải ở dạng nguyên mẫu không chia (bare infinitive) cho mọi ngôi. Phải sửa 'reviews' thành 'review'.",
         "distractorBreakdown": {
-          "A (insisted)": "Đúng ngữ pháp: Động từ chính chia ở thì Quá khứ đơn để thuật lại quyết định/yêu cầu đã ban hành của ban giám đốc bệnh viện.",
-          "C (admitting)": "Đúng ngữ pháp: Sau giới từ chỉ thời gian 'before', động từ chuyển thành dạng danh động từ V-ing ('admitting').",
-          "D (into)": "Đúng ngữ pháp: Giới từ chỉ phương hướng chuyển động 'into' kết hợp chuẩn xác với động từ tiếp nhận ('admitting cases into the unit')."
+          "A (insisted)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ chính chia ở thì Quá khứ đơn để thuật lại quyết định/yêu cầu đã ban hành của ban giám đốc bệnh viện.",
+          "C (admitting)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Sau giới từ chỉ thời gian 'before', động từ chuyển thành dạng danh động từ V-ing ('admitting').",
+          "D (into)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Giới từ chỉ phương hướng chuyển động 'into' kết hợp chuẩn xác với động từ tiếp nhận ('admitting cases into the unit')."
         }
       }
     },
@@ -194,13 +194,13 @@
       "correctAnswer": "C",
       "explanation": {
         "translation": "Căn cứ vào các quy định nghiêm ngặt về bảo mật dữ liệu, điều thiết yếu là nhà cung cấp dịch vụ tiếp thị bên thứ ba không được lưu giữ bất kỳ hồ sơ tín dụng người tiêu dùng chưa mã hóa nào trên các máy chủ đám mây bên ngoài.",
-        "keySignal": "Cấu trúc tính từ giả định 'it is essential that' đi kèm thể phủ định mượn trợ động từ 'doesn't retain' ở vị trí [C].",
+        "keySignal": "Cấu trúc tính từ giả định <mark>it is essential that</mark> đi kèm thể phủ định mượn trợ động từ 'doesn't retain' ở vị trí [C].",
         "rule": "Thể phủ định của Mandative Subjunctive: It is + essential/vital + that + S + NOT + V_bare (tuyệt đối không dùng do/does/did).",
         "whyCorrect": "Vị trí [C] sai vì mệnh đề Subjunctive không mang thì, do đó không được mượn trợ động từ 'doesn't'. Phải sửa 'doesn't retain' thành 'not retain' (hoặc 'should not retain').",
         "distractorBreakdown": {
-          "A (Given)": "Đúng ngữ pháp: Quá khứ phân từ 'Given' được dùng như một giới từ mang nghĩa 'Căn cứ vào / Xét đến tình huống'.",
-          "B (essential)": "Đúng ngữ pháp: Tính từ chuẩn mực đòi hỏi thể giả định diễn đạt tính chất thiết yếu, quan trọng sống còn.",
-          "D (on)": "Đúng ngữ pháp: Giới từ 'on' đi kèm chuẩn xác với các thiết bị lưu trữ, máy chủ đám mây ('on external cloud servers')."
+          "A (Given)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Quá khứ phân từ 'Given' được dùng như một giới từ mang nghĩa 'Căn cứ vào / Xét đến tình huống'.",
+          "B (essential)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Tính từ chuẩn mực đòi hỏi thể giả định diễn đạt tính chất thiết yếu, quan trọng sống còn.",
+          "D (on)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Giới từ 'on' đi kèm chuẩn xác với các thiết bị lưu trữ, máy chủ đám mây ('on external cloud servers')."
         }
       }
     },
@@ -218,13 +218,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Đã đến lúc ủy ban giao thông công cộng thành phố phải hiện đại hóa cơ sở hạ tầng đường sắt đô thị đang xuống cấp để giảm thiểu tình trạng ùn tắc nghiêm trọng trên toàn khu vực đô thị.",
-        "keySignal": "Cụm thành ngữ thúc bách 'It is high time' ở vị trí [A] kết hợp với động từ chia Hiện tại đơn 'modernizes' ở vị trí [B].",
+        "keySignal": "Cụm thành ngữ thúc bách <mark>It is high time</mark> ở vị trí [A] kết hợp với động từ chia Hiện tại đơn <mark>modernizes</mark> ở vị trí [B].",
         "rule": "Cấu trúc It's (high / about) time: It is high time + S + V2/ed (lùi về Quá khứ đơn để nhấn mạnh sự chậm trễ so với kỳ vọng).",
         "whyCorrect": "Vị trí [B] sai vì sau 'It is high time + S', động từ bắt buộc phải chia ở thì Quá khứ đơn. Phải sửa 'modernizes' thành 'modernized'.",
         "distractorBreakdown": {
-          "A (high time)": "Đúng ngữ pháp: Thành ngữ 'It is high time' được sử dụng chuẩn xác để gia tăng sắc thái cấp bách, thúc giục hơn 'It is time'.",
-          "C (to reduce)": "Đúng ngữ pháp: Động từ nguyên mẫu có 'to' đóng vai trò trạng ngữ chỉ mục đích hành động ('nhằm giảm thiểu').",
-          "D (throughout)": "Đúng ngữ pháp: Giới từ 'throughout' mang nghĩa 'trên khắp / trên toàn bộ khu vực'."
+          "A (high time)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Thành ngữ 'It is high time' được sử dụng chuẩn xác để gia tăng sắc thái cấp bách, thúc giục hơn 'It is time'.",
+          "C (to reduce)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ nguyên mẫu có 'to' đóng vai trò trạng ngữ chỉ mục đích hành động ('nhằm giảm thiểu').",
+          "D (throughout)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Giới từ 'throughout' mang nghĩa 'trên khắp / trên toàn bộ khu vực'."
         }
       }
     },
@@ -242,13 +242,13 @@
       "correctAnswer": "A",
       "explanation": {
         "translation": "Tôi ước gì mình có thể tham dự hội nghị chuyên đề công nghệ nano quốc tế tại Zurich vào tuần tới, nhưng đơn vị nghiên cứu của chúng tôi không thể đảm bảo đủ tài trợ kinh phí chuyến đi do các đợt cắt giảm ngân sách viện nghiên cứu đang diễn ra.",
-        "keySignal": "Chủ ngữ của mệnh đề chính và mệnh đề ước đều là ngôi thứ nhất 'I' ('I wish I would participate' ở vị trí [A]).",
+        "keySignal": "Chủ ngữ của mệnh đề chính và mệnh đề ước đều là ngôi thứ nhất <mark>I</mark> (<mark>I wish I would participate</mark> ở vị trí [A]).",
         "rule": "Quy tắc dùng 'wish': Không bao giờ dùng 'wish + would' khi hai chủ ngữ là cùng một đối tượng (I wish I would -> SAI). Để diễn tả mong muốn về khả năng của bản thân, bắt buộc dùng 'could'.",
         "whyCorrect": "Vị trí [A] sai nghiêm trọng về tư duy bản ngữ. 'Would' thể hiện sự phàn nàn trước ý chí của người khác, không áp dụng cho bản thân người nói. Phải sửa 'would participate' thành 'could participate'.",
         "distractorBreakdown": {
-          "B (cannot secure)": "Đúng ngữ pháp: Động từ khuyết thiếu 'cannot' diễn tả sự bất khả năng ở hiện tại trong việc xin tài trợ kinh phí.",
-          "C (due to)": "Đúng ngữ pháp: Cụm giới từ chỉ nguyên nhân 'due to' đứng trước một cụm danh từ.",
-          "D (budget cuts)": "Đúng ngữ pháp: Cụm danh từ ghép chỉ các đợt cắt giảm ngân sách."
+          "B (cannot secure)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ khuyết thiếu 'cannot' diễn tả sự bất khả năng ở hiện tại trong việc xin tài trợ kinh phí.",
+          "C (due to)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ nguyên nhân 'due to' đứng trước một cụm danh từ.",
+          "D (budget cuts)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ ghép chỉ các đợt cắt giảm ngân sách."
         }
       }
     },
@@ -266,13 +266,13 @@
       "correctAnswer": "A",
       "explanation": {
         "translation": "Giám đốc quản trị rủi ro muốn doanh nghiệp đầu tư của chúng tôi hiện tại không mua lượng lớn cổ phần trong các cổ phiếu thị trường mới nổi đầy biến động, xét đến tình trạng bất ổn kinh tế vĩ mô đang phổ biến.",
-        "keySignal": "Cấu trúc 'would rather that' với 2 chủ ngữ khác nhau ('chief risk officer' và 'enterprise') đi kèm trạng từ hiện tại 'at present' ở vị trí [B].",
+        "keySignal": "Cấu trúc <mark>would rather that</mark> với 2 chủ ngữ khác nhau (<mark>chief risk officer</mark> và <mark>enterprise</mark>) đi kèm trạng từ hiện tại <mark>at present</mark> ở vị trí [B].",
         "rule": "Would rather với 2 chủ ngữ ở hiện tại/tương lai: S1 + would rather (that) + S2 + DID NOT + V_bare (lùi về Quá khứ đơn).",
         "whyCorrect": "Vị trí [A] sai vì dùng thì Hiện tại đơn 'does not acquire'. Khi muốn người khác làm hoặc không làm gì ở hiện tại/tương lai, cấu trúc Would rather bắt buộc phải lùi một thì về Quá khứ đơn. Phải sửa 'does not acquire' thành 'did not acquire'.",
         "distractorBreakdown": {
-          "B (at present)": "Đúng ngữ pháp: Trạng từ chỉ thời gian ở hiện tại ('hiện thời / vào lúc này').",
-          "C (given)": "Đúng ngữ pháp: Phân từ đóng vai trò liên từ/giới từ mang nghĩa 'trong bối cảnh / xét thấy'.",
-          "D (macroeconomic instability)": "Đúng ngữ pháp: Cụm danh từ học thuật chỉ sự bất ổn kinh tế vĩ mô."
+          "B (at present)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Trạng từ chỉ thời gian ở hiện tại ('hiện thời / vào lúc này').",
+          "C (given)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Phân từ đóng vai trò liên từ/giới từ mang nghĩa 'trong bối cảnh / xét thấy'.",
+          "D (macroeconomic instability)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ học thuật chỉ sự bất ổn kinh tế vĩ mô."
         }
       }
     },
@@ -280,14 +280,14 @@
       "id": "ex_11",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Following the discovery of an unpatched security vulnerability, the chief information security officer insisted that all employee database privileges ________ (revoke) immediately until system integrity could be verified.",
+      "prompt": "Following the discovery of an unpatched security vulnerability, the chief information security officer insisted that all employee database privileges <u>_______</u> (revoke) immediately until system integrity could be verified.",
       "options": [],
       "correctAnswer": "be revoked",
       "explanation": {
         "translation": "Sau khi phát hiện một lỗ hổng bảo mật chưa được vá, giám đốc an toàn thông tin đã khăng khăng yêu cầu rằng tất cả các đặc quyền cơ sở dữ liệu của nhân viên phải được thu hồi ngay lập tức cho đến khi tính toàn vẹn của hệ thống được xác minh.",
-        "keySignal": "Động từ 'insisted that' đòi hỏi thể giả định, chủ ngữ 'all employee database privileges' là đối tượng bị tác động (bị động).",
+        "keySignal": "Động từ <mark>insisted that</mark> đòi hỏi thể giả định, chủ ngữ <mark>all employee database privileges</mark> là đối tượng bị tác động (bị động).",
         "rule": "Thể bị động của Mandative Subjunctive: S + insist + that + S + (should) + BE + V3/ed.",
-        "whyCorrect": "Chủ ngữ 'database privileges' (các đặc quyền truy cập) không thể tự thực hiện hành động 'revoke' mà phải được thu hồi (thể bị động). Trong mệnh đề Mandative Subjunctive, trợ động từ to be luôn giữ nguyên mẫu không chia là 'be', theo sau là quá khứ phân từ 'revoked'. Do đó đáp án là 'be revoked' (hoặc 'should be revoked').",
+        "whyCorrect": "Chủ ngữ 'database privileges' (các đặc quyền truy cập) không thể tự thực hiện hành động 'revoke' mà phải được thu hồi (thể bị động). Trong mệnh đề Mandative Subjunctive, trợ động từ to be luôn giữ nguyên mẫu không chia là 'be', theo sau là quá khứ phân từ 'revoked'. Do đó đáp án là <span style=\"color: #22c55e; font-weight: bold;\">'be revoked'</span> (hoặc 'should be revoked').",
         "distractorBreakdown": {
           "are revoked": "Bẫy thì hiện tại: Mệnh đề Subjunctive không chia to be thành 'are' theo chủ ngữ số nhiều mà cố định là 'be'.",
           "were revoked": "Bẫy hòa hợp thì: Thấy 'insisted' ở quá khứ nên chọn 'were revoked', nhưng Subjunctive mang tính phi thì (tenseless).",
@@ -299,18 +299,18 @@
       "id": "ex_12",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "It is crucial that the newly designated trade representative ________ (be) fully conversant with multilateral tariff frameworks before participating in the international trade negotiations.",
+      "prompt": "It is crucial that the newly designated trade representative <u>_______</u> (be) fully conversant with multilateral tariff frameworks before participating in the international trade negotiations.",
       "options": [],
       "correctAnswer": "be",
       "explanation": {
         "translation": "Điều tối quan trọng là đại diện thương mại mới được chỉ định phải am hiểu tường tận các khuôn khổ thuế quan đa phương trước khi tham gia vào các cuộc đàm phán thương mại quốc tế.",
-        "keySignal": "Cấu trúc tính từ giả định 'It is crucial that' kết hợp động từ to be trong ngoặc.",
+        "keySignal": "Cấu trúc tính từ giả định <mark>It is crucial that</mark> kết hợp động từ to be trong ngoặc.",
         "rule": "Mandative Subjunctive với to be: It is + crucial/vital + that + S + (should) + BE.",
-        "whyCorrect": "Trong thể giả định thức mệnh lệnh, động từ 'to be' cho mọi chủ ngữ (kể cả chủ ngữ số ít như 'the newly designated trade representative') đều cố định ở dạng nguyên thể không chia là 'be'.",
+        "whyCorrect": "Trong thể giả định thức mệnh lệnh, động từ 'to be' cho mọi chủ ngữ (kể cả chủ ngữ số ít như 'the newly designated trade representative') đều cố định ở dạng nguyên thể không chia là <span style=\"color: #22c55e; font-weight: bold;\">'be'</span>.",
         "distractorBreakdown": {
           "is": "Bẫy hòa hợp chủ - vị: Nhìn thấy chủ ngữ số ít nên vội vàng chia 'is', quên mất tính phi thì của Subjunctive.",
           "was": "Bẫy chia quá khứ: Thể giả định thức mệnh lệnh không dùng 'was'.",
-          "to be": "Sai cấu trúc: Sau 'that + S' không sử dụng dạng nguyên mẫu có 'to'."
+          "to be": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Sau 'that + S' không sử dụng dạng nguyên mẫu có 'to'."
         }
       }
     },
@@ -318,18 +318,18 @@
       "id": "ex_13",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "The senior project coordinator wishes that the outsourced software engineering team ________ (complete) the comprehensive penetration testing prior to last Monday's global product deployment.",
+      "prompt": "The senior project coordinator wishes that the outsourced software engineering team <u>_______</u> (complete) the comprehensive penetration testing prior to last Monday's global product deployment.",
       "options": [],
       "correctAnswer": "had completed",
       "explanation": {
         "translation": "Điều phối viên dự án cấp cao ước gì đội ngũ kỹ sư phần mềm thuê ngoài đã hoàn thành việc kiểm thử xâm nhập toàn diện trước đợt triển khai sản phẩm toàn cầu vào thứ Hai tuần trước.",
-        "keySignal": "Động từ 'wishes that' kết hợp cụm trạng từ chỉ mốc thời gian quá khứ xác định 'prior to last Monday's global product deployment'.",
+        "keySignal": "Động từ <mark>wishes that</mark> kết hợp cụm trạng từ chỉ mốc thời gian quá khứ xác định 'prior to last Monday's global product deployment'.",
         "rule": "Câu ước giả định trái ngược với sự thật trong quá khứ: S + wish + (that) + S + HAD + V3/ed.",
-        "whyCorrect": "Sự việc triển khai sản phẩm đã diễn ra vào thứ Hai tuần trước và đội ngũ lập trình đã không hoàn thành kiểm thử trước thời điểm đó. Để bộc lộ sự tiếc nuối về một sự việc không thành trong quá khứ, động từ trong mệnh đề 'wish' bắt buộc phải lùi về Quá khứ hoàn thành: 'had completed'.",
+        "whyCorrect": "Sự việc triển khai sản phẩm đã diễn ra vào thứ Hai tuần trước và đội ngũ lập trình đã không hoàn thành kiểm thử trước thời điểm đó. Để bộc lộ sự tiếc nuối về một sự việc không thành trong quá khứ, động từ trong mệnh đề 'wish' bắt buộc phải lùi về Quá khứ hoàn thành: <span style=\"color: #22c55e; font-weight: bold;\">'had completed'</span>.",
         "distractorBreakdown": {
           "completed": "Bẫy Quá khứ đơn: Nhầm lẫn giữa ước trái ngược hiện tại (Past Simple) và ước trái ngược quá khứ (Past Perfect).",
-          "would complete": "Sai vì 'would + V' chỉ dùng cho mong ước tương lai hoặc phàn nàn thói quen, không dùng cho sự việc đã qua trong quá khứ.",
-          "have completed": "Sai vì sau 'wish' không bao giờ dùng thì Hiện tại hoàn thành."
+          "would complete": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì 'would + V' chỉ dùng cho mong ước tương lai hoặc phàn nàn thói quen, không dùng cho sự việc đã qua trong quá khứ.",
+          "have completed": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì sau 'wish' không bao giờ dùng thì Hiện tại hoàn thành."
         }
       }
     },
@@ -337,18 +337,18 @@
       "id": "ex_14",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "To uphold stringent environmental compliance standards, the chief manufacturing engineer would rather that the chemical processing facility ________ (use) biodegradable solvents instead of hazardous petrochemical compounds.",
+      "prompt": "To uphold stringent environmental compliance standards, the chief manufacturing engineer would rather that the chemical processing facility <u>_______</u> (use) biodegradable solvents instead of hazardous petrochemical compounds.",
       "options": [],
       "correctAnswer": "used",
       "explanation": {
         "translation": "Để tuân thủ các tiêu chuẩn tuân thủ môi trường nghiêm ngặt, kỹ sư trưởng sản xuất muốn cơ sở chế biến hóa chất sử dụng dung môi phân hủy sinh học thay vì các hợp chất hóa dầu độc hại.",
-        "keySignal": "Cấu trúc 'would rather that' với 2 chủ ngữ khác nhau ('engineer' và 'facility') diễn tả định hướng, mong muốn ở hiện tại/tương lai.",
+        "keySignal": "Cấu trúc <mark>would rather that</mark> với 2 chủ ngữ khác nhau (<mark>engineer</mark> và <mark>facility</mark>) diễn tả định hướng, mong muốn ở hiện tại/tương lai.",
         "rule": "Would rather với 2 chủ ngữ ở hiện tại: S1 + would rather (that) + S2 + V2/ed.",
-        "whyCorrect": "Kỹ sư trưởng mong muốn nhà máy thực hiện việc dùng dung môi sinh học ở thời điểm hiện tại và tương lai. Cấu trúc Would rather với 2 chủ ngữ yêu cầu lùi một thì về Quá khứ đơn, do đó động từ 'use' đổi thành 'used'.",
+        "whyCorrect": "Kỹ sư trưởng mong muốn nhà máy thực hiện việc dùng dung môi sinh học ở thời điểm hiện tại và tương lai. Cấu trúc Would rather với 2 chủ ngữ yêu cầu lùi một thì về Quá khứ đơn, do đó động từ 'use' đổi thành <span style=\"color: #22c55e; font-weight: bold;\">'used'</span>.",
         "distractorBreakdown": {
           "uses": "Bẫy thì hiện tại: Thấy chủ ngữ 'the facility' là số ít nên chia 'uses', nhưng Would rather 2 chủ ngữ không dùng thì Hiện tại đơn.",
-          "had used": "Sai vì ngữ cảnh không có mốc thời gian quá khứ để lùi về Quá khứ hoàn thành.",
-          "would use": "Sai cấu trúc: Không dùng 'would + V' ngay sau chủ ngữ thứ hai trong mệnh đề Would rather."
+          "had used": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì ngữ cảnh không có mốc thời gian quá khứ để lùi về Quá khứ hoàn thành.",
+          "would use": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cấu trúc: Không dùng 'would + V' ngay sau chủ ngữ thứ hai trong mệnh đề Would rather."
         }
       }
     },
@@ -356,18 +356,18 @@
       "id": "ex_15",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Considering that current network traffic consistently exceeds server bandwidth allocations, it is about time the IT infrastructure department ________ (upgrade) the enterprise cloud architecture.",
+      "prompt": "Considering that current network traffic consistently exceeds server bandwidth allocations, it is about time the IT infrastructure department <u>_______</u> (upgrade) the enterprise cloud architecture.",
       "options": [],
       "correctAnswer": "upgraded",
       "explanation": {
         "translation": "Xét thấy lưu lượng mạng hiện tại liên tục vượt quá phân bổ băng thông máy chủ, đã đến lúc bộ phận cơ sở hạ tầng CNTT phải nâng cấp kiến trúc đám mây của doanh nghiệp.",
-        "keySignal": "Cụm cấu trúc chỉ sự chậm trễ, thúc giục 'it is about time' kết hợp chủ ngữ 'the IT infrastructure department'.",
+        "keySignal": "Cụm cấu trúc chỉ sự chậm trễ, thúc giục <mark>it is about time</mark> kết hợp chủ ngữ <mark>the IT infrastructure department</mark>.",
         "rule": "Cấu trúc It is (about / high) time: It is about time + S + V2/ed.",
-        "whyCorrect": "Cấu trúc 'It is about time + S' mang hàm ý việc nâng cấp này lẽ ra đã phải hoàn thành từ trước đó rồi (thúc bách, chậm trễ). Quy tắc ngữ pháp chuẩn mực yêu cầu động từ theo sau chủ ngữ phải chia ở thì Quá khứ đơn, do đó 'upgrade' đổi thành 'upgraded'.",
+        "whyCorrect": "Cấu trúc 'It is about time + S' mang hàm ý việc nâng cấp này lẽ ra đã phải hoàn thành từ trước đó rồi (thúc bách, chậm trễ). Quy tắc ngữ pháp chuẩn mực yêu cầu động từ theo sau chủ ngữ phải chia ở thì Quá khứ đơn, do đó 'upgrade' đổi thành <span style=\"color: #22c55e; font-weight: bold;\">'upgraded'</span>.",
         "distractorBreakdown": {
           "upgrades": "Bẫy Hiện tại đơn: Thấy 'it is about time' ở hiện tại nên vội chia 'upgrades', bỏ quên quy tắc lùi thì của cấu trúc này.",
           "upgrade": "Bẫy Mandative Subjunctive: Nhầm lẫn cấu trúc It's time với thể giả định thức mệnh lệnh (vốn dùng V_bare).",
-          "has upgraded": "Sai thì: Không dùng Hiện tại hoàn thành trong cấu trúc It's time."
+          "has upgraded": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thì: Không dùng Hiện tại hoàn thành trong cấu trúc It's time."
         }
       }
     }

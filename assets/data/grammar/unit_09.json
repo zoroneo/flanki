@@ -5,34 +5,34 @@
   "level": 2,
   "coreConcept": "Tư duy cốt lõi của người bản xứ về Câu điều kiện không nằm ở việc học thuộc các công thức toán học khô khan, mà nằm ở việc định vị mệnh đề trên PHỔ XÁC SUẤT VÀ TÍNH THỰC TẾ (Reality vs. Hypothetical Spectrum). Người bản ngữ sử dụng hình thái của động từ (tense and mood) như một tín hiệu tâm lý để thông báo cho người nghe biết tình huống đang nói là một sự thật khách quan, một khả năng có thật ở tương lai, hay chỉ là một giả định hư cấu trong tâm tưởng:\n\n1. Type 0 - Chân lý khách quan và Quy luật bất biến (Scientific Fact & Certainty - 100%): Diễn tả các quy luật tự nhiên, hiện tượng vật lý, chân lý khoa học hoặc phản xạ tự động. Nếu tiền đề A xảy ra thì kết quả B chắc chắn 100% phát sinh. Ở loại này, liên từ 'If' hoàn toàn tương đương với 'When' hoặc 'Whenever'.\n\n2. Type 1 - Tình huống thực tế và Khả dĩ trong tương lai (Real & Likely Future - 50-90%): Đặt ra một điều kiện hoàn toàn có thể xảy ra trong đời thực ở hiện tại hoặc tương lai, dẫn đến một kết quả hoặc hành động dự kiến. Đây là dạng thức phổ biến nhất trong đàm phán hợp đồng, kế hoạch kinh doanh và thông cáo nội bộ.\n\n3. Type 2 - Giả định phi thực tế ở hiện tại hoặc tương lai (Unreal Present/Future - 0%): Người nói lùi một thì (sang Quá khứ đơn) không phải để nói về quá khứ, mà để tạo ra một 'khoảng cách tâm lý' (Psychological Distance) nhằm báo hiệu: 'Điều này hoàn toàn trái ngược với thực tế ở hiện tại hoặc gần như không tưởng ở tương lai'. Thể giả định (Subjunctive Mood) quy định dùng 'were' cho mọi ngôi nhằm nhấn mạnh tính phi thực tế của tình huống giả định.\n\n4. Type 3 - Giả định phi thực tế trong quá khứ (Unreal Past / Regret & Criticism - 0%): Sự việc trong quá khứ ĐÃ HOÀN TẤT VÀ KHÔNG THỂ THAY ĐỔI. Người bản ngữ lùi thêm một thì nữa (Quá khứ hoàn thành - Past Perfect) để hình dung về một kịch bản quá khứ thay thế, thường dùng để bộc lộ sự tiếc nuối (regret), bài học xương máu (lessons learned), hoặc lời trách móc (criticism) đối với một sai lầm đã xảy ra.\n\n5. Mixed Conditionals - Điều kiện hỗn hợp (Bẻ gãy tính đối xứng thời gian):\n- Trong giao tiếp thực tế và văn bản chuyên môn, nguyên nhân và kết quả không phải lúc nào cũng cùng nằm trong một khung thời gian. Mixed Conditionals ra đời để liên kết hai mốc thời gian khác biệt:\n  + Dạng phổ biến (Past cause -> Present result): Một hành động hoặc sai sót trong quá khứ để lại hậu quả trực tiếp kéo dài đến tận hiện tại (Mệnh đề If loại 3: If + had + V3/ed; Mệnh đề chính loại 2: S + would/could + V_bare [now/today/currently]).\n  + Dạng bản chất (Present permanent trait -> Past result): Một bản chất, phẩm chất, năng lực cố hữu ở hiện tại đã chi phối hành vi hoặc quyết định trong quá khứ (Mệnh đề If loại 2: If + were/V2; Mệnh đề chính loại 3: S + would/could + have + V3/ed).",
   "formulas": {
-    "type0": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 0 (FACTS & CERTAINTY):\n1. Cấu trúc:\n   - If / When / Whenever + S + V(s/es) [Present Simple], S + V(s/es) [Present Simple]\n2. Bản chất tư duy:\n   - Diễn tả sự thật hiển nhiên, chân lý khoa học, quy luật vận hành của máy móc hoặc thói quen tất yếu. Không dùng 'will' ở mệnh đề chính vì kết quả không phụ thuộc vào ý chí chủ quan hay khả năng tương lai mà là phản xạ tất định.\n3. Ví dụ chuyên môn:\n   - If the core server temperature exceeds 80 degrees Celsius, the automatic cooling mechanism initiates immediately.\n   - (Khi nhiệt độ máy chủ vượt quá 80 độ C, cơ chế làm mát tự động sẽ lập tức kích hoạt.)",
-    "type1": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 1 (REAL & FUTURE POSSIBILITY):\n1. Cấu trúc chuẩn:\n   - If + S + V(s/es) [Present Simple], S + will / can / may / should + V_bare\n2. Các biến thể nâng cao thường gặp trong đề thi:\n   - Dạng mệnh lệnh thức: If + S + V(s/es), (please) + V_bare! (Ví dụ: If you experience any system latency, please restart your terminal).\n   - Dạng giảm mức độ xác suất: Dùng 'may / might' thay vì 'will' để thể hiện sự không chắc chắn (30-50%).\n   - Dạng nhấn mạnh khả năng thấp nhưng vẫn có thể xảy ra: If + S + should + V_bare... (mang nghĩa: Nếu chẳng may...).\n3. Ví dụ thương mại:\n   - If the prospective overseas client signs the procurement agreement before Friday, our production department will accelerate the dispatch schedule.\n   - (Nếu khách hàng tiềm năng ở nước ngoài ký thỏa thuận mua sắm trước thứ Sáu, bộ phận sản xuất của chúng tôi sẽ đẩy nhanh tiến độ xuất xưởng.)",
-    "type2": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 2 (HYPOTHETICAL PRESENT/FUTURE):\n1. Cấu trúc chuẩn:\n   - If + S + V2/ed (To be: WERE cho tất cả các ngôi), S + would / could / might + V_bare\n2. Tư duy về 'Were' (Thể giả định - Subjunctive Mood):\n   - Trong văn phong chuẩn mực (Academic, TOEIC, IELTS, hợp đồng pháp lý), 'were' là dạng thức duy nhất được công nhận cho mọi chủ ngữ (kể cả I, he, she, it) ở mệnh đề điều kiện để phân biệt rạch ròi giữa 'sự thật quá khứ' và 'giả định phi thực tế hiện tại'.\n3. Ví dụ chiến lược:\n   - If our enterprise had access to unlimited venture capital, we would acquire the struggling regional competitor immediately (Thực tế: Doanh nghiệp không có vốn vô hạn).\n   - (Nếu doanh nghiệp chúng tôi tiếp cận được nguồn vốn mạo hiểm không giới hạn, chúng tôi sẽ thâu tóm đối thủ cạnh tranh đang gặp khó khăn ngay lập tức.)",
-    "type3": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 3 (UNREAL PAST / REGRET):\n1. Cấu trúc chuẩn:\n   - Thể chủ động: If + S + had + V3/ed, S + would / could / might + HAVE + V3/ed\n   - Thể bị động: If + S + had been + V3/ed, S + would / could / might + HAVE BEEN + V3/ed\n2. Bản chất tư duy:\n   - Sự việc đã diễn ra xong xuôi trong quá khứ và kết quả tiêu cực đã thành hình. Mệnh đề này dùng để phân tích nguyên nhân gốc rễ (Root-cause analysis), thể hiện sự ân hận hoặc phân định trách nhiệm sau các sự cố nghiệp vụ.\n3. Ví dụ kiểm toán:\n   - If the internal auditor had cross-referenced the transaction logs thoroughly last month, the fraudulent expense claims would have been intercepted.\n   - (Nếu kiểm toán viên nội bộ đối chiếu kỹ lưỡng các nhật ký giao dịch vào tháng trước, các yêu cầu thanh toán chi phí gian lận đã bị chặn đứng kịp thời.)",
-    "mixed": "CÔNG THỨC & BẢN CHẤT CÂU ĐIỀU KIỆN HỖN HỢP (MIXED CONDITIONALS):\n1. Dạng 1 (Nguyên nhân Quá khứ -> Kết quả Hiện tại [Type 3 + Type 2] - Chiếm 85% đề thi):\n   - Cấu trúc: If + S + had + V3/ed, S + would / could / might + V_bare\n   - Dấu hiệu nhận biết: Mệnh đề chính xuất hiện các trạng từ chỉ thời gian ở hiện tại như: now, today, currently, at present, right now.\n   - Ví dụ: If the operations director had renewed our software security license last week, our servers would not be vulnerable to malware attacks right now.\n   - (Nếu giám đốc vận hành đã gia hạn bản quyền bảo mật phần mềm tuần trước thì hệ thống máy chủ của chúng ta hiện giờ đã không dễ bị tấn công bởi mã độc.)\n2. Dạng 2 (Bản chất Hiện tại -> Kết quả Quá khứ [Type 2 + Type 3]):\n   - Cấu trúc: If + S + V2/ed (were), S + would / could / might + HAVE + V3/ed\n   - Bản chất: Giả định về một thuộc tính, tính cách hoặc năng lực thường trực của chủ ngữ ở hiện tại đã ảnh hưởng đến quyết định/sự việc đã xảy ra trong quá khứ.\n   - Ví dụ: If Dr. Evans were not such an exceptionally meticulous researcher, he would have overlooked the subtle discrepancy in the clinical data during yesterday's trial.\n   - (Nếu Tiến sĩ Evans không phải là một nhà nghiên cứu vô cùng tỉ mỉ như hiện nay, ông ấy chắc hẳn đã bỏ sót sự sai lệch tinh vi trong dữ liệu lâm sàng suốt buổi thử nghiệm hôm qua.)"
+    "type0": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 0 (FACTS & CERTAINTY):<br/>1. Cấu trúc:<br/>   - If / When / Whenever + S + V(s/es) [Present Simple], S + V(s/es) [Present Simple]<br/>2. Bản chất tư duy:<br/>   - Diễn tả sự thật hiển nhiên, chân lý khoa học, quy luật vận hành của máy móc hoặc thói quen tất yếu. Không dùng 'will' ở mệnh đề chính vì kết quả không phụ thuộc vào ý chí chủ quan hay khả năng tương lai mà là phản xạ tất định.<br/>3. Ví dụ chuyên môn:<br/>   - If the core server temperature exceeds 80 degrees Celsius, the automatic cooling mechanism initiates immediately.<br/>   - (Khi nhiệt độ máy chủ vượt quá 80 độ C, cơ chế làm mát tự động sẽ lập tức kích hoạt.)",
+    "type1": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 1 (REAL & FUTURE POSSIBILITY):<br/>1. Cấu trúc chuẩn:<br/>   - If + S + V(s/es) [Present Simple], S + will / can / may / should + V_bare<br/>2. Các biến thể nâng cao thường gặp trong đề thi:<br/>   - Dạng mệnh lệnh thức: If + S + V(s/es), (please) + V_bare! (Ví dụ: If you experience any system latency, please restart your terminal).<br/>   - Dạng giảm mức độ xác suất: Dùng 'may / might' thay vì 'will' để thể hiện sự không chắc chắn (30-50%).<br/>   - Dạng nhấn mạnh khả năng thấp nhưng vẫn có thể xảy ra: If + S + should + V_bare... (mang nghĩa: Nếu chẳng may...).<br/>3. Ví dụ thương mại:<br/>   - If the prospective overseas client signs the procurement agreement before Friday, our production department will accelerate the dispatch schedule.<br/>   - (Nếu khách hàng tiềm năng ở nước ngoài ký thỏa thuận mua sắm trước thứ Sáu, bộ phận sản xuất của chúng tôi sẽ đẩy nhanh tiến độ xuất xưởng.)",
+    "type2": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 2 (HYPOTHETICAL PRESENT/FUTURE):<br/>1. Cấu trúc chuẩn:<br/>   - If + S + V2/ed (To be: WERE cho tất cả các ngôi), S + would / could / might + V_bare<br/>2. Tư duy về 'Were' (Thể giả định - Subjunctive Mood):<br/>   - Trong văn phong chuẩn mực (Academic, TOEIC, IELTS, hợp đồng pháp lý), 'were' là dạng thức duy nhất được công nhận cho mọi chủ ngữ (kể cả I, he, she, it) ở mệnh đề điều kiện để phân biệt rạch ròi giữa 'sự thật quá khứ' và 'giả định phi thực tế hiện tại'.<br/>3. Ví dụ chiến lược:<br/>   - If our enterprise had access to unlimited venture capital, we would acquire the struggling regional competitor immediately (Thực tế: Doanh nghiệp không có vốn vô hạn).<br/>   - (Nếu doanh nghiệp chúng tôi tiếp cận được nguồn vốn mạo hiểm không giới hạn, chúng tôi sẽ thâu tóm đối thủ cạnh tranh đang gặp khó khăn ngay lập tức.)",
+    "type3": "CÔNG THỨC & QUY TẮC CÂU ĐIỀU KIỆN LOẠI 3 (UNREAL PAST / REGRET):<br/>1. Cấu trúc chuẩn:<br/>   - Thể chủ động: If + S + had + V3/ed, S + would / could / might + HAVE + V3/ed<br/>   - Thể bị động: If + S + had been + V3/ed, S + would / could / might + HAVE BEEN + V3/ed<br/>2. Bản chất tư duy:<br/>   - Sự việc đã diễn ra xong xuôi trong quá khứ và kết quả tiêu cực đã thành hình. Mệnh đề này dùng để phân tích nguyên nhân gốc rễ (Root-cause analysis), thể hiện sự ân hận hoặc phân định trách nhiệm sau các sự cố nghiệp vụ.<br/>3. Ví dụ kiểm toán:<br/>   - If the internal auditor had cross-referenced the transaction logs thoroughly last month, the fraudulent expense claims would have been intercepted.<br/>   - (Nếu kiểm toán viên nội bộ đối chiếu kỹ lưỡng các nhật ký giao dịch vào tháng trước, các yêu cầu thanh toán chi phí gian lận đã bị chặn đứng kịp thời.)",
+    "mixed": "CÔNG THỨC & BẢN CHẤT CÂU ĐIỀU KIỆN HỖN HỢP (MIXED CONDITIONALS):<br/>1. Dạng 1 (Nguyên nhân Quá khứ -> Kết quả Hiện tại [Type 3 + Type 2] - Chiếm 85% đề thi):<br/>   - Cấu trúc: If + S + had + V3/ed, S + would / could / might + V_bare<br/>   - Dấu hiệu nhận biết: Mệnh đề chính xuất hiện các trạng từ chỉ thời gian ở hiện tại như: now, today, currently, at present, right now.<br/>   - Ví dụ: If the operations director had renewed our software security license last week, our servers would not be vulnerable to malware attacks right now.<br/>   - (Nếu giám đốc vận hành đã gia hạn bản quyền bảo mật phần mềm tuần trước thì hệ thống máy chủ của chúng ta hiện giờ đã không dễ bị tấn công bởi mã độc.)<br/>2. Dạng 2 (Bản chất Hiện tại -> Kết quả Quá khứ [Type 2 + Type 3]):<br/>   - Cấu trúc: If + S + V2/ed (were), S + would / could / might + HAVE + V3/ed<br/>   - Bản chất: Giả định về một thuộc tính, tính cách hoặc năng lực thường trực của chủ ngữ ở hiện tại đã ảnh hưởng đến quyết định/sự việc đã xảy ra trong quá khứ.<br/>   - Ví dụ: If Dr. Evans were not such an exceptionally meticulous researcher, he would have overlooked the subtle discrepancy in the clinical data during yesterday's trial.<br/>   - (Nếu Tiến sĩ Evans không phải là một nhà nghiên cứu vô cùng tỉ mỉ như hiện nay, ông ấy chắc hẳn đã bỏ sót sự sai lệch tinh vi trong dữ liệu lâm sàng suốt buổi thử nghiệm hôm qua.)"
   },
   "inversionAndAlternatives": "HỆ THỐNG ĐẢO NGỮ (INVERSION) VÀ CÁC LIÊN TỪ THAY THẾ 'IF':\n\n1. ĐẢO NGỮ CÂU ĐIỀU KIỆN (Formal Inversion - Bỏ 'If', đưa trợ động từ lên trước chủ ngữ):\n- Loại 1 (Dùng Should): Should + S + V_bare, S + will / can / please + V_bare\n  + Tư duy: Dùng trong thư tín thương mại, hợp đồng để thể hiện sự trang trọng, lịch sự tối đa. Động từ theo sau chủ ngữ luôn ở dạng nguyên thể không chia.\n  + Ví dụ: Should you require further technical clarification regarding the blueprint, please contact our lead architect.\n- Loại 2 (Dùng Were):\n  + Với To be: Were + S + Adj / Noun, S + would + V_bare (Ví dụ: Were he our regional manager, he would reorganize the sales force).\n  + Với Động từ thường: Were + S + TO + V_bare, S + would + V_bare (BẮT BUỘC có 'TO', tuyệt đối không đảo 'Did + S + V').\n  + Ví dụ: Were the board of directors to reject the merger proposal, the executive committee would draft an alternative roadmap.\n- Loại 3 (Dùng Had): Had + S + (not) + V3/ed, S + would / could + have + V3/ed\n  + Tư duy: Cực kỳ phổ biến trong TOEIC Part 5/6 và văn bản học thuật để tăng tính trang trọng khi tường trình sự cố.\n  + Ví dụ: Had the logistics supervisor confirmed the consignment dimensions in advance, the freight surcharge would not have been incurred.\n\n2. CÁC CỤM TỪ VÀ LIÊN TỪ THAY THẾ 'IF':\n- Unless (= If... not): Trừ khi, nếu không. Bản thân 'Unless' đã mang sẵn tính phủ định, tuyệt đối không dùng phủ định kép phía sau.\n- Provided that / Providing that / As long as / So long as: Miễn là, với điều kiện là (nhấn mạnh tính ràng buộc tiên quyết của điều kiện).\n  + Ví dụ: We will proceed with the contract signing provided that all intellectual property clauses are finalized.\n- In case / In the event that: Phòng khi, phòng trường hợp. Diễn tả hành động chuẩn bị trước để đề phòng một tình huống có thể xảy ra (Khác với 'If' là tình huống xảy ra rồi mới thực hiện hành động ứng phó).\n  + Ví dụ: Please carry the emergency satellite phone in case cellular reception fails in the mountain valley.\n- But for / Without (+ Noun / V-ing): Nếu không vì, nếu không nhờ có. Tương đương với 'If it were not for' (hiện tại) hoặc 'If it had not been for' (quá khứ).\n  + Ví dụ: But for the emergency intervention of the cybersecurity team, the entire corporate database would have been irreversibly corrupted.",
   "commonTraps": [
     {
-      "trap": "Bẫy 1: Dùng mệnh đề phủ định phía sau liên từ 'Unless' (Lỗi phủ định kép làm sai lệch logic)",
+      "trap": "<b>Bẫy 1:</b> Dùng mệnh đề phủ định phía sau liên từ 'Unless' (Lỗi phủ định kép làm sai lệch logic)",
       "exampleWrong": "The municipal council will withhold the environmental certification unless the chemical manufacturing facility does not install state-of-the-art particulate filters.",
       "exampleRight": "The municipal council will withhold the environmental certification unless the chemical manufacturing facility installs state-of-the-art particulate filters.",
       "note": "Bản thân liên từ 'Unless' đã có nghĩa là 'If... not' (trừ phi/nếu không). Do đó, mệnh đề theo sau 'Unless' luôn phải ở thể khẳng định. Nếu dùng phủ định 'does not install', câu sẽ tạo thành phủ định kép ('Trừ khi nhà máy KHÔNG lắp... thì hội đồng sẽ từ chối cấp phép'), hoàn toàn trái ngược với ý định diễn đạt trong kinh doanh và hành chính."
     },
     {
-      "trap": "Bẫy 2: Nhầm lẫn giữa Câu điều kiện hỗn hợp (Past cause -> Present result) và Loại 3 thuần túy khi có trạng từ hiện tại",
+      "trap": "<b>Bẫy 2:</b> Nhầm lẫn giữa Câu điều kiện hỗn hợp (Past cause -> Present result) và Loại 3 thuần túy khi có trạng từ hiện tại",
       "exampleWrong": "If the civil engineering contractor had rectified the foundation defects during initial construction last year, the residential skyscraper would have been completely structurally sound today.",
       "exampleRight": "If the civil engineering contractor had rectified the foundation defects during initial construction last year, the residential skyscraper would be completely structurally sound today.",
       "note": "Thí sinh thường có phản xạ rập khuôn: hễ thấy mệnh đề If chia 'had + V3/ed' là lập tức chọn 'would have + V3/ed' ở mệnh đề chính. Tuy nhiên, đề thi TOEIC và THPTQG thường gài các trạng từ chỉ thời gian ở hiện tại như 'today', 'now', 'currently', 'at present'. Khi đó, mệnh đề chính bắt buộc phải dùng cấu trúc Điều kiện hỗn hợp: 'would + V_bare' để diễn tả thực trạng hiện tại bắt nguồn từ quá khứ."
     },
     {
-      "trap": "Bẫy 3: Đảo ngữ Loại 2 với động từ thường mượn trợ động từ 'Did' thay vì 'Were + S + to-V'",
+      "trap": "<b>Bẫy 3:</b> Đảo ngữ Loại 2 với động từ thường mượn trợ động từ 'Did' thay vì 'Were + S + to-V'",
       "exampleWrong": "Did the international consortium dissolve its exclusive distribution partnership, our retail revenue would experience an immediate forty percent decline.",
       "exampleRight": "Were the international consortium to dissolve its exclusive distribution partnership, our retail revenue would experience an immediate forty percent decline.",
       "note": "Rất nhiều người học nhầm tưởng quy tắc đảo ngữ câu nghi vấn (mượn trợ động từ 'Did') có thể áp dụng cho câu điều kiện loại 2. Quy tắc chuẩn hóa duy nhất của đảo ngữ loại 2 với động từ thường là: 'Were + S + TO + V_bare'. Cấu trúc 'Did + S + V' hoàn toàn không tồn tại trong ngữ pháp câu điều kiện."
     },
     {
-      "trap": "Bẫy 4: Lẫn lộn bản chất mục đích giữa liên từ 'In case' (Chuẩn bị phòng ngừa) và 'If' (Điều kiện tuần tự)",
+      "trap": "<b>Bẫy 4:</b> Lẫn lộn bản chất mục đích giữa liên từ 'In case' (Chuẩn bị phòng ngừa) và 'If' (Điều kiện tuần tự)",
       "exampleWrong": "The chief risk officer has deployed redundant server mirrors across three data centers if the primary facility undergoes an unforeseen catastrophic hardware failure.",
       "exampleRight": "The chief risk officer has deployed redundant server mirrors across three data centers in case the primary facility undergoes an unforeseen catastrophic hardware failure.",
       "note": "Hãy phân biệt chiều hướng hành động: 'In case' được dùng khi hành động chuẩn bị được thực hiện TRƯỚC để phòng ngừa một rủi ro trong tương lai (Hành động có trước, sự cố có sau). Ngược lại, 'If' chỉ một điều kiện tuần tự: sự việc xảy ra TRƯỚC rồi hành động mới được kích hoạt theo sau."
@@ -43,7 +43,7 @@
       "id": "ex_01",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "________ any technical malfunction occur during the digital banking platform migration tonight, on-call software engineers must notify the emergency response team immediately.",
+      "prompt": "<u>_______</u> any technical malfunction occur during the digital banking platform migration tonight, on-call software engineers must notify the emergency response team immediately.",
       "options": [
         "Should",
         "If",
@@ -53,13 +53,13 @@
       "correctAnswer": "Should",
       "explanation": {
         "translation": "Nếu chẳng may xảy ra bất kỳ sự cố kỹ thuật nào trong quá trình chuyển đổi nền tảng ngân hàng số vào tối nay, các kỹ sư phần mềm trực ca phải thông báo ngay cho đội ứng phó khẩn cấp.",
-        "keySignal": "Chủ ngữ số ít 'any technical malfunction' nhưng động từ theo sau là nguyên mẫu không chia 'occur' (không có đuôi -s/-es).",
+        "keySignal": "Chủ ngữ số ít <mark>any technical malfunction</mark> nhưng động từ theo sau là nguyên mẫu không chia <mark>occur</mark> (không có đuôi -s/-es).",
         "rule": "Đảo ngữ câu điều kiện Loại 1: Should + S + V_bare, S + modal/imperative + V_bare.",
-        "whyCorrect": "Vì chủ ngữ là số ít mà động từ ở dạng nguyên thể 'occur', đây là dấu hiệu đặc trưng của đảo ngữ loại 1 với 'Should'. Khi dùng 'Should', câu mang sắc thái trang trọng, lịch sự và ngụ ý 'nếu chẳng may xảy ra'.",
+        "whyCorrect": "Vì chủ ngữ là số ít mà động từ ở dạng nguyên thể 'occur', đây là dấu hiệu đặc trưng của đảo ngữ loại 1 với <span style=\"color: #22c55e; font-weight: bold;\">'Should'</span>. Khi dùng <span style=\"color: #22c55e; font-weight: bold;\">'Should'</span>, câu mang sắc thái trang trọng, lịch sự và ngụ ý 'nếu chẳng may xảy ra'.",
         "distractorBreakdown": {
-          "If": "Sai vì nếu dùng 'If' với chủ ngữ số ít 'any technical malfunction' ở thì Hiện tại đơn thì động từ bắt buộc phải chia thêm 's' thành 'occurs'.",
-          "Were": "Sai vì đảo ngữ loại 2 với động từ thường bắt buộc phải có 'to-infinitive' ('Were any technical malfunction to occur').",
-          "Had": "Sai vì đảo ngữ loại 3 yêu cầu động từ ở dạng quá khứ phân từ V3/ed ('Had any technical malfunction occurred')."
+          "If": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì nếu dùng 'If' với chủ ngữ số ít 'any technical malfunction' ở thì Hiện tại đơn thì động từ bắt buộc phải chia thêm 's' thành 'occurs'.",
+          "Were": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đảo ngữ loại 2 với động từ thường bắt buộc phải có 'to-infinitive' ('Were any technical malfunction to occur').",
+          "Had": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đảo ngữ loại 3 yêu cầu động từ ở dạng quá khứ phân từ V3/ed ('Had any technical malfunction occurred')."
         }
       }
     },
@@ -67,7 +67,7 @@
       "id": "ex_02",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "If the corporate board of directors ________ a comprehensive feasibility study before launching the overseas expansion, the firm would not have incurred millions of dollars in operational debt.",
+      "prompt": "If the corporate board of directors <u>_______</u> a comprehensive feasibility study before launching the overseas expansion, the firm would not have incurred millions of dollars in operational debt.",
       "options": [
         "had conducted",
         "conducted",
@@ -77,13 +77,13 @@
       "correctAnswer": "had conducted",
       "explanation": {
         "translation": "Nếu ban giám đốc công ty đã tiến hành một nghiên cứu tính khả thi toàn diện trước khi triển khai mở rộng ra nước ngoài, doanh nghiệp đã không phải gánh chịu hàng triệu đô la nợ vận hành.",
-        "keySignal": "Mệnh đề chính sử dụng cấu trúc điều kiện loại 3: 'would not have incurred' (would have + V3/ed) kết hợp cụm thời gian quá khứ 'before launching the overseas expansion'.",
+        "keySignal": "Mệnh đề chính sử dụng cấu trúc điều kiện loại 3: <mark>would not have incurred</mark> (would have + V3/ed) kết hợp cụm thời gian quá khứ <mark>before launching the overseas expansion</mark>.",
         "rule": "Câu điều kiện Loại 3 (Unreal Past): If + S + had + V3/ed, S + would/could + have + V3/ed.",
-        "whyCorrect": "Sự việc mở rộng kinh doanh và thua lỗ đã xảy ra trong quá khứ. Để đưa ra một giả định trái ngược với quá khứ, mệnh đề If bắt buộc phải chia ở thì Quá khứ hoàn thành 'had conducted'.",
+        "whyCorrect": "Sự việc mở rộng kinh doanh và thua lỗ đã xảy ra trong quá khứ. Để đưa ra một giả định trái ngược với quá khứ, mệnh đề If bắt buộc phải chia ở thì Quá khứ hoàn thành <span style=\"color: #22c55e; font-weight: bold;\">'had conducted'</span>.",
         "distractorBreakdown": {
-          "conducted": "Sai vì đây là thì Quá khứ đơn của loại 2, chỉ dùng để giả định trái ngược với hiện tại và phải đi với 'would + V_bare' ở mệnh đề chính.",
-          "would conduct": "Sai vì tuyệt đối không sử dụng 'would + V' trong mệnh đề điều kiện (If-clause).",
-          "have conducted": "Sai vì thì Hiện tại hoàn thành không dùng trong mệnh đề điều kiện giả định quá khứ."
+          "conducted": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đây là thì Quá khứ đơn của loại 2, chỉ dùng để giả định trái ngược với hiện tại và phải đi với 'would + V_bare' ở mệnh đề chính.",
+          "would conduct": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì tuyệt đối không sử dụng 'would + V' trong mệnh đề điều kiện (If-clause).",
+          "have conducted": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì thì Hiện tại hoàn thành không dùng trong mệnh đề điều kiện giả định quá khứ."
         }
       }
     },
@@ -91,7 +91,7 @@
       "id": "ex_03",
       "type": "choice",
       "difficulty": 3,
-      "prompt": "If the laboratory technician had not accidentally contaminated the synthesis culture yesterday, our biomedical research team ________ the final patent application today.",
+      "prompt": "If the laboratory technician had not accidentally contaminated the synthesis culture yesterday, our biomedical research team <u>_______</u> the final patent application today.",
       "options": [
         "would finalize",
         "would have finalized",
@@ -101,13 +101,13 @@
       "correctAnswer": "would finalize",
       "explanation": {
         "translation": "Nếu kỹ thuật viên phòng thí nghiệm không vô tình làm nhiễm bẩn mẫu cấy tổng hợp ngày hôm qua, thì nhóm nghiên cứu y sinh của chúng tôi hôm nay đã đang hoàn tất đơn đăng ký bằng sáng chế cuối cùng rồi.",
-        "keySignal": "Mệnh đề If có 'had not accidentally contaminated' đi kèm mốc thời gian quá khứ 'yesterday', trong khi mệnh đề chính có trạng từ thời gian hiện tại 'today'.",
+        "keySignal": "Mệnh đề If có <mark>had not accidentally contaminated</mark> đi kèm mốc thời gian quá khứ <mark>yesterday</mark>, trong khi mệnh đề chính có trạng từ thời gian hiện tại <mark>today</mark>.",
         "rule": "Câu điều kiện hỗn hợp (Mixed Conditional: Past cause -> Present result): If + S + had + V3/ed, S + would / could + V_bare.",
-        "whyCorrect": "Hành động làm hỏng mẫu thử diễn ra trong quá khứ (yesterday), nhưng kết quả bị chậm tiến độ lại ảnh hưởng trực tiếp đến ngày hôm nay (today). Do đó mệnh đề chính phải dùng 'would + V_bare' ('would finalize').",
+        "whyCorrect": "Hành động làm hỏng mẫu thử diễn ra trong quá khứ (yesterday), nhưng kết quả bị chậm tiến độ lại ảnh hưởng trực tiếp đến ngày hôm nay (today). Do đó mệnh đề chính phải dùng 'would + V_bare' (<span style=\"color: #22c55e; font-weight: bold;\">'would finalize'</span>).",
         "distractorBreakdown": {
           "would have finalized": "Bẫy kinh điển: Thí sinh chọn theo phản xạ loại 3 thuần túy mà bỏ qua trạng từ 'today' ở cuối câu.",
-          "will finalize": "Sai vì đây là dạng của câu điều kiện loại 1 (có thật ở tương lai), không thể kết hợp với mệnh đề If giả định quá khứ.",
-          "had finalized": "Sai ngữ pháp vì mệnh đề chính không thể dùng thì Quá khứ hoàn thành độc lập mà không có trợ động từ khiếm khuyết (would/could)."
+          "will finalize": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đây là dạng của câu điều kiện loại 1 (có thật ở tương lai), không thể kết hợp với mệnh đề If giả định quá khứ.",
+          "had finalized": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> ngữ pháp vì mệnh đề chính không thể dùng thì Quá khứ hoàn thành độc lập mà không có trợ động từ khiếm khuyết (would/could)."
         }
       }
     },
@@ -115,7 +115,7 @@
       "id": "ex_04",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "All confidential client records will be permanently expunged from the cloud storage archive within thirty days ________ the account holder explicitly requests data preservation in writing.",
+      "prompt": "All confidential client records will be permanently expunged from the cloud storage archive within thirty days <u>_______</u> the account holder explicitly requests data preservation in writing.",
       "options": [
         "unless",
         "provided that",
@@ -125,13 +125,13 @@
       "correctAnswer": "unless",
       "explanation": {
         "translation": "Tất cả hồ sơ bảo mật của khách hàng sẽ bị xóa vĩnh viễn khỏi kho lưu trữ đám mây trong vòng ba mươi ngày trừ khi chủ tài khoản yêu cầu bảo lưu dữ liệu bằng văn bản một cách rõ ràng.",
-        "keySignal": "Mệnh đề kết quả 'will be permanently expunged' (sẽ bị xóa vĩnh viễn) mang tính bất lợi, đối lập logic với điều kiện ngoại lệ 'the account holder explicitly requests data preservation' (yêu cầu bảo lưu).",
+        "keySignal": "Mệnh đề kết quả <mark>will be permanently expunged</mark> (sẽ bị xóa vĩnh viễn) mang tính bất lợi, đối lập logic với điều kiện ngoại lệ <mark>the account holder explicitly requests data preservation</mark> (yêu cầu bảo lưu).",
         "rule": "Liên từ thay thế 'If': Unless = If... not (Trừ khi, ngoại trừ trường hợp).",
         "whyCorrect": "'Unless' tạo ra mối quan hệ điều kiện mang tính ngoại lệ: Hồ sơ sẽ tự động bị tiêu hủy, ngoại trừ trường hợp duy nhất là có đơn yêu cầu giữ lại.",
         "distractorBreakdown": {
-          "provided that": "Sai logic ngữ nghĩa: 'Provided that' có nghĩa là 'miễn là' (hồ sơ bị xóa miễn là khách hàng yêu cầu bảo lưu -> phi lý).",
-          "in case": "Sai vì 'in case' có nghĩa là 'phòng khi' (hồ sơ bị xóa phòng khi khách hàng yêu cầu -> hoàn toàn sai về mặt quy trình bảo mật).",
-          "as long as": "Sai vì đồng nghĩa với 'provided that' (miễn là), làm đảo ngược logic của câu quy định bảo mật."
+          "provided that": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> logic ngữ nghĩa: 'Provided that' có nghĩa là 'miễn là' (hồ sơ bị xóa miễn là khách hàng yêu cầu bảo lưu -> phi lý).",
+          "in case": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì 'in case' có nghĩa là 'phòng khi' (hồ sơ bị xóa phòng khi khách hàng yêu cầu -> hoàn toàn sai về mặt quy trình bảo mật).",
+          "as long as": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đồng nghĩa với 'provided that' (miễn là), làm đảo ngược logic của câu quy định bảo mật."
         }
       }
     },
@@ -139,7 +139,7 @@
       "id": "ex_05",
       "type": "choice",
       "difficulty": 3,
-      "prompt": "________ the multinational pharmaceutical conglomerate to lower the retail price of its patented medication, thousands of low-income patients would gain immediate access to vital treatment.",
+      "prompt": "<u>_______</u> the multinational pharmaceutical conglomerate to lower the retail price of its patented medication, thousands of low-income patients would gain immediate access to vital treatment.",
       "options": [
         "Were",
         "Should",
@@ -149,12 +149,12 @@
       "correctAnswer": "Were",
       "explanation": {
         "translation": "Nếu tập đoàn dược phẩm đa quốc gia chịu hạ giá bán lẻ của loại thuốc được cấp bằng sáng chế, hàng ngàn bệnh nhân có thu nhập thấp sẽ ngay lập tức tiếp cận được phương pháp điều trị mang tính sống còn.",
-        "keySignal": "Cấu trúc sau khoảng trống gồm chủ ngữ 'the multinational pharmaceutical conglomerate' đi liền với động từ nguyên mẫu có 'to' ('to lower') và mệnh đề chính có 'would gain'.",
+        "keySignal": "Cấu trúc sau khoảng trống gồm chủ ngữ <mark>the multinational pharmaceutical conglomerate</mark> đi liền với động từ nguyên mẫu có <mark>to</mark> (<mark>to lower</mark>) và mệnh đề chính có <mark>would gain</mark>.",
         "rule": "Đảo ngữ câu điều kiện Loại 2 với động từ thường: Were + S + TO + V_bare, S + would + V_bare.",
-        "whyCorrect": "Khi đảo ngữ câu điều kiện loại 2 với động từ thường, ngữ pháp chuẩn hóa bắt buộc phải dùng trợ động từ giả định 'Were' kết hợp cấu trúc 'to-infinitive'.",
+        "whyCorrect": "Khi đảo ngữ câu điều kiện loại 2 với động từ thường, ngữ pháp chuẩn hóa bắt buộc phải dùng trợ động từ giả định <span style=\"color: #22c55e; font-weight: bold;\">'Were'</span> kết hợp cấu trúc 'to-infinitive'.",
         "distractorBreakdown": {
-          "Should": "Sai vì đảo ngữ loại 1 với 'Should' chỉ đi với động từ nguyên thể không 'to' (Should + S + lower).",
-          "Had": "Sai vì đảo ngữ loại 3 với 'Had' đòi hỏi quá khứ phân từ V3/ed (Had + S + lowered) và mệnh đề chính phải là 'would have gained'.",
+          "Should": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đảo ngữ loại 1 với 'Should' chỉ đi với động từ nguyên thể không 'to' (Should + S + lower).",
+          "Had": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đảo ngữ loại 3 với 'Had' đòi hỏi quá khứ phân từ V3/ed (Had + S + lowered) và mệnh đề chính phải là 'would have gained'.",
           "Did": "Bẫy kinh điển: Sai nghiêm trọng vì tiếng Anh không bao giờ mượn trợ động từ 'Did' để tạo đảo ngữ câu điều kiện loại 2."
         }
       }
@@ -173,13 +173,13 @@
       "correctAnswer": "C",
       "explanation": {
         "translation": "Cơ quan bảo vệ môi trường sẽ đình chỉ giấy phép hoạt động của nhà máy chế biến công nghiệp trừ khi ban quản lý cơ sở triển khai hệ thống lọc nước bắt buộc trước cuối quý tài chính.",
-        "keySignal": "Liên từ 'unless' ở vị trí [B] kết hợp với mệnh đề phủ định 'does not implement' ở vị trí [C].",
+        "keySignal": "Liên từ <mark>unless</mark> ở vị trí [B] kết hợp với mệnh đề phủ định <mark>does not implement</mark> ở vị trí [C].",
         "rule": "Bẫy phủ định kép với 'Unless': 'Unless' tương đương 'If not', do đó mệnh đề theo sau bắt buộc phải ở thể khẳng định.",
         "whyCorrect": "Vị trí [C] sai vì tạo ra lỗi phủ định kép vô lý ('Trừ khi ban quản lý KHÔNG triển khai thì sẽ bị đình chỉ'). Phải sửa 'does not implement' thành dạng khẳng định thì Hiện tại đơn: 'implements'.",
         "distractorBreakdown": {
-          "A (will suspend)": "Đúng ngữ pháp: Mệnh đề chính của câu điều kiện loại 1 dùng 'will + V_bare' để diễn tả biện pháp chế tài chắc chắn xảy ra.",
-          "B (unless)": "Đúng ngữ pháp: Liên từ chỉ điều kiện mang tính ngoại trừ hoàn toàn phù hợp trong văn bản pháp quy.",
-          "D (by)": "Đúng ngữ pháp: Giới từ 'by' mang nghĩa 'trước/chậm nhất vào thời điểm' kết hợp mốc thời gian 'the end of the fiscal quarter'."
+          "A (will suspend)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Mệnh đề chính của câu điều kiện loại 1 dùng 'will + V_bare' để diễn tả biện pháp chế tài chắc chắn xảy ra.",
+          "B (unless)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Liên từ chỉ điều kiện mang tính ngoại trừ hoàn toàn phù hợp trong văn bản pháp quy.",
+          "D (by)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Giới từ 'by' mang nghĩa 'trước/chậm nhất vào thời điểm' kết hợp mốc thời gian 'the end of the fiscal quarter'."
         }
       }
     },
@@ -197,13 +197,13 @@
       "correctAnswer": "B",
       "explanation": {
         "translation": "Nếu cơ quan giao thông đô thị nhận được khoản trợ cấp cơ sở hạ tầng của chính phủ cách đây năm năm, thì hệ thống đường sắt vùng đô thị hiện tại đã đang vận hành với hiệu suất tối đa mà không bị chậm trễ liên tục.",
-        "keySignal": "Mệnh đề If giả định quá khứ 'five years ago' ('had secured'), nhưng mệnh đề chính lại có trạng từ chỉ thời gian hiện tại 'currently' ở vị trí [C].",
+        "keySignal": "Mệnh đề If giả định quá khứ <mark>five years ago</mark> (<mark>had secured</mark>), nhưng mệnh đề chính lại có trạng từ chỉ thời gian hiện tại <mark>currently</mark> ở vị trí [C].",
         "rule": "Câu điều kiện hỗn hợp (Past cause -> Present result): If + S + had + V3/ed, S + would + V_bare (kết hợp với now/currently).",
         "whyCorrect": "Vị trí [B] dùng 'would have operated' (Loại 3 thuần túy) là sai vì mâu thuẫn trực tiếp với trạng từ 'currently' chỉ hiện trạng. Phải sửa thành câu điều kiện hỗn hợp: 'would operate' (hoặc 'would be operating').",
         "distractorBreakdown": {
-          "A (had secured)": "Đúng ngữ pháp: Thì Quá khứ hoàn thành trong mệnh đề If giả định sự việc trái ngược với quá khứ 5 năm trước.",
-          "C (currently)": "Đúng ngữ pháp: Trạng từ chỉ thời gian ở hiện tại làm mốc tham chiếu cho hệ quả hiện thời.",
-          "D (delays)": "Đúng ngữ pháp: Danh từ số nhiều chỉ những lần trì hoãn sau giới từ 'without'."
+          "A (had secured)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Thì Quá khứ hoàn thành trong mệnh đề If giả định sự việc trái ngược với quá khứ 5 năm trước.",
+          "C (currently)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Trạng từ chỉ thời gian ở hiện tại làm mốc tham chiếu cho hệ quả hiện thời.",
+          "D (delays)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ số nhiều chỉ những lần trì hoãn sau giới từ 'without'."
         }
       }
     },
@@ -221,13 +221,13 @@
       "correctAnswer": "A",
       "explanation": {
         "translation": "Nếu nhà cung cấp dịch vụ vận cần khu vực chấm dứt hợp đồng phân phối hàng hóa độc quyền mà không thông báo trước, nhà máy lắp ráp trung tâm của chúng tôi sẽ gặp phải sự gián đoạn vận hành thảm khốc.",
-        "keySignal": "Đầu câu dùng trợ động từ 'Did' ở vị trí [A] nhưng phía sau lại là cấu trúc 'to terminate' [B] và mệnh đề chính có 'would encounter' [C].",
+        "keySignal": "Đầu câu dùng trợ động từ <mark>Did</mark> ở vị trí [A] nhưng phía sau lại là cấu trúc <mark>to terminate</mark> [B] và mệnh đề chính có <mark>would encounter</mark> [C].",
         "rule": "Đảo ngữ câu điều kiện Loại 2 với động từ thường: Were + S + TO + V_bare (tuyệt đối không dùng 'Did').",
         "whyCorrect": "Vị trí [A] sai nghiêm trọng do áp dụng nhầm cấu trúc câu hỏi nghi vấn 'Did' vào câu điều kiện. Để kết hợp với 'to terminate', bắt buộc phải sửa 'Did' thành 'Were'.",
         "distractorBreakdown": {
-          "B (to terminate)": "Đúng ngữ pháp: Cấu trúc to-infinitive bắt buộc đi kèm theo sau 'Were' trong đảo ngữ loại 2.",
-          "C (would encounter)": "Đúng ngữ pháp: Mệnh đề chính chuẩn xác của câu điều kiện loại 2: would + V_bare.",
-          "D (disruptions)": "Đúng ngữ pháp: Danh từ số nhiều chỉ các sự cố gián đoạn sau tính từ 'catastrophic operational'."
+          "B (to terminate)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cấu trúc to-infinitive bắt buộc đi kèm theo sau 'Were' trong đảo ngữ loại 2.",
+          "C (would encounter)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Mệnh đề chính chuẩn xác của câu điều kiện loại 2: would + V_bare.",
+          "D (disruptions)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ số nhiều chỉ các sự cố gián đoạn sau tính từ 'catastrophic operational'."
         }
       }
     },
@@ -245,13 +245,13 @@
       "correctAnswer": "C",
       "explanation": {
         "translation": "Bộ phận kỹ thuật cơ sở hạ tầng đã lắp đặt các máy phát điện dự phòng kép trên toàn khu phức hợp máy chủ phòng khi lưới điện của công ty điện lực thành phố bị mất điện kéo dài.",
-        "keySignal": "Hành động ở mệnh đề trước đã hoàn thành ('has installed' - đã lắp đặt sẵn), phục vụ cho mục đích phòng bị rủi ro mất điện trong tương lai.",
+        "keySignal": "Hành động ở mệnh đề trước đã hoàn thành (<mark>has installed</mark> - đã lắp đặt sẵn), phục vụ cho mục đích phòng bị rủi ro mất điện trong tương lai.",
         "rule": "Phân biệt 'In case' (Phòng khi - hành động chuẩn bị làm trước) vs. 'If' (Nếu - điều kiện xảy ra rồi mới làm).",
         "whyCorrect": "Vị trí [C] dùng 'if' là sai logic thực tế, vì kỹ sư không thể đợi đến khi mất điện ('if the grid suffers') rồi mới đi lắp máy phát điện. Việc lắp đặt máy phát là hành động chủ động đề phòng rủi ro, do đó phải sửa 'if' thành 'in case'.",
         "distractorBreakdown": {
-          "A (has installed)": "Đúng ngữ pháp: Thì Hiện tại hoàn thành diễn tả hành động chuẩn bị cơ sở vật chất đã hoàn tất và kết quả còn lưu lại.",
-          "B (across)": "Đúng ngữ pháp: Giới từ chỉ không gian 'rải rác khắp/trên toàn bộ' khuôn viên máy chủ.",
-          "D (suffers)": "Đúng ngữ pháp: Động từ chia ở thì Hiện tại đơn sau liên từ chỉ điều kiện/phòng ngừa."
+          "A (has installed)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Thì Hiện tại hoàn thành diễn tả hành động chuẩn bị cơ sở vật chất đã hoàn tất và kết quả còn lưu lại.",
+          "B (across)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Giới từ chỉ không gian 'rải rác khắp/trên toàn bộ' khuôn viên máy chủ.",
+          "D (suffers)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ chia ở thì Hiện tại đơn sau liên từ chỉ điều kiện/phòng ngừa."
         }
       }
     },
@@ -269,13 +269,13 @@
       "correctAnswer": "A",
       "explanation": {
         "translation": "Nếu nhân viên tuân thủ của tập đoàn nhận thức được những bất thường về kế toán đang diễn ra trong bộ phận mua sắm, cô ấy chắc chắn sẽ khởi động một cuộc kiểm toán nội bộ chính thức không chút chậm trễ.",
-        "keySignal": "Mệnh đề chính dùng 'would initiate' (điều kiện loại 2 giả định hiện tại) kết hợp với văn phong pháp chế chuyên nghiệp.",
+        "keySignal": "Mệnh đề chính dùng <mark>would initiate</mark> (điều kiện loại 2 giả định hiện tại) kết hợp với văn phong pháp chế chuyên nghiệp.",
         "rule": "Thể giả định (Subjunctive Mood) trong câu điều kiện Loại 2: Động từ 'To be' bắt buộc dùng 'were' cho tất cả các ngôi trong ngữ cảnh học thuật và đề thi chuẩn hóa.",
         "whyCorrect": "Vị trí [A] dùng 'was' là văn phong giao tiếp thông tục, không đạt tiêu chuẩn ngữ pháp chính quy của các kỳ thi quốc tế (TOEIC/IELTS/THPTQG). Bắt buộc phải sửa 'was' thành 'were'.",
         "distractorBreakdown": {
-          "B (taking)": "Đúng ngữ pháp: Hiện tại phân từ rút gọn mệnh đề quan hệ chủ động ('which are taking place').",
-          "C (would initiate)": "Đúng ngữ pháp: Cấu trúc vị ngữ chuẩn mực của mệnh đề chính câu điều kiện loại 2.",
-          "D (without delay)": "Đúng ngữ pháp: Thành ngữ giới từ mang nghĩa 'ngay lập tức, không chút trì hoãn'."
+          "B (taking)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Hiện tại phân từ rút gọn mệnh đề quan hệ chủ động ('which are taking place').",
+          "C (would initiate)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cấu trúc vị ngữ chuẩn mực của mệnh đề chính câu điều kiện loại 2.",
+          "D (without delay)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Thành ngữ giới từ mang nghĩa 'ngay lập tức, không chút trì hoãn'."
         }
       }
     },
@@ -283,17 +283,17 @@
       "id": "ex_11",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Had the senior structural engineer ________ (inspect) the concrete foundation pillars thoroughly prior to the hurricane, the disastrous collapse of the warehouse would have been entirely averted.",
+      "prompt": "Had the senior structural engineer <u>_______</u> (inspect) the concrete foundation pillars thoroughly prior to the hurricane, the disastrous collapse of the warehouse would have been entirely averted.",
       "options": [],
       "correctAnswer": "inspected",
       "explanation": {
         "translation": "Nếu kỹ sư kết cấu cấp cao kiểm tra kỹ lưỡng các trụ móng bê tông trước cơn bão, sự sụp đổ thảm khốc của nhà kho đã hoàn toàn có thể được ngăn chặn.",
-        "keySignal": "Đầu câu bắt đầu bằng trợ động từ 'Had', sau chủ ngữ 'the senior structural engineer' là vị trí của động từ, mệnh đề chính dùng 'would have been entirely averted'.",
+        "keySignal": "Đầu câu bắt đầu bằng trợ động từ <mark>Had</mark>, sau chủ ngữ <mark>the senior structural engineer</mark> là vị trí của động từ, mệnh đề chính dùng <mark>would have been entirely averted</mark>.",
         "rule": "Đảo ngữ câu điều kiện Loại 3: Had + S + (not) + V3/ed, S + would have + V3/ed.",
-        "whyCorrect": "Đây là cấu trúc đảo ngữ loại 3. Trợ động từ 'Had' đã được đảo lên đầu câu, do đó động từ trong ngoặc 'inspect' bắt buộc phải chuyển sang dạng Quá khứ phân từ (V3/ed) là 'inspected'.",
+        "whyCorrect": "Đây là cấu trúc đảo ngữ loại 3. Trợ động từ 'Had' đã được đảo lên đầu câu, do đó động từ trong ngoặc 'inspect' bắt buộc phải chuyển sang dạng Quá khứ phân từ (V3/ed) là <span style=\"color: #22c55e; font-weight: bold;\">'inspected'</span>.",
         "distractorBreakdown": {
-          "inspect": "Sai vì sau trợ động từ 'Had' trong đảo ngữ loại 3 không bao giờ dùng động từ nguyên thể.",
-          "been inspected": "Sai thể bị động vì chủ ngữ 'the senior structural engineer' (kỹ sư) là chủ thể trực tiếp thực hiện hành động kiểm tra.",
+          "inspect": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì sau trợ động từ 'Had' trong đảo ngữ loại 3 không bao giờ dùng động từ nguyên thể.",
+          "been inspected": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> thể bị động vì chủ ngữ 'the senior structural engineer' (kỹ sư) là chủ thể trực tiếp thực hiện hành động kiểm tra.",
           "had inspected": "Bẫy thừa từ: Sai vì trợ động từ 'Had' đã được đảo ra đầu câu nên không lặp lại 'had' ở vị trí này."
         }
       }
@@ -302,18 +302,18 @@
       "id": "ex_12",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "If our chief executive officer ________ (not be) so exceptionally risk-averse, our technology enterprise could secure a leading market share in artificial intelligence right now.",
+      "prompt": "If our chief executive officer <u>_______</u> (not be) so exceptionally risk-averse, our technology enterprise could secure a leading market share in artificial intelligence right now.",
       "options": [],
       "correctAnswer": "were not",
       "explanation": {
         "translation": "Nếu tổng giám đốc điều hành của chúng ta không quá e ngại rủi ro như hiện nay, doanh nghiệp công nghệ của chúng ta hiện giờ đã có thể chiếm lĩnh thị phần dẫn đầu trong lĩnh vực trí tuệ nhân tạo.",
-        "keySignal": "Mệnh đề chính dùng 'could secure' kết hợp trạng từ thời gian hiện tại 'right now' để chỉ tình trạng thực tế trái ngược hiện tại.",
+        "keySignal": "Mệnh đề chính dùng <mark>could secure</mark> kết hợp trạng từ thời gian hiện tại <mark>right now</mark> để chỉ tình trạng thực tế trái ngược hiện tại.",
         "rule": "Câu điều kiện Loại 2 với thể giả định: If + S + were not + Adj, S + could/would + V_bare.",
-        "whyCorrect": "Giả định trái ngược với tính cách/bản chất hiện tại của CEO. Trong câu điều kiện loại 2, động từ 'to be' ở thể phủ định chuẩn mực bắt buộc phải là 'were not' (hoặc viết tắt 'weren't').",
+        "whyCorrect": "Giả định trái ngược với tính cách/bản chất hiện tại của CEO. Trong câu điều kiện loại 2, động từ 'to be' ở thể phủ định chuẩn mực bắt buộc phải là <span style=\"color: #22c55e; font-weight: bold;\">'were not'</span> (hoặc viết tắt 'weren't').",
         "distractorBreakdown": {
-          "was not": "Sai tiêu chuẩn học thuật vì câu điều kiện loại 2 yêu cầu thể giả định 'were' cho mọi ngôi.",
-          "had not been": "Sai vì 'had not been' là của loại 3 (giả định quá khứ), mâu thuẫn với việc miêu tả tính cách thường trực ở hiện tại và trạng từ 'right now'.",
-          "is not": "Sai vì 'is not' thuộc loại 1, không diễn tả được giả định trái ngược với thực tế hiển nhiên ở hiện tại."
+          "was not": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> tiêu chuẩn học thuật vì câu điều kiện loại 2 yêu cầu thể giả định 'were' cho mọi ngôi.",
+          "had not been": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì 'had not been' là của loại 3 (giả định quá khứ), mâu thuẫn với việc miêu tả tính cách thường trực ở hiện tại và trạng từ 'right now'.",
+          "is not": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì 'is not' thuộc loại 1, không diễn tả được giả định trái ngược với thực tế hiển nhiên ở hiện tại."
         }
       }
     },
@@ -321,18 +321,18 @@
       "id": "ex_13",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "If the macroeconomic research unit had anticipated the sharp currency devaluation during the last fiscal quarter, our international import firm ________ (not suffer) acute cash-flow shortages at present.",
+      "prompt": "If the macroeconomic research unit had anticipated the sharp currency devaluation during the last fiscal quarter, our international import firm <u>_______</u> (not suffer) acute cash-flow shortages at present.",
       "options": [],
       "correctAnswer": "would not suffer",
       "explanation": {
         "translation": "Nếu bộ phận nghiên cứu kinh tế vĩ mô lường trước được sự mất giá mạnh của đồng tiền trong quý tài chính vừa qua, công ty nhập khẩu quốc tế của chúng tôi hiện tại đã không phải chịu cảnh thiếu hụt dòng tiền nghiêm trọng.",
-        "keySignal": "Mệnh đề If có 'had anticipated' đi kèm thời gian quá khứ 'during the last fiscal quarter', trong khi mệnh đề chính có trạng từ hiện tại 'at present'.",
+        "keySignal": "Mệnh đề If có <mark>had anticipated</mark> đi kèm thời gian quá khứ <mark>during the last fiscal quarter</mark>, trong khi mệnh đề chính có trạng từ hiện tại <mark>at present</mark>.",
         "rule": "Câu điều kiện hỗn hợp (Past cause -> Present result): If + S + had + V3/ed, S + would + (not) + V_bare.",
-        "whyCorrect": "Nguyên nhân xảy ra trong quá khứ (không dự báo được tỷ giá) nhưng kết quả tiêu cực đang diễn ra ở hiện tại ('at present'). Do đó, động từ trong ngoặc ở mệnh đề chính phải chia theo điều kiện hỗn hợp: 'would not suffer' (chấp nhận cả 'would not be suffering').",
+        "whyCorrect": "Nguyên nhân xảy ra trong quá khứ (không dự báo được tỷ giá) nhưng kết quả tiêu cực đang diễn ra ở hiện tại ('at present'). Do đó, động từ trong ngoặc ở mệnh đề chính phải chia theo điều kiện hỗn hợp: <span style=\"color: #22c55e; font-weight: bold;\">'would not suffer'</span> (chấp nhận cả 'would not be suffering').",
         "distractorBreakdown": {
           "would not have suffered": "Bẫy kinh điển: Chia theo câu điều kiện loại 3 thuần túy mà bỏ qua trạng từ 'at present'.",
-          "will not suffer": "Sai vì đây là cấu trúc loại 1, không thể đi với mệnh đề điều kiện quá khứ hoàn thành.",
-          "did not suffer": "Sai vì mệnh đề chính của câu điều kiện không bao giờ dùng thì Quá khứ đơn trực thuyết."
+          "will not suffer": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đây là cấu trúc loại 1, không thể đi với mệnh đề điều kiện quá khứ hoàn thành.",
+          "did not suffer": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì mệnh đề chính của câu điều kiện không bao giờ dùng thì Quá khứ đơn trực thuyết."
         }
       }
     },
@@ -340,18 +340,18 @@
       "id": "ex_14",
       "type": "cloze",
       "difficulty": 1,
-      "prompt": "The investment consortium will release the subsequent installment of capital provided that the clinical research startup ________ (meet) all regulatory safety criteria next month.",
+      "prompt": "The investment consortium will release the subsequent installment of capital provided that the clinical research startup <u>_______</u> (meet) all regulatory safety criteria next month.",
       "options": [],
       "correctAnswer": "meets",
       "explanation": {
         "translation": "Tập đoàn đầu tư sẽ giải ngân đợt vốn tiếp theo với điều kiện là công ty khởi nghiệp nghiên cứu lâm sàng đáp ứng tất cả các tiêu chí an toàn theo quy định vào tháng tới.",
-        "keySignal": "Mệnh đề chính dùng 'will release' (thì Tương lai đơn) và liên từ điều kiện 'provided that'.",
+        "keySignal": "Mệnh đề chính dùng <mark>will release</mark> (thì Tương lai đơn) và liên từ điều kiện <mark>provided that</mark>.",
         "rule": "Câu điều kiện Loại 1 với các liên từ thay thế: S + will + V_bare + provided that + S + V(s/es) [Present Simple].",
-        "whyCorrect": "Trong câu điều kiện loại 1, mệnh đề sau liên từ 'provided that' phải chia ở thì Hiện tại đơn. Chủ ngữ 'the clinical research startup' là danh từ số ít ngôi thứ ba, nên động từ 'meet' thêm 's' thành 'meets'.",
+        "whyCorrect": "Trong câu điều kiện loại 1, mệnh đề sau liên từ 'provided that' phải chia ở thì Hiện tại đơn. Chủ ngữ 'the clinical research startup' là danh từ số ít ngôi thứ ba, nên động từ 'meet' thêm 's' thành <span style=\"color: #22c55e; font-weight: bold;\">'meets'</span>.",
         "distractorBreakdown": {
           "will meet": "Bẫy thì tương lai: Mệnh đề chỉ thời gian/điều kiện trong tiếng Anh tuyệt đối không dùng 'will'.",
-          "met": "Sai vì thì Quá khứ đơn chỉ dùng cho câu điều kiện loại 2 giả định phi thực tế.",
-          "meet": "Sai lỗi hòa hợp chủ - vị vì chủ ngữ 'the startup' là số ít, động từ bắt buộc phải chia đuôi 's'."
+          "met": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì thì Quá khứ đơn chỉ dùng cho câu điều kiện loại 2 giả định phi thực tế.",
+          "meet": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> lỗi hòa hợp chủ - vị vì chủ ngữ 'the startup' là số ít, động từ bắt buộc phải chia đuôi 's'."
         }
       }
     },
@@ -359,18 +359,18 @@
       "id": "ex_15",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Should the overseas commercial client ________ (decide) to renegotiate the licensing terms tomorrow, our legal counsel will arrange an emergency consultation immediately.",
+      "prompt": "Should the overseas commercial client <u>_______</u> (decide) to renegotiate the licensing terms tomorrow, our legal counsel will arrange an emergency consultation immediately.",
       "options": [],
       "correctAnswer": "decide",
       "explanation": {
         "translation": "Nếu chẳng may khách hàng thương mại ở nước ngoài quyết định đàm phán lại các điều khoản cấp phép vào ngày mai, cố vấn pháp lý của chúng tôi sẽ thu xếp một cuộc hội đàm khẩn cấp ngay lập tức.",
-        "keySignal": "Trợ động từ 'Should' đứng đầu câu đảo ngữ loại 1 và chủ ngữ số ít 'the overseas commercial client'.",
+        "keySignal": "Trợ động từ <mark>Should</mark> đứng đầu câu đảo ngữ loại 1 và chủ ngữ số ít <mark>the overseas commercial client</mark>.",
         "rule": "Đảo ngữ câu điều kiện Loại 1: Should + S + V_bare, S + will + V_bare.",
-        "whyCorrect": "Trong cấu trúc đảo ngữ loại 1 với 'Should', động từ theo sau chủ ngữ luôn ở dạng NGUYÊN THỂ KHÔNG CHIA (bare infinitive) bất kể chủ ngữ là số ít hay số nhiều. Vì vậy đáp án chính xác là 'decide'.",
+        "whyCorrect": "Trong cấu trúc đảo ngữ loại 1 với 'Should', động từ theo sau chủ ngữ luôn ở dạng NGUYÊN THỂ KHÔNG CHIA (bare infinitive) bất kể chủ ngữ là số ít hay số nhiều. Vì vậy đáp án chính xác là <span style=\"color: #22c55e; font-weight: bold;\">'decide'</span>.",
         "distractorBreakdown": {
           "decides": "Bẫy hòa hợp chủ - vị: Rất nhiều thí sinh thấy chủ ngữ số ít 'the overseas commercial client' nên vội vàng chia 'decides', quên mất quy tắc nguyên thể sau trợ động từ 'Should'.",
-          "decided": "Sai vì dạng quá khứ không dùng trong đảo ngữ loại 1.",
-          "to decide": "Sai vì sau modal verb 'Should' không dùng động từ nguyên mẫu có 'to'."
+          "decided": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì dạng quá khứ không dùng trong đảo ngữ loại 1.",
+          "to decide": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì sau modal verb 'Should' không dùng động từ nguyên mẫu có 'to'."
         }
       }
     }

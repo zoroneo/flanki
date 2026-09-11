@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/notifiers/study_session_notifier.dart';
@@ -14,7 +15,6 @@ import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/notifiers/settings_notifier.dart';
 import '../../../core/localization/locale_notifier.dart';
-import '../../../core/services/desktop_update_service.dart';
 import 'widgets/scratchpad_overlay.dart';
 import 'widgets/card_action_sheet.dart';
 import 'widgets/rich_card_content.dart';
@@ -288,7 +288,24 @@ class StudySessionScreen extends HookConsumerWidget {
       bindings: shortcuts,
       child: Focus(
         autofocus: true,
-        child: Scaffold(
+        child: ResponsiveBuilder(
+          builder: (context, sizingInfo) {
+            final isMobile =
+                sizingInfo.deviceScreenType == DeviceScreenType.mobile;
+            final cardHorizontalPadding = getValueForScreenType<double>(
+              context: context,
+              mobile: 16.0,
+              tablet: 20.0,
+              desktop: 24.0,
+            );
+            final bottomHorizontalPadding = getValueForScreenType<double>(
+              context: context,
+              mobile: 16.0,
+              tablet: 20.0,
+              desktop: 24.0,
+            );
+
+            return Scaffold(
           headers: [
             AppBar(
               leading: [
@@ -393,8 +410,8 @@ class StudySessionScreen extends HookConsumerWidget {
                             child: ConstrainedBox(
                               constraints: const BoxConstraints(maxWidth: 760),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: cardHorizontalPadding,
                                   vertical: 12,
                                 ),
                                 child: SizedBox.expand(
@@ -438,8 +455,8 @@ class StudySessionScreen extends HookConsumerWidget {
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 760),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: bottomHorizontalPadding,
                             vertical: 12,
                           ),
                           child: sessionState.isFlipped
@@ -448,7 +465,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                     Expanded(
                                       child: _RatingButton(
                                         label: l10n.ratingAgain,
-                                        shortcutHint: '1',
+                                        shortcutHint: isMobile ? null : '1',
                                         interval:
                                             intervals[ReviewRating.again] ??
                                             '< ${l10n.intervalMinutes(10)}',
@@ -461,7 +478,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                     Expanded(
                                       child: _RatingButton(
                                         label: l10n.ratingHard,
-                                        shortcutHint: '2',
+                                        shortcutHint: isMobile ? null : '2',
                                         interval:
                                             intervals[ReviewRating.hard] ??
                                             l10n.intervalDays(1),
@@ -475,7 +492,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                     Expanded(
                                       child: _RatingButton(
                                         label: l10n.ratingGood,
-                                        shortcutHint: '3',
+                                        shortcutHint: isMobile ? null : '3',
                                         interval:
                                             intervals[ReviewRating.good] ??
                                             l10n.intervalDays(4),
@@ -488,7 +505,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                     Expanded(
                                       child: _RatingButton(
                                         label: l10n.ratingEasy,
-                                        shortcutHint: '4',
+                                        shortcutHint: isMobile ? null : '4',
                                         interval:
                                             intervals[ReviewRating.easy] ??
                                             l10n.intervalDays(12),
@@ -506,7 +523,7 @@ class StudySessionScreen extends HookConsumerWidget {
                                     alignment: Alignment.center,
                                     onPressed: handleFlip,
                                     child: Text(
-                                      DesktopUpdateService.isDesktop
+                                      !isMobile
                                           ? '${l10n.tapToFlip}  [Space]'
                                           : l10n.tapToFlip,
                                     ),
@@ -526,9 +543,11 @@ class StudySessionScreen extends HookConsumerWidget {
                 ),
             ],
           ),
-        ),
-      ),
-    );
+        );
+      },
+    ),
+  ),
+);
   }
 }
 

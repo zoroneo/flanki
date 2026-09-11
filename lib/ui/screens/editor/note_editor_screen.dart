@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/extensions/responsive_extensions.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/notifiers/card_browser_notifier.dart';
 import '../../../core/notifiers/deck_notifier.dart';
@@ -20,7 +21,7 @@ class NoteEditorScreen extends HookConsumerWidget {
     final l10n = context.l10n;
     final decks = ref.watch(deckListProvider);
     final browserNotifier = ref.read(cardBrowserProvider.notifier);
-    final isDesktop = MediaQuery.sizeOf(context).width >= 800;
+    final isDesktop = !context.isMobile;
 
     // Hooks for note input
     final noteType = useState<NoteType>(NoteType.basic);
@@ -376,11 +377,15 @@ class NoteEditorScreen extends HookConsumerWidget {
           ],
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: isDesktop ? 1120 : 640),
+              constraints: BoxConstraints(
+                maxWidth: context.responsive(mobile: 640.0, tablet: 760.0, desktop: 1120.0),
+              ),
               child: SingleChildScrollView(
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: EdgeInsets.all(isDesktop ? 24 : 16),
+                padding: EdgeInsets.all(
+                  context.responsive(mobile: 16.0, tablet: 20.0, desktop: 24.0),
+                ),
                 child: isDesktop
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.start,

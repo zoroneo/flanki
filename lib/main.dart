@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,6 +24,13 @@ import 'core/storage/media_storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  ResponsiveSizingConfig.instance.setCustomBreakpoints(
+    const ScreenBreakpoints(
+      desktop: 1024,
+      tablet: 600,
+      watch: 200,
+    ),
+  );
   LicenseRegistry.addLicense(() async* {
     yield const LicenseEntryWithLineBreaks(
       <String>['Flanki'],

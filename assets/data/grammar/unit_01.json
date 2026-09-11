@@ -3,36 +3,36 @@
   "title": "Unit 01: Present Simple vs. Present Continuous (Hiện tại đơn vs. Hiện tại tiếp diễn)",
   "category": "tenses",
   "level": 1,
-  "coreConcept": "Tư duy cốt lõi của người bản xứ khi lựa chọn giữa Hiện tại đơn (Present Simple) và Hiện tại tiếp diễn (Present Continuous) không nằm ở các 'mẹo máy móc', mà nằm ở GÓC NHÌN VỀ TÍNH BỀN VỮNG VÀ SỰ TRỌN VẸN CỦA HÀNH ĐỘNG:\n\n1. Hiện tại đơn (Fact / Permanent / Routine - Trạng thái tĩnh, bền vững, quy luật):\n- Người bản xứ nhìn sự việc như một chân lý hiển nhiên, một đặc tính cố định hoặc một thói quen lặp đi lặp lại vô hạn định.\n- Hành động KHÔNG bị giới hạn bởi một khung thời gian cụ thể ngay lúc nói. Khi nói 'I live in Hanoi', người nói ngầm định đây là nơi cư trú lâu dài/vĩnh viễn (permanent state).\n\n2. Hiện tại tiếp diễn (Temporary / In-progress / Trend - Trạng thái động, tạm thời, đang dang dở):\n- Người bản xứ nhìn hành động như một tiến trình đang xảy ra ở lưng chừng (chưa hoàn tất), mang tính CHUYỂN TIẾP, TẠM THỜI hoặc XU HƯỚNG BIẾN THIÊN.\n- Khi nói 'I am living in Hanoi for a few months', người bản xứ lập tức hiểu đây chỉ là sự cư trú ngắn hạn, tạm thời (temporary situation), bản chất người đó sống ở nơi khác.\n\n3. Sự đối lập bản chất:\n- Present Simple: Xem xét toàn bộ vòng đời của hành động như một sự thật khách quan (Tổng quát - General).\n- Present Continuous: Phóng to vào ngay tâm điểm của hành động đang diễn tiến, nhấn mạnh tính tạm thời hoặc thay đổi (Cụ thể & Động - Dynamic).",
+  "coreConcept": "Tư duy cốt lõi của người bản xứ khi lựa chọn giữa <b>Hiện tại đơn</b> và <b>Hiện tại tiếp diễn</b> không nằm ở các mẹo máy móc, mà nằm ở <mark>GÓC NHÌN VỀ TÍNH BỀN VỮNG VÀ SỰ TRỌN VẸN CỦA HÀNH ĐỘNG</mark>:<br/><br/>1. <b>Hiện tại đơn</b> (<span style=\"color: #22c55e; font-weight: bold;\">Fact / Permanent / Routine</span> - Trạng thái tĩnh, bền vững, quy luật):<br/>- Người bản xứ nhìn sự việc như một <b>chân lý hiển nhiên</b>, đặc tính cố định hoặc thói quen lặp đi lặp lại vô hạn định.<br/>- Hành động <b>KHÔNG</b> bị giới hạn bởi khung thời gian cụ thể ngay lúc nói.<br/>- <i>Ví dụ:</i> '<i>I live in Hanoi</i>' &rarr; ngầm định nơi cư trú lâu dài/vĩnh viễn (<span style=\"color: #22c55e;\">permanent state</span>).<br/><br/>2. <b>Hiện tại tiếp diễn</b> (<span style=\"color: #3b82f6; font-weight: bold;\">Temporary / In-progress / Trend</span> - Trạng thái động, tạm thời, đang dang dở):<br/>- Người bản xứ nhìn hành động như một tiến trình đang xảy ra ở lưng chừng (chưa hoàn tất), mang tính <mark>CHUYỂN TIẾP</mark>, <mark>TẠM THỜI</mark> hoặc <mark>XU HƯỚNG BIẾN THIÊN</mark>.<br/>- <i>Ví dụ:</i> '<i>I am living in Hanoi for a few months</i>' &rarr; chỉ sự cư trú ngắn hạn, tạm thời (<span style=\"color: #3b82f6;\">temporary situation</span>), bản chất người đó sống ở nơi khác.<br/><br/>3. <b>Sự đối lập bản chất:</b><br/>- <b>Present Simple:</b> Xem xét toàn bộ vòng đời của hành động như một sự thật khách quan (<i>Tổng quát - General</i>).<br/>- <b>Present Continuous:</b> Phóng to vào ngay tâm điểm của hành động đang diễn tiến, nhấn mạnh tính tạm thời hoặc thay đổi (<i>Cụ thể & Động - Dynamic</i>).",
   "formulas": {
-    "presentSimple": "Khẳng định: S + V(s/es) | Phủ định: S + do/does + not + V_bare | Nghi vấn: (Wh-) + do/does + S + V_bare? (Đối với Be: S + am/is/are + Complement)",
-    "presentContinuous": "Khẳng định: S + am/is/are + V-ing | Phủ định: S + am/is/are + not + V-ing | Nghi vấn: (Wh-) + am/is/are + S + V-ing?"
+    "presentSimple": "<b>Khẳng định:</b> <code>S + V(s/es)</code><br/><b>Phủ định:</b> <code>S + do/does + not + V_bare</code><br/><b>Nghi vấn:</b> <code>(Wh-) + do/does + S + V_bare?</code><br/><i>(Đối với Be: <code>S + am/is/are + Complement</code>)</i>",
+    "presentContinuous": "<b>Khẳng định:</b> <code>S + am/is/are + V-ing</code><br/><b>Phủ định:</b> <code>S + am/is/are + not + V-ing</code><br/><b>Nghi vấn:</b> <code>(Wh-) + am/is/are + S + V-ing?</code>"
   },
-  "stativeVerbsGuide": "STATIVE VERBS (Động từ chỉ trạng thái) là nhóm động từ mô tả cảm xúc, nhận thức, giác quan, quyền sở hữu hoặc mối quan hệ tĩnh — KHÔNG MIÊU TẢ HÀNH ĐỘNG VẬT LÝ CÓ THỂ BẬT/TẮT.\n\nQuy tắc bất biến: Khi biểu đạt TRẠNG THÁI TĨNH, động từ KHÔNG bao giờ được chia ở các thì tiếp diễn (không có dạng V-ing). Tuy nhiên, một số động từ lưỡng tính (Dual Verbs) có thể dùng ở cả hai thì nhưng NGHĨA HOÀN TOÀN THAY ĐỔI:\n\n1. THINK:\n- Stative (Hiện tại đơn): 'I think that product is overpriced.' -> Mang nghĩa quan điểm, ý kiến cá nhân (= believe/in my opinion). Không chia tiếp diễn.\n- Dynamic (Tiếp diễn): 'I am thinking about quitting my job.' -> Mang nghĩa hành động não bộ đang cân nhắc, suy tính một phương án (= considering/deliberating).\n\n2. HAVE:\n- Stative (Hiện tại đơn): 'Mr. Robert has three apartments in District 1.' -> Sở hữu quyền tài sản (= possess/own). Tuyệt đối không dùng 'is having'.\n- Dynamic (Tiếp diễn): 'The CEO is having lunch with clients.' / 'They are having a great time.' -> Biểu đạt trải nghiệm, ăn uống, hành vi cụ thể (= eating, experiencing).\n\n3. SEE:\n- Stative (Hiện tại đơn): 'I see what you mean.' / 'Do you see that billboard?' -> Nhận thức/thấu hiểu (= understand) hoặc năng lực thị giác tự nhiên.\n- Dynamic (Tiếp diễn): 'The doctor is seeing a patient right now.' / 'Are they seeing each other?' -> Hành động gặp gỡ theo lịch hẹn (= meeting/consulting) hoặc hẹn hò (= dating).\n\n4. TASTE & SMELL:\n- Stative (Hiện tại đơn): 'The soup tastes delicious.' / 'This perfume smells like lavender.' -> Đặc tính của sự vật toát ra (Chủ ngữ là vật: mang vị/mùi thế nào).\n- Dynamic (Tiếp diễn): 'The chef is tasting the sauce.' -> Hành động nếm/ngửi có chủ đích của con người (Chủ ngữ là người thực hiện thao tác kiểm tra).\n\n5. LOOK & FEEL:\n- 'You look/are looking great today' (Cả hai đều chấp nhận được khi nhận xét ngoại hình tạm thời).\n- Nhưng: 'He looks like his father' (Đặc điểm ngoại hình cố định -> bắt buộc dùng thì đơn).\n- 'I feel tired' (Trạng thái cảm giác) vs. 'The doctor is feeling the patient's pulse' (Hành động sờ, nắn vật lý).",
+  "stativeVerbsGuide": "<b>STATIVE VERBS</b> (Động từ chỉ trạng thái) là nhóm động từ mô tả cảm xúc, nhận thức, giác quan, quyền sở hữu hoặc mối quan hệ tĩnh &mdash; <span style=\"color: #ef4444; font-weight: bold;\">KHÔNG MIÊU TẢ HÀNH ĐỘNG VẬT LÝ CÓ THỂ BẬT/TẮT</span>.<br/><br/><b>Quy tắc bất biến:</b> Khi biểu đạt <b>TRẠNG THÁI TĨNH</b>, động từ <span style=\"color: #ef4444; font-weight: bold;\">KHÔNG bao giờ được chia ở các thì tiếp diễn</span> (không có dạng V-ing). Tuy nhiên, một số động từ lưỡng tính (Dual Verbs) có thể dùng ở cả hai thì nhưng <mark>NGHĨA HOÀN TOÀN THAY ĐỔI</mark>:<br/><br/><b>1. THINK:</b><br/>• <span style=\"color: #22c55e; font-weight: bold;\">Stative (Đơn):</span> '<i>I think that product is overpriced.</i>' &rarr; Quan điểm, ý kiến cá nhân (= believe/in my opinion). Không chia tiếp diễn.<br/>• <span style=\"color: #3b82f6; font-weight: bold;\">Dynamic (Tiếp diễn):</span> '<i>I am thinking about quitting my job.</i>' &rarr; Não bộ đang cân nhắc, suy tính một phương án (= considering/deliberating).<br/><br/><b>2. HAVE:</b><br/>• <span style=\"color: #22c55e; font-weight: bold;\">Stative (Đơn):</span> '<i>Mr. Robert has three apartments in District 1.</i>' &rarr; Sở hữu quyền tài sản (= possess/own). <span style=\"color: #ef4444; font-weight: bold;\">Tuyệt đối không dùng 'is having'.</span><br/>• <span style=\"color: #3b82f6; font-weight: bold;\">Dynamic (Tiếp diễn):</span> '<i>The CEO is having lunch with clients.</i>' &rarr; Biểu đạt trải nghiệm, ăn uống, hành vi cụ thể (= eating, experiencing).<br/><br/><b>3. SEE:</b><br/>• <span style=\"color: #22c55e; font-weight: bold;\">Stative (Đơn):</span> '<i>I see what you mean.</i>' &rarr; Nhận thức/thấu hiểu (= understand) hoặc năng lực thị giác tự nhiên.<br/>• <span style=\"color: #3b82f6; font-weight: bold;\">Dynamic (Tiếp diễn):</span> '<i>The doctor is seeing a patient right now.</i>' &rarr; Gặp gỡ theo lịch hẹn (= meeting) hoặc hẹn hò (= dating).<br/><br/><b>4. TASTE & SMELL:</b><br/>• <span style=\"color: #22c55e; font-weight: bold;\">Stative (Đơn):</span> '<i>The soup tastes delicious.</i>' &rarr; Đặc tính của vật toát ra (Chủ ngữ là vật: mang vị/mùi thế nào).<br/>• <span style=\"color: #3b82f6; font-weight: bold;\">Dynamic (Tiếp diễn):</span> '<i>The chef is tasting the sauce.</i>' &rarr; Thao tác nếm/ngửi có chủ đích của con người.<br/><br/><b>5. LOOK & FEEL:</b><br/>• '<i>You look / are looking great today</i>' (Cả hai đều được chấp nhận khi nhận xét ngoại hình tạm thời).<br/>• '<i>He looks like his father</i>' (Đặc điểm cố định &rarr; <span style=\"color: #22c55e; font-weight: bold;\">bắt buộc dùng thì đơn</span>).<br/>• '<i>I feel tired</i>' (Trạng thái cảm giác) vs. '<i>The doctor is feeling the pulse</i>' (Hành động sờ/khám vật lý).",
   "commonTraps": [
     {
-      "trap": "Bẫy 1: 'Always' kết hợp Hiện tại tiếp diễn để phàn nàn / thể hiện sự bực mình",
-      "exampleWrong": "My roommate always forgets to lock the front door, which drives me crazy every single night.",
-      "exampleRight": "My roommate is always forgetting to lock the front door, which drives me crazy every single night.",
-      "note": "Thông thường 'always' là dấu hiệu của Hiện tại đơn (thói quen). Tuy nhiên, trong các đề thi nâng cao (TOEIC/THPTQG), khi người nói muốn bày tỏ sự khó chịu, bực tức trước một hành động tiêu cực lặp đi lặp lại quá mức chấp nhận, công thức bắt buộc là: S + be + always/constantly/forever + V-ing."
+      "trap": "Bẫy 1: 'Always' kết hợp Hiện tại tiếp diễn để <span style=\"color: #f59e0b; font-weight: bold;\">phàn nàn / bực mình</span>",
+      "exampleWrong": "My roommate <span style=\"color: #ef4444;\"><u>always forgets</u></span> to lock the front door, which drives me crazy every single night.",
+      "exampleRight": "My roommate <span style=\"color: #22c55e;\"><u>is always forgetting</u></span> to lock the front door, which drives me crazy every single night.",
+      "note": "Thông thường <code>always</code> là dấu hiệu của Hiện tại đơn (thói quen). Tuy nhiên, trong đề thi nâng cao, khi người nói muốn bày tỏ <b>sự khó chịu, bực tức</b> trước hành động tiêu cực lặp đi lặp lại quá mức chấp nhận, công thức bắt buộc là: <code>S + be + always/constantly/forever + V-ing</code>."
     },
     {
-      "trap": "Bẫy 2: Chia tiếp diễn cho Stative Verbs thể hiện sở hữu hoặc nhận thức",
-      "exampleWrong": "Our corporate legal team is understanding the new international trade compliance regulations completely.",
-      "exampleRight": "Our corporate legal team understands the new international trade compliance regulations completely.",
-      "note": "Các động từ như understand, know, believe, belong to, own, possess, need, realize, recognize chỉ trạng thái tri thức/sở hữu cố định. Đề thi thường chèn trạng từ chỉ thời gian như 'currently' hoặc 'at the moment' để đánh lừa thí sinh chia thì tiếp diễn. Dù có 'currently', nếu là động từ chỉ nhận thức thì vẫn BẮT BUỘC dùng Hiện tại đơn."
+      "trap": "Bẫy 2: Chia tiếp diễn cho <span style=\"color: #f59e0b; font-weight: bold;\">Stative Verbs</span> thể hiện sở hữu hoặc nhận thức",
+      "exampleWrong": "Our corporate legal team <span style=\"color: #ef4444;\"><u>is understanding</u></span> the new international trade compliance regulations completely.",
+      "exampleRight": "Our corporate legal team <span style=\"color: #22c55e;\"><u>understands</u></span> the new international trade compliance regulations completely.",
+      "note": "Các động từ như <code>understand, know, believe, belong to, own, possess, need, realize, recognize</code> chỉ trạng thái tri thức/sở hữu cố định. Đề thi thường chèn trạng từ chỉ thời gian như <code>currently</code> hoặc <code>at the moment</code> để đánh lừa thí sinh chia thì tiếp diễn. Dù có <code>currently</code>, nếu là động từ chỉ nhận thức thì vẫn <span style=\"color: #ef4444; font-weight: bold;\">BẮT BUỘC dùng Hiện tại đơn</span>."
     },
     {
-      "trap": "Bẫy 3: Lịch trình cố định mang ý nghĩa tương lai nhưng phải chia Hiện tại đơn",
-      "exampleWrong": "The express train to Tokyo will leave at 8:15 AM tomorrow according to the published schedule.",
-      "exampleRight": "The express train to Tokyo leaves at 8:15 AM tomorrow according to the published schedule.",
-      "note": "Khi nói về thời gian biểu, lịch trình tàu xe, máy bay, lịch chiếu phim, hoặc chương trình hội nghị đã ấn định cố định (timetables / official itineraries), người bản xứ dùng Hiện tại đơn dù hành động xảy ra vào 'tomorrow', 'next week'. Đề thi TOEIC Part 5 cực kỳ hay khai thác bẫy này giữa 'leaves' và 'will leave'."
+      "trap": "Bẫy 3: <span style=\"color: #f59e0b; font-weight: bold;\">Lịch trình cố định</span> mang ý nghĩa tương lai nhưng phải chia Hiện tại đơn",
+      "exampleWrong": "The express train to Tokyo <span style=\"color: #ef4444;\"><u>will leave</u></span> at 8:15 AM tomorrow according to the published schedule.",
+      "exampleRight": "The express train to Tokyo <span style=\"color: #22c55e;\"><u>leaves</u></span> at 8:15 AM tomorrow according to the published schedule.",
+      "note": "Khi nói về thời gian biểu, lịch trình tàu xe, máy bay, lịch chiếu phim, hoặc chương trình hội nghị đã ấn định cố định (<i>timetables / official itineraries</i>), người bản xứ dùng <span style=\"color: #22c55e; font-weight: bold;\">Hiện tại đơn</span> dù hành động xảy ra vào <code>tomorrow</code>, <code>next week</code>. Đề thi TOEIC Part 5 cực kỳ hay khai thác bẫy này giữa <code>leaves</code> và <code>will leave</code>."
     },
     {
-      "trap": "Bẫy 4: Hiện tượng / Xu hướng biến thiên tạm thời trong kinh doanh (Trends & Changing situations)",
-      "exampleWrong": "The price of commercial raw materials rises steadily this quarter due to severe inflation.",
-      "exampleRight": "The price of commercial raw materials is rising steadily this quarter due to severe inflation.",
-      "note": "Khi miêu tả một xu hướng biến động đang diễn ra trên thị trường với các từ như 'increase, decrease, rise, drop, change, grow' đi kèm 'this month / this quarter / these days / gradually / steadily', phải dùng Hiện tại tiếp diễn để nhấn mạnh quá trình biến thiên động, không được dùng Hiện tại đơn."
+      "trap": "Bẫy 4: <span style=\"color: #f59e0b; font-weight: bold;\">Hiện tượng / Xu hướng biến thiên</span> tạm thời trong kinh doanh (Trends & Changing situations)",
+      "exampleWrong": "The price of commercial raw materials <span style=\"color: #ef4444;\"><u>rises steadily</u></span> this quarter due to severe inflation.",
+      "exampleRight": "The price of commercial raw materials <span style=\"color: #22c55e;\"><u>is rising steadily</u></span> this quarter due to severe inflation.",
+      "note": "Khi miêu tả một xu hướng biến động đang diễn ra trên thị trường với các động từ như <code>increase, decrease, rise, drop, change, grow</code> đi kèm <code>this month / this quarter / these days / gradually / steadily</code>, phải dùng <span style=\"color: #3b82f6; font-weight: bold;\">Hiện tại tiếp diễn</span> để nhấn mạnh quá trình biến thiên động, không được dùng Hiện tại đơn."
     }
   ],
   "exercises": [
@@ -40,18 +40,23 @@
       "id": "ex_01",
       "type": "choice",
       "difficulty": 1,
-      "prompt": "Although Mr. Tanaka usually _______ from home on Fridays, he is attending an emergency board meeting at headquarters today.",
-      "options": ["works", "is working", "has worked", "worked"],
+      "prompt": "Although Mr. Tanaka usually <u>_______</u> from home on Fridays, he is attending an emergency board meeting at headquarters today.",
+      "options": [
+        "works",
+        "is working",
+        "has worked",
+        "worked"
+      ],
       "correctAnswer": "works",
       "explanation": {
         "translation": "Mặc dù ông Tanaka thường làm việc tại nhà vào các ngày thứ Sáu, hôm nay ông ấy đang tham dự một cuộc họp hội đồng quản trị khẩn cấp tại trụ sở chính.",
-        "keySignal": "Trạng từ tần suất 'usually' đi kèm thói quen định kỳ 'on Fridays' (vào các ngày thứ Sáu hàng tuần).",
+        "keySignal": "Trạng từ tần suất <mark>usually</mark> đi kèm thói quen định kỳ <mark>on Fridays</mark> (vào các ngày thứ Sáu hàng tuần).",
         "rule": "Hiện tại đơn dùng để diễn tả thói quen, tập quán hoặc hành vi lặp đi lặp lại đều đặn theo chu kỳ.",
-        "whyCorrect": "Vế câu diễn tả thói quen cố định thường nhật (usually ... on Fridays) đối lập với hành động tạm thời bất thường hôm nay (he is attending ... today), do đó động từ chính phải chia ở Hiện tại đơn ngôi thứ ba số ít: 'works'.",
+        "whyCorrect": "Vế câu diễn tả thói quen cố định thường nhật (usually ... on Fridays) đối lập với hành động tạm thời bất thường hôm nay (he is attending ... today), do đó động từ chính phải chia ở Hiện tại đơn ngôi thứ ba số ít: <span style=\"color: #22c55e; font-weight: bold;\">'works'</span>.",
         "distractorBreakdown": {
-          "optionB (is working)": "Sai vì Hiện tại tiếp diễn chỉ dùng cho hành động tạm thời hoặc đang diễn ra, mâu thuẫn với thói quen 'usually on Fridays'.",
-          "optionC (has worked)": "Sai vì Hiện tại hoàn thành nhấn mạnh kết quả hoặc trải nghiệm tính đến hiện tại, không dùng cho lịch trình đều đặn có 'usually'.",
-          "optionD (worked)": "Sai vì Quá khứ đơn chỉ hành động đã kết thúc hoàn toàn trong quá khứ, không phản ánh thói quen vẫn tiếp diễn ở hiện tại."
+          "optionB (is working)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Hiện tại tiếp diễn chỉ dùng cho hành động tạm thời hoặc đang diễn ra, mâu thuẫn với thói quen 'usually on Fridays'.",
+          "optionC (has worked)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Hiện tại hoàn thành nhấn mạnh kết quả hoặc trải nghiệm tính đến hiện tại, không dùng cho lịch trình đều đặn có 'usually'.",
+          "optionD (worked)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Quá khứ đơn chỉ hành động đã kết thúc hoàn toàn trong quá khứ, không phản ánh thói quen vẫn tiếp diễn ở hiện tại."
         }
       }
     },
@@ -59,18 +64,23 @@
       "id": "ex_02",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "The marketing department _______ a customized promotional campaign for our premium clients this week.",
-      "options": ["develops", "is developing", "have developed", "develop"],
+      "prompt": "The marketing department <u>_______</u> a customized promotional campaign for our premium clients this week.",
+      "options": [
+        "develops",
+        "is developing",
+        "have developed",
+        "develop"
+      ],
       "correctAnswer": "is developing",
       "explanation": {
         "translation": "Bộ phận tiếp thị đang phát triển một chiến dịch quảng bá được thiết kế riêng cho các khách hàng cao cấp của chúng tôi trong tuần này.",
-        "keySignal": "Cụm trạng từ chỉ thời gian tạm thời 'this week' (trong tuần này).",
+        "keySignal": "Cụm trạng từ chỉ thời gian tạm thời <mark>this week</mark> (trong tuần này).",
         "rule": "Hiện tại tiếp diễn diễn tả một dự án hoặc hành động tạm thời diễn ra trong một khoảng thời gian giới hạn quanh thời điểm nói (around the present time).",
-        "whyCorrect": "'This week' biểu thị một khoảng thời gian tạm thời, chưa hoàn tất. Chủ ngữ 'The marketing department' là danh từ tập hợp số ít chỉ một bộ phận, nên dạng tiếp diễn tương ứng là 'is developing'.",
+        "whyCorrect": "'This week' biểu thị một khoảng thời gian tạm thời, chưa hoàn tất. Chủ ngữ 'The marketing department' là danh từ tập hợp số ít chỉ một bộ phận, nên dạng tiếp diễn tương ứng là <span style=\"color: #22c55e; font-weight: bold;\">'is developing'</span>.",
         "distractorBreakdown": {
-          "optionA (develops)": "Sai vì Hiện tại đơn ám chỉ hành động thường trực, bất biến hoặc diễn ra quanh năm, không phù hợp với dự án ngắn hạn giới hạn trong 'this week'.",
-          "optionC (have developed)": "Sai về cả thì và hòa hợp chủ-vị: chủ ngữ 'The marketing department' là số ít (phải dùng 'has' nếu chia hoàn thành) và thì này không nhấn mạnh tiến độ công việc đang chạy trong tuần này.",
-          "optionD (develop)": "Sai về ngữ pháp vì chủ ngữ 'The marketing department' là danh từ số ít, động từ không thể để nguyên mẫu không chia."
+          "optionA (develops)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Hiện tại đơn ám chỉ hành động thường trực, bất biến hoặc diễn ra quanh năm, không phù hợp với dự án ngắn hạn giới hạn trong 'this week'.",
+          "optionC (have developed)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> về cả thì và hòa hợp chủ-vị: chủ ngữ 'The marketing department' là số ít (phải dùng 'has' nếu chia hoàn thành) và thì này không nhấn mạnh tiến độ công việc đang chạy trong tuần này.",
+          "optionD (develop)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> về ngữ pháp vì chủ ngữ 'The marketing department' là danh từ số ít, động từ không thể để nguyên mẫu không chia."
         }
       }
     },
@@ -78,18 +88,23 @@
       "id": "ex_03",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "Dr. Evans firmly _______ that the proposed corporate merger will benefit both companies in the long term.",
-      "options": ["is believing", "believes", "are believing", "believe"],
+      "prompt": "Dr. Evans firmly <u>_______</u> that the proposed corporate merger will benefit both companies in the long term.",
+      "options": [
+        "is believing",
+        "believes",
+        "are believing",
+        "believe"
+      ],
       "correctAnswer": "believes",
       "explanation": {
         "translation": "Tiến sĩ Evans tin tưởng vững chắc rằng thương vụ sáp nhập doanh nghiệp được đề xuất sẽ mang lại lợi ích lâu dài cho cả hai công ty.",
-        "keySignal": "Động từ trạng thái chỉ niềm tin/nhận thức 'believe' kết hợp trạng từ chỉ mức độ kiên định 'firmly'.",
+        "keySignal": "Động từ trạng thái chỉ niềm tin/nhận thức <mark>believe</mark> kết hợp trạng từ chỉ mức độ kiên định <mark>firmly</mark>.",
         "rule": "Stative Verbs chỉ niềm tin, ý kiến, nhận thức cá nhân (believe, think, know, understand) KHÔNG BAO GIỜ chia ở các thì tiếp diễn.",
-        "whyCorrect": "'Believe' là động từ trạng thái biểu thị niềm tin nội tâm cố định. Chủ ngữ 'Dr. Evans' là danh từ số ít (ngôi thứ ba số ít), do đó dạng đúng duy nhất là 'believes'.",
+        "whyCorrect": "'Believe' là động từ trạng thái biểu thị niềm tin nội tâm cố định. Chủ ngữ 'Dr. Evans' là danh từ số ít (ngôi thứ ba số ít), do đó dạng đúng duy nhất là <span style=\"color: #22c55e; font-weight: bold;\">'believes'</span>.",
         "distractorBreakdown": {
-          "optionA (is believing)": "Sai nguyên tắc Stative Verbs: 'believe' không tồn tại ở dạng V-ing tiếp diễn trong tiếng Anh tiêu chuẩn.",
-          "optionC (are believing)": "Sai cả về quy tắc Stative Verbs lẫn hòa hợp chủ-vị ('Dr. Evans' là số ít không thể đi với trợ động từ 'are').",
-          "optionD (believe)": "Sai hòa hợp chủ-vị vì chủ ngữ 'Dr. Evans' là ngôi thứ 3 số ít, động từ bắt buộc phải thêm đuôi '-s'."
+          "optionA (is believing)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> nguyên tắc Stative Verbs: 'believe' không tồn tại ở dạng V-ing tiếp diễn trong tiếng Anh tiêu chuẩn.",
+          "optionC (are believing)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> cả về quy tắc Stative Verbs lẫn hòa hợp chủ-vị ('Dr. Evans' là số ít không thể đi với trợ động từ 'are').",
+          "optionD (believe)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> hòa hợp chủ-vị vì chủ ngữ 'Dr. Evans' là ngôi thứ 3 số ít, động từ bắt buộc phải thêm đuôi '-s'."
         }
       }
     },
@@ -97,18 +112,23 @@
       "id": "ex_04",
       "type": "choice",
       "difficulty": 2,
-      "prompt": "According to the official conference itinerary, the opening keynote address _______ tomorrow at precisely 09:00 AM.",
-      "options": ["begins", "is beginning", "began", "will have begun"],
+      "prompt": "According to the official conference itinerary, the opening keynote address <u>_______</u> tomorrow at precisely 09:00 AM.",
+      "options": [
+        "begins",
+        "is beginning",
+        "began",
+        "will have begun"
+      ],
       "correctAnswer": "begins",
       "explanation": {
         "translation": "Theo lịch trình hội nghị chính thức, bài diễn văn khai mạc bắt đầu vào lúc 9:00 đúng sáng mai.",
-        "keySignal": "Cụm 'According to the official conference itinerary' (Theo lịch trình hội nghị chính thức) kết hợp mốc giờ cụ thể 'at precisely 09:00 AM'.",
+        "keySignal": "Cụm <mark>According to the official conference itinerary</mark> (Theo lịch trình hội nghị chính thức) kết hợp mốc giờ cụ thể <mark>at precisely 09:00 AM</mark>.",
         "rule": "Hiện tại đơn được dùng để diễn tả các sự kiện diễn ra trong tương lai nhưng được ấn định theo thời gian biểu, lịch trình cố định hoặc chương trình chính thức (Official Schedule/Timetable).",
-        "whyCorrect": "Bài phát biểu được cố định theo chương trình hội nghị đã ban hành. Với lịch trình công cộng/chính thức, người bản xứ dùng Hiện tại đơn ngôi thứ ba số ít: 'begins'.",
+        "whyCorrect": "Bài phát biểu được cố định theo chương trình hội nghị đã ban hành. Với lịch trình công cộng/chính thức, người bản xứ dùng Hiện tại đơn ngôi thứ ba số ít: <span style=\"color: #22c55e; font-weight: bold;\">'begins'</span>.",
         "distractorBreakdown": {
-          "optionB (is beginning)": "Sai vì Hiện tại tiếp diễn dùng cho kế hoạch/sắp xếp cá nhân (personal arrangements), không dùng cho sự kiện cố định theo thời gian biểu chính thức của tổ chức/hội nghị.",
-          "optionC (began)": "Sai vì 'tomorrow' chỉ mốc thời gian trong tương lai, không thể dùng thì Quá khứ đơn.",
-          "optionD (will have begun)": "Sai vì Tương lai hoàn thành diễn tả hành động sẽ hoàn tất trước một thời điểm khác trong tương lai, không dùng để nêu mốc giờ bắt đầu của một sự kiện."
+          "optionB (is beginning)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Hiện tại tiếp diễn dùng cho kế hoạch/sắp xếp cá nhân (personal arrangements), không dùng cho sự kiện cố định theo thời gian biểu chính thức của tổ chức/hội nghị.",
+          "optionC (began)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì 'tomorrow' chỉ mốc thời gian trong tương lai, không thể dùng thì Quá khứ đơn.",
+          "optionD (will have begun)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Tương lai hoàn thành diễn tả hành động sẽ hoàn tất trước một thời điểm khác trong tương lai, không dùng để nêu mốc giờ bắt đầu của một sự kiện."
         }
       }
     },
@@ -116,18 +136,23 @@
       "id": "ex_05",
       "type": "choice",
       "difficulty": 1,
-      "prompt": "Why are you calling a private taxi? You know that Brian _______ to give colleagues a ride if they ask politely.",
-      "options": ["never refuses", "is never refusing", "never refuse", "is refusing never"],
+      "prompt": "Why are you calling a private taxi? You know that Brian <u>_______</u> to give colleagues a ride if they ask politely.",
+      "options": [
+        "never refuses",
+        "is never refusing",
+        "never refuse",
+        "is refusing never"
+      ],
       "correctAnswer": "never refuses",
       "explanation": {
         "translation": "Tại sao bạn lại gọi taxi riêng thế? Bạn thừa biết là Brian chưa bao giờ từ chối cho đồng nghiệp đi nhờ xe nếu họ hỏi một cách lịch sự mà.",
-        "keySignal": "Trạng từ tần suất 'never' và cấu trúc nêu sự thật về tính cách/thói quen của một người: 'You know that Brian...'.",
+        "keySignal": "Trạng từ tần suất <mark>never</mark> và cấu trúc nêu sự thật về tính cách/thói quen của một người: <mark>You know that Brian...</mark>.",
         "rule": "Hiện tại đơn dùng để chỉ bản tính, thói quen thường trực hoặc quy luật ứng xử của một người. Vị trí trạng từ tần suất: đứng trước động từ thường.",
-        "whyCorrect": "Hành động từ chối/không từ chối ở đây là một nguyên tắc sống, đặc điểm tính cách bất biến của Brian. Chủ ngữ 'Brian' là số ít nên động từ chia 'refuses', trạng từ 'never' đứng trước: 'never refuses'.",
+        "whyCorrect": "Hành động từ chối/không từ chối ở đây là một nguyên tắc sống, đặc điểm tính cách bất biến của Brian. Chủ ngữ 'Brian' là số ít nên động từ chia 'refuses', trạng từ 'never' đứng trước: <span style=\"color: #22c55e; font-weight: bold;\">'never refuses'</span>.",
         "distractorBreakdown": {
-          "optionB (is never refusing)": "Sai vì Hiện tại tiếp diễn không dùng để mô tả một đặc tính/thói quen ổn định và tích cực của một cá nhân.",
-          "optionC (never refuse)": "Sai lỗi hòa hợp chủ-vị: Chủ ngữ 'Brian' là ngôi thứ ba số ít nên động từ bắt buộc phải chia đuôi '-s' ('refuses').",
-          "optionD (is refusing never)": "Sai trật tự từ nghiêm trọng (trạng từ 'never' không bao giờ đứng sau V-ing) và sai thì."
+          "optionB (is never refusing)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Hiện tại tiếp diễn không dùng để mô tả một đặc tính/thói quen ổn định và tích cực của một cá nhân.",
+          "optionC (never refuse)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> lỗi hòa hợp chủ-vị: Chủ ngữ 'Brian' là ngôi thứ ba số ít nên động từ bắt buộc phải chia đuôi '-s' ('refuses').",
+          "optionD (is refusing never)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> trật tự từ nghiêm trọng (trạng từ 'never' không bao giờ đứng sau V-ing) và sai thì."
         }
       }
     },
@@ -136,17 +161,22 @@
       "type": "error_id",
       "difficulty": 2,
       "prompt": "Our chief technology officer [A] is believing that the [B] newly installed security software [C] provides adequate protection against emerging cyber [D] threats.",
-      "options": ["A", "B", "C", "D"],
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
       "correctAnswer": "A",
       "explanation": {
         "translation": "Giám đốc công nghệ của chúng tôi tin rằng phần mềm bảo mật mới được cài đặt cung cấp sự bảo vệ đầy đủ trước các mối đe dọa an ninh mạng mới nổi.",
-        "keySignal": "Động từ chỉ niềm tin/nhận thức trí tuệ: 'believe'.",
+        "keySignal": "Động từ chỉ niềm tin/nhận thức trí tuệ: <mark>believe</mark>.",
         "rule": "Động từ trạng thái (Stative Verbs) như 'believe' không bao giờ được dùng ở thì tiếp diễn trong cấu trúc diễn đạt niềm tin hoặc quan điểm.",
         "whyCorrect": "Phần gạch chân [A] 'is believing' vi phạm quy tắc động từ chỉ trạng thái nhận thức. Cần sửa thành 'believes' để hòa hợp với chủ ngữ số ít 'Our chief technology officer'.",
         "distractorBreakdown": {
-          "B (newly installed)": "Đúng ngữ pháp: Trạng từ 'newly' bổ nghĩa cho phân từ quá khứ đóng vai trò tính từ 'installed' để bổ nghĩa cho danh từ 'software'.",
-          "C (provides)": "Đúng ngữ pháp: Động từ chia Hiện tại đơn số ít hòa hợp với chủ ngữ số ít 'security software' (sự thật hiển nhiên về tính năng).",
-          "D (threats)": "Đúng ngữ pháp: Danh từ số nhiều đếm được đi sau tính từ 'cyber' để tạo thành cụm danh từ chuẩn xác."
+          "B (newly installed)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Trạng từ 'newly' bổ nghĩa cho phân từ quá khứ đóng vai trò tính từ 'installed' để bổ nghĩa cho danh từ 'software'.",
+          "C (provides)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ chia Hiện tại đơn số ít hòa hợp với chủ ngữ số ít 'security software' (sự thật hiển nhiên về tính năng).",
+          "D (threats)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ số nhiều đếm được đi sau tính từ 'cyber' để tạo thành cụm danh từ chuẩn xác."
         }
       }
     },
@@ -155,17 +185,22 @@
       "type": "error_id",
       "difficulty": 2,
       "prompt": "At the moment, our research department [A] conducts an extensive feasibility study to [B] determine whether our factory [C] can transition to solar energy [D] cost-effectively.",
-      "options": ["A", "B", "C", "D"],
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
       "correctAnswer": "A",
       "explanation": {
         "translation": "Hiện tại, bộ phận nghiên cứu của chúng tôi đang tiến hành một nghiên cứu khả thi sâu rộng để xác định xem nhà máy của chúng tôi có thể chuyển đổi sang năng lượng mặt trời một cách hiệu quả về mặt chi phí hay không.",
-        "keySignal": "Cụm trạng từ thời gian đứng đầu câu: 'At the moment' (Ngay lúc này / Hiện thời).",
+        "keySignal": "Cụm trạng từ thời gian đứng đầu câu: <mark>At the moment</mark> (Ngay lúc này / Hiện thời).",
         "rule": "'At the moment' là dấu hiệu đặc trưng tuyệt đối của thì Hiện tại tiếp diễn, mô tả hành động đang diễn ra ngay tại thời điểm nói.",
         "whyCorrect": "Phần gạch chân [A] chia 'conducts' (Hiện tại đơn) là sai vì xung đột với dấu hiệu 'At the moment'. Phải sửa thành 'is conducting' để thể hiện hoạt động nghiên cứu đang diễn ra trong hiện tại.",
         "distractorBreakdown": {
-          "B (determine)": "Đúng ngữ pháp: Động từ nguyên mẫu có 'to' (infinitive of purpose: to determine) chỉ mục đích của cuộc nghiên cứu.",
-          "C (can transition)": "Đúng ngữ pháp: Động từ khiếm khuyết 'can' đi kèm động từ nguyên thể 'transition' trong mệnh đề danh ngữ phụ thuộc 'whether...'.",
-          "D (cost-effectively)": "Đúng ngữ pháp: Trạng từ ghép hợp lệ bổ nghĩa cho động từ 'transition'."
+          "B (determine)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ nguyên mẫu có 'to' (infinitive of purpose: to determine) chỉ mục đích của cuộc nghiên cứu.",
+          "C (can transition)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Động từ khiếm khuyết 'can' đi kèm động từ nguyên thể 'transition' trong mệnh đề danh ngữ phụ thuộc 'whether...'.",
+          "D (cost-effectively)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Trạng từ ghép hợp lệ bổ nghĩa cho động từ 'transition'."
         }
       }
     },
@@ -174,17 +209,22 @@
       "type": "error_id",
       "difficulty": 3,
       "prompt": "The executive chef [A] is tasting the mushroom soup [B] right now to verify whether it [C] is tasting too salty for [D] the banquet guests.",
-      "options": ["A", "B", "C", "D"],
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
       "correctAnswer": "C",
       "explanation": {
         "translation": "Bếp trưởng điều hành đang nếm món súp nấm ngay lúc này để kiểm tra xem nó có vị quá mặn đối với các thực khách dự tiệc hay không.",
-        "keySignal": "Liên từ 'whether', chủ ngữ 'it' (chỉ món súp nấm) và tính từ 'too salty'.",
+        "keySignal": "Liên từ <mark>whether</mark>, chủ ngữ <mark>it</mark> (chỉ món súp nấm) và tính từ <mark>too salty</mark>.",
         "rule": "Động từ 'taste' có hai cách dùng: Khi chủ ngữ là NGƯỜI thực hiện hành động nếm -> Dynamic (được dùng tiếp diễn: 'is tasting'). Khi chủ ngữ là VẬT mang vị giác nào đó đi kèm tính từ -> Linking/Stative verb (bắt buộc dùng thì đơn: 'tastes').",
         "whyCorrect": "Phần gạch chân [C] 'is tasting' sai bản chất vì chủ ngữ là 'it' (món súp), mô tả hương vị của món ăn (trạng thái tĩnh), không phải hành động nếm của con người. Phải sửa thành 'tastes'.",
         "distractorBreakdown": {
-          "A (is tasting)": "Đúng ngữ pháp: Chủ ngữ là 'The executive chef' (con người) đang thực hiện hành vi nếm có chủ đích, đi kèm 'right now' nên dùng Hiện tại tiếp diễn hoàn toàn chuẩn xác.",
-          "B (right now)": "Đúng ngữ pháp: Trạng từ chỉ thời gian bổ nghĩa cho hành động đang diễn ra của người đầu bếp.",
-          "D (the banquet guests)": "Đúng ngữ pháp: Cụm danh từ làm tân ngữ sau giới từ 'for'."
+          "A (is tasting)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Chủ ngữ là 'The executive chef' (con người) đang thực hiện hành vi nếm có chủ đích, đi kèm 'right now' nên dùng Hiện tại tiếp diễn hoàn toàn chuẩn xác.",
+          "B (right now)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Trạng từ chỉ thời gian bổ nghĩa cho hành động đang diễn ra của người đầu bếp.",
+          "D (the banquet guests)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ làm tân ngữ sau giới từ 'for'."
         }
       }
     },
@@ -193,17 +233,22 @@
       "type": "error_id",
       "difficulty": 2,
       "prompt": "The express shuttle bus connecting [A] Terminal 1 and Terminal 2 [B] is departing every fifteen minutes, so international transit passengers [C] rarely have to wait [D] long.",
-      "options": ["A", "B", "C", "D"],
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
       "correctAnswer": "B",
       "explanation": {
         "translation": "Xe buýt trung chuyển tốc hành kết nối Nhà ga 1 và Nhà ga 2 khởi hành cứ mỗi 15 phút một chuyến, vì vậy hành khách quá cảnh quốc tế hiếm khi phải chờ đợi lâu.",
-        "keySignal": "Cụm trạng từ tần suất chu kỳ: 'every fifteen minutes' (cứ mỗi 15 phút).",
+        "keySignal": "Cụm trạng từ tần suất chu kỳ: <mark>every fifteen minutes</mark> (cứ mỗi 15 phút).",
         "rule": "Lịch trình phương tiện giao thông công cộng vận hành theo chu kỳ cố định bắt buộc phải dùng thì Hiện tại đơn, không dùng thì tiếp diễn.",
         "whyCorrect": "Phần gạch chân [B] 'is departing' là sai vì đây là tần suất lặp lại theo thời gian biểu cố định của xe buýt ('every fifteen minutes'). Phải sửa thành 'departs' (Hiện tại đơn số ít hòa hợp với 'The express shuttle bus').",
         "distractorBreakdown": {
-          "A (Terminal 1 and Terminal 2)": "Đúng ngữ pháp: Danh từ riêng chỉ hai địa điểm kết nối với nhau bằng liên từ 'and'.",
-          "C (rarely have to wait)": "Đúng ngữ pháp: Trạng từ tần suất 'rarely' đứng trước động từ bán khiếm khuyết 'have to' đi kèm động từ nguyên thể 'wait'.",
-          "D (long)": "Đúng ngữ pháp: 'Long' đóng vai trò là trạng từ chỉ thời lượng đứng sau động từ 'wait'."
+          "A (Terminal 1 and Terminal 2)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Danh từ riêng chỉ hai địa điểm kết nối với nhau bằng liên từ 'and'.",
+          "C (rarely have to wait)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Trạng từ tần suất 'rarely' đứng trước động từ bán khiếm khuyết 'have to' đi kèm động từ nguyên thể 'wait'.",
+          "D (long)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: 'Long' đóng vai trò là trạng từ chỉ thời lượng đứng sau động từ 'wait'."
         }
       }
     },
@@ -212,17 +257,22 @@
       "type": "error_id",
       "difficulty": 3,
       "prompt": "Mr. Henderson [A] owns several successful retail branches across the province and [B] is currently having [C] a modern warehouse facility [D] in the industrial park.",
-      "options": ["A", "B", "C", "D"],
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
       "correctAnswer": "B",
       "explanation": {
         "translation": "Ông Henderson sở hữu nhiều chi nhánh bán lẻ thành công trên khắp tỉnh và hiện có một cơ sở nhà kho hiện đại trong khu công nghiệp.",
-        "keySignal": "Động từ 'have' đi kèm tân ngữ sở hữu 'a modern warehouse facility' (một cơ sở nhà kho).",
+        "keySignal": "Động từ <mark>have</mark> đi kèm tân ngữ sở hữu <mark>a modern warehouse facility</mark> (một cơ sở nhà kho).",
         "rule": "Khi động từ 'HAVE' mang nghĩa sở hữu tài sản (= possess/own), nó là động từ chỉ trạng thái (Stative Verb) và KHÔNG ĐƯỢC chia ở thì tiếp diễn, bất chấp việc có trạng từ 'currently'.",
         "whyCorrect": "Phần gạch chân [B] 'is currently having' là bẫy kinh điển. Dù có 'currently', nhưng vì 'have' ở đây mang nghĩa sở hữu bất động sản chứ không phải hành động ăn uống hay trải nghiệm, nên bắt buộc phải sửa thành 'currently has'.",
         "distractorBreakdown": {
-          "A (owns)": "Đúng ngữ pháp: Hiện tại đơn chỉ quyền sở hữu vĩnh viễn, hòa hợp với chủ ngữ số ít 'Mr. Henderson'.",
-          "C (a modern warehouse facility)": "Đúng ngữ pháp: Cụm danh từ đơn có mạo từ 'a' + tính từ 'modern' + danh từ ghép 'warehouse facility'.",
-          "D (in the industrial park)": "Đúng ngữ pháp: Cụm giới từ chỉ nơi chốn chính xác."
+          "A (owns)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Hiện tại đơn chỉ quyền sở hữu vĩnh viễn, hòa hợp với chủ ngữ số ít 'Mr. Henderson'.",
+          "C (a modern warehouse facility)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm danh từ đơn có mạo từ 'a' + tính từ 'modern' + danh từ ghép 'warehouse facility'.",
+          "D (in the industrial park)": "<span style=\"color: #22c55e; font-weight: bold;\">Đúng ngữ pháp</span>: Cụm giới từ chỉ nơi chốn chính xác."
         }
       }
     },
@@ -230,18 +280,18 @@
       "id": "ex_11",
       "type": "cloze",
       "difficulty": 1,
-      "prompt": "Please lower your voice while passing the boardroom; the human resources manager ________ (interview) a shortlisted candidate.",
+      "prompt": "Please lower your voice while passing the boardroom; the human resources manager <u>_______</u>_ (interview) a shortlisted candidate.",
       "options": [],
       "correctAnswer": "is interviewing",
       "explanation": {
         "translation": "Vui lòng nói nhỏ khi đi ngang qua phòng họp; trưởng phòng nhân sự đang phỏng vấn một ứng viên trong danh sách rút gọn.",
-        "keySignal": "Mệnh đề mệnh lệnh cảnh báo hành vi tức thời: 'Please lower your voice while passing...'.",
+        "keySignal": "Mệnh đề mệnh lệnh cảnh báo hành vi tức thời: <mark>Please lower your voice while passing...</mark>.",
         "rule": "Các câu mệnh lệnh (Look!, Listen!, Please be quiet!, Please lower your voice) cho thấy hành động ở mệnh đề tiếp theo đang diễn ra ngay lúc nói, bắt buộc dùng Hiện tại tiếp diễn.",
-        "whyCorrect": "Hành vi phỏng vấn đang diễn ra ngay tại thời điểm người nói nhắc nhở nói nhỏ. Chủ ngữ 'the human resources manager' là số ít, động từ hành động là 'interview' -> chia thành 'is interviewing'.",
+        "whyCorrect": "Hành vi phỏng vấn đang diễn ra ngay tại thời điểm người nói nhắc nhở nói nhỏ. Chủ ngữ 'the human resources manager' là số ít, động từ hành động là 'interview' -> chia thành <span style=\"color: #22c55e; font-weight: bold;\">'is interviewing'</span>.",
         "distractorBreakdown": {
-          "interviews (Hiện tại đơn)": "Sai vì không diễn tả được tính chất đang diễn ra tức thời của sự việc khiến người khác phải giữ trật tự.",
-          "interviewed (Quá khứ đơn)": "Sai vì nếu cuộc phỏng vấn đã hoàn tất thì không cần phải yêu cầu người khác hạ giọng ngay lúc này.",
-          "has interviewed (Hiện tại hoàn thành)": "Sai vì thì này chỉ kết quả của hành động đã xong, mâu thuẫn với bối cảnh đang cần giữ yên tĩnh."
+          "interviews (Hiện tại đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì không diễn tả được tính chất đang diễn ra tức thời của sự việc khiến người khác phải giữ trật tự.",
+          "interviewed (Quá khứ đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì nếu cuộc phỏng vấn đã hoàn tất thì không cần phải yêu cầu người khác hạ giọng ngay lúc này.",
+          "has interviewed (Hiện tại hoàn thành)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì thì này chỉ kết quả của hành động đã xong, mâu thuẫn với bối cảnh đang cần giữ yên tĩnh."
         }
       }
     },
@@ -249,18 +299,18 @@
       "id": "ex_12",
       "type": "cloze",
       "difficulty": 1,
-      "prompt": "Pure water ________ (boil) at 100 degrees Celsius under standard atmospheric pressure.",
+      "prompt": "Pure water <u>_______</u>_ (boil) at 100 degrees Celsius under standard atmospheric pressure.",
       "options": [],
       "correctAnswer": "boils",
       "explanation": {
         "translation": "Nước tinh khiết sôi ở 100 độ C dưới áp suất khí quyển tiêu chuẩn.",
-        "keySignal": "Quy luật vật lý tự nhiên: 'at 100 degrees Celsius under standard atmospheric pressure'.",
+        "keySignal": "Quy luật vật lý tự nhiên: <mark>at 100 degrees Celsius under standard atmospheric pressure</mark>.",
         "rule": "Hiện tại đơn là thì duy nhất được dùng để diễn tả quy luật tự nhiên, sự thật khoa học hiển nhiên (Universal truths / Scientific facts).",
-        "whyCorrect": "'Pure water' là danh từ không đếm được (tính là ngôi thứ ba số ít). Hiện tượng nước sôi ở 100 độ C là chân lý khoa học vĩnh cửu, do đó động từ bắt buộc chia ở Hiện tại đơn thêm '-s': 'boils'.",
+        "whyCorrect": "'Pure water' là danh từ không đếm được (tính là ngôi thứ ba số ít). Hiện tượng nước sôi ở 100 độ C là chân lý khoa học vĩnh cửu, do đó động từ bắt buộc chia ở Hiện tại đơn thêm '-s': <span style=\"color: #22c55e; font-weight: bold;\">'boils'</span>.",
         "distractorBreakdown": {
-          "is boiling (Hiện tại tiếp diễn)": "Sai vì 'is boiling' chỉ một ấm nước/nồi nước cụ thể đang sôi trên bếp lúc này, không diễn đạt chân lý khoa học khái quát.",
-          "boiled (Quá khứ đơn)": "Sai vì chân lý khoa học không thuộc về riêng quá khứ mà luôn đúng ở mọi thời đại.",
-          "will boil (Tương lai đơn)": "Sai vì đây không phải là dự đoán tương lai mà là một đặc tính vật lý sẵn có."
+          "is boiling (Hiện tại tiếp diễn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì 'is boiling' chỉ một ấm nước/nồi nước cụ thể đang sôi trên bếp lúc này, không diễn đạt chân lý khoa học khái quát.",
+          "boiled (Quá khứ đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì chân lý khoa học không thuộc về riêng quá khứ mà luôn đúng ở mọi thời đại.",
+          "will boil (Tương lai đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì đây không phải là dự đoán tương lai mà là một đặc tính vật lý sẵn có."
         }
       }
     },
@@ -268,17 +318,17 @@
       "id": "ex_13",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "I ________ (think) about applying for the regional marketing director position in Tokyo, but I haven't reached a final decision yet.",
+      "prompt": "I <u>_______</u>_ (think) about applying for the regional marketing director position in Tokyo, but I haven't reached a final decision yet.",
       "options": [],
       "correctAnswer": "am thinking",
       "explanation": {
         "translation": "Tôi đang cân nhắc về việc nộp đơn ứng tuyển vào vị trí giám đốc tiếp thị khu vực tại Tokyo, nhưng tôi vẫn chưa đưa ra quyết định cuối cùng.",
-        "keySignal": "Vế chỉ sự việc đang đắn đo chưa ngã ngũ: 'but I haven't reached a final decision yet' kết hợp giới từ 'about'.",
+        "keySignal": "Vế chỉ sự việc đang đắn đo chưa ngã ngũ: <mark>but I haven't reached a final decision yet</mark> kết hợp giới từ <mark>about</mark>.",
         "rule": "Khi 'think' đi kèm giới từ 'about/of' mang nghĩa suy ngẫm, cân nhắc, tính toán một kế hoạch (mental process/considering), nó là động từ hành động (Dynamic verb) và được phép chia ở thì Hiện tại tiếp diễn.",
-        "whyCorrect": "Người nói không nêu quan điểm 'nghĩ rằng...' (stative: think that), mà đang trong quá trình cân nhắc một quyết định nghề nghiệp (dynamic process). Với chủ ngữ 'I', dạng tiếp diễn là 'am thinking'.",
+        "whyCorrect": "Người nói không nêu quan điểm 'nghĩ rằng...' (stative: think that), mà đang trong quá trình cân nhắc một quyết định nghề nghiệp (dynamic process). Với chủ ngữ 'I', dạng tiếp diễn là <span style=\"color: #22c55e; font-weight: bold;\">'am thinking'</span>.",
         "distractorBreakdown": {
           "think (Hiện tại đơn)": "Không chuẩn xác trong ngữ cảnh này: 'I think' thường dùng để đưa ra ý kiến/quan điểm ('I think it's good'), trong khi ở đây đang diễn tả quá trình trăn trở nội tâm chưa dứt.",
-          "thought (Quá khứ đơn)": "Sai vì việc cân nhắc vẫn đang diễn ra ('haven't reached a final decision yet'), chưa chấm dứt trong quá khứ.",
+          "thought (Quá khứ đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì việc cân nhắc vẫn đang diễn ra ('haven't reached a final decision yet'), chưa chấm dứt trong quá khứ.",
           "have thought (Hiện tại hoàn thành)": "Kém tự nhiên so với 'am thinking' vì vế sau nhấn mạnh sự chưa dứt khoát của một tiến trình tư duy đang chạy ở hiện tại."
         }
       }
@@ -287,17 +337,17 @@
       "id": "ex_14",
       "type": "cloze",
       "difficulty": 2,
-      "prompt": "Due to ongoing global supply chain disruptions, international freight shipping rates ________ (rise) steadily this quarter.",
+      "prompt": "Due to ongoing global supply chain disruptions, international freight shipping rates <u>_______</u>_ (rise) steadily this quarter.",
       "options": [],
       "correctAnswer": "are rising",
       "explanation": {
         "translation": "Do sự gián đoạn chuỗi cung ứng toàn cầu đang tiếp diễn, cước vận chuyển hàng hóa quốc tế đang tăng đều đặn trong quý này.",
-        "keySignal": "Trạng từ xu hướng 'steadily' (đều đặn) đi kèm khung thời gian biến động 'this quarter' (trong quý này).",
+        "keySignal": "Trạng từ xu hướng <mark>steadily</mark> (đều đặn) đi kèm khung thời gian biến động <mark>this quarter</mark> (trong quý này).",
         "rule": "Hiện tại tiếp diễn được dùng để mô tả một xu hướng biến thiên, thay đổi dần dần trên thị trường (Trends and changing situations) đi kèm các động từ như rise, fall, grow, increase.",
-        "whyCorrect": "Chủ ngữ 'international freight shipping rates' là danh từ số nhiều. Hành động giá cước tăng là một xu thế biến động tạm thời trong quý này, do đó động từ bắt buộc chia ở Hiện tại tiếp diễn: 'are rising'.",
+        "whyCorrect": "Chủ ngữ 'international freight shipping rates' là danh từ số nhiều. Hành động giá cước tăng là một xu thế biến động tạm thời trong quý này, do đó động từ bắt buộc chia ở Hiện tại tiếp diễn: <span style=\"color: #22c55e; font-weight: bold;\">'are rising'</span>.",
         "distractorBreakdown": {
-          "rise (Hiện tại đơn)": "Sai vì Hiện tại đơn chỉ quy luật bất biến hoặc chân lý cố định, không phản ánh được xu hướng biến thiên tạm thời của thị trường trong 'this quarter'.",
-          "rose (Quá khứ đơn)": "Sai vì 'this quarter' và 'ongoing disruptions' cho thấy xu hướng tăng vẫn đang tiếp diễn ở hiện tại, chưa chấm dứt.",
+          "rise (Hiện tại đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì Hiện tại đơn chỉ quy luật bất biến hoặc chân lý cố định, không phản ánh được xu hướng biến thiên tạm thời của thị trường trong 'this quarter'.",
+          "rose (Quá khứ đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì 'this quarter' và 'ongoing disruptions' cho thấy xu hướng tăng vẫn đang tiếp diễn ở hiện tại, chưa chấm dứt.",
           "have risen (Hiện tại hoàn thành)": "Không phù hợp bằng thì tiếp diễn khi có trạng từ chỉ tiến trình tiếp diễn 'steadily'."
         }
       }
@@ -306,17 +356,17 @@
       "id": "ex_15",
       "type": "cloze",
       "difficulty": 3,
-      "prompt": "Our department director is extremely frustrated because the external software vendor ________ (always / miss) critical project deadlines without prior notification.",
+      "prompt": "Our department director is extremely frustrated because the external software vendor <u>_______</u>_ (always / miss) critical project deadlines without prior notification.",
       "options": [],
       "correctAnswer": "is always missing",
       "explanation": {
         "translation": "Giám đốc bộ phận của chúng tôi vô cùng bực bội vì nhà cung cấp phần mềm bên ngoài luôn trễ các hạn chót quan trọng của dự án mà không thông báo trước.",
-        "keySignal": "Cảm xúc tiêu cực bực tức 'is extremely frustrated' kết hợp trạng từ 'always' và hành vi tiêu cực 'miss critical project deadlines'.",
+        "keySignal": "Cảm xúc tiêu cực bực tức <mark>is extremely frustrated</mark> kết hợp trạng từ <mark>always</mark> và hành vi tiêu cực <mark>miss critical project deadlines</mark>.",
         "rule": "Cấu trúc đặc biệt: S + be + always/constantly/forever + V-ing dùng để diễn đạt sự phàn nàn, khó chịu, bực mình trước một hành động tiêu cực lặp đi lặp lại quá nhiều lần (Complaints and irritation).",
-        "whyCorrect": "Ngữ cảnh thể hiện rõ sự bực tức của giám đốc ('is extremely frustrated'). Chủ ngữ 'the external software vendor' là ngôi thứ ba số ít, kết hợp với trạng từ 'always' tạo thành: 'is always missing'.",
+        "whyCorrect": "Ngữ cảnh thể hiện rõ sự bực tức của giám đốc ('is extremely frustrated'). Chủ ngữ 'the external software vendor' là ngôi thứ ba số ít, kết hợp với trạng từ 'always' tạo thành: <span style=\"color: #22c55e; font-weight: bold;\">'is always missing'</span>.",
         "distractorBreakdown": {
           "always misses (Hiện tại đơn)": "Tuy đúng về ngữ pháp cơ bản nhưng chỉ nêu thói quen trung tính, hoàn toàn triệt tiêu sắc thái phàn nàn/bực tức mãnh liệt mà câu văn đã định hình sẵn qua cụm 'extremely frustrated'.",
-          "always missed (Quá khứ đơn)": "Sai vì trạng thái bực mình của giám đốc đang ở hiện tại ('is extremely frustrated'), sự việc vẫn đang tiếp diễn gây nhức nhối.",
+          "always missed (Quá khứ đơn)": "<span style=\"color: #ef4444; font-weight: bold;\">Sai</span> vì trạng thái bực mình của giám đốc đang ở hiện tại ('is extremely frustrated'), sự việc vẫn đang tiếp diễn gây nhức nhối.",
           "has always missed (Hiện tại hoàn thành)": "Không diễn tả được sắc thái nhấn mạnh tính chất gây phiền toái tức thì như cấu trúc 'is always missing'."
         }
       }

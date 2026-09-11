@@ -3,6 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/grammar/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../study/widgets/rich_card_content.dart';
 
 class ClozeQuestionWidget extends HookWidget {
   final GrammarExercise exercise;
@@ -61,22 +62,26 @@ class ClozeQuestionWidget extends HookWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
 
         // Prompt Card
         Card(
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              exercise.prompt,
-              style: theme.typography.large.copyWith(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: RichCardContent(
+              content: exercise.prompt,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              textAlign: TextAlign.start,
+              textStyle: TextStyle(
+                fontSize: 15,
                 fontWeight: FontWeight.w600,
-                height: 1.6,
+                height: 1.45,
+                color: theme.colorScheme.foreground,
               ),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 10),
 
         // Text input field
         if (!isSubmitted) ...[
@@ -84,6 +89,17 @@ class ClozeQuestionWidget extends HookWidget {
             controller: textController,
             autofocus: true,
             placeholder: Text(l10n.grammarClozePlaceholder),
+            features: [
+              InputFeature.trailing(
+                IconButton.primary(
+                  density: ButtonDensity.compact,
+                  icon: const Icon(LucideIcons.arrowRight, size: 16),
+                  onPressed: (selectedAnswer?.trim().isNotEmpty ?? false)
+                      ? onSubmit
+                      : null,
+                ),
+              ),
+            ],
             onChanged: (val) => onAnswerChanged(val),
             onSubmitted: (val) {
               onAnswerChanged(val);

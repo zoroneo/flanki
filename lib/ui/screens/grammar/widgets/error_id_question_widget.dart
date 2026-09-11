@@ -55,16 +55,16 @@ class ErrorIdQuestionWidget extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
 
         // Prompt Card with parsed tags
         Card(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             child: _buildRichPrompt(context, prompt, theme),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
 
         // 4 Option Buttons (A, B, C, D)
         Row(
@@ -100,7 +100,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                   onTap: isSubmitted ? null : () => onSelectAnswer(opt),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 150),
-                    height: 52,
+                    height: 42,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: backgroundColor ?? theme.colorScheme.card,
@@ -115,18 +115,19 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                       children: [
                         Text(
                           '[$opt]',
-                          style: theme.typography.base.copyWith(
+                          style: TextStyle(
+                            fontSize: 13.5,
                             fontWeight: FontWeight.bold,
                             color: textColor ?? (isSelected ? theme.colorScheme.primary : theme.colorScheme.foreground),
                           ),
                         ),
                         if (isSubmitted && isCorrectError) ...[
                           const SizedBox(width: 4),
-                          const Icon(LucideIcons.check, size: 16, color: Colors.green),
+                          const Icon(LucideIcons.check, size: 15, color: Colors.green),
                         ],
                         if (isSubmitted && isSelected && !isCorrectError) ...[
                           const SizedBox(width: 4),
-                          const Icon(LucideIcons.x, size: 16, color: Colors.red),
+                          const Icon(LucideIcons.x, size: 15, color: Colors.red),
                         ],
                       ],
                     ),
@@ -153,9 +154,11 @@ class ErrorIdQuestionWidget extends StatelessWidget {
       if (parts[i].isNotEmpty) {
         textSpans.add(TextSpan(
           text: parts[i],
-          style: theme.typography.large.copyWith(
+          style: TextStyle(
+            fontSize: 15,
             fontWeight: FontWeight.normal,
-            height: 1.6,
+            height: 1.45,
+            color: theme.colorScheme.foreground,
           ),
         ));
       }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -16,6 +17,7 @@ class RichCardContent extends HookWidget {
   final String content;
   final TextStyle? textStyle;
   final TextAlign textAlign;
+  final CrossAxisAlignment crossAxisAlignment;
   final bool autoPlayAudio;
   final String? typedAnswer;
   final ValueChanged<String>? onAnswerChanged;
@@ -26,6 +28,7 @@ class RichCardContent extends HookWidget {
     required this.content,
     this.textStyle,
     this.textAlign = TextAlign.center,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
     this.autoPlayAudio = false,
     this.typedAnswer,
     this.onAnswerChanged,
@@ -73,8 +76,12 @@ class RichCardContent extends HookWidget {
       return null;
     }, [content, audioPlayer]);
 
-    // HTML content without [sound:...] tags
-    var cleanHtml = content.replaceAll(soundRegex, '').trim();
+    // Convert [sound:filename] tags to inline <anki-sound> elements to preserve exact position
+    var cleanHtml = content.replaceAllMapped(soundRegex, (m) {
+      final filename = m.group(1)!.trim();
+      final escaped = htmlEscape.convert(filename);
+      return '<anki-sound src="$escaped"></anki-sound>';
+    });
 
     // Clean legacy file:// absolute paths to standard relative filenames
     cleanHtml = cleanHtml.replaceAllMapped(
@@ -90,17 +97,35 @@ class RichCardContent extends HookWidget {
     final hasTypeInput = typeInputRegex.hasMatch(cleanHtml);
     cleanHtml = cleanHtml.replaceAll(typeInputRegex, '').trim();
 
-    // Extract [[TYPE_RESULT:expected]] marker
+    // Convert [[TYPE_RESULT:expected]] marker to inline <anki-type-result> element
     final typeResultRegex = RegExp(r'\[\[TYPE_RESULT:(.*?)\]\]');
-    final typeResultMatch = typeResultRegex.firstMatch(cleanHtml);
-    final hasTypeResult = typeResultMatch != null;
-    final expectedResult = typeResultMatch?.group(1) ?? '';
-    cleanHtml = cleanHtml.replaceAll(typeResultRegex, '').trim();
+    cleanHtml = cleanHtml.replaceAllMapped(typeResultRegex, (m) {
+      final expected = m.group(1)!.trim();
+      final escaped = htmlEscape.convert(expected);
+      return '<anki-type-result expected="$escaped"></anki-type-result>';
+    });
 
     // Clean up any stray curly tags
     cleanHtml = cleanHtml.replaceAll(RegExp(r'\{\{[^}]+\}\}'), '').trim();
 
+    // If text contains newlines but no html break/paragraph tags, convert \n to <br/>
+    if (cleanHtml.contains('\n') &&
+        !cleanHtml.contains('<br') &&
+        !cleanHtml.contains('<p>') &&
+        !cleanHtml.contains('<p ') &&
+        !cleanHtml.contains('<div')) {
+      cleanHtml = cleanHtml.replaceAll('\r\n', '\n').replaceAll('\n', '<br/>');
+    }
+
     final hasHtml = cleanHtml.isNotEmpty;
+
+    final alignCss = switch (textAlign) {
+      TextAlign.center => 'center',
+      TextAlign.right || TextAlign.end => 'right',
+      TextAlign.justify => 'justify',
+      _ => 'left',
+    };
+    final formattedHtml = '<div style="text-align: $alignCss">$cleanHtml</div>';
 
     final defaultStyle =
         textStyle ??
@@ -111,13 +136,39 @@ class RichCardContent extends HookWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: crossAxisAlignment,
       children: [
         if (hasHtml)
           HtmlWidget(
-            cleanHtml,
+            formattedHtml,
             textStyle: defaultStyle,
             customWidgetBuilder: (element) {
+              if (element.localName == 'anki-sound') {
+                final filename = element.attributes['src'] ?? '';
+                if (filename.isEmpty) return const SizedBox.shrink();
+                return InlineCustomWidget(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    child: _AudioPlayButton(
+                      filename: filename,
+                      player: audioPlayer,
+                    ),
+                  ),
+                );
+              }
+              if (element.localName == 'anki-type-result') {
+                final expected = element.attributes['expected'] ?? '';
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Center(
+                    child: _TypeAnswerResultBox(
+                      typedAnswer: typedAnswer,
+                      expectedAnswer: expected,
+                    ),
+                  ),
+                );
+              }
               if (element.localName == 'img') {
                 final rawSrc = element.attributes['src'] ?? '';
                 if (rawSrc.isNotEmpty) {
@@ -180,6 +231,37 @@ class RichCardContent extends HookWidget {
               if (element.localName == 'table') {
                 return {'margin': '8px auto', 'border-collapse': 'collapse'};
               }
+              if (element.localName == 'mark') {
+                final isDark = theme.brightness == Brightness.dark;
+                return {
+                  'background-color': isDark
+                      ? 'rgba(245, 158, 11, 0.28)'
+                      : 'rgba(245, 158, 11, 0.18)',
+                  'color': isDark ? '#fbbf24' : '#b45309',
+                  'padding': '1px 5px',
+                  'border-radius': '4px',
+                  'font-weight': '600',
+                };
+              }
+              if (element.localName == 'code') {
+                final isDark = theme.brightness == Brightness.dark;
+                return {
+                  'background-color': isDark
+                      ? 'rgba(255, 255, 255, 0.09)'
+                      : 'rgba(0, 0, 0, 0.06)',
+                  'color': isDark ? '#e2e8f0' : '#334155',
+                  'padding': '2px 6px',
+                  'border-radius': '4px',
+                  'font-family': 'monospace',
+                  'font-size': '0.9em',
+                };
+              }
+              if (element.localName == 'u') {
+                return {
+                  'text-decoration': 'underline',
+                  'text-underline-offset': '3px',
+                };
+              }
               return null;
             },
           ),
@@ -189,25 +271,6 @@ class RichCardContent extends HookWidget {
             initialValue: typedAnswer ?? '',
             onAnswerChanged: onAnswerChanged,
             onSubmitAnswer: onSubmitAnswer,
-          ),
-        ],
-        if (hasTypeResult) ...[
-          const SizedBox(height: 12),
-          _TypeAnswerResultBox(
-            typedAnswer: typedAnswer,
-            expectedAnswer: expectedResult,
-          ),
-        ],
-        if (soundFiles.isNotEmpty) ...[
-          if (hasHtml || hasTypeInput || hasTypeResult)
-            const SizedBox(height: 16),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            alignment: WrapAlignment.center,
-            children: soundFiles.map((filename) {
-              return _AudioPlayButton(filename: filename, player: audioPlayer);
-            }).toList(),
           ),
         ],
       ],
@@ -493,12 +556,12 @@ class _AudioPlayButton extends HookWidget {
         behavior: HitTestBehavior.opaque,
         onTap: handlePlay,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
             color: isPlaying.value
                 ? theme.colorScheme.primary.withValues(alpha: 0.15)
                 : theme.colorScheme.muted,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isPlaying.value
                   ? theme.colorScheme.primary
@@ -511,12 +574,12 @@ class _AudioPlayButton extends HookWidget {
             children: [
               Icon(
                 isPlaying.value ? LucideIcons.volumeX : LucideIcons.volume2,
-                size: 16,
+                size: 14,
                 color: isPlaying.value
                     ? theme.colorScheme.primary
                     : theme.colorScheme.foreground,
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 5),
               Text(
                 displayName,
                 style: theme.typography.xSmall.copyWith(

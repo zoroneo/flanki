@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
@@ -76,11 +77,7 @@ class CardBrowserScreen extends HookConsumerWidget {
 
     final topPadding = MediaQuery.paddingOf(context).top;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isDesktop = constraints.maxWidth >= 900;
-
-        if (isDesktop) {
+    Widget buildDesktopLayout(BuildContext context) {
           final currentSelectedCard = filteredCards
               .cast<CardModel?>()
               .firstWhere(
@@ -246,6 +243,7 @@ class CardBrowserScreen extends HookConsumerWidget {
                                       card.id == selectedCardId.value;
 
                                   return _DesktopCardRowItem(
+                                    key: ValueKey('card_${card.id}'),
                                     card: card,
                                     isSelected: isSelected,
                                     onTap: () => selectedCardId.value = card.id,
@@ -292,10 +290,10 @@ class CardBrowserScreen extends HookConsumerWidget {
               ],
             ),
           );
-        }
+    }
 
-        // Mobile Layout (< 900px): Preserves NestedScrollView with Bottom Sheet
-        return Scaffold(
+    Widget buildMobileLayout(BuildContext context) {
+      return Scaffold(
           child: NotificationListener<ScrollNotification>(
             onNotification: (notification) {
               if (notification.metrics.pixels >=
@@ -477,6 +475,7 @@ class CardBrowserScreen extends HookConsumerWidget {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Card(
+                            key: ValueKey('card_${card.id}'),
                             filled: true,
                             padding: EdgeInsets.zero,
                             child: MouseRegion(
@@ -589,7 +588,11 @@ class CardBrowserScreen extends HookConsumerWidget {
             ),
           ),
         );
-      },
+    }
+
+    return ScreenTypeLayout.builder(
+      mobile: buildMobileLayout,
+      desktop: buildDesktopLayout,
     );
   }
 }
@@ -604,6 +607,7 @@ class _DesktopCardRowItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const _DesktopCardRowItem({
+    super.key,
     required this.card,
     required this.isSelected,
     required this.onTap,
@@ -860,18 +864,6 @@ class _DesktopCardDetailPane extends HookWidget {
                         onSubmitAnswer: () => showAnswer.value = true,
                       ),
                     ),
-
-                    if (!showAnswer.value) ...[
-                      const SizedBox(height: 16),
-                      Center(
-                        child: PrimaryButton(
-                          alignment: Alignment.center,
-                          leading: const Icon(LucideIcons.eye, size: 16),
-                          child: Text(l10n.showAnswer),
-                          onPressed: () => showAnswer.value = true,
-                        ),
-                      ),
-                    ],
 
                     // Back Label & Content (Hidden until revealed or submitted)
                     if (showAnswer.value) ...[
@@ -1143,14 +1135,17 @@ class _SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
+final _htmlTagRegex = RegExp(r'<[^>]*>');
+final _whitespaceRegex = RegExp(r'\s+');
+
 String _stripHtml(String text) {
   if (!text.contains('<')) return text;
   return text
-      .replaceAll(RegExp(r'<[^>]*>'), ' ')
+      .replaceAll(_htmlTagRegex, ' ')
       .replaceAll('&nbsp;', ' ')
       .replaceAll('&lt;', '<')
       .replaceAll('&gt;', '>')
       .replaceAll('&amp;', '&')
-      .replaceAll(RegExp(r'\s+'), ' ')
+      .replaceAll(_whitespaceRegex, ' ')
       .trim();
 }

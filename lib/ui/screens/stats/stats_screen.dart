@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
@@ -32,14 +33,23 @@ class StatsScreen extends HookConsumerWidget {
       '${(studySettings.desiredRetention * 100).toInt()}%',
     );
 
-    return Scaffold(
-      headers: [AppBar(title: Text(l10n.statsTitle))],
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 880),
-          child: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
+    return ResponsiveBuilder(
+      builder: (context, sizingInfo) {
+        final horizontalPadding = getValueForScreenType<double>(
+          context: context,
+          mobile: 16.0,
+          tablet: 20.0,
+          desktop: 24.0,
+        );
+
+        return Scaffold(
+          headers: [AppBar(title: Text(l10n.statsTitle))],
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 880),
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 16.0),
+                children: [
               // Retention & FSRS Overview Card
               Card(
                 filled: true,
@@ -202,6 +212,8 @@ class StatsScreen extends HookConsumerWidget {
         ),
       ),
     );
+      },
+    );
   }
 }
 
@@ -264,26 +276,25 @@ class _HeatmapGrid extends StatelessWidget {
     if (levels.isEmpty) {
       return const SizedBox.shrink();
     }
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (int w = 0; w < levels.length; w++) ...[
-            if (w > 0) const SizedBox(width: 5),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (int d = 0; d < levels[w].length; d++) ...[
-                  if (d > 0) const SizedBox(height: 5),
-                  _HeatmapDot(level: levels[w][d], theme: theme, size: 14),
-                ],
+    return SizedBox(
+      height: 128,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemCount: levels.length,
+        separatorBuilder: (context, index) => const SizedBox(width: 5),
+        itemBuilder: (context, w) {
+          final week = levels[w];
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (int d = 0; d < week.length; d++) ...[
+                if (d > 0) const SizedBox(height: 5),
+                _HeatmapDot(level: week[d], theme: theme, size: 14),
               ],
-            ),
-          ],
-        ],
+            ],
+          );
+        },
       ),
     );
   }

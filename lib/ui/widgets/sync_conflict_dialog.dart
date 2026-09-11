@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../core/localization/locale_notifier.dart';
+import 'adaptive_modal.dart';
 
 enum SyncConflictChoice { merge, upload, download }
 
@@ -18,54 +19,20 @@ class SyncConflictDialog extends StatelessWidget {
   });
 
   /// Displays the sync conflict resolution UI.
-  /// On mobile devices (width < 600), renders as an adaptive bottom sheet.
+  /// On mobile devices, renders as an adaptive bottom sheet.
   /// On desktop/tablet, renders as a centered modal dialog.
   static Future<SyncConflictChoice?> show(
     BuildContext context, {
     DateTime? localLastSync,
     DateTime? serverMod,
   }) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
-
-    if (isMobile) {
-      return m.showModalBottomSheet<SyncConflictChoice>(
-        context: context,
-        useRootNavigator: true,
-        backgroundColor: m.Colors.transparent,
-        isScrollControlled: true,
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.88,
-        ),
-        builder: (ctx) => m.Material(
-          type: m.MaterialType.transparency,
-          child: SyncConflictDialog(
-            localLastSync: localLastSync,
-            serverMod: serverMod,
-            isBottomSheet: true,
-          ),
-        ),
-      );
-    }
-
-    return m.showDialog<SyncConflictChoice>(
+    return showAdaptiveModal<SyncConflictChoice>(
       context: context,
-      builder: (context) => m.Dialog(
-        backgroundColor: m.Colors.transparent,
-        insetPadding: const m.EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 24,
-        ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: 480,
-            maxHeight: MediaQuery.of(context).size.height * 0.85,
-          ),
-          child: SyncConflictDialog(
-            localLastSync: localLastSync,
-            serverMod: serverMod,
-            isBottomSheet: false,
-          ),
-        ),
+      useRootNavigator: true,
+      builder: (ctx, isDesktop) => SyncConflictDialog(
+        localLastSync: localLastSync,
+        serverMod: serverMod,
+        isBottomSheet: !isDesktop,
       ),
     );
   }

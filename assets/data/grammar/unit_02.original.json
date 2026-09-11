@@ -1,0 +1,326 @@
+{
+  "unitId": "unit-02-past-simple-vs-continuous",
+  "title": "Unit 02: Past Simple vs. Past Continuous (Quá khứ đơn vs. Quá khứ tiếp diễn)",
+  "category": "tenses",
+  "level": 1,
+  "coreConcept": "Tư duy cốt lõi của người bản xứ khi lựa chọn giữa Quá khứ đơn (Past Simple) và Quá khứ tiếp diễn (Past Continuous) không dựa vào việc dịch nghĩa từng từ, mà dựa vào GÓC NHÌN VỀ TÍNH TRỌN VẸN (COMPLETION) VÀ KHUNG HÌNH THỜI GIAN (TIME FRAME):\n\n1. Quá khứ đơn (Completed & Terminated - Khối sự kiện trọn vẹn, đã đóng lại):\n- Người bản xứ nhìn nhận hành động như một 'gói sự kiện đã hoàn tất' (packaged event). Hành động đã bắt đầu, diễn ra và KẾT THÚC 100% trong quá khứ tại một thời điểm hoặc khoảng thời gian xác định, không còn diễn tiến và không còn liên hệ trực tiếp đến hiện tại.\n- Được sử dụng để miêu tả một sự thật lịch sử, một trạng thái trong quá khứ, hoặc một chuỗi các hành động liên tiếp theo trục thời gian (Narrative sequence: Hành động A xong -> Hành động B xảy ra -> Hành động C nối tiếp).\n- Ví dụ: 'We finalized the contract yesterday.' (Sự việc ký kết đã hoàn tất dứt điểm vào ngày hôm qua).\n\n2. Quá khứ tiếp diễn (In-progress Background - Đoạn phim quay chậm, hành động nền đang dang dở):\n- Người bản xứ 'phóng to' (zoom in) vào ngay giữa quá trình của một hành động tại một thời điểm cụ thể trong quá khứ. Tại thời điểm được đề cập, hành động ĐANG DIỄN RA, CHƯA KẾT THÚC (Unfinished / In progress).\n- Thì này không nhấn mạnh kết quả hay sự hoàn tất, mà nhấn mạnh tính diễn tiến, thường được dùng để tạo bức tranh phông nền (Background scenery) cho các sự kiện khác xảy ra hoặc xen vào.\n- Ví dụ: 'At 10:00 AM yesterday, the auditor was reviewing the invoices.' (Tại đúng 10 giờ sáng hôm qua, hành động kiểm tra hóa đơn đang diễn ra ở lưng chừng, chưa kết thúc).\n\n3. Sự đối lập thị giác (Snapshot vs. Movie Clip):\n- Past Simple = Ảnh chụp khoảnh khắc (Snapshot): Đóng khung toàn bộ hành động như một mốc thời gian hoàn tất trọn vẹn.\n- Past Continuous = Đoạn phim đang phát (Video clip): Đưa người nghe/người đọc bước vào không gian nơi hành động đang chuyển động dang dở.",
+  "formulas": {
+    "pastSimple": "Khẳng định: S + V-ed / V2 | Phủ định: S + did not (didn't) + V_bare | Nghi vấn: Did + S + V_bare? (Động từ To Be: S + was/were | Phủ định: was/were not | Nghi vấn: Was/Were + S...?)",
+    "pastContinuous": "Khẳng định: S + was/were + V-ing | Phủ định: S + was/were + not (wasn't/weren't) + V-ing | Nghi vấn: Was/Were + S + V-ing?"
+  },
+  "whenWhileRules": "QUY TẮC KẾT HỢP VỚI LIÊN TỪ WHEN, WHILE VÀ AS:\n\n1. Hành động đang diễn ra thì có hành động khác xen vào (Interrupted Action):\n- Hành động dài làm phông nền (Background action - đang diễn ra) chia ở QUÁ KHỨ TIẾP DIỄN.\n- Hành động ngắn, đột ngột xen ngang (Interruption) chia ở QUÁ KHỨ ĐƠN.\n- Công thức kinh điển:\n  + S + was/were + V-ing + WHEN + S + V2/ed\n  + WHILE / AS + S + was/were + V-ing, S + V2/ed\n  Ví dụ: 'The emergency fire alarm suddenly sounded (Past Simple) while the board members were discussing (Past Continuous) the annual budget.'\n\n2. Hai hành động diễn ra song song cùng lúc trong quá khứ (Parallel Actions):\n- Cả hai hành động đều kéo dài độc lập trong cùng một khoảng thời gian quá khứ mà không cắt ngang nhau.\n- Cả hai vế đều chia ở QUÁ KHỨ TIẾP DIỄN (thường đi kèm liên từ 'While').\n- Công thức: WHILE + S1 + was/were + V-ing, S2 + was/were + V-ing.\n  Ví dụ: 'While the technical team was updating the database, the customer service agents were responding to support inquiries.'\n\n3. Chuỗi hành động liên tiếp xảy ra nối tiếp nhau (Consecutive / Sequential Actions):\n- Khi một hành động xảy ra ngay lập tức sau hành động kia (Hành động 1 xong -> Hành động 2 nối tiếp tức thì, thường mang tính phản xạ hoặc trình tự thủ tục), CẢ HAI VẾ ĐỀU CHIA QUÁ KHỨ ĐƠN, dù câu có liên từ 'When' hay 'As soon as'.\n- Công thức: WHEN / AS SOON AS + S + V2/ed, S + V2/ed.\n  Ví dụ: 'When the executive received the urgent notification, she immediately called the department head.' (TUYỆT ĐỐI KHÔNG dùng 'was receiving' hay 'was calling' vì đây là chuỗi hành vi kế tiếp ngay lập tức).\n\n4. Dạng rút gọn mệnh đề trạng ngữ với While/When (Reduced Adverbial Clauses):\n- Khi hai mệnh đề có CÙNG CHỦ NGỮ, có thể rút gọn chủ ngữ và trợ động từ 'to be':\n  + While + V-ing (chủ động): 'While reviewing the quarterly financial records, Mr. Green detected several discrepancies.' (= While he was reviewing...)\n  + When + V-ed / PII (bị động): 'When questioned by the internal investigators, the supervisor explained the protocol.' (= When he was questioned...)",
+  "pastHabitsAndStative": "THÓI QUEN TRONG QUÁ KHỨ VÀ QUY TẮC ĐỘNG TỪ TRẠNG THÁI (STATIVE VERBS):\n\n1. PHÂN BIỆT 'USED TO' VS. 'WOULD' VS. 'BE/GET USED TO':\n- 'Used to + V_bare': Diễn tả thói quen hành vi LẪN trạng thái tĩnh trong quá khứ đã CHẤM DỨT HOÀN TOÀN ở hiện tại (Past habits & Past states).\n  Ví dụ: 'Our logistics enterprise used to have an office in Singapore.' (Đúng) | 'He used to commute by train.' (Đúng)\n- 'Would + V_bare': CHỈ dùng cho hành động lặp đi lặp lại trong quá khứ mang tính hoài niệm (Past repeated actions). TUYỆT ĐỐI KHÔNG DÙNG 'would' cho động từ trạng thái tĩnh (Stative verbs như have, be, live, know, own, belong, seem).\n  Ví dụ: 'Every Friday afternoon, our former manager would treat the team to coffee.' (Đúng - hành động lặp lại) | 'He would own a sports car.' (SAI NGUYÊN TẮC -> phải dùng 'He used to own...').\n- 'Be / Get used to + V-ing / Noun': Mang nghĩa 'đã quen / đang dần quen với điều gì' (Sự quen thuộc, thích nghi). 'To' ở đây là giới từ, bắt buộc theo sau là V-ing hoặc danh từ, có thể chia ở bất kỳ thì nào (hiện tại, quá khứ, tương lai).\n  Ví dụ: 'She was used to working sixty hours a week.' (Cô ấy đã quen với việc làm việc 60 giờ/tuần).\n- Cảnh giác cấu trúc bị động: S (vật) + be used to + V_bare = được sử dụng để làm gì ('This software is used to encrypt confidential emails').\n\n2. STATIVE VERBS TRONG QUÁ KHỨ:\n- Nhóm động từ mô tả cảm xúc (want, need, prefer), nhận thức/trí nhớ (know, believe, understand, realize, recognize, remember), giác quan (hear, see, smell, taste), sở hữu (have, own, belong to, possess) hoặc đặc tính tĩnh (seem, appear, consist of).\n- NGUYÊN TẮC BẤT BIẾN: Động từ trạng thái KHÔNG BAO GIỜ được chia ở thì Quá khứ tiếp diễn (không tồn tại: was knowing, was wanting, was belonging), ngay cả khi câu có mốc thời gian cụ thể trong quá khứ (at 9 PM yesterday) hoặc nằm trong mệnh đề có liên từ 'While'.\n  Ví dụ: 'At that exact moment, the inspector knew (KHÔNG DÙNG was knowing) the report was forged.' | 'While the firm owned (KHÔNG DÙNG was owning) the patent...'",
+  "commonTraps": [
+    {
+      "trap": "Bẫy 1: Nhầm lẫn giữa Hành động cắt ngang và Chuỗi hành động liên tiếp nối tiếp nhau với liên từ 'When'",
+      "exampleWrong": "When the facility manager was noticing the chemical leak, he immediately was pressing the emergency shutdown button.",
+      "exampleRight": "When the facility manager noticed the chemical leak, he immediately pressed the emergency shutdown button.",
+      "note": "Nhiều thí sinh học vẹt công thức 'When + Past Simple, Past Continuous' nên thấy liên từ 'When' là vội vàng chọn thì tiếp diễn. Tuy nhiên, khi một hành động kích hoạt hành động tiếp theo xảy ra ngay lập tức (nhìn thấy sự cố -> bấm nút ngắt khẩn cấp ngay lập tức, thường có các phó từ như 'immediately, promptly, at once, right away'), CẢ HAI ĐỘNG TỪ BẮT BUỘC CHIA QUÁ KHỨ ĐƠN."
+    },
+    {
+      "trap": "Bẫy 2: Bị 'mốc thời gian cụ thể trong quá khứ' đánh lừa chia Quá khứ tiếp diễn cho Động từ chỉ trạng thái (Stative Verbs)",
+      "exampleWrong": "At precisely 8:30 PM yesterday, the operations director was understanding the root cause of the system failure.",
+      "exampleRight": "At precisely 8:30 PM yesterday, the operations director understood the root cause of the system failure.",
+      "note": "Mốc thời gian cụ thể trong quá khứ ('at 8:30 PM yesterday') là dấu hiệu nhận biết của Quá khứ tiếp diễn, NHƯNG quy tắc động từ chỉ trạng thái (Stative Verbs như understand, realize, know, believe, own) có cấp độ ưu tiên cao nhất. Vì trạng thái nhận thức không thể chia dạng tiếp diễn, động từ bắt buộc phải chia ở Quá khứ đơn."
+    },
+    {
+      "trap": "Bẫy 3: Sử dụng 'Would + V' thay cho 'Used to + V' với động từ trạng thái chỉ sở hữu hoặc tình trạng cũ",
+      "exampleWrong": "Before the conglomerate was restructured last decade, our subsidiary would belong to an independent European holding group.",
+      "exampleRight": "Before the conglomerate was restructured last decade, our subsidiary used to belong to an independent European holding group.",
+      "note": "'Would + V' chỉ được sử dụng cho các hành vi lặp đi lặp lại trong quá khứ mang tính hồi tưởng (như 'we would visit the plant every quarter'). Với các động từ trạng thái tĩnh chỉ quyền sở hữu, bản chất, vị trí (belong to, own, have, be, live), bắt buộc phải dùng 'used to + V', tuyệt đối không được dùng 'would'."
+    },
+    {
+      "trap": "Bẫy 4: Nhầm lẫn giữa 'Be used to + V-ing' (đã quen với việc gì) và Thể bị động 'Be used to + V_bare' (được sử dụng để làm gì)",
+      "exampleWrong": "The high-precision optical sensors in the laboratory were used to detecting microscopic defects in the manufactured glass panels.",
+      "exampleRight": "The high-precision optical sensors in the laboratory were used to detect microscopic defects in the manufactured glass panels.",
+      "note": "Khi chủ ngữ là đồ vật, máy móc, công cụ ('The sensors, The machinery, The software'), cấu trúc 'be used to' là dạng bị động của động từ 'use' (được sử dụng vào mục đích gì -> S + be used + to V_bare). Cấu trúc 'be used to + V-ing' chỉ dùng khi chủ ngữ là con người hoặc sinh vật quen với một thói quen hoặc môi trường sống."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex_01",
+      "type": "choice",
+      "difficulty": 1,
+      "prompt": "While the finance director _______ the quarterly expenditure report, the building's emergency fire alarm suddenly sounded.",
+      "options": ["was reviewing", "reviewed", "reviews", "has reviewed"],
+      "correctAnswer": "was reviewing",
+      "explanation": {
+        "translation": "Trong khi giám đốc tài chính đang xem xét báo cáo chi tiêu hàng quý, chuông báo cháy khẩn cấp của tòa nhà đột ngột vang lên.",
+        "keySignal": "Liên từ 'While' mở đầu mệnh đề phụ chỉ hành động kéo dài làm nền, kết hợp với hành động cắt ngang chia Quá khứ đơn 'suddenly sounded'.",
+        "rule": "Cấu trúc hành động bị cắt ngang trong quá khứ: While + S + was/were + V-ing (hành động nền đang diễn ra), S + V2/ed (hành động ngắn đột ngột xen vào).",
+        "whyCorrect": "Hành động xem xét báo cáo là tiến trình kéo dài đang diễn ra làm phông nền (was reviewing) thì bị hành động chuông báo cháy kêu (sounded) đột ngột xen vào. Chủ ngữ 'the finance director' là số ít nên dùng 'was reviewing'.",
+        "distractorBreakdown": {
+          "optionB (reviewed)": "Sai vì Quá khứ đơn không thể hiện được tính chất hành động nền đang diễn ra dang dở khi có sự việc khác cắt ngang.",
+          "optionC (reviews)": "Sai thì vì toàn bộ ngữ cảnh nằm trong quá khứ ('sounded'), không thể dùng Hiện tại đơn.",
+          "optionD (has reviewed)": "Sai vì Hiện tại hoàn thành không dùng trong cấu trúc hành động bị cắt ngang trong quá khứ với liên từ 'While'."
+        }
+      }
+    },
+    {
+      "id": "ex_02",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "When Ms. Reynolds _______ the confidential internal audit report on her desk, she immediately notified the compliance officer.",
+      "options": ["discovered", "was discovering", "has discovered", "had been discovering"],
+      "correctAnswer": "discovered",
+      "explanation": {
+        "translation": "Khi cô Reynolds phát hiện bản báo cáo kiểm toán nội bộ mật trên bàn làm việc, cô ấy đã lập tức thông báo cho chuyên viên tuân thủ.",
+        "keySignal": "Phó từ phản ứng tức thì 'immediately' kết hợp với động từ vị ngữ vế chính 'notified'.",
+        "rule": "Chuỗi hành động liên tiếp nối tiếp nhau trong quá khứ: Khi một hành động xảy ra dẫn đến một hành động khác diễn ra ngay lập tức (phản xạ tức thì), cả hai vế đều chia ở Quá khứ đơn (When + S + V2/ed, S + V2/ed).",
+        "whyCorrect": "Hành động phát hiện báo cáo và hành động thông báo xảy ra liên tiếp, không có hành động nào làm nền kéo dài cho hành động nào. Do đó, động từ bắt buộc chia Quá khứ đơn: 'discovered'.",
+        "distractorBreakdown": {
+          "optionB (was discovering)": "Sai vì 'discover' là hành động khoảnh khắc (instantaneous action), không thể kéo dài làm nền như một quá trình tiếp diễn trong ngữ cảnh này.",
+          "optionC (has discovered)": "Sai vì mệnh đề chính chia Quá khứ đơn ('notified'), không thể phối hợp với Hiện tại hoàn thành.",
+          "optionD (had been discovering)": "Sai thì vì Quá khứ hoàn thành tiếp diễn nhấn mạnh tính liên tục kéo dài trước một thời điểm, không phù hợp với hành vi phát hiện tức thời."
+        }
+      }
+    },
+    {
+      "id": "ex_03",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Throughout the afternoon conference, while the technical team was setting up the audio-visual equipment, the keynote speakers _______ their opening remarks backstage.",
+      "options": ["were rehearsing", "rehearsed", "rehearse", "have rehearsed"],
+      "correctAnswer": "were rehearsing",
+      "explanation": {
+        "translation": "Suốt buổi hội nghị chiều, trong khi đội kỹ thuật đang lắp đặt thiết bị nghe nhìn, các diễn giả chính đang diễn tập bài phát biểu khai mạc ở hậu trường.",
+        "keySignal": "Cụm thời gian kéo dài 'Throughout the afternoon conference', liên từ 'while' và mệnh đề song song 'was setting up'.",
+        "rule": "Hai hành động diễn ra song song đồng thời trong quá khứ (Parallel Actions): While + S1 + was/were + V-ing, S2 + was/were + V-ing.",
+        "whyCorrect": "Cả hai hành động lắp đặt thiết bị và diễn tập bài nói đều diễn ra đồng thời suốt buổi chiều mà không cắt ngang nhau. Chủ ngữ 'the keynote speakers' là danh từ số nhiều, do đó động từ chia 'were rehearsing'.",
+        "distractorBreakdown": {
+          "optionB (rehearsed)": "Sai vì Quá khứ đơn chỉ coi hành động như một sự kiện đã đóng gói trọn vẹn, làm mất đi sắc thái song hành đang diễn tiến của hai hoạt động song song.",
+          "optionC (rehearse)": "Sai thì nghiêm trọng vì bối cảnh xảy ra trong quá khứ ('was setting up').",
+          "optionD (have rehearsed)": "Sai vì Hiện tại hoàn thành không dùng để mô tả một hành động đang tiếp diễn song song trong quá khứ."
+        }
+      }
+    },
+    {
+      "id": "ex_04",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "Before the firm went fully digital last year, Mr. Davis _______ a personal archive of over five hundred printed reference manuals in his office.",
+      "options": ["used to own", "would own", "was owning", "is used to owning"],
+      "correctAnswer": "used to own",
+      "explanation": {
+        "translation": "Trước khi công ty chuyển đổi số hoàn toàn vào năm ngoái, ông Davis từng sở hữu một kho lưu trữ cá nhân gồm hơn 500 cuốn sổ tay tham khảo in trong văn phòng của mình.",
+        "keySignal": "Mốc thời gian quá khứ đã chấm dứt 'Before the firm went fully digital last year' và động từ chỉ trạng thái sở hữu 'own'.",
+        "rule": "'Used to + V_bare' diễn tả trạng thái trong quá khứ đã chấm dứt hoàn toàn. 'Would' tuyệt đối không đi với động từ chỉ trạng thái (Stative verbs).",
+        "whyCorrect": "'Own' là động từ trạng thái tĩnh chỉ quyền sở hữu tài sản. Để diễn tả một trạng thái từng tồn tại trong quá khứ nhưng nay không còn nữa, phương án chính xác duy nhất là 'used to own'.",
+        "distractorBreakdown": {
+          "optionB (would own)": "Sai nguyên tắc ngữ pháp: 'Would + V' chỉ dùng cho hành động thể chất lặp đi lặp lại trong quá khứ, cấm kỵ dùng với Stative verbs như own, have, belong, be.",
+          "optionC (was owning)": "Sai vì 'own' là động từ chỉ trạng thái sở hữu vĩnh viễn, không tồn tại ở thì tiếp diễn trong tiếng Anh chuẩn.",
+          "optionD (is used to owning)": "Sai cả về thì lẫn ý nghĩa: cấu trúc này chỉ thói quen quen thuộc ở hiện tại (is used to + V-ing), mâu thuẫn hoàn toàn với ngữ cảnh quá khứ đã kết thúc."
+        }
+      }
+    },
+    {
+      "id": "ex_05",
+      "type": "choice",
+      "difficulty": 2,
+      "prompt": "At precisely 10:00 AM yesterday, the regional auditors _______ that the discrepancies in the inventory ledger were caused by a clerical error.",
+      "options": ["realized", "were realizing", "have realized", "had realized"],
+      "correctAnswer": "realized",
+      "explanation": {
+        "translation": "Vào đúng 10 giờ sáng hôm qua, các kiểm toán viên khu vực đã nhận ra rằng sự sai lệch trong sổ cái hàng tồn kho là do lỗi hành chính văn phòng gây ra.",
+        "keySignal": "Động từ trạng thái nhận thức trí tuệ 'realize' kết hợp thời điểm xác định trong quá khứ 'At precisely 10:00 AM yesterday'.",
+        "rule": "Động từ trạng thái chỉ nhận thức (realize, know, understand, notice) không bao giờ được chia ở các thì tiếp diễn, bất chấp việc câu có mốc thời gian cụ thể.",
+        "whyCorrect": "Dù câu có trạng từ thời gian chính xác 'At precisely 10:00 AM yesterday' (dấu hiệu thường gặp của thì tiếp diễn), nhưng 'realize' là một Stative Verb chỉ khoảnh khắc nhận thức, bắt buộc phải chia ở Quá khứ đơn: 'realized'.",
+        "distractorBreakdown": {
+          "optionB (were realizing)": "Sai vì rơi vào bẫy Stative Verb: động từ 'realize' không chia ở dạng tiếp diễn.",
+          "optionC (have realized)": "Sai vì có mốc thời gian quá khứ xác định ('yesterday'), tuyệt đối không dùng Hiện tại hoàn thành.",
+          "optionD (had realized)": "Sai vì Quá khứ hoàn thành chỉ dùng khi có một hành động khác trong quá khứ làm mốc so sánh trước-sau, không dùng cho câu đơn chỉ một sự việc tại thời điểm xác định."
+        }
+      }
+    },
+    {
+      "id": "ex_06",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "While the project manager [A] was organizing the transition team, she [B] was knowing that the tight project deadline [C] would require considerable overtime [D] from all staff.",
+      "options": ["A", "B", "C", "D"],
+      "correctAnswer": "B",
+      "explanation": {
+        "translation": "Trong khi người quản lý dự án đang tổ chức đội chuyển giao, cô ấy biết rằng thời hạn dự án gấp rút sẽ đòi hỏi làm thêm giờ đáng kể từ toàn bộ nhân viên.",
+        "keySignal": "Động từ chỉ trạng thái tri thức/nhận thức: 'know'.",
+        "rule": "Stative Verbs (động từ chỉ trạng thái) như 'know, believe, understand' không bao giờ được chia ở thì tiếp diễn trong tiếng Anh tiêu chuẩn.",
+        "whyCorrect": "Phần gạch chân [B] 'was knowing' là sai ngữ pháp nghiêm trọng. 'Know' là động từ trạng thái nhận thức, bắt buộc phải sửa thành dạng Quá khứ đơn: 'knew'.",
+        "distractorBreakdown": {
+          "A (was organizing)": "Đúng ngữ pháp: Hành động tổ chức đội ngũ là hành động thể chất kéo dài làm nền cho mệnh đề 'While', chia Quá khứ tiếp diễn hoàn toàn chuẩn xác.",
+          "C (would require)": "Đúng ngữ pháp: Dạng quá khứ trong tương lai (future in the past) sau động từ tường thuật ở quá khứ.",
+          "D (from)": "Đúng ngữ pháp: Giới từ chuẩn xác đi sau động từ require something from somebody."
+        }
+      }
+    },
+    {
+      "id": "ex_07",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "When the lead technician [A] was hearing the strange vibration [B] from the server rack, he [C] promptly shut down the main power generator [D] to prevent hardware damage.",
+      "options": ["A", "B", "C", "D"],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Khi kỹ thuật viên trưởng nghe thấy tiếng rung bất thường từ tủ máy chủ, anh ấy đã nhanh chóng tắt máy phát điện chính để ngăn ngừa hư hỏng phần cứng.",
+        "keySignal": "Động từ tri giác thụ động 'hear' và hành động phản xạ dứt khoát kế tiếp 'promptly shut down'.",
+        "rule": "Thứ nhất, 'hear' là động từ giác quan thụ động không dùng ở thì tiếp diễn khi mang nghĩa tiếp nhận âm thanh. Thứ hai, đây là chuỗi hành động phản ứng tức thì (nghe thấy âm thanh -> tắt máy phát điện ngay), nên mệnh đề 'When' bắt buộc chia Quá khứ đơn.",
+        "whyCorrect": "Phần gạch chân [A] 'was hearing' sai vì vừa vi phạm quy tắc động từ tri giác, vừa vi phạm quy tắc chuỗi hành động phản xạ tức thì. Cần sửa thành 'heard'.",
+        "distractorBreakdown": {
+          "B (from)": "Đúng ngữ pháp: Giới từ chỉ nguồn gốc xuất phát của âm thanh rung lắc.",
+          "C (promptly shut down)": "Đúng ngữ pháp: Phó từ 'promptly' bổ nghĩa chính xác cho động từ quá khứ 'shut down' (dạng V2 của shut là shut).",
+          "D (to prevent)": "Đúng ngữ pháp: Động từ nguyên mẫu chỉ mục đích (infinitive of purpose)."
+        }
+      }
+    },
+    {
+      "id": "ex_08",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "The international logistics corporation [A] was used to operate independent regional hubs before it [B] consolidated all overseas operations [C] into a unified [D] global network.",
+      "options": ["A", "B", "C", "D"],
+      "correctAnswer": "A",
+      "explanation": {
+        "translation": "Tập đoàn hậu cần quốc tế từng vận hành các trung tâm khu vực độc lập trước khi hợp nhất toàn bộ hoạt động ở nước ngoài vào một mạng lưới toàn cầu thống nhất.",
+        "keySignal": "Mệnh đề thời gian trong quá khứ: 'before it consolidated all overseas operations...'.",
+        "rule": "Phân biệt thói quen/tình trạng quá khứ đã chấm dứt ('used to + V_bare') và sự quen thuộc ('be used to + V-ing').",
+        "whyCorrect": "Phần gạch chân [A] 'was used to operate' bị sai cấu trúc. Ngữ cảnh câu nói về một tình trạng trong quá khứ đã chấm dứt sau khi tập đoàn tái cơ cấu, do đó cấu trúc đúng là 'used to + V_bare'. Cần sửa 'was used to operate' thành 'used to operate'. (Nếu dùng 'was used to' thì động từ phải là 'operating' mang nghĩa 'đã quen với việc...', hoàn toàn vô nghĩa trong bối cảnh lịch sử doanh nghiệp).",
+        "distractorBreakdown": {
+          "B (consolidated)": "Đúng ngữ pháp: Động từ chia Quá khứ đơn chỉ sự kiện đã hoàn tất sau liên từ 'before'.",
+          "C (into)": "Đúng ngữ pháp: Giới từ chuẩn xác đi sau động từ hợp nhất (consolidate something into something).",
+          "D (global)": "Đúng ngữ pháp: Tính từ bổ nghĩa cho danh từ 'network'."
+        }
+      }
+    },
+    {
+      "id": "ex_09",
+      "type": "error_id",
+      "difficulty": 2,
+      "prompt": "Dr. Jenkins [A] was delivering his keynote presentation on renewable energy [B] when the conference hall's [C] backup power system [D] was abruptly failing.",
+      "options": ["A", "B", "C", "D"],
+      "correctAnswer": "D",
+      "explanation": {
+        "translation": "Tiến sĩ Jenkins đang trình bày bài phát biểu khai mạc về năng lượng tái tạo thì hệ thống điện dự phòng của hội trường bất ngờ bị hỏng.",
+        "keySignal": "Cấu trúc hành động bị cắt ngang với liên từ 'when' và phó từ chỉ tính đột ngột 'abruptly'.",
+        "rule": "Trong cấu trúc hành động bị cắt ngang: Hành động nền đang diễn ra chia Quá khứ tiếp diễn (was delivering), còn hành động đột ngột xen ngang cắt đứt tiến trình phải chia ở Quá khứ đơn (Past Simple).",
+        "whyCorrect": "Phần gạch chân [D] 'was abruptly failing' là sai vì sự cố hỏng hóc điện lưới là một sự kiện ngắn, đột ngột cắt ngang bài phát biểu. Do đó, động từ bắt buộc phải chia ở Quá khứ đơn: 'abruptly failed'.",
+        "distractorBreakdown": {
+          "A (was delivering)": "Đúng ngữ pháp: Quá khứ tiếp diễn mô tả bài thuyết trình đang diễn ra làm phông nền.",
+          "B (when)": "Đúng ngữ pháp: Liên từ chỉ thời điểm nối mệnh đề hành động xen vào.",
+          "C (backup power system)": "Đúng ngữ pháp: Cụm danh từ hoàn chỉnh làm chủ ngữ của mệnh đề phụ."
+        }
+      }
+    },
+    {
+      "id": "ex_10",
+      "type": "error_id",
+      "difficulty": 3,
+      "prompt": "The automated [A] optical scanners [B] in the distribution warehouse [C] were used to tracking outbound parcel shipments [D] during the peak holiday rush.",
+      "options": ["A", "B", "C", "D"],
+      "correctAnswer": "C",
+      "explanation": {
+        "translation": "Các máy quét quang học tự động trong kho phân phối đã được sử dụng để theo dõi các lô hàng bưu kiện xuất kho trong đợt cao điểm ngày lễ.",
+        "keySignal": "Chủ ngữ là đồ vật/thiết bị máy móc vô tri: 'The automated optical scanners'.",
+        "rule": "Khi chủ ngữ là công cụ/vật dụng vô tri, cấu trúc 'be used to' mang nghĩa bị động: 'được sử dụng để làm gì' (S + be used + to V_bare). Cấu trúc 'be used to + V-ing' chỉ áp dụng cho người quen với việc gì.",
+        "whyCorrect": "Phần gạch chân [C] 'were used to tracking' sai bản chất vì máy quét quang học không thể 'có thói quen quen với việc theo dõi', mà chúng 'được sử dụng ĐỂ theo dõi'. Bắt buộc phải sửa thành 'were used to track'.",
+        "distractorBreakdown": {
+          "A (optical scanners)": "Đúng ngữ pháp: Cụm danh từ chỉ thiết bị công nghệ làm chủ ngữ số nhiều.",
+          "B (in the distribution warehouse)": "Đúng ngữ pháp: Cụm giới từ chỉ địa điểm chính xác.",
+          "D (during)": "Đúng ngữ pháp: Giới từ chỉ khoảng thời gian diễn ra sự việc."
+        }
+      }
+    },
+    {
+      "id": "ex_11",
+      "type": "cloze",
+      "difficulty": 1,
+      "prompt": "The senior marketing manager ________ (draft) the official press release when the CEO phoned to announce the unexpected corporate acquisition.",
+      "options": [],
+      "correctAnswer": "was drafting",
+      "explanation": {
+        "translation": "Trưởng phòng tiếp thị cấp cao đang soạn thảo thông cáo báo chí chính thức thì tổng giám đốc gọi điện thông báo thương vụ mua lại doanh nghiệp bất ngờ.",
+        "keySignal": "Liên từ 'when' kết hợp mệnh đề hành động xen ngang chia Quá khứ đơn 'the CEO phoned'.",
+        "rule": "Hành động đang diễn ra trong quá khứ làm nền bị một hành động khác xen ngang: S + was/were + V-ing + when + S + V2/ed.",
+        "whyCorrect": "Hành động soạn thảo thông cáo báo chí đang diễn tiến dang dở tại thời điểm cuộc điện thoại cắt ngang xảy ra. Chủ ngữ 'The senior marketing manager' là ngôi thứ ba số ít, do đó đáp án chuẩn xác là 'was drafting'.",
+        "distractorBreakdown": {
+          "drafted (Quá khứ đơn)": "Sai vì Quá khứ đơn không phản ánh được tính chất dang dở, làm nền của sự việc trước khi bị cuộc gọi xen vào.",
+          "is drafting (Hiện tại tiếp diễn)": "Sai thì vì toàn bộ sự việc xảy ra trong quá khứ ('phoned').",
+          "had drafted (Quá khứ hoàn thành)": "Sai vì nếu đã soạn xong trước khi gọi thì không tạo ra mối quan hệ cắt ngang tiến trình công việc."
+        }
+      }
+    },
+    {
+      "id": "ex_12",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "When the courier arrived unexpectedly at the headquarters, Mr. Harrison and his foreign associate ________ (have) a working lunch in the private dining lounge.",
+      "options": [],
+      "correctAnswer": "were having",
+      "explanation": {
+        "translation": "Khi nhân viên chuyển phát bất ngờ đến trụ sở chính, ông Harrison và đối tác nước ngoài của ông đang có bữa trưa làm việc trong phòng ăn riêng.",
+        "keySignal": "Mệnh đề chỉ hành động cắt ngang 'When the courier arrived unexpectedly' kết hợp động từ lưỡng tính 'have a working lunch' (ăn trưa - hành động vật lý).",
+        "rule": "Khi 'HAVE' được dùng trong các cụm từ chỉ hoạt động ăn uống, trải nghiệm (have lunch, have breakfast, have a meeting), nó là Dynamic Verb (động từ hành động) và hoàn toàn được chia ở thì tiếp diễn để diễn tả hành vi đang diễn ra.",
+        "whyCorrect": "Bữa trưa làm việc đang diễn ra thì người giao hàng tới. Chủ ngữ 'Mr. Harrison and his foreign associate' là chủ ngữ ghép số nhiều (hai người), do đó dạng tiếp diễn tương ứng là 'were having'.",
+        "distractorBreakdown": {
+          "was having": "Sai lỗi hòa hợp chủ-vị nghiêm trọng vì chủ ngữ là hai người ('Mr. Harrison and his associate' -> số nhiều).",
+          "had (Quá khứ đơn)": "Kém chính xác vì không nhấn mạnh được tiến trình đang diễn ra dang dở tại thời điểm người chuyển phát đến.",
+          "are having (Hiện tại tiếp diễn)": "Sai thì vì mốc thời gian phụ thuộc vào quá khứ ('arrived')."
+        }
+      }
+    },
+    {
+      "id": "ex_13",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "As soon as the emergency siren sounded throughout the factory complex, all assembly line workers ________ (evacuate) the manufacturing floor immediately.",
+      "options": [],
+      "correctAnswer": "evacuated",
+      "explanation": {
+        "translation": "Ngay khi còi báo động khẩn cấp vang lên khắp khu liên hợp nhà máy, toàn bộ công nhân dây chuyền lắp ráp đã sơ tán khỏi sàn sản xuất ngay lập tức.",
+        "keySignal": "Liên từ chỉ trình tự nối tiếp tức thời 'As soon as' và phó từ phản xạ tức thì 'immediately'.",
+        "rule": "Khi hai hành động xảy ra nối tiếp nhau ngay lập tức theo chuỗi quan hệ nguyên nhân - phản ứng tức thời, cả hai vế bắt buộc chia ở Quá khứ đơn (Past Simple).",
+        "whyCorrect": "Hành động sơ tán xảy ra ngay sau khi còi hú theo quy trình an toàn khẩn cấp, không phải một hành động nền đang diễn ra từ trước. Động từ có quy tắc 'evacuate' chia ở Quá khứ đơn là 'evacuated'.",
+        "distractorBreakdown": {
+          "were evacuating (Quá khứ tiếp diễn)": "Sai vì làm biến đổi ngữ nghĩa thành 'công nhân đang sơ tán sẵn rồi thì còi mới kêu', mâu thuẫn với liên từ 'As soon as' và phó từ 'immediately'.",
+          "evacuate (Hiện tại đơn)": "Sai thì vì vế đầu chia Quá khứ đơn ('sounded').",
+          "had evacuated (Quá khứ hoàn thành)": "Sai logic vì công nhân không thể sơ tán trước khi còi báo động vang lên."
+        }
+      }
+    },
+    {
+      "id": "ex_14",
+      "type": "cloze",
+      "difficulty": 2,
+      "prompt": "While the chief systems architect was debugging the core database script, the quality assurance engineers ________ (conduct) comprehensive load testing.",
+      "options": [],
+      "correctAnswer": "were conducting",
+      "explanation": {
+        "translation": "Trong khi kiến trúc sư hệ thống trưởng đang gỡ lỗi tập lệnh cơ sở dữ liệu cốt lõi, các kỹ sư đảm bảo chất lượng đang tiến hành kiểm thử tải toàn diện.",
+        "keySignal": "Liên từ 'While' đứng đầu câu và mệnh đề song song ở thì quá khứ tiếp diễn: 'was debugging'.",
+        "rule": "Hai hành động diễn ra song song cùng lúc trong quá khứ (Parallel Actions): While + S1 + was/were + V-ing, S2 + was/were + V-ing.",
+        "whyCorrect": "Cả hai công việc kỹ thuật đều diễn ra đồng thời trong cùng một khoảng thời gian làm việc mà không làm gián đoạn nhau. Chủ ngữ 'the quality assurance engineers' là danh từ số nhiều, vì vậy động từ chia 'were conducting'.",
+        "distractorBreakdown": {
+          "conducted (Quá khứ đơn)": "Kém tự nhiên vì phá vỡ cấu trúc song hành của hai hoạt động kỹ thuật đang chạy song song trong cùng khung giờ.",
+          "was conducting": "Sai hòa hợp chủ-vị vì chủ ngữ 'engineers' là số nhiều, không thể đi với 'was'.",
+          "are conducting (Hiện tại tiếp diễn)": "Sai thì vì mệnh đề phụ chia ở Quá khứ tiếp diễn ('was debugging')."
+        }
+      }
+    },
+    {
+      "id": "ex_15",
+      "type": "cloze",
+      "difficulty": 3,
+      "prompt": "During the entire merger evaluation in 2022, none of the senior partners realized that the proprietary software ________ (belong) to an external research consortium.",
+      "options": [],
+      "correctAnswer": "belonged",
+      "explanation": {
+        "translation": "Trong suốt quá trình đánh giá sáp nhập vào năm 2022, không ai trong số các đối tác cấp cao nhận ra rằng phần mềm độc quyền từng thuộc về một tập đoàn nghiên cứu bên ngoài.",
+        "keySignal": "Mốc thời gian quá khứ 'in 2022', động từ 'realized' và động từ chỉ trạng thái quyền sở hữu 'belong to'.",
+        "rule": "'Belong to' là động từ chỉ trạng thái sở hữu (Stative Verb), tuyệt đối không bao giờ chia ở các thì tiếp diễn dưới bất kỳ hình thức nào.",
+        "whyCorrect": "Dù quá trình đánh giá kéo dài trong suốt năm 2022 ('During the entire merger evaluation'), nhưng vì 'belong to' là Stative Verb biểu thị mối quan hệ sở hữu tĩnh, động từ bắt buộc phải chia ở Quá khứ đơn có quy tắc: 'belonged'.",
+        "distractorBreakdown": {
+          "was belonging (Quá khứ tiếp diễn)": "Sai lỗi nghiêm trọng về bản chất Stative Verbs: 'belong' không bao giờ tồn tại ở dạng V-ing tiếp diễn.",
+          "belongs (Hiện tại đơn)": "Sai thì vì toàn bộ chuỗi sự kiện được đặt trong khung thời gian quá khứ năm 2022 ('in 2022', 'realized').",
+          "had belonged (Quá khứ hoàn thành)": "Không cần thiết và kém tự nhiên trong mệnh đề danh ngữ phụ thuộc khi trạng thái sở hữu tồn tại song hành với thời điểm nhận thức."
+        }
+      }
+    }
+  ]
+}

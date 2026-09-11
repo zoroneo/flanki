@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import '../../core/extensions/responsive_extensions.dart';
 
 /// Shows an adaptive modal:
-/// - Bottom sheet on mobile (width < 600)
-/// - Centered dialog on desktop/tablet (width >= 600)
+/// - Bottom sheet on mobile (< 600dp)
+/// - Centered dialog on desktop/tablet (>= 600dp)
 Future<T?> showAdaptiveModal<T>({
   required BuildContext context,
   required Widget Function(BuildContext context, bool isDesktop) builder,
@@ -12,7 +13,7 @@ Future<T?> showAdaptiveModal<T>({
   bool isDismissible = true,
   bool useRootNavigator = false,
 }) {
-  final isDesktop = MediaQuery.sizeOf(context).width >= 600;
+  final isDesktop = !context.isMobile;
 
   if (!isDesktop) {
     return m.showModalBottomSheet<T>(
