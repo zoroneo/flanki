@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart' as m;
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../l10n/generated/app_localizations.dart';
 
 /// Exercise question formats
+@JsonEnum(valueField: 'value')
 enum GrammarExerciseType {
+  @JsonValue('choice')
   choice('choice', 'TRẮC NGHIỆM'),
+  @JsonValue('error_id')
   errorId('error_id', 'TÌM LỖI SAI'),
+  @JsonValue('cloze')
   cloze('cloze', 'ĐIỀN TỪ');
 
   final String value;
@@ -33,14 +38,18 @@ enum GrammarExerciseType {
 }
 
 /// Academic proficiency levels
+@JsonEnum(valueField: 'value')
 enum GrammarLevel {
+  @JsonValue(1)
   foundation(1, 'Foundation', 'Level 1: Foundation (8)', m.Colors.blue),
+  @JsonValue(2)
   intermediate(
     2,
     'Intermediate',
     'Level 2: Intermediate (17)',
     m.Colors.purple,
   ),
+  @JsonValue(3)
   advanced(
     3,
     'Advanced C1/C2',
@@ -84,9 +93,13 @@ enum GrammarLevel {
 }
 
 /// Cognitive difficulty grading
+@JsonEnum(valueField: 'value')
 enum GrammarDifficulty {
+  @JsonValue(1)
   recognition(1, 'Nhận Biết (Recognition)'),
+  @JsonValue(2)
   analysis(2, 'Phân Tích & Bẫy (Analysis)'),
+  @JsonValue(3)
   production(3, 'Sản Sinh Thực Hành (Production)');
 
   final int value;
@@ -112,6 +125,7 @@ enum GrammarDifficulty {
 }
 
 /// 27 Academic Grammar Domains
+@JsonEnum(valueField: 'code')
 enum GrammarCategory {
   tenses('tenses', 'Thì & Khía Cạnh (Tenses & Aspects)'),
   voice('voice', 'Câu Bị Động (Passive Voice)'),
@@ -164,6 +178,7 @@ enum GrammarCategory {
 }
 
 /// Study & Review modes
+@JsonEnum(valueField: 'value')
 enum GrammarPracticeMode {
   unit('unit'),
   ghost('ghost'),

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/notifiers/auth_notifier.dart';
-import '../../../../core/notifiers/auth_state.dart';
 import '../../../../core/notifiers/locale_notifier.dart';
 import '../../auth/anki_web_auth_sheet.dart';
 

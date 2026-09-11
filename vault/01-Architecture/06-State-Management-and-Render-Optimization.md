@@ -29,17 +29,17 @@ Tài liệu này chuẩn hóa mô hình quản lý trạng thái, tính bất bi
 
 ## 2. Kiến Trúc State Bất Biến Với Freezed
 
-Toàn bộ 7 State Classes của ứng dụng đã được di chuyển sang `@freezed`:
+Toàn bộ 7 State Classes của ứng dụng đã được tách biệt thành các value objects thuần túy tại `lib/core/states/`:
 
 | STT | State Model | File Định Nghĩa | File Sinh Mã | Đặc Tính Nổi Bật |
 |---|---|---|---|---|
-| 1 | `AuthState` | `lib/core/notifiers/auth_state.dart` | `auth_state.freezed.dart` | `unauthenticated()`, `authenticated()`, `error()`, deep equality |
-| 2 | `StudySessionState` & `StudySessionSnapshot` | `lib/core/notifiers/study_session_notifier.dart` | `study_session_notifier.freezed.dart` | `initial()`, snapshot undo list bất biến |
-| 3 | `GrammarSessionState` | `lib/core/notifiers/grammar_session_notifier.dart` | `grammar_session_notifier.freezed.dart` | 13 biến trạng thái, getters `currentExercise`, `progressFraction` |
-| 4 | `CardBrowserState` | `lib/core/notifiers/card_browser_notifier.dart` | `card_browser_notifier.freezed.dart` | Bộ lọc danh sách thẻ, query tìm kiếm |
-| 5 | `StudySettings` | `lib/core/notifiers/settings_notifier.dart` | `settings_notifier.freezed.dart` | 10 tham số thuật toán FSRS & tùy chọn app |
-| 6 | `StatsData` | `lib/core/notifiers/stats_notifier.dart` | `stats_notifier.freezed.dart` | Ma trận 2D `List<List<int>> heatmapLevels` deep equal |
-| 7 | `UpdateState` | `lib/core/notifiers/update_notifier.dart` | `update_notifier.freezed.dart` | Tiến độ tải bản cập nhật, mã lỗi `UpdateErrorType` |
+| 1 | `AuthState` | `lib/core/states/auth_state.dart` | `auth_state.freezed.dart` | `unauthenticated()`, `authenticated()`, `error()`, deep equality |
+| 2 | `StudySessionState` & `StudySessionSnapshot` | `lib/core/states/study_session_state.dart` | `study_session_state.freezed.dart` | `initial()`, snapshot undo list bất biến |
+| 3 | `GrammarSessionState` | `lib/core/states/grammar_session_state.dart` | `grammar_session_state.freezed.dart` | 13 biến trạng thái, getters `currentExercise`, `progressFraction` |
+| 4 | `CardBrowserState` | `lib/core/states/card_browser_state.dart` | `card_browser_state.freezed.dart` | Bộ lọc danh sách thẻ, query tìm kiếm, `CardFilterType` |
+| 5 | `StudySettings` | `lib/core/states/settings_state.dart` | `settings_state.freezed.dart`<br>`settings_state.g.dart` | 10 tham số thuật toán FSRS, tuần tự hóa tự động qua `json_serializable` (`fromJson`/`toJson`) |
+| 6 | `StatsData` | `lib/core/states/stats_state.dart` | `stats_state.freezed.dart` | Ma trận 2D `List<List<int>> heatmapLevels` deep equal |
+| 7 | `UpdateState` | `lib/core/states/update_state.dart` | `update_state.freezed.dart` | Tiến độ tải bản cập nhật, enum `UpdateStatus`, `UpdateErrorType` |
 
 ---
 
@@ -88,30 +88,56 @@ Toàn bộ Provider trong ứng dụng được chuẩn hóa bằng Riverpod Cod
 
 ---
 
-## 5. Chuẩn Hóa Cấu Trúc Layer-First Notifiers (`lib/core/notifiers/`)
+## 5. Chuẩn Hóa Kiến Trúc 2 Tầng: State Models & Riverpod Notifiers
 
-Trước khi chuẩn hóa, các Notifier bị phân mảnh tại các thư mục màn hình UI (`lib/ui/screens/.../notifiers/`), gây phụ thuộc vòng giữa UI và Core services, cản trở việc kiểm thử đơn vị độc lập.
+Hệ thống quản lý trạng thái được phân định ranh giới rõ ràng thành 2 tầng kiến trúc:
 
-### 5.1. Gom Cụm Về `lib/core/notifiers/`
-Toàn bộ Notifiers của ứng dụng được di chuyển và quản lý tập trung:
-- `auth_notifier.dart` & `auth_state.dart`
-- `theme_notifier.dart`
-- `locale_notifier.dart`
-- `deck_list_notifier.dart`
-- `study_session_notifier.dart`
-- `grammar_session_notifier.dart`
-- `card_browser_notifier.dart`
-- `settings_notifier.dart`
-- `stats_notifier.dart`
-- `update_notifier.dart`
+```
+lib/core/
+├── states/                   # TẦNG 1: Pure Domain State Models (Freezed)
+│   ├── auth_state.dart       # (auth_state.freezed.dart)
+│   ├── card_browser_state.dart
+│   ├── grammar_session_state.dart
+│   ├── settings_state.dart
+│   ├── stats_state.dart
+│   ├── study_session_state.dart
+│   ├── update_state.dart
+│   └── states.dart           # Canonical barrel export
+├── notifiers/                # TẦNG 2: State Controllers & Providers (Riverpod)
+│   ├── auth_notifier.dart    # (auth_notifier.g.dart)
+│   ├── card_browser_notifier.dart
+│   ├── deck_list_notifier.dart
+│   ├── grammar_session_notifier.dart
+│   ├── locale_notifier.dart
+│   ├── settings_notifier.dart
+│   ├── stats_notifier.dart
+│   ├── study_session_notifier.dart
+│   ├── theme_notifier.dart
+│   ├── update_notifier.dart
+│   └── notifiers.dart        # Canonical barrel export (kèm export states)
+└── services/
+    └── grammar_answer_evaluator.dart # Tách biệt logic chấm điểm ra khỏi controller
+```
 
-### 5.2. Barrel Export Tập Trung
-- Điểm truy xuất duy nhất: `lib/core/notifiers/notifiers.dart`.
-- Bất kỳ thành phần UI hay Service nào chỉ cần `import 'package:flanki/core/notifiers/notifiers.dart';` là có thể truy cập đầy đủ các state và provider.
+### 5.1. Tầng 1: `lib/core/states/` (Pure Value Objects)
+- Sử dụng `@freezed` để sinh `*.freezed.dart`.
+- **Hoàn toàn không phụ thuộc vào `flutter_riverpod` hay `riverpod_annotation`**.
+- Đảm bảo tính bất biến (immutability), deep equality cho collections/ma trận và hàm `copyWith()`.
+- Barrel export duy nhất: `lib/core/states/states.dart`.
 
-### 5.3. Loại Bỏ File Tham Chiếu & Import Trực Tiếp (Zero-Indirection Direct Imports)
+### 5.2. Tầng 2: `lib/core/notifiers/` (Riverpod Controllers)
+- Chỉ chứa business logic và state mutations qua các action methods.
+- Sinh mã bằng `riverpod_generator` (`*.g.dart`).
+- Mỗi Notifier re-export file State tương ứng (ví dụ `study_session_notifier.dart` export `study_session_state.dart`), đảm bảo callers xem notifier không cần thêm import riêng cho state.
+- Barrel export duy nhất: `lib/core/notifiers/notifiers.dart` (đồng thời export `states.dart`).
+
+### 5.3. Trích Xuất Domain Logic (`lib/core/services/`)
+- Logic chấm điểm ngữ pháp phức tạp (`GrammarAnswerEvaluator`) được tách khỏi `GrammarSessionNotifier` sang `lib/core/services/grammar_answer_evaluator.dart`.
+- Notifier chỉ đóng vai trò điều phối luồng người dùng và cập nhật state, giữ SRP (Single Responsibility Principle).
+
+### 5.4. Loại Bỏ File Tham Chiếu & Import Trực Tiếp (Zero-Indirection Direct Imports)
 - Toàn bộ các file tham chiếu/forwarder trung gian (`core/auth/auth_notifier.dart`, `core/localization/locale_notifier.dart`, `core/theme/theme_notifier.dart`) đã được xóa bỏ triệt để.
-- 100% các màn hình, widgets và bộ kiểm thử chuyển sang import trực tiếp vào file cụ thể tại `core/notifiers/` (hoặc thông qua barrel export `package:flanki/core/notifiers/notifiers.dart`), loại bỏ hoàn toàn tầng indirection thừa thãi.
+- 100% các màn hình, widgets và bộ kiểm thử chuyển sang import trực tiếp vào file cụ thể tại `core/states/` hoặc `core/notifiers/` (hoặc thông qua barrel export), loại bỏ hoàn toàn tầng indirection thừa thãi.
 
 ---
 

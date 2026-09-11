@@ -1,10 +1,9 @@
-# Miscellaneous
+# Miscellaneous & System
 *.class
 *.log
-*.pyc
-__pycache__/
-tool/__pycache__/
 *.swp
+*~
+._*
 .DS_Store
 .atom/
 .build/
@@ -20,29 +19,50 @@ migrate_working_dir/
 coverage/
 *.lcov
 lcov.info
+*.orig
+*.rej
 
-# SQLite Temporary files
+# Python & Tooling
+*.py[cod]
+*$py.class
+__pycache__/
+tool/__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+
+# SQLite & Databases
+*.sqlite
+*.sqlite3
 *.sqlite-shm
 *.sqlite-wal
 *.sqlite-journal
+*.db
 *.db-shm
 *.db-wal
 *.db-journal
 
-# IntelliJ related
+# IntelliJ / Android Studio
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# Visual Studio Code related
+# Visual Studio Code
 .vscode/*
 !.vscode/launch.json
 !.vscode/tasks.json
 !.vscode/settings.json
 !.vscode/extensions.json
 
-# Flutter/Dart/Pub related
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Flutter / Dart SDK & Tools
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
@@ -54,14 +74,20 @@ lcov.info
 /build/
 *.temp.dart
 *.types.temp.dart
+*.symbols
+*.map
+app.*.symbols
 
 # FVM (Flutter Version Management)
 .fvm/*
 !.fvm/fvm_config.json
-# Android Studio
+
+# Android
 .gradle/
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
+**/android/.kotlin/
+**/android/.cxx/
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat
@@ -71,14 +97,14 @@ lcov.info
 **/android/**/*.jks
 **/android/**/GeneratedPluginRegistrant.java
 **/android/**/build/
+**/android/app/build/
+*.hprof
 
 # Local backups
 backup_*
-*.sqlite
 *.tar
-**/android/build/
 
-# iOS/macOS build outputs
+# iOS build outputs
 **/ios/**/*.mode1v3
 **/ios/**/*.mode2v3
 **/ios/**/*.moved-aside
@@ -103,15 +129,30 @@ backup_*
 **/ios/Flutter/app.zip
 **/ios/Flutter/flutter_assets/
 **/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/ephemeral/
+**/ios/Runner/GeneratedPluginRegistrant.*
+
+# macOS build outputs
 **/macos/Flutter/ephemeral/
 **/macos/Pods/
 **/macos/**/DerivedData/
 **/macos/**/xcuserdata/
 **/macos/**/.symlinks/
+**/macos/Runner/GeneratedPluginRegistrant.*
 
-# Windows / Linux
-**/windows/flutter/ephemeral
-**/linux/flutter/ephemeral
+# Windows / Linux build outputs
+**/windows/flutter/ephemeral/
+**/windows/runner/Release/
+**/windows/runner/Debug/
+x64/
+x86/
+arm64/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.[Cc]ache/
+**/linux/flutter/ephemeral/
 
 # Rust build outputs
 native/**/target/
@@ -140,6 +181,8 @@ packaging/**/Output/
 # Temporary & Test artifacts
 flanki_test_*
 test_flanki*.db*
+test-results/
+junit*.xml
 *.tmp
 *.bak
 
@@ -152,10 +195,10 @@ test_flanki*.db*
 Thumbs.db
 ehthumbs.db
 [Dd]esktop.ini
-*.user
-*.suo
+
 # Obsidian Vault Personal State
 **/.obsidian/workspace*.json
 **/.obsidian/cache/
 **/.obsidian/graph.json
 **/.obsidian/backups/
+**/.obsidian/community-plugin-stats.json

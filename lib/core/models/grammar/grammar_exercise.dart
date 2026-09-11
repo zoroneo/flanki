@@ -1,9 +1,28 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'grammar_enums.dart';
 
+part 'grammar_exercise.g.dart';
+
+Object? _readExplanation(Map json, String key) =>
+    json['explanation'] ?? const <String, dynamic>{};
+
+@JsonSerializable()
 class GrammarExplanation {
+  static const empty = GrammarExplanation(
+    translation: '',
+    keySignal: '',
+    rule: '',
+    whyCorrect: '',
+  );
+
+  @JsonKey(defaultValue: '')
   final String translation;
+  @JsonKey(defaultValue: '')
   final String keySignal;
+  @JsonKey(defaultValue: '')
   final String rule;
+  @JsonKey(defaultValue: '')
   final String whyCorrect;
   final Map<String, String> distractorBreakdown;
 
@@ -15,40 +34,27 @@ class GrammarExplanation {
     this.distractorBreakdown = const {},
   });
 
-  factory GrammarExplanation.fromJson(Map<String, dynamic> json) {
-    final rawDistractors = json['distractorBreakdown'];
-    final breakdown = <String, String>{};
-    if (rawDistractors is Map) {
-      rawDistractors.forEach((key, value) {
-        breakdown[key.toString()] = value?.toString() ?? '';
-      });
-    }
+  factory GrammarExplanation.fromJson(Map<String, dynamic> json) =>
+      _$GrammarExplanationFromJson(json);
 
-    return GrammarExplanation(
-      translation: json['translation'] as String? ?? '',
-      keySignal: json['keySignal'] as String? ?? '',
-      rule: json['rule'] as String? ?? '',
-      whyCorrect: json['whyCorrect'] as String? ?? '',
-      distractorBreakdown: breakdown,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'translation': translation,
-    'keySignal': keySignal,
-    'rule': rule,
-    'whyCorrect': whyCorrect,
-    'distractorBreakdown': distractorBreakdown,
-  };
+  Map<String, dynamic> toJson() => _$GrammarExplanationToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class GrammarExercise {
+  @JsonKey(defaultValue: '')
   final String id;
+  @JsonKey(unknownEnumValue: GrammarExerciseType.choice)
   final GrammarExerciseType type;
+  @JsonKey(unknownEnumValue: GrammarDifficulty.recognition)
   final GrammarDifficulty difficulty;
+  @JsonKey(defaultValue: '')
   final String prompt;
+  @JsonKey(defaultValue: [])
   final List<String> options;
+  @JsonKey(defaultValue: '')
   final String correctAnswer;
+  @JsonKey(readValue: _readExplanation)
   final GrammarExplanation explanation;
 
   const GrammarExercise({
@@ -61,37 +67,8 @@ class GrammarExercise {
     required this.explanation,
   });
 
-  factory GrammarExercise.fromJson(Map<String, dynamic> json) {
-    final rawOptions = json['options'];
-    final optionsList = <String>[];
-    if (rawOptions is List) {
-      for (final opt in rawOptions) {
-        optionsList.add(opt?.toString() ?? '');
-      }
-    }
+  factory GrammarExercise.fromJson(Map<String, dynamic> json) =>
+      _$GrammarExerciseFromJson(json);
 
-    return GrammarExercise(
-      id: json['id'] as String? ?? '',
-      type: GrammarExerciseType.fromString(json['type'] as String?),
-      difficulty: GrammarDifficulty.fromValue(json['difficulty']),
-      prompt: json['prompt'] as String? ?? '',
-      options: optionsList,
-      correctAnswer: json['correctAnswer'] as String? ?? '',
-      explanation: GrammarExplanation.fromJson(
-        json['explanation'] is Map<String, dynamic>
-            ? json['explanation'] as Map<String, dynamic>
-            : {},
-      ),
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'type': type.value,
-    'difficulty': difficulty.value,
-    'prompt': prompt,
-    'options': options,
-    'correctAnswer': correctAnswer,
-    'explanation': explanation.toJson(),
-  };
+  Map<String, dynamic> toJson() => _$GrammarExerciseToJson(this);
 }

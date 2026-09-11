@@ -6,7 +6,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/auth/anki_web_auth_service.dart';
 import '../../../core/notifiers/auth_notifier.dart';
-import '../../../core/notifiers/auth_state.dart';
 import '../../../core/notifiers/locale_notifier.dart';
 import '../../../l10n/generated/app_localizations.dart';
 

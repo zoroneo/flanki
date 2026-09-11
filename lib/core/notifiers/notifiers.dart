@@ -2,7 +2,7 @@
 library;
 
 export 'auth_notifier.dart';
-export 'auth_state.dart';
+export '../states/states.dart';
 export 'card_browser_notifier.dart';
 export 'deck_notifier.dart';
 export 'grammar_session_notifier.dart';

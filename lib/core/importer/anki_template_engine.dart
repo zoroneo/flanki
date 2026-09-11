@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'anki_template_engine.g.dart';
+
 /// Representation of an Anki Note Type (Model).
 class AnkiModel {
   final int id;
@@ -31,14 +35,9 @@ class AnkiModel {
     for (var i = 0; i < tmplsList.length; i++) {
       final t = tmplsList[i];
       if (t is Map<String, dynamic>) {
-        templates.add(
-          AnkiTemplate(
-            ord: (t['ord'] as int? ?? i),
-            name: (t['name'] ?? 'Card ${i + 1}') as String,
-            qfmt: (t['qfmt'] ?? '') as String,
-            afmt: (t['afmt'] ?? '') as String,
-          ),
-        );
+        templates.add(AnkiTemplate.fromJson(t));
+      } else if (t is Map) {
+        templates.add(AnkiTemplate.fromJson(Map<String, dynamic>.from(t)));
       }
     }
 
@@ -52,10 +51,15 @@ class AnkiModel {
   }
 }
 
+@JsonSerializable()
 class AnkiTemplate {
+  @JsonKey(defaultValue: 0)
   final int ord;
+  @JsonKey(defaultValue: '')
   final String name;
+  @JsonKey(defaultValue: '')
   final String qfmt;
+  @JsonKey(defaultValue: '')
   final String afmt;
 
   const AnkiTemplate({
@@ -64,6 +68,11 @@ class AnkiTemplate {
     required this.qfmt,
     required this.afmt,
   });
+
+  factory AnkiTemplate.fromJson(Map<String, dynamic> json) =>
+      _$AnkiTemplateFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AnkiTemplateToJson(this);
 }
 
 class RenderedCardContent {

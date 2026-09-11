@@ -159,20 +159,21 @@ class DesktopUpdateService {
         );
       }
 
-      final data = jsonDecode(response.body) as Map<String, dynamic>;
-      final rawTag = data['tag_name'] as String? ?? '';
+      final release = GithubReleaseDto.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>,
+      );
+      final rawTag = release.tagName;
       final latest = rawTag.replaceFirst(RegExp(r'^v'), '');
       final hasUpdate = compareVersions(latest, current) > 0;
-      final releaseNotes = data['body'] as String?;
-      final htmlUrl =
-          data['html_url'] as String? ?? AppConfig.githubReleasesUrl;
-      final publishedAtStr = data['published_at'] as String?;
-      final publishedAt = publishedAtStr != null
-          ? DateTime.tryParse(publishedAtStr)
-          : null;
+      final releaseNotes = release.body;
+      final htmlUrl = release.htmlUrl.isNotEmpty
+          ? release.htmlUrl
+          : AppConfig.githubReleasesUrl;
+      final publishedAt = release.publishedAt;
 
-      final assets = data['assets'] as List<dynamic>? ?? [];
-      final matchedAsset = findPlatformAsset(assets);
+      final matchedAsset = findPlatformAsset(
+        release.assets.map((a) => a.toJson()).toList(),
+      );
 
       return UpdateInfo(
         currentVersion: current,

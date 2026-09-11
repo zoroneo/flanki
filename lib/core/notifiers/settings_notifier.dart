@@ -1,70 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../config/app_config.dart';
 import '../services/desktop_window_service.dart';
+import '../states/settings_state.dart';
 
-part 'settings_notifier.freezed.dart';
+export '../states/settings_state.dart';
+
 part 'settings_notifier.g.dart';
-
-@freezed
-abstract class StudySettings with _$StudySettings {
-  const StudySettings._();
-
-  const factory StudySettings({
-    @Default(true) bool fsrsEnabled,
-    @Default(AppConfig.defaultDesiredRetention) double desiredRetention,
-    @Default(AppConfig.defaultNewCardsPerDay) int newCardsPerDay,
-    @Default(AppConfig.defaultReviewsPerDay) int maxReviewsPerDay,
-    @Default(true) bool reminderEnabled,
-    @Default(AppConfig.defaultReminderHour) int reminderHour,
-    @Default(AppConfig.defaultReminderMinute) int reminderMinute,
-    @Default(true) bool streakSaverEnabled,
-    @Default(true) bool minimizeToTrayOnClose,
-    @Default(false) bool launchAtStartup,
-  }) = _StudySettings;
-
-  Map<String, dynamic> toMap() {
-    return {
-      'fsrsEnabled': fsrsEnabled,
-      'desiredRetention': desiredRetention,
-      'newCardsPerDay': newCardsPerDay,
-      'maxReviewsPerDay': maxReviewsPerDay,
-      'reminderEnabled': reminderEnabled,
-      'reminderHour': reminderHour,
-      'reminderMinute': reminderMinute,
-      'streakSaverEnabled': streakSaverEnabled,
-      'minimizeToTrayOnClose': minimizeToTrayOnClose,
-      'launchAtStartup': launchAtStartup,
-    };
-  }
-
-  factory StudySettings.fromMap(Map<String, dynamic> map) {
-    return StudySettings(
-      fsrsEnabled: map['fsrsEnabled'] as bool? ?? true,
-      desiredRetention:
-          (map['desiredRetention'] as num?)?.toDouble() ??
-          AppConfig.defaultDesiredRetention,
-      newCardsPerDay:
-          (map['newCardsPerDay'] as num?)?.toInt() ??
-          AppConfig.defaultNewCardsPerDay,
-      maxReviewsPerDay:
-          (map['maxReviewsPerDay'] as num?)?.toInt() ??
-          AppConfig.defaultReviewsPerDay,
-      reminderEnabled: map['reminderEnabled'] as bool? ?? true,
-      reminderHour:
-          (map['reminderHour'] as num?)?.toInt() ??
-          AppConfig.defaultReminderHour,
-      reminderMinute:
-          (map['reminderMinute'] as num?)?.toInt() ??
-          AppConfig.defaultReminderMinute,
-      streakSaverEnabled: map['streakSaverEnabled'] as bool? ?? true,
-      minimizeToTrayOnClose: map['minimizeToTrayOnClose'] as bool? ?? true,
-      launchAtStartup: map['launchAtStartup'] as bool? ?? false,
-    );
-  }
-}
 
 const String _kFsrsEnabledKey = 'settings_fsrs_enabled';
 const String _kDesiredRetentionKey = 'settings_desired_retention';

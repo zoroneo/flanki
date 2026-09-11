@@ -68,6 +68,12 @@ Mỗi bài tập gồm các thuộc tính bắt buộc:
   * `whyCorrect`: Lý giải cặn kẽ vì sao đáp án đúng.
   * `distractorBreakdown`: Phân tích chi tiết tại sao các đáp án còn lại là bẫy/sai.
 
+### 2.3. Chuẩn Hóa Serialization Với `json_serializable` & `json_annotation`
+Toàn bộ mã phân tích JSON thủ công (`json['key'] as ...`) đã được thay thế bằng code generation tự động:
+* **Models**: `GrammarUnit`, `GrammarExercise`, `GrammarExplanation`, `GrammarTrap` đều khai báo `@JsonSerializable(explicitToJson: true)` sinh mã `*.g.dart`.
+* **Enums**: `GrammarExerciseType`, `GrammarLevel`, `GrammarDifficulty`, `GrammarCategory` dùng `@JsonEnum(valueField: ...)` và `@JsonValue`.
+* **Xử lý Dynamic Guides**: Thuộc tính `extraGuides` trong `GrammarUnit` sử dụng `@JsonKey(readValue: _readExtraGuides, includeToJson: false)` để tự động bắt tất cả các thẻ lý thuyết mở rộng (như `stativeVerbsGuide`, `modalPerfectGuide`, v.v.), đồng thời `toJson()` nối lại toàn bộ key này, bảo đảm round-trip 100% nguyên vẹn.
+
 ---
 
 ## 3. Thuật Toán Học Tối Ưu (Optimal Grammar Learning Algorithm)

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'settings_notifier.dart';
+part of 'settings_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,6 +12,7 @@ part of 'settings_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$StudySettings {
 
@@ -22,6 +23,8 @@ mixin _$StudySettings {
 @pragma('vm:prefer-inline')
 $StudySettingsCopyWith<StudySettings> get copyWith => _$StudySettingsCopyWithImpl<StudySettings>(this as StudySettings, _$identity);
 
+  /// Serializes this StudySettings to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -30,7 +33,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is StudySettings&&(identical(other.fsrsEnabled, _this.fsrsEnabled) || other.fsrsEnabled == _this.fsrsEnabled)&&(identical(other.desiredRetention, _this.desiredRetention) || other.desiredRetention == _this.desiredRetention)&&(identical(other.newCardsPerDay, _this.newCardsPerDay) || other.newCardsPerDay == _this.newCardsPerDay)&&(identical(other.maxReviewsPerDay, _this.maxReviewsPerDay) || other.maxReviewsPerDay == _this.maxReviewsPerDay)&&(identical(other.reminderEnabled, _this.reminderEnabled) || other.reminderEnabled == _this.reminderEnabled)&&(identical(other.reminderHour, _this.reminderHour) || other.reminderHour == _this.reminderHour)&&(identical(other.reminderMinute, _this.reminderMinute) || other.reminderMinute == _this.reminderMinute)&&(identical(other.streakSaverEnabled, _this.streakSaverEnabled) || other.streakSaverEnabled == _this.streakSaverEnabled)&&(identical(other.minimizeToTrayOnClose, _this.minimizeToTrayOnClose) || other.minimizeToTrayOnClose == _this.minimizeToTrayOnClose)&&(identical(other.launchAtStartup, _this.launchAtStartup) || other.launchAtStartup == _this.launchAtStartup));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as StudySettings;
@@ -218,11 +221,11 @@ return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_t
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _StudySettings extends StudySettings {
   const _StudySettings({this.fsrsEnabled = true, this.desiredRetention = AppConfig.defaultDesiredRetention, this.newCardsPerDay = AppConfig.defaultNewCardsPerDay, this.maxReviewsPerDay = AppConfig.defaultReviewsPerDay, this.reminderEnabled = true, this.reminderHour = AppConfig.defaultReminderHour, this.reminderMinute = AppConfig.defaultReminderMinute, this.streakSaverEnabled = true, this.minimizeToTrayOnClose = true, this.launchAtStartup = false}): super._();
-  
+  factory _StudySettings.fromJson(Map<String, dynamic> json) => _$StudySettingsFromJson(json);
 
 @override@JsonKey() final  bool fsrsEnabled;
 @override@JsonKey() final  double desiredRetention;
@@ -241,14 +244,17 @@ class _StudySettings extends StudySettings {
 @pragma('vm:prefer-inline')
 _$StudySettingsCopyWith<_StudySettings> get copyWith => __$StudySettingsCopyWithImpl<_StudySettings>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$StudySettingsToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _StudySettings&&(identical(other.fsrsEnabled, fsrsEnabled) || other.fsrsEnabled == fsrsEnabled)&&(identical(other.desiredRetention, desiredRetention) || other.desiredRetention == desiredRetention)&&(identical(other.newCardsPerDay, newCardsPerDay) || other.newCardsPerDay == newCardsPerDay)&&(identical(other.maxReviewsPerDay, maxReviewsPerDay) || other.maxReviewsPerDay == maxReviewsPerDay)&&(identical(other.reminderEnabled, reminderEnabled) || other.reminderEnabled == reminderEnabled)&&(identical(other.reminderHour, reminderHour) || other.reminderHour == reminderHour)&&(identical(other.reminderMinute, reminderMinute) || other.reminderMinute == reminderMinute)&&(identical(other.streakSaverEnabled, streakSaverEnabled) || other.streakSaverEnabled == streakSaverEnabled)&&(identical(other.minimizeToTrayOnClose, minimizeToTrayOnClose) || other.minimizeToTrayOnClose == minimizeToTrayOnClose)&&(identical(other.launchAtStartup, launchAtStartup) || other.launchAtStartup == launchAtStartup));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
     return Object.hash(runtimeType,fsrsEnabled,desiredRetention,newCardsPerDay,maxReviewsPerDay,reminderEnabled,reminderHour,reminderMinute,streakSaverEnabled,minimizeToTrayOnClose,launchAtStartup);
