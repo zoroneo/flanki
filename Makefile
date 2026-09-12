@@ -134,3 +134,7 @@ release-push: ## Retry pushing release commits and tags to origin
 	git push origin HEAD
 	git push origin --tags
 
+qr: ## Show download link and open QR code image for latest APK
+	@echo "Direct APK Download: https://github.com/zoroneo/flanki/releases/latest/download/flanki-android.apk"
+	@echo "QR Image: packaging/qr_android_apk.png"
+

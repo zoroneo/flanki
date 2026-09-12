@@ -38,6 +38,17 @@ Get the latest release for your platform from [GitHub Releases](https://github.c
 | **Linux** | Tarball (`.tar.gz`) | [flanki-linux.tar.gz](https://github.com/zoroneo/flanki/releases/latest/download/flanki-linux.tar.gz) | Extract and run `./flanki` |
 | **Android** | Sideload APK (`.apk`) | [flanki-android.apk](https://github.com/zoroneo/flanki/releases/latest/download/flanki-android.apk) | Direct install on Android phones/tablets |
 
+### 📱 Quick Install on Android (Scan to Download)
+
+Scan this QR code with your phone camera to download and install the latest `flanki-android.apk` directly:
+
+<div align="center">
+  <a href="https://github.com/zoroneo/flanki/releases/latest/download/flanki-android.apk">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://github.com/zoroneo/flanki/releases/latest/download/flanki-android.apk" alt="Scan QR Code to Download Android APK" width="220" height="220" />
+  </a>
+  <p><sub><b>Direct Link:</b> <a href="https://github.com/zoroneo/flanki/releases/latest/download/flanki-android.apk">https://github.com/zoroneo/flanki/releases/latest/download/flanki-android.apk</a></sub></p>
+</div>
+
 > [!TIP]
 > **macOS Note**: Since Flanki is an open-source app distributed outside the App Store without an Apple Developer ID, macOS Gatekeeper may show *"macOS cannot verify that this app is free from malware"*.
 > - **Option 1 (GUI)**: Go to **System Settings** > **Privacy & Security** > scroll to **Security** and click **Open Anyway**. Alternatively, right-click `Flanki.app` in Finder and select **Open**.
