@@ -6,7 +6,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/notifiers/locale_notifier.dart';
 import '../../../core/notifiers/settings_notifier.dart';
-import '../../../core/notifiers/stats_notifier.dart';
+import '../providers/stats_notifier.dart';
 
 class StatsScreen extends HookConsumerWidget {
   const StatsScreen({super.key});

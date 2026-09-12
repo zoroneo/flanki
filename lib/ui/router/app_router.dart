@@ -13,7 +13,7 @@ import '../screens/grammar/grammar_theory_screen.dart';
 import '../screens/settings/licenses_screen.dart';
 import '../screens/settings/privacy_policy_screen.dart';
 import '../screens/settings/settings_screen.dart';
-import '../screens/stats/stats_screen.dart';
+import '../../features/stats/ui/stats_screen.dart';
 import '../screens/study/study_session_screen.dart';
 import '../widgets/adaptive_scaffold.dart';
 

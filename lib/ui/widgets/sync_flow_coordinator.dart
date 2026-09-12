@@ -5,7 +5,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart' show ToastOverlay;
 import '../../core/notifiers/auth_notifier.dart';
 import '../../core/notifiers/card_browser_notifier.dart';
 import '../../core/notifiers/deck_notifier.dart';
-import '../../core/notifiers/stats_notifier.dart';
+import '../../features/stats/providers/stats_notifier.dart';
 import '../../core/storage/database_service.dart';
 import '../../core/sync/anki_web_sync_service.dart';
 import '../../l10n/generated/app_localizations.dart';

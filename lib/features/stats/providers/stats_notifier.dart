@@ -1,11 +1,11 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../config/app_config.dart';
-import '../models/card.dart';
-import '../states/stats_state.dart';
-import '../storage/database_service.dart';
+import '../../../core/config/app_config.dart';
+import '../../../core/models/card.dart';
+import '../../../core/storage/database_service.dart';
+import '../models/stats_state.dart';
 
-export '../states/stats_state.dart';
+export '../models/stats_state.dart';
 
 part 'stats_notifier.g.dart';
 

@@ -9,7 +9,7 @@ import '../storage/database_service.dart';
 import 'card_browser_notifier.dart';
 import 'deck_notifier.dart';
 import 'settings_notifier.dart';
-import 'stats_notifier.dart';
+import '../../features/stats/providers/stats_notifier.dart';
 
 export '../states/study_session_state.dart';
 

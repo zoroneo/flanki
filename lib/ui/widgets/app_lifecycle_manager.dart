@@ -5,7 +5,7 @@ import '../../core/config/app_config.dart';
 import '../../core/notifiers/deck_notifier.dart';
 import '../../core/notifiers/locale_notifier.dart';
 import '../../core/notifiers/settings_notifier.dart';
-import '../../core/notifiers/stats_notifier.dart';
+import '../../features/stats/providers/stats_notifier.dart';
 import '../../core/notifiers/update_notifier.dart';
 import '../../core/services/desktop_window_service.dart';
 import '../../core/services/notification_service.dart';

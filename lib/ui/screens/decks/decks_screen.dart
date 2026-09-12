@@ -8,7 +8,7 @@ import '../../../core/notifiers/locale_notifier.dart';
 import '../../../core/models/deck.dart';
 import '../../../core/notifiers/deck_notifier.dart';
 import '../../../core/notifiers/settings_notifier.dart';
-import '../../../core/notifiers/stats_notifier.dart';
+import '../../../features/stats/providers/stats_notifier.dart';
 import '../../widgets/sync_flow_coordinator.dart';
 import 'widgets/create_deck_modal.dart';
 import 'widgets/custom_study_modal.dart';
