@@ -1,10 +1,10 @@
-import 'package:drift/native.dart';
+﻿import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flanki/core/models/card.dart';
-import 'package:flanki/core/models/grammar/grammar_models.dart';
+import 'package:flanki/features/grammar/models/grammar_models.dart';
 import 'package:flanki/core/storage/app_database.dart';
-import 'package:flanki/core/storage/grammar_repository.dart';
+import 'package:flanki/features/grammar/data/grammar_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

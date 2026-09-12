@@ -1,23 +1,23 @@
-import 'package:flutter_localizations/flutter_localizations.dart';
+﻿import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import 'package:flanki/core/localization/shadcn_localizations_vi.dart';
-import 'package:flanki/core/models/grammar/grammar_models.dart';
+import 'package:flanki/features/grammar/models/grammar_models.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
-import 'package:flanki/ui/screens/grammar/widgets/choice_question_widget.dart';
-import 'package:flanki/ui/screens/grammar/widgets/cloze_question_widget.dart';
-import 'package:flanki/ui/screens/grammar/widgets/error_id_question_widget.dart';
-import 'package:flanki/ui/screens/grammar/widgets/explanation_sheet.dart';
-import 'package:flanki/ui/screens/grammar/grammar_catalog_screen.dart';
-import 'package:flanki/ui/screens/grammar/grammar_theory_screen.dart';
+import 'package:flanki/features/grammar/ui/widgets/choice_question_widget.dart';
+import 'package:flanki/features/grammar/ui/widgets/cloze_question_widget.dart';
+import 'package:flanki/features/grammar/ui/widgets/error_id_question_widget.dart';
+import 'package:flanki/features/grammar/ui/widgets/explanation_sheet.dart';
+import 'package:flanki/features/grammar/ui/grammar_catalog_screen.dart';
+import 'package:flanki/features/grammar/ui/grammar_theory_screen.dart';
 import 'package:flanki/ui/screens/study/widgets/rich_card_content.dart';
 import 'package:drift/native.dart';
 import 'package:flanki/core/storage/app_database.dart';
-import 'package:flanki/core/storage/grammar_repository.dart';
-import 'package:flanki/core/services/grammar_service.dart';
-import 'package:flanki/core/notifiers/grammar_session_notifier.dart';
-import 'package:flanki/ui/screens/grammar/grammar_practice_screen.dart';
+import 'package:flanki/features/grammar/data/grammar_repository.dart';
+import 'package:flanki/features/grammar/data/grammar_service.dart';
+import 'package:flanki/features/grammar/providers/grammar_session_notifier.dart';
+import 'package:flanki/features/grammar/ui/grammar_practice_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {

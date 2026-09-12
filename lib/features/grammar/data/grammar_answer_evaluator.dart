@@ -1,4 +1,4 @@
-import '../models/grammar/grammar_models.dart';
+import '../models/grammar_models.dart';
 
 /// Evaluates and normalizes user answers for Choice, Error ID, and Cloze questions
 class GrammarAnswerEvaluator {

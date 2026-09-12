@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../core/models/grammar/grammar_models.dart';
+import '../../features/grammar/models/grammar_models.dart';
 import '../screens/auth/anki_web_auth_screen.dart';
 import '../screens/browser/card_browser_screen.dart';
 import '../screens/decks/decks_screen.dart';
 import '../screens/editor/note_editor_screen.dart';
-import '../screens/grammar/grammar_catalog_screen.dart';
-import '../screens/grammar/grammar_practice_screen.dart';
-import '../screens/grammar/grammar_theory_screen.dart';
+import '../../features/grammar/ui/grammar_catalog_screen.dart';
+import '../../features/grammar/ui/grammar_practice_screen.dart';
+import '../../features/grammar/ui/grammar_theory_screen.dart';
 import '../screens/settings/licenses_screen.dart';
 import '../screens/settings/privacy_policy_screen.dart';
 import '../screens/settings/settings_screen.dart';

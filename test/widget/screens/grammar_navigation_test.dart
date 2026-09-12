@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -8,8 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/core/storage/database_service.dart';
 import 'package:flanki/main.dart';
 
-import 'package:flanki/core/models/grammar/grammar_models.dart';
-import 'package:flanki/core/services/grammar_service.dart';
+import 'package:flanki/features/grammar/models/grammar_models.dart';
+import 'package:flanki/features/grammar/data/grammar_service.dart';
 import 'package:flanki/core/notifiers/locale_notifier.dart';
 
 class TestVietnameseLocaleNotifier extends LocaleNotifier {

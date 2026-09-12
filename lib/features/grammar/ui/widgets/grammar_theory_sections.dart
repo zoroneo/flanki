@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart' as m;
+﻿import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/models/grammar/grammar_models.dart';
+import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
-import '../../study/widgets/rich_card_content.dart';
+import 'package:flanki/ui/screens/study/widgets/rich_card_content.dart';
 
 class GrammarTheorySectionCard extends StatelessWidget {
   final IconData icon;

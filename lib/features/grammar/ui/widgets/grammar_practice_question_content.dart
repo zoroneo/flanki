@@ -1,7 +1,7 @@
-import 'package:shadcn_flutter/shadcn_flutter.dart';
+﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/models/grammar/grammar_models.dart';
-import '../../../../core/notifiers/grammar_session_notifier.dart';
+import '../../models/grammar_models.dart';
+import '../../providers/grammar_session_notifier.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import 'choice_question_widget.dart';
 import 'cloze_question_widget.dart';

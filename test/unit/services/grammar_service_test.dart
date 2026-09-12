@@ -1,10 +1,10 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flanki/core/models/grammar/grammar_models.dart';
-import 'package:flanki/core/services/grammar_service.dart';
+import 'package:flanki/features/grammar/models/grammar_models.dart';
+import 'package:flanki/features/grammar/data/grammar_service.dart';
 
 class LocalFileAssetBundle extends CachingAssetBundle {
   @override

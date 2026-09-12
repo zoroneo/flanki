@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/models/grammar/grammar_models.dart';
-import '../../../core/services/grammar_service.dart';
+import '../data/grammar_service.dart';
+import '../models/grammar_models.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import 'widgets/grammar_theory_mobile_tabs.dart';
 import 'widgets/grammar_theory_sections.dart';

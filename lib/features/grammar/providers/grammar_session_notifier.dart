@@ -1,14 +1,14 @@
 import 'package:fsrs/fsrs.dart' as fsrs;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/card.dart';
-import '../models/grammar/grammar_models.dart';
-import '../services/grammar_answer_evaluator.dart';
-import '../states/grammar_session_state.dart';
-import '../storage/grammar_repository.dart';
+import '../../../core/models/card.dart';
+import '../data/grammar_answer_evaluator.dart';
+import '../data/grammar_repository.dart';
+import '../models/grammar_models.dart';
+import '../models/grammar_session_state.dart';
 
-export '../services/grammar_answer_evaluator.dart';
-export '../states/grammar_session_state.dart';
+export '../data/grammar_answer_evaluator.dart';
+export '../models/grammar_session_state.dart';
 
 part 'grammar_session_notifier.g.dart';
 

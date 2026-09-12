@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flanki/core/anki_bridge.dart';
 import 'package:flanki/core/config/app_config.dart';

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/grammar/grammar_models.dart';
+import '../models/grammar_models.dart';
 
 part 'grammar_service.g.dart';
 

@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 
 import 'package:flanki/core/config/app_config.dart';
 import 'package:flanki/core/notifiers/update_notifier.dart';

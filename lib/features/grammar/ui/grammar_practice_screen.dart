@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/models/grammar/grammar_models.dart';
-import '../../../core/notifiers/grammar_session_notifier.dart';
-import '../../../core/services/grammar_service.dart';
-import '../../../core/storage/grammar_repository.dart';
+import '../data/grammar_repository.dart';
+import '../data/grammar_service.dart';
+import '../models/grammar_models.dart';
+import '../providers/grammar_session_notifier.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import 'widgets/explanation_sheet.dart';
 import 'widgets/grammar_exit_dialog.dart';

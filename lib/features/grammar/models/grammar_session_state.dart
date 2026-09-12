@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../models/grammar/grammar_models.dart';
+import 'grammar_models.dart';
 
 part 'grammar_session_state.freezed.dart';
 
