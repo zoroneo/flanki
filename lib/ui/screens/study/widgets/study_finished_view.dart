@@ -43,16 +43,28 @@ class StudyFinishedView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: m.Colors.green.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  LucideIcons.checkCheck,
-                  size: 64,
-                  color: m.Colors.green,
+              // Elastic bounce entrance for completion badge
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0.2, end: 1.0),
+                duration: const Duration(milliseconds: 650),
+                curve: Curves.elasticOut,
+                builder: (context, scale, child) {
+                  return Transform.scale(
+                    scale: scale,
+                    child: child,
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: m.Colors.green.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    LucideIcons.checkCheck,
+                    size: 64,
+                    color: m.Colors.green,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
@@ -64,12 +76,20 @@ class StudyFinishedView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-              Text(
-                l10n.studyCompleteDesc(completedCount),
-                style: theme.typography.small.copyWith(
-                  color: theme.colorScheme.mutedForeground,
-                ),
-                textAlign: TextAlign.center,
+              // Animated count-up for completed cards
+              TweenAnimationBuilder<int>(
+                tween: IntTween(begin: 0, end: completedCount),
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.easeOutCubic,
+                builder: (context, count, _) {
+                  return Text(
+                    l10n.studyCompleteDesc(count),
+                    style: theme.typography.small.copyWith(
+                      color: theme.colorScheme.mutedForeground,
+                    ),
+                    textAlign: TextAlign.center,
+                  );
+                },
               ),
               const SizedBox(height: 32),
               PrimaryButton(

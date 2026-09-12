@@ -5,6 +5,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import 'package:flanki/core/localization/shadcn_localizations_vi.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
+import 'package:flanki/ui/screens/study/widgets/audio_play_button.dart';
 import 'package:flanki/ui/screens/study/widgets/rich_card_content.dart';
 
 void main() {
@@ -158,8 +159,9 @@ void main() {
         // No separate bottom Wrap
         expect(find.byType(Wrap), findsNothing);
 
-        // Audio play button is rendered inline inside HtmlWidget
-        expect(find.text('test.mp3'), findsOneWidget);
+        // Audio play button is rendered inline inside HtmlWidget without raw filename text
+        expect(find.byType(AudioPlayButton), findsOneWidget);
+        expect(find.text('test.mp3'), findsNothing);
         expect(find.byIcon(LucideIcons.volume2), findsOneWidget);
       },
     );
@@ -182,10 +184,11 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // All audio files rendered inline with their respective labels
-        expect(find.text('4000B1_agree.mp3'), findsOneWidget);
-        expect(find.text('4000B1_agree_meaning.mp3'), findsOneWidget);
-        expect(find.text('4000B1_agree_example.mp3'), findsOneWidget);
+        // All audio buttons rendered inline with their respective labels without raw filenames
+        expect(find.byType(AudioPlayButton), findsNWidgets(3));
+        expect(find.text('4000B1_agree.mp3'), findsNothing);
+        expect(find.text('4000B1_agree_meaning.mp3'), findsNothing);
+        expect(find.text('4000B1_agree_example.mp3'), findsNothing);
         expect(find.byIcon(LucideIcons.volume2), findsNWidgets(3));
         expect(find.byType(Wrap), findsNothing);
       },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/grammar/grammar_models.dart';
+import '../../../widgets/animations/shake_animation.dart';
 import '../../study/widgets/rich_card_content.dart';
 
 class ChoiceQuestionWidget extends StatelessWidget {
@@ -76,76 +77,88 @@ class ChoiceQuestionWidget extends StatelessWidget {
             borderColor = theme.colorScheme.primary;
           }
 
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: GestureDetector(
-              onTap: isSubmitted ? null : () => onSelectAnswer(option),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 150),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 9,
-                ),
-                decoration: BoxDecoration(
-                  color: backgroundColor ?? theme.colorScheme.card,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: borderColor ?? theme.colorScheme.border,
-                    width: (isSelected || (isSubmitted && isCorrectOption))
-                        ? 1.8
-                        : 1.0,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    // Badge A, B, C, D
-                    Container(
-                      width: 24,
-                      height: 24,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: (isSelected || (isSubmitted && isCorrectOption))
-                            ? (borderColor ?? theme.colorScheme.primary)
-                            : theme.colorScheme.muted,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        optionLetter,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              (isSelected || (isSubmitted && isCorrectOption))
-                              ? theme.colorScheme.primaryForeground
-                              : theme.colorScheme.foreground,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        option,
-                        style: TextStyle(
-                          fontSize: 13.5,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.normal,
-                          color: textColor ?? theme.colorScheme.foreground,
-                        ),
-                      ),
-                    ),
-                    if (isSubmitted && isCorrectOption)
-                      const Icon(
-                        LucideIcons.check,
-                        size: 16,
-                        color: Colors.green,
-                      ),
-                    if (isSubmitted && isSelected && !isCorrectOption)
-                      const Icon(LucideIcons.x, size: 16, color: Colors.red),
-                  ],
+          final isWrongSelected =
+              isSubmitted && isSelected && !isCorrectOption;
+
+          Widget optionWidget = GestureDetector(
+            onTap: isSubmitted ? null : () => onSelectAnswer(option),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 9,
+              ),
+              decoration: BoxDecoration(
+                color: backgroundColor ?? theme.colorScheme.card,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: borderColor ?? theme.colorScheme.border,
+                  width: (isSelected || (isSubmitted && isCorrectOption))
+                      ? 1.8
+                      : 1.0,
                 ),
               ),
+              child: Row(
+                children: [
+                  // Badge A, B, C, D
+                  Container(
+                    width: 24,
+                    height: 24,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: (isSelected || (isSubmitted && isCorrectOption))
+                          ? (borderColor ?? theme.colorScheme.primary)
+                          : theme.colorScheme.muted,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      optionLetter,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            (isSelected || (isSubmitted && isCorrectOption))
+                            ? theme.colorScheme.primaryForeground
+                            : theme.colorScheme.foreground,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      option,
+                      style: TextStyle(
+                        fontSize: 13.5,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.normal,
+                        color: textColor ?? theme.colorScheme.foreground,
+                      ),
+                    ),
+                  ),
+                  if (isSubmitted && isCorrectOption)
+                    const Icon(
+                      LucideIcons.check,
+                      size: 16,
+                      color: Colors.green,
+                    ),
+                  if (isSubmitted && isSelected && !isCorrectOption)
+                    const Icon(LucideIcons.x, size: 16, color: Colors.red),
+                ],
+              ),
             ),
+          );
+
+          if (isWrongSelected) {
+            optionWidget = ShakeAnimation(
+              trigger: true,
+              child: optionWidget,
+            );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: optionWidget,
           );
         }),
       ],

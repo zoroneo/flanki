@@ -12,6 +12,7 @@ class StudyCardFlipper extends StatelessWidget {
   final ValueChanged<String> onAnswerChanged;
   final VoidCallback onSubmitAnswer;
   final double cardHorizontalPadding;
+  final double dragOffset;
 
   const StudyCardFlipper({
     super.key,
@@ -21,20 +22,36 @@ class StudyCardFlipper extends StatelessWidget {
     required this.onAnswerChanged,
     required this.onSubmitAnswer,
     required this.cardHorizontalPadding,
+    this.dragOffset = 0.0,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    // Natural cubic easing curve for organic 3D flip sensation
+    final flipAnimation = CurvedAnimation(
+      parent: flipController,
+      curve: Curves.easeInOutCubic,
+    );
+
     return AnimatedBuilder(
-      animation: flipController,
+      animation: flipAnimation,
       builder: (context, child) {
-        final angle = flipController.value * math.pi;
+        final flipProgress = flipAnimation.value;
+        final angle = flipProgress * math.pi;
         final isUnder = angle > (math.pi / 2);
-        final matrix = Matrix4.identity()
+
+        // Perspective flip matrix with 0.001 depth entry
+        final flipMatrix = Matrix4.identity()
           ..setEntry(3, 2, 0.001)
           ..rotateY(angle);
+
+        // Scale dip during mid-turn (simulating slight depth recoil in 3D space)
+        final depthScale = 1.0 - (math.sin(flipProgress * math.pi) * 0.035);
+
+        // Drag & tilt physics: horizontal displacement and slight Z-axis rotation
+        final tiltAngle = (dragOffset * 0.0006).clamp(-0.12, 0.12);
 
         return Center(
           child: ConstrainedBox(
@@ -45,26 +62,35 @@ class StudyCardFlipper extends StatelessWidget {
                 vertical: 12,
               ),
               child: SizedBox.expand(
-                child: Transform(
-                  alignment: Alignment.center,
-                  transform: matrix,
-                  child: isUnder
-                      ? Transform(
-                          alignment: Alignment.center,
-                          transform: Matrix4.identity()..rotateY(math.pi),
-                          child: CardBackView(
-                            card: currentCard,
-                            theme: theme,
-                            typedAnswer: typedAnswer,
-                          ),
-                        )
-                      : CardFrontView(
-                          card: currentCard,
-                          theme: theme,
-                          typedAnswer: typedAnswer,
-                          onAnswerChanged: onAnswerChanged,
-                          onSubmitAnswer: onSubmitAnswer,
-                        ),
+                child: Transform.translate(
+                  offset: Offset(dragOffset, 0.0),
+                  child: Transform.rotate(
+                    angle: tiltAngle,
+                    child: Transform.scale(
+                      scale: depthScale,
+                      child: Transform(
+                        alignment: Alignment.center,
+                        transform: flipMatrix,
+                        child: isUnder
+                            ? Transform(
+                                alignment: Alignment.center,
+                                transform: Matrix4.identity()..rotateY(math.pi),
+                                child: CardBackView(
+                                  card: currentCard,
+                                  theme: theme,
+                                  typedAnswer: typedAnswer,
+                                ),
+                              )
+                            : CardFrontView(
+                                card: currentCard,
+                                theme: theme,
+                                typedAnswer: typedAnswer,
+                                onAnswerChanged: onAnswerChanged,
+                                onSubmitAnswer: onSubmitAnswer,
+                              ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

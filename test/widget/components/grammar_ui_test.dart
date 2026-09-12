@@ -293,7 +293,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('Present Simple vs Continuous'), findsOneWidget);
-        expect(findRichText('Stative verb'), findsOneWidget);
+        expect(findRichText('Hiện tại đơn'), findsOneWidget);
         expect(find.byType(RichCardContent), findsWidgets);
       },
     );
@@ -378,6 +378,68 @@ void main() {
       // Mobile renders Sticky Bottom CTA button
       expect(find.text('Bắt Đầu Luyện Tập 15 Câu Ngay'), findsOneWidget);
     });
+
+    testWidgets(
+      'GrammarTheoryMobileTabs allows switching tabs and viewing different sections',
+      (tester) async {
+        tester.view.physicalSize = const Size(400, 800);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        const unit = GrammarUnit(
+          unitId: 'test_unit_tabs',
+          title: 'Unit Tabs Test',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept: 'Nội dung cốt lõi của bài',
+          formulas: {'f1': 'Công thức số 1: S + V'},
+          commonTraps: [
+            GrammarTrap(
+              trap: 'Bẫy thi thường gặp',
+              exampleWrong: 'Wrong example',
+              exampleRight: 'Right example',
+              note: 'Ghi chú bẫy thi',
+            ),
+          ],
+          extraGuides: {'Tip 1': 'Mẹo ghi nhớ nhanh'},
+          exercises: [],
+        );
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              grammarUnitsProvider.overrideWith((ref) async => [unit]),
+            ],
+            child: wrapWithTheme(
+              const GrammarTheoryScreen(unitId: 'test_unit_tabs'),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        // Initially on Core concept tab
+        expect(findRichText('Nội dung cốt lõi của bài'), findsOneWidget);
+
+        // Tap on Formulas tab
+        final formulaTab = find.text('Công thức');
+        expect(formulaTab, findsOneWidget);
+        await tester.tap(formulaTab);
+        await tester.pumpAndSettle();
+
+        expect(findRichText('Công thức số 1: S + V'), findsOneWidget);
+
+        // Tap on Traps tab
+        final trapsTab = find.text('Bẫy thi');
+        expect(trapsTab, findsOneWidget);
+        await tester.tap(trapsTab);
+        await tester.pumpAndSettle();
+
+        expect(findRichText('Bẫy thi thường gặp'), findsOneWidget);
+      },
+    );
 
     testWidgets(
       'GrammarCatalogScreen renders 3-column grid and wrap filter on desktop',

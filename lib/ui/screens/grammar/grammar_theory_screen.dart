@@ -8,6 +8,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/models/grammar/grammar_models.dart';
 import '../../../core/services/grammar_service.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import 'widgets/grammar_theory_mobile_tabs.dart';
 import 'widgets/grammar_theory_sections.dart';
 import 'widgets/grammar_theory_toc.dart';
 
@@ -65,8 +66,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
               }
 
               return ScreenTypeLayout.builder(
-                mobile: (context) =>
-                    _buildMobileTheoryList(context, l10n, unit),
+                mobile: (context) => GrammarTheoryMobileTabs(unit: unit),
                 desktop: (context) => _buildDesktopTheoryLayout(
                   context,
                   l10n,
@@ -92,9 +92,12 @@ class GrammarTheoryScreen extends HookConsumerWidget {
   ) {
     final theme = Theme.of(context);
     return AppBar(
+      padding: isMobile
+          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 0)
+          : null,
       leading: [
         IconButton.ghost(
-          icon: const Icon(LucideIcons.arrowLeft, size: 20),
+          icon: const Icon(LucideIcons.arrowLeft, size: 18),
           onPressed: () => context.pop(),
         ),
       ],
@@ -102,8 +105,11 @@ class GrammarTheoryScreen extends HookConsumerWidget {
         l10n.grammarTheoryScreenTitle,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: (isMobile ? theme.typography.base : theme.typography.large)
-            .copyWith(fontWeight: FontWeight.w600),
+        style: TextStyle(
+          fontSize: isMobile ? 15 : 17,
+          fontWeight: FontWeight.w600,
+          color: theme.colorScheme.foreground,
+        ),
       ),
       trailing: [
         if (!isMobile)
@@ -136,7 +142,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(12, 8, 12, 8 + bottomInset),
+      padding: EdgeInsets.fromLTRB(10, 6, 10, 6 + bottomInset),
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         border: Border(
@@ -144,16 +150,16 @@ class GrammarTheoryScreen extends HookConsumerWidget {
         ),
       ),
       child: PrimaryButton(
-        size: ButtonSize.normal,
+        size: ButtonSize.small,
         onPressed: () => context.push('/grammar/$unitId/practice'),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(LucideIcons.play, size: 15),
-            const SizedBox(width: 8),
+            const Icon(LucideIcons.play, size: 14),
+            const SizedBox(width: 6),
             Text(
               l10n.grammarStartPracticeNowButton(exercisesCount),
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -161,54 +167,6 @@ class GrammarTheoryScreen extends HookConsumerWidget {
     );
   }
 
-  Widget _buildMobileTheoryList(
-    BuildContext context,
-    AppLocalizations l10n,
-    GrammarUnit unit,
-  ) {
-    return SafeArea(
-      top: false,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            GrammarTheoryHeaderBanner(unit: unit, isMobile: true),
-            const SizedBox(height: 10),
-            GrammarTheorySectionCard(
-              icon: LucideIcons.lightbulb,
-              iconColor: m.Colors.amber,
-              title: l10n.grammarCoreConceptTitle,
-              content: unit.coreConcept,
-              isMobile: true,
-            ),
-            const SizedBox(height: 10),
-            if (unit.formulas.isNotEmpty) ...[
-              GrammarTheoryFormulasCard(
-                formulas: unit.formulas,
-                isMobile: true,
-              ),
-              const SizedBox(height: 10),
-            ],
-            if (unit.commonTraps.isNotEmpty) ...[
-              GrammarTheoryTrapsCard(
-                commonTraps: unit.commonTraps,
-                isMobile: true,
-              ),
-              const SizedBox(height: 10),
-            ],
-            if (unit.extraGuides.isNotEmpty) ...[
-              GrammarTheoryGuidesCard(
-                extraGuides: unit.extraGuides,
-                isMobile: true,
-              ),
-              const SizedBox(height: 10),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildDesktopTheoryLayout(
     BuildContext context,

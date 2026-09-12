@@ -17,77 +17,76 @@ class GrammarTheoryHeaderBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final levelLabel = unit.level.displayName;
+    final l10n = AppLocalizations.of(context)!;
+    final levelLabel = unit.level.getLocalizedName(l10n);
     final levelColor = unit.level.color;
 
     return Card(
-      child: Padding(
-        padding: isMobile
-            ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
-            : const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2.5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: levelColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: levelColor.withValues(alpha: 0.3),
-                    ),
-                  ),
-                  child: Text(
-                    levelLabel,
-                    style: TextStyle(
-                      fontSize: isMobile ? 10.5 : 11,
-                      fontWeight: FontWeight.bold,
-                      color: levelColor,
-                    ),
+      padding: isMobile
+          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
+          : const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 2,
+                ),
+                decoration: BoxDecoration(
+                  color: levelColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(
+                    color: levelColor.withValues(alpha: 0.3),
                   ),
                 ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2.5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.muted,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    unit.category.code.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: isMobile ? 10.5 : 11,
-                      fontWeight: FontWeight.w600,
-                    ),
+                child: Text(
+                  levelLabel,
+                  style: TextStyle(
+                    fontSize: isMobile ? 10 : 11,
+                    fontWeight: FontWeight.bold,
+                    color: levelColor,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: isMobile ? 8 : 10),
-            Text(
-              unit.title,
-              style: isMobile
-                  ? TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      height: 1.3,
-                      color: theme.colorScheme.foreground,
-                    )
-                  : theme.typography.h4.copyWith(
-                      fontWeight: FontWeight.bold,
-                      height: 1.3,
-                    ),
-            ),
-          ],
-        ),
+              ),
+              const SizedBox(width: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 2,
+                ),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.muted,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  unit.category.code.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: isMobile ? 10 : 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: isMobile ? 6 : 10),
+          Text(
+            unit.title,
+            style: isMobile
+                ? TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    height: 1.3,
+                    color: theme.colorScheme.foreground,
+                  )
+                : theme.typography.h4.copyWith(
+                    fontWeight: FontWeight.bold,
+                    height: 1.3,
+                  ),
+          ),
+        ],
       ),
     );
   }
@@ -115,9 +114,8 @@ class GrammarTheoryTocCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        child: Column(
+      padding: const EdgeInsets.all(14),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -172,7 +170,6 @@ class GrammarTheoryTocCard extends StatelessWidget {
             ],
           ],
         ),
-      ),
     );
   }
 }

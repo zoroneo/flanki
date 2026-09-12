@@ -262,7 +262,14 @@ class StudySessionScreen extends HookConsumerWidget {
                 children: [
                   Column(
                     children: [
-                      Progress(progress: progress),
+                      TweenAnimationBuilder<double>(
+                        tween: Tween<double>(begin: 0.0, end: progress),
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOutCubic,
+                        builder: (context, animatedProgress, _) {
+                          return Progress(progress: animatedProgress);
+                        },
+                      ),
                       Expanded(
                         child: GestureDetector(
                           onHorizontalDragUpdate: (details) {
@@ -281,13 +288,35 @@ class StudySessionScreen extends HookConsumerWidget {
                               }
                             }
                           },
-                          child: StudyCardFlipper(
-                            flipController: flipController,
-                            currentCard: currentCard,
-                            typedAnswer: userTypedAnswer.value,
-                            onAnswerChanged: (v) => userTypedAnswer.value = v,
-                            onSubmitAnswer: handleFlip,
-                            cardHorizontalPadding: cardPadding,
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 250),
+                            switchInCurve: Curves.easeOutCubic,
+                            switchOutCurve: Curves.easeInCubic,
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 0.95,
+                                    end: 1.0,
+                                  ).animate(animation),
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: KeyedSubtree(
+                              key: ValueKey(currentCard?.id ?? 'none'),
+                              child: StudyCardFlipper(
+                                flipController: flipController,
+                                currentCard: currentCard,
+                                typedAnswer: userTypedAnswer.value,
+                                onAnswerChanged: (v) =>
+                                    userTypedAnswer.value = v,
+                                onSubmitAnswer: handleFlip,
+                                cardHorizontalPadding: cardPadding,
+                                dragOffset: dragOffset.value,
+                              ),
+                            ),
                           ),
                         ),
                       ),

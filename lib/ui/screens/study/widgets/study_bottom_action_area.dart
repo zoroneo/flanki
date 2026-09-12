@@ -35,24 +35,47 @@ class StudyBottomActionArea extends StatelessWidget {
               horizontal: bottomHorizontalPadding,
               vertical: 12,
             ),
-            child: isFlipped
-                ? StudyRatingBar(
-                    intervals: intervals,
-                    isMobile: isMobile,
-                    onRate: onRate,
-                  )
-                : SizedBox(
-                    width: double.infinity,
-                    child: PrimaryButton(
-                      alignment: Alignment.center,
-                      onPressed: onFlip,
-                      child: Text(
-                        !isMobile
-                            ? '${l10n.tapToFlip}  [Space]'
-                            : l10n.tapToFlip,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 220),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (child, animation) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0.0, 0.15),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  ),
+                );
+              },
+              child: isFlipped
+                  ? KeyedSubtree(
+                      key: const ValueKey('rating_bar'),
+                      child: StudyRatingBar(
+                        intervals: intervals,
+                        isMobile: isMobile,
+                        onRate: onRate,
+                      ),
+                    )
+                  : KeyedSubtree(
+                      key: const ValueKey('flip_button'),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: PrimaryButton(
+                          alignment: Alignment.center,
+                          onPressed: onFlip,
+                          child: Text(
+                            !isMobile
+                                ? '${l10n.tapToFlip}  [Space]'
+                                : l10n.tapToFlip,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+            ),
           ),
         ),
       ),

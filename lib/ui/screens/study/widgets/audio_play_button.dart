@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/storage/media_storage_service.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 class AudioPlayButton extends HookWidget {
   final String filename;
@@ -44,50 +45,40 @@ class AudioPlayButton extends HookWidget {
       }
     }
 
-    final displayName = filename.length > 25
-        ? '${filename.substring(0, 22)}...'
-        : filename;
+    final l10n = AppLocalizations.of(context);
+    final tooltipText = l10n?.audioPlay ?? 'Play audio';
 
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: handlePlay,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          decoration: BoxDecoration(
-            color: isPlaying.value
-                ? theme.colorScheme.primary.withValues(alpha: 0.15)
-                : theme.colorScheme.muted,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
+    return Tooltip(
+      tooltip: (context) => TooltipContainer(child: Text(tooltipText)),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: handlePlay,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            width: 28,
+            height: 28,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
               color: isPlaying.value
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.border.withValues(alpha: 0.5),
-              width: 1,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                isPlaying.value ? LucideIcons.volumeX : LucideIcons.volume2,
-                size: 14,
+                  ? theme.colorScheme.primary.withValues(alpha: 0.18)
+                  : theme.colorScheme.muted.withValues(alpha: 0.75),
+              shape: BoxShape.circle,
+              border: Border.all(
                 color: isPlaying.value
                     ? theme.colorScheme.primary
-                    : theme.colorScheme.foreground,
+                    : theme.colorScheme.border.withValues(alpha: 0.6),
+                width: 1.2,
               ),
-              const SizedBox(width: 5),
-              Text(
-                displayName,
-                style: theme.typography.xSmall.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: isPlaying.value
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.foreground,
-                ),
-              ),
-            ],
+            ),
+            child: Icon(
+              isPlaying.value ? LucideIcons.volumeX : LucideIcons.volume2,
+              size: 14,
+              color: isPlaying.value
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.foreground.withValues(alpha: 0.85),
+            ),
           ),
         ),
       ),

@@ -1363,6 +1363,21 @@ class AppLocalizationsVi extends AppLocalizations {
   String get grammarLevelAdvanced => 'Level 3: Advanced C1/C2';
 
   @override
+  String get grammarTabConcept => 'Cốt lõi';
+
+  @override
+  String get grammarTabFormulas => 'Công thức';
+
+  @override
+  String get grammarTabTraps => 'Bẫy thi';
+
+  @override
+  String get grammarTabGuides => 'Mở rộng';
+
+  @override
+  String get audioPlay => 'Phát âm thanh';
+
+  @override
   String get privacyPolicyTagline =>
       'Ưu tiên cục bộ • Không theo dõi • Mã nguồn mở';
 

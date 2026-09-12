@@ -2468,6 +2468,36 @@ abstract class AppLocalizations {
   /// **'Level 3: Advanced C1/C2'**
   String get grammarLevelAdvanced;
 
+  /// No description provided for @grammarTabConcept.
+  ///
+  /// In en, this message translates to:
+  /// **'Concept'**
+  String get grammarTabConcept;
+
+  /// No description provided for @grammarTabFormulas.
+  ///
+  /// In en, this message translates to:
+  /// **'Formulas'**
+  String get grammarTabFormulas;
+
+  /// No description provided for @grammarTabTraps.
+  ///
+  /// In en, this message translates to:
+  /// **'Traps'**
+  String get grammarTabTraps;
+
+  /// No description provided for @grammarTabGuides.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides'**
+  String get grammarTabGuides;
+
+  /// No description provided for @audioPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play audio'**
+  String get audioPlay;
+
   /// No description provided for @privacyPolicyTagline.
   ///
   /// In en, this message translates to:

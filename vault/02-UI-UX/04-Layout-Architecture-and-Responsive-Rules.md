@@ -150,3 +150,54 @@ Chi tiết quy chuẩn kiến trúc xem tại: [[01-Architecture/06-State-Manage
   * Huy hiệu badge, số lượng thẻ due, thanh tiến độ, icon trạng thái đồng bộ sync cần được bọc trong `Consumer` riêng hoặc dùng `ref.watch(provider.select(...))` để cô lập phạm vi dựng hình.
 * **Tách Sub-Card thành `ConsumerWidget` độc lập**:
   * Các card cài đặt (như `AccountSyncCard`, `AppPreferencesCard`, `SpacedRepetitionCard`) tự quản lý lắng nghe state của mình, giải phóng màn hình cha `SettingsScreen` khỏi mọi thao tác re-render không cần thiết.
+
+---
+
+## 9. Cơ Chế Phân Cụm Nội Dung Mobile (Swipeable Segmented Tabs & Clean Reader)
+
+> [!IMPORTANT] Giải Quyết "Hội Chứng Mỏi Cuộn Dọc" (Vertical Infinite Scroll Fatigue)
+> Trên màn hình điện thoại (chiều rộng hẹp, chiều dọc dài), việc dồn mọi tài liệu học/lý thuyết dài thành một danh sách cuộn dọc liên tục sẽ khiến người dùng mất phương hướng, khó tra cứu và mỏi ngón tay. Bắt buộc áp dụng cơ chế **Swipeable Tabs kết hợp Clean Reader**.
+
+* **Thanh Tab Trượt Ngang Tự Co Giãn (Adaptive Segmented Bar)**:
+  * Đặt ngay dưới Header Banner, chiều cao cố định chuẩn **36px – 38px**.
+  * Dùng `ListView.separated(scrollDirection: Axis.horizontal)` với nhãn ngắn gọn (`Cốt lõi`, `Công thức`, `Bẫy thi`, `Mở rộng`).
+  * Tab chỉ hiển thị khi mục nội dung đó thực sự có dữ liệu (tự động loại bỏ tab rỗng).
+  * Tab được chọn có nền `color.withValues(alpha: 0.12)`, viền `color.withValues(alpha: 0.35)`, chữ đậm màu nhận diện.
+* **Vuốt Ngang Chuyển Luồng (Two-Way Gesture Navigation)**:
+  * Nội dung bên dưới bọc trong `PageView.builder` kết hợp `PageController`.
+  * Hỗ trợ đồng thời 2 cử chỉ ngón cái:
+    1. Bấm vào nút Tab ở trên để nhảy tức thì đến luồng mong muốn (`animateToPage`).
+    2. Vuốt ngang (swipe left/right) trực tiếp trên vùng đọc nội dung để lướt qua lại mượt mà (`onPageChanged` sync ngược lại active tab index).
+* **Mỗi Luồng Là Một Stream Độc Lập**:
+  * Tab Cốt Lõi: Tập trung diễn giải bản chất và tư duy gốc của ngữ pháp/chủ đề.
+  * Tab Công Thức: Trực quan hóa công thức cú pháp, chia động từ dạng bảng/code block.
+  * Tab Bẫy Thi: Trực diện vào các lỗi sai kinh điển, cấu trúc câu `Đúng` (xanh) vs `Sai` (đỏ) và phân tích nguyên nhân.
+  * Tab Mở Rộng: Các trường hợp đặc biệt, ngoại lệ, mẹo nhớ nhanh.
+
+---
+
+## 10. Quy Tắc Trừ Khử Lồng Card & Padding Bloat (Anti-Nested-Card Padding)
+
+> [!CAUTION] Cấm Lỗi "Card Lồng Card" và Double Padding
+> Component `Card` của thư viện `shadcn_flutter` đã có thuộc tính padding mặc định (~16px). Việc bọc thêm `Padding` bên trong con của `Card` sẽ tạo ra lỗi cộng dồn padding (~30px – 32px mỗi bên), bóp nghẹt 20% - 25% diện tích hiển thị của màn hình mobile.
+
+* **Truyền padding trực tiếp vào `Card(padding: ...)`**:
+  * Không bao giờ viết: `Card(child: Padding(padding: ..., child: ...))`
+  * Luôn viết: `Card(padding: isMobile ? const EdgeInsets.all(12) : const EdgeInsets.all(16), child: ...)`
+* **Loại Bỏ Đường Viền Dày Không Cần Thiết Trên Mobile**:
+  * Khi hiển thị danh sách thẻ con (như từng công thức hay từng bẫy thi), ưu tiên dùng background phẳng (`theme.colorScheme.muted.withValues(alpha: 0.3)`) với `BorderRadius.circular(8)` thay vì lồng thêm nhiều lớp `Card` với shadow/border nổi.
+* **Mật Độ Khoảng Cách (Spacing)**:
+  * Khoảng cách giữa các khối nội dung trên mobile: `SizedBox(height: 10)` đến `12`.
+  * Khoảng cách giữa các tab: `SizedBox(width: 6)`.
+  * Padding viền ngoài toàn màn hình đọc mobile: `12px` (thay vì 24px của desktop).
+
+---
+
+## 11. Header Banner Tinh Gọn Trên Mobile (Compact Lesson Banner)
+
+* **Không Gian Chiều Dọc Tối Đa**:
+  * Banner đầu bài học trên mobile chỉ nên cao khoảng **65px – 80px**.
+  * Bố cục: Icon chủ đề (kích thước 32px - 34px), đi kèm 2 badge nhỏ gọn (Level & Chuyên mục) cỡ font 10.5px.
+  * Tiêu đề bài học giới hạn `fontSize: 15px - 16px`, `fontWeight: FontWeight.w700`, `maxLines: 2`.
+  * Triệt tiêu toàn bộ mô tả dài dòng chiếm nửa màn hình; nhường 100% tầm nhìn đầu tiên cho thanh Tabs và nội dung bài học.
+

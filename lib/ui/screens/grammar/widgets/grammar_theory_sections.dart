@@ -25,51 +25,49 @@ class GrammarTheorySectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
-      child: Padding(
-        padding: isMobile
-            ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
-            : const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(icon, size: isMobile ? 18 : 20, color: iconColor),
-                SizedBox(width: isMobile ? 8 : 10),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: isMobile
-                        ? TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: theme.colorScheme.foreground,
-                          )
-                        : theme.typography.h4.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                  ),
+      padding: isMobile
+          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
+          : const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: isMobile ? 16 : 20, color: iconColor),
+              SizedBox(width: isMobile ? 6 : 10),
+              Expanded(
+                child: Text(
+                  title,
+                  style: isMobile
+                      ? TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.foreground,
+                        )
+                      : theme.typography.h4.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                 ),
-              ],
-            ),
-            SizedBox(height: isMobile ? 10 : 14),
-            RichCardContent(
-              content: content,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              textAlign: TextAlign.start,
-              textStyle: isMobile
-                  ? TextStyle(
-                      fontSize: 13.5,
-                      height: 1.45,
-                      color: theme.colorScheme.foreground,
-                    )
-                  : theme.typography.base.copyWith(
-                      height: 1.6,
-                      color: theme.colorScheme.foreground,
-                    ),
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          SizedBox(height: isMobile ? 6 : 14),
+          RichCardContent(
+            content: content,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            textAlign: TextAlign.start,
+            textStyle: isMobile
+                ? TextStyle(
+                    fontSize: 13,
+                    height: 1.4,
+                    color: theme.colorScheme.foreground,
+                  )
+                : theme.typography.base.copyWith(
+                    height: 1.6,
+                    color: theme.colorScheme.foreground,
+                  ),
+          ),
+        ],
       ),
     );
   }
@@ -91,78 +89,76 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
-      child: Padding(
-        padding: isMobile
-            ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
-            : const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  LucideIcons.sigma,
-                  size: isMobile ? 18 : 20,
-                  color: m.Colors.blue,
+      padding: isMobile
+          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
+          : const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                LucideIcons.sigma,
+                size: isMobile ? 16 : 20,
+                color: m.Colors.blue,
+              ),
+              SizedBox(width: isMobile ? 6 : 10),
+              Expanded(
+                child: Text(
+                  l10n.grammarFormulasTitle,
+                  style: isMobile
+                      ? TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.foreground,
+                        )
+                      : theme.typography.h4.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                 ),
-                SizedBox(width: isMobile ? 8 : 10),
-                Expanded(
-                  child: Text(
-                    l10n.grammarFormulasTitle,
-                    style: isMobile
-                        ? TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: theme.colorScheme.foreground,
-                          )
-                        : theme.typography.h4.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+              ),
+            ],
+          ),
+          SizedBox(height: isMobile ? 8 : 16),
+          ...formulas.entries.map((entry) {
+            return Container(
+              margin: EdgeInsets.only(bottom: isMobile ? 6 : 12),
+              padding: isMobile
+                  ? const EdgeInsets.symmetric(horizontal: 10, vertical: 6)
+                  : const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.muted.withValues(alpha: 0.35),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: theme.colorScheme.border),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    entry.key,
+                    style: TextStyle(
+                      fontSize: isMobile ? 12 : 13.5,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: isMobile ? 10 : 16),
-            ...formulas.entries.map((entry) {
-              return Container(
-                margin: EdgeInsets.only(bottom: isMobile ? 8 : 12),
-                padding: isMobile
-                    ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
-                    : const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.muted.withValues(alpha: 0.35),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: theme.colorScheme.border),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      entry.key,
-                      style: TextStyle(
-                        fontSize: isMobile ? 12.5 : 13.5,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
-                      ),
+                  const SizedBox(height: 3),
+                  RichCardContent(
+                    content: entry.value,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    textAlign: TextAlign.start,
+                    textStyle: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: isMobile ? 12 : 14,
+                      fontWeight: FontWeight.w500,
+                      height: 1.3,
                     ),
-                    const SizedBox(height: 4),
-                    RichCardContent(
-                      content: entry.value,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      textAlign: TextAlign.start,
-                      textStyle: TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: isMobile ? 12.5 : 14,
-                        fontWeight: FontWeight.w500,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
       ),
     );
   }
@@ -184,73 +180,71 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
-      child: Padding(
-        padding: isMobile
-            ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
-            : const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  LucideIcons.triangleAlert,
-                  size: isMobile ? 18 : 20,
-                  color: m.Colors.orange,
+      padding: isMobile
+          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
+          : const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                LucideIcons.triangleAlert,
+                size: isMobile ? 16 : 20,
+                color: m.Colors.orange,
+              ),
+              SizedBox(width: isMobile ? 6 : 10),
+              Expanded(
+                child: Text(
+                  l10n.grammarCommonTrapsTitle,
+                  style: isMobile
+                      ? TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.foreground,
+                        )
+                      : theme.typography.h4.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                 ),
-                SizedBox(width: isMobile ? 8 : 10),
-                Expanded(
-                  child: Text(
-                    l10n.grammarCommonTrapsTitle,
-                    style: isMobile
-                        ? TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: theme.colorScheme.foreground,
-                          )
-                        : theme.typography.h4.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: isMobile ? 10 : 16),
-            ...commonTraps.map((trap) {
-              return Container(
-                margin: EdgeInsets.only(bottom: isMobile ? 10 : 16),
-                padding: isMobile
-                    ? const EdgeInsets.all(12)
-                    : const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.card,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: theme.colorScheme.border),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichCardContent(
-                      content: trap.trap,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      textAlign: TextAlign.start,
-                      textStyle: TextStyle(
-                        fontSize: isMobile ? 13.5 : 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+              ),
+            ],
+          ),
+          SizedBox(height: isMobile ? 8 : 16),
+          ...commonTraps.map((trap) {
+            return Container(
+              margin: EdgeInsets.only(bottom: isMobile ? 8 : 16),
+              padding: isMobile
+                  ? const EdgeInsets.all(8)
+                  : const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.card,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: theme.colorScheme.border),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichCardContent(
+                    content: trap.trap,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    textAlign: TextAlign.start,
+                    textStyle: TextStyle(
+                      fontSize: isMobile ? 12.5 : 15,
+                      fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(height: isMobile ? 8 : 10),
-                    _buildWrongExample(isMobile, trap.exampleWrong),
-                    const SizedBox(height: 6),
-                    _buildRightExample(isMobile, trap.exampleRight),
-                    SizedBox(height: isMobile ? 6 : 10),
-                    _buildNote(theme, isMobile, trap.note),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ),
+                  ),
+                  SizedBox(height: isMobile ? 6 : 10),
+                  _buildWrongExample(isMobile, trap.exampleWrong),
+                  const SizedBox(height: 4),
+                  _buildRightExample(isMobile, trap.exampleRight),
+                  SizedBox(height: isMobile ? 5 : 10),
+                  _buildNote(theme, isMobile, trap.note),
+                ],
+              ),
+            );
+          }),
+        ],
       ),
     );
   }
@@ -258,7 +252,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
   Widget _buildWrongExample(bool isMobile, String wrong) {
     return Container(
       padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 6)
+          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
           : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: m.Colors.red.withValues(alpha: 0.08),
@@ -268,16 +262,16 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('❌ ', style: TextStyle(fontSize: 13)),
+          const Text('❌ ', style: TextStyle(fontSize: 12)),
           Expanded(
             child: RichCardContent(
               content: wrong,
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: isMobile ? 12.5 : 13.5,
+                fontSize: isMobile ? 12 : 13.5,
                 color: m.Colors.red,
-                height: 1.35,
+                height: 1.3,
               ),
             ),
           ),
@@ -289,7 +283,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
   Widget _buildRightExample(bool isMobile, String right) {
     return Container(
       padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 6)
+          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
           : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: m.Colors.green.withValues(alpha: 0.08),
@@ -299,7 +293,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('✅ ', style: TextStyle(fontSize: 13)),
+          const Text('✅ ', style: TextStyle(fontSize: 12)),
           Expanded(
             child: RichCardContent(
               content: right,
@@ -361,76 +355,74 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
-      child: Padding(
-        padding: isMobile
-            ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
-            : const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  LucideIcons.bookOpen,
-                  size: isMobile ? 18 : 20,
-                  color: m.Colors.purple,
+      padding: isMobile
+          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
+          : const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                LucideIcons.bookOpen,
+                size: isMobile ? 16 : 20,
+                color: m.Colors.purple,
+              ),
+              SizedBox(width: isMobile ? 6 : 10),
+              Expanded(
+                child: Text(
+                  l10n.grammarExtraGuidesTitle,
+                  style: isMobile
+                      ? TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.foreground,
+                        )
+                      : theme.typography.h4.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                 ),
-                SizedBox(width: isMobile ? 8 : 10),
-                Expanded(
-                  child: Text(
-                    l10n.grammarExtraGuidesTitle,
-                    style: isMobile
-                        ? TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: theme.colorScheme.foreground,
-                          )
-                        : theme.typography.h4.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+              ),
+            ],
+          ),
+          SizedBox(height: isMobile ? 8 : 16),
+          ...extraGuides.entries.map((entry) {
+            return Container(
+              margin: EdgeInsets.only(bottom: isMobile ? 8 : 14),
+              padding: isMobile
+                  ? const EdgeInsets.all(8)
+                  : const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.muted.withValues(alpha: 0.25),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    entry.key,
+                    style: TextStyle(
+                      fontSize: isMobile ? 12.5 : 15,
+                      fontWeight: FontWeight.bold,
+                      color: m.Colors.purple,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: isMobile ? 10 : 16),
-            ...extraGuides.entries.map((entry) {
-              return Container(
-                margin: EdgeInsets.only(bottom: isMobile ? 10 : 14),
-                padding: isMobile
-                    ? const EdgeInsets.all(12)
-                    : const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.muted.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      entry.key,
-                      style: TextStyle(
-                        fontSize: isMobile ? 13.5 : 15,
-                        fontWeight: FontWeight.bold,
-                        color: m.Colors.purple,
-                      ),
+                  SizedBox(height: isMobile ? 4 : 8),
+                  RichCardContent(
+                    content: entry.value,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    textAlign: TextAlign.start,
+                    textStyle: TextStyle(
+                      fontSize: isMobile ? 12.5 : 14.5,
+                      height: isMobile ? 1.4 : 1.55,
+                      color: theme.colorScheme.foreground,
                     ),
-                    SizedBox(height: isMobile ? 6 : 8),
-                    RichCardContent(
-                      content: entry.value,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      textAlign: TextAlign.start,
-                      textStyle: TextStyle(
-                        fontSize: isMobile ? 13 : 14.5,
-                        height: isMobile ? 1.45 : 1.55,
-                        color: theme.colorScheme.foreground,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
       ),
     );
   }

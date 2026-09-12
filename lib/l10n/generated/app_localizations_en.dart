@@ -1367,6 +1367,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get grammarLevelAdvanced => 'Level 3: Advanced C1/C2';
 
   @override
+  String get grammarTabConcept => 'Concept';
+
+  @override
+  String get grammarTabFormulas => 'Formulas';
+
+  @override
+  String get grammarTabTraps => 'Traps';
+
+  @override
+  String get grammarTabGuides => 'Guides';
+
+  @override
+  String get audioPlay => 'Play audio';
+
+  @override
   String get privacyPolicyTagline =>
       'Local-First • Zero Tracking • Open Source';
 
