@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 
 import '../../l10n/generated/app_localizations.dart';
 import '../config/app_config.dart';

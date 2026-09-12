@@ -1,4 +1,4 @@
-import 'package:drift/drift.dart';
+﻿import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/storage/app_database.dart';

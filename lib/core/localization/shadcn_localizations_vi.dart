@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+﻿import 'package:flutter/foundation.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 // ignore: implementation_imports
 import 'package:shadcn_flutter/src/components/locale/shadcn_localizations_en.dart';

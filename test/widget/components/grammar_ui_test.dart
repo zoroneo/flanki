@@ -11,7 +11,7 @@ import 'package:flanki/features/grammar/ui/widgets/error_id_question_widget.dart
 import 'package:flanki/features/grammar/ui/widgets/explanation_sheet.dart';
 import 'package:flanki/features/grammar/ui/grammar_catalog_screen.dart';
 import 'package:flanki/features/grammar/ui/grammar_theory_screen.dart';
-import 'package:flanki/ui/screens/study/widgets/rich_card_content.dart';
+import 'package:flanki/core/widgets/rich_card_content.dart';
 import 'package:drift/native.dart';
 import 'package:flanki/core/storage/app_database.dart';
 import 'package:flanki/features/grammar/data/grammar_repository.dart';

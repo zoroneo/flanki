@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+﻿import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';

@@ -1,4 +1,4 @@
-import 'package:json_annotation/json_annotation.dart';
+﻿import 'package:json_annotation/json_annotation.dart';
 
 import 'grammar_enums.dart';
 import 'grammar_exercise.dart';

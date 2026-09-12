@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';

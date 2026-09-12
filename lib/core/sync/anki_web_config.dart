@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 /// Centralized configuration for AnkiWeb synchronization and authentication.
 class AnkiWebConfig {

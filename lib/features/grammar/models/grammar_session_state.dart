@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'grammar_models.dart';
 

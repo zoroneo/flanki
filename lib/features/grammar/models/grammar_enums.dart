@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' as m;
+﻿import 'package:flutter/material.dart' as m;
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../l10n/generated/app_localizations.dart';

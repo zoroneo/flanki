@@ -1,4 +1,4 @@
-class DeckModel {
+﻿class DeckModel {
   final String id;
   final String title;
   final String description;

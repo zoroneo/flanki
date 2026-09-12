@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+﻿// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'grammar_session_notifier.dart';
 

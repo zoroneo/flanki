@@ -1,9 +1,9 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/core/models/deck.dart';
-import 'package:flanki/core/notifiers/deck_notifier.dart';
+import 'package:flanki/features/decks/providers/deck_notifier.dart';
 import 'package:flanki/core/storage/database_service.dart';
 
 void main() {

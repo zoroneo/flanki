@@ -1,8 +1,8 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+﻿import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../core/config/app_config.dart';
-import '../../core/notifiers/deck_notifier.dart';
+import '../../features/decks/providers/deck_notifier.dart';
 import '../../core/notifiers/locale_notifier.dart';
 import '../../core/notifiers/settings_notifier.dart';
 import '../../features/stats/providers/stats_notifier.dart';

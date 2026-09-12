@@ -1,4 +1,4 @@
-/// Academic Grammar Engine constants - eliminates magic numbers and raw literals
+﻿/// Academic Grammar Engine constants - eliminates magic numbers and raw literals
 abstract final class GrammarConstants {
   const GrammarConstants._();
 

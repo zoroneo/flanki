@@ -1,4 +1,4 @@
-/// Mode for Custom Study / Cram session filtering.
+﻿/// Mode for Custom Study / Cram session filtering.
 enum CustomStudyMode {
   byTag('byTag'),
   flagged('flagged'),

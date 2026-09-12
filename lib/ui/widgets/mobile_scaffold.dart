@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart' as m;
+﻿import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../core/notifiers/locale_notifier.dart';
-import '../../core/notifiers/deck_notifier.dart';
-import '../../core/notifiers/card_browser_notifier.dart';
+import '../../features/decks/providers/deck_notifier.dart';
+import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 import '../../features/stats/providers/stats_notifier.dart';
 import '../../core/notifiers/auth_notifier.dart';
 

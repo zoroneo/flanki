@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+﻿import 'package:flutter/widgets.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 /// Extension methods on [BuildContext] to simplify responsive design

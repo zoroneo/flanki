@@ -1,4 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/update_info.dart';
 import '../services/desktop_update_service.dart';

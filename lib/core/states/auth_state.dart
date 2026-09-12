@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../auth/anki_web_auth_service.dart';
 

@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/notifiers/locale_notifier.dart';

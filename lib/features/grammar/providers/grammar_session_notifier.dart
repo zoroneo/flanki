@@ -1,4 +1,4 @@
-import 'package:fsrs/fsrs.dart' as fsrs;
+﻿import 'package:fsrs/fsrs.dart' as fsrs;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/models/card.dart';

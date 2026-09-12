@@ -5,7 +5,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
-import 'package:flanki/ui/screens/study/widgets/rich_card_content.dart';
+import 'package:flanki/core/widgets/rich_card_content.dart';
 
 class ExplanationSheet extends StatelessWidget {
   final GrammarExercise exercise;

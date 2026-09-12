@@ -1,4 +1,4 @@
-enum NoteType {
+﻿enum NoteType {
   basic('basic'),
   cloze('cloze'),
   reversed('reversed');

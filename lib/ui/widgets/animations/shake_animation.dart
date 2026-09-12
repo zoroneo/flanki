@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 /// Reusable widget that applies a smooth damped horizontal shake animation

@@ -1,8 +1,8 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 import 'package:flanki/core/storage/database_service.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
-import 'package:flanki/ui/screens/editor/note_editor_screen.dart';
+import 'package:flanki/features/editor/ui/note_editor_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
