@@ -1,9 +1,9 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 
 import 'package:flanki/core/fsrs/sm2_engine_service.dart';
 import 'package:flanki/core/models/card.dart';
-import 'package:flanki/core/notifiers/settings_notifier.dart';
-import 'package:flanki/core/sync/anki_web_config.dart';
+import 'package:flanki/features/settings/providers/settings_notifier.dart';
+import 'package:flanki/features/sync/data/anki_web_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

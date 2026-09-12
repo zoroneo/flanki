@@ -1,9 +1,9 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'desktop_update_service.dart';
-import '../notifiers/update_notifier.dart';
+import '../providers/update_notifier.dart';
 
 class UpdatePoller {
   static Timer? _timer;

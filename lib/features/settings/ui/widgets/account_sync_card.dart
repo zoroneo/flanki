@@ -1,10 +1,10 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/auth_notifier.dart';
+import '../../../sync/providers/auth_notifier.dart';
 import '../../../../core/notifiers/locale_notifier.dart';
-import '../../auth/anki_web_auth_sheet.dart';
+import '../../../sync/ui/anki_web_auth_sheet.dart';
 
 class AccountSyncCard extends ConsumerWidget {
   final ValueNotifier<bool> isSyncing;

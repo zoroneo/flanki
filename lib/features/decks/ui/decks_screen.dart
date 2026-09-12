@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -7,9 +7,9 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/notifiers/locale_notifier.dart';
 import '../../../core/models/deck.dart';
 import '../providers/deck_notifier.dart';
-import '../../../core/notifiers/settings_notifier.dart';
+import '../../settings/providers/settings_notifier.dart';
 import '../../stats/providers/stats_notifier.dart';
-import 'package:flanki/ui/widgets/sync_flow_coordinator.dart';
+import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/create_deck_modal.dart';
 import 'widgets/custom_study_modal.dart';
 import 'widgets/deck_app_bar.dart';

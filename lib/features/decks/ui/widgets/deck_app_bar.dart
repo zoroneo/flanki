@@ -1,9 +1,9 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/auth_notifier.dart';
-import '../../../../core/notifiers/settings_notifier.dart';
+import '../../../sync/providers/auth_notifier.dart';
+import '../../../settings/providers/settings_notifier.dart';
 
 class DeckAppBar extends StatelessWidget {
   final ValueNotifier<bool> isSyncing;

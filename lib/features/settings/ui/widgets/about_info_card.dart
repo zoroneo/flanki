@@ -1,14 +1,14 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/anki_bridge.dart';
 import '../../../../core/config/app_config.dart';
 import '../../../../core/notifiers/locale_notifier.dart';
-import '../../../../core/notifiers/settings_notifier.dart';
-import '../../../../core/notifiers/update_notifier.dart';
+import '../../providers/settings_notifier.dart';
+import '../../providers/update_notifier.dart';
 import '../../../../core/notifiers/theme_notifier.dart';
-import '../../../widgets/update_dialog.dart';
+import 'update_dialog.dart';
 import 'settings_info_rows.dart';
 
 class AboutInfoCard extends ConsumerWidget {

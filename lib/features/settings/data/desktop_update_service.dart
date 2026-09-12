@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import '../config/app_config.dart';
+import '../../../core/config/app_config.dart';
 import '../models/update_info.dart';
 
 enum AppPlatform {

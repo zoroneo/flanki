@@ -1,10 +1,10 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/update_info.dart';
-import '../services/desktop_update_service.dart';
-import '../states/update_state.dart';
+import '../data/desktop_update_service.dart';
+import '../models/update_state.dart';
 
-export '../states/update_state.dart';
+export '../models/update_state.dart';
 
 part 'update_notifier.g.dart';
 

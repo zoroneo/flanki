@@ -1,8 +1,8 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 
 import 'package:flanki/core/config/app_config.dart';
-import 'package:flanki/core/notifiers/update_notifier.dart';
-import 'package:flanki/core/services/desktop_update_service.dart';
+import 'package:flanki/features/settings/providers/update_notifier.dart';
+import 'package:flanki/features/settings/data/desktop_update_service.dart';
 import 'package:flanki/core/services/desktop_window_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;

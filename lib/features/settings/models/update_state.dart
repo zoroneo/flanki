@@ -1,6 +1,6 @@
-﻿import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../models/update_info.dart';
+import 'update_info.dart';
 
 part 'update_state.freezed.dart';
 

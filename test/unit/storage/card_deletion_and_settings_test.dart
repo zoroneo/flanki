@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/core/models/card.dart';
 import 'package:flanki/core/models/deck.dart';
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
-import 'package:flanki/core/notifiers/settings_notifier.dart';
+import 'package:flanki/features/settings/providers/settings_notifier.dart';
 import 'package:flanki/core/storage/database_service.dart';
 
 void main() {

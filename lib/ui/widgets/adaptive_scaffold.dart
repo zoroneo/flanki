@@ -1,4 +1,4 @@
-﻿import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -8,7 +8,7 @@ import '../../core/notifiers/locale_notifier.dart';
 import '../../features/decks/providers/deck_notifier.dart';
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 import '../../features/stats/providers/stats_notifier.dart';
-import '../../core/notifiers/auth_notifier.dart';
+import '../../features/sync/providers/auth_notifier.dart';
 import 'navigation/desktop_sidebar.dart';
 import 'navigation/mobile_bottom_nav_bar.dart';
 import 'navigation/tablet_nav_rail.dart';

@@ -1,10 +1,10 @@
-﻿import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/notifiers/locale_notifier.dart';
-import '../../widgets/sync_flow_coordinator.dart';
+import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/about_info_card.dart';
 import 'widgets/account_sync_card.dart';
 import 'widgets/app_preferences_card.dart';

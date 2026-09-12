@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 
 import 'anki_web_config.dart';
 import 'anki_web_media_sync_service.dart';
-import '../../l10n/generated/app_localizations.dart';
-import '../config/app_config.dart';
-import '../importer/apkg_importer_service.dart';
-import '../models/card.dart';
-import '../models/deck.dart';
-import '../storage/database_service.dart';
+import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/config/app_config.dart';
+import '../../../core/importer/apkg_importer_service.dart';
+import '../../../core/models/card.dart';
+import '../../../core/models/deck.dart';
+import '../../../core/storage/database_service.dart';
 
 class SyncProgressMessages {
   final String connecting;

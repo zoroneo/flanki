@@ -1,10 +1,10 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/models/card.dart';
 import '../../browser/providers/card_browser_notifier.dart';
-import '../../../core/notifiers/settings_notifier.dart';
+import '../../settings/providers/settings_notifier.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../core/storage/database_service.dart';
 import '../../decks/providers/deck_notifier.dart';

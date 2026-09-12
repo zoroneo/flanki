@@ -1,8 +1,8 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/notifiers/locale_notifier.dart';
-import '../../../../core/notifiers/update_notifier.dart';
-import '../../../../core/services/desktop_update_service.dart';
+import '../../providers/update_notifier.dart';
+import '../../data/desktop_update_service.dart';
 
 class LanguageOptionButton extends StatelessWidget {
   final String label;

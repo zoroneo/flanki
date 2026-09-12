@@ -1,4 +1,4 @@
-﻿import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,9 +10,9 @@ import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/notifiers/locale_notifier.dart';
 import '../../../core/models/card.dart';
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
-import '../../../core/notifiers/settings_notifier.dart';
+import '../../settings/providers/settings_notifier.dart';
 import '../providers/study_session_notifier.dart';
-import 'package:flanki/ui/widgets/sync_flow_coordinator.dart';
+import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/card_action_sheet.dart';
 import 'widgets/scratchpad_overlay.dart';
 import 'widgets/study_app_bar.dart';

@@ -1,10 +1,10 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../l10n/generated/app_localizations.dart';
-import '../config/app_config.dart';
-import '../sync/anki_web_config.dart';
+import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/config/app_config.dart';
+import 'anki_web_config.dart';
 
 enum AuthErrorCode {
   emptyCredentials,

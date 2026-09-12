@@ -1,15 +1,15 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:flanki/core/sync/anki_web_config.dart';
-import 'package:flanki/core/sync/anki_web_sync_service.dart';
+import 'package:flanki/features/sync/data/anki_web_config.dart';
+import 'package:flanki/features/sync/data/anki_web_sync_service.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
-import 'package:flanki/ui/screens/auth/anki_web_auth_sheet.dart';
-import 'package:flanki/ui/widgets/sync_conflict_dialog.dart';
-import 'package:flanki/ui/widgets/sync_flow_coordinator.dart';
+import 'package:flanki/features/sync/ui/anki_web_auth_sheet.dart';
+import 'package:flanki/features/sync/ui/widgets/sync_conflict_dialog.dart';
+import 'package:flanki/features/sync/ui/sync_flow_coordinator.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';

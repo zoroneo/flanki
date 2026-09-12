@@ -1,11 +1,11 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/notifiers/locale_notifier.dart';
-import '../../../core/notifiers/settings_notifier.dart';
+import '../../settings/providers/settings_notifier.dart';
 import '../providers/stats_notifier.dart';
 
 class StatsScreen extends HookConsumerWidget {

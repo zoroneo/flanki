@@ -1,8 +1,8 @@
-﻿import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/config/app_config.dart';
 import '../../../core/models/card.dart';
-import '../../../core/states/settings_state.dart';
+import '../../settings/models/settings_state.dart';
 import '../../../core/storage/database_service.dart';
 
 part 'study_session_state.freezed.dart';

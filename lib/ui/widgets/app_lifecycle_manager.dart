@@ -1,17 +1,17 @@
-﻿import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../core/config/app_config.dart';
 import '../../features/decks/providers/deck_notifier.dart';
 import '../../core/notifiers/locale_notifier.dart';
-import '../../core/notifiers/settings_notifier.dart';
+import '../../features/settings/providers/settings_notifier.dart';
 import '../../features/stats/providers/stats_notifier.dart';
-import '../../core/notifiers/update_notifier.dart';
+import '../../features/settings/providers/update_notifier.dart';
 import '../../core/services/desktop_window_service.dart';
 import '../../core/services/notification_service.dart';
-import '../../core/services/update_poller.dart';
+import '../../features/settings/data/update_poller.dart';
 import '../../l10n/generated/app_localizations.dart';
-import 'update_dialog.dart';
+import '../../features/settings/ui/widgets/update_dialog.dart';
 
 /// Top-level coordinator managing app lifecycle events, desktop tray menu sync,
 /// background notification reminders, and auto-update toast notifications.

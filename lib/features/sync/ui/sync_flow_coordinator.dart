@@ -1,17 +1,17 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' show ToastOverlay;
 
-import '../../core/notifiers/auth_notifier.dart';
+import '../providers/auth_notifier.dart';
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
-import '../../features/decks/providers/deck_notifier.dart';
-import '../../features/stats/providers/stats_notifier.dart';
-import '../../core/storage/database_service.dart';
-import '../../core/sync/anki_web_sync_service.dart';
-import '../../l10n/generated/app_localizations.dart';
-import '../screens/auth/anki_web_auth_sheet.dart';
-import 'sync_conflict_dialog.dart';
-import 'sync_progress_toast.dart';
+import '../../decks/providers/deck_notifier.dart';
+import '../../stats/providers/stats_notifier.dart';
+import '../../../core/storage/database_service.dart';
+import '../data/anki_web_sync_service.dart';
+import '../../../l10n/generated/app_localizations.dart';
+import 'anki_web_auth_sheet.dart';
+import 'widgets/sync_conflict_dialog.dart';
+import 'widgets/sync_progress_toast.dart';
 
 /// Centralized coordinator for the AnkiWeb synchronization workflow.
 ///

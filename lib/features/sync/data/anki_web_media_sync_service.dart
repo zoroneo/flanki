@@ -1,13 +1,13 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 
-import '../../l10n/generated/app_localizations.dart';
-import '../config/app_config.dart';
-import '../storage/media_storage_service.dart';
+import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/config/app_config.dart';
+import '../../../core/storage/media_storage_service.dart';
 import 'anki_web_config.dart';
 
 class MediaSyncResult {

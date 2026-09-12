@@ -1,16 +1,16 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/auth/anki_web_auth_service.dart';
-import '../../../core/notifiers/auth_notifier.dart';
+import '../data/anki_web_auth_service.dart';
+import '../providers/auth_notifier.dart';
 import '../../../core/notifiers/locale_notifier.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
-import '../../widgets/adaptive_modal.dart';
-import '../../widgets/form_focus_helper.dart';
+import '../../../ui/widgets/adaptive_modal.dart';
+import '../../../ui/widgets/form_focus_helper.dart';
 
 class AnkiWebAuthSheet extends HookConsumerWidget {
   final bool isDesktop;
