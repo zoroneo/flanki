@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'dart:ui' show Locale;
 
 import '../../l10n/generated/app_localizations.dart';
@@ -6,8 +6,8 @@ import '../../l10n/generated/app_localizations.dart';
 /// Centralized application configuration and metadata.
 class AppConfig {
   static const String appName = 'Flanki';
-  static const String defaultVersion = '1.1.3';
-  static const int defaultBuildNumber = 12;
+  static const String defaultVersion = '1.1.4';
+  static const int defaultBuildNumber = 13;
 
   /// Centralized supported locales and default fallback
   static const Locale defaultLocale = Locale('vi');
