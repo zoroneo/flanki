@@ -44,6 +44,12 @@ gantt
     Freezed Immutable State Models           :done, p8_1, 2026-09-11, 1d
     Fine-Grained Consumer Scope Isolation    :done, p8_2, 2026-09-11, 1d
     Riverpod Annotation & Code Generation    :done, p8_3, 2026-09-11, 1d
+    section Phase 9: Feature-First Architecture Migration
+    Boundary Setup & ARCHITECTURE.md         :done, p9_1, 2026-09-12, 1d
+    Pilot Slices (Stats & Grammar)           :done, p9_2, 2026-09-12, 1d
+    Core Domain Slices (Decks, Study, Browser):done, p9_3, 2026-09-12, 1d
+    Support Slices (Sync, Settings)          :done, p9_4, 2026-09-12, 1d
+    Core & Clean Old Folders (120/120 Tests) :done, p9_5, 2026-09-12, 1d
 ```
 
 ### Chi tiết các cột mốc:
@@ -55,3 +61,4 @@ gantt
 6. **Milestone 6 — Academic Grammar Engine**: Hệ thống 36 chuyên đề C1/C2 (540 bài tập chuẩn hóa), thuật toán FSRS hai tầng (Unit Mastery + Item Spacing), cơ chế Ghost Review triệt tiêu điểm yếu và tương tác tìm lỗi sai (`error_id`) trực tiếp trên văn bản.
 7. **Milestone 7 — Codebase Standardization & Hardcode Elimination**: Triệt tiêu toàn bộ magic strings, magic numbers; chuẩn hóa enum type-safe (`AppPlatform`, `UpdateErrorType`, `DesktopTrayAction`); tập trung hóa `AppConfig.getL10n()` và `supportedLocales`; sửa lỗi nhận diện bộ thẻ Cày đề (Cram deck) và parser tag đa ngôn ngữ; đạt 100% test pass (117/117).
 8. **Milestone 8 — State Modernization & Render Optimization**: Chuyển đổi 100% state models sang `@freezed` (7 classes) với deep equality; thu hẹp scope watch Riverpod với `.select()` và bọc `Consumer` / `ConsumerWidget` độc lập tại lá cây (Settings cards, Decks stats/badges, Scaffolds); di chuyển sang `riverpod_annotation: ^4.0.7` và `riverpod_generator: ^4.0.9` sinh mã tự động cho toàn bộ providers; tối ưu hóa hiệu năng render 60-120 FPS.
+9. **Milestone 9 — Feature-First Architecture Migration**: Tái cấu trúc toàn diện từ Layer-First sang Feature-First (`features/{stats, grammar, decks, study, browser, editor, sync, settings}/`). Di chuyển hạ tầng dùng chung vào `core/` (`anki/`, `database/`, `fsrs/`, `localization/`, `theme/`, `widgets/`), router về `lib/router/app_router.dart`. Thiết lập quy chuẩn ranh giới trong `ARCHITECTURE.md`, xóa bỏ hoàn toàn `lib/ui/`, `core/storage/`, `core/importer/`, `core/states/`, `core/notifiers/`, bảo đảm 120/120 tests pass.

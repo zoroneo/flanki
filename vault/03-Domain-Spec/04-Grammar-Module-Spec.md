@@ -153,7 +153,7 @@ Lấy cảm hứng từ cơ chế triệt tiêu điểm yếu của **Bunpro**:
 
 ## 4. Lưu Trữ Dữ Liệu SQLite (Drift Schema)
 
-Bảng dữ liệu `GrammarProgressEntries` trong `lib/core/storage/app_database.dart`:
+Bảng dữ liệu `GrammarProgressEntries` trong `lib/core/database/app_database.dart`:
 
 ```dart
 class GrammarProgressEntries extends Table {

@@ -32,6 +32,7 @@ Chào mừng đến với Knowledge Vault của dự án **Flanki** — Ứng d�
 - [[01-Architecture/04-Pure-Dart-Engine-Architecture|04. Kiến Trúc Pure Dart Core Engine & Reactive Storage]]
 - [[01-Architecture/05-Codebase-Standardization-and-Hardcode-Elimination|05. Chuẩn Hóa Codebase, Anti-Hardcode & Type Safety]]
 - [[01-Architecture/06-State-Management-and-Render-Optimization|06. Kiến Trúc State Freezed & Tối Ưu Hóa Rebuild Riverpod]]
+- [[01-Architecture/07-Feature-First-Architecture-Migration|07. Kiến Trúc Feature-First & Chuẩn Hóa Ranh Giới Module]]
 
 ### 02. Trải Nghiệm Người Dùng & Thiết Kế (UI / UX)
 

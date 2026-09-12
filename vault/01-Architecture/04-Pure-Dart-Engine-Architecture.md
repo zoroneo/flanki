@@ -33,7 +33,7 @@ graph TD
     Sync --> AnkiWeb[AnkiWeb Cloud]
 ```
 
-### A. DatabaseService (lib/core/storage/database_service.dart)
+### A. DatabaseService (lib/core/database/database_service.dart)
 * **Dual-Tier State**:
   - **In-Memory Cache**: Danh sách `List<Card>` và `List<Deck>` được duy trì trong RAM.
   - **Persistent SQLite Layer**: Đồng bộ dữ liệu nền xuống database SQLite `collection.anki2` bằng `package:sqlite3`.
@@ -49,24 +49,24 @@ graph TD
   - **Retrievability ($R$)**: Khả năng gợi nhớ tức thời $R = (1 + F \cdot t/S)^C$.
 * Tính toán 4 khoảng thời gian ôn tiếp theo tương ứng với 4 nút: `Again`, `Hard`, `Good`, `Easy`.
 
-### C. APKG Importer & AnkiTemplateEngine (lib/core/importer/)
-* Giải nén file `.apkg` (Zip) bằng `archive`.
+### C. APKG Importer & AnkiTemplateEngine (lib/core/anki/)
+* Giải nén file `.apkg` (Zip) bằng `archive` (`lib/core/anki/apkg_importer_service.dart`).
 * Đọc bảng `col`, `notes`, `cards` và trích xuất `media` mapping file.
-* `AnkiTemplateEngine`:
+* `AnkiTemplateEngine` (`lib/core/anki/anki_template_engine.dart`):
   - Giải mã Cloze deletion: `{{c1::answer::hint}}` -> Front hiển thị `[...]` hoặc hint, Back hiển thị câu trả lời nổi bật.
   - Giải mã cú pháp Mustache: `{{Field}}`, điều kiện hiển thị `{{#Field}}...{{/Field}}`, điều kiện phủ định `{{^Field}}...{{/Field}}`.
 
-### D. RichCardContent & Audio (lib/ui/screens/study/widgets/rich_card_content.dart)
+### D. RichCardContent & Audio (lib/core/widgets/rich_card_content.dart)
 * Render định dạng HTML/CSS từ note types của Anki bằng `flutter_widget_from_html_core`.
 * Tự động phát hiện tag âm thanh `[sound:filename.mp3]`, tích hợp `audioplayers` phát audio mượt mà khi lật thẻ.
 
-### E. AnkiWeb Auth & Sync (lib/core/sync/)
-* Giao thức xác thực HTTP `multipart/form-data` tới endpoint `https://sync.ankiweb.net/sync/hostKey`.
+### E. AnkiWeb Auth & Sync (lib/features/sync/)
+* Giao thức xác thực HTTP `multipart/form-data` tới endpoint `https://sync.ankiweb.net/sync/hostKey` (`lib/features/sync/data/services/ankiweb_sync_service.dart`).
 * Lưu trữ session token bảo mật với `flutter_secure_storage` (iOS Keychain / Android KeyStore / Windows DPAPI).
 * Đồng bộ 2 chiều toàn diện (Bộ thẻ, Thẻ học, Trạng thái FSRS, Lịch sử `revlog`) và Tệp tin đa phương tiện (`/msync/`).
-* Điều phối xung đột tự động với `SyncFlowCoordinator` và `SyncConflictDialog` (Responsive Modal / BottomSheet).
+* Điều phối xung đột tự động với `SyncFlowCoordinator` và `SyncConflictDialog` (Responsive Modal / BottomSheet trong `lib/features/sync/ui/`).
 
-### F. Reactive State Management & Code Generation (lib/core/notifiers/)
-* Toàn bộ trạng thái phiên học (`StudySessionState`), ngữ pháp (`GrammarSessionState`), cài đặt (`StudySettings`), thống kê (`StatsData`) được định nghĩa bằng **`@freezed`** bất biến với deep equality.
-* Di chuyển toàn bộ Notifiers sang **`riverpod_annotation: ^4.0.7`** với code generation tự động (`riverpod_generator: ^4.0.9`), giúp giảm thiểu boilerplate và đảm bảo an toàn kiểu dữ liệu cao nhất.
-* Chi tiết xem tại: [[01-Architecture/06-State-Management-and-Render-Optimization|06. Kiến Trúc State Freezed & Tối Ưu Hóa Rebuild Riverpod]].
+### F. Reactive State Management & Feature-First Distribution (lib/features/*/logic/)
+* Toàn bộ trạng thái phiên học (`StudySessionState`), ngữ pháp (`GrammarSessionState`), cài đặt (`StudySettings`), thống kê (`StatsData`) được định nghĩa bằng **`@freezed`** bất biến với deep equality nằm ngay trong từng feature slice (`domain/` hoặc `logic/`).
+* Notifiers sử dụng **`riverpod_annotation: ^4.0.7`** với code generation tự động (`riverpod_generator: ^4.0.9`), định vị trực tiếp trong `features/<feature>/logic/`.
+* Chi tiết xem tại: [[01-Architecture/06-State-Management-and-Render-Optimization|06. Kiến Trúc State Freezed & Tối Ưu Hóa Rebuild Riverpod]] và [[01-Architecture/07-Feature-First-Architecture-Migration|07. Di Dời Kiến Trúc Sang Feature-First]].

@@ -29,17 +29,17 @@ Tài liệu này chuẩn hóa mô hình quản lý trạng thái, tính bất bi
 
 ## 2. Kiến Trúc State Bất Biến Với Freezed
 
-Toàn bộ 7 State Classes của ứng dụng đã được tách biệt thành các value objects thuần túy tại `lib/core/states/`:
+Toàn bộ 7 State Classes của ứng dụng đã được đóng gói thành các value objects thuần túy tại thư mục `domain/` của từng Feature slice:
 
 | STT | State Model | File Định Nghĩa | File Sinh Mã | Đặc Tính Nổi Bật |
 |---|---|---|---|---|
-| 1 | `AuthState` | `lib/core/states/auth_state.dart` | `auth_state.freezed.dart` | `unauthenticated()`, `authenticated()`, `error()`, deep equality |
-| 2 | `StudySessionState` & `StudySessionSnapshot` | `lib/core/states/study_session_state.dart` | `study_session_state.freezed.dart` | `initial()`, snapshot undo list bất biến |
-| 3 | `GrammarSessionState` | `lib/core/states/grammar_session_state.dart` | `grammar_session_state.freezed.dart` | 13 biến trạng thái, getters `currentExercise`, `progressFraction` |
-| 4 | `CardBrowserState` | `lib/core/states/card_browser_state.dart` | `card_browser_state.freezed.dart` | Bộ lọc danh sách thẻ, query tìm kiếm, `CardFilterType` |
-| 5 | `StudySettings` | `lib/core/states/settings_state.dart` | `settings_state.freezed.dart`<br>`settings_state.g.dart` | 10 tham số thuật toán FSRS, tuần tự hóa tự động qua `json_serializable` (`fromJson`/`toJson`) |
-| 6 | `StatsData` | `lib/core/states/stats_state.dart` | `stats_state.freezed.dart` | Ma trận 2D `List<List<int>> heatmapLevels` deep equal |
-| 7 | `UpdateState` | `lib/core/states/update_state.dart` | `update_state.freezed.dart` | Tiến độ tải bản cập nhật, enum `UpdateStatus`, `UpdateErrorType` |
+| 1 | `AuthState` | `lib/features/sync/domain/auth_state.dart` | `auth_state.freezed.dart` | `unauthenticated()`, `authenticated()`, `error()`, deep equality |
+| 2 | `StudySessionState` & `StudySessionSnapshot` | `lib/features/study/domain/study_session_state.dart` | `study_session_state.freezed.dart` | `initial()`, snapshot undo list bất biến |
+| 3 | `GrammarSessionState` | `lib/features/grammar/domain/grammar_session_state.dart` | `grammar_session_state.freezed.dart` | 13 biến trạng thái, getters `currentExercise`, `progressFraction` |
+| 4 | `CardBrowserState` | `lib/features/browser/domain/card_browser_state.dart` | `card_browser_state.freezed.dart` | Bộ lọc danh sách thẻ, query tìm kiếm, `CardFilterType` |
+| 5 | `StudySettings` | `lib/features/settings/domain/settings_state.dart` | `settings_state.freezed.dart`<br>`settings_state.g.dart` | 10 tham số thuật toán FSRS, tuần tự hóa tự động qua `json_serializable` (`fromJson`/`toJson`) |
+| 6 | `StatsData` | `lib/features/stats/domain/stats_state.dart` | `stats_state.freezed.dart` | Ma trận 2D `List<List<int>> heatmapLevels` deep equal |
+| 7 | `UpdateState` | `lib/features/settings/domain/update_state.dart` | `update_state.freezed.dart` | Tiến độ tải bản cập nhật, enum `UpdateStatus`, `UpdateErrorType` |
 
 ---
 
@@ -80,7 +80,7 @@ Toàn bộ Provider trong ứng dụng được chuẩn hóa bằng Riverpod Cod
    - Giữ nguyên định danh Provider (`themeNotifierProvider`, `localeNotifierProvider`, `deckListProvider`, v.v.) để bảo đảm 100% tương thích ngược với mã UI và Tests hiện có.
 2. **Functional Providers & Router**:
    - Khai báo gọn gàng bằng cú pháp hàm: `@Riverpod(keepAlive: true) T myService(Ref ref)`.
-   - **`appRouterProvider`**: Chuẩn hóa router `GoRouter` tại `lib/ui/router/app_router.dart` với generator `@Riverpod(keepAlive: true) GoRouter appRouter(Ref ref)` -> `app_router.g.dart`. Lắng nghe `authNotifierProvider` bằng `Listenable.merge` để tự động chuyển hướng (auth redirect/guards) an toàn.
+   - **`appRouterProvider`**: Chuẩn hóa router `GoRouter` tại `lib/router/app_router.dart` với generator `@Riverpod(keepAlive: true) GoRouter appRouter(Ref ref)` -> `app_router.g.dart`. Lắng nghe `authNotifierProvider` bằng `Listenable.merge` để tự động chuyển hướng (auth redirect/guards) an toàn.
 3. **Lợi ích kiến trúc**:
    - Loại bỏ boilerplate thủ công `NotifierProvider<X, State>(X.new)`.
    - Tự động sinh `debugGetCreateSourceHash()`, `overrideWithValue()` chuẩn mực cho unit testing.
@@ -88,56 +88,67 @@ Toàn bộ Provider trong ứng dụng được chuẩn hóa bằng Riverpod Cod
 
 ---
 
-## 5. Chuẩn Hóa Kiến Trúc 2 Tầng: State Models & Riverpod Notifiers
+## 5. Chuẩn Hóa State & Notifier Phân Bố Theo Feature-First Architecture
 
-Hệ thống quản lý trạng thái được phân định ranh giới rõ ràng thành 2 tầng kiến trúc:
+Hệ thống quản lý trạng thái được đóng gói trực tiếp vào từng feature slice tương ứng, đảm bảo High Cohesion và Loose Coupling:
 
 ```
-lib/core/
-├── states/                   # TẦNG 1: Pure Domain State Models (Freezed)
-│   ├── auth_state.dart       # (auth_state.freezed.dart)
-│   ├── card_browser_state.dart
-│   ├── grammar_session_state.dart
-│   ├── settings_state.dart
-│   ├── stats_state.dart
-│   ├── study_session_state.dart
-│   ├── update_state.dart
-│   └── states.dart           # Canonical barrel export
-├── notifiers/                # TẦNG 2: State Controllers & Providers (Riverpod)
-│   ├── auth_notifier.dart    # (auth_notifier.g.dart)
-│   ├── card_browser_notifier.dart
-│   ├── deck_list_notifier.dart
-│   ├── grammar_session_notifier.dart
-│   ├── locale_notifier.dart
-│   ├── settings_notifier.dart
-│   ├── stats_notifier.dart
-│   ├── study_session_notifier.dart
-│   ├── theme_notifier.dart
-│   ├── update_notifier.dart
-│   └── notifiers.dart        # Canonical barrel export (kèm export states)
-└── services/
-    └── grammar_answer_evaluator.dart # Tách biệt logic chấm điểm ra khỏi controller
+lib/
+├── core/
+│   ├── localization/
+│   │   └── locale_notifier.dart      # (locale_notifier.g.dart)
+│   └── theme/
+│       └── theme_notifier.dart       # (theme_notifier.g.dart)
+├── features/
+│   ├── browser/
+│   │   ├── domain/card_browser_state.dart
+│   │   └── logic/card_browser_notifier.dart
+│   ├── decks/
+│   │   └── logic/deck_list_notifier.dart
+│   ├── grammar/
+│   │   ├── domain/grammar_session_state.dart
+│   │   └── logic/
+│   │       ├── grammar_session_notifier.dart
+│   │       └── grammar_answer_evaluator.dart
+│   ├── settings/
+│   │   ├── domain/
+│   │   │   ├── settings_state.dart
+│   │   │   └── update_state.dart
+│   │   └── logic/
+│   │       ├── settings_notifier.dart
+│   │       └── update_notifier.dart
+│   ├── stats/
+│   │   ├── domain/stats_state.dart
+│   │   └── logic/stats_notifier.dart
+│   ├── study/
+│   │   ├── domain/study_session_state.dart
+│   │   └── logic/study_session_notifier.dart
+│   └── sync/
+│       ├── domain/auth_state.dart
+│       └── logic/auth_notifier.dart
+└── router/
+    └── app_router.dart               # (app_router.g.dart)
 ```
 
-### 5.1. Tầng 1: `lib/core/states/` (Pure Value Objects)
+### 5.1. Domain State Models (Pure Value Objects)
+- Nằm trong `lib/features/<feature>/domain/`.
 - Sử dụng `@freezed` để sinh `*.freezed.dart`.
 - **Hoàn toàn không phụ thuộc vào `flutter_riverpod` hay `riverpod_annotation`**.
 - Đảm bảo tính bất biến (immutability), deep equality cho collections/ma trận và hàm `copyWith()`.
-- Barrel export duy nhất: `lib/core/states/states.dart`.
 
-### 5.2. Tầng 2: `lib/core/notifiers/` (Riverpod Controllers)
+### 5.2. Logic Controllers (Riverpod Notifiers)
+- Nằm trong `lib/features/<feature>/logic/` (hoặc `core/localization/`, `core/theme/` đối với state toàn cục).
 - Chỉ chứa business logic và state mutations qua các action methods.
 - Sinh mã bằng `riverpod_generator` (`*.g.dart`).
-- Mỗi Notifier re-export file State tương ứng (ví dụ `study_session_notifier.dart` export `study_session_state.dart`), đảm bảo callers xem notifier không cần thêm import riêng cho state.
-- Barrel export duy nhất: `lib/core/notifiers/notifiers.dart` (đồng thời export `states.dart`).
+- Mỗi Notifier import trực tiếp file State tương ứng trong cùng feature slice.
 
-### 5.3. Trích Xuất Domain Logic (`lib/core/services/`)
-- Logic chấm điểm ngữ pháp phức tạp (`GrammarAnswerEvaluator`) được tách khỏi `GrammarSessionNotifier` sang `lib/core/services/grammar_answer_evaluator.dart`.
+### 5.3. Trích Xuất Domain Logic
+- Logic chấm điểm ngữ pháp phức tạp (`GrammarAnswerEvaluator`) được đóng gói tại `lib/features/grammar/logic/grammar_answer_evaluator.dart`.
 - Notifier chỉ đóng vai trò điều phối luồng người dùng và cập nhật state, giữ SRP (Single Responsibility Principle).
 
-### 5.4. Loại Bỏ File Tham Chiếu & Import Trực Tiếp (Zero-Indirection Direct Imports)
-- Toàn bộ các file tham chiếu/forwarder trung gian (`core/auth/auth_notifier.dart`, `core/localization/locale_notifier.dart`, `core/theme/theme_notifier.dart`) đã được xóa bỏ triệt để.
-- 100% các màn hình, widgets và bộ kiểm thử chuyển sang import trực tiếp vào file cụ thể tại `core/states/` hoặc `core/notifiers/` (hoặc thông qua barrel export), loại bỏ hoàn toàn tầng indirection thừa thãi.
+### 5.4. Xóa Bỏ Hoàn Toàn `core/states/` & `core/notifiers/`
+- Toàn bộ các thư mục gom cụm phẳng cũ (`core/states/`, `core/notifiers/`, `ui/`) đã được dọn sạch 100%.
+- Không còn các barrel export trung gian thừa thãi gây import cycles. Mỗi component import trực tiếp từ domain/logic của feature cần thiết theo quy chuẩn `ARCHITECTURE.md`.
 
 ---
 
@@ -145,4 +156,4 @@ lib/core/
 
 Mọi thay đổi liên quan đến State & Notifier đều phải thỏa mãn 2 điều kiện tiên quyết:
 1. `fvm flutter analyze` đạt 0 warnings, 0 errors, 0 lints.
-2. `fvm flutter test` chạy trọn vẹn toàn bộ 117 tests không lỗi (100% pass rate).
+2. `fvm flutter test` chạy trọn vẹn toàn bộ 120 tests không lỗi (100% pass rate).
