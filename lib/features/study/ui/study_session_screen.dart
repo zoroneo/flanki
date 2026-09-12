@@ -7,7 +7,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
-import '../../../core/notifiers/locale_notifier.dart';
+import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
 import '../../settings/providers/settings_notifier.dart';

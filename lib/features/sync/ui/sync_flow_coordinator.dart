@@ -6,7 +6,7 @@ import '../providers/auth_notifier.dart';
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 import '../../decks/providers/deck_notifier.dart';
 import '../../stats/providers/stats_notifier.dart';
-import '../../../core/storage/database_service.dart';
+import '../../../core/database/database_service.dart';
 import '../data/anki_web_sync_service.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import 'anki_web_auth_sheet.dart';

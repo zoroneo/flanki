@@ -1,9 +1,9 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqlite3/sqlite3.dart';
-import 'package:flanki/core/storage/database_service.dart';
+import 'package:flanki/core/database/database_service.dart';
 import 'package:flanki/core/models/card.dart';
 import 'package:flanki/core/models/custom_study_mode.dart';
 import 'package:flanki/core/models/deck.dart';

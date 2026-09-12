@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../sync/providers/auth_notifier.dart';
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../../sync/ui/anki_web_auth_sheet.dart';
 
 class AccountSyncCard extends ConsumerWidget {

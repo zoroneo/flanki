@@ -1,10 +1,10 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/main.dart';
-import 'package:flanki/core/storage/database_service.dart';
+import 'package:flanki/core/database/database_service.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' show VerticalDivider;
 
 void main() {

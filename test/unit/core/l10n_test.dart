@@ -1,7 +1,7 @@
-﻿import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flanki/core/notifiers/locale_notifier.dart';
+import 'package:flanki/core/localization/locale_notifier.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
 
 void main() {

@@ -1,6 +1,6 @@
-﻿import 'dart:io';
+import 'dart:io';
 
-import 'package:flanki/core/anki_bridge.dart';
+import 'package:flanki/core/anki/anki_bridge.dart';
 import 'package:flanki/core/config/app_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -6,7 +6,7 @@ import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:flanki/core/storage/media_storage_service.dart';
+import 'package:flanki/core/database/media_storage_service.dart';
 import 'package:flanki/features/sync/data/anki_web_config.dart';
 import 'package:flanki/features/sync/data/anki_web_media_sync_service.dart';
 

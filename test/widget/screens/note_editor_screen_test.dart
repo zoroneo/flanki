@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flanki/core/storage/database_service.dart';
+import 'package:flanki/core/database/database_service.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flanki/features/editor/ui/note_editor_screen.dart';
 import 'package:flutter_test/flutter_test.dart';

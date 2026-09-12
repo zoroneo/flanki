@@ -1,7 +1,7 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/models/card.dart';
-import '../../../core/storage/database_service.dart';
+import '../../../core/database/database_service.dart';
 import '../../decks/providers/deck_notifier.dart';
 import '../models/card_browser_state.dart';
 

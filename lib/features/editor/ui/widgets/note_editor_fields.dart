@@ -1,6 +1,6 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 
 class NoteEditorFields extends StatelessWidget {

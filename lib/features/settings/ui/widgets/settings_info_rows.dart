@@ -1,6 +1,6 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../providers/update_notifier.dart';
 import '../../data/desktop_update_service.dart';
 

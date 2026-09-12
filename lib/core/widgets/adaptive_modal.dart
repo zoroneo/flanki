@@ -1,7 +1,7 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../core/extensions/responsive_extensions.dart';
+import '../extensions/responsive_extensions.dart';
 
 /// Shows an adaptive modal:
 /// - Bottom sheet on mobile (< 600dp)

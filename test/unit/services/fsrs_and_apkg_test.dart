@@ -1,12 +1,12 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:typed_data';
 import 'dart:ui' show Locale;
 
 import 'package:archive/archive.dart';
 import 'package:flanki/core/fsrs/fsrs_engine_service.dart';
-import 'package:flanki/core/importer/anki_template_engine.dart';
-import 'package:flanki/core/importer/apkg_importer_service.dart';
+import 'package:flanki/core/anki/anki_template_engine.dart';
+import 'package:flanki/core/anki/apkg_importer_service.dart';
 import 'package:flanki/core/models/card.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -1,7 +1,7 @@
-﻿import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'package:flanki/core/widgets/rich_card_content.dart';

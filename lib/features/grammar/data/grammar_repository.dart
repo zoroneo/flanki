@@ -1,8 +1,8 @@
-﻿import 'package:drift/drift.dart';
+import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/storage/app_database.dart';
-import '../../../core/storage/database_service.dart';
+import '../../../core/database/app_database.dart';
+import '../../../core/database/database_service.dart';
 import '../models/grammar_models.dart';
 
 part 'grammar_repository.g.dart';

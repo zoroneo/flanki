@@ -1,4 +1,4 @@
-﻿import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -13,7 +13,7 @@ import 'package:flanki/features/grammar/ui/grammar_catalog_screen.dart';
 import 'package:flanki/features/grammar/ui/grammar_theory_screen.dart';
 import 'package:flanki/core/widgets/rich_card_content.dart';
 import 'package:drift/native.dart';
-import 'package:flanki/core/storage/app_database.dart';
+import 'package:flanki/core/database/app_database.dart';
 import 'package:flanki/features/grammar/data/grammar_repository.dart';
 import 'package:flanki/features/grammar/data/grammar_service.dart';
 import 'package:flanki/features/grammar/providers/grammar_session_notifier.dart';

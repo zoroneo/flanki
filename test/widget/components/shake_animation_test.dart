@@ -1,6 +1,6 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
-import 'package:flanki/ui/widgets/animations/shake_animation.dart';
+import 'package:flanki/core/widgets/animations/shake_animation.dart';
 
 void main() {
   testWidgets('ShakeAnimation renders child without offset when not triggered', (

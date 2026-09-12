@@ -6,7 +6,7 @@ import '../../../core/models/card.dart';
 import '../../browser/providers/card_browser_notifier.dart';
 import '../../settings/providers/settings_notifier.dart';
 import '../../../core/services/notification_service.dart';
-import '../../../core/storage/database_service.dart';
+import '../../../core/database/database_service.dart';
 import '../../decks/providers/deck_notifier.dart';
 import '../../stats/providers/stats_notifier.dart';
 import '../models/study_session_state.dart';

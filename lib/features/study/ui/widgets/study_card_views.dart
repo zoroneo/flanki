@@ -1,9 +1,9 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import 'card_action_sheet.dart';
 import 'package:flanki/core/widgets/rich_card_content.dart';

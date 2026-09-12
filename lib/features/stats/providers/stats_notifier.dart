@@ -1,8 +1,8 @@
-﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/config/app_config.dart';
 import '../../../core/models/card.dart';
-import '../../../core/storage/database_service.dart';
+import '../../../core/database/database_service.dart';
 import '../models/stats_state.dart';
 
 export '../models/stats_state.dart';

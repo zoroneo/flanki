@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/locale_notifier.dart';
-import '../../../../ui/widgets/adaptive_modal.dart';
+import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/widgets/adaptive_modal.dart';
 
 enum SyncConflictChoice { merge, upload, download }
 

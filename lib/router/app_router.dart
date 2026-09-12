@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/grammar/models/grammar_models.dart';
-import '../../features/sync/ui/anki_web_auth_screen.dart';
-import '../../features/browser/ui/card_browser_screen.dart';
-import '../../features/decks/ui/decks_screen.dart';
-import '../../features/editor/ui/note_editor_screen.dart';
-import '../../features/grammar/ui/grammar_catalog_screen.dart';
-import '../../features/grammar/ui/grammar_practice_screen.dart';
-import '../../features/grammar/ui/grammar_theory_screen.dart';
-import '../../features/settings/ui/licenses_screen.dart';
-import '../../features/settings/ui/privacy_policy_screen.dart';
-import '../../features/settings/ui/settings_screen.dart';
-import '../../features/stats/ui/stats_screen.dart';
-import '../../features/study/ui/study_session_screen.dart';
-import '../widgets/adaptive_scaffold.dart';
+import '../features/grammar/models/grammar_models.dart';
+import '../features/sync/ui/anki_web_auth_screen.dart';
+import '../features/browser/ui/card_browser_screen.dart';
+import '../features/decks/ui/decks_screen.dart';
+import '../features/editor/ui/note_editor_screen.dart';
+import '../features/grammar/ui/grammar_catalog_screen.dart';
+import '../features/grammar/ui/grammar_practice_screen.dart';
+import '../features/grammar/ui/grammar_theory_screen.dart';
+import '../features/settings/ui/licenses_screen.dart';
+import '../features/settings/ui/privacy_policy_screen.dart';
+import '../features/settings/ui/settings_screen.dart';
+import '../features/stats/ui/stats_screen.dart';
+import '../features/study/ui/study_session_screen.dart';
+import '../core/widgets/adaptive_scaffold.dart';
 
 part 'app_router.g.dart';
 

@@ -1,7 +1,7 @@
-﻿import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/notifiers/locale_notifier.dart';
+import '../../../core/localization/locale_notifier.dart';
 import 'anki_web_auth_sheet.dart';
 
 class AnkiWebAuthScreen extends StatelessWidget {

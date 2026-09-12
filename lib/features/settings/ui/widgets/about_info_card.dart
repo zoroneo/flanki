@@ -2,12 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/anki_bridge.dart';
+import '../../../../core/anki/anki_bridge.dart';
 import '../../../../core/config/app_config.dart';
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../providers/settings_notifier.dart';
 import '../../providers/update_notifier.dart';
-import '../../../../core/notifiers/theme_notifier.dart';
+import '../../../../core/theme/theme_notifier.dart';
 import 'update_dialog.dart';
 import 'settings_info_rows.dart';
 

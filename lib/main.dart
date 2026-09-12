@@ -1,21 +1,21 @@
-﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-import 'core/notifiers/locale_notifier.dart';
+import 'core/localization/locale_notifier.dart';
 import 'core/localization/shadcn_localizations_vi.dart';
 import 'core/services/desktop_window_service.dart';
 import 'core/services/notification_service.dart';
-import 'core/notifiers/theme_notifier.dart';
+import 'core/theme/theme_notifier.dart';
 import 'l10n/generated/app_localizations.dart';
-import 'ui/router/app_router.dart';
-import 'ui/widgets/app_lifecycle_manager.dart';
+import 'router/app_router.dart';
+import 'core/widgets/app_lifecycle_manager.dart';
 
-import 'core/storage/database_service.dart';
-import 'core/storage/media_storage_service.dart';
+import 'core/database/database_service.dart';
+import 'core/database/media_storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

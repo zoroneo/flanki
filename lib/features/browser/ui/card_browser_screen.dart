@@ -1,11 +1,11 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/notifiers/locale_notifier.dart';
+import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
 import '../providers/card_browser_notifier.dart';

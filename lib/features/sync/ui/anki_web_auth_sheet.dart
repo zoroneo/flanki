@@ -6,11 +6,11 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../data/anki_web_auth_service.dart';
 import '../providers/auth_notifier.dart';
-import '../../../core/notifiers/locale_notifier.dart';
+import '../../../core/localization/locale_notifier.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
-import '../../../ui/widgets/adaptive_modal.dart';
-import '../../../ui/widgets/form_focus_helper.dart';
+import '../../../core/widgets/adaptive_modal.dart';
+import '../../../core/widgets/form_focus_helper.dart';
 
 class AnkiWebAuthSheet extends HookConsumerWidget {
   final bool isDesktop;

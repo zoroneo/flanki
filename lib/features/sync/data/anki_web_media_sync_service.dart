@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/config/app_config.dart';
-import '../../../core/storage/media_storage_service.dart';
+import '../../../core/database/media_storage_service.dart';
 import 'anki_web_config.dart';
 
 class MediaSyncResult {

@@ -1,12 +1,12 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/custom_study_mode.dart';
 
-import 'package:flanki/ui/widgets/adaptive_modal.dart';
-import 'package:flanki/ui/widgets/form_focus_helper.dart';
+import 'package:flanki/core/widgets/adaptive_modal.dart';
+import 'package:flanki/core/widgets/form_focus_helper.dart';
 
 class CustomStudyModal extends HookWidget {
   final void Function(String name, String tag, int limit, CustomStudyMode mode)

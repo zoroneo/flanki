@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -9,8 +9,8 @@ import 'package:sqlite3/sqlite3.dart';
 import '../config/app_config.dart';
 import '../models/card.dart';
 import '../models/deck.dart';
-import '../storage/database_service.dart';
-import '../storage/media_storage_service.dart';
+import '../database/database_service.dart';
+import '../database/media_storage_service.dart';
 import 'anki_template_engine.dart';
 
 class ApkgImportResult {

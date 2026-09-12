@@ -1,12 +1,12 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/notifiers/locale_notifier.dart';
+import '../../../../core/localization/locale_notifier.dart';
 
-import 'package:flanki/ui/widgets/adaptive_modal.dart';
-import 'package:flanki/ui/widgets/form_focus_helper.dart';
+import 'package:flanki/core/widgets/adaptive_modal.dart';
+import 'package:flanki/core/widgets/form_focus_helper.dart';
 
 class CreateDeckModal extends HookWidget {
   final void Function(String name, String description) onCreateDeck;

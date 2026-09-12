@@ -6,7 +6,7 @@ import 'package:flanki/core/models/card.dart';
 import 'package:flanki/core/models/deck.dart';
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 import 'package:flanki/features/settings/providers/settings_notifier.dart';
-import 'package:flanki/core/storage/database_service.dart';
+import 'package:flanki/core/database/database_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

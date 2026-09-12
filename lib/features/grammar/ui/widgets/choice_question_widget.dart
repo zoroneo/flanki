@@ -1,8 +1,8 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../models/grammar_models.dart';
-import 'package:flanki/ui/widgets/animations/shake_animation.dart';
+import 'package:flanki/core/widgets/animations/shake_animation.dart';
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
 class ChoiceQuestionWidget extends StatelessWidget {
