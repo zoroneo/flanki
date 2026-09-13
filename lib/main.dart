@@ -16,6 +16,7 @@ import 'core/widgets/app_lifecycle_manager.dart';
 
 import 'core/database/database_service.dart';
 import 'core/database/media_storage_service.dart';
+import 'core/services/card_audio_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +52,7 @@ SOFTWARE.''',
   });
   await DatabaseService.instance.init();
   await MediaStorageService.instance.init();
+  await CardAudioService.instance.init();
   if (DesktopWindowService.isDesktop) {
     await DesktopWindowService.instance.init(
       onOpenStudy: () {

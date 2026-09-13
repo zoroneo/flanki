@@ -1,8 +1,10 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
 class GrammarTheorySectionCard extends StatelessWidget {
@@ -25,16 +27,18 @@ class GrammarTheorySectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
-      padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
-          : const EdgeInsets.all(20),
+      padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: isMobile ? 16 : 20, color: iconColor),
-              SizedBox(width: isMobile ? 6 : 10),
+              Icon(
+                icon,
+                size: isMobile ? AppIconSize.sm : AppIconSize.md,
+                color: iconColor,
+              ),
+              isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
                 child: Text(
                   title,
@@ -51,7 +55,7 @@ class GrammarTheorySectionCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: isMobile ? 6 : 14),
+          isMobile ? AppGaps.v6 : AppGaps.v16,
           RichCardContent(
             content: content,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,9 +93,7 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
-      padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
-          : const EdgeInsets.all(20),
+      padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -99,10 +101,10 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
             children: [
               Icon(
                 LucideIcons.sigma,
-                size: isMobile ? 16 : 20,
+                size: isMobile ? AppIconSize.sm : AppIconSize.md,
                 color: m.Colors.blue,
               ),
-              SizedBox(width: isMobile ? 6 : 10),
+              isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
                 child: Text(
                   l10n.grammarFormulasTitle,
@@ -119,16 +121,16 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: isMobile ? 8 : 16),
+          isMobile ? AppGaps.v8 : AppGaps.v16,
           ...formulas.entries.map((entry) {
             return Container(
-              margin: EdgeInsets.only(bottom: isMobile ? 6 : 12),
-              padding: isMobile
-                  ? const EdgeInsets.symmetric(horizontal: 10, vertical: 6)
-                  : const EdgeInsets.all(14),
+              margin: EdgeInsets.only(
+                bottom: isMobile ? AppSpacing.xs : AppSpacing.md,
+              ),
+              padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all16,
               decoration: BoxDecoration(
                 color: theme.colorScheme.muted.withValues(alpha: 0.35),
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: AppRadius.borderSm,
                 border: Border.all(color: theme.colorScheme.border),
               ),
               child: Column(
@@ -142,7 +144,7 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
                       color: theme.colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(height: 3),
+                  AppGaps.v4,
                   RichCardContent(
                     content: entry.value,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,9 +182,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
-      padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
-          : const EdgeInsets.all(20),
+      padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -190,10 +190,10 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
             children: [
               Icon(
                 LucideIcons.triangleAlert,
-                size: isMobile ? 16 : 20,
+                size: isMobile ? AppIconSize.sm : AppIconSize.md,
                 color: m.Colors.orange,
               ),
-              SizedBox(width: isMobile ? 6 : 10),
+              isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
                 child: Text(
                   l10n.grammarCommonTrapsTitle,
@@ -210,16 +210,16 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: isMobile ? 8 : 16),
+          isMobile ? AppGaps.v8 : AppGaps.v16,
           ...commonTraps.map((trap) {
             return Container(
-              margin: EdgeInsets.only(bottom: isMobile ? 8 : 16),
-              padding: isMobile
-                  ? const EdgeInsets.all(8)
-                  : const EdgeInsets.all(16),
+              margin: EdgeInsets.only(
+                bottom: isMobile ? AppSpacing.sm : AppSpacing.lg,
+              ),
+              padding: isMobile ? AppEdgeInsets.all8 : AppEdgeInsets.all16,
               decoration: BoxDecoration(
                 color: theme.colorScheme.card,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: AppRadius.borderMd,
                 border: Border.all(color: theme.colorScheme.border),
               ),
               child: Column(
@@ -234,11 +234,11 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: isMobile ? 6 : 10),
+                  isMobile ? AppGaps.v6 : AppGaps.v12,
                   _buildWrongExample(isMobile, trap.exampleWrong),
-                  const SizedBox(height: 4),
+                  AppGaps.v4,
                   _buildRightExample(isMobile, trap.exampleRight),
-                  SizedBox(height: isMobile ? 5 : 10),
+                  isMobile ? AppGaps.v6 : AppGaps.v12,
                   _buildNote(theme, isMobile, trap.note),
                 ],
               ),
@@ -251,12 +251,10 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
 
   Widget _buildWrongExample(bool isMobile, String wrong) {
     return Container(
-      padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
-          : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: isMobile ? AppEdgeInsets.h8v4 : AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
         color: m.Colors.red.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: AppRadius.borderSm,
         border: Border.all(color: m.Colors.red.withValues(alpha: 0.3)),
       ),
       child: Row(
@@ -282,12 +280,10 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
 
   Widget _buildRightExample(bool isMobile, String right) {
     return Container(
-      padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
-          : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: isMobile ? AppEdgeInsets.h8v4 : AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
         color: m.Colors.green.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: AppRadius.borderSm,
         border: Border.all(color: m.Colors.green.withValues(alpha: 0.3)),
       ),
       child: Row(
@@ -316,12 +312,12 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
+        const Icon(
           LucideIcons.info,
-          size: isMobile ? 13 : 15,
+          size: AppIconSize.xs,
           color: m.Colors.orange,
         ),
-        const SizedBox(width: 6),
+        AppGaps.h8,
         Expanded(
           child: RichCardContent(
             content: note,
@@ -355,9 +351,7 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Card(
-      padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 10, vertical: 8)
-          : const EdgeInsets.all(20),
+      padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -365,10 +359,10 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
             children: [
               Icon(
                 LucideIcons.bookOpen,
-                size: isMobile ? 16 : 20,
+                size: isMobile ? AppIconSize.sm : AppIconSize.md,
                 color: m.Colors.purple,
               ),
-              SizedBox(width: isMobile ? 6 : 10),
+              isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
                 child: Text(
                   l10n.grammarExtraGuidesTitle,
@@ -385,16 +379,16 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: isMobile ? 8 : 16),
+          isMobile ? AppGaps.v8 : AppGaps.v16,
           ...extraGuides.entries.map((entry) {
             return Container(
-              margin: EdgeInsets.only(bottom: isMobile ? 8 : 14),
-              padding: isMobile
-                  ? const EdgeInsets.all(8)
-                  : const EdgeInsets.all(16),
+              margin: EdgeInsets.only(
+                bottom: isMobile ? AppSpacing.sm : AppSpacing.md,
+              ),
+              padding: isMobile ? AppEdgeInsets.all8 : AppEdgeInsets.all16,
               decoration: BoxDecoration(
                 color: theme.colorScheme.muted.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: AppRadius.borderSm,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -407,7 +401,7 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
                       color: m.Colors.purple,
                     ),
                   ),
-                  SizedBox(height: isMobile ? 4 : 8),
+                  isMobile ? AppGaps.v4 : AppGaps.v8,
                   RichCardContent(
                     content: entry.value,
                     crossAxisAlignment: CrossAxisAlignment.start,

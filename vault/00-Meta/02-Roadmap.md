@@ -50,6 +50,12 @@ gantt
     Core Domain Slices (Decks, Study, Browser):done, p9_3, 2026-09-12, 1d
     Support Slices (Sync, Settings)          :done, p9_4, 2026-09-12, 1d
     Core & Clean Old Folders (120/120 Tests) :done, p9_5, 2026-09-12, 1d
+    section Phase 10: Responsive Polish, Overflow Immunity & Media Engine
+    AppTokens & Guardrail (check_dimensions) :done, p10_1, 2026-09-13, 1d
+    Zero Overflow Matrix (6 Viewports/Scales):done, p10_2, 2026-09-13, 1d
+    CardAudioService & Case-Insensitive Ext4 :done, p10_3, 2026-09-13, 1d
+    Background Desktop Downloader (Dio)      :done, p10_4, 2026-09-13, 1d
+    100% L10n Coverage & 154/154 Tests Pass  :done, p10_5, 2026-09-13, 1d
 ```
 
 ### Chi tiết các cột mốc:
@@ -62,3 +68,10 @@ gantt
 7. **Milestone 7 — Codebase Standardization & Hardcode Elimination**: Triệt tiêu toàn bộ magic strings, magic numbers; chuẩn hóa enum type-safe (`AppPlatform`, `UpdateErrorType`, `DesktopTrayAction`); tập trung hóa `AppConfig.getL10n()` và `supportedLocales`; sửa lỗi nhận diện bộ thẻ Cày đề (Cram deck) và parser tag đa ngôn ngữ; đạt 100% test pass (117/117).
 8. **Milestone 8 — State Modernization & Render Optimization**: Chuyển đổi 100% state models sang `@freezed` (7 classes) với deep equality; thu hẹp scope watch Riverpod với `.select()` và bọc `Consumer` / `ConsumerWidget` độc lập tại lá cây (Settings cards, Decks stats/badges, Scaffolds); di chuyển sang `riverpod_annotation: ^4.0.7` và `riverpod_generator: ^4.0.9` sinh mã tự động cho toàn bộ providers; tối ưu hóa hiệu năng render 60-120 FPS.
 9. **Milestone 9 — Feature-First Architecture Migration**: Tái cấu trúc toàn diện từ Layer-First sang Feature-First (`features/{stats, grammar, decks, study, browser, editor, sync, settings}/`). Di chuyển hạ tầng dùng chung vào `core/` (`anki/`, `database/`, `fsrs/`, `localization/`, `theme/`, `widgets/`), router về `lib/router/app_router.dart`. Thiết lập quy chuẩn ranh giới trong `ARCHITECTURE.md`, xóa bỏ hoàn toàn `lib/ui/`, `core/storage/`, `core/importer/`, `core/states/`, `core/notifiers/`, bảo đảm 120/120 tests pass.
+10. **Milestone 10 — Responsive Polish, Overflow Immunity, Media Engine & Dio In-App Downloader**:
+    - Thiết lập hệ thống `AppTokens` chuẩn mực (`AppSpacing`, `AppRadius`, `AppIconSize`, `AppEdgeInsets`, `AppGaps`, `AppAnimationDurations`).
+    - Xây dựng công cụ kiểm tra tự động `tool/check_dimensions.dart` chặn đứng số ma thuật (magic numbers) trong toàn bộ code UI.
+    - Bảo đảm miễn nhiễm tràn màn hình (Zero Overflow Guarantee) qua ma trận kiểm thử 6 khung nhìn (Mobile 320x568, A11y Scale 1.5x, Tablet 768x1024, Desktop 1280x800).
+    - Quản lý âm thanh đơn phiên `CardAudioService` chống tràn bộ nhớ đệm native Android MediaPlayer; phân giải file media đa nền tảng `MediaStorageService` (URL decoding, loại bỏ quotes, tìm kiếm case-insensitive trên Android ext4, xử lý file rỗng 0-byte).
+    - Cập nhật desktop in-app trực tiếp qua `Dio` chạy nền (background download toast, tiến độ thời gian thực, tự động khởi động lại và cài đặt).
+    - Bản địa hóa 100% ARB song ngữ Anh - Việt, đạt mốc **154 / 154 tests PASS**.

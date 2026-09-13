@@ -1,4 +1,6 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
+
+import '../../../../core/theme/app_tokens.dart';
 
 class DesktopTypeOption extends StatelessWidget {
   final String title;
@@ -23,12 +25,15 @@ class DesktopTypeOption extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.smPlus,
+          vertical: 10,
+        ),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary.withValues(alpha: 0.08)
               : theme.colorScheme.muted.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: AppRadius.borderMd,
           border: Border.all(
             color: isSelected
                 ? theme.colorScheme.primary
@@ -40,12 +45,12 @@ class DesktopTypeOption extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 18,
+              size: AppIconSize.md,
               color: isSelected
                   ? theme.colorScheme.primary
                   : theme.colorScheme.mutedForeground,
             ),
-            const SizedBox(width: 10),
+            AppGaps.h8,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +67,7 @@ class DesktopTypeOption extends StatelessWidget {
                           : theme.colorScheme.foreground,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  AppGaps.v2,
                   Text(
                     subtitle,
                     style: TextStyle(
@@ -76,7 +81,7 @@ class DesktopTypeOption extends StatelessWidget {
             if (isSelected)
               Icon(
                 LucideIcons.check,
-                size: 16,
+                size: AppIconSize.sm,
                 color: theme.colorScheme.primary,
               ),
           ],
@@ -106,12 +111,15 @@ class TypeSelectButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.smPlus,
+          vertical: 10,
+        ),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
               : theme.colorScheme.muted,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: AppRadius.borderMd,
           border: Border.all(
             color: isSelected
                 ? theme.colorScheme.primary
@@ -130,7 +138,7 @@ class TypeSelectButton extends StatelessWidget {
                     : theme.colorScheme.foreground,
               ),
             ),
-            const SizedBox(height: 2),
+            AppGaps.v2,
             Text(
               subtitle,
               textAlign: TextAlign.center,

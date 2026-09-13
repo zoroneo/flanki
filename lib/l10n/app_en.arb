@@ -449,6 +449,20 @@
   "openDownloadPage": "Open Download Page",
   "restartAndInstall": "Restart & Update",
   "downloadAndInstall": "Download & Update",
+  "downloadInBackground": "Download in background",
+  "cancelDownload": "Cancel download",
+  "updateReadyTitle": "Update ready to install",
+  "updateReadySubtitle": "Version {version} is downloaded and ready to install",
+  "@updateReadySubtitle": {
+    "description": "Subtitle when update has finished downloading",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.1.5"
+      }
+    }
+  },
+  "updateReadyAction": "Install now",
   "updateBannerTitle": "A new update is available (v{version})",
   "@updateBannerTitle": {
     "description": "Title of update banner toast",
@@ -779,6 +793,7 @@
   "grammarTabTraps": "Traps",
   "grammarTabGuides": "Guides",
   "audioPlay": "Play audio",
+  "audioStop": "Stop audio",
   "privacyPolicyTagline": "Local-First • Zero Tracking • Open Source",
   "privacySection1Title": "1. Local-First Storage",
   "privacySection1Content": "All your decks, flashcards, study schedules, and review history are stored locally on your device via SQLite. Flanki does not transmit your personal flashcard content to any developer servers.",

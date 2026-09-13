@@ -201,3 +201,36 @@ Chi tiết quy chuẩn kiến trúc xem tại: [[01-Architecture/06-State-Manage
   * Tiêu đề bài học giới hạn `fontSize: 15px - 16px`, `fontWeight: FontWeight.w700`, `maxLines: 2`.
   * Triệt tiêu toàn bộ mô tả dài dòng chiếm nửa màn hình; nhường 100% tầm nhìn đầu tiên cho thanh Tabs và nội dung bài học.
 
+---
+
+## 12. Quy Chuẩn Triệt Tiêu Số Ma Thuật Kích Thước (`AppTokens` Guardrail)
+
+> [!CAUTION] Cấm Tuyệt Đối Số Ma Thuật Kích Thước (Raw Numeric Dimensions)
+> Không viết trực tiếp các giá trị số thô như `SizedBox(width: 8)`, `padding: EdgeInsets.all(16)`, `Icon(..., size: 16)`, `BorderRadius.circular(8)` trong code UI.
+
+* **Sử dụng bộ token chuẩn hóa**:
+  * `SizedBox` khoảng cách: dùng `AppGaps.h8`, `AppGaps.v12`, `AppGaps.v16`...
+  * `EdgeInsets`: dùng `AppEdgeInsets.all12`, `AppEdgeInsets.h12v8`, `AppEdgeInsets.h16v12`...
+  * `BorderRadius`: dùng `AppRadius.borderSm`, `AppRadius.borderMd`, `AppRadius.borderLg`...
+  * Kích thước biểu tượng: dùng `AppIconSize.xs` (12), `sm` (14), `md` (16), `lg` (20), `xl` (24).
+* **Kiểm tra tự động trước commit (Automated Dimension Guardrail)**:
+  * Lệnh kiểm tra: `fvm dart run tool/check_dimensions.dart`.
+  * Tự động quét toàn bộ `lib/` và chặn đứng mọi PR/commit vi phạm.
+
+---
+
+## 13. Bảo Đảm Miễn Nhiễm Tràn Màn Hình (Zero Overflow Guarantee)
+
+* **Ma Trận Khung Nhìn Đa Thiết Bị (Viewport & Scale Matrix)**:
+  1. `Small Mobile`: 320 x 568 (iPhone SE gen 1, Android compact).
+  2. `Small Mobile + A11y Text Scale`: 320 x 568 với `TextScaler.linear(1.5)` (chế độ người khiếm thị/chữ to).
+  3. `Standard Mobile`: 390 x 844 (iPhone 14/15/16).
+  4. `Tablet`: 768 x 1024 (iPad Mini / Portrait Tablet).
+  5. `Desktop`: 1280 x 800 (Laptop / Desktop Window).
+* **Quy Tắc Thích Ứng Thành Phần Con (Component Responsive Rules)**:
+  * **Dialogs & BottomSheets**: Dưới 420px tự động chuyển bố cục nút từ `Row` sang `Column(crossAxisAlignment: CrossAxisAlignment.stretch)` (như `UpdateDialog`, `SyncConflictDialog`).
+  * **Text & Labels**: Mọi tiêu đề trên `Row` đều phải bọc trong `Flexible` hoặc `Expanded` kèm `maxLines: 1` và `overflow: TextOverflow.ellipsis`.
+  * **Form & Sheet Inputs**: Luôn có `SingleChildScrollView` với `keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag` để không bị bàn phím ảo đẩy tràn màn hình.
+  * **Test Tự Động**: Toàn bộ ma trận được bảo vệ bởi test suite `test/widget/screens/overflow_resizing_matrix_test.dart`.
+
+

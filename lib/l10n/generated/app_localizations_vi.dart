@@ -1,4 +1,4 @@
-﻿// ignore: unused_import
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations.dart';
@@ -74,7 +74,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get syncFailed => 'Đồng bộ thất bại';
 
   @override
-  String get settingsTitle => 'Cài đặt & Cấu hình';
+  String get settingsTitle => 'Cài đặt & cấu hình';
 
   @override
   String get accountAndSync => 'TÀI KHOẢN & ĐỒNG BỘ';
@@ -850,6 +850,23 @@ class AppLocalizationsVi extends AppLocalizations {
   String get downloadAndInstall => 'Tải & Cập nhật';
 
   @override
+  String get downloadInBackground => 'Tải trong nền';
+
+  @override
+  String get cancelDownload => 'Hủy tải';
+
+  @override
+  String get updateReadyTitle => 'Bản cập nhật đã sẵn sàng';
+
+  @override
+  String updateReadySubtitle(String version) {
+    return 'Bản cập nhật v$version đã được tải về sẵn sàng cài đặt';
+  }
+
+  @override
+  String get updateReadyAction => 'Cài đặt ngay';
+
+  @override
   String updateBannerTitle(String version) {
     return 'Có bản cập nhật mới (v$version)';
   }
@@ -1141,7 +1158,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get grammarAcademicTitle => 'Ngữ Pháp Học Thuật';
+  String get grammarAcademicTitle => 'Ngữ pháp học thuật';
 
   @override
   String get grammarAcademicSubtitle =>
@@ -1376,6 +1393,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get audioPlay => 'Phát âm thanh';
+
+  @override
+  String get audioStop => 'Dừng âm thanh';
 
   @override
   String get privacyPolicyTagline =>

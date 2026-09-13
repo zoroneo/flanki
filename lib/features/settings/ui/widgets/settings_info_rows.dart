@@ -1,6 +1,7 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../providers/update_notifier.dart';
 import '../../data/desktop_update_service.dart';
 
@@ -29,7 +30,7 @@ class LanguageOptionButton extends StatelessWidget {
           color: isSelected
               ? theme.colorScheme.primary
               : theme.colorScheme.muted.withValues(alpha: 0.4),
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: AppRadius.borderSm,
           border: Border.all(
             color: isSelected
                 ? theme.colorScheme.primary
@@ -67,7 +68,7 @@ class InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -77,7 +78,7 @@ class InfoRow extends StatelessWidget {
               color: theme.colorScheme.mutedForeground,
             ),
           ),
-          const SizedBox(width: 12),
+          AppGaps.h12,
           Expanded(
             child: Text(
               value,
@@ -129,7 +130,7 @@ class VersionInfoRow extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          AppGaps.h8,
           Expanded(
             flex: 6,
             child: Row(
@@ -142,7 +143,7 @@ class VersionInfoRow extends StatelessWidget {
                   ),
                 ),
                 if (isSupported) ...[
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   _buildUpdateStatusWidget(theme, l10n),
                 ],
               ],
@@ -165,20 +166,81 @@ class VersionInfoRow extends StatelessWidget {
       return GestureDetector(
         onTap: onShowDialog,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          padding: AppEdgeInsets.h8v4,
           decoration: BoxDecoration(
             color: theme.colorScheme.primary,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: AppRadius.borderSm,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(LucideIcons.circleArrowUp, size: 12),
-              const SizedBox(width: 4),
+              const Icon(LucideIcons.circleArrowUp, size: AppIconSize.xs),
+              AppGaps.h4,
               Text(
                 l10n.newVersionBadge(
                   updateState.updateInfo?.latestVersion ?? '',
                 ),
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.primaryForeground,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (updateState.status == UpdateStatus.downloading) {
+      final pct = (updateState.downloadProgress * 100).toInt().clamp(0, 100);
+      return GestureDetector(
+        onTap: onShowDialog,
+        child: Container(
+          padding: AppEdgeInsets.h8v4,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary.withValues(alpha: 0.15),
+            borderRadius: AppRadius.borderSm,
+            border: Border.all(color: theme.colorScheme.primary),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 10,
+                height: 10,
+                child: CircularProgressIndicator(
+                  strokeWidth: 1.5,
+                  value: updateState.downloadProgress > 0
+                      ? updateState.downloadProgress
+                      : null,
+                ),
+              ),
+              AppGaps.h4,
+              Text(
+                '$pct%',
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (updateState.status == UpdateStatus.readyToInstall) {
+      return GestureDetector(
+        onTap: onShowDialog,
+        child: Container(
+          padding: AppEdgeInsets.h8v4,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary,
+            borderRadius: AppRadius.borderSm,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(LucideIcons.circleCheck, size: AppIconSize.xs),
+              AppGaps.h4,
+              Text(
+                l10n.restartAndInstall,
                 style: theme.typography.xSmall.copyWith(
                   color: theme.colorScheme.primaryForeground,
                   fontWeight: FontWeight.w600,
@@ -227,7 +289,7 @@ class ClickableInfoRow extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         child: Row(
           children: [
             Expanded(
@@ -240,7 +302,7 @@ class ClickableInfoRow extends StatelessWidget {
             ),
             Icon(
               LucideIcons.chevronRight,
-              size: 16,
+              size: AppIconSize.sm,
               color: theme.colorScheme.mutedForeground,
             ),
           ],

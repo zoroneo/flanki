@@ -1,6 +1,7 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class DeckToolbar extends StatelessWidget {
   final bool isMobile;
@@ -40,7 +41,7 @@ class DeckToolbar extends StatelessWidget {
                     InputFeature.leading(
                       Icon(
                         LucideIcons.search,
-                        size: 18,
+                        size: AppIconSize.md,
                         color: theme.colorScheme.mutedForeground,
                       ),
                     ),
@@ -50,17 +51,17 @@ class DeckToolbar extends StatelessWidget {
                 ),
               ),
               if (!isMobile) ...[
-                const SizedBox(width: 12),
+                AppGaps.h12,
                 PrimaryButton(
                   alignment: Alignment.center,
-                  leading: const Icon(LucideIcons.plus, size: 16),
+                  leading: const Icon(LucideIcons.plus, size: AppIconSize.sm),
                   onPressed: onAddDeck,
                   child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
                 ),
                 if (!isUltraCompact) ...[
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   _buildImportButton(context, l10n, isCompactToolbar),
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   _buildCustomStudyButton(context, l10n, isCompactToolbar),
                 ],
               ],

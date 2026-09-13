@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../providers/settings_notifier.dart';
 import 'settings_info_rows.dart';
 
@@ -25,9 +26,9 @@ class SpacedRepetitionCard extends ConsumerWidget {
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Card(
-          padding: const EdgeInsets.all(16),
+          padding: AppEdgeInsets.all16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,7 +40,7 @@ class SpacedRepetitionCard extends ConsumerWidget {
                 studySettingsNotifier,
               ),
               if (isFsrsEnabled) ...[
-                const SizedBox(height: 16),
+                AppGaps.v16,
                 _buildRetentionRates(
                   theme,
                   l10n,
@@ -47,16 +48,16 @@ class SpacedRepetitionCard extends ConsumerWidget {
                   studySettingsNotifier,
                 ),
               ],
-              const SizedBox(height: 16),
+              AppGaps.v16,
               const Divider(),
-              const SizedBox(height: 12),
+              AppGaps.v12,
               _buildNewCardsPerDay(
                 theme,
                 l10n,
                 studySettings,
                 studySettingsNotifier,
               ),
-              const SizedBox(height: 16),
+              AppGaps.v16,
               _buildMaxReviewsPerDay(
                 theme,
                 l10n,
@@ -85,7 +86,7 @@ class SpacedRepetitionCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(l10n.enableFsrs, style: theme.typography.semiBold),
-              const SizedBox(height: 2),
+              AppGaps.v2,
               Text(
                 isFsrsEnabled ? l10n.fsrsSubtitle : l10n.sm2Subtitle,
                 style: theme.typography.xSmall.copyWith(
@@ -95,7 +96,7 @@ class SpacedRepetitionCard extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Switch(
           value: isFsrsEnabled,
           onChanged: (val) {
@@ -121,14 +122,14 @@ class SpacedRepetitionCard extends ConsumerWidget {
           '${l10n.targetRetentionRate('${(studySettings.desiredRetention * 100).toInt()}%')} (FSRS)',
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Row(
           children: [0.80, 0.85, 0.90, 0.95].map((rate) {
             final isSelected =
                 (studySettings.desiredRetention - rate).abs() < 0.001;
             return Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs),
                 child: LanguageOptionButton(
                   label: '${(rate * 100).toInt()}%',
                   isSelected: isSelected,
@@ -159,13 +160,13 @@ class SpacedRepetitionCard extends ConsumerWidget {
           l10n.newCardsPerDay,
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Row(
           children: [10, 20, 30, 50].map((count) {
             final isSelected = studySettings.newCardsPerDay == count;
             return Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs),
                 child: LanguageOptionButton(
                   label: '$count',
                   isSelected: isSelected,
@@ -196,13 +197,13 @@ class SpacedRepetitionCard extends ConsumerWidget {
           l10n.maxReviewsPerDay,
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Row(
           children: [50, 100, 200, 500].map((count) {
             final isSelected = studySettings.maxReviewsPerDay == count;
             return Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs),
                 child: LanguageOptionButton(
                   label: '$count',
                   isSelected: isSelected,

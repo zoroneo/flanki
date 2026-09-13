@@ -4,6 +4,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/about_info_card.dart';
 import 'widgets/account_sync_card.dart';
@@ -32,7 +33,9 @@ class SettingsScreen extends HookConsumerWidget {
       builder: (context, sizingInfo) {
         final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
         final theme = Theme.of(context);
-        final horizontalPadding = isMobile ? 16.0 : 24.0;
+        final horizontalPadding = isMobile
+            ? AppSpacing.pageMobile
+            : AppSpacing.pageDesktop;
 
         return Scaffold(
           headers: [
@@ -52,17 +55,17 @@ class SettingsScreen extends HookConsumerWidget {
               child: ListView(
                 padding: EdgeInsets.symmetric(
                   horizontal: horizontalPadding,
-                  vertical: 16.0,
+                  vertical: AppSpacing.md,
                 ),
                 children: [
                   AccountSyncCard(isSyncing: isSyncing, onSync: handleSync),
-                  const SizedBox(height: 24),
+                  AppGaps.v24,
                   const AppPreferencesCard(),
-                  const SizedBox(height: 24),
+                  AppGaps.v24,
                   const SpacedRepetitionCard(),
-                  const SizedBox(height: 24),
+                  AppGaps.v24,
                   const StudyRemindersCard(),
-                  const SizedBox(height: 24),
+                  AppGaps.v24,
                   const AboutInfoCard(),
                   SizedBox(height: isMobile ? 110 : 40),
                 ],

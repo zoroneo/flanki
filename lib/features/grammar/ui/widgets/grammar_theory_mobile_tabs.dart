@@ -1,18 +1,15 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
 /// Interactive tab definitions for grammar theory screen on mobile.
-enum GrammarTheoryTabType {
-  concept,
-  formulas,
-  traps,
-  guides,
-}
+enum GrammarTheoryTabType { concept, formulas, traps, guides }
 
 class GrammarTheoryMobileTabs extends HookWidget {
   final GrammarUnit unit;
@@ -49,9 +46,15 @@ class GrammarTheoryMobileTabs extends HookWidget {
     return Column(
       children: [
         _buildHeaderBanner(theme, l10n),
-        const SizedBox(height: 6),
-        _buildTabBar(theme, l10n, availableTabs, activeIndex.value, onTabSelected),
-        const SizedBox(height: 6),
+        AppGaps.v6,
+        _buildTabBar(
+          theme,
+          l10n,
+          availableTabs,
+          activeIndex.value,
+          onTabSelected,
+        ),
+        AppGaps.v6,
         Expanded(
           child: PageView.builder(
             controller: pageController,
@@ -72,20 +75,27 @@ class GrammarTheoryMobileTabs extends HookWidget {
     final levelColor = unit.level.color;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      margin: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        AppSpacing.sm,
+        AppSpacing.md,
+        0,
+      ),
+      padding: AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
         color: theme.colorScheme.muted.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: theme.colorScheme.border.withValues(alpha: 0.5)),
+        borderRadius: AppRadius.borderMd,
+        border: Border.all(
+          color: theme.colorScheme.border.withValues(alpha: 0.5),
+        ),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
               color: levelColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: AppRadius.borderSm,
               border: Border.all(color: levelColor.withValues(alpha: 0.3)),
             ),
             child: Text(
@@ -97,23 +107,20 @@ class GrammarTheoryMobileTabs extends HookWidget {
               ),
             ),
           ),
-          const SizedBox(width: 6),
+          AppGaps.h8,
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
               color: theme.colorScheme.background,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: AppRadius.borderSm,
               border: Border.all(color: theme.colorScheme.border),
             ),
             child: Text(
               unit.category.code.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
             ),
           ),
-          const SizedBox(width: 8),
+          AppGaps.h8,
           Expanded(
             child: Text(
               unit.title,
@@ -140,11 +147,11 @@ class GrammarTheoryMobileTabs extends HookWidget {
   ) {
     return Container(
       height: 38,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: availableTabs.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 6),
+        separatorBuilder: (_, _) => AppGaps.h8,
         itemBuilder: (context, index) {
           final isSelected = activeIndex == index;
           final tabType = availableTabs[index];
@@ -176,12 +183,12 @@ class GrammarTheoryMobileTabs extends HookWidget {
             behavior: HitTestBehavior.opaque,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: AppEdgeInsets.h12v8,
               decoration: BoxDecoration(
                 color: isSelected
                     ? theme.colorScheme.primary
                     : theme.colorScheme.muted.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: AppRadius.borderSm,
                 border: Border.all(
                   color: isSelected
                       ? theme.colorScheme.primary
@@ -193,17 +200,19 @@ class GrammarTheoryMobileTabs extends HookWidget {
                 children: [
                   Icon(
                     icon,
-                    size: 13,
+                    size: AppIconSize.xs,
                     color: isSelected
                         ? theme.colorScheme.primaryForeground
                         : color,
                   ),
-                  const SizedBox(width: 5),
+                  AppGaps.h4,
                   Text(
                     label,
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
                       color: isSelected
                           ? theme.colorScheme.primaryForeground
                           : theme.colorScheme.foreground,
@@ -225,7 +234,12 @@ class GrammarTheoryMobileTabs extends HookWidget {
     GrammarTheoryTabType tabType,
   ) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(12, 6, 12, 16),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        AppSpacing.sm,
+        AppSpacing.md,
+        AppSpacing.lg,
+      ),
       child: switch (tabType) {
         GrammarTheoryTabType.concept => _buildConceptStream(theme, l10n),
         GrammarTheoryTabType.formulas => _buildFormulasStream(theme, l10n),
@@ -245,7 +259,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
           title: l10n.grammarCoreConceptTitle,
           theme: theme,
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         RichCardContent(
           content: unit.coreConcept,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -270,15 +284,17 @@ class GrammarTheoryMobileTabs extends HookWidget {
           title: l10n.grammarFormulasTitle,
           theme: theme,
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         ...unit.formulas.entries.map((entry) {
           return Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+            padding: AppEdgeInsets.h12v8,
             decoration: BoxDecoration(
               color: theme.colorScheme.muted.withValues(alpha: 0.35),
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: theme.colorScheme.border.withValues(alpha: 0.7)),
+              borderRadius: AppRadius.borderSm,
+              border: Border.all(
+                color: theme.colorScheme.border.withValues(alpha: 0.7),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,7 +307,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
                     color: theme.colorScheme.primary,
                   ),
                 ),
-                const SizedBox(height: 4),
+                AppGaps.v4,
                 RichCardContent(
                   content: entry.value,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,14 +337,14 @@ class GrammarTheoryMobileTabs extends HookWidget {
           title: l10n.grammarCommonTrapsTitle,
           theme: theme,
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         ...unit.commonTraps.map((trap) {
           return Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+            padding: AppEdgeInsets.all8,
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: AppRadius.borderMd,
               border: Border.all(color: theme.colorScheme.border),
             ),
             child: Column(
@@ -343,13 +359,13 @@ class GrammarTheoryMobileTabs extends HookWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 8),
+                AppGaps.v8,
                 _buildExampleBox(
                   icon: '❌ ',
                   content: trap.exampleWrong,
                   color: m.Colors.red,
                 ),
-                const SizedBox(height: 5),
+                AppGaps.v4,
                 _buildExampleBox(
                   icon: '✅ ',
                   content: trap.exampleRight,
@@ -357,16 +373,16 @@ class GrammarTheoryMobileTabs extends HookWidget {
                   isBold: true,
                 ),
                 if (trap.note.isNotEmpty) ...[
-                  const SizedBox(height: 6),
+                  AppGaps.v6,
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Icon(
                         LucideIcons.info,
-                        size: 13,
+                        size: AppIconSize.xs,
                         color: m.Colors.orange,
                       ),
-                      const SizedBox(width: 5),
+                      AppGaps.h4,
                       Expanded(
                         child: RichCardContent(
                           content: trap.note,
@@ -400,15 +416,17 @@ class GrammarTheoryMobileTabs extends HookWidget {
           title: l10n.grammarExtraGuidesTitle,
           theme: theme,
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         ...unit.extraGuides.entries.map((entry) {
           return Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+            padding: AppEdgeInsets.all8,
             decoration: BoxDecoration(
               color: theme.colorScheme.muted.withValues(alpha: 0.25),
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: theme.colorScheme.border.withValues(alpha: 0.5)),
+              borderRadius: AppRadius.borderSm,
+              border: Border.all(
+                color: theme.colorScheme.border.withValues(alpha: 0.5),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,7 +439,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
                     color: m.Colors.purple,
                   ),
                 ),
-                const SizedBox(height: 4),
+                AppGaps.v4,
                 RichCardContent(
                   content: entry.value,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -448,8 +466,8 @@ class GrammarTheoryMobileTabs extends HookWidget {
   }) {
     return Row(
       children: [
-        Icon(icon, size: 16, color: iconColor),
-        const SizedBox(width: 6),
+        Icon(icon, size: AppIconSize.sm, color: iconColor),
+        AppGaps.h8,
         Text(
           title,
           style: TextStyle(
@@ -469,10 +487,10 @@ class GrammarTheoryMobileTabs extends HookWidget {
     bool isBold = false,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      padding: AppEdgeInsets.h8v4,
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: AppRadius.borderSm,
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(

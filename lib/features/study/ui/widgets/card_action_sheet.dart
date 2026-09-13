@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 import 'package:flanki/core/widgets/adaptive_modal.dart';
 import 'package:flanki/core/widgets/form_focus_helper.dart';
@@ -83,12 +84,12 @@ class CardActionSheet extends HookWidget {
     final backFocusNode = editFocusNodes[1];
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: AppEdgeInsets.all24,
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         borderRadius: isDesktopMode
-            ? BorderRadius.circular(16)
-            : const BorderRadius.vertical(top: Radius.circular(20)),
+            ? AppRadius.borderXl
+            : const BorderRadius.vertical(top: Radius.circular(AppSpacing.lg)),
         border: isDesktopMode
             ? Border.all(color: theme.colorScheme.border, width: 1)
             : Border(
@@ -115,16 +116,16 @@ class CardActionSheet extends HookWidget {
                 Center(
                   child: Container(
                     width: 40,
-                    height: 4,
+                    height: AppSpacing.xxs,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.mutedForeground.withValues(
                         alpha: 0.3,
                       ),
-                      borderRadius: BorderRadius.circular(2),
+                      borderRadius: AppRadius.borderXs,
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                AppGaps.v16,
               ],
               if (isEditing.value) ...[
                 Row(
@@ -137,38 +138,38 @@ class CardActionSheet extends HookWidget {
                     ),
                     if (isDesktopMode)
                       IconButton.ghost(
-                        icon: const Icon(LucideIcons.x, size: 18),
+                        icon: const Icon(LucideIcons.x, size: AppIconSize.md),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                AppGaps.v16,
                 Text(
                   l10n.frontSide,
                   style: theme.typography.xSmall.copyWith(
                     color: theme.colorScheme.mutedForeground,
                   ),
                 ),
-                const SizedBox(height: 6),
+                AppGaps.v6,
                 TextField(
                   controller: frontController,
                   focusNode: frontFocusNode,
                   maxLines: 3,
                 ),
-                const SizedBox(height: 14),
+                AppGaps.v16,
                 Text(
                   l10n.backSide,
                   style: theme.typography.xSmall.copyWith(
                     color: theme.colorScheme.mutedForeground,
                   ),
                 ),
-                const SizedBox(height: 6),
+                AppGaps.v6,
                 TextField(
                   controller: backController,
                   focusNode: backFocusNode,
                   maxLines: 4,
                 ),
-                const SizedBox(height: 20),
+                AppGaps.v20,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -176,7 +177,7 @@ class CardActionSheet extends HookWidget {
                       onPressed: () => isEditing.value = false,
                       child: Text(l10n.cancel),
                     ),
-                    const SizedBox(width: 8),
+                    AppGaps.h8,
                     PrimaryButton(
                       alignment: Alignment.center,
                       onPressed: () {
@@ -198,18 +199,18 @@ class CardActionSheet extends HookWidget {
                       children: [
                         if (card.tags.isNotEmpty)
                           Wrap(
-                            spacing: 4,
+                            spacing: AppSpacing.xs,
                             children: card.tags.take(2).map((t) {
                               return Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
+                                  horizontal: AppSpacing.sm,
+                                  vertical: AppSpacing.xxs,
                                 ),
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.muted.withValues(
                                     alpha: 0.5,
                                   ),
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius: AppRadius.borderSm,
                                 ),
                                 child: Text(
                                   '#$t',
@@ -221,9 +222,12 @@ class CardActionSheet extends HookWidget {
                             }).toList(),
                           ),
                         if (isDesktopMode) ...[
-                          const SizedBox(width: 8),
+                          AppGaps.h8,
                           IconButton.ghost(
-                            icon: const Icon(LucideIcons.x, size: 18),
+                            icon: const Icon(
+                              LucideIcons.x,
+                              size: AppIconSize.md,
+                            ),
                             onPressed: () => Navigator.of(context).pop(),
                           ),
                         ],
@@ -231,7 +235,7 @@ class CardActionSheet extends HookWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                AppGaps.v16,
 
                 // 7 Anki Flag Selectors
                 Text(
@@ -240,7 +244,7 @@ class CardActionSheet extends HookWidget {
                     color: theme.colorScheme.mutedForeground,
                   ),
                 ),
-                const SizedBox(height: 10),
+                AppGaps.v8,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -268,7 +272,7 @@ class CardActionSheet extends HookWidget {
                           ),
                           child: Icon(
                             LucideIcons.ban,
-                            size: 16,
+                            size: AppIconSize.sm,
                             color: card.flag == CardFlag.none
                                 ? theme.colorScheme.foreground
                                 : theme.colorScheme.mutedForeground,
@@ -307,7 +311,7 @@ class CardActionSheet extends HookWidget {
                             child: isSelected
                                 ? const Icon(
                                     LucideIcons.check,
-                                    size: 16,
+                                    size: AppIconSize.sm,
                                     color: m.Colors.white,
                                   )
                                 : null,
@@ -317,7 +321,7 @@ class CardActionSheet extends HookWidget {
                     }),
                   ],
                 ),
-                const SizedBox(height: 24),
+                AppGaps.v24,
 
                 // Quick Action Buttons
                 Row(
@@ -333,14 +337,14 @@ class CardActionSheet extends HookWidget {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(LucideIcons.clock, size: 16),
-                            const SizedBox(width: 8),
+                            const Icon(LucideIcons.clock, size: AppIconSize.sm),
+                            AppGaps.h8,
                             Text(l10n.buryCard),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    AppGaps.h8,
                     Expanded(
                       child: OutlineButton(
                         alignment: Alignment.center,
@@ -352,8 +356,8 @@ class CardActionSheet extends HookWidget {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(LucideIcons.pause, size: 16),
-                            const SizedBox(width: 8),
+                            const Icon(LucideIcons.pause, size: AppIconSize.sm),
+                            AppGaps.h8,
                             Text(l10n.suspendCard),
                           ],
                         ),
@@ -361,14 +365,17 @@ class CardActionSheet extends HookWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                AppGaps.v8,
                 OutlineButton(
                   onPressed: () => isEditing.value = true,
-                  leading: const Icon(LucideIcons.filePenLine, size: 16),
+                  leading: const Icon(
+                    LucideIcons.filePenLine,
+                    size: AppIconSize.sm,
+                  ),
                   child: Text(l10n.editCardContent),
                 ),
                 if (onDelete != null) ...[
-                  const SizedBox(height: 10),
+                  AppGaps.v8,
                   DestructiveButton(
                     onPressed: () async {
                       final confirmed = await m.showDialog<bool>(
@@ -398,15 +405,18 @@ class CardActionSheet extends HookWidget {
                         onDelete?.call();
                       }
                     },
-                    leading: const Icon(LucideIcons.trash2, size: 16),
+                    leading: const Icon(
+                      LucideIcons.trash2,
+                      size: AppIconSize.sm,
+                    ),
                     child: Text(l10n.deleteCard),
                   ),
                 ],
-                const SizedBox(height: 20),
+                AppGaps.v20,
 
                 // FSRS Technical Card Stats
                 Card(
-                  padding: const EdgeInsets.all(12),
+                  padding: AppEdgeInsets.all12,
                   filled: true,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -448,7 +458,7 @@ class _StatMini extends StatelessWidget {
     return Column(
       children: [
         Text(value, style: theme.typography.semiBold),
-        const SizedBox(height: 2),
+        AppGaps.v2,
         Text(
           label,
           style: TextStyle(

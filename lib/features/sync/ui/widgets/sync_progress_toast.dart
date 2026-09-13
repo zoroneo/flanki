@@ -1,5 +1,7 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
+import '../../../../core/theme/app_tokens.dart';
 
 class SyncProgressStatus {
   final String title;
@@ -55,7 +57,7 @@ class SyncProgressToast extends StatelessWidget {
         final pct = (status.progress * 100).toInt().clamp(0, 100);
 
         return SurfaceCard(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: AppEdgeInsets.h16v12,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,21 +68,21 @@ class SyncProgressToast extends StatelessWidget {
                     const Icon(
                       LucideIcons.cloudOff,
                       color: m.Colors.red,
-                      size: 18,
+                      size: AppIconSize.md,
                     )
                   else if (status.isCompleted)
                     const Icon(
                       LucideIcons.cloud,
                       color: m.Colors.green,
-                      size: 18,
+                      size: AppIconSize.md,
                     )
                   else
                     const SizedBox(
-                      width: 16,
-                      height: 16,
+                      width: AppIconSize.sm,
+                      height: AppIconSize.sm,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     ),
-                  const SizedBox(width: 10),
+                  AppGaps.h8,
                   Expanded(
                     child: Text(
                       status.title,
@@ -90,12 +92,12 @@ class SyncProgressToast extends StatelessWidget {
                     ),
                   ),
                   IconButton.ghost(
-                    icon: const Icon(LucideIcons.x, size: 15),
+                    icon: const Icon(LucideIcons.x, size: AppIconSize.sm),
                     onPressed: onClose,
                   ),
                 ],
               ),
-              const SizedBox(height: 6),
+              AppGaps.v6,
               Text(
                 status.message,
                 style: theme.typography.small.copyWith(
@@ -105,13 +107,13 @@ class SyncProgressToast extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 10),
+              AppGaps.v8,
               Row(
                 children: [
                   Expanded(
                     child: Progress(progress: status.progress.clamp(0.0, 1.0)),
                   ),
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   Text(
                     '$pct%',
                     style: theme.typography.xSmall.copyWith(

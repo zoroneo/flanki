@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../providers/settings_notifier.dart';
 import '../../../../core/services/desktop_window_service.dart';
 import 'settings_info_rows.dart';
@@ -25,9 +26,9 @@ class StudyRemindersCard extends ConsumerWidget {
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Card(
-          padding: const EdgeInsets.all(16),
+          padding: AppEdgeInsets.all16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,16 +39,16 @@ class StudyRemindersCard extends ConsumerWidget {
                 studySettingsNotifier,
               ),
               if (studySettings.reminderEnabled) ...[
-                const SizedBox(height: 16),
+                AppGaps.v16,
                 _buildReminderTimes(
                   theme,
                   l10n,
                   studySettings,
                   studySettingsNotifier,
                 ),
-                const SizedBox(height: 16),
+                AppGaps.v16,
                 const Divider(),
-                const SizedBox(height: 12),
+                AppGaps.v12,
                 _buildStreakSaverToggle(
                   theme,
                   l10n,
@@ -55,18 +56,18 @@ class StudyRemindersCard extends ConsumerWidget {
                   studySettingsNotifier,
                 ),
                 if (DesktopWindowService.isDesktop) ...[
-                  const SizedBox(height: 16),
+                  AppGaps.v16,
                   const Divider(),
-                  const SizedBox(height: 12),
+                  AppGaps.v12,
                   _buildMinimizeToTrayToggle(
                     theme,
                     l10n,
                     studySettings,
                     studySettingsNotifier,
                   ),
-                  const SizedBox(height: 16),
+                  AppGaps.v16,
                   const Divider(),
-                  const SizedBox(height: 12),
+                  AppGaps.v12,
                   _buildLaunchAtStartupToggle(
                     theme,
                     l10n,
@@ -99,7 +100,7 @@ class StudyRemindersCard extends ConsumerWidget {
                 l10n.settingsDailyReminder,
                 style: theme.typography.semiBold,
               ),
-              const SizedBox(height: 2),
+              AppGaps.v2,
               Text(
                 l10n.settingsDailyReminderSubtitle,
                 style: theme.typography.xSmall.copyWith(
@@ -109,7 +110,7 @@ class StudyRemindersCard extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Switch(
           value: studySettings.reminderEnabled,
           onChanged: studySettingsNotifier.toggleReminder,
@@ -131,7 +132,7 @@ class StudyRemindersCard extends ConsumerWidget {
           l10n.settingsReminderTime,
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Row(
           children:
               [
@@ -149,7 +150,9 @@ class StudyRemindersCard extends ConsumerWidget {
                     studySettings.reminderMinute == min;
                 return Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xxs,
+                    ),
                     child: LanguageOptionButton(
                       label: label,
                       isSelected: isSelected,
@@ -180,14 +183,14 @@ class StudyRemindersCard extends ConsumerWidget {
               Row(
                 children: [
                   Text(l10n.settingsStreakSaver),
-                  const SizedBox(width: 6),
+                  AppGaps.h8,
                   const Text(
                     '(22:30)',
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
-              const SizedBox(height: 2),
+              AppGaps.v2,
               Text(
                 l10n.settingsStreakSaverSubtitle,
                 style: TextStyle(
@@ -198,7 +201,7 @@ class StudyRemindersCard extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Switch(
           value: studySettings.streakSaverEnabled,
           onChanged: studySettingsNotifier.toggleStreakSaver,
@@ -224,7 +227,7 @@ class StudyRemindersCard extends ConsumerWidget {
                 l10n.settingsMinimizeToTray,
                 style: theme.typography.semiBold,
               ),
-              const SizedBox(height: 2),
+              AppGaps.v2,
               Text(
                 l10n.settingsMinimizeToTraySubtitle,
                 style: theme.typography.xSmall.copyWith(
@@ -234,7 +237,7 @@ class StudyRemindersCard extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Switch(
           value: studySettings.minimizeToTrayOnClose,
           onChanged: studySettingsNotifier.toggleMinimizeToTray,
@@ -260,7 +263,7 @@ class StudyRemindersCard extends ConsumerWidget {
                 l10n.settingsLaunchAtStartup,
                 style: theme.typography.semiBold,
               ),
-              const SizedBox(height: 2),
+              AppGaps.v2,
               Text(
                 l10n.settingsLaunchAtStartupSubtitle,
                 style: theme.typography.xSmall.copyWith(
@@ -270,7 +273,7 @@ class StudyRemindersCard extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Switch(
           value: studySettings.launchAtStartup,
           onChanged: studySettingsNotifier.toggleLaunchAtStartup,

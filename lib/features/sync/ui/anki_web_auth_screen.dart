@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'anki_web_auth_sheet.dart';
 
 class AnkiWebAuthScreen extends StatelessWidget {
@@ -17,7 +18,7 @@ class AnkiWebAuthScreen extends StatelessWidget {
         AppBar(
           leading: [
             IconButton.ghost(
-              icon: const Icon(LucideIcons.chevronLeft, size: 18),
+              icon: const Icon(LucideIcons.chevronLeft, size: AppIconSize.md),
               onPressed: () {
                 if (context.canPop()) {
                   context.pop();
@@ -37,7 +38,10 @@ class AnkiWebAuthScreen extends StatelessWidget {
       ],
       child: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.xl,
+          ),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 440),
             child: const AnkiWebAuthSheet(),

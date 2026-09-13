@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class DeckStatsBar extends StatelessWidget {
   final int totalDue;
@@ -24,12 +25,12 @@ class DeckStatsBar extends StatelessWidget {
 
     return Card(
       filled: true,
-      padding: const EdgeInsets.all(16),
+      padding: AppEdgeInsets.all16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildStreakHeader(theme, l10n),
-          const SizedBox(height: 16),
+          AppGaps.v16,
           _buildCountBoxes(theme, l10n),
         ],
       ),
@@ -42,8 +43,12 @@ class DeckStatsBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(LucideIcons.flame, color: m.Colors.deepOrange, size: 22),
-            const SizedBox(width: 6),
+            const Icon(
+              LucideIcons.flame,
+              color: m.Colors.deepOrange,
+              size: AppIconSize.lg,
+            ),
+            AppGaps.h8,
             Text(
               l10n.streakDaysBadge(streakDays),
               style: theme.typography.h4.copyWith(fontWeight: FontWeight.w700),
@@ -74,7 +79,7 @@ class DeckStatsBar extends StatelessWidget {
             icon: LucideIcons.clock,
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Expanded(
           child: StatMiniBox(
             label: l10n.newCards,
@@ -105,16 +110,16 @@ class StatMiniBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: AppEdgeInsets.h16v12,
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: AppRadius.borderMd,
         border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: color),
-          const SizedBox(width: 10),
+          Icon(icon, size: AppIconSize.md, color: color),
+          AppGaps.h12,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -127,7 +132,7 @@ class StatMiniBox extends StatelessWidget {
                   height: 1.1,
                 ),
               ),
-              const SizedBox(height: 2),
+              AppGaps.v2,
               Text(
                 label,
                 style: TextStyle(

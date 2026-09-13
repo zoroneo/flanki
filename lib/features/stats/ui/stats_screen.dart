@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../settings/providers/settings_notifier.dart';
 import '../providers/stats_notifier.dart';
 
@@ -38,9 +39,9 @@ class StatsScreen extends HookConsumerWidget {
       builder: (context, sizingInfo) {
         final horizontalPadding = getValueForScreenType<double>(
           context: context,
-          mobile: 16.0,
-          tablet: 20.0,
-          desktop: 24.0,
+          mobile: AppSpacing.md,
+          tablet: AppSpacing.lg,
+          desktop: AppSpacing.xl,
         );
 
         final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
@@ -63,13 +64,13 @@ class StatsScreen extends HookConsumerWidget {
               child: ListView(
                 padding: EdgeInsets.symmetric(
                   horizontal: horizontalPadding,
-                  vertical: 16.0,
+                  vertical: AppSpacing.md,
                 ),
                 children: [
                   // Retention & FSRS Overview Card
                   Card(
                     filled: true,
-                    padding: const EdgeInsets.all(20),
+                    padding: AppEdgeInsets.all20,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -85,8 +86,8 @@ class StatsScreen extends HookConsumerWidget {
                             if (stats.totalReviews > 0)
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 3,
+                                  horizontal: AppSpacing.sm,
+                                  vertical: AppSpacing.xxs,
                                 ),
                                 decoration: BoxDecoration(
                                   color:
@@ -94,7 +95,7 @@ class StatsScreen extends HookConsumerWidget {
                                               ? m.Colors.green
                                               : m.Colors.orange)
                                           .withValues(alpha: 0.15),
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius: AppRadius.borderSm,
                                 ),
                                 child: Text(
                                   isTargetReached
@@ -111,7 +112,7 @@ class StatsScreen extends HookConsumerWidget {
                               ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        AppGaps.v12,
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
@@ -123,7 +124,7 @@ class StatsScreen extends HookConsumerWidget {
                                 letterSpacing: -1,
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            AppGaps.h8,
                             Text(
                               targetLabel,
                               style: theme.typography.xSmall.copyWith(
@@ -132,12 +133,12 @@ class StatsScreen extends HookConsumerWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        AppGaps.v16,
                         Progress(progress: stats.retentionRate),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  AppGaps.v16,
 
                   // 3 Metric Grid
                   Row(
@@ -150,7 +151,7 @@ class StatsScreen extends HookConsumerWidget {
                           icon: LucideIcons.checkCheck,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      AppGaps.h12,
                       Expanded(
                         child: _MetricCard(
                           label: l10n.studyTime,
@@ -161,11 +162,11 @@ class StatsScreen extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  AppGaps.v20,
 
                   // Study Activity Heatmap (GitHub / Anki style)
                   Card(
-                    padding: const EdgeInsets.all(16),
+                    padding: AppEdgeInsets.all16,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -176,10 +177,9 @@ class StatsScreen extends HookConsumerWidget {
                               child: Text(
                                 l10n.studyHistory,
                                 style: theme.typography.semiBold,
-                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            AppGaps.h8,
                             Text(
                               l10n.streakDays(stats.streakDays),
                               style: theme.typography.xSmall.copyWith(
@@ -188,9 +188,9 @@ class StatsScreen extends HookConsumerWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        AppGaps.v16,
                         _HeatmapGrid(theme: theme, levels: stats.heatmapLevels),
-                        const SizedBox(height: 12),
+                        AppGaps.v12,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -200,15 +200,15 @@ class StatsScreen extends HookConsumerWidget {
                                 color: theme.colorScheme.mutedForeground,
                               ),
                             ),
-                            const SizedBox(width: 6),
+                            AppGaps.h8,
                             _HeatmapDot(level: 0, theme: theme),
-                            const SizedBox(width: 4),
+                            AppGaps.h4,
                             _HeatmapDot(level: 1, theme: theme),
-                            const SizedBox(width: 4),
+                            AppGaps.h4,
                             _HeatmapDot(level: 2, theme: theme),
-                            const SizedBox(width: 4),
+                            AppGaps.h4,
                             _HeatmapDot(level: 3, theme: theme),
-                            const SizedBox(width: 6),
+                            AppGaps.h8,
                             Text(
                               l10n.more,
                               style: theme.typography.xSmall.copyWith(
@@ -250,24 +250,24 @@ class _MetricCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
-      padding: const EdgeInsets.all(16),
+      padding: AppEdgeInsets.all16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 20, color: theme.colorScheme.primary),
-          const SizedBox(height: 12),
+          Icon(icon, size: AppIconSize.md, color: theme.colorScheme.primary),
+          AppGaps.v12,
           Text(
             value,
             style: theme.typography.h3.copyWith(fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 4),
+          AppGaps.v4,
           Text(
             label,
             style: theme.typography.xSmall.copyWith(
               color: theme.colorScheme.mutedForeground,
             ),
           ),
-          const SizedBox(height: 2),
+          AppGaps.v2,
           Text(
             subtitle,
             style: TextStyle(
@@ -298,14 +298,14 @@ class _HeatmapGrid extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: levels.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 5),
+        separatorBuilder: (context, index) => AppGaps.h4,
         itemBuilder: (context, w) {
           final week = levels[w];
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               for (int d = 0; d < week.length; d++) ...[
-                if (d > 0) const SizedBox(height: 5),
+                if (d > 0) AppGaps.v4,
                 _HeatmapDot(level: week[d], theme: theme, size: 14),
               ],
             ],
@@ -338,7 +338,7 @@ class _HeatmapDot extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: colors[level.clamp(0, 3)],
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: AppRadius.borderXs,
       ),
     );
   }

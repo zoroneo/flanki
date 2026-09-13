@@ -1,15 +1,30 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 
-import 'package:audioplayers/audioplayers.dart';
+import '../services/card_audio_service.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:path/path.dart' as p;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../database/media_storage_service.dart';
+import '../theme/app_tokens.dart';
 import 'audio_play_button.dart';
 import 'type_answer_box.dart';
+
+class _ParsedCardContent {
+  final String cleanHtml;
+  final bool hasTypeInput;
+  final List<String> soundFiles;
+
+  const _ParsedCardContent({
+    required this.cleanHtml,
+    required this.hasTypeInput,
+    required this.soundFiles,
+  });
+}
 
 /// Renders rich HTML flashcard content with local images, audio buttons,
 /// and interactive type-in answer fields.
@@ -35,80 +50,49 @@ class RichCardContent extends HookWidget {
     this.onSubmitAnswer,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+  // ignore: deprecated_member_use
+  static final _soundRegex = RegExp(
+    r'\[sound:([^\]]+)\]',
+    caseSensitive: false,
+  );
+  // ignore: deprecated_member_use
+  static final _legacyImgRegex = RegExp(
+    r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''',
+    caseSensitive: false,
+  );
+  // ignore: deprecated_member_use
+  static final _typeInputRegex = RegExp(r'\[\[TYPE_INPUT:(.*?)\]\]');
+  // ignore: deprecated_member_use
+  static final _typeResultRegex = RegExp(r'\[\[TYPE_RESULT:(.*?)\]\]');
+  // ignore: deprecated_member_use
+  static final _curlyTagsRegex = RegExp(r'\{\{[^}]+\}\}');
 
-    // Extract [sound:filename.ext] tags
-    final soundRegex = useMemoized(
-      () => RegExp(r'\[sound:([^\]]+)\]', caseSensitive: false),
-      [],
-    );
-    final soundMatches = soundRegex.allMatches(content).toList();
+  static _ParsedCardContent _parseContent(String content) {
+    final soundMatches = _soundRegex.allMatches(content).toList();
     final soundFiles = soundMatches.map((m) => m.group(1)!.trim()).toList();
 
-    // Only instantiate an AudioPlayer if there are sound files present
-    final audioPlayer = useMemoized(
-      () => soundFiles.isNotEmpty ? AudioPlayer() : null,
-      [soundFiles.isNotEmpty],
-    );
-
-    useEffect(() {
-      return () {
-        if (audioPlayer != null) {
-          audioPlayer
-              .stop()
-              .then((_) => audioPlayer.dispose())
-              .catchError((_) {});
-        }
-      };
-    }, [audioPlayer]);
-
-    // Auto-play the first audio clip if configured
-    useEffect(() {
-      if (autoPlayAudio && soundFiles.isNotEmpty && audioPlayer != null) {
-        final firstAudio = soundFiles.first;
-        final path = MediaStorageService.instance.getMediaFilePath(firstAudio);
-        if (File(path).existsSync()) {
-          audioPlayer.play(DeviceFileSource(path)).catchError((_) {});
-        }
-      }
-      return null;
-    }, [content, audioPlayer]);
-
-    // Convert [sound:filename] tags to inline <anki-sound> elements to preserve exact position
-    var cleanHtml = content.replaceAllMapped(soundRegex, (m) {
+    var cleanHtml = content.replaceAllMapped(_soundRegex, (m) {
       final filename = m.group(1)!.trim();
       final escaped = htmlEscape.convert(filename);
       return '<anki-sound src="$escaped"></anki-sound>';
     });
 
-    // Clean legacy file:// absolute paths to standard relative filenames
     cleanHtml = cleanHtml.replaceAllMapped(
-      RegExp(
-        r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''',
-        caseSensitive: false,
-      ),
+      _legacyImgRegex,
       (m) => '${m.group(1)}${m.group(2)}${m.group(3)}',
     );
 
-    // Extract [[TYPE_INPUT:expected]] marker
-    final typeInputRegex = RegExp(r'\[\[TYPE_INPUT:(.*?)\]\]');
-    final hasTypeInput = typeInputRegex.hasMatch(cleanHtml);
-    cleanHtml = cleanHtml.replaceAll(typeInputRegex, '').trim();
+    final hasTypeInput = _typeInputRegex.hasMatch(cleanHtml);
+    cleanHtml = cleanHtml.replaceAll(_typeInputRegex, '').trim();
 
-    // Convert [[TYPE_RESULT:expected]] marker to inline <anki-type-result> element
-    final typeResultRegex = RegExp(r'\[\[TYPE_RESULT:(.*?)\]\]');
-    cleanHtml = cleanHtml.replaceAllMapped(typeResultRegex, (m) {
+    cleanHtml = cleanHtml.replaceAllMapped(_typeResultRegex, (m) {
       final expected = m.group(1)!.trim();
       final escaped = htmlEscape.convert(expected);
       return '<anki-type-result expected="$escaped"></anki-type-result>';
     });
 
-    // Clean up any stray curly tags
-    cleanHtml = cleanHtml.replaceAll(RegExp(r'\{\{[^}]+\}\}'), '').trim();
+    cleanHtml = cleanHtml.replaceAll(_curlyTagsRegex, '').trim();
 
-    // If text contains newlines but no html break/paragraph tags, convert \n to <br/>
     if (cleanHtml.contains('\n') &&
         !cleanHtml.contains('<br') &&
         !cleanHtml.contains('<p>') &&
@@ -117,7 +101,35 @@ class RichCardContent extends HookWidget {
       cleanHtml = cleanHtml.replaceAll('\r\n', '\n').replaceAll('\n', '<br/>');
     }
 
+    return _ParsedCardContent(
+      cleanHtml: cleanHtml,
+      hasTypeInput: hasTypeInput,
+      soundFiles: soundFiles,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final parsed = useMemoized(() => _parseContent(content), [content]);
+    final soundFiles = parsed.soundFiles;
+    final cleanHtml = parsed.cleanHtml;
+    final hasTypeInput = parsed.hasTypeInput;
+
+    // Auto-play the first audio clip if configured
+    useEffect(() {
+      if (autoPlayAudio && soundFiles.isNotEmpty) {
+        final firstAudio = soundFiles.first;
+        CardAudioService.instance.playMedia(firstAudio);
+      }
+      return null;
+    }, [content, autoPlayAudio]);
+
     final hasHtml = cleanHtml.isNotEmpty;
+
+    final isDark = theme.brightness == Brightness.dark;
+    final processedHtml = isDark ? _adaptDarkModeHtml(cleanHtml) : cleanHtml;
 
     final alignCss = switch (textAlign) {
       TextAlign.center => 'center',
@@ -125,14 +137,14 @@ class RichCardContent extends HookWidget {
       TextAlign.justify => 'justify',
       _ => 'left',
     };
-    final formattedHtml = '<div style="text-align: $alignCss">$cleanHtml</div>';
+    final formattedHtml =
+        '<div class="card-root" style="text-align: $alignCss">$processedHtml</div>';
 
-    final defaultStyle =
-        textStyle ??
-        theme.typography.h3.copyWith(
-          color: theme.colorScheme.foreground,
-          fontWeight: FontWeight.w500,
-        );
+    final baseStyle = textStyle ?? theme.typography.h3;
+    final defaultStyle = baseStyle.copyWith(
+      color: baseStyle.color ?? theme.colorScheme.foreground,
+      fontWeight: baseStyle.fontWeight ?? FontWeight.w500,
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -153,17 +165,14 @@ class RichCardContent extends HookWidget {
                       horizontal: 4,
                       vertical: 2,
                     ),
-                    child: AudioPlayButton(
-                      filename: filename,
-                      player: audioPlayer,
-                    ),
+                    child: AudioPlayButton(filename: filename),
                   ),
                 );
               }
               if (element.localName == 'anki-type-result') {
                 final expected = element.attributes['expected'] ?? '';
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                   child: Center(
                     child: TypeAnswerResultBox(
                       typedAnswer: typedAnswer,
@@ -178,10 +187,12 @@ class RichCardContent extends HookWidget {
                   if (rawSrc.startsWith('http://') ||
                       rawSrc.startsWith('https://')) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.sm,
+                      ),
                       child: Center(
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: AppRadius.borderMd,
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(maxHeight: 300),
                             child: Image.network(rawSrc, fit: BoxFit.contain),
@@ -198,16 +209,18 @@ class RichCardContent extends HookWidget {
 
                   if (file.existsSync()) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.sm,
+                      ),
                       child: Center(
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: AppRadius.borderMd,
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(maxHeight: 300),
                             child: Image.file(
                               file,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, _, _) =>
+                              errorBuilder: (context, error, stackTrace) =>
                                   _buildMissingMediaBadge(theme, filename),
                             ),
                           ),
@@ -222,6 +235,15 @@ class RichCardContent extends HookWidget {
               return null;
             },
             customStylesBuilder: (element) {
+              if (element.children.any((c) => c.localName == 'anki-sound')) {
+                final isDark = theme.brightness == Brightness.dark;
+                return {
+                  'color': isDark ? '#e4e4e7' : '#3f3f46',
+                  'font-weight': '600',
+                  'margin-top': '4px',
+                  'margin-bottom': '4px',
+                };
+              }
               if (element.localName == 'img') {
                 return {
                   'max-width': '100%',
@@ -269,8 +291,9 @@ class RichCardContent extends HookWidget {
             },
           ),
         if (hasTypeInput) ...[
-          const SizedBox(height: 12),
+          AppGaps.v12,
           TypeAnswerInputBox(
+            key: ValueKey(content),
             initialValue: typedAnswer ?? '',
             onAnswerChanged: onAnswerChanged,
             onSubmitAnswer: onSubmitAnswer,
@@ -286,7 +309,7 @@ class RichCardContent extends HookWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: theme.colorScheme.muted,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppRadius.borderMd,
         border: Border.all(color: theme.colorScheme.border),
       ),
       child: Row(
@@ -294,10 +317,10 @@ class RichCardContent extends HookWidget {
         children: [
           Icon(
             LucideIcons.image,
-            size: 14,
+            size: AppIconSize.sm,
             color: theme.colorScheme.mutedForeground,
           ),
-          const SizedBox(width: 6),
+          AppGaps.h8,
           Flexible(
             child: Text(
               filename,
@@ -311,5 +334,103 @@ class RichCardContent extends HookWidget {
         ],
       ),
     );
+  }
+
+  static String _adaptDarkModeHtml(String html) {
+    // 1. Replace dark colors in inline style="..." attributes with color: inherit
+    var result = html.replaceAllMapped(
+      RegExp(r'''style\s*=\s*(["'])(.*?)\1''', caseSensitive: false),
+      (match) {
+        final quote = match.group(1)!;
+        final styleContent = match.group(2)!;
+        final updatedStyle = styleContent.replaceAllMapped(
+          RegExp(r'color\s*:\s*([^;!]+)', caseSensitive: false),
+          (colorMatch) {
+            final rawColor = colorMatch.group(1)!.trim();
+            if (_isDarkColor(rawColor)) {
+              return 'color: inherit';
+            }
+            return colorMatch.group(0)!;
+          },
+        );
+        return 'style=$quote$updatedStyle$quote';
+      },
+    );
+
+    // 2. Remove dark color in <font color="..."> attributes
+    result = result.replaceAllMapped(
+      RegExp(
+        r'''<font\s+([^>]*?)color\s*=\s*(["'])(.*?)\2([^>]*)>''',
+        caseSensitive: false,
+      ),
+      (match) {
+        final before = match.group(1)!;
+        final rawColor = match.group(3)!.trim();
+        final after = match.group(4)!;
+        if (_isDarkColor(rawColor)) {
+          return '<font $before$after>';
+        }
+        return match.group(0)!;
+      },
+    );
+
+    return result;
+  }
+
+  static bool _isDarkColor(String raw) {
+    final val = raw.trim().toLowerCase();
+    if (val == 'black' || val == 'darkgray' || val == 'darkgrey') {
+      return true;
+    }
+
+    // Hex #rgb, #rrggbb, #rrggbbaa
+    if (val.startsWith('#')) {
+      try {
+        final hex = val.substring(1);
+        int r = 0, g = 0, b = 0;
+        if (hex.length == 3) {
+          r = int.parse(hex[0], radix: 16) * 17;
+          g = int.parse(hex[1], radix: 16) * 17;
+          b = int.parse(hex[2], radix: 16) * 17;
+        } else if (hex.length >= 6) {
+          r = int.parse(hex.substring(0, 2), radix: 16);
+          g = int.parse(hex.substring(2, 4), radix: 16);
+          b = int.parse(hex.substring(4, 6), radix: 16);
+        } else {
+          return false;
+        }
+
+        final isNearGrayscale =
+            (r - g).abs() <= 25 && (g - b).abs() <= 25 && (r - b).abs() <= 25;
+        final luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+        final maxChannel = math.max(r, math.max(g, b));
+
+        return (isNearGrayscale && luminance < 130) || maxChannel < 60;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    // rgb(...) or rgba(...)
+    if (val.startsWith('rgb')) {
+      try {
+        final match = RegExp(r'rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)')
+            .firstMatch(val);
+        if (match != null) {
+          final r = int.parse(match.group(1)!);
+          final g = int.parse(match.group(2)!);
+          final b = int.parse(match.group(3)!);
+          final isNearGrayscale =
+              (r - g).abs() <= 25 && (g - b).abs() <= 25 && (r - b).abs() <= 25;
+          final luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+          final maxChannel = math.max(r, math.max(g, b));
+          return (isNearGrayscale && luminance < 130) || maxChannel < 60;
+        }
+      } catch (_) {
+        return false;
+      }
+    }
+
+    return false;
   }
 }

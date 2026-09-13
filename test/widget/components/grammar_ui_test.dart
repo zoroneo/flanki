@@ -375,8 +375,9 @@ void main() {
 
       // Mobile does NOT show desktop TOC card
       expect(find.text('Mục Lục Chuyên Đề'), findsNothing);
-      // Mobile renders Sticky Bottom CTA button
-      expect(find.text('Bắt Đầu Luyện Tập 15 Câu Ngay'), findsOneWidget);
+      // Mobile renders Practice action button in AppBar instead of sticky bottom CTA
+      expect(find.text('Luyện Tập'), findsOneWidget);
+      expect(find.text('Bắt Đầu Luyện Tập 15 Câu Ngay'), findsNothing);
     });
 
     testWidgets(
@@ -730,6 +731,91 @@ void main() {
         // On mobile, shortcut guide is NOT rendered
         expect(find.byIcon(LucideIcons.keyboard), findsNothing);
         expect(find.text('Phím tắt & Hướng dẫn'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'GrammarPracticeScreen renders expandable DraggableScrollableSheet on mobile when submitted',
+      (tester) async {
+        tester.view.physicalSize = const Size(400, 800);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        const unit = GrammarUnit(
+          unitId: 'u_practice_sheet_mobile',
+          title: 'Past Simple Sheet',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept: 'Finished past',
+          formulas: {},
+          commonTraps: [],
+          exercises: [
+            GrammarExercise(
+              id: 'ex_sheet_01',
+              type: GrammarExerciseType.choice,
+              difficulty: GrammarDifficulty.recognition,
+              prompt: 'I _______ home yesterday.',
+              options: ['went', 'go'],
+              correctAnswer: 'went',
+              explanation: GrammarExplanation(
+                translation: 'Tôi đã về nhà hôm qua.',
+                keySignal: 'yesterday',
+                rule: 'Past Simple',
+                whyCorrect: 'went là V2 của go',
+              ),
+            ),
+            GrammarExercise(
+              id: 'ex_sheet_02',
+              type: GrammarExerciseType.choice,
+              difficulty: GrammarDifficulty.recognition,
+              prompt: 'She _______ yesterday.',
+              options: ['saw', 'see'],
+              correctAnswer: 'saw',
+              explanation: GrammarExplanation(
+                translation: 'Cô ấy đã thấy.',
+                keySignal: 'yesterday',
+                rule: 'Past Simple',
+                whyCorrect: 'saw là V2',
+              ),
+            ),
+          ],
+        );
+
+        final container = ProviderContainer(
+          overrides: [grammarRepositoryProvider.overrideWithValue(repo)],
+        );
+        addTearDown(container.dispose);
+        final notifier = container.read(
+          grammarSessionNotifierProvider.notifier,
+        );
+        notifier.startUnitSession(unit);
+
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: wrapWithTheme(
+              const GrammarPracticeScreen(unitId: 'u_practice_sheet_mobile'),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        // Initially not submitted: no DraggableScrollableSheet
+        expect(find.byType(DraggableScrollableSheet), findsNothing);
+
+        // Select answer and submit
+        notifier.selectAnswer('went');
+        notifier.submitAnswer();
+        await tester.pumpAndSettle();
+
+        // After submit: DraggableScrollableSheet appears cleanly
+        expect(find.byType(DraggableScrollableSheet), findsOneWidget);
+        expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
+        expect(find.text('Câu Tiếp Theo'), findsOneWidget);
+        expect(findRichText('Tôi đã về nhà hôm qua.'), findsOneWidget);
       },
     );
   });

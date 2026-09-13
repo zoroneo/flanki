@@ -8,7 +8,7 @@ CARGO   ?= cargo
 
 .DEFAULT_GOAL := help
 .PHONY: help setup get upgrade outdated codegen watch l10n gen native \
-        format fmt analyze test check run run-windows run-macos run-linux run-android \
+        format fmt analyze lint-dimensions test check run run-windows run-macos run-linux run-android \
         build-windows build-macos build-linux build-apk build-appbundle clean clean-all release
 
 ## ----------------------------------------------------------------------
@@ -67,11 +67,15 @@ fmt: ## Format Dart code in lib/ and test/
 analyze: ## Run Flutter analyzer / linter
 	$(FLUTTER) analyze
 
+lint-dimensions: ## Check for dimension magic numbers (AppTokens guardrail)
+	$(DART) run tool/check_dimensions.dart
+
 test: ## Run unit and widget tests
 	$(FLUTTER) test
 
-check: ## Verify format, analyze linter, and run tests (CI-ready)
+check: ## Verify format, analyze linter, dimension guardrail, and run tests (CI-ready)
 	$(DART) format --output=none --set-exit-if-changed lib test
+	$(DART) run tool/check_dimensions.dart
 	$(FLUTTER) analyze
 	$(FLUTTER) test
 

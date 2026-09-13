@@ -3,10 +3,11 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/network/dio_client.dart';
 import '../../../core/database/media_storage_service.dart';
 import 'anki_web_config.dart';
 
@@ -46,15 +47,15 @@ class MediaSyncResult {
 class AnkiWebMediaSyncService {
   static const int maxMediaFilesInZip = 25;
 
-  final http.Client _client;
+  final Dio _dio;
   final AnkiWebConfig _config;
   final AppLocalizations? _customL10n;
 
   AnkiWebMediaSyncService({
-    http.Client? client,
+    Dio? dio,
     AnkiWebConfig? config,
     AppLocalizations? l10n,
-  }) : _client = client ?? http.Client(),
+  }) : _dio = dio ?? DioClient.defaultInstance,
        _config = config ?? const AnkiWebConfig(),
        _customL10n = l10n;
 
@@ -67,32 +68,37 @@ class AnkiWebMediaSyncService {
   Future<MediaSyncResult> syncAllMedia({
     required String hostKey,
     int lastUsn = 0,
+    CancelToken? cancelToken,
     void Function(int downloaded, int total)? onProgress,
+    void Function(
+      int currentBatch,
+      int totalBatches,
+      int bytesReceived,
+      int totalBytes,
+    )?
+    onByteProgress,
   }) async {
     try {
       // 1. Begin media sync
-      final beginUri = Uri.parse('${_config.syncHost}/msync/begin');
-      final beginReq = http.MultipartRequest('POST', beginUri);
-      beginReq.headers['User-Agent'] = _config.effectiveUserAgent;
-      beginReq.fields['k'] = hostKey;
-      beginReq.fields['v'] = _config.effectiveClientVersion;
+      final beginFormData = FormData.fromMap({
+        'k': hostKey,
+        'v': _config.effectiveClientVersion,
+      });
 
-      final beginStreamed = await _client
-          .send(beginReq)
-          .timeout(_config.effectiveMetaTimeout);
-      final beginRes = await http.Response.fromStream(beginStreamed);
+      final beginRes = await _dio.post<dynamic>(
+        '${_config.syncHost}/msync/begin',
+        data: beginFormData,
+        cancelToken: cancelToken,
+        options: Options(
+          headers: {'User-Agent': _config.effectiveUserAgent},
+          receiveTimeout: _config.effectiveMetaTimeout,
+        ),
+      );
 
-      if (beginRes.statusCode >= 400) {
-        return MediaSyncResult.fail(
-          l10n.syncServerError(
-            beginRes.statusCode,
-            beginRes.reasonPhrase ?? '',
-          ),
-        );
-      }
+      final beginJson = beginRes.data is Map<String, dynamic>
+          ? beginRes.data as Map<String, dynamic>
+          : jsonDecode(beginRes.data.toString()) as Map<String, dynamic>;
 
-      final beginJson =
-          jsonDecode(utf8.decode(beginRes.bodyBytes)) as Map<String, dynamic>;
       final err = beginJson['err'] as String?;
       if (err != null && err.isNotEmpty) {
         return MediaSyncResult.fail(l10n.syncMediaError(err));
@@ -103,28 +109,25 @@ class AnkiWebMediaSyncService {
       final sessionKey = (beginData['sk'] as String?) ?? hostKey;
 
       // 2. Fetch media changes
-      final changesUri = Uri.parse('${_config.syncHost}/msync/mediaChanges');
-      final changesReq = http.MultipartRequest('POST', changesUri);
-      changesReq.headers['User-Agent'] = _config.effectiveUserAgent;
-      changesReq.fields['k'] = sessionKey.isNotEmpty ? sessionKey : hostKey;
-      changesReq.fields['data'] = jsonEncode({'lastUsn': lastUsn});
+      final changesFormData = FormData.fromMap({
+        'k': sessionKey.isNotEmpty ? sessionKey : hostKey,
+        'data': jsonEncode({'lastUsn': lastUsn}),
+      });
 
-      final changesStreamed = await _client
-          .send(changesReq)
-          .timeout(_config.effectiveMetaTimeout);
-      final changesRes = await http.Response.fromStream(changesStreamed);
+      final changesRes = await _dio.post<dynamic>(
+        '${_config.syncHost}/msync/mediaChanges',
+        data: changesFormData,
+        cancelToken: cancelToken,
+        options: Options(
+          headers: {'User-Agent': _config.effectiveUserAgent},
+          receiveTimeout: _config.effectiveMetaTimeout,
+        ),
+      );
 
-      if (changesRes.statusCode >= 400) {
-        return MediaSyncResult.fail(
-          l10n.syncServerError(
-            changesRes.statusCode,
-            changesRes.reasonPhrase ?? '',
-          ),
-        );
-      }
+      final changesJson = changesRes.data is Map<String, dynamic>
+          ? changesRes.data as Map<String, dynamic>
+          : jsonDecode(changesRes.data.toString()) as Map<String, dynamic>;
 
-      final changesJson =
-          jsonDecode(utf8.decode(changesRes.bodyBytes)) as Map<String, dynamic>;
       final changesData = changesJson['data'];
       if (changesData is! List) {
         return MediaSyncResult.ok(
@@ -163,33 +166,52 @@ class AnkiWebMediaSyncService {
       onProgress?.call(0, totalFiles);
 
       // 3. Download in batches of maxMediaFilesInZip
+      final totalBatches = (filesToDownload.length / maxMediaFilesInZip).ceil();
       for (int i = 0; i < filesToDownload.length; i += maxMediaFilesInZip) {
         final end = math.min(i + maxMediaFilesInZip, filesToDownload.length);
         final batch = filesToDownload.sublist(i, end);
+        final currentBatchIndex = (i ~/ maxMediaFilesInZip) + 1;
 
-        final downloadUri = Uri.parse(
+        final downloadFormData = FormData.fromMap({
+          'k': sessionKey.isNotEmpty ? sessionKey : hostKey,
+          'data': jsonEncode({'files': batch}),
+        });
+
+        final downloadRes = await _dio.post<List<int>>(
           '${_config.syncHost}/msync/downloadFiles',
+          data: downloadFormData,
+          cancelToken: cancelToken,
+          options: Options(
+            responseType: ResponseType.bytes,
+            headers: {'User-Agent': _config.effectiveUserAgent},
+            receiveTimeout: _config.effectiveDownloadTimeout,
+          ),
+          onReceiveProgress: (receivedBytes, totalBytes) {
+            if (totalBytes > 0) {
+              onByteProgress?.call(
+                currentBatchIndex,
+                totalBatches,
+                receivedBytes,
+                totalBytes,
+              );
+            }
+          },
         );
-        final downloadReq = http.MultipartRequest('POST', downloadUri);
-        downloadReq.headers['User-Agent'] = _config.effectiveUserAgent;
-        downloadReq.fields['k'] = sessionKey.isNotEmpty ? sessionKey : hostKey;
-        downloadReq.fields['data'] = jsonEncode({'files': batch});
 
-        final downloadStreamed = await _client
-            .send(downloadReq)
-            .timeout(_config.effectiveDownloadTimeout);
-        final downloadRes = await http.Response.fromStream(downloadStreamed);
-
-        if (downloadRes.statusCode == 200 && downloadRes.bodyBytes.isNotEmpty) {
-          final extractedCount = _extractAndSaveZip(downloadRes.bodyBytes);
+        if (downloadRes.statusCode == 200 &&
+            downloadRes.data != null &&
+            downloadRes.data!.isNotEmpty) {
+          final extractedCount = _extractAndSaveZip(
+            Uint8List.fromList(downloadRes.data!),
+          );
           downloadedCount += extractedCount;
           onProgress?.call(downloadedCount, totalFiles);
         } else {
           return MediaSyncResult.fail(
             l10n.syncMediaBatchError(
               '$i-$end',
-              downloadRes.statusCode,
-              downloadRes.reasonPhrase ?? '',
+              downloadRes.statusCode ?? 500,
+              downloadRes.statusMessage ?? '',
             ),
           );
         }
@@ -199,6 +221,21 @@ class AnkiWebMediaSyncService {
         message: l10n.syncMediaDownloadedSuccess(downloadedCount),
         downloadedCount: downloadedCount,
         serverUsn: serverUsn,
+      );
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        return MediaSyncResult.fail(l10n.syncFailed);
+      }
+      if (e.response != null) {
+        return MediaSyncResult.fail(
+          l10n.syncServerError(
+            e.response!.statusCode ?? 500,
+            e.response!.statusMessage ?? e.message ?? '',
+          ),
+        );
+      }
+      return MediaSyncResult.fail(
+        l10n.syncMediaError(e.message ?? e.toString()),
       );
     } catch (e) {
       return MediaSyncResult.fail(l10n.syncMediaError(e.toString()));

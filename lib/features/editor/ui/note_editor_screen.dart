@@ -8,9 +8,12 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/extensions/responsive_extensions.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
+import '../../../core/theme/app_tokens.dart';
+
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
 import 'package:flanki/core/widgets/form_focus_helper.dart';
+
 import 'widgets/note_editor_desktop_layout.dart';
 import 'widgets/note_editor_mobile_layout.dart';
 
@@ -167,7 +170,11 @@ class NoteEditorScreen extends HookConsumerWidget {
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: EdgeInsets.all(
-                  context.responsive(mobile: 16.0, tablet: 20.0, desktop: 24.0),
+                  context.responsive(
+                    mobile: AppSpacing.pageMobile,
+                    tablet: AppSpacing.pageTablet,
+                    desktop: AppSpacing.pageDesktop,
+                  ),
                 ),
                 child: isDesktop
                     ? NoteEditorDesktopLayout(
@@ -234,7 +241,7 @@ class NoteEditorScreen extends HookConsumerWidget {
       trailing: [
         if (isDesktop)
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: AppSpacing.smPlus),
             child: Text(
               'Ctrl/⌘ + ↵',
               style: theme.typography.xSmall.copyWith(
@@ -246,7 +253,7 @@ class NoteEditorScreen extends HookConsumerWidget {
           size: ButtonSize.small,
           alignment: Alignment.center,
           onPressed: onSave,
-          leading: const Icon(LucideIcons.check, size: 14),
+          leading: const Icon(LucideIcons.check, size: AppIconSize.sm),
           child: Text(l10n.saveCard, maxLines: 1, softWrap: false),
         ),
       ],

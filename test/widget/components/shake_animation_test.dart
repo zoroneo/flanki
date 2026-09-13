@@ -3,25 +3,23 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/widgets/animations/shake_animation.dart';
 
 void main() {
-  testWidgets('ShakeAnimation renders child without offset when not triggered', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      const Directionality(
-        textDirection: TextDirection.ltr,
-        child: ShakeAnimation(
-          trigger: false,
-          child: Text('Test Option'),
+  testWidgets(
+    'ShakeAnimation renders child without offset when not triggered',
+    (tester) async {
+      await tester.pumpWidget(
+        const Directionality(
+          textDirection: TextDirection.ltr,
+          child: ShakeAnimation(trigger: false, child: Text('Test Option')),
         ),
-      ),
-    );
+      );
 
-    expect(find.text('Test Option'), findsOneWidget);
-    final transformFinder = find.byType(Transform);
-    expect(transformFinder, findsOneWidget);
-    final transform = tester.widget<Transform>(transformFinder);
-    expect(transform.transform.getTranslation().x, equals(0.0));
-  });
+      expect(find.text('Test Option'), findsOneWidget);
+      final transformFinder = find.byType(Transform);
+      expect(transformFinder, findsOneWidget);
+      final transform = tester.widget<Transform>(transformFinder);
+      expect(transform.transform.getTranslation().x, equals(0.0));
+    },
+  );
 
   testWidgets('ShakeAnimation triggers shake and calls onComplete', (
     tester,

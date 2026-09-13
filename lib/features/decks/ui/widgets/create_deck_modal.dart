@@ -7,6 +7,7 @@ import '../../../../core/localization/locale_notifier.dart';
 
 import 'package:flanki/core/widgets/adaptive_modal.dart';
 import 'package:flanki/core/widgets/form_focus_helper.dart';
+import 'package:flanki/core/theme/app_tokens.dart';
 
 class CreateDeckModal extends HookWidget {
   final void Function(String name, String description) onCreateDeck;
@@ -83,8 +84,10 @@ class CreateDeckModal extends HookWidget {
         decoration: BoxDecoration(
           color: theme.colorScheme.card,
           borderRadius: isDesktopMode
-              ? BorderRadius.circular(16)
-              : const BorderRadius.vertical(top: Radius.circular(22)),
+              ? AppRadius.borderXl
+              : const BorderRadius.vertical(
+                  top: Radius.circular(AppSpacing.xl),
+                ),
           border: isDesktopMode
               ? Border.all(color: theme.colorScheme.border, width: 1)
               : Border(
@@ -119,33 +122,35 @@ class CreateDeckModal extends HookWidget {
                         color: theme.colorScheme.mutedForeground.withValues(
                           alpha: 0.25,
                         ),
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: AppRadius.borderXs,
                       ),
                     ),
                   ),
 
-                if (isDesktopMode) const SizedBox(height: 16),
+                if (isDesktopMode) AppGaps.v16,
 
                 // Header with icon, title, subtitle & close button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: AppEdgeInsets.all8,
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary.withValues(
                             alpha: 0.1,
                           ),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: AppRadius.borderMd,
                         ),
                         child: Icon(
                           LucideIcons.folderPlus,
                           color: theme.colorScheme.primary,
-                          size: 20,
+                          size: AppIconSize.md,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      AppGaps.h12,
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +161,7 @@ class CreateDeckModal extends HookWidget {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const SizedBox(height: 2),
+                            AppGaps.v2,
                             Text(
                               l10n.createDeckDesc,
                               style: theme.typography.xSmall.copyWith(
@@ -169,7 +174,7 @@ class CreateDeckModal extends HookWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                AppGaps.v12,
                 Divider(
                   height: 1,
                   color: theme.colorScheme.border.withValues(alpha: 0.6),
@@ -177,7 +182,12 @@ class CreateDeckModal extends HookWidget {
 
                 // Form fields & actions
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.lg,
+                    AppSpacing.md,
+                    AppSpacing.lg,
+                    AppSpacing.md,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -190,7 +200,7 @@ class CreateDeckModal extends HookWidget {
                           color: theme.colorScheme.foreground,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      AppGaps.v6,
                       TextField(
                         controller: nameController,
                         focusNode: nameFocusNode,
@@ -205,7 +215,7 @@ class CreateDeckModal extends HookWidget {
                           InputFeature.leading(
                             Icon(
                               LucideIcons.folder,
-                              size: 16,
+                              size: AppIconSize.sm,
                               color: theme.colorScheme.mutedForeground,
                             ),
                           ),
@@ -217,7 +227,7 @@ class CreateDeckModal extends HookWidget {
                         },
                         onSubmitted: (_) => descFocusNode.requestFocus(),
                       ),
-                      const SizedBox(height: 4),
+                      AppGaps.v4,
                       Text(
                         l10n.deckHierarchyTip,
                         style: TextStyle(
@@ -227,15 +237,15 @@ class CreateDeckModal extends HookWidget {
                       ),
 
                       if (errorMessage.value != null) ...[
-                        const SizedBox(height: 8),
+                        AppGaps.v8,
                         Row(
                           children: [
                             const Icon(
                               LucideIcons.circleAlert,
-                              size: 14,
+                              size: AppIconSize.sm,
                               color: m.Colors.red,
                             ),
-                            const SizedBox(width: 6),
+                            AppGaps.h8,
                             Expanded(
                               child: Text(
                                 errorMessage.value!,
@@ -248,7 +258,7 @@ class CreateDeckModal extends HookWidget {
                         ),
                       ],
 
-                      const SizedBox(height: 16),
+                      AppGaps.v16,
 
                       // Field 2: Deck Description Input
                       Text(
@@ -259,20 +269,17 @@ class CreateDeckModal extends HookWidget {
                           color: theme.colorScheme.foreground,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      AppGaps.v6,
                       TextField(
                         controller: descController,
                         focusNode: descFocusNode,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
-                        ),
+                        padding: AppEdgeInsets.h12v8,
                         placeholder: Text(l10n.deckDescPlaceholder),
                         minLines: 2,
                         maxLines: 3,
                       ),
 
-                      const SizedBox(height: 22),
+                      AppGaps.v24,
 
                       // Action Buttons
                       Row(
@@ -284,7 +291,7 @@ class CreateDeckModal extends HookWidget {
                               child: Text(l10n.cancel),
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          AppGaps.h12,
                           Expanded(
                             child: PrimaryButton(
                               alignment: Alignment.center,
@@ -293,8 +300,11 @@ class CreateDeckModal extends HookWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(LucideIcons.plus, size: 16),
-                                  const SizedBox(width: 8),
+                                  const Icon(
+                                    LucideIcons.plus,
+                                    size: AppIconSize.sm,
+                                  ),
+                                  AppGaps.h8,
                                   Text(l10n.createDeckTitle),
                                 ],
                               ),

@@ -77,7 +77,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify catalog header & unit card are rendered
-    expect(find.text('Ngữ Pháp Học Thuật'), findsOneWidget);
+    expect(find.text('Ngữ pháp học thuật'), findsOneWidget);
     expect(find.text('Tất Cả (36)'), findsOneWidget);
     expect(find.text('Thì Hiện Tại & Quá Khứ Cơ Bản'), findsOneWidget);
   });
@@ -120,7 +120,7 @@ void main() {
     await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
     await tester.pumpAndSettle();
 
-    expect(find.text('Ngữ Pháp Học Thuật'), findsOneWidget);
+    expect(find.text('Ngữ pháp học thuật'), findsOneWidget);
     expect(find.text('Thì Hiện Tại & Quá Khứ Cơ Bản'), findsOneWidget);
   });
 
@@ -161,7 +161,7 @@ void main() {
     await tester.tap(find.text('Ngữ pháp').first);
     await tester.pumpAndSettle();
 
-    expect(find.text('Ngữ Pháp Học Thuật'), findsOneWidget);
+    expect(find.text('Ngữ pháp học thuật'), findsOneWidget);
     expect(find.text('Tất Cả (36)'), findsOneWidget);
     await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
     await tester.pumpAndSettle();

@@ -1,10 +1,12 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
 class ExplanationSheet extends StatelessWidget {
@@ -13,6 +15,8 @@ class ExplanationSheet extends StatelessWidget {
   final bool isLastQuestion;
   final VoidCallback onNext;
   final bool isSidePanel;
+  final ScrollController? scrollController;
+  final DraggableScrollableController? sheetController;
 
   const ExplanationSheet({
     super.key,
@@ -21,6 +25,8 @@ class ExplanationSheet extends StatelessWidget {
     required this.isLastQuestion,
     required this.onNext,
     this.isSidePanel = false,
+    this.scrollController,
+    this.sheetController,
   });
 
   @override
@@ -32,12 +38,10 @@ class ExplanationSheet extends StatelessWidget {
     final containerDecoration = isSidePanel
         ? BoxDecoration(
             color: theme.colorScheme.card,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: AppRadius.borderLg,
             border: Border.all(
-              color: isCorrect
-                  ? Colors.green.withValues(alpha: 0.5)
-                  : Colors.red.withValues(alpha: 0.5),
-              width: 1.5,
+              color: theme.colorScheme.border.withValues(alpha: 0.6),
+              width: 1,
             ),
             boxShadow: [
               BoxShadow(
@@ -49,24 +53,28 @@ class ExplanationSheet extends StatelessWidget {
           )
         : BoxDecoration(
             color: theme.colorScheme.card,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(AppSpacing.xl),
+            ),
             border: Border(
               top: BorderSide(
-                color: isCorrect ? Colors.green : Colors.red,
-                width: 2.5,
+                color: theme.colorScheme.border.withValues(alpha: 0.6),
+                width: 1,
               ),
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.08),
-                blurRadius: 16,
-                offset: const Offset(0, -4),
+                color: Colors.black.withValues(alpha: 0.12),
+                blurRadius: 20,
+                offset: const Offset(0, -6),
               ),
             ],
           );
 
-    final detailsContent = SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 8),
+    final scrollableWidget = SingleChildScrollView(
+      controller: scrollController,
+      physics: const ClampingScrollPhysics(),
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -113,15 +121,18 @@ class ExplanationSheet extends StatelessWidget {
           // 5. Distractor Breakdown
           if (explanation.distractorBreakdown.isNotEmpty) ...[
             Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 6),
+              padding: const EdgeInsets.only(
+                top: AppSpacing.sm,
+                bottom: AppSpacing.xs,
+              ),
               child: Row(
                 children: [
                   const Icon(
                     LucideIcons.shieldAlert,
-                    size: 15,
+                    size: AppIconSize.xs,
                     color: Colors.orange,
                   ),
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   Text(
                     l10n.grammarSectionDistractors,
                     style: const TextStyle(
@@ -146,8 +157,28 @@ class ExplanationSheet extends StatelessWidget {
       ),
     );
 
+    final detailsContent = (sheetController != null)
+        ? NotificationListener<ScrollUpdateNotification>(
+            onNotification: (notification) {
+              if (notification.scrollDelta != null &&
+                  notification.scrollDelta! > 1.0 &&
+                  sheetController!.isAttached &&
+                  sheetController!.size < 0.95) {
+                sheetController!.animateTo(
+                  1.0,
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeOutCubic,
+                );
+              }
+              return false;
+            },
+            child: scrollableWidget,
+          )
+        : scrollableWidget;
+
     final screenHeight = MediaQuery.sizeOf(context).height;
-    final scrollableDetails = isSidePanel
+    final isExpandedLayout = isSidePanel || scrollController != null;
+    final scrollableDetails = isExpandedLayout
         ? Expanded(child: detailsContent)
         : ConstrainedBox(
             constraints: BoxConstraints(
@@ -158,42 +189,85 @@ class ExplanationSheet extends StatelessWidget {
 
     return Container(
       decoration: containerDecoration,
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        isSidePanel ? AppSpacing.md : 0,
+        AppSpacing.md,
+        AppSpacing.md,
+      ),
       child: SafeArea(
-        top: false,
+        top: scrollController != null,
         bottom: !isSidePanel,
         child: Column(
-          mainAxisSize: isSidePanel ? MainAxisSize.max : MainAxisSize.min,
+          mainAxisSize: isExpandedLayout ? MainAxisSize.max : MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Banner Status
-            Row(
-              children: [
-                Icon(
-                  isCorrect ? LucideIcons.circleCheck : LucideIcons.circleAlert,
-                  color: isCorrect ? Colors.green : Colors.red,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    isCorrect
-                        ? l10n.grammarAnswerCorrect
-                        : l10n.grammarAnswerIncorrect,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ).copyWith(color: isCorrect ? Colors.green : Colors.red),
+            if (!isSidePanel)
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  if (sheetController != null && sheetController!.isAttached) {
+                    final target = sheetController!.size < 0.75 ? 1.0 : 0.50;
+                    sheetController!.animateTo(
+                      target,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOutCubic,
+                    );
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                  child: Center(
+                    child: Container(
+                      width: 40,
+                      height: AppSpacing.xs,
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.mutedForeground.withValues(
+                          alpha: 0.35,
+                        ),
+                        borderRadius: AppRadius.borderXs,
+                      ),
+                    ),
                   ),
                 ),
-              ],
+              ),
+
+            // Banner Status
+            Padding(
+              padding: EdgeInsets.only(
+                top: isSidePanel ? 0 : 2,
+                bottom: AppSpacing.sm,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    isCorrect
+                        ? LucideIcons.circleCheck
+                        : LucideIcons.circleAlert,
+                    color: isCorrect ? Colors.green : Colors.red,
+                    size: AppIconSize.md,
+                  ),
+                  AppGaps.h8,
+                  Expanded(
+                    child: Text(
+                      isCorrect
+                          ? l10n.grammarAnswerCorrect
+                          : l10n.grammarAnswerIncorrect,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: isCorrect ? Colors.green : Colors.red,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
 
             scrollableDetails,
-            const Divider(height: 16, thickness: 0.8),
+            const Divider(height: AppSpacing.lg, thickness: 0.8),
 
             // Next Button
             SizedBox(
@@ -213,12 +287,12 @@ class ExplanationSheet extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(width: 6),
+                    AppGaps.h8,
                     Icon(
                       isLastQuestion
                           ? LucideIcons.flag
                           : LucideIcons.arrowRight,
-                      size: 15,
+                      size: AppIconSize.xs,
                     ),
                   ],
                 ),
@@ -239,14 +313,14 @@ class ExplanationSheet extends StatelessWidget {
   }) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: 14, color: color),
-              const SizedBox(width: 6),
+              Icon(icon, size: AppIconSize.xs, color: color),
+              AppGaps.h8,
               Expanded(
                 child: Text(
                   title,
@@ -259,9 +333,9 @@ class ExplanationSheet extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 3),
+          AppGaps.v4,
           Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: AppSpacing.xl),
             child: RichCardContent(
               content: content,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,11 +381,11 @@ class ExplanationSheet extends StatelessWidget {
     final (badgeText, detailText) = _parseDistractorKey(rawKey, l10n);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+      padding: AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
         color: theme.colorScheme.muted.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppRadius.borderMd,
         border: Border.all(
           color: theme.colorScheme.border.withValues(alpha: 0.5),
           width: 0.8,
@@ -323,16 +397,20 @@ class ExplanationSheet extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: AppEdgeInsets.h8v4,
                 decoration: BoxDecoration(
                   color: Colors.red.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: AppRadius.borderSm,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(LucideIcons.x, size: 11, color: Colors.red),
-                    const SizedBox(width: 4),
+                    const Icon(
+                      LucideIcons.x,
+                      size: AppIconSize.xs,
+                      color: Colors.red,
+                    ),
+                    AppGaps.h4,
                     Text(
                       badgeText,
                       style: const TextStyle(
@@ -345,7 +423,7 @@ class ExplanationSheet extends StatelessWidget {
                 ),
               ),
               if (detailText != null) ...[
-                const SizedBox(width: 8),
+                AppGaps.h8,
                 Expanded(
                   child: Text(
                     detailText,
@@ -364,7 +442,7 @@ class ExplanationSheet extends StatelessWidget {
               ],
             ],
           ),
-          const SizedBox(height: 5),
+          AppGaps.v4,
           RichCardContent(
             content: explanation,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,6 +1,7 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
@@ -34,16 +35,16 @@ class ErrorIdQuestionWidget extends StatelessWidget {
         Row(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding: AppEdgeInsets.h8v4,
               decoration: BoxDecoration(
                 color: theme.colorScheme.muted,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: AppRadius.borderSm,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(LucideIcons.scanSearch, size: 14),
-                  const SizedBox(width: 6),
+                  const Icon(LucideIcons.scanSearch, size: AppIconSize.xs),
+                  AppGaps.h8,
                   Text(
                     l10n.grammarErrorIdInstruction,
                     style: theme.typography.xSmall.copyWith(
@@ -55,16 +56,16 @@ class ErrorIdQuestionWidget extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
 
         // Prompt Card with parsed tags
         Card(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: AppEdgeInsets.h16v12,
             child: _buildRichPrompt(context, prompt, theme),
           ),
         ),
-        const SizedBox(height: 10),
+        AppGaps.v12,
 
         // 4 Option Buttons (A, B, C, D)
         Row(
@@ -99,7 +100,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
 
             return Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
                 child: GestureDetector(
                   onTap: isSubmitted ? null : () => onSelectAnswer(opt),
                   child: AnimatedContainer(
@@ -108,7 +109,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: backgroundColor ?? theme.colorScheme.card,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: AppRadius.borderMd,
                       border: Border.all(
                         color: borderColor ?? theme.colorScheme.border,
                         width: (isSelected || (isSubmitted && isCorrectError))
@@ -132,18 +133,18 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                           ),
                         ),
                         if (isSubmitted && isCorrectError) ...[
-                          const SizedBox(width: 4),
+                          AppGaps.h4,
                           const Icon(
                             LucideIcons.check,
-                            size: 15,
+                            size: AppIconSize.xs,
                             color: Colors.green,
                           ),
                         ],
                         if (isSubmitted && isSelected && !isCorrectError) ...[
-                          const SizedBox(width: 4),
+                          AppGaps.h4,
                           const Icon(
                             LucideIcons.x,
-                            size: 15,
+                            size: AppIconSize.xs,
                             color: Colors.red,
                           ),
                         ],
@@ -207,8 +208,11 @@ class ErrorIdQuestionWidget extends StatelessWidget {
             child: GestureDetector(
               onTap: isSubmitted ? null : () => onSelectAnswer(letter),
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.xs,
+                  vertical: AppSpacing.xs / 2,
+                ),
+                padding: AppEdgeInsets.h8v4,
                 decoration: BoxDecoration(
                   color: isSelected
                       ? badgeColor.withValues(alpha: 0.15)
@@ -217,7 +221,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                     color: isSelected ? badgeColor : theme.colorScheme.border,
                     width: isSelected ? 1.5 : 1.0,
                   ),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: AppRadius.borderSm,
                 ),
                 child: Text(
                   tag,

@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -58,16 +58,75 @@ class MediaStorageService {
     return file;
   }
 
+  /// Resolves a media asset file, handling URL-encoding, enclosing quotes,
+  /// zero-byte corruptions, and case-insensitivity on Android/Linux ext4 filesystems.
+  File? resolveMediaFile(String rawFilename) {
+    var clean = rawFilename.trim();
+    if (clean.isEmpty) return null;
+
+    // Strip enclosing double or single quotes
+    if ((clean.startsWith('"') && clean.endsWith('"')) ||
+        (clean.startsWith("'") && clean.endsWith("'"))) {
+      if (clean.length >= 2) {
+        clean = clean.substring(1, clean.length - 1).trim();
+      }
+    }
+
+    // 1. Try direct exact filename
+    final directSanitized = p.basename(clean);
+    final directFile = File(p.join(mediaDirectoryPath, directSanitized));
+    if (directFile.existsSync() && directFile.lengthSync() > 0) {
+      return directFile;
+    }
+
+    // 2. Try URL-decoded filename (e.g. "sound%2001.mp3" -> "sound 01.mp3")
+    try {
+      final decoded = Uri.decodeComponent(clean);
+      if (decoded != clean) {
+        final decodedSanitized = p.basename(decoded);
+        final decodedFile = File(p.join(mediaDirectoryPath, decodedSanitized));
+        if (decodedFile.existsSync() && decodedFile.lengthSync() > 0) {
+          return decodedFile;
+        }
+      }
+    } catch (_) {}
+
+    // 3. Fallback for case-sensitive filesystems (Android / Linux):
+    // Search the directory for a case-insensitive match
+    final targetLower = directSanitized.toLowerCase();
+    try {
+      final dir = mediaDirectory;
+      if (dir.existsSync()) {
+        final entries = dir.listSync(followLinks: false);
+        for (final entry in entries) {
+          if (entry is File) {
+            final entryName = p.basename(entry.path);
+            if (entryName.toLowerCase() == targetLower) {
+              if (entry.lengthSync() > 0) {
+                return entry;
+              }
+            }
+          }
+        }
+      }
+    } catch (_) {}
+
+    return null;
+  }
+
   /// Get the full absolute file path for a media asset.
   String getMediaFilePath(String filename) {
-    final sanitized = p.basename(filename);
+    final resolved = resolveMediaFile(filename);
+    if (resolved != null) {
+      return resolved.path;
+    }
+    final sanitized = p.basename(filename.trim());
     return p.join(mediaDirectoryPath, sanitized);
   }
 
   /// Check whether a media file exists on disk.
   bool mediaFileExists(String filename) {
-    final sanitized = p.basename(filename);
-    return File(p.join(mediaDirectoryPath, sanitized)).existsSync();
+    return resolveMediaFile(filename) != null;
   }
 
   /// Normalizes `<img src="...">` paths, stripping any absolute `file://` temporary

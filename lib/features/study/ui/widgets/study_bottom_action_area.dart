@@ -1,6 +1,7 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'study_rating_bar.dart';
 
 class StudyBottomActionArea extends StatelessWidget {
@@ -33,7 +34,7 @@ class StudyBottomActionArea extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: bottomHorizontalPadding,
-              vertical: 12,
+              vertical: AppSpacing.smPlus,
             ),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 220),
@@ -45,10 +46,7 @@ class StudyBottomActionArea extends StatelessWidget {
                     begin: const Offset(0.0, 0.15),
                     end: Offset.zero,
                   ).animate(animation),
-                  child: FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  ),
+                  child: FadeTransition(opacity: animation, child: child),
                 );
               },
               child: isFlipped

@@ -3,6 +3,8 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
+
 import 'package:flanki/features/study/ui/widgets/card_action_sheet.dart';
 
 final _htmlTagRegex = RegExp(r'<[^>]*>');
@@ -43,7 +45,7 @@ class DesktopCardRowItem extends StatelessWidget {
         color: isSelected
             ? theme.colorScheme.primary.withValues(alpha: 0.1)
             : theme.colorScheme.card,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppRadius.borderMd,
         border: Border.all(
           color: isSelected
               ? theme.colorScheme.primary
@@ -57,7 +59,10 @@ class DesktopCardRowItem extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.smPlus,
+              vertical: 10,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -65,9 +70,9 @@ class DesktopCardRowItem extends StatelessWidget {
                   children: [
                     if (card.hasFlag)
                       Container(
-                        width: 7,
-                        height: 7,
-                        margin: const EdgeInsets.only(right: 8),
+                        width: AppSpacing.sm,
+                        height: AppSpacing.sm,
+                        margin: const EdgeInsets.only(right: AppSpacing.sm),
                         decoration: BoxDecoration(
                           color:
                               CardActionSheet.ankiFlagColors[card.flag] ??
@@ -100,7 +105,7 @@ class DesktopCardRowItem extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: m.Colors.orange.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: AppRadius.borderSm,
                         ),
                         child: Text(
                           l10n.filterSuspended,
@@ -113,7 +118,7 @@ class DesktopCardRowItem extends StatelessWidget {
                       ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                AppGaps.v4,
                 Text(
                   stripHtml(card.back),
                   maxLines: 1,
@@ -150,7 +155,7 @@ class MobileCardRowItem extends StatelessWidget {
     final l10n = context.l10n;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Card(
         key: ValueKey('card_${card.id}'),
         filled: true,
@@ -161,15 +166,18 @@ class MobileCardRowItem extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.all(14),
+              padding: AppEdgeInsets.all16,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (card.hasFlag)
                     Container(
-                      width: 8,
-                      height: 8,
-                      margin: const EdgeInsets.only(top: 5, right: 10),
+                      width: AppSpacing.sm,
+                      height: AppSpacing.sm,
+                      margin: const EdgeInsets.only(
+                        top: 5,
+                        right: AppSpacing.sm,
+                      ),
                       decoration: BoxDecoration(
                         color:
                             CardActionSheet.ankiFlagColors[card.flag] ??
@@ -182,9 +190,9 @@ class MobileCardRowItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildFrontText(theme),
-                        const SizedBox(height: 4),
+                        AppGaps.v4,
                         _buildBackText(theme),
-                        const SizedBox(height: 8),
+                        AppGaps.v8,
                         _buildMetaRow(theme, l10n),
                       ],
                     ),

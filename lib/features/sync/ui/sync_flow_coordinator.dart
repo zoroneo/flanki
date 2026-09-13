@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' show ToastOverlay;
 
 import '../providers/auth_notifier.dart';
+
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
+
 import '../../decks/providers/deck_notifier.dart';
 import '../../stats/providers/stats_notifier.dart';
 import '../../../core/database/database_service.dart';

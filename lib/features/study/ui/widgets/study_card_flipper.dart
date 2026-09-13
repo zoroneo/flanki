@@ -1,8 +1,9 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'study_card_views.dart';
 
 class StudyCardFlipper extends StatelessWidget {
@@ -59,7 +60,7 @@ class StudyCardFlipper extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: cardHorizontalPadding,
-                vertical: 12,
+                vertical: AppSpacing.smPlus,
               ),
               child: SizedBox.expand(
                 child: Transform.translate(

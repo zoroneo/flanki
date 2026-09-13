@@ -1,4 +1,4 @@
-﻿import 'package:fsrs/fsrs.dart' as fsrs;
+import 'package:fsrs/fsrs.dart' as fsrs;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/models/card.dart';
@@ -34,7 +34,7 @@ class GrammarSessionNotifier extends _$GrammarSessionNotifier {
 
   @override
   GrammarSessionState build() {
-    return GrammarSessionState();
+    return const GrammarSessionState();
   }
 
   /// Start practice session for a specific GrammarUnit

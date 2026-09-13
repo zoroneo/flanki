@@ -1,4 +1,4 @@
-﻿// ignore: unused_import
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations.dart';
@@ -855,6 +855,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get downloadAndInstall => 'Download & Update';
 
   @override
+  String get downloadInBackground => 'Download in background';
+
+  @override
+  String get cancelDownload => 'Cancel download';
+
+  @override
+  String get updateReadyTitle => 'Update ready to install';
+
+  @override
+  String updateReadySubtitle(String version) {
+    return 'Version $version is downloaded and ready to install';
+  }
+
+  @override
+  String get updateReadyAction => 'Install now';
+
+  @override
   String updateBannerTitle(String version) {
     return 'A new update is available (v$version)';
   }
@@ -1380,6 +1397,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get audioPlay => 'Play audio';
+
+  @override
+  String get audioStop => 'Stop audio';
 
   @override
   String get privacyPolicyTagline =>

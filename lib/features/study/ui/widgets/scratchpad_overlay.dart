@@ -1,6 +1,8 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
+import 'package:flanki/core/theme/app_tokens.dart';
 
 class StrokeLine {
   final List<m.Offset> points;
@@ -74,16 +76,16 @@ class ScratchpadOverlay extends HookWidget {
 
             // Top mini floating toolbar
             Positioned(
-              top: 16,
-              right: 16,
+              top: AppSpacing.md,
+              right: AppSpacing.md,
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
+                  horizontal: AppSpacing.smPlus,
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.background.withValues(alpha: 0.95),
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: AppRadius.borderFull,
                   border: Border.all(color: theme.colorScheme.border),
                   boxShadow: [
                     BoxShadow(
@@ -100,9 +102,11 @@ class ScratchpadOverlay extends HookWidget {
                       return GestureDetector(
                         onTap: () => selectedColor.value = c,
                         child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          width: 20,
-                          height: 20,
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                          ),
+                          width: AppSpacing.lg,
+                          height: AppSpacing.lg,
                           decoration: BoxDecoration(
                             color: c,
                             shape: BoxShape.circle,
@@ -116,10 +120,13 @@ class ScratchpadOverlay extends HookWidget {
                         ),
                       );
                     }),
-                    const SizedBox(width: 8),
+                    AppGaps.h8,
                     // Clear canvas button
                     IconButton.ghost(
-                      icon: const Icon(LucideIcons.trash2, size: 18),
+                      icon: const Icon(
+                        LucideIcons.trash2,
+                        size: AppIconSize.md,
+                      ),
                       onPressed: () {
                         lines.value = [];
                         currentPoints.value = [];
@@ -127,7 +134,7 @@ class ScratchpadOverlay extends HookWidget {
                     ),
                     // Close whiteboard
                     IconButton.ghost(
-                      icon: const Icon(LucideIcons.x, size: 18),
+                      icon: const Icon(LucideIcons.x, size: AppIconSize.md),
                       onPressed: onClose,
                     ),
                   ],

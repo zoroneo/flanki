@@ -7,6 +7,7 @@ import '../../../../core/models/custom_study_mode.dart';
 
 import 'package:flanki/core/widgets/adaptive_modal.dart';
 import 'package:flanki/core/widgets/form_focus_helper.dart';
+import 'package:flanki/core/theme/app_tokens.dart';
 
 class CustomStudyModal extends HookWidget {
   final void Function(String name, String tag, int limit, CustomStudyMode mode)
@@ -67,12 +68,12 @@ class CustomStudyModal extends HookWidget {
     final tagFocusNode = cramFocusNodes[0];
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: AppEdgeInsets.all24,
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         borderRadius: isDesktopMode
-            ? BorderRadius.circular(16)
-            : const BorderRadius.vertical(top: Radius.circular(20)),
+            ? AppRadius.borderXl
+            : const BorderRadius.vertical(top: Radius.circular(AppSpacing.lg)),
         border: isDesktopMode
             ? Border.all(color: theme.colorScheme.border, width: 1)
             : Border(
@@ -103,34 +104,38 @@ class CustomStudyModal extends HookWidget {
                       color: theme.colorScheme.mutedForeground.withValues(
                         alpha: 0.3,
                       ),
-                      borderRadius: BorderRadius.circular(2),
+                      borderRadius: AppRadius.borderXs,
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                AppGaps.v16,
               ],
               Row(
                 children: [
-                  const Icon(LucideIcons.zap, color: m.Colors.amber, size: 22),
-                  const SizedBox(width: 8),
+                  const Icon(
+                    LucideIcons.zap,
+                    color: m.Colors.amber,
+                    size: AppIconSize.lg,
+                  ),
+                  AppGaps.h8,
                   Expanded(
                     child: Text(l10n.cramModeTitle, style: theme.typography.h4),
                   ),
                   if (isDesktopMode)
                     IconButton.ghost(
-                      icon: const Icon(LucideIcons.x, size: 18),
+                      icon: const Icon(LucideIcons.x, size: AppIconSize.md),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                 ],
               ),
-              const SizedBox(height: 6),
+              AppGaps.v6,
               Text(
                 l10n.cramModeDesc,
                 style: theme.typography.xSmall.copyWith(
                   color: theme.colorScheme.mutedForeground,
                 ),
               ),
-              const SizedBox(height: 20),
+              AppGaps.v20,
 
               // Mode selector
               Text(
@@ -139,7 +144,7 @@ class CustomStudyModal extends HookWidget {
                   color: theme.colorScheme.mutedForeground,
                 ),
               ),
-              const SizedBox(height: 8),
+              AppGaps.v8,
               Row(
                 children: [
                   Expanded(
@@ -149,7 +154,7 @@ class CustomStudyModal extends HookWidget {
                       onTap: () => mode.value = CustomStudyMode.byTag,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   Expanded(
                     child: _ModeButton(
                       label: l10n.flaggedCards,
@@ -157,7 +162,7 @@ class CustomStudyModal extends HookWidget {
                       onTap: () => mode.value = CustomStudyMode.flagged,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   Expanded(
                     child: _ModeButton(
                       label: l10n.reviewAhead,
@@ -167,7 +172,7 @@ class CustomStudyModal extends HookWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              AppGaps.v16,
 
               if (mode.value == CustomStudyMode.byTag) ...[
                 Text(
@@ -176,18 +181,15 @@ class CustomStudyModal extends HookWidget {
                     color: theme.colorScheme.mutedForeground,
                   ),
                 ),
-                const SizedBox(height: 6),
+                AppGaps.v6,
                 TextField(
                   controller: tagController,
                   focusNode: tagFocusNode,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
-                  ),
+                  padding: AppEdgeInsets.h12v8,
                   placeholder: Text(l10n.addTagPlaceholder),
                   onSubmitted: (_) => handleStartCram(),
                 ),
-                const SizedBox(height: 16),
+                AppGaps.v16,
               ],
 
               // Card limit
@@ -197,7 +199,7 @@ class CustomStudyModal extends HookWidget {
                   color: theme.colorScheme.mutedForeground,
                 ),
               ),
-              const SizedBox(height: 8),
+              AppGaps.v8,
               Row(
                 children: [10, 20, 50, 100].map((l) {
                   final isSelected = limit.value == l;
@@ -214,7 +216,7 @@ class CustomStudyModal extends HookWidget {
                             color: isSelected
                                 ? theme.colorScheme.primary
                                 : theme.colorScheme.muted,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: AppRadius.borderMd,
                           ),
                           alignment: Alignment.center,
                           child: Text(
@@ -235,12 +237,12 @@ class CustomStudyModal extends HookWidget {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 24),
+              AppGaps.v24,
 
               PrimaryButton(
                 onPressed: handleStartCram,
                 alignment: Alignment.center,
-                leading: const Icon(LucideIcons.play, size: 16),
+                leading: const Icon(LucideIcons.play, size: AppIconSize.sm),
                 child: Text(l10n.startCram),
               ),
             ],
@@ -268,12 +270,12 @@ class _ModeButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
               : theme.colorScheme.muted,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: AppRadius.borderMd,
         ),
         alignment: Alignment.center,
         child: Text(

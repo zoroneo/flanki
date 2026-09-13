@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/theme/app_tokens.dart';
 
 class PrivacyPolicyScreen extends HookWidget {
   const PrivacyPolicyScreen({super.key});
@@ -17,7 +18,7 @@ class PrivacyPolicyScreen extends HookWidget {
         AppBar(
           leading: [
             IconButton.ghost(
-              icon: const Icon(LucideIcons.arrowLeft, size: 18),
+              icon: const Icon(LucideIcons.arrowLeft, size: AppIconSize.md),
               onPressed: () {
                 if (context.canPop()) {
                   context.pop();
@@ -39,15 +40,15 @@ class PrivacyPolicyScreen extends HookWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: AppEdgeInsets.all16,
             children: [
               // Summary Header Card
               Card(
-                padding: const EdgeInsets.all(18),
+                padding: AppEdgeInsets.all20,
                 child: Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: AppEdgeInsets.all8,
                       decoration: BoxDecoration(
                         color: theme.colorScheme.primary.withValues(
                           alpha: 0.12,
@@ -56,11 +57,11 @@ class PrivacyPolicyScreen extends HookWidget {
                       ),
                       child: Icon(
                         LucideIcons.shieldCheck,
-                        size: 24,
+                        size: AppIconSize.lg,
                         color: theme.colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    AppGaps.h12,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +72,7 @@ class PrivacyPolicyScreen extends HookWidget {
                               fontSize: 16,
                             ),
                           ),
-                          const SizedBox(height: 2),
+                          AppGaps.v2,
                           Text(
                             l10n.privacyPolicyTagline,
                             style: theme.typography.xSmall.copyWith(
@@ -84,56 +85,56 @@ class PrivacyPolicyScreen extends HookWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              AppGaps.v16,
 
               _PolicySectionCard(
                 icon: LucideIcons.hardDrive,
                 title: l10n.privacySection1Title,
                 content: l10n.privacySection1Content,
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
 
               _PolicySectionCard(
                 icon: LucideIcons.ban,
                 title: l10n.privacySection2Title,
                 content: l10n.privacySection2Content,
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
 
               _PolicySectionCard(
                 icon: LucideIcons.cloud,
                 title: l10n.privacySection3Title,
                 content: l10n.privacySection3Content,
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
 
               _PolicySectionCard(
                 icon: LucideIcons.refreshCw,
                 title: l10n.privacySection4Title,
                 content: l10n.privacySection4Content,
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
 
               _PolicySectionCard(
                 icon: LucideIcons.bell,
                 title: l10n.privacySection5Title,
                 content: l10n.privacySection5Content,
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
 
               _PolicySectionCard(
                 icon: LucideIcons.trash2,
                 title: l10n.privacySection6Title,
                 content: l10n.privacySection6Content,
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
 
               _PolicySectionCard(
                 icon: LucideIcons.globe,
                 title: l10n.privacySection7Title,
                 content: l10n.privacySection7Content,
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: AppSpacing.xxxl),
             ],
           ),
         ),
@@ -158,14 +159,18 @@ class _PolicySectionCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Card(
-      padding: const EdgeInsets.all(16),
+      padding: AppEdgeInsets.all16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: 16, color: theme.colorScheme.primary),
-              const SizedBox(width: 8),
+              Icon(
+                icon,
+                size: AppIconSize.sm,
+                color: theme.colorScheme.primary,
+              ),
+              AppGaps.h8,
               Text(
                 title,
                 style: theme.typography.small.copyWith(
@@ -174,7 +179,7 @@ class _PolicySectionCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          AppGaps.v8,
           Text(
             content,
             style: theme.typography.small.copyWith(

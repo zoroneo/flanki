@@ -1,5 +1,6 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
@@ -12,7 +13,7 @@ class GrammarLevelFilters extends StatelessWidget {
     super.key,
     required this.selectedLevel,
     required this.isMobile,
-    this.horizontalPadding = 16.0,
+    this.horizontalPadding = AppSpacing.pageMobile,
   });
 
   @override
@@ -41,7 +42,7 @@ class GrammarLevelFilters extends StatelessWidget {
         child: Row(
           children: [
             for (int i = 0; i < chips.length; i++) ...[
-              if (i > 0) const SizedBox(width: 8),
+              if (i > 0) AppGaps.h8,
               chips[i],
             ],
           ],
@@ -49,7 +50,11 @@ class GrammarLevelFilters extends StatelessWidget {
       );
     }
 
-    return Wrap(spacing: 8, runSpacing: 8, children: chips);
+    return Wrap(
+      spacing: AppSpacing.sm,
+      runSpacing: AppSpacing.sm,
+      children: chips,
+    );
   }
 }
 
@@ -72,12 +77,12 @@ class GrammarFilterChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
               : theme.colorScheme.muted.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: AppRadius.borderFull,
           border: Border.all(
             color: isSelected
                 ? theme.colorScheme.primary

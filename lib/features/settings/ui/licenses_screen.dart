@@ -6,6 +6,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/config/app_config.dart';
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/theme/app_tokens.dart';
 
 class PackageLicense {
   final String package;
@@ -114,7 +115,7 @@ SOFTWARE.''';
         AppBar(
           leading: [
             IconButton.ghost(
-              icon: const Icon(LucideIcons.arrowLeft, size: 18),
+              icon: const Icon(LucideIcons.arrowLeft, size: AppIconSize.md),
               onPressed: () {
                 if (context.canPop()) {
                   context.pop();
@@ -138,24 +139,21 @@ SOFTWARE.''';
           child: CustomScrollView(
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
+                padding: AppEdgeInsets.all16,
                 sliver: SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Flanki Featured License Card
                       Card(
-                        padding: const EdgeInsets.all(18),
+                        padding: AppEdgeInsets.all20,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: AppEdgeInsets.all8,
                                   decoration: BoxDecoration(
                                     color: theme.colorScheme.primary.withValues(
                                       alpha: 0.12,
@@ -164,11 +162,11 @@ SOFTWARE.''';
                                   ),
                                   child: Icon(
                                     LucideIcons.shieldCheck,
-                                    size: 22,
+                                    size: AppIconSize.md,
                                     color: theme.colorScheme.primary,
                                   ),
                                 ),
-                                const SizedBox(width: 14),
+                                AppGaps.h12,
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -181,16 +179,12 @@ SOFTWARE.''';
                                             style: theme.typography.semiBold
                                                 .copyWith(fontSize: 16),
                                           ),
-                                          const SizedBox(width: 8),
+                                          AppGaps.h8,
                                           Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 7,
-                                              vertical: 2,
-                                            ),
+                                            padding: AppEdgeInsets.h8v4,
                                             decoration: BoxDecoration(
                                               color: theme.colorScheme.muted,
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
+                                              borderRadius: AppRadius.borderSm,
                                             ),
                                             child: Text(
                                               'v${AppConfig.version}',
@@ -205,7 +199,7 @@ SOFTWARE.''';
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 3),
+                                      AppGaps.v4,
                                       Text(
                                         'Copyright © 2026 ZoroNeo. MIT License.',
                                         style: theme.typography.xSmall.copyWith(
@@ -221,7 +215,7 @@ SOFTWARE.''';
                                     expandedPackages.value.contains('flanki')
                                         ? LucideIcons.chevronDown
                                         : LucideIcons.chevronRight,
-                                    size: 18,
+                                    size: AppIconSize.md,
                                     color: theme.colorScheme.mutedForeground,
                                   ),
                                   onPressed: () => toggleExpanded('flanki'),
@@ -229,9 +223,9 @@ SOFTWARE.''';
                               ],
                             ),
                             if (expandedPackages.value.contains('flanki')) ...[
-                              const SizedBox(height: 14),
+                              AppGaps.v12,
                               const Divider(),
-                              const SizedBox(height: 12),
+                              AppGaps.v12,
                               _LicenseCodeBlock(
                                 licenseText: flankiLicenseText,
                                 onCopy: () {
@@ -248,7 +242,7 @@ SOFTWARE.''';
                                         trailing: IconButton.ghost(
                                           icon: const Icon(
                                             LucideIcons.x,
-                                            size: 14,
+                                            size: AppIconSize.xs,
                                           ),
                                           onPressed: () => overlay.close(),
                                         ),
@@ -261,7 +255,7 @@ SOFTWARE.''';
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      AppGaps.v20,
 
                       // Search & Filter
                       TextField(
@@ -270,10 +264,13 @@ SOFTWARE.''';
                         features: [
                           InputFeature.leading(
                             Padding(
-                              padding: const EdgeInsets.only(left: 4, right: 6),
+                              padding: const EdgeInsets.only(
+                                left: AppSpacing.xs,
+                                right: AppSpacing.sm,
+                              ),
                               child: Icon(
                                 LucideIcons.search,
-                                size: 16,
+                                size: AppIconSize.sm,
                                 color: theme.colorScheme.mutedForeground,
                               ),
                             ),
@@ -281,13 +278,16 @@ SOFTWARE.''';
                           if (searchQuery.value.isNotEmpty)
                             InputFeature.trailing(
                               IconButton.ghost(
-                                icon: const Icon(LucideIcons.x, size: 14),
+                                icon: const Icon(
+                                  LucideIcons.x,
+                                  size: AppIconSize.xs,
+                                ),
                                 onPressed: () => searchController.clear(),
                               ),
                             ),
                         ],
                       ),
-                      const SizedBox(height: 18),
+                      AppGaps.v16,
 
                       // Third-party packages header
                       Text(
@@ -298,7 +298,7 @@ SOFTWARE.''';
                           letterSpacing: 0.5,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      AppGaps.v8,
 
                       if (snapshot.connectionState ==
                           ConnectionState.waiting) ...[
@@ -310,7 +310,9 @@ SOFTWARE.''';
                         ),
                       ] else if (filteredPackages.isEmpty) ...[
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 48),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppSpacing.xxxl,
+                          ),
                           child: Center(
                             child: Text(
                               l10n.noLicensesFound,
@@ -328,11 +330,12 @@ SOFTWARE.''';
               if (snapshot.connectionState != ConnectionState.waiting &&
                   filteredPackages.isNotEmpty)
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                  ),
                   sliver: SliverList.separated(
                     itemCount: filteredPackages.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 8),
+                    separatorBuilder: (context, index) => AppGaps.v8,
                     itemBuilder: (context, index) {
                       final item = filteredPackages[index];
                       final isExpanded = expandedPackages.value.contains(
@@ -349,18 +352,15 @@ SOFTWARE.''';
                               behavior: HitTestBehavior.opaque,
                               onTap: () => toggleExpanded(item.package),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                padding: AppEdgeInsets.h16v12,
                                 child: Row(
                                   children: [
                                     Icon(
                                       LucideIcons.package,
-                                      size: 16,
+                                      size: AppIconSize.sm,
                                       color: theme.colorScheme.mutedForeground,
                                     ),
-                                    const SizedBox(width: 12),
+                                    AppGaps.h12,
                                     Expanded(
                                       child: Text(
                                         item.package,
@@ -373,7 +373,7 @@ SOFTWARE.''';
                                       isExpanded
                                           ? LucideIcons.chevronDown
                                           : LucideIcons.chevronRight,
-                                      size: 16,
+                                      size: AppIconSize.sm,
                                       color: theme.colorScheme.mutedForeground,
                                     ),
                                   ],
@@ -383,10 +383,10 @@ SOFTWARE.''';
                             if (isExpanded)
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(
-                                  16,
+                                  AppSpacing.md,
                                   0,
-                                  16,
-                                  14,
+                                  AppSpacing.md,
+                                  AppSpacing.md,
                                 ),
                                 child: _LicenseCodeBlock(
                                   licenseText: item.text,
@@ -402,7 +402,7 @@ SOFTWARE.''';
                                           trailing: IconButton.ghost(
                                             icon: const Icon(
                                               LucideIcons.x,
-                                              size: 14,
+                                              size: AppIconSize.xs,
                                             ),
                                             onPressed: () => overlay.close(),
                                           ),
@@ -418,7 +418,9 @@ SOFTWARE.''';
                     },
                   ),
                 ),
-              const SliverToBoxAdapter(child: SizedBox(height: 48)),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: AppSpacing.xxxl),
+              ),
             ],
           ),
         ),
@@ -439,10 +441,10 @@ class _LicenseCodeBlock extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: AppEdgeInsets.all12,
       decoration: BoxDecoration(
         color: theme.colorScheme.muted.withValues(alpha: 0.45),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: AppRadius.borderSm,
         border: Border.all(
           color: theme.colorScheme.border.withValues(alpha: 0.6),
         ),
@@ -457,15 +459,15 @@ class _LicenseCodeBlock extends StatelessWidget {
                 icon: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(LucideIcons.copy, size: 13),
-                    SizedBox(width: 4),
+                    Icon(LucideIcons.copy, size: AppIconSize.xs),
+                    AppGaps.h4,
                   ],
                 ),
                 onPressed: onCopy,
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          AppGaps.v4,
           SelectableText(
             licenseText,
             style: TextStyle(

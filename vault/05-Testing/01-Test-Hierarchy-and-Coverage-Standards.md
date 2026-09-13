@@ -1,4 +1,4 @@
-﻿---
+---
 title: Quy Chuẩn Phân Cấp Thư Mục Test & Tiêu Chuẩn Kiểm Thử
 created: 2026-09-11
 tags:
@@ -24,14 +24,17 @@ Dự án Flanki áp dụng cấu trúc kiểm thử phân cấp nhiều tầng (
 ```
 test/
 ├── unit/                          # Kiểm thử đơn vị logic thuần túy (Fast execution)
-│   ├── core/                      # Constants, models, localization, bridge
+│   ├── core/                      # Constants, models, localization, tokens, bridge
 │   │   ├── app_config_and_bridge_test.dart
+│   │   ├── app_tokens_test.dart
 │   │   ├── deck_grouping_test.dart
+│   │   ├── dimension_guardrail_test.dart
 │   │   └── l10n_test.dart
 │   ├── notifiers/                 # State management notifiers & evaluation logic
 │   │   ├── deck_creation_test.dart
 │   │   └── grammar_session_notifier_test.dart
 │   ├── services/                  # Algorithms, engines, system & platform services
+│   │   ├── card_audio_and_media_resolution_test.dart
 │   │   ├── desktop_update_service_test.dart
 │   │   ├── fsrs_and_apkg_test.dart
 │   │   ├── grammar_service_test.dart
@@ -55,7 +58,8 @@ test/
 │       ├── desktop_shortcuts_and_browser_test.dart
 │       ├── flanki_smoke_test.dart
 │       ├── grammar_navigation_test.dart
-│       └── note_editor_screen_test.dart
+│       ├── note_editor_screen_test.dart
+│       └── overflow_resizing_matrix_test.dart
 │
 └── integration/                   # Kiểm thử tích hợp đa tầng, end-to-end flows
     └── grammar_practice_flow_test.dart
@@ -69,13 +73,13 @@ Mọi file test tạo mới trong dự án Flanki **bắt buộc** phải tuân 
 
 | Loại Kiểm Thử | Vị Trí Thư Mục | Đối Tượng Kiểm Thử | Điều Kiện & Kỹ Thuật |
 |---|---|---|---|
-| **Core Logic** | `test/unit/core/` | Helpers, Config, Models, Parsing | Không phụ thuộc Flutter UI bindings |
+| **Core Logic & Tokens** | `test/unit/core/` | Helpers, Config, Models, Parsing, AppTokens | Không phụ thuộc Flutter UI bindings |
 | **State Notifier** | `test/unit/notifiers/` | Riverpod Notifiers, State reducers | Sử dụng `ProviderContainer`, test state transitions |
-| **Engine / Service** | `test/unit/services/` | FSRS, SM-2, Importer, Updaters | Xử lý thuật toán, mocks I/O |
+| **Engine / Service** | `test/unit/services/` | FSRS, SM-2, Importer, Updaters, Audio | Xử lý thuật toán, mocks I/O |
 | **Data Storage** | `test/unit/storage/` | SQLite (`DatabaseService`), Drift (`AppDatabase`) | Sử dụng in-memory database hoặc isolated temp files |
-| **Network & Sync** | `test/unit/sync/` | AnkiWeb protocol, USN sync | Sử dụng `MockClient`, test binary payload parsing |
+| **Network & Sync** | `test/unit/sync/` | AnkiWeb protocol, USN sync, Media sync | Sử dụng `MockClient`, test binary payload parsing |
 | **Component Widget** | `test/widget/components/` | Dialogs, Cards, Custom Buttons | Dùng `testWidgets`, wrap bằng `ShadcnApp` |
-| **Screen & Layout** | `test/widget/screens/` | Toàn màn hình, hotkey, responsive breakpoints | Kiểm tra kích thước cửa sổ mobile/tablet/desktop |
+| **Screen & Responsive Matrix** | `test/widget/screens/` | Toàn màn hình, hotkey, zero overflow matrix | Kiểm tra kích thước cửa sổ 320px -> 1280px |
 | **Integration Flow** | `test/integration/` | Luồng người dùng từ UI xuống Database | Kiểm tra đa bước (VD: Học bài -> Nộp bài -> FSRS lưu DB -> Summary) |
 
 ---
@@ -83,7 +87,10 @@ Mọi file test tạo mới trong dự án Flanki **bắt buộc** phải tuân 
 ## 4. Lệnh Thực Thi Tiêu Chuẩn
 
 ```powershell
-# Chạy toàn bộ test suite (117/117 tests)
+# Kiểm tra kích thước chuẩn hóa AppTokens (Dimension Guardrail)
+fvm dart run tool/check_dimensions.dart
+
+# Chạy toàn bộ test suite (154/154 tests PASS)
 fvm flutter test
 
 # Chạy riêng nhóm Unit Tests (cực nhanh)

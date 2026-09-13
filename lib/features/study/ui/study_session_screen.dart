@@ -5,11 +5,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/extensions/responsive_extensions.dart';
 import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
+import '../../../core/theme/app_tokens.dart';
+
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
+
 import '../../settings/providers/settings_notifier.dart';
 import '../providers/study_session_notifier.dart';
 import '../../sync/ui/sync_flow_coordinator.dart';
@@ -66,7 +70,7 @@ class StudySessionScreen extends HookConsumerWidget {
     );
     final dragOffset = useState<double>(0.0);
     final isWhiteboardOpen = useState<bool>(false);
-    final userTypedAnswer = useState<String>('');
+    final userTypedAnswer = useRef<String>('');
 
     useEffect(() {
       userTypedAnswer.value = '';
@@ -121,7 +125,7 @@ class StudySessionScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.undoSuccessTitle),
                 subtitle: Text(l10n.undoSuccessDesc),
-                leading: const Icon(LucideIcons.undo2, size: 18),
+                leading: const Icon(LucideIcons.undo2, size: AppIconSize.md),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -223,122 +227,114 @@ class StudySessionScreen extends HookConsumerWidget {
       const SingleActivator(LogicalKeyboardKey.escape): () => context.pop(),
     };
 
+    final isMobile = context.isMobile;
+    final cardPadding = switch (context.deviceScreenType) {
+      DeviceScreenType.mobile => AppSpacing.pageMobile,
+      DeviceScreenType.tablet => AppSpacing.pageTablet,
+      _ => AppSpacing.pageDesktop,
+    };
+    final bottomPadding = switch (context.deviceScreenType) {
+      DeviceScreenType.mobile => AppSpacing.pageMobile,
+      DeviceScreenType.tablet => AppSpacing.pageTablet,
+      _ => AppSpacing.pageDesktop,
+    };
+
     return CallbackShortcuts(
       bindings: shortcuts,
       child: Focus(
         autofocus: true,
-        child: ResponsiveBuilder(
-          builder: (context, sizingInfo) {
-            final isMobile =
-                sizingInfo.deviceScreenType == DeviceScreenType.mobile;
-            final cardPadding = getValueForScreenType<double>(
-              context: context,
-              mobile: 16.0,
-              tablet: 20.0,
-              desktop: 24.0,
-            );
-            final bottomPadding = getValueForScreenType<double>(
-              context: context,
-              mobile: 16.0,
-              tablet: 20.0,
-              desktop: 24.0,
-            );
-
-            return Scaffold(
-              headers: [
-                StudyAppBar(
-                  l10n: l10n,
-                  currentCard: currentCard,
-                  remainingCount: remainingCount,
-                  canUndo: canUndo,
-                  isWhiteboardOpen: isWhiteboardOpen.value,
-                  onUndo: handleUndo,
-                  onToggleWhiteboard: () =>
-                      isWhiteboardOpen.value = !isWhiteboardOpen.value,
-                  onOpenActions: openCardActions,
-                ),
-              ],
-              child: Stack(
+        child: Scaffold(
+          headers: [
+            StudyAppBar(
+              l10n: l10n,
+              currentCard: currentCard,
+              remainingCount: remainingCount,
+              canUndo: canUndo,
+              isWhiteboardOpen: isWhiteboardOpen.value,
+              onUndo: handleUndo,
+              onToggleWhiteboard: () =>
+                  isWhiteboardOpen.value = !isWhiteboardOpen.value,
+              onOpenActions: openCardActions,
+            ),
+          ],
+          child: Stack(
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      TweenAnimationBuilder<double>(
-                        tween: Tween<double>(begin: 0.0, end: progress),
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeOutCubic,
-                        builder: (context, animatedProgress, _) {
-                          return Progress(progress: animatedProgress);
-                        },
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onHorizontalDragUpdate: (details) {
-                            if (isFlipped && !isWhiteboardOpen.value) {
-                              dragOffset.value += details.primaryDelta ?? 0;
-                            }
-                          },
-                          onHorizontalDragEnd: (details) {
-                            if (isFlipped && !isWhiteboardOpen.value) {
-                              if (dragOffset.value < -80) {
-                                handleRate(ReviewRating.again);
-                              } else if (dragOffset.value > 80) {
-                                handleRate(ReviewRating.good);
-                              } else {
-                                dragOffset.value = 0.0;
-                              }
-                            }
-                          },
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 250),
-                            switchInCurve: Curves.easeOutCubic,
-                            switchOutCurve: Curves.easeInCubic,
-                            transitionBuilder: (child, animation) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: ScaleTransition(
-                                  scale: Tween<double>(
-                                    begin: 0.95,
-                                    end: 1.0,
-                                  ).animate(animation),
-                                  child: child,
-                                ),
-                              );
-                            },
-                            child: KeyedSubtree(
-                              key: ValueKey(currentCard?.id ?? 'none'),
-                              child: StudyCardFlipper(
-                                flipController: flipController,
-                                currentCard: currentCard,
-                                typedAnswer: userTypedAnswer.value,
-                                onAnswerChanged: (v) =>
-                                    userTypedAnswer.value = v,
-                                onSubmitAnswer: handleFlip,
-                                cardHorizontalPadding: cardPadding,
-                                dragOffset: dragOffset.value,
-                              ),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0.0, end: progress),
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    builder: (context, animatedProgress, _) {
+                      return Progress(progress: animatedProgress);
+                    },
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onHorizontalDragUpdate: (details) {
+                        if (isFlipped && !isWhiteboardOpen.value) {
+                          dragOffset.value += details.primaryDelta ?? 0;
+                        }
+                      },
+                      onHorizontalDragEnd: (details) {
+                        if (isFlipped && !isWhiteboardOpen.value) {
+                          if (dragOffset.value < -80) {
+                            handleRate(ReviewRating.again);
+                          } else if (dragOffset.value > 80) {
+                            handleRate(ReviewRating.good);
+                          } else {
+                            dragOffset.value = 0.0;
+                          }
+                        }
+                      },
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 250),
+                        switchInCurve: Curves.easeOutCubic,
+                        switchOutCurve: Curves.easeInCubic,
+                        transitionBuilder: (child, animation) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: ScaleTransition(
+                              scale: Tween<double>(
+                                begin: 0.95,
+                                end: 1.0,
+                              ).animate(animation),
+                              child: child,
                             ),
+                          );
+                        },
+                        child: KeyedSubtree(
+                          key: ValueKey(currentCard?.id ?? 'none'),
+                          child: StudyCardFlipper(
+                            flipController: flipController,
+                            currentCard: currentCard,
+                            typedAnswer: userTypedAnswer.value,
+                            onAnswerChanged: (v) => userTypedAnswer.value = v,
+                            onSubmitAnswer: handleFlip,
+                            cardHorizontalPadding: cardPadding,
+                            dragOffset: dragOffset.value,
                           ),
                         ),
                       ),
-                      StudyBottomActionArea(
-                        isFlipped: isFlipped,
-                        isMobile: isMobile,
-                        intervals: intervals,
-                        onRate: handleRate,
-                        onFlip: handleFlip,
-                        bottomHorizontalPadding: bottomPadding,
-                        l10n: l10n,
-                      ),
-                    ],
-                  ),
-                  if (isWhiteboardOpen.value)
-                    ScratchpadOverlay(
-                      onClose: () => isWhiteboardOpen.value = false,
                     ),
+                  ),
+                  StudyBottomActionArea(
+                    isFlipped: isFlipped,
+                    isMobile: isMobile,
+                    intervals: intervals,
+                    onRate: handleRate,
+                    onFlip: handleFlip,
+                    bottomHorizontalPadding: bottomPadding,
+                    l10n: l10n,
+                  ),
                 ],
               ),
-            );
-          },
+              if (isWhiteboardOpen.value)
+                ScratchpadOverlay(
+                  onClose: () => isWhiteboardOpen.value = false,
+                ),
+            ],
+          ),
         ),
       ),
     );

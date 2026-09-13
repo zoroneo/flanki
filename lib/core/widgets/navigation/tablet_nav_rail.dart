@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:flanki/core/theme/app_tokens.dart';
 
 class TabletNavRail extends StatelessWidget {
   final int currentIndex;
@@ -28,7 +29,7 @@ class TabletNavRail extends StatelessWidget {
         children: [
           _buildBrandIcon(theme),
           const Divider(height: 1),
-          const SizedBox(height: 12),
+          AppGaps.v12,
           _buildNavItems(theme),
           const Spacer(),
           _buildSyncIndicator(theme),
@@ -39,7 +40,7 @@ class TabletNavRail extends StatelessWidget {
 
   Widget _buildBrandIcon(ThemeData theme) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
       child: Tooltip(
         tooltip: (context) => const TooltipContainer(child: Text('Flanki')),
         child: Container(
@@ -47,13 +48,13 @@ class TabletNavRail extends StatelessWidget {
           height: 38,
           decoration: BoxDecoration(
             color: theme.colorScheme.primary,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: AppRadius.borderMd,
           ),
           child: Center(
             child: Icon(
               LucideIcons.zap,
               color: theme.colorScheme.primaryForeground,
-              size: 20,
+              size: AppIconSize.md,
             ),
           ),
         ),
@@ -73,7 +74,7 @@ class TabletNavRail extends StatelessWidget {
           badgeCount: totalDue > 0 ? totalDue : null,
           onTap: () => onSelectTab(0),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         NavRailItem(
           icon: LucideIcons.search,
           activeIcon: LucideIcons.fileSearch,
@@ -82,7 +83,7 @@ class TabletNavRail extends StatelessWidget {
           isSelected: currentIndex == 1,
           onTap: () => onSelectTab(1),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         NavRailItem(
           icon: LucideIcons.bookOpenText,
           activeIcon: LucideIcons.bookOpen,
@@ -91,7 +92,7 @@ class TabletNavRail extends StatelessWidget {
           isSelected: currentIndex == 2,
           onTap: () => onSelectTab(2),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         NavRailItem(
           icon: LucideIcons.chartColumn,
           activeIcon: LucideIcons.chartNoAxesCombined,
@@ -100,7 +101,7 @@ class TabletNavRail extends StatelessWidget {
           isSelected: currentIndex == 3,
           onTap: () => onSelectTab(3),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         NavRailItem(
           icon: LucideIcons.settings,
           activeIcon: LucideIcons.settings2,
@@ -116,7 +117,7 @@ class TabletNavRail extends StatelessWidget {
 
   Widget _buildSyncIndicator(ThemeData theme) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Tooltip(
         tooltip: (context) => TooltipContainer(
           child: Text(
@@ -135,8 +136,8 @@ class TabletNavRail extends StatelessWidget {
           ),
           child: Center(
             child: Container(
-              width: 10,
-              height: 10,
+              width: AppSpacing.sm,
+              height: AppSpacing.sm,
               decoration: BoxDecoration(
                 color: isAuthenticated
                     ? m.Colors.green
@@ -198,13 +199,17 @@ class NavRailItem extends StatelessWidget {
               color: isSelected
                   ? theme.colorScheme.primary.withValues(alpha: 0.12)
                   : m.Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: AppRadius.borderMd,
             ),
             child: Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.center,
               children: [
-                Icon(isSelected ? activeIcon : icon, size: 22, color: color),
+                Icon(
+                  isSelected ? activeIcon : icon,
+                  size: AppIconSize.lg,
+                  color: color,
+                ),
                 if (badgeCount != null)
                   Positioned(top: 4, right: 4, child: _buildBadge(theme)),
                 if (indicatorColor != null)
@@ -226,7 +231,7 @@ class NavRailItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
       decoration: BoxDecoration(
         color: theme.colorScheme.destructive,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: AppRadius.borderFull,
       ),
       child: Text(
         badgeCount! > 99 ? '99+' : '$badgeCount',

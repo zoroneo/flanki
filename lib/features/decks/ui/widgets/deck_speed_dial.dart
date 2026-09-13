@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class DeckSpeedDial extends HookWidget {
   final bool isOpen;
@@ -70,21 +71,21 @@ class DeckSpeedDial extends HookWidget {
                   label: l10n.createDeckAction,
                   onTap: onCreateDeck,
                 ),
-                const SizedBox(height: 12),
+                AppGaps.v12,
                 SpeedDialOption(
                   icon: LucideIcons.upload,
                   iconColor: m.Colors.blue,
                   label: l10n.importApkgAction,
                   onTap: onImportApkg,
                 ),
-                const SizedBox(height: 12),
+                AppGaps.v12,
                 SpeedDialOption(
                   icon: LucideIcons.zap,
                   iconColor: m.Colors.amber,
                   label: l10n.cramAction,
                   onTap: onCram,
                 ),
-                const SizedBox(height: 16),
+                AppGaps.v16,
               ],
             ),
           ),
@@ -117,7 +118,7 @@ class DeckSpeedDial extends HookWidget {
             child: Icon(
               LucideIcons.plus,
               color: theme.colorScheme.primaryForeground,
-              size: 26,
+              size: AppIconSize.lg,
             ),
           ),
         ),
@@ -151,10 +152,13 @@ class SpeedDialOption extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.smPlus,
+              vertical: 7,
+            ),
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: AppRadius.borderMd,
               border: Border.all(color: theme.colorScheme.border, width: 1),
               boxShadow: [
                 BoxShadow(
@@ -173,7 +177,7 @@ class SpeedDialOption extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          AppGaps.h8,
           Container(
             width: 44,
             height: 44,
@@ -189,7 +193,9 @@ class SpeedDialOption extends StatelessWidget {
                 ),
               ],
             ),
-            child: Center(child: Icon(icon, color: iconColor, size: 20)),
+            child: Center(
+              child: Icon(icon, color: iconColor, size: AppIconSize.md),
+            ),
           ),
         ],
       ),

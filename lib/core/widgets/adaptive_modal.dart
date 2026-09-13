@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../extensions/responsive_extensions.dart';
+import '../theme/app_tokens.dart';
 
 /// Shows an adaptive modal:
 /// - Bottom sheet on mobile (< 600dp)
@@ -39,7 +40,7 @@ Future<T?> showAdaptiveModal<T>({
     barrierDismissible: isDismissible,
     builder: (ctx) => m.Dialog(
       backgroundColor: m.Colors.transparent,
-      insetPadding: const m.EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      insetPadding: AppEdgeInsets.all24,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: desktopMaxWidth,
@@ -82,8 +83,10 @@ class AdaptiveModalFrame extends StatelessWidget {
         decoration: BoxDecoration(
           color: theme.colorScheme.background,
           borderRadius: isDesktop
-              ? BorderRadius.circular(16)
-              : const BorderRadius.vertical(top: Radius.circular(20)),
+              ? AppRadius.borderXl
+              : const BorderRadius.vertical(
+                  top: Radius.circular(AppSpacing.lg),
+                ),
           border: isDesktop
               ? Border.all(color: theme.colorScheme.border, width: 1)
               : Border(
@@ -101,8 +104,10 @@ class AdaptiveModalFrame extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: isDesktop
-              ? BorderRadius.circular(16)
-              : const BorderRadius.vertical(top: Radius.circular(20)),
+              ? AppRadius.borderXl
+              : const BorderRadius.vertical(
+                  top: Radius.circular(AppSpacing.lg),
+                ),
           child: SafeArea(
             top: false,
             bottom: !isDesktop,
@@ -117,12 +122,15 @@ class AdaptiveModalFrame extends StatelessWidget {
                       child: Container(
                         width: 36,
                         height: 4,
-                        margin: const EdgeInsets.only(top: 10, bottom: 12),
+                        margin: const EdgeInsets.only(
+                          top: AppSpacing.sm,
+                          bottom: AppSpacing.smPlus,
+                        ),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.mutedForeground.withValues(
                             alpha: 0.25,
                           ),
-                          borderRadius: BorderRadius.circular(2),
+                          borderRadius: AppRadius.borderXs,
                         ),
                       ),
                     ),

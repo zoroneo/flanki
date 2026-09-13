@@ -81,9 +81,16 @@ class UpdateNotifier extends _$UpdateNotifier {
       info.downloadUrl!,
       fileName: info.assetName,
       onProgress: (progress) {
-        state = state.copyWith(downloadProgress: progress);
+        if (state.status == UpdateStatus.downloading) {
+          state = state.copyWith(downloadProgress: progress);
+        }
       },
     );
+
+    // If cancelled while downloading, ignore result
+    if (state.status != UpdateStatus.downloading) {
+      return;
+    }
 
     if (path != null) {
       state = state.copyWith(
@@ -100,6 +107,19 @@ class UpdateNotifier extends _$UpdateNotifier {
     }
   }
 
+  /// Cancel active update download and reset progress.
+  void cancelDownload() {
+    _service.cancelDownload();
+    state = state.copyWith(
+      status: state.updateInfo != null
+          ? UpdateStatus.available
+          : UpdateStatus.idle,
+      downloadProgress: 0.0,
+      errorMessage: null,
+      errorType: null,
+    );
+  }
+
   /// Install downloaded update and restart/exit app.
   Future<void> installAndRestart() async {
     final filePath = state.downloadedFilePath;
@@ -110,8 +130,12 @@ class UpdateNotifier extends _$UpdateNotifier {
     }
   }
 
-  /// Reset update dialog status.
+  /// Reset update dialog status when not actively downloading.
   void dismiss() {
+    if (state.status == UpdateStatus.downloading) {
+      // Keep downloading in background if user dismisses modal.
+      return;
+    }
     state = state.copyWith(status: UpdateStatus.idle);
   }
 }

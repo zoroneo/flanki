@@ -1,5 +1,6 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
@@ -14,10 +15,10 @@ class PracticeShortcutsGuide extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: AppEdgeInsets.all24,
       decoration: BoxDecoration(
         color: theme.colorScheme.card,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.borderLg,
         border: Border.all(color: theme.colorScheme.border),
       ),
       child: Column(
@@ -28,10 +29,10 @@ class PracticeShortcutsGuide extends StatelessWidget {
             children: [
               Icon(
                 LucideIcons.keyboard,
-                size: 20,
+                size: AppIconSize.md,
                 color: theme.colorScheme.primary,
               ),
-              const SizedBox(width: 8),
+              AppGaps.h8,
               Text(
                 l10n.grammarShortcutsTitle,
                 style: theme.typography.large.copyWith(
@@ -40,29 +41,29 @@ class PracticeShortcutsGuide extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          AppGaps.v20,
           _buildShortcutRow(
             context,
             '1, 2, 3, 4',
             l10n.grammarShortcutSelectCheck,
           ),
-          const SizedBox(height: 12),
+          AppGaps.v12,
           _buildShortcutRow(
             context,
             'Enter / Space',
             l10n.grammarShortcutNextQuestion,
           ),
-          const SizedBox(height: 24),
+          AppGaps.v24,
           const Divider(),
-          const SizedBox(height: 20),
+          AppGaps.v20,
           Row(
             children: [
               Icon(
                 LucideIcons.sparkles,
-                size: 18,
+                size: AppIconSize.md,
                 color: theme.colorScheme.mutedForeground,
               ),
-              const SizedBox(width: 8),
+              AppGaps.h8,
               Text(
                 l10n.grammarPracticeTipTitle,
                 style: theme.typography.base.copyWith(
@@ -71,7 +72,7 @@ class PracticeShortcutsGuide extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          AppGaps.v12,
           Text(
             _getExerciseTip(exercise, l10n),
             style: theme.typography.small.copyWith(
@@ -89,10 +90,10 @@ class PracticeShortcutsGuide extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: AppEdgeInsets.h8v4,
           decoration: BoxDecoration(
             color: theme.colorScheme.muted,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: AppRadius.borderSm,
             border: Border.all(color: theme.colorScheme.border),
           ),
           child: Text(
@@ -103,7 +104,7 @@ class PracticeShortcutsGuide extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Expanded(child: Text(desc, style: theme.typography.small)),
       ],
     );

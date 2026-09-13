@@ -1,4 +1,4 @@
-﻿---
+---
 title: Chuẩn Hóa Codebase, Anti-Hardcode & Type-Safe Architecture
 created: 2026-09-11
 tags:
@@ -149,27 +149,37 @@ oUpdatesAvailable, updateAvailableTitle).
 
 ## 4. Kiểm Thử & Đảm Bảo Chất Lượng (Verification)
 
-Toàn bộ test suite được cập nhật và chạy xác thực trên môi trường FVM Flutter:
+Toàn bộ test suite và linting guardrail được chạy xác thực trên môi trường FVM Flutter:
 
-`ash
+```bash
+# Kiểm tra kích thước ma thuật (AppTokens Guardrail)
+fvm dart run tool/check_dimensions.dart
+
+# Kiểm tra phân tích mã nguồn linter
+fvm flutter analyze
+
+# Chạy toàn bộ 154 test cases
 fvm flutter test
-`
+```
 
 **Kết quả**:
-- **117 / 117 tests PASS** (100% Xanh).
-- Thời gian thực thi: ~15-20s.
+- **154 / 154 tests PASS** (100% Xanh).
+- Thời gian thực thi: ~14s.
 - Không phát sinh hồi quy (zero regression) trên:
   - FSRS Algorithm & Deck Scheduling.
   - Academic Grammar Two-Tier Engine & Ghost Review.
-  - AnkiWeb Sync Engine.
-  - Multi-platform Desktop & Window Manager.
+  - AnkiWeb Sync Engine, Delta Media Sync & Auth.
+  - Multi-platform Desktop Window Manager & In-app Updater.
+  - Responsive Viewport & Scale Matrix (320px -> 1280px, A11y 1.5x) - Zero Overflow.
 
 ---
 
 ## 5. Quy Chuẩn Duy Trì Codebase (Maintenance Standards)
 
 Từ cột mốc này, toàn bộ mã nguồn đóng góp mới vào Flanki bắt buộc tuân thủ:
-1. **Không viết chuỗi UI trực tiếp trong Widget**: Mọi text hiển thị cho người dùng phải định nghĩa trong pp_en.arb và pp_vi.arb.
-2. **Không dùng raw string cho các tập giá trị cố định**: Bắt buộc tạo enum trong thư mục lib/core/enums/.
-3. **Mọi hằng số thời gian/kích thước hệ thống**: Khai báo tập trung tại lib/core/config/app_config.dart.
-4. **Truy cập Localization**: Sử dụng AppConfig.getL10n(context) để đảm bảo luôn có fallback an toàn.
+1. **Không viết chuỗi UI trực tiếp trong Widget**: Mọi text hiển thị cho người dùng phải định nghĩa trong `app_en.arb` và `app_vi.arb`.
+2. **Không dùng raw string cho các tập giá trị cố định**: Bắt buộc tạo enum trong thư mục `lib/core/enums/`.
+3. **Mọi hằng số thời gian/kích thước hệ thống**: Khai báo tập trung tại `lib/core/config/app_config.dart`.
+4. **Không dùng số ma thuật cho khoảng cách/kích thước UI (Magic Dimensions)**: Bắt buộc sử dụng `AppSpacing`, `AppRadius`, `AppIconSize`, `AppEdgeInsets`, `AppGaps` từ `lib/core/theme/app_tokens.dart`.
+5. **Truy cập Localization**: Sử dụng `AppConfig.getL10n(context)` hoặc `context.l10n` để đảm bảo luôn có fallback an toàn.
+6. **Kiểm tra tự động trước commit**: Chạy `fvm dart run tool/check_dimensions.dart && fvm flutter analyze && fvm flutter test`.

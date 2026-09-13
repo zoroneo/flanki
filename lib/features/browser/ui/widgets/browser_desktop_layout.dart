@@ -1,7 +1,8 @@
-﻿import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
 import 'card_browser_list_item.dart';
@@ -73,7 +74,12 @@ class BrowserDesktopLayout extends StatelessWidget {
 
   Widget _buildSearchBar(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.sm,
+      ),
       child: SizedBox(
         height: 38,
         child: Row(
@@ -85,7 +91,7 @@ class BrowserDesktopLayout extends StatelessWidget {
                   InputFeature.leading(
                     Icon(
                       LucideIcons.search,
-                      size: 16,
+                      size: AppIconSize.sm,
                       color: theme.colorScheme.mutedForeground,
                     ),
                   ),
@@ -94,10 +100,10 @@ class BrowserDesktopLayout extends StatelessWidget {
                 onChanged: browserNotifier.setSearchQuery,
               ),
             ),
-            const SizedBox(width: 8),
+            AppGaps.h8,
             PrimaryButton(
               size: ButtonSize.small,
-              leading: const Icon(LucideIcons.plus, size: 14),
+              leading: const Icon(LucideIcons.plus, size: AppIconSize.sm),
               child: Text(l10n.addCard),
               onPressed: () => context.push('/editor'),
             ),
@@ -109,7 +115,10 @@ class BrowserDesktopLayout extends StatelessWidget {
 
   Widget _buildFilterBar() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: 6,
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -119,27 +128,27 @@ class BrowserDesktopLayout extends StatelessWidget {
               isSelected: filterType == CardFilterType.all,
               onTap: () => browserNotifier.setFilterType(CardFilterType.all),
             ),
-            const SizedBox(width: 6),
+            AppGaps.h8,
             FilterChip(
               label: l10n.filterDue,
               isSelected: filterType == CardFilterType.due,
               onTap: () => browserNotifier.setFilterType(CardFilterType.due),
             ),
-            const SizedBox(width: 6),
+            AppGaps.h8,
             FilterChip(
               label: l10n.filterNew,
               isSelected: filterType == CardFilterType.newCard,
               onTap: () =>
                   browserNotifier.setFilterType(CardFilterType.newCard),
             ),
-            const SizedBox(width: 6),
+            AppGaps.h8,
             FilterChip(
               label: l10n.filterFlagged,
               isSelected: filterType == CardFilterType.flagged,
               onTap: () =>
                   browserNotifier.setFilterType(CardFilterType.flagged),
             ),
-            const SizedBox(width: 6),
+            AppGaps.h8,
             FilterChip(
               label: l10n.filterSuspended,
               isSelected: filterType == CardFilterType.suspended,
@@ -154,7 +163,7 @@ class BrowserDesktopLayout extends StatelessWidget {
 
   Widget _buildHeaderCount() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: AppEdgeInsets.h16v8,
       color: theme.colorScheme.muted.withValues(alpha: 0.3),
       child: Row(
         children: [
@@ -184,7 +193,7 @@ class BrowserDesktopLayout extends StatelessWidget {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(12),
+      padding: AppEdgeInsets.all12,
       itemCount: filteredCards.length,
       itemBuilder: (context, index) {
         final card = filteredCards[index];
@@ -207,10 +216,10 @@ class BrowserDesktopLayout extends StatelessWidget {
         children: [
           Icon(
             LucideIcons.fileQuestion,
-            size: 48,
+            size: AppSpacing.xxxl,
             color: theme.colorScheme.mutedForeground,
           ),
-          const SizedBox(height: 12),
+          AppGaps.v12,
           Text(
             l10n.noCardSelected,
             style: TextStyle(color: theme.colorScheme.mutedForeground),

@@ -1,5 +1,6 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../providers/grammar_session_notifier.dart';
 import '../../../../l10n/generated/app_localizations.dart';
@@ -44,7 +45,7 @@ class GrammarPracticeQuestionContent extends StatelessWidget {
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
 
         // Dynamic Question Formats
         if (currentExercise.type == GrammarExerciseType.choice)
@@ -76,7 +77,7 @@ class GrammarPracticeQuestionContent extends StatelessWidget {
             onAnswerChanged: (ans) => notifier.selectAnswer(ans),
             onSubmit: () => notifier.submitAnswer(),
           ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
       ],
     );
   }

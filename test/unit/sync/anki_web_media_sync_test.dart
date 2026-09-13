@@ -1,14 +1,39 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
 import 'package:flanki/core/database/media_storage_service.dart';
 import 'package:flanki/features/sync/data/anki_web_config.dart';
 import 'package:flanki/features/sync/data/anki_web_media_sync_service.dart';
+
+class MockHttpAdapter implements HttpClientAdapter {
+  final Future<ResponseBody> Function(RequestOptions options) handler;
+  MockHttpAdapter(this.handler);
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    return handler(options);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+Dio createMockDio(
+  Future<ResponseBody> Function(RequestOptions options) handler,
+) {
+  final dio = Dio();
+  dio.httpClientAdapter = MockHttpAdapter(handler);
+  return dio;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -53,19 +78,22 @@ void main() {
       'audio_sample.mp3': [0x49, 0x44, 0x33, 0x03, 0x00],
     });
 
-    final mockClient = MockClient((request) async {
-      final path = request.url.path;
+    final dio = createMockDio((options) async {
+      final path = options.path;
 
       if (path.endsWith('/msync/begin')) {
-        return http.Response(
+        return ResponseBody.fromString(
           jsonEncode({
             'data': {'usn': 100, 'sk': 'session_key_123'},
             'err': '',
           }),
           200,
+          headers: {
+            Headers.contentTypeHeader: [Headers.jsonContentType],
+          },
         );
       } else if (path.endsWith('/msync/mediaChanges')) {
-        return http.Response(
+        return ResponseBody.fromString(
           jsonEncode({
             'data': [
               ['4000B1_008.jpg', 1, 'mocksha1'],
@@ -74,21 +102,31 @@ void main() {
             'err': '',
           }),
           200,
+          headers: {
+            Headers.contentTypeHeader: [Headers.jsonContentType],
+          },
         );
       } else if (path.endsWith('/msync/downloadFiles')) {
-        return http.Response.bytes(mockZip, 200);
+        return ResponseBody.fromBytes(
+          mockZip,
+          200,
+          headers: {
+            Headers.contentLengthHeader: ['${mockZip.length}'],
+          },
+        );
       }
 
-      return http.Response('Not Found', 404);
+      return ResponseBody.fromString('Not Found', 404);
     });
 
     final service = AnkiWebMediaSyncService(
-      client: mockClient,
+      dio: dio,
       config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
     );
 
     int progressDownloaded = 0;
     int progressTotal = 0;
+    int byteProgressCalls = 0;
 
     final result = await service.syncAllMedia(
       hostKey: 'test_host_key',
@@ -96,12 +134,16 @@ void main() {
         progressDownloaded = downloaded;
         progressTotal = total;
       },
+      onByteProgress: (batch, totalBatches, received, total) {
+        byteProgressCalls++;
+      },
     );
 
     expect(result.success, isTrue);
     expect(result.downloadedCount, equals(2));
     expect(progressDownloaded, equals(2));
     expect(progressTotal, equals(2));
+    expect(byteProgressCalls, greaterThan(0));
 
     expect(mediaStorage.mediaFileExists('4000B1_008.jpg'), isTrue);
     expect(mediaStorage.mediaFileExists('audio_sample.mp3'), isTrue);
@@ -116,23 +158,32 @@ void main() {
   test(
     'AnkiWebMediaSyncService handles empty media changes gracefully',
     () async {
-      final mockClient = MockClient((request) async {
-        if (request.url.path.endsWith('/msync/begin')) {
-          return http.Response(
+      final dio = createMockDio((options) async {
+        if (options.path.endsWith('/msync/begin')) {
+          return ResponseBody.fromString(
             jsonEncode({
               'data': {'usn': 50, 'sk': 'sk_test'},
               'err': '',
             }),
             200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
           );
-        } else if (request.url.path.endsWith('/msync/mediaChanges')) {
-          return http.Response(jsonEncode({'data': [], 'err': ''}), 200);
+        } else if (options.path.endsWith('/msync/mediaChanges')) {
+          return ResponseBody.fromString(
+            jsonEncode({'data': [], 'err': ''}),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
         }
-        return http.Response('Not Found', 404);
+        return ResponseBody.fromString('Not Found', 404);
       });
 
       final service = AnkiWebMediaSyncService(
-        client: mockClient,
+        dio: dio,
         config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
       );
 
@@ -151,29 +202,44 @@ void main() {
 
       int downloadCallCount = 0;
 
-      final mockClient = MockClient((request) async {
-        if (request.url.path.endsWith('/msync/begin')) {
-          return http.Response(
+      final dio = createMockDio((options) async {
+        if (options.path.endsWith('/msync/begin')) {
+          return ResponseBody.fromString(
             jsonEncode({
               'data': {'usn': 50, 'sk': 'sk_test'},
               'err': '',
             }),
             200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
           );
-        } else if (request.url.path.endsWith('/msync/mediaChanges')) {
-          return http.Response(jsonEncode({'data': changes, 'err': ''}), 200);
-        } else if (request.url.path.endsWith('/msync/downloadFiles')) {
+        } else if (options.path.endsWith('/msync/mediaChanges')) {
+          return ResponseBody.fromString(
+            jsonEncode({'data': changes, 'err': ''}),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        } else if (options.path.endsWith('/msync/downloadFiles')) {
           downloadCallCount++;
           final mockZip = createMockMediaZip({
             'img_batch.jpg': [0x01],
           });
-          return http.Response.bytes(mockZip, 200);
+          return ResponseBody.fromBytes(
+            mockZip,
+            200,
+            headers: {
+              Headers.contentLengthHeader: ['${mockZip.length}'],
+            },
+          );
         }
-        return http.Response('Not Found', 404);
+        return ResponseBody.fromString('Not Found', 404);
       });
 
       final service = AnkiWebMediaSyncService(
-        client: mockClient,
+        dio: dio,
         config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
       );
 

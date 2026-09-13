@@ -1,8 +1,9 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'card_action_sheet.dart';
 
 class StudyAppBar extends StatelessWidget {
@@ -34,7 +35,7 @@ class StudyAppBar extends StatelessWidget {
     return AppBar(
       leading: [
         IconButton.ghost(
-          icon: const Icon(LucideIcons.chevronLeft, size: 18),
+          icon: const Icon(LucideIcons.chevronLeft, size: AppIconSize.md),
           onPressed: () => context.pop(),
         ),
       ],
@@ -46,10 +47,10 @@ class StudyAppBar extends StatelessWidget {
             style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
           ),
           if (currentCard != null && currentCard!.hasFlag) ...[
-            const SizedBox(width: 8),
+            AppGaps.h8,
             Container(
-              width: 8,
-              height: 8,
+              width: AppSpacing.sm,
+              height: AppSpacing.sm,
               decoration: BoxDecoration(
                 color:
                     CardActionSheet.ankiFlagColors[currentCard!.flag] ??
@@ -63,19 +64,19 @@ class StudyAppBar extends StatelessWidget {
       trailing: [
         if (canUndo)
           IconButton.ghost(
-            icon: const Icon(LucideIcons.undo2, size: 20),
+            icon: const Icon(LucideIcons.undo2, size: AppIconSize.md),
             onPressed: onUndo,
           ),
         IconButton.ghost(
           icon: Icon(
             LucideIcons.pencil,
-            size: 20,
+            size: AppIconSize.md,
             color: isWhiteboardOpen ? theme.colorScheme.primary : null,
           ),
           onPressed: onToggleWhiteboard,
         ),
         IconButton.ghost(
-          icon: const Icon(LucideIcons.ellipsisVertical, size: 20),
+          icon: const Icon(LucideIcons.ellipsisVertical, size: AppIconSize.md),
           onPressed: onOpenActions,
         ),
       ],

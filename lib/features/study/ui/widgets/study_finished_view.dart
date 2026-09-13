@@ -1,7 +1,8 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../providers/study_session_notifier.dart';
 
 class StudyFinishedView extends StatelessWidget {
@@ -39,7 +40,7 @@ class StudyFinishedView extends StatelessWidget {
       ],
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(AppSpacing.xxl),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -49,13 +50,10 @@ class StudyFinishedView extends StatelessWidget {
                 duration: const Duration(milliseconds: 650),
                 curve: Curves.elasticOut,
                 builder: (context, scale, child) {
-                  return Transform.scale(
-                    scale: scale,
-                    child: child,
-                  );
+                  return Transform.scale(scale: scale, child: child);
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: AppEdgeInsets.all24,
                   decoration: BoxDecoration(
                     color: m.Colors.green.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
@@ -67,7 +65,7 @@ class StudyFinishedView extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              AppGaps.v24,
               Text(
                 l10n.studyCompleteTitle,
                 style: theme.typography.h2.copyWith(
@@ -75,7 +73,7 @@ class StudyFinishedView extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              AppGaps.v8,
               // Animated count-up for completed cards
               TweenAnimationBuilder<int>(
                 tween: IntTween(begin: 0, end: completedCount),
@@ -91,13 +89,13 @@ class StudyFinishedView extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 32),
+              AppGaps.v32,
               PrimaryButton(
                 alignment: Alignment.center,
                 onPressed: () => context.pop(),
                 child: Text(l10n.backToDecks),
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
               GhostButton(
                 onPressed: () => notifier.restart(),
                 child: Text(l10n.studyAgain),

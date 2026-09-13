@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
 import 'package:flanki/features/sync/data/anki_web_config.dart';
 import 'package:flanki/features/sync/data/anki_web_sync_service.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
@@ -13,6 +13,31 @@ import 'package:flanki/features/sync/ui/sync_flow_coordinator.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+
+class MockHttpAdapter implements HttpClientAdapter {
+  final Future<ResponseBody> Function(RequestOptions options) handler;
+  MockHttpAdapter(this.handler);
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    return handler(options);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+Dio createMockDio(
+  Future<ResponseBody> Function(RequestOptions options) handler,
+) {
+  final dio = Dio();
+  dio.httpClientAdapter = MockHttpAdapter(handler);
+  return dio;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -25,18 +50,21 @@ void main() {
         final serverModSeconds =
             DateTime.utc(2026, 9, 2, 12, 0, 0).millisecondsSinceEpoch ~/ 1000;
 
-        final mockClient = MockClient((request) async {
-          if (request.url.path.endsWith('/sync/meta')) {
-            return http.Response(
+        final dio = createMockDio((options) async {
+          if (options.path.endsWith('/sync/meta')) {
+            return ResponseBody.fromString(
               jsonEncode({'mod': serverModSeconds, 'usn': 120, 'msg': ''}),
               200,
+              headers: {
+                Headers.contentTypeHeader: [Headers.jsonContentType],
+              },
             );
           }
-          return http.Response('Not Found', 404);
+          return ResponseBody.fromString('Not Found', 404);
         });
 
         final service = AnkiWebSyncService(
-          client: mockClient,
+          dio: dio,
           config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
         );
 
@@ -58,18 +86,21 @@ void main() {
       final serverModSeconds =
           DateTime.utc(2026, 9, 2, 12, 0, 0).millisecondsSinceEpoch ~/ 1000;
 
-      final mockClient = MockClient((request) async {
-        if (request.url.path.endsWith('/sync/meta')) {
-          return http.Response(
+      final dio = createMockDio((options) async {
+        if (options.path.endsWith('/sync/meta')) {
+          return ResponseBody.fromString(
             jsonEncode({'mod': serverModSeconds, 'usn': 120, 'msg': ''}),
             200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
           );
         }
-        return http.Response('Not Found', 404);
+        return ResponseBody.fromString('Not Found', 404);
       });
 
       final service = AnkiWebSyncService(
-        client: mockClient,
+        dio: dio,
         config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
       );
 
@@ -87,18 +118,21 @@ void main() {
       final serverModSeconds =
           DateTime.utc(2026, 9, 5, 10, 0, 0).millisecondsSinceEpoch ~/ 1000;
 
-      final mockClient = MockClient((request) async {
-        if (request.url.path.endsWith('/sync/meta')) {
-          return http.Response(
+      final dio = createMockDio((options) async {
+        if (options.path.endsWith('/sync/meta')) {
+          return ResponseBody.fromString(
             jsonEncode({'mod': serverModSeconds, 'usn': 120, 'msg': ''}),
             200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
           );
         }
-        return http.Response('Not Found', 404);
+        return ResponseBody.fromString('Not Found', 404);
       });
 
       final service = AnkiWebSyncService(
-        client: mockClient,
+        dio: dio,
         config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
       );
 
@@ -118,18 +152,21 @@ void main() {
         final serverModSeconds =
             DateTime.utc(2026, 9, 5, 10, 0, 0).millisecondsSinceEpoch ~/ 1000;
 
-        final mockClient = MockClient((request) async {
-          if (request.url.path.endsWith('/sync/meta')) {
-            return http.Response(
+        final dio = createMockDio((options) async {
+          if (options.path.endsWith('/sync/meta')) {
+            return ResponseBody.fromString(
               jsonEncode({'mod': serverModSeconds, 'usn': 120, 'msg': ''}),
               200,
+              headers: {
+                Headers.contentTypeHeader: [Headers.jsonContentType],
+              },
             );
           }
-          return http.Response('Not Found', 404);
+          return ResponseBody.fromString('Not Found', 404);
         });
 
         final service = AnkiWebSyncService(
-          client: mockClient,
+          dio: dio,
           config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
         );
 
@@ -155,16 +192,16 @@ void main() {
         0x65,
       ]); // "SQLite"
 
-      final mockClient = MockClient((request) async {
-        if (request.url.path.endsWith('/sync/upload')) {
-          expect(request.method, equals('POST'));
-          return http.Response('OK', 200);
+      final dio = createMockDio((options) async {
+        if (options.path.endsWith('/sync/upload')) {
+          expect(options.method, equals('POST'));
+          return ResponseBody.fromString('OK', 200);
         }
-        return http.Response('Not Found', 404);
+        return ResponseBody.fromString('Not Found', 404);
       });
 
       final service = AnkiWebSyncService(
-        client: mockClient,
+        dio: dio,
         config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
       );
 
@@ -183,15 +220,15 @@ void main() {
     test('handles upload error gracefully', () async {
       final dummyDb = Uint8List.fromList([1, 2, 3, 4]);
 
-      final mockClient = MockClient((request) async {
-        if (request.url.path.endsWith('/sync/upload')) {
-          return http.Response('server error: corrupt database', 500);
+      final dio = createMockDio((options) async {
+        if (options.path.endsWith('/sync/upload')) {
+          return ResponseBody.fromString('server error: corrupt database', 500);
         }
-        return http.Response('Not Found', 404);
+        return ResponseBody.fromString('Not Found', 404);
       });
 
       final service = AnkiWebSyncService(
-        client: mockClient,
+        dio: dio,
         config: const AnkiWebConfig(syncHost: 'https://sync.ankiweb.net'),
       );
 

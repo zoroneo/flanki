@@ -1,7 +1,8 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
@@ -22,6 +23,62 @@ class GrammarCatalogStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
+    if (isCompact) {
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.smPlus,
+            vertical: AppSpacing.smPlus,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: _buildCompactColumn(
+                  theme: theme,
+                  icon: LucideIcons.layers,
+                  iconColor: m.Colors.blue,
+                  value: '${GrammarConstants.totalUnits}',
+                  label: l10n.grammarMetricTotalUnits,
+                ),
+              ),
+              _buildDivider(theme),
+              Expanded(
+                child: _buildCompactColumn(
+                  theme: theme,
+                  icon: LucideIcons.circleCheck,
+                  iconColor: m.Colors.green,
+                  value: '$totalCompleted / ${GrammarConstants.totalExercises}',
+                  label: l10n.grammarMetricCompletedExercises,
+                ),
+              ),
+              _buildDivider(theme),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: totalGhosts > 0
+                      ? () => context.push(
+                          '/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}',
+                        )
+                      : null,
+                  child: _buildCompactColumn(
+                    theme: theme,
+                    icon: LucideIcons.shieldAlert,
+                    iconColor: (totalGhosts > 0 || totalDues > 0)
+                        ? m.Colors.red
+                        : m.Colors.green,
+                    value: '$totalDues / $totalGhosts',
+                    label: l10n.grammarMetricDueGhosts,
+                    isAlert: totalGhosts > 0 || totalDues > 0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Row(
       children: [
@@ -34,7 +91,7 @@ class GrammarCatalogStats extends StatelessWidget {
             isCompact: isCompact,
           ),
         ),
-        SizedBox(width: isCompact ? 8 : 12),
+        AppGaps.h12,
         Expanded(
           child: GrammarMetricCard(
             label: l10n.grammarMetricCompletedExercises,
@@ -44,7 +101,7 @@ class GrammarCatalogStats extends StatelessWidget {
             isCompact: isCompact,
           ),
         ),
-        SizedBox(width: isCompact ? 8 : 12),
+        AppGaps.h12,
         Expanded(
           child: GrammarMetricCard(
             label: l10n.grammarMetricDueGhosts,
@@ -59,6 +116,63 @@ class GrammarCatalogStats extends StatelessWidget {
                     '/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}',
                   )
                 : null,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDivider(ThemeData theme) {
+    return Container(
+      width: 1,
+      height: 26,
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      color: theme.colorScheme.border.withValues(alpha: 0.6),
+    );
+  }
+
+  Widget _buildCompactColumn({
+    required ThemeData theme,
+    required IconData icon,
+    required m.Color iconColor,
+    required String value,
+    required String label,
+    bool isAlert = false,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 13, color: iconColor),
+            AppGaps.h4,
+            Flexible(
+              child: Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.2,
+                  color: isAlert ? m.Colors.red : theme.colorScheme.foreground,
+                ),
+              ),
+            ),
+          ],
+        ),
+        AppGaps.v2,
+        Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 10,
+            color: theme.colorScheme.mutedForeground,
           ),
         ),
       ],
@@ -90,20 +204,23 @@ class GrammarMetricCard extends StatelessWidget {
     final cardWidget = isCompact
         ? Card(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.md,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(6),
+                    padding: AppEdgeInsets.all8,
                     decoration: BoxDecoration(
                       color: color.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: AppRadius.borderSm,
                     ),
-                    child: Icon(icon, size: 16, color: color),
+                    child: Icon(icon, size: AppIconSize.sm, color: color),
                   ),
-                  const SizedBox(height: 8),
+                  AppGaps.v8,
                   Text(
                     value,
                     maxLines: 1,
@@ -112,7 +229,7 @@ class GrammarMetricCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  AppGaps.v2,
                   Text(
                     label,
                     maxLines: 1,
@@ -128,18 +245,18 @@ class GrammarMetricCard extends StatelessWidget {
           )
         : Card(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              padding: AppEdgeInsets.h16v12,
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: AppEdgeInsets.all8,
                     decoration: BoxDecoration(
                       color: color.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: AppRadius.borderMd,
                     ),
-                    child: Icon(icon, size: 18, color: color),
+                    child: Icon(icon, size: AppIconSize.md, color: color),
                   ),
-                  const SizedBox(width: 12),
+                  AppGaps.h12,
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

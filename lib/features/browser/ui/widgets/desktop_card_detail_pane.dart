@@ -3,7 +3,9 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../providers/card_browser_notifier.dart';
+
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
 class DesktopCardDetailPane extends HookWidget {
@@ -36,7 +38,7 @@ class DesktopCardDetailPane extends HookWidget {
         _buildTopActionBar(context, theme, l10n),
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: AppEdgeInsets.all24,
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 720),
@@ -50,10 +52,10 @@ class DesktopCardDetailPane extends HookWidget {
                       userTypedAnswer,
                     ),
                     if (showAnswer.value) ...[
-                      const SizedBox(height: 20),
+                      AppGaps.v20,
                       _buildBackSection(theme, l10n, userTypedAnswer),
                     ],
-                    const SizedBox(height: 24),
+                    AppGaps.v24,
                     _buildFsrsMetricsGrid(theme, l10n),
                   ],
                 ),
@@ -71,7 +73,10 @@ class DesktopCardDetailPane extends HookWidget {
     dynamic l10n,
   ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.smPlus,
+      ),
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         border: Border(bottom: BorderSide(color: theme.colorScheme.border)),
@@ -79,10 +84,10 @@ class DesktopCardDetailPane extends HookWidget {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
               color: theme.colorScheme.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: AppRadius.borderSm,
             ),
             child: Text(
               deckTitle ?? card.deckId,
@@ -93,13 +98,13 @@ class DesktopCardDetailPane extends HookWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          AppGaps.h8,
           if (card.noteType == NoteType.cloze)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: AppEdgeInsets.h8v4,
               decoration: BoxDecoration(
                 color: theme.colorScheme.muted,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: AppRadius.borderSm,
               ),
               child: Text(
                 l10n.clozeDeletion,
@@ -114,17 +119,17 @@ class DesktopCardDetailPane extends HookWidget {
             size: ButtonSize.small,
             leading: Icon(
               card.isSuspended ? LucideIcons.play : LucideIcons.pause,
-              size: 14,
+              size: AppIconSize.sm,
             ),
             child: Text(
               card.isSuspended ? l10n.unsuspendCard : l10n.suspendCard,
             ),
             onPressed: () => browserNotifier.toggleCardSuspend(card.id),
           ),
-          const SizedBox(width: 8),
+          AppGaps.h8,
           DestructiveButton(
             size: ButtonSize.small,
-            leading: const Icon(LucideIcons.trash2, size: 14),
+            leading: const Icon(LucideIcons.trash2, size: AppIconSize.sm),
             child: Text(l10n.delete),
             onPressed: () => browserNotifier.deleteCard(card.id),
           ),
@@ -144,8 +149,8 @@ class DesktopCardDetailPane extends HookWidget {
       children: [
         Row(
           children: [
-            const Icon(LucideIcons.fileQuestion, size: 16),
-            const SizedBox(width: 8),
+            const Icon(LucideIcons.fileQuestion, size: AppIconSize.sm),
+            AppGaps.h8,
             Text(
               l10n.frontSide,
               style: theme.typography.xSmall.copyWith(
@@ -159,16 +164,16 @@ class DesktopCardDetailPane extends HookWidget {
               size: ButtonSize.small,
               leading: Icon(
                 showAnswer.value ? LucideIcons.eyeOff : LucideIcons.eye,
-                size: 14,
+                size: AppIconSize.sm,
               ),
               child: Text(showAnswer.value ? l10n.hideAnswer : l10n.showAnswer),
               onPressed: () => showAnswer.value = !showAnswer.value,
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         SurfaceCard(
-          padding: const EdgeInsets.all(20),
+          padding: AppEdgeInsets.all20,
           child: RichCardContent(
             content: card.front,
             textAlign: TextAlign.left,
@@ -191,8 +196,8 @@ class DesktopCardDetailPane extends HookWidget {
       children: [
         Row(
           children: [
-            const Icon(LucideIcons.circleCheck, size: 16),
-            const SizedBox(width: 8),
+            const Icon(LucideIcons.circleCheck, size: AppIconSize.sm),
+            AppGaps.h8,
             Text(
               l10n.backSide,
               style: theme.typography.xSmall.copyWith(
@@ -203,9 +208,9 @@ class DesktopCardDetailPane extends HookWidget {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         SurfaceCard(
-          padding: const EdgeInsets.all(20),
+          padding: AppEdgeInsets.all20,
           child: RichCardContent(
             content: card.back,
             textAlign: TextAlign.left,
@@ -228,7 +233,7 @@ class DesktopCardDetailPane extends HookWidget {
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 10),
+        AppGaps.v8,
         Row(
           children: [
             Expanded(
@@ -238,7 +243,7 @@ class DesktopCardDetailPane extends HookWidget {
                 icon: LucideIcons.shieldCheck,
               ),
             ),
-            const SizedBox(width: 10),
+            AppGaps.h8,
             Expanded(
               child: MetricCard(
                 title: l10n.difficultyLabel,
@@ -246,7 +251,7 @@ class DesktopCardDetailPane extends HookWidget {
                 icon: LucideIcons.brain,
               ),
             ),
-            const SizedBox(width: 10),
+            AppGaps.h8,
             Expanded(
               child: MetricCard(
                 title: l10n.intervalLabel,
@@ -254,7 +259,7 @@ class DesktopCardDetailPane extends HookWidget {
                 icon: LucideIcons.calendar,
               ),
             ),
-            const SizedBox(width: 10),
+            AppGaps.h8,
             Expanded(
               child: MetricCard(
                 title: l10n.repsAndLapsesLabel,
@@ -286,10 +291,10 @@ class MetricCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: AppEdgeInsets.all12,
       decoration: BoxDecoration(
         color: theme.colorScheme.card,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppRadius.borderMd,
         border: Border.all(color: theme.colorScheme.border),
       ),
       child: Column(
@@ -297,8 +302,12 @@ class MetricCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, size: 14, color: theme.colorScheme.mutedForeground),
-              const SizedBox(width: 6),
+              Icon(
+                icon,
+                size: AppIconSize.sm,
+                color: theme.colorScheme.mutedForeground,
+              ),
+              AppGaps.h8,
               Expanded(
                 child: Text(
                   title,
@@ -312,7 +321,7 @@ class MetricCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          AppGaps.v6,
           Text(
             value,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),

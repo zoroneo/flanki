@@ -1,8 +1,10 @@
-﻿import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
 class ClozeQuestionWidget extends HookWidget {
@@ -41,16 +43,16 @@ class ClozeQuestionWidget extends HookWidget {
         Row(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding: AppEdgeInsets.h8v4,
               decoration: BoxDecoration(
                 color: theme.colorScheme.muted,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: AppRadius.borderSm,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(LucideIcons.penLine, size: 14),
-                  const SizedBox(width: 6),
+                  const Icon(LucideIcons.penLine, size: AppIconSize.xs),
+                  AppGaps.h8,
                   Text(
                     l10n.grammarClozeInstruction,
                     style: theme.typography.xSmall.copyWith(
@@ -62,12 +64,12 @@ class ClozeQuestionWidget extends HookWidget {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
 
         // Prompt Card
         Card(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: AppEdgeInsets.h16v12,
             child: RichCardContent(
               content: exercise.prompt,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +83,7 @@ class ClozeQuestionWidget extends HookWidget {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        AppGaps.v12,
 
         // Text input field
         if (!isSubmitted) ...[
@@ -93,7 +95,10 @@ class ClozeQuestionWidget extends HookWidget {
               InputFeature.trailing(
                 IconButton.primary(
                   density: ButtonDensity.compact,
-                  icon: const Icon(LucideIcons.arrowRight, size: 16),
+                  icon: const Icon(
+                    LucideIcons.arrowRight,
+                    size: AppIconSize.sm,
+                  ),
                   onPressed: (selectedAnswer?.trim().isNotEmpty ?? false)
                       ? onSubmit
                       : null,
@@ -111,12 +116,12 @@ class ClozeQuestionWidget extends HookWidget {
         ] else ...[
           // Submitted View
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: AppEdgeInsets.all16,
             decoration: BoxDecoration(
               color: (isCorrect == true)
                   ? Colors.green.withValues(alpha: 0.1)
                   : Colors.red.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: AppRadius.borderMd,
               border: Border.all(
                 color: (isCorrect == true) ? Colors.green : Colors.red,
                 width: 1.5,
@@ -132,9 +137,9 @@ class ClozeQuestionWidget extends HookWidget {
                           ? LucideIcons.circleCheck
                           : LucideIcons.circleX,
                       color: (isCorrect == true) ? Colors.green : Colors.red,
-                      size: 20,
+                      size: AppIconSize.md,
                     ),
-                    const SizedBox(width: 8),
+                    AppGaps.h8,
                     Text(
                       (isCorrect == true)
                           ? l10n.grammarClozeSubmittedCorrect
@@ -146,7 +151,7 @@ class ClozeQuestionWidget extends HookWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                AppGaps.v8,
                 Text(
                   l10n.grammarClozeYourAnswer(
                     selectedAnswer?.trim().isEmpty ?? true
@@ -158,7 +163,7 @@ class ClozeQuestionWidget extends HookWidget {
                   ),
                 ),
                 if (isCorrect != true) ...[
-                  const SizedBox(height: 6),
+                  AppGaps.v6,
                   Row(
                     children: [
                       Text(
@@ -168,13 +173,10 @@ class ClozeQuestionWidget extends HookWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
-                        ),
+                        padding: AppEdgeInsets.h8v4,
                         decoration: BoxDecoration(
                           color: Colors.green.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: AppRadius.borderSm,
                           border: Border.all(
                             color: Colors.green.withValues(alpha: 0.4),
                           ),

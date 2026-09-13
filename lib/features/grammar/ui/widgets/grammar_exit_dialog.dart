@@ -1,7 +1,8 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
 class GrammarExitDialog extends StatelessWidget {
@@ -23,10 +24,10 @@ class GrammarExitDialog extends StatelessWidget {
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 420),
-        margin: const EdgeInsets.all(24),
+        margin: AppEdgeInsets.all24,
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: AppEdgeInsets.all24,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,18 +35,18 @@ class GrammarExitDialog extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: AppEdgeInsets.all8,
                       decoration: BoxDecoration(
                         color: Colors.red.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
                         LucideIcons.triangleAlert,
-                        size: 20,
+                        size: AppIconSize.md,
                         color: Colors.red,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    AppGaps.h12,
                     Expanded(
                       child: Text(
                         l10n.grammarExitDialogTitle,
@@ -56,7 +57,7 @@ class GrammarExitDialog extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                AppGaps.v12,
                 Text(
                   l10n.grammarExitDialogContent,
                   style: theme.typography.small.copyWith(
@@ -64,7 +65,7 @@ class GrammarExitDialog extends StatelessWidget {
                     height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 24),
+                AppGaps.v24,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -72,7 +73,7 @@ class GrammarExitDialog extends StatelessWidget {
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(l10n.grammarContinueStudying),
                     ),
-                    const SizedBox(width: 10),
+                    AppGaps.h8,
                     DestructiveButton(
                       onPressed: () {
                         Navigator.of(context).pop();

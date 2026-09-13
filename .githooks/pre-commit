@@ -1,0 +1,16 @@
+#!/bin/sh
+# Flanki pre-commit hook: Dimension standardization & static analysis check
+
+echo "🔍 Running Flanki pre-commit guardrails..."
+
+# 1. Fast Dimension Token Scanner (< 300ms)
+echo "  -> Checking dimension tokens..."
+fvm dart run tool/check_dimensions.dart
+if [ $? -ne 0 ]; then
+  echo "❌ Commit aborted: Raw magic dimensions detected in UI code."
+  echo "Please use AppTokens (AppSpacing, AppGaps, AppRadius, AppEdgeInsets)."
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"
+exit 0

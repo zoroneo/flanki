@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/theme/theme_notifier.dart';
 import 'settings_info_rows.dart';
 
@@ -30,20 +31,20 @@ class AppPreferencesCard extends ConsumerWidget {
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Card(
-          padding: const EdgeInsets.all(16),
+          padding: AppEdgeInsets.all16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildLanguageHeader(theme, l10n),
-              const SizedBox(height: 14),
+              AppGaps.v12,
               _buildLanguageOptions(l10n, localeNotifier, isVi, isEn, isSystem),
-              const SizedBox(height: 16),
+              AppGaps.v16,
               const Divider(),
-              const SizedBox(height: 16),
+              AppGaps.v16,
               _buildAppearanceHeader(theme, l10n),
-              const SizedBox(height: 14),
+              AppGaps.v12,
               _buildThemeOptions(l10n, themeMode, themeNotifier),
             ],
           ),
@@ -55,8 +56,8 @@ class AppPreferencesCard extends ConsumerWidget {
   Widget _buildLanguageHeader(ThemeData theme, dynamic l10n) {
     return Row(
       children: [
-        const Icon(LucideIcons.languages, size: 20),
-        const SizedBox(width: 10),
+        const Icon(LucideIcons.languages, size: AppIconSize.md),
+        AppGaps.h12,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +92,7 @@ class AppPreferencesCard extends ConsumerWidget {
             onTap: () => localeNotifier.setLocale(const Locale('vi')),
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         Expanded(
           child: LanguageOptionButton(
             label: l10n.languageEnglish,
@@ -99,7 +100,7 @@ class AppPreferencesCard extends ConsumerWidget {
             onTap: () => localeNotifier.setLocale(const Locale('en')),
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         Expanded(
           child: LanguageOptionButton(
             label: l10n.languageSystem,
@@ -114,8 +115,8 @@ class AppPreferencesCard extends ConsumerWidget {
   Widget _buildAppearanceHeader(ThemeData theme, dynamic l10n) {
     return Row(
       children: [
-        const Icon(LucideIcons.sunMoon, size: 20),
-        const SizedBox(width: 10),
+        const Icon(LucideIcons.sunMoon, size: AppIconSize.md),
+        AppGaps.h12,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +149,7 @@ class AppPreferencesCard extends ConsumerWidget {
             onTap: () => themeNotifier.setThemeMode(ThemeMode.light),
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         Expanded(
           child: LanguageOptionButton(
             label: l10n.themeDark,
@@ -156,7 +157,7 @@ class AppPreferencesCard extends ConsumerWidget {
             onTap: () => themeNotifier.setThemeMode(ThemeMode.dark),
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         Expanded(
           child: LanguageOptionButton(
             label: l10n.themeSystem,

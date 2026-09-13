@@ -1,7 +1,8 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/models/deck.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'deck_picker_dropdown.dart';
 import 'note_editor_fields.dart';
 import 'note_tag_editor.dart';
@@ -52,7 +53,7 @@ class NoteEditorMobileLayout extends StatelessWidget {
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Row(
           children: [
             Expanded(
@@ -63,7 +64,7 @@ class NoteEditorMobileLayout extends StatelessWidget {
                 onTap: () => noteType.value = NoteType.basic,
               ),
             ),
-            const SizedBox(width: 8),
+            AppGaps.h8,
             Expanded(
               child: TypeSelectButton(
                 label: l10n.clozeNoteType,
@@ -72,7 +73,7 @@ class NoteEditorMobileLayout extends StatelessWidget {
                 onTap: () => noteType.value = NoteType.cloze,
               ),
             ),
-            const SizedBox(width: 8),
+            AppGaps.h8,
             Expanded(
               child: TypeSelectButton(
                 label: l10n.reversedNoteType,
@@ -83,20 +84,20 @@ class NoteEditorMobileLayout extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        AppGaps.v16,
         Text(
           l10n.deckLabel,
           style: theme.typography.xSmall.copyWith(
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         DeckPickerDropdown(
           l10n: l10n,
           decks: decks,
           selectedDeckId: selectedDeckId,
         ),
-        const SizedBox(height: 16),
+        AppGaps.v16,
         NoteEditorFields(
           noteType: noteType.value,
           frontController: frontController,
@@ -106,16 +107,16 @@ class NoteEditorMobileLayout extends StatelessWidget {
           isDesktop: false,
           onInsertCloze: onInsertCloze,
         ),
-        const SizedBox(height: 16),
+        AppGaps.v16,
         Text(
           l10n.tagsLabel,
           style: theme.typography.xSmall.copyWith(
             color: theme.colorScheme.mutedForeground,
           ),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Card(
-          padding: const EdgeInsets.all(12),
+          padding: AppEdgeInsets.all12,
           child: NoteTagEditor(
             controller: tagController,
             focusNode: tagFocusNode,

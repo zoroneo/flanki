@@ -9,6 +9,7 @@ import '../../features/decks/providers/deck_notifier.dart';
 import '../../features/browser/providers/card_browser_notifier.dart';
 import '../../features/stats/providers/stats_notifier.dart';
 import '../../features/sync/providers/auth_notifier.dart';
+import '../theme/app_tokens.dart';
 
 class MobileScaffold extends HookConsumerWidget {
   final StatefulNavigationShell navigationShell;
@@ -54,7 +55,12 @@ class MobileScaffold extends HookConsumerWidget {
               top: false,
               bottom: true,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.md,
+                  AppSpacing.sm,
+                  AppSpacing.md,
+                  AppSpacing.xs,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -158,7 +164,10 @@ class _BottomNavItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         constraints: const BoxConstraints(minWidth: 56, minHeight: 48),
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xs,
+          vertical: AppSpacing.xxs,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -167,18 +176,18 @@ class _BottomNavItem extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 4,
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.xs,
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? theme.colorScheme.primary.withValues(alpha: 0.12)
                         : m.Colors.transparent,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: AppRadius.borderXl,
                   ),
                   child: Icon(
                     isSelected ? activeIcon : icon,
-                    size: 22,
+                    size: AppIconSize.lg,
                     color: color,
                   ),
                 ),
@@ -193,7 +202,7 @@ class _BottomNavItem extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.destructive,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: AppRadius.borderFull,
                         border: Border.all(
                           color: theme.colorScheme.background,
                           width: 1.5,
@@ -215,8 +224,8 @@ class _BottomNavItem extends StatelessWidget {
                     bottom: 2,
                     right: 6,
                     child: Container(
-                      width: 8,
-                      height: 8,
+                      width: AppSpacing.sm,
+                      height: AppSpacing.sm,
                       decoration: BoxDecoration(
                         color: indicatorColor,
                         shape: BoxShape.circle,
@@ -229,7 +238,7 @@ class _BottomNavItem extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 3),
+            AppGaps.v2,
             Text(
               label,
               style: TextStyle(

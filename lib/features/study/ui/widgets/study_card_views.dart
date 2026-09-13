@@ -5,7 +5,9 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'card_action_sheet.dart';
+
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
 class CardFrontView extends StatelessWidget {
@@ -40,18 +42,21 @@ class CardFrontView extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 20,
+                  horizontal: AppSpacing.xl,
+                  vertical: AppSpacing.lg,
                 ),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
-                    minHeight: math.max(0.0, constraints.maxHeight - 40),
+                    minHeight: math.max(
+                      0.0,
+                      constraints.maxHeight - (AppSpacing.lg * 2),
+                    ),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _buildBadgeRow(theme, l10n),
-                      const SizedBox(height: 18),
+                      AppGaps.v16,
                       RichCardContent(
                         content: card?.front ?? '',
                         autoPlayAudio: true,
@@ -59,6 +64,7 @@ class CardFrontView extends StatelessWidget {
                         onAnswerChanged: onAnswerChanged,
                         onSubmitAnswer: onSubmitAnswer,
                         textStyle: theme.typography.h2.copyWith(
+                          color: theme.colorScheme.foreground,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -78,10 +84,13 @@ class CardFrontView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.smPlus,
+            vertical: AppSpacing.xs,
+          ),
           decoration: BoxDecoration(
             color: theme.colorScheme.muted,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: AppRadius.borderFull,
           ),
           child: Text(
             l10n.studyQuestion,
@@ -92,10 +101,10 @@ class CardFrontView extends StatelessWidget {
           ),
         ),
         if (card != null && card!.hasFlag) ...[
-          const SizedBox(width: 8),
+          AppGaps.h8,
           Container(
-            width: 8,
-            height: 8,
+            width: AppSpacing.sm,
+            height: AppSpacing.sm,
             decoration: BoxDecoration(
               color:
                   CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
@@ -136,26 +145,29 @@ class CardBackView extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 20,
+                  horizontal: AppSpacing.xl,
+                  vertical: AppSpacing.lg,
                 ),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
-                    minHeight: math.max(0.0, constraints.maxHeight - 40),
+                    minHeight: math.max(
+                      0.0,
+                      constraints.maxHeight - (AppSpacing.lg * 2),
+                    ),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
+                          horizontal: AppSpacing.smPlus,
+                          vertical: AppSpacing.xs,
                         ),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary.withValues(
                             alpha: 0.1,
                           ),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: AppRadius.borderFull,
                         ),
                         child: Text(
                           l10n.studyAnswer,
@@ -166,12 +178,13 @@ class CardBackView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 18),
+                      AppGaps.v16,
                       RichCardContent(
                         content: card?.back ?? '',
                         autoPlayAudio: true,
                         typedAnswer: typedAnswer,
                         textStyle: theme.typography.h3.copyWith(
+                          color: theme.colorScheme.foreground,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

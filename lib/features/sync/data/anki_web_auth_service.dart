@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/network/dio_client.dart';
 import 'anki_web_config.dart';
 
 enum AuthErrorCode {
@@ -41,17 +42,14 @@ class AnkiWebAuthResult {
 }
 
 class AnkiWebAuthService {
-  final http.Client _client;
+  final Dio _dio;
   final AnkiWebConfig _config;
   final AppLocalizations? _customL10n;
 
-  AnkiWebAuthService({
-    http.Client? client,
-    AnkiWebConfig? config,
-    AppLocalizations? l10n,
-  }) : _client = client ?? http.Client(),
-       _config = config ?? const AnkiWebConfig(),
-       _customL10n = l10n;
+  AnkiWebAuthService({Dio? dio, AnkiWebConfig? config, AppLocalizations? l10n})
+    : _dio = dio ?? DioClient.defaultInstance,
+      _config = config ?? const AnkiWebConfig(),
+      _customL10n = l10n;
 
   AppLocalizations get l10n => _customL10n ?? AppConfig.getL10n();
 
@@ -70,19 +68,23 @@ class AnkiWebAuthService {
     }
 
     try {
-      final uri = Uri.parse('${_config.syncHost}/sync/hostKey');
-      final request = http.MultipartRequest('POST', uri);
-      request.headers['User-Agent'] = _config.effectiveUserAgent;
-      request.fields['c'] = '0';
-      request.fields['data'] = jsonEncode({'u': cleanUsername, 'p': password});
+      final formData = FormData.fromMap({
+        'c': '0',
+        'data': jsonEncode({'u': cleanUsername, 'p': password}),
+      });
 
-      final streamedResponse = await _client
-          .send(request)
-          .timeout(_config.effectiveAuthTimeout);
-      final response = await http.Response.fromStream(streamedResponse);
+      final response = await _dio.post<String>(
+        '${_config.syncHost}/sync/hostKey',
+        data: formData,
+        options: Options(
+          headers: {'User-Agent': _config.effectiveUserAgent},
+          responseType: ResponseType.plain,
+          receiveTimeout: _config.effectiveAuthTimeout,
+        ),
+      );
 
       if (response.statusCode == 200) {
-        final body = response.body.trim();
+        final body = (response.data ?? '').trim();
         // AnkiWeb returns raw hostKey or JSON containing key
         if (body.isNotEmpty && !body.contains('error')) {
           String key = body;
@@ -99,30 +101,43 @@ class AnkiWebAuthService {
             errorCode: AuthErrorCode.invalidResponse,
           );
         }
-      } else if (response.statusCode == 403 || response.statusCode == 401) {
-        return AnkiWebAuthResult.fail(
-          l10n.authInvalidCredentials,
-          errorCode: AuthErrorCode.invalidCredentials,
-        );
-      } else if (response.statusCode == 429) {
-        return AnkiWebAuthResult.fail(
-          l10n.authTooManyAttempts,
-          errorCode: AuthErrorCode.rateLimited,
-        );
       } else {
         return AnkiWebAuthResult.fail(
           l10n.syncServerError(
-            response.statusCode,
-            response.reasonPhrase ?? 'Unknown',
+            response.statusCode ?? 500,
+            response.statusMessage ?? 'Unknown',
           ),
           errorCode: AuthErrorCode.serverError,
         );
       }
-    } on http.ClientException catch (e) {
-      return AnkiWebAuthResult.fail(
-        e.message,
-        errorCode: AuthErrorCode.networkError,
-      );
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+      if (statusCode == 403 || statusCode == 401) {
+        return AnkiWebAuthResult.fail(
+          l10n.authInvalidCredentials,
+          errorCode: AuthErrorCode.invalidCredentials,
+        );
+      } else if (statusCode == 429) {
+        return AnkiWebAuthResult.fail(
+          l10n.authTooManyAttempts,
+          errorCode: AuthErrorCode.rateLimited,
+        );
+      } else if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        return AnkiWebAuthResult.fail(
+          e.message ?? 'Network error',
+          errorCode: AuthErrorCode.networkError,
+        );
+      } else {
+        return AnkiWebAuthResult.fail(
+          l10n.syncServerError(
+            statusCode ?? 500,
+            e.response?.statusMessage ?? e.message ?? 'Unknown',
+          ),
+          errorCode: AuthErrorCode.serverError,
+        );
+      }
     } catch (e) {
       return AnkiWebAuthResult.fail(
         l10n.authUnknownError(e.toString()),

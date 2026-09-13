@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart' as m;
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../theme/app_tokens.dart';
 
 class TypeAnswerInputBox extends HookWidget {
   final String initialValue;
@@ -23,12 +25,17 @@ class TypeAnswerInputBox extends HookWidget {
     final controller = useTextEditingController(text: initialValue);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: AppSpacing.smPlus,
+        horizontal: AppSpacing.xs,
+      ),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400),
         child: TextField(
           controller: controller,
           autofocus: false,
+          textInputAction: TextInputAction.done,
+          keyboardType: TextInputType.text,
           placeholder: Text(l10n.typeAnswerPlaceholder),
           clipBehavior: Clip.none,
           padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
@@ -38,7 +45,7 @@ class TypeAnswerInputBox extends HookWidget {
                 padding: const EdgeInsets.only(left: 4, right: 6),
                 child: Icon(
                   LucideIcons.keyboard,
-                  size: 18,
+                  size: AppIconSize.md,
                   color: theme.colorScheme.mutedForeground,
                 ),
               ),
@@ -51,7 +58,7 @@ class TypeAnswerInputBox extends HookWidget {
                     alignment: Alignment.center,
                     size: ButtonSize.small,
                     onPressed: onSubmitAnswer,
-                    leading: const Icon(LucideIcons.send, size: 14),
+                    leading: const Icon(LucideIcons.send, size: AppIconSize.sm),
                     child: Text(l10n.submitAnswer),
                   ),
                 ),
@@ -86,17 +93,17 @@ class TypeAnswerResultBox extends StatelessWidget {
     final isEmpty = typed.isEmpty;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 380),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: AppEdgeInsets.h16v12,
         decoration: BoxDecoration(
           color: isEmpty
               ? theme.colorScheme.muted
               : (isCorrect
                     ? m.Colors.green.withValues(alpha: 0.12)
                     : m.Colors.red.withValues(alpha: 0.12)),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppRadius.borderLg,
           border: Border.all(
             color: isEmpty
                 ? theme.colorScheme.border
@@ -129,16 +136,16 @@ class TypeAnswerResultBox extends StatelessWidget {
             const Icon(
               LucideIcons.circleCheck,
               color: m.Colors.green,
-              size: 20,
+              size: AppIconSize.md,
             ),
-            const SizedBox(width: 8),
+            AppGaps.h8,
             Text(
               l10n.correctAnswerLabel,
               style: theme.typography.semiBold.copyWith(color: m.Colors.green),
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        AppGaps.v4,
         Text(
           expected,
           style: theme.typography.h3.copyWith(
@@ -161,8 +168,12 @@ class TypeAnswerResultBox extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(LucideIcons.circleAlert, color: m.Colors.red, size: 18),
-            const SizedBox(width: 6),
+            const Icon(
+              LucideIcons.circleAlert,
+              color: m.Colors.red,
+              size: AppIconSize.md,
+            ),
+            AppGaps.h8,
             Text(
               l10n.yourAnswerLabel,
               style: theme.typography.small.copyWith(
@@ -178,7 +189,7 @@ class TypeAnswerResultBox extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 6),
+        AppGaps.v6,
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -208,9 +219,9 @@ class TypeAnswerResultBox extends StatelessWidget {
         Icon(
           LucideIcons.circleHelp,
           color: theme.colorScheme.primary,
-          size: 18,
+          size: AppIconSize.md,
         ),
-        const SizedBox(width: 6),
+        AppGaps.h8,
         Text(
           l10n.answerLabel,
           style: theme.typography.small.copyWith(

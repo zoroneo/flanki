@@ -11,8 +11,9 @@ import 'package:flanki/core/widgets/rich_card_content.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget wrapWithTheme(Widget child) {
+  Widget wrapWithTheme(Widget child, {ThemeData? theme}) {
     return ShadcnApp(
+      theme: theme ?? const ThemeData(colorScheme: ColorSchemes.lightZinc),
       locale: const Locale('vi'),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
@@ -211,6 +212,36 @@ void main() {
 
       expect(find.text('agree'), findsOneWidget);
       expect(find.byIcon(LucideIcons.circleCheck), findsOneWidget);
+    });
+
+    testWidgets('adapts hardcoded dark colors and audio labels for dark mode', (
+      tester,
+    ) async {
+      const cardContent = '''
+<div style='font-family: Arial; font-size: 22px;color:black;text-align:center;'>experiment</div>
+<div style='font-family: Arial; font-size: 20px;color:black;text-align:center;'>[ɪk'spɛrɪmənt]</div>
+<div style='font-family: Arial; font-size: 22px;color:blue;text-align:center;'>thí nghiệm</div>
+<div style='font-family: Arial; font-size: 18px;color:black;text-align:left;'>Keyword [sound:experiment.mp3]</div>
+<div style='font-family: Arial; font-size: 18px;color:black;text-align:left;'>Meaning [sound:meaning.mp3]</div>
+''';
+      await tester.pumpWidget(
+        wrapWithTheme(
+          const RichCardContent(content: cardContent),
+          theme: const ThemeData(colorScheme: ColorSchemes.darkZinc),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // HtmlWidget renders formatted content
+      final htmlWidget = tester.widget<HtmlWidget>(find.byType(HtmlWidget));
+      // Hardcoded color:black should be adapted to color: inherit in dark mode
+      expect(htmlWidget.html, isNot(contains('color:black')));
+      expect(htmlWidget.html, contains('color: inherit'));
+      // Non-dark color (blue) is preserved
+      expect(htmlWidget.html, contains('color:blue'));
+
+      // Audio buttons are properly rendered inline
+      expect(find.byType(AudioPlayButton), findsNWidgets(2));
     });
   });
 }

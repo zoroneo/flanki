@@ -1,7 +1,8 @@
-﻿import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/models/deck.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'deck_card.dart';
 import 'grouped_deck_card.dart';
 
@@ -31,10 +32,10 @@ class DeckSlivers extends StatelessWidget {
     return [
       if (groupedEntries.isNotEmpty)
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           sliver: SliverList.separated(
             itemCount: groupedEntries.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            separatorBuilder: (context, index) => AppGaps.v12,
             itemBuilder: (context, index) {
               final entry = groupedEntries[index];
               return GroupedDeckCard(
@@ -50,13 +51,13 @@ class DeckSlivers extends StatelessWidget {
           ),
         ),
       if (groupedEntries.isNotEmpty && standaloneDecks.isNotEmpty)
-        const SliverToBoxAdapter(child: SizedBox(height: 12)),
+        const SliverToBoxAdapter(child: AppGaps.v12),
       if (standaloneDecks.isNotEmpty)
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           sliver: SliverList.separated(
             itemCount: standaloneDecks.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            separatorBuilder: (context, index) => AppGaps.v12,
             itemBuilder: (context, index) {
               final deck = standaloneDecks[index];
               return DeckCard(

@@ -1,15 +1,22 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
 class GrammarUnitCard extends StatelessWidget {
   final GrammarUnit unit;
   final UnitProgressSummary summary;
+  final bool isMobile;
 
-  const GrammarUnitCard({super.key, required this.unit, required this.summary});
+  const GrammarUnitCard({
+    super.key,
+    required this.unit,
+    required this.summary,
+    this.isMobile = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class GrammarUnitCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: isMobile ? AppEdgeInsets.all12 : AppEdgeInsets.all16,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,15 +36,16 @@ class GrammarUnitCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildHeaderBadges(theme, l10n, levelColor, levelText),
-                const SizedBox(height: 10),
+                isMobile ? AppGaps.v6 : AppGaps.v8,
                 Text(
                   unit.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: theme.typography.base.copyWith(
-                    fontWeight: FontWeight.bold,
-                    height: 1.25,
-                  ),
+                  style:
+                      (isMobile
+                              ? theme.typography.small
+                              : theme.typography.base)
+                          .copyWith(fontWeight: FontWeight.bold, height: 1.25),
                 ),
               ],
             ),
@@ -45,7 +53,7 @@ class GrammarUnitCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildMasteryBar(theme, l10n),
-                const SizedBox(height: 10),
+                isMobile ? AppGaps.v8 : AppGaps.v12,
                 _buildActionButtons(context, theme, l10n),
               ],
             ),
@@ -64,10 +72,10 @@ class GrammarUnitCard extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+          padding: AppEdgeInsets.h8v4,
           decoration: BoxDecoration(
             color: levelColor.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: AppRadius.borderSm,
             border: Border.all(color: levelColor.withValues(alpha: 0.3)),
           ),
           child: Text(
@@ -79,13 +87,13 @@ class GrammarUnitCard extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 6),
+        AppGaps.h8,
         Flexible(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
               color: theme.colorScheme.muted,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: AppRadius.borderSm,
             ),
             child: Text(
               unit.category.code.toUpperCase(),
@@ -101,11 +109,11 @@ class GrammarUnitCard extends StatelessWidget {
         if (summary.ghostCount > 0 || summary.dueCount > 0) const Spacer(),
         if (summary.ghostCount > 0)
           Container(
-            margin: const EdgeInsets.only(right: 4),
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            margin: const EdgeInsets.only(right: AppSpacing.xs),
+            padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
               color: m.Colors.red.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: AppRadius.borderLg,
             ),
             child: Text(
               l10n.grammarGhostsCount(summary.ghostCount),
@@ -118,10 +126,10 @@ class GrammarUnitCard extends StatelessWidget {
           ),
         if (summary.dueCount > 0)
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
               color: m.Colors.orange.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: AppRadius.borderLg,
             ),
             child: Text(
               l10n.grammarBadgeDue(summary.dueCount),
@@ -137,6 +145,30 @@ class GrammarUnitCard extends StatelessWidget {
   }
 
   Widget _buildMasteryBar(ThemeData theme, AppLocalizations l10n) {
+    if (isMobile) {
+      return Row(
+        children: [
+          Expanded(
+            child: LinearProgressIndicator(
+              value: summary.masteryPercentage / 100.0,
+              minHeight: 4,
+            ),
+          ),
+          AppGaps.h8,
+          Text(
+            '${summary.completedCount}/${GrammarConstants.exercisesPerUnit} • ${summary.masteryPercentage.toStringAsFixed(0)}%',
+            style: theme.typography.xSmall.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: 11,
+              color: summary.isMastered
+                  ? m.Colors.green
+                  : theme.colorScheme.mutedForeground,
+            ),
+          ),
+        ],
+      );
+    }
+
     return Row(
       children: [
         Expanded(
@@ -145,7 +177,7 @@ class GrammarUnitCard extends StatelessWidget {
             minHeight: 5,
           ),
         ),
-        const SizedBox(width: 10),
+        AppGaps.h8,
         Text(
           l10n.grammarMasteryPercentage(
             summary.masteryPercentage.toStringAsFixed(0),
@@ -166,6 +198,56 @@ class GrammarUnitCard extends StatelessWidget {
     ThemeData theme,
     AppLocalizations l10n,
   ) {
+    final theoryButton = OutlineButton(
+      size: ButtonSize.small,
+      onPressed: () => context.push('/grammar/${unit.unitId}/theory'),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(LucideIcons.bookOpen, size: AppIconSize.xs),
+          AppGaps.h4,
+          Flexible(
+            child: Text(
+              l10n.grammarTheoryButton,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    final practiceButton = PrimaryButton(
+      size: ButtonSize.small,
+      onPressed: () => context.push('/grammar/${unit.unitId}/practice'),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(LucideIcons.play, size: AppIconSize.xs),
+          AppGaps.h4,
+          Flexible(
+            child: Text(
+              l10n.grammarPracticeButton,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (isMobile) {
+      return Row(
+        children: [
+          Expanded(child: theoryButton),
+          AppGaps.h8,
+          Expanded(child: practiceButton),
+        ],
+      );
+    }
+
     return LayoutBuilder(
       builder: (context, cardConstraints) {
         final isNarrow = cardConstraints.maxWidth < 360;
@@ -180,56 +262,16 @@ class GrammarUnitCard extends StatelessWidget {
           ),
         );
 
-        final theoryButton = OutlineButton(
-          size: ButtonSize.small,
-          onPressed: () => context.push('/grammar/${unit.unitId}/theory'),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(LucideIcons.bookOpen, size: 13),
-              const SizedBox(width: 4),
-              Flexible(
-                child: Text(
-                  l10n.grammarTheoryButton,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        );
-
-        final practiceButton = PrimaryButton(
-          size: ButtonSize.small,
-          onPressed: () => context.push('/grammar/${unit.unitId}/practice'),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(LucideIcons.play, size: 13),
-              const SizedBox(width: 4),
-              Flexible(
-                child: Text(
-                  l10n.grammarPracticeButton,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        );
-
         if (isNarrow) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               progressWidget,
-              const SizedBox(height: 8),
+              AppGaps.v8,
               Row(
                 children: [
                   Expanded(child: theoryButton),
-                  const SizedBox(width: 6),
+                  AppGaps.h8,
                   Expanded(child: practiceButton),
                 ],
               ),
@@ -242,7 +284,7 @@ class GrammarUnitCard extends StatelessWidget {
             progressWidget,
             const Spacer(),
             theoryButton,
-            const SizedBox(width: 6),
+            AppGaps.h8,
             practiceButton,
           ],
         );

@@ -1,12 +1,65 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flanki/core/config/app_config.dart';
 import 'package:flanki/features/settings/providers/update_notifier.dart';
 import 'package:flanki/features/settings/data/desktop_update_service.dart';
 import 'package:flanki/core/services/desktop_window_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
+
+class MockHttpAdapter implements HttpClientAdapter {
+  final Future<ResponseBody> Function(RequestOptions options) handler;
+  MockHttpAdapter(this.handler);
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    if (cancelFuture != null) {
+      final completer = Completer<ResponseBody>();
+      cancelFuture.then((_) {
+        if (!completer.isCompleted) {
+          completer.completeError(
+            DioException(
+              requestOptions: options,
+              type: DioExceptionType.cancel,
+              message: 'Request cancelled',
+            ),
+          );
+        }
+      });
+      handler(options)
+          .then((res) {
+            if (!completer.isCompleted) {
+              completer.complete(res);
+            }
+          })
+          .catchError((err) {
+            if (!completer.isCompleted) {
+              completer.completeError(err);
+            }
+          });
+      return completer.future;
+    }
+    return handler(options);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+Dio createMockDio(
+  Future<ResponseBody> Function(RequestOptions options) handler,
+) {
+  final dio = Dio();
+  dio.httpClientAdapter = MockHttpAdapter(handler);
+  return dio;
+}
 
 void main() {
   group('DesktopUpdateService Version Comparison Tests', () {
@@ -123,11 +176,17 @@ void main() {
         ],
       };
 
-      final client = MockClient((request) async {
-        return http.Response(jsonEncode(mockResponse), 200);
+      final dio = createMockDio((request) async {
+        return ResponseBody.fromString(
+          jsonEncode(mockResponse),
+          200,
+          headers: {
+            Headers.contentTypeHeader: [Headers.jsonContentType],
+          },
+        );
       });
 
-      final service = DesktopUpdateService(client: client);
+      final service = DesktopUpdateService(dio: dio);
       final updateInfo = await service.checkForUpdates(currentVersion: '1.0.0');
 
       expect(updateInfo.hasUpdate, isTrue);
@@ -147,11 +206,17 @@ void main() {
           'assets': [],
         };
 
-        final client = MockClient((request) async {
-          return http.Response(jsonEncode(mockResponse), 200);
+        final dio = createMockDio((request) async {
+          return ResponseBody.fromString(
+            jsonEncode(mockResponse),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
         });
 
-        final service = DesktopUpdateService(client: client);
+        final service = DesktopUpdateService(dio: dio);
         final updateInfo = await service.checkForUpdates(
           currentVersion: '1.0.0',
         );
@@ -164,11 +229,11 @@ void main() {
     test(
       'Handles network failure gracefully without throwing exceptions',
       () async {
-        final client = MockClient((request) async {
-          return http.Response('Server Error', 500);
+        final dio = createMockDio((request) async {
+          return ResponseBody.fromString('Server Error', 500);
         });
 
-        final service = DesktopUpdateService(client: client);
+        final service = DesktopUpdateService(dio: dio);
         final updateInfo = await service.checkForUpdates(
           currentVersion: '1.0.0',
         );
@@ -202,6 +267,82 @@ void main() {
           UpdateErrorType.downloadFailed,
           UpdateErrorType.installFailed,
         ]),
+      );
+    });
+  });
+
+  group('DesktopUpdateService Download & Cancellation Tests', () {
+    late Directory tempDir;
+
+    setUp(() {
+      tempDir = Directory.systemTemp.createTempSync('flanki_download_test_');
+    });
+
+    tearDown(() {
+      if (tempDir.existsSync()) {
+        tempDir.deleteSync(recursive: true);
+      }
+    });
+
+    test('downloadUpdate reports progress and completes', () async {
+      final dio = createMockDio((request) async {
+        return ResponseBody.fromBytes(
+          [1, 2, 3, 4, 5, 6, 7, 8],
+          200,
+          headers: {
+            Headers.contentLengthHeader: ['8'],
+          },
+        );
+      });
+
+      final service = DesktopUpdateService(dio: dio);
+      final progresses = <double>[];
+      final path = await service.downloadUpdate(
+        'https://example.com/update.zip',
+        fileName: 'test_update_file.zip',
+        targetDirectoryPath: tempDir.path,
+        onProgress: progresses.add,
+      );
+
+      expect(path, isNotNull);
+      expect(progresses, isNotEmpty);
+      expect(progresses.last, equals(1.0));
+      expect(File(path!).existsSync(), isTrue);
+    });
+
+    test('cancelDownload aborts stream and cleans up file', () async {
+      final dio = createMockDio((request) async {
+        final stream = (() async* {
+          for (int i = 0; i < 1000; i++) {
+            yield Uint8List.fromList([i % 256]);
+            await Future<void>.delayed(const Duration(milliseconds: 5));
+          }
+        })();
+
+        return ResponseBody(
+          stream,
+          200,
+          headers: {
+            Headers.contentLengthHeader: ['1000'],
+          },
+        );
+      });
+
+      final service = DesktopUpdateService(dio: dio);
+      final downloadFuture = service.downloadUpdate(
+        'https://example.com/cancelled.zip',
+        fileName: 'test_cancelled_file.zip',
+        targetDirectoryPath: tempDir.path,
+        onProgress: (p) {
+          service.cancelDownload();
+        },
+      );
+
+      final path = await downloadFuture;
+      expect(path, isNull);
+      expect(
+        File('${tempDir.path}/test_cancelled_file.zip').existsSync(),
+        isFalse,
       );
     });
   });

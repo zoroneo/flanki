@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
+
 import 'package:flanki/core/widgets/animations/shake_animation.dart';
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
@@ -30,7 +32,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
         // Prompt container
         Card(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: AppEdgeInsets.h16v12,
             child: RichCardContent(
               content: exercise.prompt,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +46,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        AppGaps.v12,
 
         // 4 Options
         ...List.generate(options.length, (index) {
@@ -77,20 +79,16 @@ class ChoiceQuestionWidget extends StatelessWidget {
             borderColor = theme.colorScheme.primary;
           }
 
-          final isWrongSelected =
-              isSubmitted && isSelected && !isCorrectOption;
+          final isWrongSelected = isSubmitted && isSelected && !isCorrectOption;
 
           Widget optionWidget = GestureDetector(
             onTap: isSubmitted ? null : () => onSelectAnswer(option),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 9,
-              ),
+              padding: AppEdgeInsets.h12v8,
               decoration: BoxDecoration(
                 color: backgroundColor ?? theme.colorScheme.card,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: AppRadius.borderMd,
                 border: Border.all(
                   color: borderColor ?? theme.colorScheme.border,
                   width: (isSelected || (isSubmitted && isCorrectOption))
@@ -102,8 +100,8 @@ class ChoiceQuestionWidget extends StatelessWidget {
                 children: [
                   // Badge A, B, C, D
                   Container(
-                    width: 24,
-                    height: 24,
+                    width: AppSpacing.xxl,
+                    height: AppSpacing.xxl,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: (isSelected || (isSubmitted && isCorrectOption))
@@ -116,14 +114,13 @@ class ChoiceQuestionWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color:
-                            (isSelected || (isSubmitted && isCorrectOption))
+                        color: (isSelected || (isSubmitted && isCorrectOption))
                             ? theme.colorScheme.primaryForeground
                             : theme.colorScheme.foreground,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  AppGaps.h12,
                   Expanded(
                     child: Text(
                       option,
@@ -139,25 +136,26 @@ class ChoiceQuestionWidget extends StatelessWidget {
                   if (isSubmitted && isCorrectOption)
                     const Icon(
                       LucideIcons.check,
-                      size: 16,
+                      size: AppIconSize.sm,
                       color: Colors.green,
                     ),
                   if (isSubmitted && isSelected && !isCorrectOption)
-                    const Icon(LucideIcons.x, size: 16, color: Colors.red),
+                    const Icon(
+                      LucideIcons.x,
+                      size: AppIconSize.sm,
+                      color: Colors.red,
+                    ),
                 ],
               ),
             ),
           );
 
           if (isWrongSelected) {
-            optionWidget = ShakeAnimation(
-              trigger: true,
-              child: optionWidget,
-            );
+            optionWidget = ShakeAnimation(trigger: true, child: optionWidget);
           }
 
           return Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: optionWidget,
           );
         }),

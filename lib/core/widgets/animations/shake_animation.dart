@@ -1,4 +1,5 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 
 /// Reusable widget that applies a smooth damped horizontal shake animation
@@ -31,13 +32,11 @@ class ShakeAnimationState extends State<ShakeAnimation>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controller.reset();
@@ -76,13 +75,10 @@ class ShakeAnimationState extends State<ShakeAnimation>
         final progress = _animation.value;
         final offset = progress > 0
             ? math.sin(progress * 3 * 2 * math.pi) *
-                widget.shakeOffset *
-                (1.0 - progress)
+                  widget.shakeOffset *
+                  (1.0 - progress)
             : 0.0;
-        return Transform.translate(
-          offset: Offset(offset, 0),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(offset, 0), child: child);
       },
       child: widget.child,
     );

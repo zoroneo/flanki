@@ -7,7 +7,9 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
+
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
+
 import '../providers/card_browser_notifier.dart';
 import '../../study/ui/widgets/card_action_sheet.dart';
 import 'widgets/browser_desktop_layout.dart';

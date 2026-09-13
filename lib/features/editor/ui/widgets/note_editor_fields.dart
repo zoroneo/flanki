@@ -2,6 +2,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class NoteEditorFields extends StatelessWidget {
   final NoteType noteType;
@@ -29,7 +30,7 @@ class NoteEditorFields extends StatelessWidget {
     final l10n = context.l10n;
 
     return Card(
-      padding: const EdgeInsets.all(20),
+      padding: AppEdgeInsets.all20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -43,10 +44,10 @@ class NoteEditorFields extends StatelessWidget {
                     noteType == NoteType.cloze
                         ? LucideIcons.brackets
                         : LucideIcons.circleHelp,
-                    size: 16,
+                    size: AppIconSize.sm,
                     color: theme.colorScheme.primary,
                   ),
-                  const SizedBox(width: 6),
+                  AppGaps.h8,
                   Text(
                     noteType == NoteType.cloze
                         ? l10n.clozeTextLabel
@@ -68,7 +69,7 @@ class NoteEditorFields extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    AppGaps.h4,
                     OutlineButton(
                       size: ButtonSize.small,
                       onPressed: () => onInsertCloze(2),
@@ -77,7 +78,7 @@ class NoteEditorFields extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    AppGaps.h4,
                     OutlineButton(
                       size: ButtonSize.small,
                       onPressed: () => onInsertCloze(3),
@@ -90,11 +91,11 @@ class NoteEditorFields extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 8),
+          AppGaps.v8,
           TextField(
             controller: frontController,
             focusNode: frontFocusNode,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: AppEdgeInsets.h16v12,
             placeholder: Text(
               noteType == NoteType.cloze
                   ? l10n.clozePlaceholder
@@ -103,17 +104,17 @@ class NoteEditorFields extends StatelessWidget {
             minLines: isDesktop ? 6 : 4,
             maxLines: isDesktop ? 10 : 6,
           ),
-          const SizedBox(height: 20),
+          AppGaps.v20,
 
           // Back Header
           Row(
             children: [
               Icon(
                 LucideIcons.fileCheck,
-                size: 16,
+                size: AppIconSize.sm,
                 color: theme.colorScheme.primary,
               ),
-              const SizedBox(width: 6),
+              AppGaps.h8,
               Text(
                 noteType == NoteType.cloze ? l10n.extraNotes : l10n.backSide,
                 style: theme.typography.small.copyWith(
@@ -122,11 +123,11 @@ class NoteEditorFields extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          AppGaps.v8,
           TextField(
             controller: backController,
             focusNode: backFocusNode,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: AppEdgeInsets.h16v12,
             placeholder: Text(l10n.backPlaceholder),
             minLines: isDesktop ? 7 : 5,
             maxLines: isDesktop ? 12 : 8,

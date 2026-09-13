@@ -1,10 +1,11 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/theme/app_tokens.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -43,14 +44,6 @@ class GrammarTheoryScreen extends HookConsumerWidget {
 
         return Scaffold(
           headers: [_buildAppBar(context, l10n, isMobile)],
-          footers: [
-            if (isMobile)
-              _buildStickyBottomCta(
-                context,
-                unitId: unitId,
-                exercisesCount: GrammarConstants.exercisesPerUnit,
-              ),
-          ],
           child: grammarAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (err, stack) =>
@@ -65,19 +58,18 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                 return Center(child: Text(l10n.grammarUnitNotFound));
               }
 
-              return ScreenTypeLayout.builder(
-                mobile: (context) => GrammarTheoryMobileTabs(unit: unit),
-                desktop: (context) => _buildDesktopTheoryLayout(
-                  context,
-                  l10n,
-                  unit,
-                  conceptKey: conceptKey,
-                  formulasKey: formulasKey,
-                  trapsKey: trapsKey,
-                  guidesKey: guidesKey,
-                  onScrollTo: scrollTo,
-                ),
-              );
+              return isMobile
+                  ? GrammarTheoryMobileTabs(unit: unit)
+                  : _buildDesktopTheoryLayout(
+                      context,
+                      l10n,
+                      unit,
+                      conceptKey: conceptKey,
+                      formulasKey: formulasKey,
+                      trapsKey: trapsKey,
+                      guidesKey: guidesKey,
+                      onScrollTo: scrollTo,
+                    );
             },
           ),
         );
@@ -92,12 +84,9 @@ class GrammarTheoryScreen extends HookConsumerWidget {
   ) {
     final theme = Theme.of(context);
     return AppBar(
-      padding: isMobile
-          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 0)
-          : null,
       leading: [
         IconButton.ghost(
-          icon: const Icon(LucideIcons.arrowLeft, size: 18),
+          icon: const Icon(LucideIcons.arrowLeft, size: AppIconSize.md),
           onPressed: () => context.pop(),
         ),
       ],
@@ -112,61 +101,35 @@ class GrammarTheoryScreen extends HookConsumerWidget {
         ),
       ),
       trailing: [
-        if (!isMobile)
-          PrimaryButton(
+        Padding(
+          padding: EdgeInsets.only(right: isMobile ? AppSpacing.xs : 0),
+          child: PrimaryButton(
+            size: ButtonSize.small,
             onPressed: () => context.push('/grammar/$unitId/practice'),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  l10n.grammarPracticeCountButton(
-                    GrammarConstants.exercisesPerUnit,
-                  ),
-                ),
-                const SizedBox(width: 6),
-                const Icon(LucideIcons.play, size: 14),
-              ],
+            leading: Icon(
+              LucideIcons.play,
+              size: AppIconSize.xs,
+              color: theme.colorScheme.primaryForeground,
+            ),
+            child: Text(
+              isMobile
+                  ? l10n.grammarPracticeButton
+                  : l10n.grammarPracticeCountButton(
+                      GrammarConstants.exercisesPerUnit,
+                    ),
+              maxLines: 1,
+              softWrap: false,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.primaryForeground,
+              ),
             ),
           ),
+        ),
       ],
     );
   }
-
-  Widget _buildStickyBottomCta(
-    BuildContext context, {
-    required String unitId,
-    required int exercisesCount,
-  }) {
-    final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-
-    return Container(
-      padding: EdgeInsets.fromLTRB(10, 6, 10, 6 + bottomInset),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.background,
-        border: Border(
-          top: BorderSide(color: theme.colorScheme.border, width: 1),
-        ),
-      ),
-      child: PrimaryButton(
-        size: ButtonSize.small,
-        onPressed: () => context.push('/grammar/$unitId/practice'),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(LucideIcons.play, size: 14),
-            const SizedBox(width: 6),
-            Text(
-              l10n.grammarStartPracticeNowButton(exercisesCount),
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
 
   Widget _buildDesktopTheoryLayout(
     BuildContext context,
@@ -182,7 +145,12 @@ class GrammarTheoryScreen extends HookConsumerWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1200),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.pageDesktop,
+            AppSpacing.pageDesktop,
+            AppSpacing.pageDesktop,
+            AppSpacing.xxl,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -193,7 +161,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GrammarTheoryHeaderBanner(unit: unit),
-                    const SizedBox(height: 16),
+                    AppGaps.v16,
                     GrammarTheoryTocCard(
                       unit: unit,
                       onScrollToConcept: () => onScrollTo(conceptKey),
@@ -204,7 +172,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 24),
+              AppGaps.h24,
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -219,7 +187,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                           content: unit.coreConcept,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      AppGaps.v20,
                       if (unit.formulas.isNotEmpty) ...[
                         KeyedSubtree(
                           key: formulasKey,
@@ -227,7 +195,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                             formulas: unit.formulas,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        AppGaps.v20,
                       ],
                       if (unit.commonTraps.isNotEmpty) ...[
                         KeyedSubtree(
@@ -236,7 +204,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                             commonTraps: unit.commonTraps,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        AppGaps.v20,
                       ],
                       if (unit.extraGuides.isNotEmpty) ...[
                         KeyedSubtree(
@@ -245,7 +213,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                             extraGuides: unit.extraGuides,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        AppGaps.v20,
                       ],
                     ],
                   ),

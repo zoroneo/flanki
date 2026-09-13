@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/deck.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class GroupedDeckCard extends HookWidget {
   final String parentName;
@@ -83,7 +84,7 @@ class GroupedDeckCard extends HookWidget {
         isExpanded.value = !isExpanded.value;
       },
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: AppEdgeInsets.all16,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -91,20 +92,20 @@ class GroupedDeckCard extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: AppEdgeInsets.all8,
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: AppRadius.borderMd,
                   ),
                   child: Icon(
                     isExpanded.value
                         ? LucideIcons.folderOpen
                         : LucideIcons.folder,
-                    size: 20,
+                    size: AppIconSize.md,
                     color: theme.colorScheme.primary,
                   ),
                 ),
-                const SizedBox(width: 12),
+                AppGaps.h12,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +117,7 @@ class GroupedDeckCard extends HookWidget {
                         ),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: AppRadius.borderSm,
                         ),
                         child: Text(
                           l10n.subdecksCount(subdecks.length),
@@ -127,14 +128,14 @@ class GroupedDeckCard extends HookWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      AppGaps.v4,
                       Text(
                         parentName,
                         style: theme.typography.h4.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      AppGaps.v4,
                       Text(
                         l10n.importedFromApkg,
                         style: theme.typography.xSmall.copyWith(
@@ -149,7 +150,10 @@ class GroupedDeckCard extends HookWidget {
                   icon: AnimatedRotation(
                     turns: isExpanded.value ? 0.5 : 0.0,
                     duration: const Duration(milliseconds: 200),
-                    child: const Icon(LucideIcons.chevronDown, size: 18),
+                    child: const Icon(
+                      LucideIcons.chevronDown,
+                      size: AppIconSize.md,
+                    ),
                   ),
                   onPressed: () {
                     isExpanded.value = !isExpanded.value;
@@ -157,7 +161,7 @@ class GroupedDeckCard extends HookWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            AppGaps.v16,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -170,14 +174,14 @@ class GroupedDeckCard extends HookWidget {
                       if (totalDue > 0)
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
+                            horizontal: AppSpacing.sm,
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
                             color: theme.colorScheme.destructive.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: AppRadius.borderSm,
                           ),
                           child: Text(
                             '$totalDue ${l10n.dueCards}',
@@ -191,14 +195,14 @@ class GroupedDeckCard extends HookWidget {
                       if (totalNew > 0)
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
+                            horizontal: AppSpacing.sm,
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
                             color: theme.colorScheme.primary.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: AppRadius.borderSm,
                           ),
                           child: Text(
                             '$totalNew ${l10n.newCards}',
@@ -218,13 +222,13 @@ class GroupedDeckCard extends HookWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
+                AppGaps.h8,
                 PrimaryButton(
                   alignment: Alignment.center,
                   onPressed: () => onStudyDeck(targetStudyDeck.id),
                   size: ButtonSize.small,
                   leading: const Center(
-                    child: Icon(LucideIcons.play, size: 14),
+                    child: Icon(LucideIcons.play, size: AppIconSize.sm),
                   ),
                   child: Center(child: Text(l10n.studyNow)),
                 ),
@@ -243,7 +247,9 @@ class GroupedDeckCard extends HookWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.muted.withValues(alpha: 0.25),
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(8)),
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(AppRadius.md),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
@@ -282,17 +288,17 @@ class GroupedDeckCard extends HookWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () => onStudyDeck(deck.id),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: AppEdgeInsets.h16v8,
         child: Row(
           children: [
             Icon(
               deck.isCram ? LucideIcons.zap : LucideIcons.fileText,
-              size: 16,
+              size: AppIconSize.sm,
               color: deck.isCram
                   ? m.Colors.amber
                   : theme.colorScheme.mutedForeground,
             ),
-            const SizedBox(width: 12),
+            AppGaps.h12,
             Expanded(
               child: Text(
                 leafName,
@@ -311,13 +317,13 @@ class GroupedDeckCard extends HookWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 6,
-                      vertical: 2,
+                      vertical: AppSpacing.xxs,
                     ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.destructive.withValues(
                         alpha: 0.15,
                       ),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: AppRadius.borderSm,
                     ),
                     child: Text(
                       l10n.badgeDue(deck.dueCount),
@@ -332,11 +338,11 @@ class GroupedDeckCard extends HookWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 6,
-                      vertical: 2,
+                      vertical: AppSpacing.xxs,
                     ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primary.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: AppRadius.borderSm,
                     ),
                     child: Text(
                       l10n.badgeNew(deck.newCount),
@@ -356,10 +362,10 @@ class GroupedDeckCard extends HookWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 8),
+            AppGaps.h8,
             IconButton.ghost(
               size: ButtonSize.small,
-              icon: const Icon(LucideIcons.play, size: 14),
+              icon: const Icon(LucideIcons.play, size: AppIconSize.sm),
               onPressed: () => onStudyDeck(deck.id),
             ),
           ],

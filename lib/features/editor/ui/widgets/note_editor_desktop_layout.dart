@@ -1,7 +1,8 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/models/deck.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'deck_picker_dropdown.dart';
 import 'note_editor_fields.dart';
 import 'note_tag_editor.dart';
@@ -58,7 +59,7 @@ class NoteEditorDesktopLayout extends StatelessWidget {
             onInsertCloze: onInsertCloze,
           ),
         ),
-        const SizedBox(width: 20),
+        AppGaps.h20,
         SizedBox(width: 340, child: _buildDesktopSidebar(context)),
       ],
     );
@@ -69,12 +70,12 @@ class NoteEditorDesktopLayout extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Card(
-          padding: const EdgeInsets.all(16),
+          padding: AppEdgeInsets.all16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSectionHeader(theme, LucideIcons.layers, l10n.deckLabel),
-              const SizedBox(height: 10),
+              AppGaps.v8,
               DeckPickerDropdown(
                 l10n: l10n,
                 decks: decks,
@@ -83,14 +84,14 @@ class NoteEditorDesktopLayout extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        AppGaps.v16,
         Card(
-          padding: const EdgeInsets.all(16),
+          padding: AppEdgeInsets.all16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSectionHeader(theme, LucideIcons.sparkles, l10n.noteType),
-              const SizedBox(height: 12),
+              AppGaps.v12,
               DesktopTypeOption(
                 title: l10n.basicNoteType,
                 subtitle: l10n.basicNoteSubtitle,
@@ -98,7 +99,7 @@ class NoteEditorDesktopLayout extends StatelessWidget {
                 isSelected: noteType.value == NoteType.basic,
                 onTap: () => noteType.value = NoteType.basic,
               ),
-              const SizedBox(height: 8),
+              AppGaps.v8,
               DesktopTypeOption(
                 title: l10n.clozeNoteType,
                 subtitle: l10n.clozeNoteSubtitle,
@@ -106,7 +107,7 @@ class NoteEditorDesktopLayout extends StatelessWidget {
                 isSelected: noteType.value == NoteType.cloze,
                 onTap: () => noteType.value = NoteType.cloze,
               ),
-              const SizedBox(height: 8),
+              AppGaps.v8,
               DesktopTypeOption(
                 title: l10n.reversedNoteType,
                 subtitle: l10n.reversedNoteSubtitle,
@@ -117,14 +118,14 @@ class NoteEditorDesktopLayout extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        AppGaps.v16,
         Card(
-          padding: const EdgeInsets.all(16),
+          padding: AppEdgeInsets.all16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSectionHeader(theme, LucideIcons.tags, l10n.tagsLabel),
-              const SizedBox(height: 10),
+              AppGaps.v8,
               NoteTagEditor(
                 controller: tagController,
                 focusNode: tagFocusNode,
@@ -143,8 +144,12 @@ class NoteEditorDesktopLayout extends StatelessWidget {
   Widget _buildSectionHeader(ThemeData theme, IconData icon, String title) {
     return Row(
       children: [
-        Icon(icon, size: 14, color: theme.colorScheme.mutedForeground),
-        const SizedBox(width: 6),
+        Icon(
+          icon,
+          size: AppIconSize.sm,
+          color: theme.colorScheme.mutedForeground,
+        ),
+        AppGaps.h8,
         Text(
           title.toUpperCase(),
           style: theme.typography.xSmall.copyWith(

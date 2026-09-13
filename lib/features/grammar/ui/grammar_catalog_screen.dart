@@ -1,10 +1,11 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/theme/app_tokens.dart';
 import '../data/grammar_repository.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
@@ -46,22 +47,23 @@ class GrammarCatalogScreen extends HookConsumerWidget {
         );
         final spacing = getValueForScreenType<double>(
           context: context,
-          mobile: 12.0,
-          tablet: 14.0,
-          desktop: 16.0,
+          mobile: AppSpacing.smPlus,
+          tablet: AppSpacing.md,
+          desktop: AppSpacing.md,
         );
         final mainAxisExtent = getValueForScreenType<double>(
           context: context,
-          mobile: 215.0,
-          tablet: 230.0,
-          desktop: 235.0,
+          mobile: 165.0,
+          tablet: 220.0,
+          desktop: 230.0,
         );
         final horizontalPadding = getValueForScreenType<double>(
           context: context,
-          mobile: 16.0,
-          tablet: 20.0,
-          desktop: 28.0,
+          mobile: AppSpacing.pageMobile,
+          tablet: AppSpacing.pageTablet,
+          desktop: AppSpacing.pageDesktop,
         );
+        final vSpacing = isMobile ? AppGaps.v12 : AppGaps.v16;
 
         return Scaffold(
           headers: [_buildAppBar(context, l10n, totalGhosts, isMobile)],
@@ -99,7 +101,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 16),
+                            vSpacing,
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: horizontalPadding,
@@ -111,14 +113,14 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                                 totalGhosts: totalGhosts,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            vSpacing,
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: horizontalPadding,
                               ),
                               child: _buildSearchField(l10n, searchQuery),
                             ),
-                            const SizedBox(height: 14),
+                            vSpacing,
                             if (isMobile)
                               GrammarLevelFilters(
                                 selectedLevel: selectedLevel,
@@ -136,7 +138,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                                   horizontalPadding: horizontalPadding,
                                 ),
                               ),
-                            const SizedBox(height: 16),
+                            vSpacing,
                           ],
                         ),
                       ),
@@ -150,6 +152,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                           crossAxisCount: crossAxisCount,
                           spacing: spacing,
                           mainAxisExtent: mainAxisExtent,
+                          isMobile: isMobile,
                         ),
                     ],
                   ),
@@ -174,8 +177,8 @@ class GrammarCatalogScreen extends HookConsumerWidget {
         l10n.grammarAcademicTitle,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: (isMobile ? theme.typography.base : theme.typography.large)
-            .copyWith(fontWeight: FontWeight.w600),
+        style: (isMobile ? theme.typography.large : theme.typography.h4)
+            .copyWith(fontWeight: FontWeight.w700),
       ),
       trailing: [
         if (totalGhosts > 0)
@@ -187,7 +190,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
             ),
             leading: const Icon(
               LucideIcons.flame,
-              size: 16,
+              size: AppIconSize.sm,
               color: m.Colors.orange,
             ),
             child: Text(
@@ -207,7 +210,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
   ) {
     return TextField(
       features: const [
-        InputFeature.leading(Icon(LucideIcons.search, size: 16)),
+        InputFeature.leading(Icon(LucideIcons.search, size: AppIconSize.sm)),
       ],
       placeholder: Text(l10n.grammarSearchPlaceholder),
       onChanged: (val) => searchQuery.value = val,
@@ -226,7 +229,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
               size: 44,
               color: theme.colorScheme.mutedForeground,
             ),
-            const SizedBox(height: 12),
+            AppGaps.v12,
             Text(
               l10n.grammarUnitNotFound,
               style: TextStyle(color: theme.colorScheme.mutedForeground),
@@ -244,9 +247,15 @@ class GrammarCatalogScreen extends HookConsumerWidget {
     required int crossAxisCount,
     required double spacing,
     required double mainAxisExtent,
+    required bool isMobile,
   }) {
     return SliverPadding(
-      padding: EdgeInsets.fromLTRB(horizontalPadding, 0, horizontalPadding, 32),
+      padding: EdgeInsets.fromLTRB(
+        horizontalPadding,
+        0,
+        horizontalPadding,
+        AppSpacing.xxl,
+      ),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
@@ -257,7 +266,11 @@ class GrammarCatalogScreen extends HookConsumerWidget {
         delegate: SliverChildBuilderDelegate((context, index) {
           final unit = filteredUnits[index];
           final summary = repo.getUnitSummary(unit.unitId);
-          return GrammarUnitCard(unit: unit, summary: summary);
+          return GrammarUnitCard(
+            unit: unit,
+            summary: summary,
+            isMobile: isMobile,
+          );
         }, childCount: filteredUnits.length),
       ),
     );

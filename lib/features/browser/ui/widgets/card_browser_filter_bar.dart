@@ -1,4 +1,6 @@
-﻿import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
+
+import '../../../../core/theme/app_tokens.dart';
 
 class FilterChip extends StatelessWidget {
   final String label;
@@ -18,12 +20,15 @@ class FilterChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.smPlus,
+          vertical: 6,
+        ),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
               : theme.colorScheme.muted,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: AppRadius.borderFull,
         ),
         child: Text(
           label,

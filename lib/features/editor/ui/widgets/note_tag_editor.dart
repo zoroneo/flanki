@@ -1,6 +1,7 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class NoteTagEditor extends StatelessWidget {
   final TextEditingController controller;
@@ -33,7 +34,7 @@ class NoteTagEditor extends StatelessWidget {
           features: [
             InputFeature.trailing(
               IconButton.ghost(
-                icon: const Icon(LucideIcons.plus, size: 16),
+                icon: const Icon(LucideIcons.plus, size: AppIconSize.sm),
                 onPressed: onAddTag,
               ),
             ),
@@ -41,29 +42,29 @@ class NoteTagEditor extends StatelessWidget {
           onSubmitted: (_) => onAddTag(),
         ),
         if (tags.isNotEmpty) ...[
-          const SizedBox(height: 10),
+          AppGaps.v8,
           Wrap(
-            spacing: 6,
-            runSpacing: 6,
+            spacing: AppSpacing.xs,
+            runSpacing: AppSpacing.xs,
             children: tags.map((t) {
               return Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
+                  horizontal: AppSpacing.smPlus,
+                  vertical: AppSpacing.xs,
                 ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.muted,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: AppRadius.borderFull,
                   border: Border.all(color: theme.colorScheme.border),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text('#$t', style: const TextStyle(fontSize: 11)),
-                    const SizedBox(width: 4),
+                    AppGaps.h4,
                     GestureDetector(
                       onTap: () => onRemoveTag(t),
-                      child: const Icon(LucideIcons.x, size: 12),
+                      child: const Icon(LucideIcons.x, size: AppIconSize.xs),
                     ),
                   ],
                 ),

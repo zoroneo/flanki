@@ -6,6 +6,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/deck.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../providers/deck_notifier.dart';
 import '../../settings/providers/settings_notifier.dart';
 import '../../stats/providers/stats_notifier.dart';
@@ -121,7 +122,7 @@ class DecksScreen extends HookConsumerWidget {
                   child: CustomScrollView(
                     slivers: [
                       SliverPadding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: AppEdgeInsets.all16,
                         sliver: SliverToBoxAdapter(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +147,7 @@ class DecksScreen extends HookConsumerWidget {
                                   );
                                 },
                               ),
-                              const SizedBox(height: 16),
+                              AppGaps.v16,
                               DeckToolbar(
                                 isMobile: isMobile,
                                 searchQuery: searchQuery,
@@ -154,12 +155,12 @@ class DecksScreen extends HookConsumerWidget {
                                 onImportApkg: handleApkgImport,
                                 onCustomStudy: openCramModal,
                               ),
-                              const SizedBox(height: 20),
+                              AppGaps.v20,
                               Text(
                                 '${l10n.navDecks} (${filteredDecks.length})',
                                 style: theme.typography.semiBold,
                               ),
-                              const SizedBox(height: 12),
+                              AppGaps.v12,
                               if (filteredDecks.isEmpty)
                                 DeckEmptyState(
                                   l10n: l10n,
@@ -176,7 +177,9 @@ class DecksScreen extends HookConsumerWidget {
                           standaloneDecks: standaloneDecks,
                           searchQuery: searchQuery.value,
                         ),
-                      const SliverToBoxAdapter(child: SizedBox(height: 120)),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 120), // allow-magic-dimension
+                      ),
                     ],
                   ),
                 ),
@@ -193,8 +196,8 @@ class DecksScreen extends HookConsumerWidget {
                 ),
               if (isMobile)
                 Positioned(
-                  bottom: 24,
-                  right: 20,
+                  bottom: AppSpacing.xl,
+                  right: AppSpacing.lg,
                   child: DeckSpeedDial(
                     isOpen: isDialOpen.value,
                     onToggle: () => isDialOpen.value = !isDialOpen.value,

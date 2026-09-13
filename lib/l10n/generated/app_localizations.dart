@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -1622,6 +1622,36 @@ abstract class AppLocalizations {
   /// **'Download & Update'**
   String get downloadAndInstall;
 
+  /// No description provided for @downloadInBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Download in background'**
+  String get downloadInBackground;
+
+  /// No description provided for @cancelDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel download'**
+  String get cancelDownload;
+
+  /// No description provided for @updateReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update ready to install'**
+  String get updateReadyTitle;
+
+  /// Subtitle when update has finished downloading
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} is downloaded and ready to install'**
+  String updateReadySubtitle(String version);
+
+  /// No description provided for @updateReadyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Install now'**
+  String get updateReadyAction;
+
   /// Title of update banner toast
   ///
   /// In en, this message translates to:
@@ -2497,6 +2527,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Play audio'**
   String get audioPlay;
+
+  /// No description provided for @audioStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop audio'**
+  String get audioStop;
 
   /// No description provided for @privacyPolicyTagline.
   ///

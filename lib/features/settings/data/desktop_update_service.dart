@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../../core/config/app_config.dart';
+import '../../../core/network/dio_client.dart';
 import '../models/update_info.dart';
 
 enum AppPlatform {
@@ -29,10 +30,16 @@ enum AppPlatform {
 }
 
 class DesktopUpdateService {
-  final http.Client _client;
+  final Dio _dio;
+  CancelToken? _cancelToken;
 
-  DesktopUpdateService({http.Client? client})
-    : _client = client ?? http.Client();
+  DesktopUpdateService({Dio? dio}) : _dio = dio ?? DioClient.defaultInstance;
+
+  /// Cancel any active file download.
+  void cancelDownload() {
+    _cancelToken?.cancel('Download cancelled by user');
+    _cancelToken = null;
+  }
 
   /// Check if current platform is a desktop platform.
   static bool get isDesktop =>
@@ -140,17 +147,18 @@ class DesktopUpdateService {
     final url = apiUrl ?? AppConfig.githubReleasesApiUrl;
 
     try {
-      final response = await _client
-          .get(
-            Uri.parse(url),
-            headers: {
-              'Accept': 'application/vnd.github+json',
-              'User-Agent': 'Flanki-Desktop-Updater',
-            },
-          )
-          .timeout(AppConfig.updateCheckTimeout);
+      final response = await _dio.get<dynamic>(
+        url,
+        options: Options(
+          headers: {
+            'Accept': 'application/vnd.github+json',
+            'User-Agent': 'Flanki-Desktop-Updater',
+          },
+          receiveTimeout: AppConfig.updateCheckTimeout,
+        ),
+      );
 
-      if (response.statusCode != 200) {
+      if (response.statusCode != 200 || response.data == null) {
         return UpdateInfo(
           currentVersion: current,
           latestVersion: current,
@@ -159,9 +167,11 @@ class DesktopUpdateService {
         );
       }
 
-      final release = GithubReleaseDto.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>,
-      );
+      final Map<String, dynamic> rawJson = response.data is Map<String, dynamic>
+          ? response.data as Map<String, dynamic>
+          : jsonDecode(response.data.toString()) as Map<String, dynamic>;
+
+      final release = GithubReleaseDto.fromJson(rawJson);
       final rawTag = release.tagName;
       final latest = rawTag.replaceFirst(RegExp(r'^v'), '');
       final hasUpdate = compareVersions(latest, current) > 0;
@@ -200,38 +210,50 @@ class DesktopUpdateService {
   Future<String?> downloadUpdate(
     String downloadUrl, {
     String? fileName,
+    String? targetDirectoryPath,
     void Function(double progress)? onProgress,
   }) async {
+    File? saveFile;
     try {
-      final tempDir = await getTemporaryDirectory();
+      final dirPath =
+          targetDirectoryPath ?? (await getTemporaryDirectory()).path;
       final name = fileName ?? p.basename(Uri.parse(downloadUrl).path);
-      final saveFile = File(p.join(tempDir.path, name));
+      saveFile = File(p.join(dirPath, name));
 
-      final request = http.Request('GET', Uri.parse(downloadUrl));
-      request.headers['User-Agent'] = 'Flanki-Desktop-Updater';
-      final streamedResponse = await _client.send(request);
+      final token = CancelToken();
+      _cancelToken = token;
 
-      if (streamedResponse.statusCode != 200) {
+      final response = await _dio.download(
+        downloadUrl,
+        saveFile.path,
+        cancelToken: token,
+        options: Options(headers: {'User-Agent': 'Flanki-Desktop-Updater'}),
+        onReceiveProgress: (receivedBytes, totalBytes) {
+          if (totalBytes > 0 && onProgress != null) {
+            onProgress(receivedBytes / totalBytes);
+          }
+        },
+      );
+
+      if (response.statusCode != 200) {
+        if (await saveFile.exists()) {
+          try {
+            await saveFile.delete();
+          } catch (_) {}
+        }
         return null;
       }
 
-      final totalBytes = streamedResponse.contentLength ?? 0;
-      var receivedBytes = 0;
-
-      final sink = saveFile.openWrite();
-      await for (final chunk in streamedResponse.stream) {
-        sink.add(chunk);
-        receivedBytes += chunk.length;
-        if (totalBytes > 0 && onProgress != null) {
-          onProgress(receivedBytes / totalBytes);
-        }
-      }
-      await sink.flush();
-      await sink.close();
-
       return saveFile.path;
     } catch (e) {
+      if (saveFile != null && await saveFile.exists()) {
+        try {
+          await saveFile.delete();
+        } catch (_) {}
+      }
       return null;
+    } finally {
+      _cancelToken = null;
     }
   }
 

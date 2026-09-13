@@ -7,6 +7,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../data/anki_web_auth_service.dart';
 import '../providers/auth_notifier.dart';
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
 import '../../../core/widgets/adaptive_modal.dart';
@@ -39,16 +40,12 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final obscurePassword = useState(true);
 
-    // Clear stale auth error on modal open and close
+    // Clear stale auth error on modal open
     useEffect(() {
       Future.microtask(() {
         authNotifier.clearError();
       });
-      return () {
-        Future.microtask(() {
-          authNotifier.clearError();
-        });
-      };
+      return null;
     }, const []);
 
     // Clear error dynamically as soon as user types
@@ -134,8 +131,10 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
         decoration: BoxDecoration(
           color: theme.colorScheme.background,
           borderRadius: isDesktopMode
-              ? BorderRadius.circular(16)
-              : const BorderRadius.vertical(top: Radius.circular(20)),
+              ? AppRadius.borderXl
+              : const BorderRadius.vertical(
+                  top: Radius.circular(AppSpacing.lg),
+                ),
           border: isDesktopMode
               ? Border.all(color: theme.colorScheme.border, width: 1)
               : Border(
@@ -166,39 +165,44 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                   Center(
                     child: Container(
                       width: 36,
-                      height: 4,
-                      margin: const EdgeInsets.only(top: 10, bottom: 12),
+                      height: AppSpacing.xs,
+                      margin: const EdgeInsets.only(
+                        top: AppSpacing.smPlus,
+                        bottom: AppSpacing.smPlus,
+                      ),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.mutedForeground.withValues(
                           alpha: 0.25,
                         ),
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: AppRadius.borderXs,
                       ),
                     ),
                   ),
 
-                if (isDesktopMode) const SizedBox(height: 16),
+                if (isDesktopMode) AppGaps.v16,
 
                 // Header with icon badge, title, subtitle, and desktop close button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: AppEdgeInsets.all8,
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary.withValues(
                             alpha: 0.1,
                           ),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: AppRadius.borderMd,
                         ),
                         child: Icon(
                           LucideIcons.cloud,
                           color: theme.colorScheme.primary,
-                          size: 20,
+                          size: AppIconSize.md,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      AppGaps.h12,
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,7 +213,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const SizedBox(height: 2),
+                            AppGaps.v2,
                             Text(
                               l10n.authHeaderDesc,
                               style: theme.typography.xSmall.copyWith(
@@ -223,13 +227,13 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                       ),
                       if (isDesktopMode)
                         IconButton.ghost(
-                          icon: const Icon(LucideIcons.x, size: 18),
+                          icon: const Icon(LucideIcons.x, size: AppIconSize.md),
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                AppGaps.v12,
                 Divider(
                   height: 1,
                   color: theme.colorScheme.border.withValues(alpha: 0.6),
@@ -237,7 +241,10 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
 
                 // Form fields & actions
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                    vertical: AppSpacing.md,
+                  ),
                   child: Shortcuts(
                     shortcuts: const <ShortcutActivator, Intent>{
                       SingleActivator(LogicalKeyboardKey.tab):
@@ -260,19 +267,19 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           onSubmitted: (_) => passwordFocusNode.requestFocus(),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 14,
-                            vertical: 12,
+                            vertical: AppSpacing.smPlus,
                           ),
                           features: [
                             InputFeature.leading(
                               Icon(
                                 LucideIcons.mail,
-                                size: 16,
+                                size: AppIconSize.sm,
                                 color: theme.colorScheme.mutedForeground,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        AppGaps.v12,
 
                         // Password input
                         TextField(
@@ -284,13 +291,13 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           onSubmitted: (_) => handleLogin(),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 14,
-                            vertical: 12,
+                            vertical: AppSpacing.smPlus,
                           ),
                           features: [
                             InputFeature.leading(
                               Icon(
                                 LucideIcons.lock,
-                                size: 16,
+                                size: AppIconSize.sm,
                                 color: theme.colorScheme.mutedForeground,
                               ),
                             ),
@@ -305,13 +312,13 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                                   cursor: SystemMouseCursors.click,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                      horizontal: 4,
+                                      horizontal: AppSpacing.xs,
                                     ),
                                     child: Icon(
                                       obscurePassword.value
                                           ? LucideIcons.eyeOff
                                           : LucideIcons.eye,
-                                      size: 16,
+                                      size: AppIconSize.sm,
                                       color: theme.colorScheme.mutedForeground,
                                     ),
                                   ),
@@ -324,14 +331,14 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                         // Auth error message banner
                         if (authState.status == AuthStatus.error &&
                             authState.errorMessage != null) ...[
-                          const SizedBox(height: 12),
+                          AppGaps.v12,
                           Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: AppEdgeInsets.all12,
                             decoration: BoxDecoration(
                               color: theme.colorScheme.destructive.withValues(
                                 alpha: 0.1,
                               ),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: AppRadius.borderMd,
                               border: Border.all(
                                 color: theme.colorScheme.destructive.withValues(
                                   alpha: 0.3,
@@ -342,10 +349,10 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                               children: [
                                 Icon(
                                   LucideIcons.circleAlert,
-                                  size: 16,
+                                  size: AppIconSize.sm,
                                   color: theme.colorScheme.destructive,
                                 ),
-                                const SizedBox(width: 8),
+                                AppGaps.h8,
                                 Expanded(
                                   child: Text(
                                     _getAuthErrorMessage(l10n, authState),
@@ -360,11 +367,11 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           ),
                         ],
 
-                        const SizedBox(height: 16),
+                        AppGaps.v16,
 
                         // Primary submit button (height matching input ~48px)
                         SizedBox(
-                          height: 48,
+                          height: AppSpacing.xxxl,
                           child: PrimaryButton(
                             onPressed: authState.isLoading ? null : handleLogin,
                             child: authState.isLoading
@@ -372,13 +379,13 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const SizedBox(
-                                        width: 16,
-                                        height: 16,
+                                        width: AppIconSize.sm,
+                                        height: AppIconSize.sm,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
                                         ),
                                       ),
-                                      const SizedBox(width: 10),
+                                      AppGaps.h8,
                                       Text(l10n.authSubmitting),
                                     ],
                                   )
@@ -393,7 +400,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           ),
                         ),
 
-                        const SizedBox(height: 12),
+                        AppGaps.v12,
 
                         // Security footnote
                         Row(
@@ -401,10 +408,10 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           children: [
                             Icon(
                               LucideIcons.shieldCheck,
-                              size: 13,
+                              size: AppIconSize.xs,
                               color: theme.colorScheme.mutedForeground,
                             ),
-                            const SizedBox(width: 6),
+                            AppGaps.h8,
                             Flexible(
                               child: Text(
                                 l10n.authSecurityNote,

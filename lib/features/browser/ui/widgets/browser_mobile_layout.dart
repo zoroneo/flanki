@@ -1,8 +1,9 @@
-﻿import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
 import 'card_browser_list_item.dart';
@@ -57,12 +58,14 @@ class BrowserMobileLayout extends StatelessWidget {
                 ),
               ),
               _buildCardListSliver(),
-              const SliverToBoxAdapter(child: SizedBox(height: 100)),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 100), // allow-magic-dimension
+              ),
             ],
           ),
           Positioned(
-            bottom: 24,
-            right: 20,
+            bottom: AppSpacing.xl,
+            right: AppSpacing.lg,
             child: GestureDetector(
               onTap: () {
                 HapticFeedback.lightImpact();
@@ -86,7 +89,7 @@ class BrowserMobileLayout extends StatelessWidget {
                   child: Icon(
                     LucideIcons.plus,
                     color: theme.colorScheme.primaryForeground,
-                    size: 24,
+                    size: AppIconSize.lg,
                   ),
                 ),
               ),
@@ -99,18 +102,16 @@ class BrowserMobileLayout extends StatelessWidget {
 
   Widget _buildTitleRow() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [
           Text(
             l10n.navBrowser,
-            style: theme.typography.large.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
+            style: theme.typography.large.copyWith(fontWeight: FontWeight.w700),
           ),
-          const SizedBox(width: 6),
+          AppGaps.h8,
           Text(
             '(${filteredCards.length})',
             style: theme.typography.xSmall.copyWith(
@@ -125,14 +126,17 @@ class BrowserMobileLayout extends StatelessWidget {
 
   Widget _buildSearchBox() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
       child: TextField(
         controller: searchController,
         features: [
           InputFeature.leading(
             Icon(
               LucideIcons.search,
-              size: 16,
+              size: AppIconSize.sm,
               color: theme.colorScheme.mutedForeground,
             ),
           ),
@@ -146,7 +150,7 @@ class BrowserMobileLayout extends StatelessWidget {
   Widget _buildFilterRow() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: Row(
         children: [
           FilterChip(
@@ -154,25 +158,25 @@ class BrowserMobileLayout extends StatelessWidget {
             isSelected: filterType == CardFilterType.all,
             onTap: () => browserNotifier.setFilterType(CardFilterType.all),
           ),
-          const SizedBox(width: 6),
+          AppGaps.h8,
           FilterChip(
             label: l10n.filterDue,
             isSelected: filterType == CardFilterType.due,
             onTap: () => browserNotifier.setFilterType(CardFilterType.due),
           ),
-          const SizedBox(width: 6),
+          AppGaps.h8,
           FilterChip(
             label: l10n.filterNew,
             isSelected: filterType == CardFilterType.newCard,
             onTap: () => browserNotifier.setFilterType(CardFilterType.newCard),
           ),
-          const SizedBox(width: 6),
+          AppGaps.h8,
           FilterChip(
             label: l10n.filterFlagged,
             isSelected: filterType == CardFilterType.flagged,
             onTap: () => browserNotifier.setFilterType(CardFilterType.flagged),
           ),
-          const SizedBox(width: 6),
+          AppGaps.h8,
           FilterChip(
             label: l10n.filterSuspended,
             isSelected: filterType == CardFilterType.suspended,
@@ -193,10 +197,10 @@ class BrowserMobileLayout extends StatelessWidget {
             children: [
               Icon(
                 LucideIcons.searchX,
-                size: 48,
+                size: AppSpacing.xxxl,
                 color: theme.colorScheme.mutedForeground,
               ),
-              const SizedBox(height: 12),
+              AppGaps.v12,
               Text(
                 l10n.noCardsFound,
                 style: theme.typography.small.copyWith(
@@ -210,12 +214,12 @@ class BrowserMobileLayout extends StatelessWidget {
     }
 
     return SliverPadding(
-      padding: const EdgeInsets.all(16),
+      padding: AppEdgeInsets.all16,
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
           if (index == visibleCount) {
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
               child: Center(
                 child: OutlineButton(
                   child: Text(l10n.loadMoreCards),

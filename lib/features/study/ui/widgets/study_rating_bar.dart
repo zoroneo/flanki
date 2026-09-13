@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class StudyRatingBar extends StatelessWidget {
   final Map<ReviewRating, String> intervals;
@@ -34,7 +35,7 @@ class StudyRatingBar extends StatelessWidget {
             onTap: () => onRate(ReviewRating.again),
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         Expanded(
           child: RatingButton(
             label: l10n.ratingHard,
@@ -44,7 +45,7 @@ class StudyRatingBar extends StatelessWidget {
             onTap: () => onRate(ReviewRating.hard),
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         Expanded(
           child: RatingButton(
             label: l10n.ratingGood,
@@ -54,7 +55,7 @@ class StudyRatingBar extends StatelessWidget {
             onTap: () => onRate(ReviewRating.good),
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         Expanded(
           child: RatingButton(
             label: l10n.ratingEasy,
@@ -102,10 +103,10 @@ class RatingButton extends HookWidget {
           curve: Curves.easeOutCubic,
           child: Container(
             constraints: const BoxConstraints(minHeight: 48),
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: AppRadius.borderMd,
               boxShadow: [
                 BoxShadow(
                   color: backgroundColor.withValues(alpha: 0.25),
@@ -119,7 +120,7 @@ class RatingButton extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _buildLabelRow(),
-                const SizedBox(height: 2),
+                AppGaps.v2,
                 Text(
                   interval,
                   style: TextStyle(
@@ -150,12 +151,15 @@ class RatingButton extends HookWidget {
           ),
         ),
         if (shortcutHint != null) ...[
-          const SizedBox(width: 4),
+          AppGaps.h4,
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xs,
+              vertical: 1,
+            ),
             decoration: BoxDecoration(
               color: m.Colors.black.withValues(alpha: 0.25),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: AppRadius.borderSm,
             ),
             child: Text(
               shortcutHint!,

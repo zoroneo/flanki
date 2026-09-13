@@ -1,9 +1,10 @@
-﻿import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/theme/app_tokens.dart';
 import '../data/grammar_repository.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
@@ -32,6 +33,15 @@ class GrammarPracticeScreen extends ConsumerStatefulWidget {
 
 class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
   bool _initialized = false;
+  DraggableScrollableController _sheetController =
+      DraggableScrollableController();
+  String? _lastExerciseId;
+
+  @override
+  void dispose() {
+    _sheetController.dispose();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
@@ -107,7 +117,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
             ),
             trailing: [
               IconButton.ghost(
-                icon: const Icon(LucideIcons.x, size: 20),
+                icon: const Icon(LucideIcons.x, size: AppIconSize.md),
                 onPressed: () => context.pop(),
               ),
             ],
@@ -128,6 +138,11 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
     final currentExercise = ref.watch(
       grammarSessionNotifierProvider.select((s) => s.currentExercise),
     );
+    if (currentExercise?.id != _lastExerciseId) {
+      _lastExerciseId = currentExercise?.id;
+      _sheetController.dispose();
+      _sheetController = DraggableScrollableController();
+    }
     final isSubmitted = ref.watch(
       grammarSessionNotifierProvider.select((s) => s.isSubmitted),
     );
@@ -192,7 +207,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
             AppBar(
               leading: [
                 IconButton.ghost(
-                  icon: const Icon(LucideIcons.x, size: 20),
+                  icon: const Icon(LucideIcons.x, size: AppIconSize.md),
                   onPressed: () => GrammarExitDialog.show(context),
                 ),
               ],
@@ -210,12 +225,12 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                 if (currentExercise != null)
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
+                      horizontal: AppSpacing.sm,
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.muted,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: AppRadius.borderSm,
                     ),
                     child: Text(
                       currentExercise.type.getLocalizedLabel(l10n),
@@ -229,54 +244,82 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
             ),
           ],
           child: ScreenTypeLayout.builder(
-            mobile: (context) => Column(
+            mobile: (context) => Stack(
               children: [
-                // Step Progress Bar
-                LinearProgressIndicator(value: progressFraction, minHeight: 4),
+                Column(
+                  children: [
+                    // Step Progress Bar
+                    LinearProgressIndicator(
+                      value: progressFraction,
+                      minHeight: AppSpacing.xs,
+                    ),
 
-                // Main Question Content
-                Expanded(
-                  child: currentExercise == null
-                      ? const Center(child: CircularProgressIndicator())
-                      : SingleChildScrollView(
-                          padding: EdgeInsets.fromLTRB(
-                            12,
-                            12,
-                            12,
-                            16 + MediaQuery.paddingOf(context).bottom,
-                          ),
-                          child: Center(
-                            child: Container(
-                              constraints: const BoxConstraints(maxWidth: 720),
-                              child: GrammarPracticeQuestionContent(
-                                theme: theme,
-                                l10n: l10n,
-                                currentIndex: questionIndices.$1,
-                                totalQuestions: questionIndices.$2,
-                                selectedAnswer: selectedAnswer,
-                                isSubmitted: isSubmitted,
-                                isCurrentCorrect: isCurrentCorrect,
-                                notifier: notifier,
-                                currentExercise: currentExercise,
+                    // Main Question Content
+                    Expanded(
+                      child: currentExercise == null
+                          ? const Center(child: CircularProgressIndicator())
+                          : SingleChildScrollView(
+                              padding: EdgeInsets.fromLTRB(
+                                AppSpacing.smPlus,
+                                AppSpacing.smPlus,
+                                AppSpacing.smPlus,
+                                isSubmitted
+                                    ? 240
+                                    : AppSpacing.md +
+                                          MediaQuery.paddingOf(context).bottom,
+                              ),
+                              child: Center(
+                                child: Container(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 720,
+                                  ),
+                                  child: GrammarPracticeQuestionContent(
+                                    theme: theme,
+                                    l10n: l10n,
+                                    currentIndex: questionIndices.$1,
+                                    totalQuestions: questionIndices.$2,
+                                    selectedAnswer: selectedAnswer,
+                                    isSubmitted: isSubmitted,
+                                    isCurrentCorrect: isCurrentCorrect,
+                                    notifier: notifier,
+                                    currentExercise: currentExercise,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                    ),
+                  ],
                 ),
 
-                // Bottom Explanation Sheet (when submitted)
+                // Expandable Bottom Explanation Sheet (when submitted)
                 if (isSubmitted && currentExercise != null)
-                  ExplanationSheet(
-                    exercise: currentExercise,
-                    isCorrect: isCurrentCorrect ?? false,
-                    isLastQuestion: isLastQuestion,
-                    onNext: () => notifier.nextQuestion(),
+                  DraggableScrollableSheet(
+                    key: ValueKey('explanation_sheet_${currentExercise.id}'),
+                    controller: _sheetController,
+                    initialChildSize: 0.50,
+                    minChildSize: 0.50,
+                    maxChildSize: 1.0,
+                    snap: true,
+                    snapSizes: const [0.50, 1.0],
+                    builder: (context, scrollController) {
+                      return ExplanationSheet(
+                        exercise: currentExercise,
+                        isCorrect: isCurrentCorrect ?? false,
+                        isLastQuestion: isLastQuestion,
+                        onNext: () => notifier.nextQuestion(),
+                        scrollController: scrollController,
+                        sheetController: _sheetController,
+                      );
+                    },
                   ),
               ],
             ),
             desktop: (context) => Column(
               children: [
-                LinearProgressIndicator(value: progressFraction, minHeight: 4),
+                LinearProgressIndicator(
+                  value: progressFraction,
+                  minHeight: AppSpacing.xs,
+                ),
                 Expanded(
                   child: currentExercise == null
                       ? const Center(child: CircularProgressIndicator())
@@ -285,8 +328,8 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                             constraints: const BoxConstraints(maxWidth: 1200),
                             height: double.infinity,
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 20,
+                              horizontal: AppSpacing.xl,
+                              vertical: AppSpacing.lg,
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -295,7 +338,9 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                                 Expanded(
                                   flex: 55,
                                   child: SingleChildScrollView(
-                                    padding: const EdgeInsets.only(right: 16),
+                                    padding: const EdgeInsets.only(
+                                      right: AppSpacing.md,
+                                    ),
                                     child: GrammarPracticeQuestionContent(
                                       theme: theme,
                                       l10n: l10n,
@@ -309,7 +354,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                AppGaps.h16,
                                 // Right Column (45%): Live Explanation or Shortcut Guide
                                 Expanded(
                                   flex: 45,

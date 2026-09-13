@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import 'anki_web_config.dart';
 import 'anki_web_media_sync_service.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/network/dio_client.dart';
 import '../../../core/anki/apkg_importer_service.dart';
 import '../../../core/models/card.dart';
 import '../../../core/models/deck.dart';
@@ -158,19 +159,19 @@ class AnkiWebSyncResult {
 
 /// Service handling full sync collection download, upload, and media synchronization with AnkiWeb.
 class AnkiWebSyncService {
-  final http.Client _client;
+  final Dio _dio;
   final AnkiWebConfig _config;
   final AnkiWebMediaSyncService _mediaSyncService;
   final SyncProgressMessages _messages;
   final AppLocalizations? _l10n;
 
   AnkiWebSyncService({
-    http.Client? client,
+    Dio? dio,
     AnkiWebConfig? config,
     AnkiWebMediaSyncService? mediaSyncService,
     SyncProgressMessages? messages,
     AppLocalizations? l10n,
-  }) : _client = client ?? http.Client(),
+  }) : _dio = dio ?? DioClient.defaultInstance,
        _config = config ?? const AnkiWebConfig(),
        _l10n = l10n,
        _messages =
@@ -180,7 +181,7 @@ class AnkiWebSyncService {
                : const SyncProgressMessages()),
        _mediaSyncService =
            mediaSyncService ??
-           AnkiWebMediaSyncService(client: client, config: config, l10n: l10n);
+           AnkiWebMediaSyncService(dio: dio, config: config, l10n: l10n);
 
   AppLocalizations get l10n => _l10n ?? AppConfig.getL10n();
 
@@ -188,12 +189,22 @@ class AnkiWebSyncService {
   Future<MediaSyncResult> syncMedia({
     required String hostKey,
     int lastUsn = 0,
+    CancelToken? cancelToken,
     void Function(int downloaded, int total)? onProgress,
+    void Function(
+      int currentBatch,
+      int totalBatches,
+      int bytesReceived,
+      int totalBytes,
+    )?
+    onByteProgress,
   }) {
     return _mediaSyncService.syncAllMedia(
       hostKey: hostKey,
       lastUsn: lastUsn,
+      cancelToken: cancelToken,
       onProgress: onProgress,
+      onByteProgress: onByteProgress,
     );
   }
 
@@ -205,6 +216,7 @@ class AnkiWebSyncService {
   Future<AnkiWebSyncResult> syncCollection({
     required String hostKey,
     bool syncMediaFiles = true,
+    CancelToken? cancelToken,
     void Function(String stage, double progress)? onProgress,
     void Function(int downloaded, int total)? onMediaProgress,
   }) async {
@@ -212,48 +224,61 @@ class AnkiWebSyncService {
       onProgress?.call(_messages.connecting, 0.1);
 
       // 1. Check meta / collection status
-      final metaUri = Uri.parse('${_config.syncHost}/sync/meta');
-      final metaReq = http.MultipartRequest('POST', metaUri);
-      metaReq.headers['User-Agent'] = _config.effectiveUserAgent;
-      metaReq.fields['c'] = '0';
-      metaReq.fields['k'] = hostKey;
-      metaReq.fields['data'] = jsonEncode({
-        'v': AnkiWebConfig.protocolVersion,
-        'cv': _config.effectiveClientVersion,
+      final metaFormData = FormData.fromMap({
+        'c': '0',
+        'k': hostKey,
+        'data': jsonEncode({
+          'v': AnkiWebConfig.protocolVersion,
+          'cv': _config.effectiveClientVersion,
+        }),
       });
-      final metaStreamed = await _client
-          .send(metaReq)
-          .timeout(_config.effectiveMetaTimeout);
-      final metaResponse = await http.Response.fromStream(metaStreamed);
+
+      final metaResponse = await _dio.post<dynamic>(
+        '${_config.syncHost}/sync/meta',
+        data: metaFormData,
+        cancelToken: cancelToken,
+        options: Options(
+          headers: {'User-Agent': _config.effectiveUserAgent},
+          receiveTimeout: _config.effectiveMetaTimeout,
+        ),
+      );
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
         return AnkiWebSyncResult.fail(_messages.sessionExpired);
-      } else if (metaResponse.statusCode >= 400) {
+      } else if (metaResponse.statusCode != null &&
+          metaResponse.statusCode! >= 400) {
         return AnkiWebSyncResult.fail(
           l10n.syncServerError(
-            metaResponse.statusCode,
-            metaResponse.reasonPhrase ?? '',
+            metaResponse.statusCode!,
+            metaResponse.statusMessage ?? '',
           ),
         );
       }
 
       // 2. Download collection package from sync server
       onProgress?.call(_messages.downloadingCollection, 0.3);
-      final downloadUri = Uri.parse('${_config.syncHost}/sync/download');
-      final downloadReq = http.MultipartRequest('POST', downloadUri);
-      downloadReq.headers['User-Agent'] = _config.effectiveUserAgent;
-      downloadReq.fields['c'] = '0';
-      downloadReq.fields['k'] = hostKey;
-      downloadReq.fields['data'] = '{}';
-      final downloadStreamed = await _client
-          .send(downloadReq)
-          .timeout(_config.effectiveDownloadTimeout);
-      final downloadResponse = await http.Response.fromStream(downloadStreamed);
+      final downloadFormData = FormData.fromMap({
+        'c': '0',
+        'k': hostKey,
+        'data': '{}',
+      });
+
+      final downloadResponse = await _dio.post<List<int>>(
+        '${_config.syncHost}/sync/download',
+        data: downloadFormData,
+        cancelToken: cancelToken,
+        options: Options(
+          responseType: ResponseType.bytes,
+          headers: {'User-Agent': _config.effectiveUserAgent},
+          receiveTimeout: _config.effectiveDownloadTimeout,
+        ),
+      );
 
       if (downloadResponse.statusCode == 200 &&
-          downloadResponse.bodyBytes.isNotEmpty) {
+          downloadResponse.data != null &&
+          downloadResponse.data!.isNotEmpty) {
         onProgress?.call(_messages.processingData, 0.55);
-        final bytes = downloadResponse.bodyBytes;
+        final bytes = Uint8List.fromList(downloadResponse.data!);
         // Parse collection package using ApkgImporterService
         final importer = ApkgImporterService();
         final importResult = importer.importApkgBytes(bytes);
@@ -263,6 +288,7 @@ class AnkiWebSyncService {
           onProgress?.call(_messages.checkingMedia, 0.65);
           final mediaRes = await syncMedia(
             hostKey: hostKey,
+            cancelToken: cancelToken,
             onProgress: (downloaded, total) {
               onMediaProgress?.call(downloaded, total);
               if (total > 0) {
@@ -300,11 +326,12 @@ class AnkiWebSyncService {
       } else if (downloadResponse.statusCode == 403 ||
           downloadResponse.statusCode == 401) {
         return AnkiWebSyncResult.fail(_messages.sessionExpired);
-      } else if (downloadResponse.statusCode >= 400) {
+      } else if (downloadResponse.statusCode != null &&
+          downloadResponse.statusCode! >= 400) {
         return AnkiWebSyncResult.fail(
           l10n.syncServerError(
-            downloadResponse.statusCode,
-            downloadResponse.reasonPhrase ?? '',
+            downloadResponse.statusCode!,
+            downloadResponse.statusMessage ?? '',
           ),
         );
       } else {
@@ -313,6 +340,7 @@ class AnkiWebSyncService {
           onProgress?.call(_messages.checkingMedia, 0.65);
           final mediaRes = await syncMedia(
             hostKey: hostKey,
+            cancelToken: cancelToken,
             onProgress: (downloaded, total) {
               onMediaProgress?.call(downloaded, total);
               if (total > 0) {
@@ -339,6 +367,22 @@ class AnkiWebSyncService {
           mediaCount: mediaCount,
         );
       }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        return AnkiWebSyncResult.fail(_messages.syncError);
+      }
+      final statusCode = e.response?.statusCode;
+      if (statusCode == 401 || statusCode == 403) {
+        return AnkiWebSyncResult.fail(_messages.sessionExpired);
+      }
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        return AnkiWebSyncResult.fail(_messages.noInternet);
+      }
+      return AnkiWebSyncResult.fail(
+        l10n.syncCollectionError(e.message ?? e.toString()),
+      );
     } on SocketException catch (_) {
       return AnkiWebSyncResult.fail(_messages.noInternet);
     } catch (e) {
@@ -351,42 +395,50 @@ class AnkiWebSyncService {
     required String hostKey,
     required DateTime? lastSyncTime,
     required bool hasLocalChanges,
+    CancelToken? cancelToken,
   }) async {
     try {
-      final metaUri = Uri.parse('${_config.syncHost}/sync/meta');
-      final metaReq = http.MultipartRequest('POST', metaUri);
-      metaReq.headers['User-Agent'] = _config.effectiveUserAgent;
-      metaReq.fields['c'] = '0';
-      metaReq.fields['k'] = hostKey;
-      metaReq.fields['data'] = jsonEncode({
-        'v': AnkiWebConfig.protocolVersion,
-        'cv': _config.effectiveClientVersion,
+      final metaFormData = FormData.fromMap({
+        'c': '0',
+        'k': hostKey,
+        'data': jsonEncode({
+          'v': AnkiWebConfig.protocolVersion,
+          'cv': _config.effectiveClientVersion,
+        }),
       });
-      final metaStreamed = await _client
-          .send(metaReq)
-          .timeout(_config.effectiveMetaTimeout);
-      final metaResponse = await http.Response.fromStream(metaStreamed);
+
+      final metaResponse = await _dio.post<dynamic>(
+        '${_config.syncHost}/sync/meta',
+        data: metaFormData,
+        cancelToken: cancelToken,
+        options: Options(
+          headers: {'User-Agent': _config.effectiveUserAgent},
+          receiveTimeout: _config.effectiveMetaTimeout,
+        ),
+      );
 
       if (metaResponse.statusCode == 401 || metaResponse.statusCode == 403) {
         return SyncStatusCheckResult(
           action: SyncActionRequired.noChange,
           message: _messages.sessionExpired,
         );
-      } else if (metaResponse.statusCode >= 400) {
+      } else if (metaResponse.statusCode != null &&
+          metaResponse.statusCode! >= 400) {
         return SyncStatusCheckResult(
           action: SyncActionRequired.noChange,
-          message: l10n.syncCheckStatusServerError(metaResponse.statusCode),
+          message: l10n.syncCheckStatusServerError(metaResponse.statusCode!),
         );
       }
 
       DateTime? serverMod;
       try {
-        final decoded = jsonDecode(metaResponse.body);
+        final decoded = metaResponse.data is Map<String, dynamic>
+            ? metaResponse.data as Map<String, dynamic>
+            : jsonDecode(metaResponse.data.toString()) as Map<String, dynamic>;
         final Map<String, dynamic> data =
-            (decoded is Map<String, dynamic> &&
-                decoded['data'] is Map<String, dynamic>)
+            decoded['data'] is Map<String, dynamic>
             ? decoded['data'] as Map<String, dynamic>
-            : (decoded is Map<String, dynamic> ? decoded : {});
+            : decoded;
 
         final modNum = data['mod'] as num? ?? data['scm'] as num?;
         if (modNum != null) {
@@ -447,6 +499,17 @@ class AnkiWebSyncService {
           hasLocalChanges: false,
         );
       }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        return SyncStatusCheckResult(
+          action: SyncActionRequired.noChange,
+          message: _messages.syncError,
+        );
+      }
+      return SyncStatusCheckResult(
+        action: SyncActionRequired.noChange,
+        message: l10n.syncCheckError(e.message ?? e.toString()),
+      );
     } catch (e) {
       return SyncStatusCheckResult(
         action: SyncActionRequired.noChange,
@@ -460,30 +523,29 @@ class AnkiWebSyncService {
     required String hostKey,
     required Uint8List dbBytes,
     bool syncMediaFiles = true,
+    CancelToken? cancelToken,
     void Function(String stage, double progress)? onProgress,
     void Function(int downloaded, int total)? onMediaProgress,
   }) async {
     try {
       onProgress?.call(_messages.compressingUpload, 0.3);
 
-      final uploadUri = Uri.parse('${_config.syncHost}/sync/upload');
-      final uploadReq = http.MultipartRequest('POST', uploadUri);
-      uploadReq.headers['User-Agent'] = _config.effectiveUserAgent;
-      uploadReq.fields['c'] = '0';
-      uploadReq.fields['k'] = hostKey;
-      uploadReq.files.add(
-        http.MultipartFile.fromBytes(
-          'data',
-          dbBytes,
-          filename: 'collection.anki2',
-        ),
-      );
+      final uploadFormData = FormData.fromMap({
+        'c': '0',
+        'k': hostKey,
+        'data': MultipartFile.fromBytes(dbBytes, filename: 'collection.anki2'),
+      });
 
       onProgress?.call(_messages.uploadingCloud, 0.6);
-      final streamed = await _client
-          .send(uploadReq)
-          .timeout(_config.effectiveUploadTimeout);
-      final response = await http.Response.fromStream(streamed);
+      final response = await _dio.post<dynamic>(
+        '${_config.syncHost}/sync/upload',
+        data: uploadFormData,
+        cancelToken: cancelToken,
+        options: Options(
+          headers: {'User-Agent': _config.effectiveUserAgent},
+          receiveTimeout: _config.effectiveUploadTimeout,
+        ),
+      );
 
       if (response.statusCode == 200) {
         int mediaCount = 0;
@@ -491,6 +553,7 @@ class AnkiWebSyncService {
           onProgress?.call(_messages.checkingMedia, 0.8);
           final mediaRes = await syncMedia(
             hostKey: hostKey,
+            cancelToken: cancelToken,
             onProgress: (downloaded, total) {
               onMediaProgress?.call(downloaded, total);
               if (total > 0) {
@@ -500,6 +563,8 @@ class AnkiWebSyncService {
                   l10n.syncDownloadingMediaProgress(downloaded, total),
                   currentProgress,
                 );
+              } else {
+                onProgress?.call(_messages.checkingMedia, 0.7);
               }
             },
           );
@@ -517,9 +582,24 @@ class AnkiWebSyncService {
         return AnkiWebSyncResult.fail(_messages.sessionExpired);
       } else {
         return AnkiWebSyncResult.fail(
-          l10n.syncServerError(response.statusCode, response.body),
+          l10n.syncServerError(
+            response.statusCode ?? 500,
+            response.data?.toString() ?? '',
+          ),
         );
       }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        return AnkiWebSyncResult.fail(_messages.syncError);
+      }
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        return AnkiWebSyncResult.fail(_messages.noInternet);
+      }
+      return AnkiWebSyncResult.fail(
+        l10n.syncUploadError(e.message ?? e.toString()),
+      );
     } on SocketException catch (_) {
       return AnkiWebSyncResult.fail(_messages.noInternet);
     } catch (e) {

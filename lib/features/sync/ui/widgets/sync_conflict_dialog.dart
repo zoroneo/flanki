@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/adaptive_modal.dart';
 
 enum SyncConflictChoice { merge, upload, download }
@@ -55,13 +56,16 @@ class SyncConflictDialog extends StatelessWidget {
           Center(
             child: Container(
               width: 36,
-              height: 4,
-              margin: const EdgeInsets.only(top: 10, bottom: 12),
+              height: AppSpacing.xs,
+              margin: const EdgeInsets.only(
+                top: AppSpacing.smPlus,
+                bottom: AppSpacing.smPlus,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.mutedForeground.withValues(
                   alpha: 0.25,
                 ),
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: AppRadius.borderXs,
               ),
             ),
           ),
@@ -69,18 +73,18 @@ class SyncConflictDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: AppEdgeInsets.all8,
               decoration: BoxDecoration(
                 color: theme.colorScheme.destructive.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: AppRadius.borderMd,
               ),
               child: Icon(
                 LucideIcons.cloudAlert,
-                size: 20,
+                size: AppIconSize.md,
                 color: theme.colorScheme.destructive,
               ),
             ),
-            const SizedBox(width: 10),
+            AppGaps.h8,
             Expanded(
               child: Text(
                 l10n.syncConflictTitle,
@@ -88,12 +92,12 @@ class SyncConflictDialog extends StatelessWidget {
               ),
             ),
             IconButton.ghost(
-              icon: const Icon(LucideIcons.x, size: 18),
+              icon: const Icon(LucideIcons.x, size: AppIconSize.md),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         Text(
           l10n.syncConflictDesc,
           style: theme.typography.small.copyWith(
@@ -102,12 +106,12 @@ class SyncConflictDialog extends StatelessWidget {
             height: 1.35,
           ),
         ),
-        const SizedBox(height: 12),
+        AppGaps.v12,
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: AppEdgeInsets.h12v8,
           decoration: BoxDecoration(
             color: theme.colorScheme.muted.withValues(alpha: 0.4),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: AppRadius.borderMd,
             border: Border.all(
               color: theme.colorScheme.border.withValues(alpha: 0.7),
             ),
@@ -118,10 +122,10 @@ class SyncConflictDialog extends StatelessWidget {
                 children: [
                   Icon(
                     LucideIcons.history,
-                    size: 13,
+                    size: AppIconSize.xs,
                     color: theme.colorScheme.mutedForeground,
                   ),
-                  const SizedBox(width: 6),
+                  AppGaps.h8,
                   Expanded(
                     child: Text(
                       l10n.previousSyncLabel,
@@ -130,7 +134,7 @@ class SyncConflictDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   Text(
                     _formatDateTime(context, localLastSync),
                     style: theme.typography.xSmall.copyWith(
@@ -139,15 +143,15 @@ class SyncConflictDialog extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              AppGaps.v4,
               Row(
                 children: [
                   Icon(
                     LucideIcons.cloud,
-                    size: 13,
+                    size: AppIconSize.xs,
                     color: theme.colorScheme.mutedForeground,
                   ),
-                  const SizedBox(width: 6),
+                  AppGaps.h8,
                   Expanded(
                     child: Text(
                       l10n.ankiWebUpdateLabel,
@@ -156,7 +160,7 @@ class SyncConflictDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  AppGaps.h8,
                   Text(
                     _formatDateTime(context, serverMod),
                     style: theme.typography.xSmall.copyWith(
@@ -168,12 +172,12 @@ class SyncConflictDialog extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 14),
+        AppGaps.v12,
         Text(
           l10n.selectVersionToKeep,
           style: theme.typography.semiBold.copyWith(fontSize: 13),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         _buildOptionCard(
           context: context,
           theme: theme,
@@ -184,7 +188,7 @@ class SyncConflictDialog extends StatelessWidget {
           badge: l10n.recommendedBadge,
           onTap: () => Navigator.of(context).pop(SyncConflictChoice.merge),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         _buildOptionCard(
           context: context,
           theme: theme,
@@ -194,7 +198,7 @@ class SyncConflictDialog extends StatelessWidget {
           desc: l10n.uploadToCloudDesc,
           onTap: () => Navigator.of(context).pop(SyncConflictChoice.upload),
         ),
-        const SizedBox(height: 8),
+        AppGaps.v8,
         _buildOptionCard(
           context: context,
           theme: theme,
@@ -204,7 +208,7 @@ class SyncConflictDialog extends StatelessWidget {
           desc: l10n.downloadFromCloudDesc,
           onTap: () => Navigator.of(context).pop(SyncConflictChoice.download),
         ),
-        const SizedBox(height: 14),
+        AppGaps.v12,
         OutlineButton(
           alignment: Alignment.center,
           onPressed: () => Navigator.of(context).pop(),
@@ -220,7 +224,9 @@ class SyncConflictDialog extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: theme.colorScheme.card,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(AppSpacing.lg),
+          ),
           border: Border(
             top: BorderSide(color: theme.colorScheme.border, width: 1),
           ),
@@ -236,7 +242,12 @@ class SyncConflictDialog extends StatelessWidget {
           top: false,
           bottom: true,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              0,
+              AppSpacing.md,
+              AppSpacing.smPlus,
+            ),
             child: content,
           ),
         ),
@@ -245,7 +256,7 @@ class SyncConflictDialog extends StatelessWidget {
 
     return ModalContainer(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: AppEdgeInsets.all20,
         child: content,
       ),
     );
@@ -263,14 +274,14 @@ class SyncConflictDialog extends StatelessWidget {
   }) {
     return m.Material(
       color: theme.colorScheme.card,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: AppRadius.borderMd,
       child: m.InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: AppRadius.borderMd,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: AppEdgeInsets.all12,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: AppRadius.borderMd,
             border: Border.all(
               color: badge != null
                   ? theme.colorScheme.primary.withValues(alpha: 0.4)
@@ -280,14 +291,14 @@ class SyncConflictDialog extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: AppEdgeInsets.all8,
                 decoration: BoxDecoration(
                   color: iconColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: AppRadius.borderMd,
                 ),
-                child: Icon(icon, size: 18, color: iconColor),
+                child: Icon(icon, size: AppIconSize.md, color: iconColor),
               ),
-              const SizedBox(width: 10),
+              AppGaps.h8,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,17 +314,17 @@ class SyncConflictDialog extends StatelessWidget {
                           ),
                         ),
                         if (badge != null) ...[
-                          const SizedBox(width: 6),
+                          AppGaps.h8,
                           Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 1,
+                              horizontal: AppSpacing.xs,
+                              vertical: AppSpacing.xxs,
                             ),
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary.withValues(
                                 alpha: 0.15,
                               ),
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: AppRadius.borderSm,
                             ),
                             child: Text(
                               badge,
@@ -327,7 +338,7 @@ class SyncConflictDialog extends StatelessWidget {
                         ],
                       ],
                     ),
-                    const SizedBox(height: 2),
+                    AppGaps.v2,
                     Text(
                       desc,
                       style: theme.typography.xSmall.copyWith(
@@ -338,10 +349,10 @@ class SyncConflictDialog extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 6),
+              AppGaps.h8,
               Icon(
                 LucideIcons.chevronRight,
-                size: 15,
+                size: AppIconSize.sm,
                 color: theme.colorScheme.mutedForeground,
               ),
             ],

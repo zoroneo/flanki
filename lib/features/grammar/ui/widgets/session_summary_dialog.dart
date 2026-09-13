@@ -1,6 +1,7 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
@@ -36,10 +37,10 @@ class SessionSummaryDialog extends StatelessWidget {
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 480),
-        margin: const EdgeInsets.all(24),
+        margin: AppEdgeInsets.all24,
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.all(28),
+            padding: AppEdgeInsets.all24,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -55,11 +56,11 @@ class SessionSummaryDialog extends StatelessWidget {
                   ),
                   child: Icon(
                     isPerfect ? LucideIcons.trophy : LucideIcons.award,
-                    size: 32,
+                    size: AppIconSize.xl,
                     color: isPerfect ? Colors.green : theme.colorScheme.primary,
                   ),
                 ),
-                const SizedBox(height: 18),
+                AppGaps.v16,
 
                 Text(
                   isGhostChallenge
@@ -72,7 +73,7 @@ class SessionSummaryDialog extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                AppGaps.v8,
                 Text(
                   isGhostChallenge
                       ? l10n.grammarGhostChallengeCompletedSubtitle
@@ -82,17 +83,17 @@ class SessionSummaryDialog extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 24),
+                AppGaps.v24,
 
                 // Stats Row
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 20,
+                    vertical: AppSpacing.lg,
+                    horizontal: AppSpacing.xl,
                   ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.muted.withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: AppRadius.borderLg,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -122,7 +123,7 @@ class SessionSummaryDialog extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                AppGaps.v24,
 
                 // Action Buttons
                 if (ghostCount > 0 && !isGhostChallenge) ...[
@@ -131,13 +132,13 @@ class SessionSummaryDialog extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(LucideIcons.flame, size: 18),
-                        const SizedBox(width: 8),
+                        const Icon(LucideIcons.flame, size: AppIconSize.md),
+                        AppGaps.h8,
                         Text(l10n.grammarFixGhostsNow(ghostCount)),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  AppGaps.v12,
                   OutlineButton(
                     onPressed: onReturnCatalog,
                     child: Text(l10n.grammarBackToCatalog),
@@ -147,7 +148,7 @@ class SessionSummaryDialog extends StatelessWidget {
                     onPressed: onReturnCatalog,
                     child: Text(l10n.grammarBackToCatalog),
                   ),
-                  const SizedBox(height: 10),
+                  AppGaps.v12,
                   GhostButton(
                     onPressed: onRestart,
                     child: Text(l10n.grammarRestartSession),
@@ -177,7 +178,7 @@ class SessionSummaryDialog extends StatelessWidget {
             color: color,
           ),
         ),
-        const SizedBox(height: 4),
+        AppGaps.v4,
         Text(
           label,
           style: theme.typography.xSmall.copyWith(

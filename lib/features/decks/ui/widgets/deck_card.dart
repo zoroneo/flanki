@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 class DeckCard extends StatelessWidget {
   final String deckId;
@@ -43,12 +44,12 @@ class DeckCard extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onStudy,
       child: Card(
-        padding: const EdgeInsets.all(16),
+        padding: AppEdgeInsets.all16,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(theme, isCram, parentPath, leafName),
-            const SizedBox(height: 16),
+            AppGaps.v16,
             _buildFooter(context, theme),
           ],
         ),
@@ -66,20 +67,20 @@ class DeckCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: AppEdgeInsets.all8,
           decoration: BoxDecoration(
             color: isCram
                 ? m.Colors.amber.withValues(alpha: 0.15)
                 : theme.colorScheme.muted,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: AppRadius.borderMd,
           ),
           child: Icon(
             isCram ? LucideIcons.zap : LucideIcons.folder,
-            size: 20,
+            size: AppIconSize.md,
             color: isCram ? m.Colors.amber : theme.colorScheme.foreground,
           ),
         ),
-        const SizedBox(width: 12),
+        AppGaps.h12,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +103,7 @@ class DeckCard extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 4),
+              AppGaps.v4,
               Text(
                 description,
                 maxLines: 2,
@@ -133,14 +134,14 @@ class DeckCard extends StatelessWidget {
               if (dueCount > 0)
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
+                    horizontal: AppSpacing.sm,
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.destructive.withValues(
                       alpha: 0.15,
                     ),
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: AppRadius.borderSm,
                   ),
                   child: Text(
                     '$dueCount ${l10n.dueCards}',
@@ -154,12 +155,12 @@ class DeckCard extends StatelessWidget {
               if (newCount > 0)
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
+                    horizontal: AppSpacing.sm,
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: AppRadius.borderSm,
                   ),
                   child: Text(
                     '$newCount ${l10n.newCards}',
@@ -179,12 +180,14 @@ class DeckCard extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 8),
+        AppGaps.h8,
         PrimaryButton(
           alignment: Alignment.center,
           onPressed: onStudy,
           size: ButtonSize.small,
-          leading: const Center(child: Icon(LucideIcons.play, size: 14)),
+          leading: const Center(
+            child: Icon(LucideIcons.play, size: AppIconSize.sm),
+          ),
           child: Center(child: Text(l10n.studyNow)),
         ),
       ],
