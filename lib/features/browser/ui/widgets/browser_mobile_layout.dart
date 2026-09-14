@@ -42,7 +42,11 @@ class BrowserMobileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final keyboardBottom = MediaQuery.viewInsetsOf(context).bottom;
+    final isKeyboardOpen = keyboardBottom > 0;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       child: Stack(
         children: [
           CustomScrollView(
@@ -58,14 +62,17 @@ class BrowserMobileLayout extends StatelessWidget {
                 ),
               ),
               _buildCardListSliver(),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 100), // allow-magic-dimension
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 100 + keyboardBottom,
+                ), // allow-magic-dimension
               ),
             ],
           ),
-          Positioned(
-            bottom: AppSpacing.xl,
-            right: AppSpacing.lg,
+          if (!isKeyboardOpen)
+            Positioned(
+              bottom: AppSpacing.xl,
+              right: AppSpacing.lg,
             child: GestureDetector(
               onTap: () {
                 HapticFeedback.lightImpact();

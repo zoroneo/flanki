@@ -109,8 +109,11 @@ class DecksScreen extends HookConsumerWidget {
     return ResponsiveBuilder(
       builder: (context, sizingInfo) {
         final isMobile = sizingInfo.deviceScreenType == DeviceScreenType.mobile;
+        final keyboardBottom = MediaQuery.viewInsetsOf(context).bottom;
+        final isKeyboardOpen = keyboardBottom > 0;
 
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           headers: [
             DeckAppBar(isSyncing: isSyncing, onSync: handleSyncTap, l10n: l10n),
           ],
@@ -177,8 +180,10 @@ class DecksScreen extends HookConsumerWidget {
                           standaloneDecks: standaloneDecks,
                           searchQuery: searchQuery.value,
                         ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 120), // allow-magic-dimension
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 120 + keyboardBottom,
+                        ), // allow-magic-dimension
                       ),
                     ],
                   ),
@@ -194,7 +199,7 @@ class DecksScreen extends HookConsumerWidget {
                     ),
                   ),
                 ),
-              if (isMobile)
+              if (isMobile && !isKeyboardOpen)
                 Positioned(
                   bottom: AppSpacing.xl,
                   right: AppSpacing.lg,

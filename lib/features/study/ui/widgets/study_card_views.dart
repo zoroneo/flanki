@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -36,21 +34,16 @@ class CardFrontView extends StatelessWidget {
       child: SizedBox.expand(
         child: ClipRRect(
           borderRadius: theme.borderRadiusLg,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                clipBehavior: Clip.antiAlias,
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xl,
-                  vertical: AppSpacing.lg,
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: math.max(
-                      0.0,
-                      constraints.maxHeight - (AppSpacing.lg * 2),
-                    ),
+          child: CustomScrollView(
+            clipBehavior: Clip.antiAlias,
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xl,
+                    vertical: AppSpacing.lg,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -71,8 +64,8 @@ class CardFrontView extends StatelessWidget {
                     ],
                   ),
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ),
       ),
@@ -139,21 +132,16 @@ class CardBackView extends StatelessWidget {
       child: SizedBox.expand(
         child: ClipRRect(
           borderRadius: theme.borderRadiusLg,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                clipBehavior: Clip.antiAlias,
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xl,
-                  vertical: AppSpacing.lg,
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: math.max(
-                      0.0,
-                      constraints.maxHeight - (AppSpacing.lg * 2),
-                    ),
+          child: CustomScrollView(
+            clipBehavior: Clip.antiAlias,
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xl,
+                    vertical: AppSpacing.lg,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -191,8 +179,8 @@ class CardBackView extends StatelessWidget {
                     ],
                   ),
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ),
       ),

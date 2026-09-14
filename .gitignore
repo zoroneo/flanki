@@ -202,3 +202,5 @@ ehthumbs.db
 **/.obsidian/graph.json
 **/.obsidian/backups/
 **/.obsidian/community-plugin-stats.json
+# Widget Preview related
+.widget_preview/

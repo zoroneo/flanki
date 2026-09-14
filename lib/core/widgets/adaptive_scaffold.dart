@@ -104,6 +104,7 @@ class AdaptiveScaffold extends HookConsumerWidget {
     required WidgetRef ref,
   }) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       child: Column(
         children: [
           Expanded(child: navigationShell),
