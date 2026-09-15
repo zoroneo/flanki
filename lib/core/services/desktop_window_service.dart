@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
@@ -50,7 +50,7 @@ class DesktopWindowService with WindowListener, TrayListener {
     // 2. Launch at Startup
     try {
       launchAtStartup.setup(
-        appName: 'Flanki',
+        appName: AppConfig.displayAppName,
         appPath: Platform.resolvedExecutable,
       );
     } catch (e) {

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -30,6 +33,7 @@ class AppLifecycleManager extends ConsumerStatefulWidget {
 class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
     with WidgetsBindingObserver {
   ToastOverlay? _activeUpdateToast;
+  Timer? _permissionTimer;
 
   void _dismissToast() {
     _activeUpdateToast?.close();
@@ -63,8 +67,16 @@ class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       UpdatePoller.start(ref);
-      await NotificationService.instance.requestPermissions();
-      _syncNotifications();
+      if (Platform.environment.containsKey('FLUTTER_TEST')) {
+        await NotificationService.instance.requestPermissions();
+        _syncNotifications();
+      } else {
+        _permissionTimer = Timer(const Duration(milliseconds: 500), () async {
+          if (!mounted) return;
+          await NotificationService.instance.requestPermissions();
+          _syncNotifications();
+        });
+      }
       if (DesktopWindowService.isDesktop && mounted) {
         final l10n = AppLocalizations.of(context);
         final currentLocale = ref.read(localeNotifierProvider);
@@ -138,6 +150,7 @@ class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
 
   @override
   void dispose() {
+    _permissionTimer?.cancel();
     if (UpdateDialog.onDismissActiveToast == _dismissToast) {
       UpdateDialog.onDismissActiveToast = null;
     }

@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -103,6 +103,7 @@ class NotificationService {
   /// Request permissions for Android 13+ and iOS/macOS
   Future<bool> requestPermissions() async {
     if (kIsWeb) return false;
+    if (!_isInitialized) await init();
 
     try {
       if (Platform.isAndroid) {
@@ -112,7 +113,6 @@ class NotificationService {
             >();
         final grantedNotif =
             await android?.requestNotificationsPermission() ?? false;
-        await android?.requestExactAlarmsPermission();
         return grantedNotif;
       } else if (Platform.isIOS) {
         final ios = _plugin
@@ -186,6 +186,7 @@ class NotificationService {
         (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS)) {
       return;
     }
+    if (!_isInitialized) await init();
 
     final scheduledTime = _nextInstanceOfTime(hour, minute);
     final l10n = getL10n(localeCode);
@@ -242,6 +243,7 @@ class NotificationService {
         (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS)) {
       return;
     }
+    if (!_isInitialized) await init();
 
     final scheduledTime = _nextInstanceOfTime(hour, minute);
     final l10n = getL10n(localeCode);

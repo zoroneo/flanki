@@ -1,11 +1,38 @@
 import 'dart:io';
 import 'dart:ui' show Locale;
 
+import 'package:flutter/foundation.dart';
+
 import '../../l10n/generated/app_localizations.dart';
 
 /// Centralized application configuration and metadata.
 class AppConfig {
   static const String appName = 'Flanki';
+
+  /// Returns display application name with prefix in debug/profile modes.
+  static String get displayAppName {
+    if (kDebugMode) return '[DEBUG] $appName';
+    if (kProfileMode) return '[PROFILE] $appName';
+    return appName;
+  }
+
+  static const String appDatabaseBaseName = 'flanki';
+  static const String appMediaBaseDirectory = 'flanki_media';
+
+  /// Isolated SQLite database name per build mode (Debug / Profile / Release)
+  static String get databaseName {
+    if (kDebugMode) return '${appDatabaseBaseName}_debug';
+    if (kProfileMode) return '${appDatabaseBaseName}_profile';
+    return appDatabaseBaseName;
+  }
+
+  /// Isolated media directory name per build mode (Debug / Profile / Release)
+  static String get mediaDirectoryName {
+    if (kDebugMode) return '${appMediaBaseDirectory}_debug';
+    if (kProfileMode) return '${appMediaBaseDirectory}_profile';
+    return appMediaBaseDirectory;
+  }
+
   static const String defaultVersion = '1.1.4';
   static const int defaultBuildNumber = 13;
 

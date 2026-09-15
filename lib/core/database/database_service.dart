@@ -1,4 +1,5 @@
-﻿import 'dart:io';
+import 'dart:async';
+import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
@@ -62,11 +63,11 @@ class DatabaseService {
     if (customPath != null) {
       _db = AppDatabase(NativeDatabase(File(customPath)));
     } else {
-      _db = AppDatabase(driftDatabase(name: 'flanki'));
+      _db = AppDatabase(driftDatabase(name: AppConfig.databaseName));
     }
 
-    await deduplicateDecks();
     await _reloadCache();
+    unawaited(deduplicateDecks());
   }
 
   Future<void> _reloadCache() async {

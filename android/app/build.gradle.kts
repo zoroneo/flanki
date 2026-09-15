@@ -61,6 +61,7 @@ android {
         versionName = flutter.versionName
     }
 
+    val baseAppName = "Flanki"
     buildTypes {
         release {
             val releaseSigning = signingConfigs.getByName("release")
@@ -69,12 +70,24 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            manifestPlaceholders["appName"] = baseAppName
         }
         debug {
             val releaseSigning = signingConfigs.getByName("release")
             if (releaseSigning.storeFile != null && releaseSigning.storeFile!!.exists()) {
                 signingConfig = releaseSigning
             }
+            applicationIdSuffix = ".debug"
+            manifestPlaceholders["appName"] = "[DEBUG] $baseAppName"
+        }
+        maybeCreate("profile").apply {
+            initWith(getByName("debug"))
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null && releaseSigning.storeFile!!.exists()) {
+                signingConfig = releaseSigning
+            }
+            applicationIdSuffix = ".profile"
+            manifestPlaceholders["appName"] = "[PROFILE] $baseAppName"
         }
     }
 }

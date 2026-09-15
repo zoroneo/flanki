@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:go_router/go_router.dart';
 
+import 'core/config/app_config.dart';
 import 'core/localization/locale_notifier.dart';
 import 'core/localization/shadcn_localizations_vi.dart';
 import 'core/services/desktop_window_service.dart';
@@ -50,17 +51,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.''',
     );
   });
-  await DatabaseService.instance.init();
-  await MediaStorageService.instance.init();
-  await CardAudioService.instance.init();
+  // 1. Critical storage & local DB cache (fast ~10ms startup)
+  await Future.wait([
+    DatabaseService.instance.init(),
+    MediaStorageService.instance.init(),
+  ]);
+
+  // 2. Render UI immediately to establish window focus and dismiss splash
+  runApp(const ProviderScope(child: FlankiApp()));
+
+  // 3. Initialize background / secondary platform services post-frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    _initSecondaryServices();
+  });
+}
+
+void _initSecondaryServices() {
+  CardAudioService.instance.init();
   if (DesktopWindowService.isDesktop) {
-    await DesktopWindowService.instance.init(
+    DesktopWindowService.instance.init(
       onOpenStudy: () {
         rootNavigatorKey.currentContext?.go('/decks');
       },
     );
   }
-  await NotificationService.instance.init(
+  NotificationService.instance.init(
     onNotificationClick: (payload) async {
       if (DesktopWindowService.isDesktop) {
         await DesktopWindowService.instance.showAndFocus();
@@ -70,7 +85,6 @@ SOFTWARE.''',
       }
     },
   );
-  runApp(const ProviderScope(child: FlankiApp()));
 }
 
 class FlankiApp extends ConsumerWidget {
@@ -107,7 +121,7 @@ class FlankiApp extends ConsumerWidget {
     );
 
     return ShadcnApp.router(
-      title: 'Flanki',
+      title: AppConfig.displayAppName,
       debugShowCheckedModeBanner: false,
       routerConfig: router,
       locale: currentLocale,

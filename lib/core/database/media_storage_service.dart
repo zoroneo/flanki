@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../config/app_config.dart';
+
 /// Service to persist, locate, and rewrite Anki media assets (images, audio).
 class MediaStorageService {
   static MediaStorageService? _instance;
@@ -21,7 +23,7 @@ class MediaStorageService {
       _mediaDir = Directory(customPath);
     } else {
       final docDir = await getApplicationDocumentsDirectory();
-      _mediaDir = Directory(p.join(docDir.path, 'flanki_media'));
+      _mediaDir = Directory(p.join(docDir.path, AppConfig.mediaDirectoryName));
     }
 
     if (!_mediaDir!.existsSync()) {
@@ -32,7 +34,9 @@ class MediaStorageService {
 
   Directory get mediaDirectory {
     if (_mediaDir == null) {
-      final temp = Directory(p.join(Directory.systemTemp.path, 'flanki_media'));
+      final temp = Directory(
+        p.join(Directory.systemTemp.path, AppConfig.mediaDirectoryName),
+      );
       if (!temp.existsSync()) {
         temp.createSync(recursive: true);
       }

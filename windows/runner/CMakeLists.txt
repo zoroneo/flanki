@@ -30,6 +30,14 @@ target_compile_definitions(${BINARY_NAME} PRIVATE "FLUTTER_VERSION_BUILD=${FLUTT
 # Disable Windows macros that collide with C++ standard library functions.
 target_compile_definitions(${BINARY_NAME} PRIVATE "NOMINMAX")
 
+# Add preprocessor definitions for window title by build configuration.
+set(APP_BASE_NAME "Flanki")
+target_compile_definitions(${BINARY_NAME} PRIVATE
+  "$<$<CONFIG:Debug>:APP_TITLE=L\"[DEBUG] ${APP_BASE_NAME}\">"
+  "$<$<CONFIG:Profile>:APP_TITLE=L\"[PROFILE] ${APP_BASE_NAME}\">"
+  "$<$<CONFIG:Release>:APP_TITLE=L\"${APP_BASE_NAME}\">"
+)
+
 # Add dependency libraries and include directories. Add any application-specific
 # dependencies here.
 target_link_libraries(${BINARY_NAME} PRIVATE flutter flutter_wrapper_app)

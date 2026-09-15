@@ -27,6 +27,10 @@ void main() {
       expect(AppConfig.defaultDesiredRetention, equals(0.90));
       expect(AppConfig.defaultReminderHour, equals(20));
       expect(AppConfig.defaultReminderMinute, equals(0));
+      // In test runner (kDebugMode is true), displayAppName adds [DEBUG] prefix
+      expect(AppConfig.displayAppName, equals('[DEBUG] Flanki'));
+      expect(AppConfig.databaseName, equals('flanki_debug'));
+      expect(AppConfig.mediaDirectoryName, equals('flanki_media_debug'));
     });
 
     test('AppConfig allows dynamic runtime version override and reset', () {
