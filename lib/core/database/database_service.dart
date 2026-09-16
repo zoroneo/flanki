@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
@@ -12,6 +13,8 @@ import '../config/app_config.dart';
 import '../models/card.dart';
 import '../models/custom_study_mode.dart';
 import '../models/deck.dart';
+import '../sync/hlc.dart';
+import '../../features/exam/models/exam_models.dart';
 import 'app_database.dart';
 
 class ReviewLogModel {
@@ -36,12 +39,37 @@ class DatabaseService {
   static DatabaseService? _instance;
   AppDatabase? _db;
 
+  // Hybrid Logical Clock (HLC) & Node Identity
+  String _nodeId =
+      'node_${DateTime.now().microsecondsSinceEpoch.toRadixString(16)}';
+  Hlc? _lastHlc;
+
+  String get nodeId => _nodeId;
+  Hlc get currentHlc => _lastHlc ?? Hlc.now(_nodeId);
+
+  void configureNodeId(String id) {
+    _nodeId = id;
+  }
+
+  Hlc advanceHlc({int? wallTime}) {
+    _lastHlc = Hlc.send(_lastHlc, _nodeId, wallTime: wallTime);
+    return _lastHlc!;
+  }
+
+  void updateHlcFromRemote(Hlc remoteHlc) {
+    _lastHlc = Hlc.recv(_lastHlc, remoteHlc, _nodeId);
+  }
+
+  /// Optional listener triggered whenever a local mutation is enqueued into the outbox.
+  void Function()? onMutationEnqueued;
+
   // In-memory cache for synchronous fast UI rendering
   List<DeckModel> _cachedDecks = [];
   List<CardModel> _cachedCards = [];
   List<ReviewLogModel> _cachedReviewLogs = [];
 
   DatabaseService._();
+  DatabaseService.forTest(AppDatabase database) : _db = database;
 
   static DatabaseService get instance {
     _instance ??= DatabaseService._();
@@ -58,12 +86,12 @@ class DatabaseService {
   }
 
   Future<void> init({String? customPath}) async {
-    if (_db != null) return;
-
-    if (customPath != null) {
-      _db = AppDatabase(NativeDatabase(File(customPath)));
-    } else {
-      _db = AppDatabase(driftDatabase(name: AppConfig.databaseName));
+    if (_db == null) {
+      if (customPath != null) {
+        _db = AppDatabase(NativeDatabase(File(customPath)));
+      } else {
+        _db = AppDatabase(driftDatabase(name: AppConfig.databaseName));
+      }
     }
 
     await _reloadCache();
@@ -72,9 +100,11 @@ class DatabaseService {
 
   Future<void> _reloadCache() async {
     if (_db == null) return;
-    final deckRows = await (db.select(
-      db.decks,
-    )..orderBy([(t) => OrderingTerm.asc(t.title)])).get();
+    final deckRows =
+        await (db.select(db.decks)
+              ..where((t) => t.isDeleted.equals(false))
+              ..orderBy([(t) => OrderingTerm.asc(t.title)]))
+            .get();
     _cachedDecks = deckRows.map((r) {
       return DeckModel(
         id: r.id,
@@ -87,9 +117,11 @@ class DatabaseService {
       );
     }).toList();
 
-    final cardRows = await (db.select(
-      db.cards,
-    )..orderBy([(t) => OrderingTerm.desc(t.createdAt)])).get();
+    final cardRows =
+        await (db.select(db.cards)
+              ..where((t) => t.isDeleted.equals(false))
+              ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
+            .get();
     _cachedCards = cardRows.map(_mapRowToCard).toList();
 
     final logRows = await (db.select(
@@ -283,20 +315,48 @@ class DatabaseService {
       _cachedDecks.add(deck);
     }
 
-    await db
-        .into(db.decks)
-        .insertOnConflictUpdate(
-          DecksCompanion.insert(
-            id: deck.id,
-            title: deck.title,
-            description: deck.description,
-            dueCount: Value(deck.dueCount),
-            newCount: Value(deck.newCount),
-            totalCount: Value(deck.totalCount),
-            lastStudied: Value(deck.lastStudied),
-          ),
-        );
+    final hlcStr = advanceHlc().pack();
+
+    await db.transaction(() async {
+      await db
+          .into(db.decks)
+          .insertOnConflictUpdate(
+            DecksCompanion.insert(
+              id: deck.id,
+              title: deck.title,
+              description: deck.description,
+              dueCount: Value(deck.dueCount),
+              newCount: Value(deck.newCount),
+              totalCount: Value(deck.totalCount),
+              lastStudied: Value(deck.lastStudied),
+              updatedAtHlc: Value(hlcStr),
+              isDeleted: const Value(false),
+            ),
+          );
+
+      await db
+          .into(db.syncOutbox)
+          .insertOnConflictUpdate(
+            SyncOutboxCompanion.insert(
+              id: 'outbox_deck_${deck.id}_$hlcStr',
+              entityType: 'deck',
+              entityId: deck.id,
+              operation: 'UPSERT',
+              payloadJson: jsonEncode({
+                'id': deck.id,
+                'title': deck.title,
+                'description': deck.description,
+                'due_count': deck.dueCount,
+                'new_count': deck.newCount,
+                'total_count': deck.totalCount,
+                'last_studied': deck.lastStudied?.toIso8601String(),
+              }),
+              hlc: hlcStr,
+            ),
+          );
+    });
     await _reloadCache();
+    onMutationEnqueued?.call();
   }
 
   Future<void> saveDecks(List<DeckModel> decks) async {
@@ -326,24 +386,50 @@ class DatabaseService {
       }
     }
 
-    await db.batch((batch) {
+    final hlcStr = advanceHlc().pack();
+
+    await db.transaction(() async {
       for (final deck in decks) {
-        batch.insert(
-          db.decks,
-          DecksCompanion.insert(
-            id: deck.id,
-            title: deck.title,
-            description: deck.description,
-            dueCount: Value(deck.dueCount),
-            newCount: Value(deck.newCount),
-            totalCount: Value(deck.totalCount),
-            lastStudied: Value(deck.lastStudied),
-          ),
-          mode: InsertMode.insertOrReplace,
-        );
+        await db
+            .into(db.decks)
+            .insertOnConflictUpdate(
+              DecksCompanion.insert(
+                id: deck.id,
+                title: deck.title,
+                description: deck.description,
+                dueCount: Value(deck.dueCount),
+                newCount: Value(deck.newCount),
+                totalCount: Value(deck.totalCount),
+                lastStudied: Value(deck.lastStudied),
+                updatedAtHlc: Value(hlcStr),
+                isDeleted: const Value(false),
+              ),
+            );
+
+        await db
+            .into(db.syncOutbox)
+            .insertOnConflictUpdate(
+              SyncOutboxCompanion.insert(
+                id: 'outbox_deck_${deck.id}_$hlcStr',
+                entityType: 'deck',
+                entityId: deck.id,
+                operation: 'UPSERT',
+                payloadJson: jsonEncode({
+                  'id': deck.id,
+                  'title': deck.title,
+                  'description': deck.description,
+                  'due_count': deck.dueCount,
+                  'new_count': deck.newCount,
+                  'total_count': deck.totalCount,
+                  'last_studied': deck.lastStudied?.toIso8601String(),
+                }),
+                hlc: hlcStr,
+              ),
+            );
       }
     });
     await _reloadCache();
+    onMutationEnqueued?.call();
   }
 
   /// Removes duplicate decks with the same title, merging cards into the canonical deck.
@@ -396,10 +482,39 @@ class DatabaseService {
   Future<void> deleteDeck(String deckId) async {
     _cachedDecks.removeWhere((d) => d.id == deckId);
     _cachedCards.removeWhere((c) => c.deckId == deckId);
+    final hlcStr = advanceHlc().pack();
 
-    await (db.delete(db.cards)..where((tbl) => tbl.deckId.equals(deckId))).go();
-    await (db.delete(db.decks)..where((tbl) => tbl.id.equals(deckId))).go();
+    await db.transaction(() async {
+      await (db.update(
+        db.cards,
+      )..where((tbl) => tbl.deckId.equals(deckId))).write(
+        CardsCompanion(
+          isDeleted: const Value(true),
+          updatedAtHlc: Value(hlcStr),
+        ),
+      );
+      await (db.update(db.decks)..where((tbl) => tbl.id.equals(deckId))).write(
+        DecksCompanion(
+          isDeleted: const Value(true),
+          updatedAtHlc: Value(hlcStr),
+        ),
+      );
+
+      await db
+          .into(db.syncOutbox)
+          .insertOnConflictUpdate(
+            SyncOutboxCompanion.insert(
+              id: 'outbox_deck_del_${deckId}_$hlcStr',
+              entityType: 'deck',
+              entityId: deckId,
+              operation: 'DELETE',
+              payloadJson: jsonEncode({'id': deckId}),
+              hlc: hlcStr,
+            ),
+          );
+    });
     await _reloadCache();
+    onMutationEnqueued?.call();
   }
 
   Future<void> recalculateAllDeckCounts() async {
@@ -462,7 +577,7 @@ class DatabaseService {
     await _reloadCache();
   }
 
-  Future<void> saveCard(CardModel card) async {
+  Future<void> saveCard(CardModel card, {bool markOutbox = true}) async {
     // Optimistic cache update
     final idx = _cachedCards.indexWhere((c) => c.id == card.id);
     if (idx >= 0) {
@@ -471,34 +586,80 @@ class DatabaseService {
       _cachedCards.insert(0, card);
     }
 
-    await db
-        .into(db.cards)
-        .insertOnConflictUpdate(
-          CardsCompanion.insert(
-            id: card.id,
-            deckId: card.deckId,
-            front: card.front,
-            back: card.back,
-            hint: Value(card.hint),
-            noteType: Value(card.noteType.value),
-            flag: Value(card.flag.value),
-            isSuspended: Value(card.isSuspended),
-            isBuried: Value(card.isBuried),
-            tags: Value(card.tags.join(',')),
-            intervalDays: Value(card.intervalDays),
-            stability: Value(card.stability),
-            difficulty: Value(card.difficulty),
-            reps: Value(card.reps),
-            lapses: Value(card.lapses),
-            due: Value(card.due),
-            lastStudied: Value(card.lastStudied),
-            createdAt: Value(card.createdAt ?? DateTime.now()),
-          ),
-        );
+    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+
+    await db.transaction(() async {
+      await db
+          .into(db.cards)
+          .insertOnConflictUpdate(
+            CardsCompanion.insert(
+              id: card.id,
+              deckId: card.deckId,
+              front: card.front,
+              back: card.back,
+              hint: Value(card.hint),
+              noteType: Value(card.noteType.value),
+              flag: Value(card.flag.value),
+              isSuspended: Value(card.isSuspended),
+              isBuried: Value(card.isBuried),
+              tags: Value(card.tags.join(',')),
+              intervalDays: Value(card.intervalDays),
+              stability: Value(card.stability),
+              difficulty: Value(card.difficulty),
+              reps: Value(card.reps),
+              lapses: Value(card.lapses),
+              due: Value(card.due),
+              lastStudied: Value(card.lastStudied),
+              createdAt: Value(card.createdAt ?? DateTime.now()),
+              updatedAtHlc: Value(hlcStr),
+              isDeleted: const Value(false),
+            ),
+          );
+
+      if (markOutbox) {
+        await db
+            .into(db.syncOutbox)
+            .insertOnConflictUpdate(
+              SyncOutboxCompanion.insert(
+                id: 'outbox_card_${card.id}_$hlcStr',
+                entityType: 'card',
+                entityId: card.id,
+                operation: 'UPSERT',
+                payloadJson: jsonEncode({
+                  'id': card.id,
+                  'deck_id': card.deckId,
+                  'front': card.front,
+                  'back': card.back,
+                  'hint': card.hint,
+                  'note_type': card.noteType.value,
+                  'flag': card.flag.value,
+                  'is_suspended': card.isSuspended,
+                  'is_buried': card.isBuried,
+                  'tags': card.tags.join(','),
+                  'interval_days': card.intervalDays,
+                  'stability': card.stability,
+                  'difficulty': card.difficulty,
+                  'reps': card.reps,
+                  'lapses': card.lapses,
+                  'due': card.due?.toIso8601String(),
+                  'last_studied': card.lastStudied?.toIso8601String(),
+                  'created_at': card.createdAt?.toIso8601String(),
+                }),
+                hlc: hlcStr,
+              ),
+            );
+      }
+    });
     await _reloadCache();
+    if (markOutbox) {
+      onMutationEnqueued?.call();
+    }
   }
 
-  Future<void> saveCards(List<CardModel> cards) async {
+  Future<void> saveCards(
+    List<CardModel> cards, {
+    bool markOutbox = true,
+  }) async {
     for (final card in cards) {
       final idx = _cachedCards.indexWhere((c) => c.id == card.id);
       if (idx >= 0) {
@@ -508,35 +669,76 @@ class DatabaseService {
       }
     }
 
-    await db.batch((batch) {
+    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+
+    await db.transaction(() async {
       for (final card in cards) {
-        batch.insert(
-          db.cards,
-          CardsCompanion.insert(
-            id: card.id,
-            deckId: card.deckId,
-            front: card.front,
-            back: card.back,
-            hint: Value(card.hint),
-            noteType: Value(card.noteType.value),
-            flag: Value(card.flag.value),
-            isSuspended: Value(card.isSuspended),
-            isBuried: Value(card.isBuried),
-            tags: Value(card.tags.join(',')),
-            intervalDays: Value(card.intervalDays),
-            stability: Value(card.stability),
-            difficulty: Value(card.difficulty),
-            reps: Value(card.reps),
-            lapses: Value(card.lapses),
-            due: Value(card.due),
-            lastStudied: Value(card.lastStudied),
-            createdAt: Value(card.createdAt ?? DateTime.now()),
-          ),
-          mode: InsertMode.insertOrReplace,
-        );
+        await db
+            .into(db.cards)
+            .insertOnConflictUpdate(
+              CardsCompanion.insert(
+                id: card.id,
+                deckId: card.deckId,
+                front: card.front,
+                back: card.back,
+                hint: Value(card.hint),
+                noteType: Value(card.noteType.value),
+                flag: Value(card.flag.value),
+                isSuspended: Value(card.isSuspended),
+                isBuried: Value(card.isBuried),
+                tags: Value(card.tags.join(',')),
+                intervalDays: Value(card.intervalDays),
+                stability: Value(card.stability),
+                difficulty: Value(card.difficulty),
+                reps: Value(card.reps),
+                lapses: Value(card.lapses),
+                due: Value(card.due),
+                lastStudied: Value(card.lastStudied),
+                createdAt: Value(card.createdAt ?? DateTime.now()),
+                updatedAtHlc: Value(hlcStr),
+                isDeleted: const Value(false),
+              ),
+            );
+
+        if (markOutbox) {
+          await db
+              .into(db.syncOutbox)
+              .insertOnConflictUpdate(
+                SyncOutboxCompanion.insert(
+                  id: 'outbox_card_${card.id}_$hlcStr',
+                  entityType: 'card',
+                  entityId: card.id,
+                  operation: 'UPSERT',
+                  payloadJson: jsonEncode({
+                    'id': card.id,
+                    'deck_id': card.deckId,
+                    'front': card.front,
+                    'back': card.back,
+                    'hint': card.hint,
+                    'note_type': card.noteType.value,
+                    'flag': card.flag.value,
+                    'is_suspended': card.isSuspended,
+                    'is_buried': card.isBuried,
+                    'tags': card.tags.join(','),
+                    'interval_days': card.intervalDays,
+                    'stability': card.stability,
+                    'difficulty': card.difficulty,
+                    'reps': card.reps,
+                    'lapses': card.lapses,
+                    'due': card.due?.toIso8601String(),
+                    'last_studied': card.lastStudied?.toIso8601String(),
+                    'created_at': card.createdAt?.toIso8601String(),
+                  }),
+                  hlc: hlcStr,
+                ),
+              );
+        }
       }
     });
     await _reloadCache();
+    if (markOutbox) {
+      onMutationEnqueued?.call();
+    }
   }
 
   /// Merges remote cards into the local collection using smart Last-Write-Wins per card.
@@ -582,10 +784,37 @@ class DatabaseService {
     await saveCards(mergedCards);
   }
 
-  Future<void> deleteCard(String cardId) async {
+  Future<void> deleteCard(String cardId, {bool markOutbox = true}) async {
     _cachedCards.removeWhere((c) => c.id == cardId);
-    await (db.delete(db.cards)..where((tbl) => tbl.id.equals(cardId))).go();
+    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+
+    await db.transaction(() async {
+      await (db.update(db.cards)..where((tbl) => tbl.id.equals(cardId))).write(
+        CardsCompanion(
+          isDeleted: const Value(true),
+          updatedAtHlc: Value(hlcStr),
+        ),
+      );
+
+      if (markOutbox) {
+        await db
+            .into(db.syncOutbox)
+            .insertOnConflictUpdate(
+              SyncOutboxCompanion.insert(
+                id: 'outbox_card_del_${cardId}_$hlcStr',
+                entityType: 'card',
+                entityId: cardId,
+                operation: 'DELETE',
+                payloadJson: jsonEncode({'id': cardId}),
+                hlc: hlcStr,
+              ),
+            );
+      }
+    });
     await _reloadCache();
+    if (markOutbox) {
+      onMutationEnqueued?.call();
+    }
   }
 
   Future<void> insertReviewLog({
@@ -595,6 +824,7 @@ class DatabaseService {
     required int scheduledDays,
     required int elapsedDays,
   }) async {
+    final clientLogId = 'log_${cardId}_${reviewTime.millisecondsSinceEpoch}';
     final log = ReviewLogModel(
       id: DateTime.now().microsecondsSinceEpoch,
       cardId: cardId,
@@ -605,18 +835,44 @@ class DatabaseService {
     );
     _cachedReviewLogs.insert(0, log);
 
-    await db
-        .into(db.reviewLogs)
-        .insert(
-          ReviewLogsCompanion.insert(
-            cardId: cardId,
-            rating: rating.value,
-            reviewTime: reviewTime,
-            scheduledDays: Value(scheduledDays),
-            elapsedDays: Value(elapsedDays),
-          ),
-        );
+    final hlcStr = advanceHlc().pack();
+
+    await db.transaction(() async {
+      await db
+          .into(db.reviewLogs)
+          .insert(
+            ReviewLogsCompanion.insert(
+              cardId: cardId,
+              rating: rating.value,
+              reviewTime: reviewTime,
+              scheduledDays: Value(scheduledDays),
+              elapsedDays: Value(elapsedDays),
+              clientLogId: Value(clientLogId),
+            ),
+          );
+
+      await db
+          .into(db.syncOutbox)
+          .insertOnConflictUpdate(
+            SyncOutboxCompanion.insert(
+              id: 'outbox_revlog_${clientLogId}_$hlcStr',
+              entityType: 'review_log',
+              entityId: clientLogId,
+              operation: 'INSERT',
+              payloadJson: jsonEncode({
+                'card_id': cardId,
+                'rating': rating.value,
+                'review_time': reviewTime.toUtc().toIso8601String(),
+                'scheduled_days': scheduledDays,
+                'elapsed_days': elapsedDays,
+                'client_log_id': clientLogId,
+              }),
+              hlc: hlcStr,
+            ),
+          );
+    });
     await _reloadCache();
+    onMutationEnqueued?.call();
   }
 
   Future<void> saveReviewLogs(List<ReviewLogModel> logs) async {
@@ -916,6 +1172,746 @@ class DatabaseService {
       try {
         tempDir.deleteSync(recursive: true);
       } catch (_) {}
+    }
+  }
+
+  // --- Sync Replicator Helpers ---
+
+  Future<List<SyncOutboxData>> getPendingOutboxBatch({int limit = 100}) async {
+    return (db.select(db.syncOutbox)
+          ..orderBy([(t) => OrderingTerm(expression: t.createdAt)])
+          ..limit(limit))
+        .get();
+  }
+
+  Future<void> acknowledgeOutboxBatch(List<String> ids) async {
+    if (ids.isEmpty) return;
+    await (db.delete(db.syncOutbox)..where((tbl) => tbl.id.isIn(ids))).go();
+  }
+
+  Future<int> getPendingOutboxCount() async {
+    final countExpr = db.syncOutbox.id.count();
+    final query = db.selectOnly(db.syncOutbox)..addColumns([countExpr]);
+    final result = await query.map((row) => row.read(countExpr)).getSingle();
+    return result ?? 0;
+  }
+
+  Future<String?> getSyncCursor(String entityType) async {
+    final row = await (db.select(
+      db.syncCursors,
+    )..where((t) => t.entityType.equals(entityType))).getSingleOrNull();
+    return row?.lastServerHlc;
+  }
+
+  Future<void> setSyncCursor(String entityType, String lastServerHlc) async {
+    await db
+        .into(db.syncCursors)
+        .insertOnConflictUpdate(
+          SyncCursorsCompanion.insert(
+            entityType: entityType,
+            lastServerHlc: Value(lastServerHlc),
+            lastSyncedAt: Value(DateTime.now()),
+          ),
+        );
+  }
+
+  Future<void> enqueueOutbox({
+    required String entityType,
+    required String entityId,
+    required String operation,
+    required Map<String, dynamic> payload,
+    String? hlc,
+  }) async {
+    final hlcStr = hlc ?? advanceHlc().pack();
+    final outboxId = 'outbox_${entityType}_${entityId}_$hlcStr';
+    await db
+        .into(db.syncOutbox)
+        .insertOnConflictUpdate(
+          SyncOutboxCompanion.insert(
+            id: outboxId,
+            entityType: entityType,
+            entityId: entityId,
+            operation: operation,
+            payloadJson: jsonEncode(payload),
+            hlc: hlcStr,
+          ),
+        );
+    onMutationEnqueued?.call();
+  }
+
+  /// Applies a batch of remote deltas pulled from the cloud directly into SQLite
+  /// and updates in-memory caches WITHOUT enqueuing mutations into [syncOutbox].
+  Future<void> applyRemoteDeltasBatch({
+    List<Map<String, dynamic>> decks = const [],
+    List<Map<String, dynamic>> cards = const [],
+    List<Map<String, dynamic>> reviewLogs = const [],
+    List<Map<String, dynamic>> grammarProgress = const [],
+    List<Map<String, dynamic>> examSubmissions = const [],
+    List<Map<String, dynamic>> wrongQuestions = const [],
+  }) async {
+    if (decks.isEmpty &&
+        cards.isEmpty &&
+        reviewLogs.isEmpty &&
+        grammarProgress.isEmpty &&
+        examSubmissions.isEmpty &&
+        wrongQuestions.isEmpty) {
+      return;
+    }
+
+    await db.transaction(() async {
+      // 1. Apply Decks
+      for (final raw in decks) {
+        final id = raw['id'] as String;
+        final title = raw['title'] as String? ?? 'Untitled Deck';
+        final description = raw['description'] as String? ?? '';
+        final dueCount = raw['due_count'] as int? ?? 0;
+        final newCount = raw['new_count'] as int? ?? 0;
+        final totalCount = raw['total_count'] as int? ?? 0;
+        final lastStudiedStr = raw['last_studied'] as String?;
+        final lastStudied = lastStudiedStr != null
+            ? DateTime.tryParse(lastStudiedStr)
+            : null;
+        final hlc = raw['updated_at_hlc'] as String? ?? '';
+        final isDeleted = raw['is_deleted'] as bool? ?? false;
+
+        await db
+            .into(db.decks)
+            .insertOnConflictUpdate(
+              DecksCompanion.insert(
+                id: id,
+                title: title,
+                description: description,
+                dueCount: Value(dueCount),
+                newCount: Value(newCount),
+                totalCount: Value(totalCount),
+                lastStudied: Value(lastStudied),
+                updatedAtHlc: Value(hlc),
+                isDeleted: Value(isDeleted),
+              ),
+            );
+      }
+
+      // 2. Apply Cards
+      for (final raw in cards) {
+        final id = raw['id'] as String;
+        final deckId = raw['deck_id'] as String? ?? '';
+        final front = raw['front'] as String? ?? '';
+        final back = raw['back'] as String? ?? '';
+        final hint = raw['hint'] as String?;
+        final noteType = raw['note_type'] as String? ?? 'basic';
+        final flag = raw['flag'] as int? ?? 0;
+        final isSuspended = raw['is_suspended'] as bool? ?? false;
+        final isBuried = raw['is_buried'] as bool? ?? false;
+        final tags = raw['tags'] as String? ?? '';
+        final intervalDays = raw['interval_days'] as int? ?? 0;
+        final stability = (raw['stability'] as num?)?.toDouble() ?? 0.0;
+        final difficulty = (raw['difficulty'] as num?)?.toDouble() ?? 0.0;
+        final reps = raw['reps'] as int? ?? 0;
+        final lapses = raw['lapses'] as int? ?? 0;
+        final dueStr = raw['due'] as String?;
+        final due = dueStr != null ? DateTime.tryParse(dueStr) : null;
+        final lastStudiedStr = raw['last_studied'] as String?;
+        final lastStudied = lastStudiedStr != null
+            ? DateTime.tryParse(lastStudiedStr)
+            : null;
+        final createdAtStr = raw['created_at'] as String?;
+        final createdAt = createdAtStr != null
+            ? DateTime.tryParse(createdAtStr)
+            : DateTime.now();
+        final hlc = raw['updated_at_hlc'] as String? ?? '';
+        final isDeleted = raw['is_deleted'] as bool? ?? false;
+
+        await db
+            .into(db.cards)
+            .insertOnConflictUpdate(
+              CardsCompanion.insert(
+                id: id,
+                deckId: deckId,
+                front: front,
+                back: back,
+                hint: Value(hint),
+                noteType: Value(noteType),
+                flag: Value(flag),
+                isSuspended: Value(isSuspended),
+                isBuried: Value(isBuried),
+                tags: Value(tags),
+                intervalDays: Value(intervalDays),
+                stability: Value(stability),
+                difficulty: Value(difficulty),
+                reps: Value(reps),
+                lapses: Value(lapses),
+                due: Value(due),
+                lastStudied: Value(lastStudied),
+                createdAt: Value(createdAt),
+                updatedAtHlc: Value(hlc),
+                isDeleted: Value(isDeleted),
+              ),
+            );
+      }
+
+      // 3. Apply Review Logs
+      for (final raw in reviewLogs) {
+        final cardId = raw['card_id'] as String;
+        final rating = raw['rating'] as int;
+        final reviewTimeStr = raw['review_time'] as String;
+        final reviewTime = DateTime.parse(reviewTimeStr);
+        final scheduledDays = raw['scheduled_days'] as int? ?? 0;
+        final elapsedDays = raw['elapsed_days'] as int? ?? 0;
+        final clientLogId =
+            raw['client_log_id'] as String? ??
+            'log_${cardId}_${reviewTime.millisecondsSinceEpoch}';
+
+        final existing =
+            await (db.select(db.reviewLogs)
+                  ..where((tbl) => tbl.clientLogId.equals(clientLogId)))
+                .getSingleOrNull();
+
+        if (existing == null) {
+          await db
+              .into(db.reviewLogs)
+              .insert(
+                ReviewLogsCompanion.insert(
+                  cardId: cardId,
+                  rating: rating,
+                  reviewTime: reviewTime,
+                  scheduledDays: Value(scheduledDays),
+                  elapsedDays: Value(elapsedDays),
+                  clientLogId: Value(clientLogId),
+                ),
+              );
+        }
+      }
+
+      // 4. Apply Grammar Progress
+      for (final raw in grammarProgress) {
+        final unitId = raw['unit_id'] as String;
+        final exerciseId = raw['exercise_id'] as String;
+        final stability = (raw['stability'] as num?)?.toDouble() ?? 0.0;
+        final difficulty = (raw['difficulty'] as num?)?.toDouble() ?? 0.0;
+        final dueStr = raw['due'] as String?;
+        final due = dueStr != null ? DateTime.tryParse(dueStr) : null;
+        final lastStudiedStr = raw['last_studied'] as String?;
+        final lastStudied = lastStudiedStr != null
+            ? DateTime.tryParse(lastStudiedStr)
+            : null;
+        final reps = raw['reps'] as int? ?? 0;
+        final lapses = raw['lapses'] as int? ?? 0;
+        final stateIdx = raw['state'] as int? ?? 0;
+        final state =
+            CardState.values[stateIdx.clamp(0, CardState.values.length - 1)];
+        final isGhost = raw['is_ghost'] as bool? ?? false;
+        final isCompleted = raw['is_completed'] as bool? ?? false;
+        final lastUserAnswer = raw['last_user_answer'] as String?;
+        final updatedAtStr = raw['updated_at'] as String?;
+        final updatedAt = updatedAtStr != null
+            ? DateTime.tryParse(updatedAtStr) ?? DateTime.now()
+            : DateTime.now();
+        final hlc = raw['updated_at_hlc'] as String? ?? '';
+        final isDeleted = raw['is_deleted'] as bool? ?? false;
+
+        await db
+            .into(db.grammarProgressEntries)
+            .insertOnConflictUpdate(
+              GrammarProgressEntriesCompanion.insert(
+                unitId: unitId,
+                exerciseId: exerciseId,
+                stability: Value(stability),
+                difficulty: Value(difficulty),
+                due: Value(due),
+                lastStudied: Value(lastStudied),
+                reps: Value(reps),
+                lapses: Value(lapses),
+                state: Value(state),
+                isGhost: Value(isGhost),
+                isCompleted: Value(isCompleted),
+                lastUserAnswer: Value(lastUserAnswer),
+                updatedAt: Value(updatedAt),
+                updatedAtHlc: Value(hlc),
+                isDeleted: Value(isDeleted),
+              ),
+            );
+      }
+
+      // 5. Apply Exam Submissions
+      for (final raw in examSubmissions) {
+        final id = raw['id'] as String;
+        final examId = raw['exam_id'] as String;
+        final score = raw['score'] as int? ?? 0;
+        final totalCorrect = raw['total_correct'] as int? ?? 0;
+        final totalQuestions = raw['total_questions'] as int? ?? 0;
+        final durationSeconds = raw['duration_seconds'] as int? ?? 0;
+        final answersJson = raw['answers_json'] is String
+            ? raw['answers_json'] as String
+            : jsonEncode(raw['answers_json'] ?? {});
+        final submittedAtStr = raw['submitted_at'] as String?;
+        final submittedAt = submittedAtStr != null
+            ? DateTime.tryParse(submittedAtStr) ?? DateTime.now()
+            : DateTime.now();
+        final hlc = raw['updated_at_hlc'] as String? ?? '';
+        final isDeleted = raw['is_deleted'] as bool? ?? false;
+
+        await db
+            .into(db.examSubmissions)
+            .insertOnConflictUpdate(
+              ExamSubmissionsCompanion.insert(
+                id: id,
+                examId: examId,
+                score: Value(score),
+                totalCorrect: Value(totalCorrect),
+                totalQuestions: Value(totalQuestions),
+                durationSeconds: Value(durationSeconds),
+                answersJson: Value(answersJson),
+                submittedAt: Value(submittedAt),
+                updatedAtHlc: Value(hlc),
+                isDeleted: Value(isDeleted),
+              ),
+            );
+      }
+
+      // 6. Apply Wrong Questions Notebook
+      for (final raw in wrongQuestions) {
+        final id = raw['id'] as String;
+        final examId = raw['exam_id'] as String;
+        final questionId = raw['question_id'] as String;
+        final userAnswer = raw['user_answer'] as String? ?? '';
+        final explanation = raw['explanation'] as String? ?? '';
+        final notes = raw['notes'] as String? ?? '';
+        final status = raw['status'] as String? ?? 'new';
+        final createdAtStr = raw['created_at'] as String?;
+        final createdAt = createdAtStr != null
+            ? DateTime.tryParse(createdAtStr) ?? DateTime.now()
+            : DateTime.now();
+        final updatedAtStr = raw['updated_at'] as String?;
+        final updatedAt = updatedAtStr != null
+            ? DateTime.tryParse(updatedAtStr) ?? DateTime.now()
+            : DateTime.now();
+        final hlc = raw['updated_at_hlc'] as String? ?? '';
+        final isDeleted = raw['is_deleted'] as bool? ?? false;
+
+        await db
+            .into(db.wrongQuestionNotebook)
+            .insertOnConflictUpdate(
+              WrongQuestionNotebookCompanion.insert(
+                id: id,
+                examId: examId,
+                questionId: questionId,
+                userAnswer: userAnswer,
+                explanation: Value(explanation),
+                notes: Value(notes),
+                status: Value(status),
+                createdAt: Value(createdAt),
+                updatedAt: Value(updatedAt),
+                updatedAtHlc: Value(hlc),
+                isDeleted: Value(isDeleted),
+              ),
+            );
+      }
+    });
+
+    // Reload cache to reflect remote changes immediately
+    await _reloadCache();
+  }
+
+  // --- Exam Bank Queries & Operations ---
+
+  Future<void> saveExamCatalog(List<ExamPaperModel> exams) async {
+    await db.transaction(() async {
+      for (final exam in exams) {
+        await db
+            .into(db.examPapers)
+            .insertOnConflictUpdate(
+              ExamPapersCompanion.insert(
+                id: exam.id,
+                title: exam.title,
+                description: Value(exam.description),
+                category: Value(exam.category.code),
+                level: Value(exam.level),
+                durationMinutes: Value(exam.durationMinutes),
+                totalQuestions: Value(exam.totalQuestions),
+                passingScore: Value(exam.passingScore),
+                iconName: Value(exam.iconName),
+                version: Value(exam.version),
+                isPublished: Value(exam.isPublished),
+                isDownloaded: Value(exam.isDownloaded),
+                createdAt: Value(exam.createdAt),
+                updatedAt: Value(exam.updatedAt),
+              ),
+            );
+      }
+    });
+  }
+
+  Future<List<ExamPaperModel>> getExamCatalog({
+    ExamCategory? category,
+    String? level,
+  }) async {
+    final query = db.select(db.examPapers)
+      ..where((tbl) => tbl.isPublished.equals(true));
+    if (category != null) {
+      query.where((tbl) => tbl.category.equals(category.code));
+    }
+    if (level != null && level.isNotEmpty) {
+      query.where((tbl) => tbl.level.equals(level));
+    }
+    query.orderBy([
+      (tbl) => OrderingTerm.asc(tbl.category),
+      (tbl) => OrderingTerm.asc(tbl.level),
+    ]);
+    final rows = await query.get();
+    return rows
+        .map(
+          (r) => ExamPaperModel(
+            id: r.id,
+            title: r.title,
+            description: r.description,
+            category: ExamCategory.fromString(r.category),
+            level: r.level,
+            durationMinutes: r.durationMinutes,
+            totalQuestions: r.totalQuestions,
+            passingScore: r.passingScore,
+            iconName: r.iconName,
+            version: r.version,
+            isPublished: r.isPublished,
+            isDownloaded: r.isDownloaded,
+            createdAt: r.createdAt,
+            updatedAt: r.updatedAt,
+          ),
+        )
+        .toList();
+  }
+
+  Future<ExamPaperModel?> getExamPaperById(String examId) async {
+    final row = await (db.select(
+      db.examPapers,
+    )..where((tbl) => tbl.id.equals(examId))).getSingleOrNull();
+    if (row == null) return null;
+    return ExamPaperModel(
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      category: ExamCategory.fromString(row.category),
+      level: row.level,
+      durationMinutes: row.durationMinutes,
+      totalQuestions: row.totalQuestions,
+      passingScore: row.passingScore,
+      iconName: row.iconName,
+      version: row.version,
+      isPublished: row.isPublished,
+      isDownloaded: row.isDownloaded,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+    );
+  }
+
+  Future<void> saveExamPaperWithQuestions(
+    ExamPaperModel paper,
+    List<ExamSectionModel> sections,
+    List<ExamQuestionModel> questions,
+  ) async {
+    await db.transaction(() async {
+      await db
+          .into(db.examPapers)
+          .insertOnConflictUpdate(
+            ExamPapersCompanion.insert(
+              id: paper.id,
+              title: paper.title,
+              description: Value(paper.description),
+              category: Value(paper.category.code),
+              level: Value(paper.level),
+              durationMinutes: Value(paper.durationMinutes),
+              totalQuestions: Value(paper.totalQuestions),
+              passingScore: Value(paper.passingScore),
+              iconName: Value(paper.iconName),
+              version: Value(paper.version),
+              isPublished: Value(paper.isPublished),
+              isDownloaded: const Value(true),
+              createdAt: Value(paper.createdAt),
+              updatedAt: Value(paper.updatedAt),
+            ),
+          );
+
+      for (final sec in sections) {
+        await db
+            .into(db.examSections)
+            .insertOnConflictUpdate(
+              ExamSectionsCompanion.insert(
+                id: sec.id,
+                examId: sec.examId,
+                title: sec.title,
+                sectionType: Value(sec.sectionType),
+                orderIndex: Value(sec.orderIndex),
+                instruction: Value(sec.instruction),
+              ),
+            );
+      }
+
+      for (final q in questions) {
+        await db
+            .into(db.examQuestions)
+            .insertOnConflictUpdate(
+              ExamQuestionsCompanion.insert(
+                id: q.id,
+                examId: q.examId,
+                sectionId: q.sectionId,
+                questionNumber: Value(q.questionNumber),
+                questionText: q.questionText,
+                contextPassage: Value(q.contextPassage),
+                audioUrl: Value(q.audioUrl),
+                optionsJson: Value(
+                  jsonEncode(q.options.map((o) => o.toJson()).toList()),
+                ),
+                correctAnswer: q.correctAnswer,
+                explanation: Value(q.explanation),
+                points: Value(q.points),
+              ),
+            );
+      }
+    });
+  }
+
+  Future<List<ExamSectionModel>> getExamSections(String examId) async {
+    final rows =
+        await (db.select(db.examSections)
+              ..where((tbl) => tbl.examId.equals(examId))
+              ..orderBy([(tbl) => OrderingTerm.asc(tbl.orderIndex)]))
+            .get();
+    return rows
+        .map(
+          (r) => ExamSectionModel(
+            id: r.id,
+            examId: r.examId,
+            title: r.title,
+            sectionType: r.sectionType,
+            orderIndex: r.orderIndex,
+            instruction: r.instruction,
+          ),
+        )
+        .toList();
+  }
+
+  Future<List<ExamQuestionModel>> getExamQuestions(String examId) async {
+    final rows =
+        await (db.select(db.examQuestions)
+              ..where((tbl) => tbl.examId.equals(examId))
+              ..orderBy([(tbl) => OrderingTerm.asc(tbl.questionNumber)]))
+            .get();
+    return rows
+        .map(
+          (r) => ExamQuestionModel.fromJson({
+            'id': r.id,
+            'exam_id': r.examId,
+            'section_id': r.sectionId,
+            'question_number': r.questionNumber,
+            'question_text': r.questionText,
+            'context_passage': r.contextPassage,
+            'audio_url': r.audioUrl,
+            'options_json': r.optionsJson,
+            'correct_answer': r.correctAnswer,
+            'explanation': r.explanation,
+            'points': r.points,
+          }),
+        )
+        .toList();
+  }
+
+  Future<void> submitExamResult(
+    ExamSubmissionModel submission,
+    List<WrongQuestionModel> wrongQuestions, {
+    bool markOutbox = true,
+  }) async {
+    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+
+    await db.transaction(() async {
+      await db
+          .into(db.examSubmissions)
+          .insertOnConflictUpdate(
+            ExamSubmissionsCompanion.insert(
+              id: submission.id,
+              examId: submission.examId,
+              score: Value(submission.score),
+              totalCorrect: Value(submission.totalCorrect),
+              totalQuestions: Value(submission.totalQuestions),
+              durationSeconds: Value(submission.durationSeconds),
+              answersJson: Value(jsonEncode(submission.answers)),
+              submittedAt: Value(submission.submittedAt),
+              updatedAtHlc: Value(hlcStr),
+              isDeleted: const Value(false),
+            ),
+          );
+
+      if (markOutbox) {
+        await db
+            .into(db.syncOutbox)
+            .insertOnConflictUpdate(
+              SyncOutboxCompanion.insert(
+                id: 'outbox_exam_sub_${submission.id}_$hlcStr',
+                entityType: 'exam_submission',
+                entityId: submission.id,
+                operation: 'UPSERT',
+                payloadJson: jsonEncode({
+                  'id': submission.id,
+                  'exam_id': submission.examId,
+                  'score': submission.score,
+                  'total_correct': submission.totalCorrect,
+                  'total_questions': submission.totalQuestions,
+                  'duration_seconds': submission.durationSeconds,
+                  'answers_json': submission.answers,
+                  'submitted_at': submission.submittedAt.toIso8601String(),
+                }),
+                hlc: hlcStr,
+              ),
+            );
+      }
+
+      for (final w in wrongQuestions) {
+        final wHlcStr = markOutbox ? advanceHlc().pack() : '';
+        await db
+            .into(db.wrongQuestionNotebook)
+            .insertOnConflictUpdate(
+              WrongQuestionNotebookCompanion.insert(
+                id: w.id,
+                examId: w.examId,
+                questionId: w.questionId,
+                userAnswer: w.userAnswer,
+                explanation: Value(w.explanation),
+                notes: Value(w.notes),
+                status: Value(w.status.code),
+                createdAt: Value(w.createdAt),
+                updatedAt: Value(DateTime.now().toUtc()),
+                updatedAtHlc: Value(wHlcStr),
+                isDeleted: const Value(false),
+              ),
+            );
+
+        if (markOutbox) {
+          await db
+              .into(db.syncOutbox)
+              .insertOnConflictUpdate(
+                SyncOutboxCompanion.insert(
+                  id: 'outbox_wrong_q_${w.id}_$wHlcStr',
+                  entityType: 'wrong_question',
+                  entityId: w.id,
+                  operation: 'UPSERT',
+                  payloadJson: jsonEncode({
+                    'id': w.id,
+                    'exam_id': w.examId,
+                    'question_id': w.questionId,
+                    'user_answer': w.userAnswer,
+                    'explanation': w.explanation,
+                    'notes': w.notes,
+                    'status': w.status.code,
+                    'created_at': w.createdAt.toIso8601String(),
+                    'updated_at': DateTime.now().toUtc().toIso8601String(),
+                  }),
+                  hlc: wHlcStr,
+                ),
+              );
+        }
+      }
+    });
+
+    if (markOutbox) {
+      onMutationEnqueued?.call();
+    }
+  }
+
+  Future<List<ExamSubmissionModel>> getExamSubmissions(String examId) async {
+    final rows =
+        await (db.select(db.examSubmissions)
+              ..where(
+                (tbl) =>
+                    tbl.examId.equals(examId) & tbl.isDeleted.equals(false),
+              )
+              ..orderBy([(tbl) => OrderingTerm.desc(tbl.submittedAt)]))
+            .get();
+    return rows
+        .map(
+          (r) => ExamSubmissionModel.fromJson({
+            'id': r.id,
+            'exam_id': r.examId,
+            'score': r.score,
+            'total_correct': r.totalCorrect,
+            'total_questions': r.totalQuestions,
+            'duration_seconds': r.durationSeconds,
+            'answers_json': r.answersJson,
+            'submitted_at': r.submittedAt.toIso8601String(),
+            'updated_at_hlc': r.updatedAtHlc,
+          }),
+        )
+        .toList();
+  }
+
+  Future<List<WrongQuestionModel>> getWrongQuestions({
+    String? examId,
+    WrongQuestionStatus? status,
+  }) async {
+    final query = db.select(db.wrongQuestionNotebook)
+      ..where((tbl) => tbl.isDeleted.equals(false));
+    if (examId != null) {
+      query.where((tbl) => tbl.examId.equals(examId));
+    }
+    if (status != null) {
+      query.where((tbl) => tbl.status.equals(status.code));
+    }
+    query.orderBy([(tbl) => OrderingTerm.desc(tbl.createdAt)]);
+    final rows = await query.get();
+    return rows
+        .map(
+          (r) => WrongQuestionModel.fromJson({
+            'id': r.id,
+            'exam_id': r.examId,
+            'question_id': r.questionId,
+            'user_answer': r.userAnswer,
+            'explanation': r.explanation,
+            'notes': r.notes,
+            'status': r.status,
+            'created_at': r.createdAt.toIso8601String(),
+            'updated_at': r.updatedAt.toIso8601String(),
+            'updated_at_hlc': r.updatedAtHlc,
+          }),
+        )
+        .toList();
+  }
+
+  Future<void> updateWrongQuestionStatus(
+    String id,
+    WrongQuestionStatus status, {
+    bool markOutbox = true,
+  }) async {
+    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+    await db.transaction(() async {
+      await (db.update(
+        db.wrongQuestionNotebook,
+      )..where((tbl) => tbl.id.equals(id))).write(
+        WrongQuestionNotebookCompanion(
+          status: Value(status.code),
+          updatedAt: Value(DateTime.now().toUtc()),
+          updatedAtHlc: Value(hlcStr),
+        ),
+      );
+
+      if (markOutbox) {
+        await db
+            .into(db.syncOutbox)
+            .insertOnConflictUpdate(
+              SyncOutboxCompanion.insert(
+                id: 'outbox_wrong_status_${id}_$hlcStr',
+                entityType: 'wrong_question',
+                entityId: id,
+                operation: 'UPSERT',
+                payloadJson: jsonEncode({
+                  'id': id,
+                  'status': status.code,
+                  'updated_at': DateTime.now().toUtc().toIso8601String(),
+                }),
+                hlc: hlcStr,
+              ),
+            );
+      }
+    });
+
+    if (markOutbox) {
+      onMutationEnqueued?.call();
     }
   }
 

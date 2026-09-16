@@ -44,12 +44,13 @@ class GrammarTheoryScreen extends HookConsumerWidget {
 
         return Scaffold(
           headers: [_buildAppBar(context, l10n, isMobile)],
-          child: grammarAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) =>
-                Center(child: Text(l10n.grammarErrorLoadUnit(err.toString()))),
-            data: (units) {
-              final unit = units.cast<GrammarUnit?>().firstWhere(
+          child: switch (grammarAsync) {
+            AsyncLoading() => const Center(child: CircularProgressIndicator()),
+            AsyncError(:final error) => Center(
+              child: Text(l10n.grammarErrorLoadUnit(error.toString())),
+            ),
+            AsyncData(:final value) => () {
+              final unit = value.cast<GrammarUnit?>().firstWhere(
                 (u) => u?.unitId == unitId,
                 orElse: () => null,
               );
@@ -70,8 +71,8 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                       guidesKey: guidesKey,
                       onScrollTo: scrollTo,
                     );
-            },
-          ),
+            }(),
+          },
         );
       },
     );

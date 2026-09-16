@@ -1,8 +1,11 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 /// Centralized configuration for AnkiWeb synchronization and authentication.
 class AnkiWebConfig {
-  static const String defaultSyncHost = 'https://sync.ankiweb.net';
+  static const String defaultSyncHost = String.fromEnvironment(
+    'ANKIWEB_SYNC_HOST',
+    defaultValue: 'https://sync.ankiweb.net',
+  );
   static const String ankiVersion = '2.1.57';
   static const String ankiBuild = '7b1f3c3a';
   static const String defaultUserAgent = 'Anki/$ankiVersion ($ankiBuild)';

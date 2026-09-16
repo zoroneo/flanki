@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:flanki/core/config/app_config.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
 
 class TabletNavRail extends StatelessWidget {
@@ -42,7 +43,8 @@ class TabletNavRail extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
       child: Tooltip(
-        tooltip: (context) => const TooltipContainer(child: Text('Flanki')),
+        tooltip: (context) =>
+            const TooltipContainer(child: Text(AppConfig.appName)),
         child: Container(
           width: 38,
           height: 38,
@@ -94,22 +96,31 @@ class TabletNavRail extends StatelessWidget {
         ),
         AppGaps.v8,
         NavRailItem(
-          icon: LucideIcons.chartColumn,
-          activeIcon: LucideIcons.chartNoAxesCombined,
-          label: l10n.navStats,
+          icon: LucideIcons.graduationCap,
+          activeIcon: LucideIcons.graduationCap,
+          label: l10n.navExams,
           shortcutHint: 'Ctrl+4',
           isSelected: currentIndex == 3,
           onTap: () => onSelectTab(3),
         ),
         AppGaps.v8,
         NavRailItem(
+          icon: LucideIcons.chartColumn,
+          activeIcon: LucideIcons.chartNoAxesCombined,
+          label: l10n.navStats,
+          shortcutHint: 'Ctrl+5',
+          isSelected: currentIndex == 4,
+          onTap: () => onSelectTab(4),
+        ),
+        AppGaps.v8,
+        NavRailItem(
           icon: LucideIcons.settings,
           activeIcon: LucideIcons.settings2,
           label: l10n.navSettings,
-          shortcutHint: 'Ctrl+5',
-          isSelected: currentIndex == 4,
+          shortcutHint: 'Ctrl+6',
+          isSelected: currentIndex == 5,
           indicatorColor: isAuthenticated ? m.Colors.green : null,
-          onTap: () => onSelectTab(4),
+          onTap: () => onSelectTab(5),
         ),
       ],
     );

@@ -22,6 +22,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navGrammar => 'Grammar';
 
   @override
+  String get navExams => 'Exams';
+
+  @override
   String get navStats => 'Stats';
 
   @override
@@ -1512,4 +1515,369 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknown => 'Unknown';
+
+  @override
+  String get flankiCloud => 'Flanki Cloud';
+
+  @override
+  String get cloudSyncSubtitle =>
+      'Automatic real-time sync across devices with zero data loss';
+
+  @override
+  String get signInCloud => 'Sign In to Cloud';
+
+  @override
+  String get signUpCloud => 'Create Cloud Account';
+
+  @override
+  String get cloudAccount => 'Cloud Account';
+
+  @override
+  String get cloudNotConnected => 'Cloud Account Not Connected';
+
+  @override
+  String get cloudConnected => 'Connected to Cloud';
+
+  @override
+  String pendingChanges(int count) {
+    return '$count changes pending';
+  }
+
+  @override
+  String get signOutConfirmTitle => 'Sign out of Cloud?';
+
+  @override
+  String get signOutConfirmDesc =>
+      'Your local cards and study history will remain safely on this device.';
+
+  @override
+  String get authInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get authPasswordTooShort => 'Password must be at least 6 characters.';
+
+  @override
+  String get authSuccessSubtitle =>
+      'Account created and signed in successfully.';
+
+  @override
+  String get examBank => 'Exam Bank';
+
+  @override
+  String get wrongNotebook => 'Mistake Notebook';
+
+  @override
+  String get searchExamsPlaceholder => 'Search exams by title or level...';
+
+  @override
+  String get allFilter => 'All';
+
+  @override
+  String allCountFilter(int count) {
+    return 'All ($count)';
+  }
+
+  @override
+  String examDurationAndQuestions(int duration, int count) {
+    return '$duration mins • $count questions';
+  }
+
+  @override
+  String get examDownloadedOffline => 'Downloaded';
+
+  @override
+  String get downloadExam => 'Download';
+
+  @override
+  String get downloadingExam => 'Downloading...';
+
+  @override
+  String get takeExam => 'Start Exam';
+
+  @override
+  String get noExamsFoundTitle => 'No matching exams found';
+
+  @override
+  String get noExamsFoundDesc =>
+      'Try changing your search terms or category filters.';
+
+  @override
+  String get takingExamTitle => 'Take Exam';
+
+  @override
+  String get backButton => 'Back';
+
+  @override
+  String get examNoQuestions => 'No questions found in this exam paper';
+
+  @override
+  String get submitExam => 'Submit';
+
+  @override
+  String get submitExamNow => 'Submit Now';
+
+  @override
+  String get continueExam => 'Continue';
+
+  @override
+  String get previousQuestion => 'Previous';
+
+  @override
+  String get nextQuestion => 'Next';
+
+  @override
+  String get questionList => 'Questions';
+
+  @override
+  String get questionListTitle => 'Question Overview';
+
+  @override
+  String get readingPassage => 'Reading Passage:';
+
+  @override
+  String questionProgress(int current, int total) {
+    return 'Question $current / $total';
+  }
+
+  @override
+  String questionNumberPrefix(int number) {
+    return 'Question $number';
+  }
+
+  @override
+  String get confirmSubmitExamTitle => 'Confirm Exam Submission?';
+
+  @override
+  String confirmSubmitUnfinished(int count) {
+    return 'You have $count unanswered question(s). Are you sure you want to submit now?';
+  }
+
+  @override
+  String get confirmSubmitFinished =>
+      'You have answered all questions. Submit for grading?';
+
+  @override
+  String get confirmExitExamTitle => 'Exit Exam?';
+
+  @override
+  String get confirmExitExamDesc =>
+      'If you leave now, your current answers will not be saved.';
+
+  @override
+  String get stayInExam => 'Stay in Exam';
+
+  @override
+  String get exitExam => 'Exit';
+
+  @override
+  String get examResultTitle => 'Exam Result';
+
+  @override
+  String get examResultNotFound => 'Exam submission result not found';
+
+  @override
+  String get backToCatalog => 'Back to Catalog';
+
+  @override
+  String get examPassed => 'PASSED';
+
+  @override
+  String get examFailed => 'FAILED';
+
+  @override
+  String examScorePoints(int score) {
+    return '$score Pts';
+  }
+
+  @override
+  String get correctCountStat => 'Correct Answers';
+
+  @override
+  String get durationStat => 'Time Taken';
+
+  @override
+  String get passingScoreStat => 'Passing Score';
+
+  @override
+  String get retakeExam => 'Retake Exam';
+
+  @override
+  String get questionDetails => 'Question & Answer Details';
+
+  @override
+  String get correctBadge => 'Correct';
+
+  @override
+  String get wrongBadge => 'Incorrect';
+
+  @override
+  String explanationPrefix(String exp) {
+    return 'Explanation: $exp';
+  }
+
+  @override
+  String examPrefixLabel(String examId) {
+    return 'Exam: $examId';
+  }
+
+  @override
+  String selectedAnswerPrefix(String answer) {
+    return 'Selected: $answer';
+  }
+
+  @override
+  String get reviewMistakeButton => 'Review';
+
+  @override
+  String get masteredMistakeButton => 'Mastered';
+
+  @override
+  String get noWrongQuestionsTitle => 'No mistakes recorded!';
+
+  @override
+  String get noWrongQuestionsDesc =>
+      'Great job! You have zero recorded mistakes or all have been mastered.';
+
+  @override
+  String get ankiWebLegacy => 'AnkiWeb (Legacy)';
+
+  @override
+  String get unansweredPlaceholder => '(Unanswered)';
+
+  @override
+  String get examCategoryJlpt => 'JLPT';
+
+  @override
+  String get examCategoryToeic => 'TOEIC';
+
+  @override
+  String get examCategoryThptqg => 'National High School Exam';
+
+  @override
+  String get examCategoryGrammarTest => 'Grammar Mastery Test';
+
+  @override
+  String get examCategoryCustom => 'Custom Exam';
+
+  @override
+  String get wrongStatusNew => 'New Mistake';
+
+  @override
+  String get wrongStatusReviewing => 'Reviewing';
+
+  @override
+  String get wrongStatusMastered => 'Mastered';
+
+  @override
+  String get grammarDifficultyRecognition => 'Recognition';
+
+  @override
+  String get grammarDifficultyAnalysis => 'Analysis & Traps';
+
+  @override
+  String get grammarDifficultyProduction => 'Production';
+
+  @override
+  String get grammarCatTenses => 'Tenses & Aspects';
+
+  @override
+  String get grammarCatVoice => 'Passive Voice';
+
+  @override
+  String get grammarCatModals => 'Modal Verbs';
+
+  @override
+  String get grammarCatConditionals => 'Conditionals';
+
+  @override
+  String get grammarCatSubjunctive => 'Subjunctive Mood';
+
+  @override
+  String get grammarCatClauses => 'Relative Clauses';
+
+  @override
+  String get grammarCatInversion => 'Inversion';
+
+  @override
+  String get grammarCatVerbForms => 'Gerund & Infinitive';
+
+  @override
+  String get grammarCatConjunctions => 'Conjunctions';
+
+  @override
+  String get grammarCatSubjectVerbAgreement => 'Subject-Verb Agreement';
+
+  @override
+  String get grammarCatComparisons => 'Comparisons';
+
+  @override
+  String get grammarCatArticles => 'Articles';
+
+  @override
+  String get grammarCatDeterminers => 'Determiners';
+
+  @override
+  String get grammarCatPronouns => 'Pronouns';
+
+  @override
+  String get grammarCatPrepositions => 'Prepositions';
+
+  @override
+  String get grammarCatAdjectivesAdverbs => 'Adjectives & Adverbs';
+
+  @override
+  String get grammarCatNounClauses => 'Noun Clauses';
+
+  @override
+  String get grammarCatSentenceStructure => 'Sentence Structure';
+
+  @override
+  String get grammarCatCausativeVerbs => 'Causative Verbs';
+
+  @override
+  String get grammarCatPhrasalVerbs => 'Phrasal Verbs';
+
+  @override
+  String get grammarCatQuestions => 'Questions & Tag Questions';
+
+  @override
+  String get grammarCatEmphasis => 'Emphasis & Cleft Sentences';
+
+  @override
+  String get grammarCatParallelStructure => 'Parallelism';
+
+  @override
+  String get grammarCatParticiples => 'Participles';
+
+  @override
+  String get grammarCatWordFormation => 'Word Formation';
+
+  @override
+  String get grammarCatCollocations => 'Collocations';
+
+  @override
+  String get grammarCatCapstone => 'Capstone Exam Mastery';
+
+  @override
+  String get examNotFound => 'Exam paper not found or deleted.';
+
+  @override
+  String examLoadFailed(String error) {
+    return 'Failed to load exam paper: $error';
+  }
+
+  @override
+  String examSubmitFailed(String error) {
+    return 'Failed to submit exam: $error';
+  }
+
+  @override
+  String examDownloadFailed(String error) {
+    return 'Failed to download exam paper: $error';
+  }
+
+  @override
+  String wrongStatusUpdateFailed(String error) {
+    return 'Failed to update question status: $error';
+  }
 }

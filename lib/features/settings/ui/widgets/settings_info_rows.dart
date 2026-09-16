@@ -155,15 +155,14 @@ class VersionInfoRow extends StatelessWidget {
   }
 
   Widget _buildUpdateStatusWidget(ThemeData theme, dynamic l10n) {
-    if (updateState.status == UpdateStatus.checking) {
-      return Text(
+    return switch (updateState.status) {
+      UpdateStatus.checking => Text(
         l10n.checkingForUpdates,
         style: theme.typography.xSmall.copyWith(
           color: theme.colorScheme.mutedForeground,
         ),
-      );
-    } else if (updateState.status == UpdateStatus.available) {
-      return GestureDetector(
+      ),
+      UpdateStatus.available => GestureDetector(
         onTap: onShowDialog,
         child: Container(
           padding: AppEdgeInsets.h8v4,
@@ -188,45 +187,45 @@ class VersionInfoRow extends StatelessWidget {
             ],
           ),
         ),
-      );
-    } else if (updateState.status == UpdateStatus.downloading) {
-      final pct = (updateState.downloadProgress * 100).toInt().clamp(0, 100);
-      return GestureDetector(
-        onTap: onShowDialog,
-        child: Container(
-          padding: AppEdgeInsets.h8v4,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(alpha: 0.15),
-            borderRadius: AppRadius.borderSm,
-            border: Border.all(color: theme.colorScheme.primary),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 10,
-                height: 10,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1.5,
-                  value: updateState.downloadProgress > 0
-                      ? updateState.downloadProgress
-                      : null,
+      ),
+      UpdateStatus.downloading => () {
+        final pct = (updateState.downloadProgress * 100).toInt().clamp(0, 100);
+        return GestureDetector(
+          onTap: onShowDialog,
+          child: Container(
+            padding: AppEdgeInsets.h8v4,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withValues(alpha: 0.15),
+              borderRadius: AppRadius.borderSm,
+              border: Border.all(color: theme.colorScheme.primary),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 10,
+                  height: 10,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5,
+                    value: updateState.downloadProgress > 0
+                        ? updateState.downloadProgress
+                        : null,
+                  ),
                 ),
-              ),
-              AppGaps.h4,
-              Text(
-                '$pct%',
-                style: theme.typography.xSmall.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.w600,
+                AppGaps.h4,
+                Text(
+                  '$pct%',
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    } else if (updateState.status == UpdateStatus.readyToInstall) {
-      return GestureDetector(
+        );
+      }(),
+      UpdateStatus.readyToInstall => GestureDetector(
         onTap: onShowDialog,
         child: Container(
           padding: AppEdgeInsets.h8v4,
@@ -249,9 +248,8 @@ class VersionInfoRow extends StatelessWidget {
             ],
           ),
         ),
-      );
-    } else if (updateState.status == UpdateStatus.upToDate) {
-      return GestureDetector(
+      ),
+      UpdateStatus.upToDate => GestureDetector(
         onTap: onCheckUpdate,
         child: Text(
           l10n.latestVersionStatus,
@@ -260,9 +258,8 @@ class VersionInfoRow extends StatelessWidget {
             decoration: TextDecoration.underline,
           ),
         ),
-      );
-    } else {
-      return GestureDetector(
+      ),
+      _ => GestureDetector(
         onTap: onCheckUpdate,
         child: Text(
           l10n.checkForUpdates,
@@ -271,8 +268,8 @@ class VersionInfoRow extends StatelessWidget {
             decoration: TextDecoration.underline,
           ),
         ),
-      );
-    }
+      ),
+    };
   }
 }
 

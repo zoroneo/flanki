@@ -3,10 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
-
-import 'package:flanki/core/widgets/rich_card_content.dart';
+import '../../models/grammar_models.dart';
+import 'grammar_theory_tab_views.dart';
 
 /// Interactive tab definitions for grammar theory screen on mobile.
 enum GrammarTheoryTabType { concept, formulas, traps, guides }
@@ -33,7 +32,6 @@ class GrammarTheoryMobileTabs extends HookWidget {
     final activeIndex = useState<int>(0);
     final pageController = usePageController(initialPage: 0);
 
-    // Keep pageController and activeIndex in sync
     void onTabSelected(int index) {
       activeIndex.value = index;
       pageController.animateToPage(
@@ -62,7 +60,16 @@ class GrammarTheoryMobileTabs extends HookWidget {
             onPageChanged: (index) => activeIndex.value = index,
             itemBuilder: (context, index) {
               final tabType = availableTabs[index];
-              return _buildTabContent(context, theme, l10n, tabType);
+              return switch (tabType) {
+                GrammarTheoryTabType.concept => GrammarConceptTabView(
+                  unit: unit,
+                ),
+                GrammarTheoryTabType.formulas => GrammarFormulasTabView(
+                  unit: unit,
+                ),
+                GrammarTheoryTabType.traps => GrammarTrapsTabView(unit: unit),
+                GrammarTheoryTabType.guides => GrammarGuidesTabView(unit: unit),
+              };
             },
           ),
         ),
@@ -223,294 +230,6 @@ class GrammarTheoryMobileTabs extends HookWidget {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildTabContent(
-    BuildContext context,
-    ThemeData theme,
-    AppLocalizations l10n,
-    GrammarTheoryTabType tabType,
-  ) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.md,
-        AppSpacing.sm,
-        AppSpacing.md,
-        AppSpacing.lg,
-      ),
-      child: switch (tabType) {
-        GrammarTheoryTabType.concept => _buildConceptStream(theme, l10n),
-        GrammarTheoryTabType.formulas => _buildFormulasStream(theme, l10n),
-        GrammarTheoryTabType.traps => _buildTrapsStream(theme, l10n),
-        GrammarTheoryTabType.guides => _buildGuidesStream(theme, l10n),
-      },
-    );
-  }
-
-  Widget _buildConceptStream(ThemeData theme, AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader(
-          icon: LucideIcons.lightbulb,
-          iconColor: m.Colors.amber,
-          title: l10n.grammarCoreConceptTitle,
-          theme: theme,
-        ),
-        AppGaps.v8,
-        RichCardContent(
-          content: unit.coreConcept,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          textAlign: TextAlign.start,
-          textStyle: TextStyle(
-            fontSize: 13.5,
-            height: 1.5,
-            color: theme.colorScheme.foreground,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFormulasStream(ThemeData theme, AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader(
-          icon: LucideIcons.sigma,
-          iconColor: m.Colors.blue,
-          title: l10n.grammarFormulasTitle,
-          theme: theme,
-        ),
-        AppGaps.v8,
-        ...unit.formulas.entries.map((entry) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-            padding: AppEdgeInsets.h12v8,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.muted.withValues(alpha: 0.35),
-              borderRadius: AppRadius.borderSm,
-              border: Border.all(
-                color: theme.colorScheme.border.withValues(alpha: 0.7),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.key,
-                  style: TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-                AppGaps.v4,
-                RichCardContent(
-                  content: entry.value,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  textAlign: TextAlign.start,
-                  textStyle: const TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w500,
-                    height: 1.35,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget _buildTrapsStream(ThemeData theme, AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader(
-          icon: LucideIcons.triangleAlert,
-          iconColor: m.Colors.orange,
-          title: l10n.grammarCommonTrapsTitle,
-          theme: theme,
-        ),
-        AppGaps.v8,
-        ...unit.commonTraps.map((trap) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-            padding: AppEdgeInsets.all8,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.card,
-              borderRadius: AppRadius.borderMd,
-              border: Border.all(color: theme.colorScheme.border),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichCardContent(
-                  content: trap.trap,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  textAlign: TextAlign.start,
-                  textStyle: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                AppGaps.v8,
-                _buildExampleBox(
-                  icon: '❌ ',
-                  content: trap.exampleWrong,
-                  color: m.Colors.red,
-                ),
-                AppGaps.v4,
-                _buildExampleBox(
-                  icon: '✅ ',
-                  content: trap.exampleRight,
-                  color: m.Colors.green,
-                  isBold: true,
-                ),
-                if (trap.note.isNotEmpty) ...[
-                  AppGaps.v6,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        LucideIcons.info,
-                        size: AppIconSize.xs,
-                        color: m.Colors.orange,
-                      ),
-                      AppGaps.h4,
-                      Expanded(
-                        child: RichCardContent(
-                          content: trap.note,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          textAlign: TextAlign.start,
-                          textStyle: TextStyle(
-                            fontSize: 12,
-                            color: theme.colorScheme.mutedForeground,
-                            height: 1.35,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget _buildGuidesStream(ThemeData theme, AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader(
-          icon: LucideIcons.bookOpen,
-          iconColor: m.Colors.purple,
-          title: l10n.grammarExtraGuidesTitle,
-          theme: theme,
-        ),
-        AppGaps.v8,
-        ...unit.extraGuides.entries.map((entry) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-            padding: AppEdgeInsets.all8,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.muted.withValues(alpha: 0.25),
-              borderRadius: AppRadius.borderSm,
-              border: Border.all(
-                color: theme.colorScheme.border.withValues(alpha: 0.5),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.key,
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.bold,
-                    color: m.Colors.purple,
-                  ),
-                ),
-                AppGaps.v4,
-                RichCardContent(
-                  content: entry.value,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  textAlign: TextAlign.start,
-                  textStyle: TextStyle(
-                    fontSize: 12.5,
-                    height: 1.45,
-                    color: theme.colorScheme.foreground,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget _buildSectionHeader({
-    required IconData icon,
-    required Color iconColor,
-    required String title,
-    required ThemeData theme,
-  }) {
-    return Row(
-      children: [
-        Icon(icon, size: AppIconSize.sm, color: iconColor),
-        AppGaps.h8,
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: theme.colorScheme.foreground,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildExampleBox({
-    required String icon,
-    required String content,
-    required m.MaterialColor color,
-    bool isBold = false,
-  }) {
-    return Container(
-      padding: AppEdgeInsets.h8v4,
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
-        borderRadius: AppRadius.borderSm,
-        border: Border.all(color: color.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(icon, style: const TextStyle(fontSize: 12)),
-          Expanded(
-            child: RichCardContent(
-              content: content,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              textAlign: TextAlign.start,
-              textStyle: TextStyle(
-                fontSize: 12.5,
-                color: color,
-                fontWeight: isBold ? FontWeight.w600 : FontWeight.normal,
-                height: 1.3,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

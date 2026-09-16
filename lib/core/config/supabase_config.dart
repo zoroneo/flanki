@@ -21,5 +21,18 @@ class SupabaseConfig {
   static bool get isConfigured => url.isNotEmpty && anonKey.isNotEmpty;
 
   /// Media bucket name in Supabase Storage.
-  static const String mediaBucket = 'flanki_media';
+  static const String mediaBucket = String.fromEnvironment(
+    'SUPABASE_MEDIA_BUCKET',
+    defaultValue: 'flanki_media',
+  );
+
+  /// Fallback mock credentials for offline testing and uninitialized states.
+  static const String mockUrl = 'https://mock.supabase.co';
+  static const String mockAnonKey = 'mock-key';
+
+  /// Default batch limit for pushing mutations.
+  static const int defaultPushBatchLimit = 100;
+
+  /// Default batch limit for pulling deltas.
+  static const int defaultPullBatchLimit = 500;
 }

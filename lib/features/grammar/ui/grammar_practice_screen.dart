@@ -5,15 +5,13 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../data/grammar_repository.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
 import '../providers/grammar_session_notifier.dart';
-import '../../../l10n/generated/app_localizations.dart';
-import 'widgets/explanation_sheet.dart';
 import 'widgets/grammar_exit_dialog.dart';
-import 'widgets/grammar_practice_question_content.dart';
-import 'widgets/practice_shortcuts_guide.dart';
+import 'widgets/grammar_practice_layouts.dart';
 import 'widgets/session_summary_dialog.dart';
 
 class GrammarPracticeScreen extends ConsumerStatefulWidget {
@@ -92,7 +90,6 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       grammarSessionNotifierProvider.select((s) => s.isFinished),
     );
 
-    // If session finished, show summary dialog
     if (isFinished) {
       final summary = ref.watch(
         grammarSessionNotifierProvider.select(
@@ -244,141 +241,28 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
             ),
           ],
           child: ScreenTypeLayout.builder(
-            mobile: (context) => Stack(
-              children: [
-                Column(
-                  children: [
-                    // Step Progress Bar
-                    LinearProgressIndicator(
-                      value: progressFraction,
-                      minHeight: AppSpacing.xs,
-                    ),
-
-                    // Main Question Content
-                    Expanded(
-                      child: currentExercise == null
-                          ? const Center(child: CircularProgressIndicator())
-                          : SingleChildScrollView(
-                              padding: EdgeInsets.fromLTRB(
-                                AppSpacing.smPlus,
-                                AppSpacing.smPlus,
-                                AppSpacing.smPlus,
-                                isSubmitted
-                                    ? 240
-                                    : AppSpacing.md +
-                                          MediaQuery.paddingOf(context).bottom,
-                              ),
-                              child: Center(
-                                child: Container(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 720,
-                                  ),
-                                  child: GrammarPracticeQuestionContent(
-                                    theme: theme,
-                                    l10n: l10n,
-                                    currentIndex: questionIndices.$1,
-                                    totalQuestions: questionIndices.$2,
-                                    selectedAnswer: selectedAnswer,
-                                    isSubmitted: isSubmitted,
-                                    isCurrentCorrect: isCurrentCorrect,
-                                    notifier: notifier,
-                                    currentExercise: currentExercise,
-                                  ),
-                                ),
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
-
-                // Expandable Bottom Explanation Sheet (when submitted)
-                if (isSubmitted && currentExercise != null)
-                  DraggableScrollableSheet(
-                    key: ValueKey('explanation_sheet_${currentExercise.id}'),
-                    controller: _sheetController,
-                    initialChildSize: 0.50,
-                    minChildSize: 0.50,
-                    maxChildSize: 1.0,
-                    snap: true,
-                    snapSizes: const [0.50, 1.0],
-                    builder: (context, scrollController) {
-                      return ExplanationSheet(
-                        exercise: currentExercise,
-                        isCorrect: isCurrentCorrect ?? false,
-                        isLastQuestion: isLastQuestion,
-                        onNext: () => notifier.nextQuestion(),
-                        scrollController: scrollController,
-                        sheetController: _sheetController,
-                      );
-                    },
-                  ),
-              ],
+            mobile: (context) => GrammarPracticeMobileLayout(
+              progressFraction: progressFraction,
+              currentExercise: currentExercise,
+              isSubmitted: isSubmitted,
+              isCurrentCorrect: isCurrentCorrect,
+              isLastQuestion: isLastQuestion,
+              currentIndex: questionIndices.$1,
+              totalQuestions: questionIndices.$2,
+              selectedAnswer: selectedAnswer,
+              notifier: notifier,
+              sheetController: _sheetController,
             ),
-            desktop: (context) => Column(
-              children: [
-                LinearProgressIndicator(
-                  value: progressFraction,
-                  minHeight: AppSpacing.xs,
-                ),
-                Expanded(
-                  child: currentExercise == null
-                      ? const Center(child: CircularProgressIndicator())
-                      : Center(
-                          child: Container(
-                            constraints: const BoxConstraints(maxWidth: 1200),
-                            height: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.xl,
-                              vertical: AppSpacing.lg,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                // Left Column (55%): Question & Actions
-                                Expanded(
-                                  flex: 55,
-                                  child: SingleChildScrollView(
-                                    padding: const EdgeInsets.only(
-                                      right: AppSpacing.md,
-                                    ),
-                                    child: GrammarPracticeQuestionContent(
-                                      theme: theme,
-                                      l10n: l10n,
-                                      currentIndex: questionIndices.$1,
-                                      totalQuestions: questionIndices.$2,
-                                      selectedAnswer: selectedAnswer,
-                                      isSubmitted: isSubmitted,
-                                      isCurrentCorrect: isCurrentCorrect,
-                                      notifier: notifier,
-                                      currentExercise: currentExercise,
-                                    ),
-                                  ),
-                                ),
-                                AppGaps.h16,
-                                // Right Column (45%): Live Explanation or Shortcut Guide
-                                Expanded(
-                                  flex: 45,
-                                  child: isSubmitted
-                                      ? ExplanationSheet(
-                                          exercise: currentExercise,
-                                          isCorrect: isCurrentCorrect ?? false,
-                                          isLastQuestion: isLastQuestion,
-                                          onNext: () => notifier.nextQuestion(),
-                                          isSidePanel: true,
-                                        )
-                                      : Align(
-                                          alignment: Alignment.topCenter,
-                                          child: PracticeShortcutsGuide(
-                                            exercise: currentExercise,
-                                          ),
-                                        ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                ),
-              ],
+            desktop: (context) => GrammarPracticeDesktopLayout(
+              progressFraction: progressFraction,
+              currentExercise: currentExercise,
+              isSubmitted: isSubmitted,
+              isCurrentCorrect: isCurrentCorrect,
+              isLastQuestion: isLastQuestion,
+              currentIndex: questionIndices.$1,
+              totalQuestions: questionIndices.$2,
+              selectedAnswer: selectedAnswer,
+              notifier: notifier,
             ),
           ),
         ),

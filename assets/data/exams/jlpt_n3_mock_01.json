@@ -1,0 +1,86 @@
+{
+  "paper": {
+    "id": "jlpt_n3_mock_01",
+    "title": "JLPT N3 Mock Exam 01",
+    "description": "Đề thi thử JLPT N3 chuẩn cấu trúc: Từ vựng, Ngữ pháp, Đọc hiểu.",
+    "category": "JLPT",
+    "level": "N3",
+    "duration_minutes": 30,
+    "total_questions": 3,
+    "passing_score": 60,
+    "icon_name": "award",
+    "version": 1,
+    "is_published": true,
+    "is_downloaded": true,
+    "created_at": "2026-09-16T00:00:00.000Z",
+    "updated_at": "2026-09-16T00:00:00.000Z"
+  },
+  "sections": [
+    {
+      "id": "sec_vocab_01",
+      "exam_id": "jlpt_n3_mock_01",
+      "title": "Phần 1: Kiến thức ngôn ngữ (Từ vựng)",
+      "section_type": "language_knowledge",
+      "order_index": 1,
+      "instruction": "Chọn cách đọc đúng của chữ Hán hoặc từ thích hợp điền vào chỗ trống."
+    },
+    {
+      "id": "sec_grammar_01",
+      "exam_id": "jlpt_n3_mock_01",
+      "title": "Phần 2: Ngữ pháp & Đọc hiểu",
+      "section_type": "reading",
+      "order_index": 2,
+      "instruction": "Đọc kỹ câu và chọn ngữ pháp thích hợp nhất."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "exam_id": "jlpt_n3_mock_01",
+      "section_id": "sec_vocab_01",
+      "question_number": 1,
+      "question_text": "この書類は【重要】です。",
+      "options": [
+        {"id": "A", "text": "じゅうよう"},
+        {"id": "B", "text": "じゅうよ"},
+        {"id": "C", "text": "ちょよう"},
+        {"id": "D", "text": "ちょうよう"}
+      ],
+      "correct_answer": "A",
+      "explanation": "「重要」 phát âm là じゅうよう (trọng yếu, quan trọng).",
+      "points": 10
+    },
+    {
+      "id": "q2",
+      "exam_id": "jlpt_n3_mock_01",
+      "section_id": "sec_vocab_01",
+      "question_number": 2,
+      "question_text": "雨が降ってきたので、【傘】をさした。",
+      "options": [
+        {"id": "A", "text": "くつ"},
+        {"id": "B", "text": "かさ"},
+        {"id": "C", "text": "ぼうし"},
+        {"id": "D", "text": "かばん"}
+      ],
+      "correct_answer": "B",
+      "explanation": "「傘」 có nghĩa là cái ô/dù, đọc là かさ.",
+      "points": 10
+    },
+    {
+      "id": "q3",
+      "exam_id": "jlpt_n3_mock_01",
+      "section_id": "sec_grammar_01",
+      "question_number": 3,
+      "question_text": "忙しくて、昼ご飯を食べる時間___ない。",
+      "options": [
+        {"id": "A", "text": "さえ"},
+        {"id": "B", "text": "ほど"},
+        {"id": "C", "text": "ばかり"},
+        {"id": "D", "text": "より"}
+      ],
+      "correct_answer": "A",
+      "explanation": "Cấu trúc N + さえ: ngay cả, thậm chí N cũng không có.",
+      "points": 10
+    }
+  ]
+}

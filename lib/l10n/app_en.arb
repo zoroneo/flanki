@@ -7,6 +7,7 @@
   "navDecks": "Decks",
   "navBrowser": "Browser",
   "navGrammar": "Grammar",
+  "navExams": "Exams",
   "navStats": "Stats",
   "navSettings": "Settings",
 
@@ -844,6 +845,188 @@
   "updateDownloadFailed": "Failed to download installer",
   "desktopSubtitle": "Desktop • Zinc",
   "rslibLinked": "rslib (Linked)",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "flankiCloud": "Flanki Cloud",
+  "cloudSyncSubtitle": "Automatic real-time sync across devices with zero data loss",
+  "signInCloud": "Sign In to Cloud",
+  "signUpCloud": "Create Cloud Account",
+  "cloudAccount": "Cloud Account",
+  "cloudNotConnected": "Cloud Account Not Connected",
+  "cloudConnected": "Connected to Cloud",
+  "pendingChanges": "{count} changes pending",
+  "@pendingChanges": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "signOutConfirmTitle": "Sign out of Cloud?",
+  "signOutConfirmDesc": "Your local cards and study history will remain safely on this device.",
+  "authInvalidEmail": "Please enter a valid email address.",
+  "authPasswordTooShort": "Password must be at least 6 characters.",
+  "authSuccessSubtitle": "Account created and signed in successfully.",
+  "examBank": "Exam Bank",
+  "wrongNotebook": "Mistake Notebook",
+  "searchExamsPlaceholder": "Search exams by title or level...",
+  "allFilter": "All",
+  "allCountFilter": "All ({count})",
+  "@allCountFilter": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "examDurationAndQuestions": "{duration} mins • {count} questions",
+  "@examDurationAndQuestions": {
+    "placeholders": {
+      "duration": {"type": "int"},
+      "count": {"type": "int"}
+    }
+  },
+  "examDownloadedOffline": "Downloaded",
+  "downloadExam": "Download",
+  "downloadingExam": "Downloading...",
+  "takeExam": "Start Exam",
+  "noExamsFoundTitle": "No matching exams found",
+  "noExamsFoundDesc": "Try changing your search terms or category filters.",
+  "takingExamTitle": "Take Exam",
+  "backButton": "Back",
+  "examNoQuestions": "No questions found in this exam paper",
+  "submitExam": "Submit",
+  "submitExamNow": "Submit Now",
+  "continueExam": "Continue",
+  "previousQuestion": "Previous",
+  "nextQuestion": "Next",
+  "questionList": "Questions",
+  "questionListTitle": "Question Overview",
+  "readingPassage": "Reading Passage:",
+  "questionProgress": "Question {current} / {total}",
+  "@questionProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "questionNumberPrefix": "Question {number}",
+  "@questionNumberPrefix": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "confirmSubmitExamTitle": "Confirm Exam Submission?",
+  "confirmSubmitUnfinished": "You have {count} unanswered question(s). Are you sure you want to submit now?",
+  "@confirmSubmitUnfinished": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "confirmSubmitFinished": "You have answered all questions. Submit for grading?",
+  "confirmExitExamTitle": "Exit Exam?",
+  "confirmExitExamDesc": "If you leave now, your current answers will not be saved.",
+  "stayInExam": "Stay in Exam",
+  "exitExam": "Exit",
+  "examResultTitle": "Exam Result",
+  "examResultNotFound": "Exam submission result not found",
+  "backToCatalog": "Back to Catalog",
+  "examPassed": "PASSED",
+  "examFailed": "FAILED",
+  "examScorePoints": "{score} Pts",
+  "@examScorePoints": {
+    "placeholders": {
+      "score": {"type": "int"}
+    }
+  },
+  "correctCountStat": "Correct Answers",
+  "durationStat": "Time Taken",
+  "passingScoreStat": "Passing Score",
+  "retakeExam": "Retake Exam",
+  "questionDetails": "Question & Answer Details",
+  "correctBadge": "Correct",
+  "wrongBadge": "Incorrect",
+  "explanationPrefix": "Explanation: {exp}",
+  "@explanationPrefix": {
+    "placeholders": {
+      "exp": {"type": "String"}
+    }
+  },
+  "examPrefixLabel": "Exam: {examId}",
+  "@examPrefixLabel": {
+    "placeholders": {
+      "examId": {"type": "String"}
+    }
+  },
+  "selectedAnswerPrefix": "Selected: {answer}",
+  "@selectedAnswerPrefix": {
+    "placeholders": {
+      "answer": {"type": "String"}
+    }
+  },
+  "reviewMistakeButton": "Review",
+  "masteredMistakeButton": "Mastered",
+  "noWrongQuestionsTitle": "No mistakes recorded!",
+  "noWrongQuestionsDesc": "Great job! You have zero recorded mistakes or all have been mastered.",
+  "ankiWebLegacy": "AnkiWeb (Legacy)",
+  "unansweredPlaceholder": "(Unanswered)",
+  "examCategoryJlpt": "JLPT",
+  "examCategoryToeic": "TOEIC",
+  "examCategoryThptqg": "National High School Exam",
+  "examCategoryGrammarTest": "Grammar Mastery Test",
+  "examCategoryCustom": "Custom Exam",
+  "wrongStatusNew": "New Mistake",
+  "wrongStatusReviewing": "Reviewing",
+  "wrongStatusMastered": "Mastered",
+  "grammarDifficultyRecognition": "Recognition",
+  "grammarDifficultyAnalysis": "Analysis & Traps",
+  "grammarDifficultyProduction": "Production",
+  "grammarCatTenses": "Tenses & Aspects",
+  "grammarCatVoice": "Passive Voice",
+  "grammarCatModals": "Modal Verbs",
+  "grammarCatConditionals": "Conditionals",
+  "grammarCatSubjunctive": "Subjunctive Mood",
+  "grammarCatClauses": "Relative Clauses",
+  "grammarCatInversion": "Inversion",
+  "grammarCatVerbForms": "Gerund & Infinitive",
+  "grammarCatConjunctions": "Conjunctions",
+  "grammarCatSubjectVerbAgreement": "Subject-Verb Agreement",
+  "grammarCatComparisons": "Comparisons",
+  "grammarCatArticles": "Articles",
+  "grammarCatDeterminers": "Determiners",
+  "grammarCatPronouns": "Pronouns",
+  "grammarCatPrepositions": "Prepositions",
+  "grammarCatAdjectivesAdverbs": "Adjectives & Adverbs",
+  "grammarCatNounClauses": "Noun Clauses",
+  "grammarCatSentenceStructure": "Sentence Structure",
+  "grammarCatCausativeVerbs": "Causative Verbs",
+  "grammarCatPhrasalVerbs": "Phrasal Verbs",
+  "grammarCatQuestions": "Questions & Tag Questions",
+  "grammarCatEmphasis": "Emphasis & Cleft Sentences",
+  "grammarCatParallelStructure": "Parallelism",
+  "grammarCatParticiples": "Participles",
+  "grammarCatWordFormation": "Word Formation",
+  "grammarCatCollocations": "Collocations",
+  "grammarCatCapstone": "Capstone Exam Mastery",
+  "examNotFound": "Exam paper not found or deleted.",
+  "examLoadFailed": "Failed to load exam paper: {error}",
+  "@examLoadFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "examSubmitFailed": "Failed to submit exam: {error}",
+  "@examSubmitFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "examDownloadFailed": "Failed to download exam paper: {error}",
+  "@examDownloadFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "wrongStatusUpdateFailed": "Failed to update question status: {error}",
+  "@wrongStatusUpdateFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  }
 }
 

@@ -41,12 +41,13 @@ Chào mừng đến với Knowledge Vault của dự án **Flanki** — Ứng d�
 - [[02-UI-UX/03-Dual-Card-Rendering|03. Cơ Chế Dual-Engine Render Thẻ (Native + WebKit)]]
 - [[02-UI-UX/04-Layout-Architecture-and-Responsive-Rules|04. Kiến Trúc Layout & Quy Chuẩn UI/UX Responsive]]
 
-### 03. Đặc Tả Nghiệp Vụ Anki (Domain Spec)
+### 03. Đặc Tả Nghiệp Vụ Anki & Phân Hệ Học (Domain Spec)
 
 - [[03-Domain-Spec/01-APKG-Packaging-Spec|01. Đặc Tả Định Dạng Đóng Gói .apkg]]
 - [[03-Domain-Spec/02-FSRS-Scheduling-Engine|02. Thuật Toán Lặp Lại Ngắt Quãng FSRS]]
 - [[03-Domain-Spec/03-Anki-Collection-Schema|03. Cấu Trúc Cơ Sở Dữ Liệu SQLite collection.anki2]]
 - [[03-Domain-Spec/04-Grammar-Module-Spec|04. Đặc Tả Kiến Trúc & Thuật Toán Module Ngữ Pháp (Grammar Module Spec)]]
+- [[03-Domain-Spec/05-Exam-Module-Spec|05. Đặc Tả Kiến Trúc & Thuật Toán Phân Hệ Luyện Thi (Exam Module Spec)]]
 
 ### 04. Động Cơ Đồng Bộ (Sync Engine)
 

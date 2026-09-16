@@ -34,50 +34,68 @@ class MobileBottomNavBar extends StatelessWidget {
         bottom: true,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(
-            AppSpacing.md,
+            AppSpacing.xs,
             AppSpacing.sm,
-            AppSpacing.md,
+            AppSpacing.xs,
             AppSpacing.xs,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              BottomNavItem(
-                icon: LucideIcons.layers,
-                activeIcon: LucideIcons.layers2,
-                label: l10n.navDecks,
-                isSelected: currentIndex == 0,
-                badgeCount: totalDue > 0 ? totalDue : null,
-                onTap: () => onTap(0),
+              Expanded(
+                child: BottomNavItem(
+                  icon: LucideIcons.layers,
+                  activeIcon: LucideIcons.layers2,
+                  label: l10n.navDecks,
+                  isSelected: currentIndex == 0,
+                  badgeCount: totalDue > 0 ? totalDue : null,
+                  onTap: () => onTap(0),
+                ),
               ),
-              BottomNavItem(
-                icon: LucideIcons.search,
-                activeIcon: LucideIcons.fileSearch,
-                label: l10n.navBrowser,
-                isSelected: currentIndex == 1,
-                onTap: () => onTap(1),
+              Expanded(
+                child: BottomNavItem(
+                  icon: LucideIcons.search,
+                  activeIcon: LucideIcons.fileSearch,
+                  label: l10n.navBrowser,
+                  isSelected: currentIndex == 1,
+                  onTap: () => onTap(1),
+                ),
               ),
-              BottomNavItem(
-                icon: LucideIcons.bookOpenText,
-                activeIcon: LucideIcons.bookOpen,
-                label: l10n.navGrammar,
-                isSelected: currentIndex == 2,
-                onTap: () => onTap(2),
+              Expanded(
+                child: BottomNavItem(
+                  icon: LucideIcons.bookOpenText,
+                  activeIcon: LucideIcons.bookOpen,
+                  label: l10n.navGrammar,
+                  isSelected: currentIndex == 2,
+                  onTap: () => onTap(2),
+                ),
               ),
-              BottomNavItem(
-                icon: LucideIcons.chartColumn,
-                activeIcon: LucideIcons.chartNoAxesCombined,
-                label: l10n.navStats,
-                isSelected: currentIndex == 3,
-                onTap: () => onTap(3),
+              Expanded(
+                child: BottomNavItem(
+                  icon: LucideIcons.graduationCap,
+                  activeIcon: LucideIcons.graduationCap,
+                  label: l10n.navExams,
+                  isSelected: currentIndex == 3,
+                  onTap: () => onTap(3),
+                ),
               ),
-              BottomNavItem(
-                icon: LucideIcons.settings,
-                activeIcon: LucideIcons.settings2,
-                label: l10n.navSettings,
-                isSelected: currentIndex == 4,
-                indicatorColor: isAuthenticated ? m.Colors.green : null,
-                onTap: () => onTap(4),
+              Expanded(
+                child: BottomNavItem(
+                  icon: LucideIcons.chartColumn,
+                  activeIcon: LucideIcons.chartNoAxesCombined,
+                  label: l10n.navStats,
+                  isSelected: currentIndex == 4,
+                  onTap: () => onTap(4),
+                ),
+              ),
+              Expanded(
+                child: BottomNavItem(
+                  icon: LucideIcons.settings,
+                  activeIcon: LucideIcons.settings2,
+                  label: l10n.navSettings,
+                  isSelected: currentIndex == 5,
+                  indicatorColor: isAuthenticated ? m.Colors.green : null,
+                  onTap: () => onTap(5),
+                ),
               ),
             ],
           ),
@@ -118,9 +136,9 @@ class BottomNavItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
-        constraints: const BoxConstraints(minWidth: 56, minHeight: 48),
+        constraints: const BoxConstraints(minWidth: 40, minHeight: 48),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.xs,
+          horizontal: 2,
           vertical: AppSpacing.xxs,
         ),
         child: Column(
@@ -141,8 +159,8 @@ class BottomNavItem extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.xs,
+            horizontal: AppSpacing.xs,
+            vertical: AppSpacing.xxs,
           ),
           decoration: BoxDecoration(
             color: isSelected
@@ -152,7 +170,7 @@ class BottomNavItem extends StatelessWidget {
           ),
           child: Icon(
             isSelected ? activeIcon : icon,
-            size: AppIconSize.lg,
+            size: AppIconSize.md,
             color: color,
           ),
         ),
@@ -199,8 +217,11 @@ class BottomNavItem extends StatelessWidget {
   Widget _buildLabel(Color color) {
     return Text(
       label,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 11,
+        fontSize: 10,
         fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         color: color,
       ),

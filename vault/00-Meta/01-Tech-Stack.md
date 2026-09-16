@@ -33,8 +33,9 @@ tags:
   - **`CardAudioService`**: Quản lý phát âm thanh đơn phiên (single-instance) với `audioplayers` (v6.1.0), chống tràn bộ nhớ đệm native Android MediaPlayer.
   - **`MediaStorageService`**: Phân giải file media đa nền tảng (URL decoding, loại bỏ quotes thừa, quét case-insensitive trên Android ext4, xử lý file 0-byte).
 * **Sync Engine & In-App Downloader**:
+  - **`supabase_flutter`** (`^2.17.2`): Động cơ đồng bộ thời gian thực, Hybrid Logical Clock (HLC) CRDT, Transactional Outbox replication và xác thực người dùng.
   - **`AnkiWebSyncService`** & **`AnkiWebAuthService`**: Giao thức mạng `multipart/form-data` đồng bộ hóa 2 chiều với máy chủ AnkiWeb.
-  - **`flutter_secure_storage`**: Lưu trữ an toàn session key (token hkey).
+  - **`flutter_secure_storage`**: Lưu trữ an toàn session key (token hkey) và Supabase auth tokens.
   - **`Dio`** (v5.8.0+1): Tải bản cập nhật desktop chạy nền với thanh tiến độ thời gian thực và tự động kích hoạt installer.
 
 ---

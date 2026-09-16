@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,7 +30,9 @@ class GrammarRepository {
   /// Preload all progress entries into memory cache
   Future<void> init() async {
     if (_isInitialized) return;
-    final entries = await _db.select(_db.grammarProgressEntries).get();
+    final entries = await (_db.select(
+      _db.grammarProgressEntries,
+    )..where((tbl) => tbl.isDeleted.equals(false))).get();
     _cache.clear();
     for (final entry in entries) {
       final model = _toModel(entry);
@@ -92,26 +96,59 @@ class GrammarRepository {
     // 1. Update in-memory cache immediately
     _cache[_cacheKey(model.unitId, model.exerciseId)] = model;
 
-    // 2. Persist to SQLite
-    final companion = GrammarProgressEntriesCompanion(
-      unitId: Value(model.unitId),
-      exerciseId: Value(model.exerciseId),
-      stability: Value(model.stability),
-      difficulty: Value(model.difficulty),
-      due: Value(model.due),
-      lastStudied: Value(model.lastStudied),
-      reps: Value(model.reps),
-      lapses: Value(model.lapses),
-      state: Value(model.state),
-      isGhost: Value(model.isGhost),
-      isCompleted: Value(model.isCompleted),
-      lastUserAnswer: Value(model.lastUserAnswer),
-      updatedAt: Value(DateTime.now().toUtc()),
-    );
+    final hlcStr = DatabaseService.instance.advanceHlc().pack();
 
-    await _db
-        .into(_db.grammarProgressEntries)
-        .insertOnConflictUpdate(companion);
+    // 2. Persist to SQLite + SyncOutbox in transaction
+    await _db.transaction(() async {
+      final companion = GrammarProgressEntriesCompanion(
+        unitId: Value(model.unitId),
+        exerciseId: Value(model.exerciseId),
+        stability: Value(model.stability),
+        difficulty: Value(model.difficulty),
+        due: Value(model.due),
+        lastStudied: Value(model.lastStudied),
+        reps: Value(model.reps),
+        lapses: Value(model.lapses),
+        state: Value(model.state),
+        isGhost: Value(model.isGhost),
+        isCompleted: Value(model.isCompleted),
+        lastUserAnswer: Value(model.lastUserAnswer),
+        updatedAt: Value(DateTime.now().toUtc()),
+        updatedAtHlc: Value(hlcStr),
+        isDeleted: const Value(false),
+      );
+
+      await _db
+          .into(_db.grammarProgressEntries)
+          .insertOnConflictUpdate(companion);
+
+      await _db
+          .into(_db.syncOutbox)
+          .insertOnConflictUpdate(
+            SyncOutboxCompanion.insert(
+              id: 'outbox_grammar_${model.unitId}_${model.exerciseId}_$hlcStr',
+              entityType: 'grammar_progress',
+              entityId: '${model.unitId}_${model.exerciseId}',
+              operation: 'UPSERT',
+              payloadJson: jsonEncode({
+                'unit_id': model.unitId,
+                'exercise_id': model.exerciseId,
+                'stability': model.stability,
+                'difficulty': model.difficulty,
+                'due': model.due?.toIso8601String(),
+                'last_studied': model.lastStudied?.toIso8601String(),
+                'reps': model.reps,
+                'lapses': model.lapses,
+                'state': model.state.index,
+                'is_ghost': model.isGhost,
+                'is_completed': model.isCompleted,
+                'last_user_answer': model.lastUserAnswer,
+                'updated_at': DateTime.now().toUtc().toIso8601String(),
+              }),
+              hlc: hlcStr,
+            ),
+          );
+    });
   }
 
   /// Get all active Ghost reviews across all units
@@ -136,10 +173,38 @@ class GrammarRepository {
 
   /// Clear all progress for a unit (e.g. user chooses to reset unit)
   Future<void> resetUnit(String unitId) async {
+    final toRemove = _cache.values.where((v) => v.unitId == unitId).toList();
     _cache.removeWhere((k, v) => v.unitId == unitId);
-    await (_db.delete(
-      _db.grammarProgressEntries,
-    )..where((tbl) => tbl.unitId.equals(unitId))).go();
+    final hlcStr = DatabaseService.instance.advanceHlc().pack();
+
+    await _db.transaction(() async {
+      await (_db.update(
+        _db.grammarProgressEntries,
+      )..where((tbl) => tbl.unitId.equals(unitId))).write(
+        GrammarProgressEntriesCompanion(
+          isDeleted: const Value(true),
+          updatedAtHlc: Value(hlcStr),
+        ),
+      );
+
+      for (final entry in toRemove) {
+        await _db
+            .into(_db.syncOutbox)
+            .insertOnConflictUpdate(
+              SyncOutboxCompanion.insert(
+                id: 'outbox_grammar_del_${entry.unitId}_${entry.exerciseId}_$hlcStr',
+                entityType: 'grammar_progress',
+                entityId: '${entry.unitId}_${entry.exerciseId}',
+                operation: 'DELETE',
+                payloadJson: jsonEncode({
+                  'unit_id': entry.unitId,
+                  'exercise_id': entry.exerciseId,
+                }),
+                hlc: hlcStr,
+              ),
+            );
+      }
+    });
   }
 
   GrammarProgressModel _toModel(GrammarProgressEntry entry) {

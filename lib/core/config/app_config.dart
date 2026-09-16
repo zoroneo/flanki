@@ -65,6 +65,11 @@ class AppConfig {
   static const Duration toastDefaultDuration = Duration(seconds: 4);
   static const Duration defaultRelearnStep = Duration(minutes: 10);
 
+  /// Centralized sync scheduling and clock drift thresholds
+  static const Duration defaultSyncPeriodicInterval = Duration(minutes: 5);
+  static const Duration defaultSyncDebounceDuration = Duration(seconds: 2);
+  static const int defaultMaxClockDriftMillis = 60000;
+
   static String _version = defaultVersion;
   static int _buildNumber = defaultBuildNumber;
 
@@ -92,8 +97,14 @@ class AppConfig {
   }
 
   /// GitHub repository metadata for desktop update checks
-  static const String githubRepoOwner = 'zoroneo';
-  static const String githubRepoName = 'flanki';
+  static const String githubRepoOwner = String.fromEnvironment(
+    'GITHUB_REPO_OWNER',
+    defaultValue: 'zoroneo',
+  );
+  static const String githubRepoName = String.fromEnvironment(
+    'GITHUB_REPO_NAME',
+    defaultValue: 'flanki',
+  );
 
   /// GitHub Releases API URL
   static String get githubReleasesApiUrl =>

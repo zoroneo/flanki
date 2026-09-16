@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flanki/core/anki/anki_bridge.dart';
 import 'package:flanki/core/config/app_config.dart';
+import 'package:flanki/core/config/supabase_config.dart';
+import 'package:flanki/core/sync/hlc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -72,6 +74,41 @@ void main() {
       expect(AppConfig.updateCheckTimeout, equals(const Duration(seconds: 10)));
       expect(AppConfig.toastLongDuration, equals(const Duration(seconds: 20)));
       expect(AppConfig.defaultRelearnStep, equals(const Duration(minutes: 10)));
+      expect(
+        AppConfig.defaultSyncPeriodicInterval,
+        equals(const Duration(minutes: 5)),
+      );
+      expect(
+        AppConfig.defaultSyncDebounceDuration,
+        equals(const Duration(seconds: 2)),
+      );
+      expect(AppConfig.defaultMaxClockDriftMillis, equals(60000));
+
+      // Centralized GitHub repo parameters
+      expect(AppConfig.githubRepoOwner, equals('zoroneo'));
+      expect(AppConfig.githubRepoName, equals('flanki'));
+      expect(
+        AppConfig.githubReleasesApiUrl,
+        equals('https://api.github.com/repos/zoroneo/flanki/releases/latest'),
+      );
+      expect(
+        AppConfig.githubReleasesUrl,
+        equals('https://github.com/zoroneo/flanki/releases'),
+      );
+    });
+  });
+
+  group('SupabaseConfig & HLC Configuration Tests', () {
+    test('SupabaseConfig provides valid defaults, mock credentials, and batch limits', () {
+      expect(SupabaseConfig.mediaBucket, equals('flanki_media'));
+      expect(SupabaseConfig.mockUrl, equals('https://mock.supabase.co'));
+      expect(SupabaseConfig.mockAnonKey, equals('mock-key'));
+      expect(SupabaseConfig.defaultPushBatchLimit, equals(100));
+      expect(SupabaseConfig.defaultPullBatchLimit, equals(500));
+      expect(
+        Hlc.defaultMaxDriftMillis,
+        equals(AppConfig.defaultMaxClockDriftMillis),
+      );
     });
   });
 

@@ -147,84 +147,89 @@ class UpdateDialog extends ConsumerWidget {
             ],
             LayoutBuilder(
               builder: (context, constraints) {
-                final isDownloading =
-                    updateState.status == UpdateStatus.downloading;
-                final isReady =
-                    updateState.status == UpdateStatus.readyToInstall;
                 final hasDirectDownload = updateInfo.downloadUrl != null;
 
-                Widget primaryButton;
-                Widget? backgroundButton;
-                Widget outlineButton;
-
-                if (!hasDirectDownload) {
-                  primaryButton = PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      DesktopUpdateService.openUrl(updateInfo.releaseUrl);
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(l10n.openDownloadPage),
-                  );
-                  outlineButton = OutlineButton(
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      notifier.dismiss();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(l10n.later),
-                  );
-                } else if (isReady) {
-                  primaryButton = PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: () => notifier.installAndRestart(),
-                    child: Text(l10n.restartAndInstall),
-                  );
-                  outlineButton = OutlineButton(
-                    alignment: Alignment.center,
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text(l10n.later),
-                  );
-                } else if (isDownloading) {
-                  primaryButton = PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      // Close dialog and let download continue in background
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(l10n.downloadInBackground),
-                  );
-                  outlineButton = OutlineButton(
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      notifier.cancelDownload();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(l10n.cancelDownload),
-                  );
-                } else {
-                  primaryButton = PrimaryButton(
-                    alignment: Alignment.center,
-                    onPressed: () => notifier.downloadUpdate(),
-                    child: Text(l10n.downloadAndInstall),
-                  );
-                  backgroundButton = OutlineButton(
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      notifier.downloadUpdate();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(l10n.downloadInBackground),
-                  );
-                  outlineButton = OutlineButton(
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      notifier.dismiss();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(l10n.later),
-                  );
-                }
+                final (
+                  Widget primaryButton,
+                  Widget? backgroundButton,
+                  Widget outlineButton,
+                ) = !hasDirectDownload
+                    ? (
+                        PrimaryButton(
+                          alignment: Alignment.center,
+                          onPressed: () {
+                            DesktopUpdateService.openUrl(updateInfo.releaseUrl);
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(l10n.openDownloadPage),
+                        ),
+                        null,
+                        OutlineButton(
+                          alignment: Alignment.center,
+                          onPressed: () {
+                            notifier.dismiss();
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(l10n.later),
+                        ),
+                      )
+                    : switch (updateState.status) {
+                        UpdateStatus.readyToInstall => (
+                          PrimaryButton(
+                            alignment: Alignment.center,
+                            onPressed: () => notifier.installAndRestart(),
+                            child: Text(l10n.restartAndInstall),
+                          ),
+                          null,
+                          OutlineButton(
+                            alignment: Alignment.center,
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(l10n.later),
+                          ),
+                        ),
+                        UpdateStatus.downloading => (
+                          PrimaryButton(
+                            alignment: Alignment.center,
+                            onPressed: () {
+                              // Close dialog and let download continue in background
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(l10n.downloadInBackground),
+                          ),
+                          null,
+                          OutlineButton(
+                            alignment: Alignment.center,
+                            onPressed: () {
+                              notifier.cancelDownload();
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(l10n.cancelDownload),
+                          ),
+                        ),
+                        _ => (
+                          PrimaryButton(
+                            alignment: Alignment.center,
+                            onPressed: () => notifier.downloadUpdate(),
+                            child: Text(l10n.downloadAndInstall),
+                          ),
+                          OutlineButton(
+                            alignment: Alignment.center,
+                            onPressed: () {
+                              notifier.downloadUpdate();
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(l10n.downloadInBackground),
+                          ),
+                          OutlineButton(
+                            alignment: Alignment.center,
+                            onPressed: () {
+                              notifier.dismiss();
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(l10n.later),
+                          ),
+                        ),
+                      };
 
                 if (constraints.maxWidth < 420) {
                   return Column(

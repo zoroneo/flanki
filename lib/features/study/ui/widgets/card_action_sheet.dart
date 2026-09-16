@@ -5,11 +5,21 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
-
-import 'package:flanki/core/widgets/adaptive_modal.dart';
-import 'package:flanki/core/widgets/form_focus_helper.dart';
+import '../../../../core/widgets/adaptive_modal.dart';
+import 'card_action_edit_form.dart';
+import 'card_action_sheet_components.dart';
 
 class CardActionSheet extends HookWidget {
+  static const ankiFlagColors = {
+    CardFlag.red: m.Colors.red,
+    CardFlag.orange: m.Colors.orange,
+    CardFlag.green: m.Colors.green,
+    CardFlag.blue: m.Colors.blue,
+    CardFlag.pink: m.Colors.pink,
+    CardFlag.turquoise: m.Colors.cyan,
+    CardFlag.purple: m.Colors.purple,
+  };
+
   final CardModel card;
   final ValueChanged<CardFlag> onSetFlag;
   final VoidCallback onBury;
@@ -55,33 +65,12 @@ class CardActionSheet extends HookWidget {
     );
   }
 
-  static const ankiFlagColors = {
-    CardFlag.red: m.Colors.red,
-    CardFlag.orange: m.Colors.orange,
-    CardFlag.green: m.Colors.green,
-    CardFlag.blue: m.Colors.blue,
-    CardFlag.pink: m.Colors.pink,
-    CardFlag.turquoise: m.Colors.cyan,
-    CardFlag.purple: m.Colors.purple,
-  };
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final isEditing = useState(false);
-    final frontController = useTextEditingController(text: card.front);
-    final backController = useTextEditingController(text: card.back);
     final isDesktopMode = isDesktop;
-
-    void handleSave() {
-      onEdit(frontController.text, backController.text);
-      Navigator.of(context).pop();
-    }
-
-    final editFocusNodes = useTabFocusChain(2, onSubmit: handleSave);
-    final frontFocusNode = editFocusNodes[0];
-    final backFocusNode = editFocusNodes[1];
 
     return Container(
       padding: AppEdgeInsets.all24,
@@ -112,7 +101,6 @@ class CardActionSheet extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (!isDesktopMode) ...[
-                // Grab handle
                 Center(
                   child: Container(
                     width: 40,
@@ -127,69 +115,14 @@ class CardActionSheet extends HookWidget {
                 ),
                 AppGaps.v16,
               ],
-              if (isEditing.value) ...[
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        l10n.editCardContent,
-                        style: theme.typography.h4,
-                      ),
-                    ),
-                    if (isDesktopMode)
-                      IconButton.ghost(
-                        icon: const Icon(LucideIcons.x, size: AppIconSize.md),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                  ],
-                ),
-                AppGaps.v16,
-                Text(
-                  l10n.frontSide,
-                  style: theme.typography.xSmall.copyWith(
-                    color: theme.colorScheme.mutedForeground,
-                  ),
-                ),
-                AppGaps.v6,
-                TextField(
-                  controller: frontController,
-                  focusNode: frontFocusNode,
-                  maxLines: 3,
-                ),
-                AppGaps.v16,
-                Text(
-                  l10n.backSide,
-                  style: theme.typography.xSmall.copyWith(
-                    color: theme.colorScheme.mutedForeground,
-                  ),
-                ),
-                AppGaps.v6,
-                TextField(
-                  controller: backController,
-                  focusNode: backFocusNode,
-                  maxLines: 4,
-                ),
-                AppGaps.v20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GhostButton(
-                      onPressed: () => isEditing.value = false,
-                      child: Text(l10n.cancel),
-                    ),
-                    AppGaps.h8,
-                    PrimaryButton(
-                      alignment: Alignment.center,
-                      onPressed: () {
-                        onEdit(frontController.text, backController.text);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(l10n.saveChanges),
-                    ),
-                  ],
-                ),
-              ] else ...[
-                // Card Actions Header
+              if (isEditing.value)
+                CardActionEditForm(
+                  card: card,
+                  isDesktopMode: isDesktopMode,
+                  onCancel: () => isEditing.value = false,
+                  onSave: onEdit,
+                )
+              else ...[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -236,8 +169,6 @@ class CardActionSheet extends HookWidget {
                   ],
                 ),
                 AppGaps.v16,
-
-                // 7 Anki Flag Selectors
                 Text(
                   l10n.flagSelector,
                   style: theme.typography.xSmall.copyWith(
@@ -245,85 +176,14 @@ class CardActionSheet extends HookWidget {
                   ),
                 ),
                 AppGaps.v8,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Clear flag option
-                    GestureDetector(
-                      onTap: () {
-                        onSetFlag(CardFlag.none);
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: card.flag == CardFlag.none
-                                  ? theme.colorScheme.foreground
-                                  : theme.colorScheme.border,
-                              width: card.flag == CardFlag.none ? 2 : 1,
-                            ),
-                          ),
-                          child: Icon(
-                            LucideIcons.ban,
-                            size: AppIconSize.sm,
-                            color: card.flag == CardFlag.none
-                                ? theme.colorScheme.foreground
-                                : theme.colorScheme.mutedForeground,
-                          ),
-                        ),
-                      ),
-                    ),
-                    ...CardFlag.values.where((f) => f != CardFlag.none).map((
-                      flag,
-                    ) {
-                      final isSelected = card.flag == flag;
-                      final c = ankiFlagColors[flag] ?? m.Colors.grey;
-
-                      return GestureDetector(
-                        onTap: () {
-                          onSetFlag(flag);
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          width: 44,
-                          height: 44,
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: c,
-                              shape: BoxShape.circle,
-                              border: isSelected
-                                  ? Border.all(
-                                      color: theme.colorScheme.foreground,
-                                      width: 2.5,
-                                    )
-                                  : Border.all(color: c, width: 1.5),
-                            ),
-                            child: isSelected
-                                ? const Icon(
-                                    LucideIcons.check,
-                                    size: AppIconSize.sm,
-                                    color: m.Colors.white,
-                                  )
-                                : null,
-                          ),
-                        ),
-                      );
-                    }),
-                  ],
+                CardFlagSelector(
+                  currentFlag: card.flag,
+                  onSelectFlag: (flag) {
+                    onSetFlag(flag);
+                    Navigator.of(context).pop();
+                  },
                 ),
                 AppGaps.v24,
-
-                // Quick Action Buttons
                 Row(
                   children: [
                     Expanded(
@@ -413,60 +273,12 @@ class CardActionSheet extends HookWidget {
                   ),
                 ],
                 AppGaps.v20,
-
-                // FSRS Technical Card Stats
-                Card(
-                  padding: AppEdgeInsets.all12,
-                  filled: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _StatMini(
-                        label: l10n.stabilityLabel,
-                        value: '${card.stability.toStringAsFixed(1)}d',
-                      ),
-                      _StatMini(
-                        label: l10n.difficultyLabel,
-                        value: card.difficulty.toStringAsFixed(1),
-                      ),
-                      _StatMini(label: l10n.repsLabel, value: '${card.reps}'),
-                      _StatMini(
-                        label: l10n.lapsesLabel,
-                        value: '${card.lapses}',
-                      ),
-                    ],
-                  ),
-                ),
+                CardFsrsStatsCard(card: card),
               ],
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _StatMini extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _StatMini({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      children: [
-        Text(value, style: theme.typography.semiBold),
-        AppGaps.v2,
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            color: theme.colorScheme.mutedForeground,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -3,6 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../features/grammar/models/grammar_models.dart';
+import '../features/exam/ui/exam_catalog_screen.dart';
+import '../features/exam/ui/exam_taking_screen.dart';
+import '../features/exam/ui/exam_result_screen.dart';
+import '../features/exam/ui/wrong_notebook_screen.dart';
 import '../features/sync/ui/anki_web_auth_screen.dart';
 import '../features/browser/ui/card_browser_screen.dart';
 import '../features/decks/ui/decks_screen.dart';
@@ -59,6 +63,16 @@ GoRouter appRouter(Ref ref) {
                 name: 'grammar',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: GrammarCatalogScreen()),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/exams',
+                name: 'exams',
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: ExamCatalogScreen()),
               ),
             ],
           ),
@@ -137,6 +151,30 @@ GoRouter appRouter(Ref ref) {
             state.uri.queryParameters['mode'],
           );
           return GrammarPracticeScreen(unitId: unitId, mode: mode);
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: '/exams/wrong-notebook',
+        name: 'wrong-notebook',
+        builder: (context, state) => const WrongNotebookScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: '/exams/:examId/taking',
+        name: 'exam-taking',
+        builder: (context, state) {
+          final examId = state.pathParameters['examId'] ?? '';
+          return ExamTakingScreen(examId: examId);
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: '/exams/:examId/result',
+        name: 'exam-result',
+        builder: (context, state) {
+          final examId = state.pathParameters['examId'] ?? '';
+          return ExamResultScreen(examId: examId);
         },
       ),
     ],

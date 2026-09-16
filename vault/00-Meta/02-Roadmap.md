@@ -61,6 +61,12 @@ gantt
     Draggable Quick Focus Tag & Input UX     :done, p11_2, 2026-09-15, 1d
     Zero-Distortion Viewport & Bottom Inset Fix :done, p11_3, 2026-09-15, 1d
     154/154 Tests PASS (100% Suite Stability):done, p11_4, 2026-09-16, 1d
+    section Phase 12: Standardized Exam, Navigation Parity & Widget Modularization
+    Tích hợp Exam Navigation (5 Tabs & Shell):done, p12_1, 2026-09-16, 1d
+    Anti-Hardcode 6 Phân Hệ & Clean DB       :done, p12_2, 2026-09-16, 1d
+    Tách Mock Exam sang JSON Asset Ngoài     :done, p12_3, 2026-09-16, 1d
+    Tối Ưu Widget (~300 lines) & Scope Isolation:done, p12_4, 2026-09-16, 1d
+    208/208 Tests PASS & 0 Analyze Issues    :done, p12_5, 2026-09-16, 1d
 ```
 
 ### Chi tiết các cột mốc:
@@ -85,3 +91,10 @@ gantt
     - **Draggable Quick Focus Tag & Input Ergonomics**: Nút nổi tương tác (`DraggableQuickFocusTag`) cho thẻ flashcard có ô nhập `{{type:...}}` trên mobile. Tích hợp cơ chế vật lý hút viền thông minh (edge-snapping physics dựa trên vận tốc kéo `VelocityTracker` > 400 hoặc điểm giữa `midX`), phản hồi rung xúc giác `HapticFeedback.lightImpact()`, tự động cuộn đến ô nhập và tự động focus trên desktop.
     - **Zero-Distortion Viewport & Bottom Inset Fix**: Cấu hình `resizeToAvoidBottomInset: false` trên toàn bộ Scaffolds (`AdaptiveScaffold`, `MobileScaffold`, `DecksScreen`, `BrowserMobileLayout`) kết hợp bù trừ khoảng cách bàn phím ảo bằng `SizedBox(height: ... + keyboardBottom)`, triệt tiêu hiện tượng méo layout hoặc giật khung hình khi bàn phím xuất hiện.
     - Toàn bộ test suite duy trì độ ổn định tuyệt đối: **154 / 154 tests PASS**.
+12. **Milestone 12 — Standardized Exam Module, Navigation Parity, Zero-Hardcode & Widget Modularization**:
+    - **Hệ Thống Điều Hướng Đa Nền Tảng (5 Tabs & Shell)**: Mở rộng `appRouterProvider` với `StatefulShellBranch` thứ 4 (`/exams`). Bổ sung `DesktopSidebar` (`Ctrl+4`), `TabletNavRail` (`Ctrl+4`), và `MobileBottomNavBar` với kỹ thuật bọc `Expanded` và co lề chữ chống tràn tuyệt đối trên màn hình 320px hẹp. Các màn hình làm bài (`ExamTakingScreen`) và kết quả (`ExamResultScreen`) được bọc `parentNavigatorKey: rootNavigatorKey` hiển thị toàn màn hình (Fullscreen).
+    - **Triệt Tiêu Hoàn Toàn Mã Cứng (Zero-Hardcode & Clean DB)**: Bổ sung 65+ keys bản địa hóa cho phân hệ Exam, chuẩn hóa enum models (`GrammarDifficulty`, `GrammarCategory`, `ExamCategory`, `WrongQuestionStatus`), tập trung mã lỗi notifier (`getLocalizedError(l10n)`), làm sạch database (loại bỏ chuỗi hardcode `(Bỏ trống)` thành chuỗi rỗng `""` và map qua `l10n.unansweredPlaceholder`).
+    - **Tách Dữ Liệu Mock Exam sang JSON Asset Ngoài**: Trích xuất toàn bộ dữ liệu mock exam sang `assets/data/exams/jlpt_n3_mock_01.json`, nạp qua `rootBundle` kèm fallback đọc file vật lý trực tiếp cho headless unit tests.
+    - **Tối Ưu Hóa Widget (~300 Dòng) & Cô Lập Scope Rebuild**: Rà soát toàn bộ cây thư mục `lib/`, tái cấu trúc 14 file vượt ngưỡng xuống chuẩn ~300 dòng. Tách riêng `ExamTimerBadge` (lắng nghe `remainingSeconds`) giúp loại bỏ hoàn toàn việc re-render 60 lần/phút của toàn bộ màn hình phòng thi; sử dụng fine-grained `.select(...)` trên toàn bộ consumers.
+    - **Kiểm Định Tuyệt Đối**: Đạt **208 / 208 tests PASS** (70 widget tests + 138 unit tests), `fvm flutter analyze` 0 warnings/errors/lints.
+

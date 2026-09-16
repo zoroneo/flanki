@@ -33,16 +33,28 @@ Tài liệu đặc tả toàn bộ các nguyên tắc bắt buộc về tổ ch�
 
 ### 1.1. Bảng Tiêu Biểu Phân Rã Màn Hình (Case Study: Decomposed Screens)
 
-Toàn bộ các file màn hình vượt quá ngưỡng cho phép đã được tái cấu trúc triệt để theo mô hình này:
+Toàn bộ các file màn hình và widget phức tạp vượt quá ngưỡng cho phép đã được tái cấu trúc triệt để theo mô hình này:
 
 | File Gốc | Dòng Trước | Dòng Sau | Mức Giảm | Các Sub-Widgets & Helpers Được Tách |
 |---|---|---|---|---|
 | `lib/main.dart` | 403 | 191 | **-52.6%** | `AppLifecycleManager` (`lib/core/widgets/app_lifecycle_manager.dart`) |
+| `lib/core/widgets/app_lifecycle_manager.dart` | 497 | 286 | **-42.5%** | `update_toasts.dart` (`BackgroundDownloadToast`, `UpdateReadyToast`, ...) |
+| `lib/core/widgets/rich_card_content.dart` | 446 | 260 | **-41.7%** | `card_content_parser.dart` (`CardContentParser`, HTML/regex tokenizer) |
 | `lib/features/decks/ui/decks_screen.dart` | 640 | 308 | **-51.9%** | `deck_app_bar.dart`, `deck_empty_state.dart`, `deck_slivers.dart`, `deck_import_helper.dart` |
-| `lib/features/study/ui/study_session_screen.dart` | 558 | 317 | **-43.2%** | `study_finished_view.dart`, `study_app_bar.dart`, `study_card_flipper.dart`, `study_bottom_action_area.dart` |
+| `lib/features/decks/ui/widgets/grouped_deck_card.dart` | 377 | 273 | **-27.6%** | `subdeck_row_item.dart` (`SubdeckRowItem`) |
+| `lib/features/study/ui/study_session_screen.dart` | 558 | 316 | **-43.4%** | `study_finished_view.dart`, `study_app_bar.dart`, `study_card_flipper.dart`, `study_bottom_action_area.dart`, `study_shortcuts.dart` |
+| `lib/features/study/ui/widgets/card_action_sheet.dart` | 473 | 272 | **-42.5%** | `card_action_edit_form.dart`, `card_action_sheet_components.dart` (`CardFlagSelector`, `CardFsrsStatsCard`) |
 | `lib/features/browser/ui/card_browser_screen.dart` | 576 | 110 | **-80.9%** | `browser_desktop_layout.dart`, `browser_mobile_layout.dart` |
 | `lib/features/editor/ui/note_editor_screen.dart` | 526 | 249 | **-52.7%** | `deck_picker_dropdown.dart`, `note_editor_desktop_layout.dart`, `note_editor_mobile_layout.dart` |
-| `lib/features/grammar/ui/grammar_practice_screen.dart` | 594 | 334 | **-43.8%** | `grammar_practice_question_content.dart`, `grammar_exit_dialog.dart`, `practice_shortcuts_guide.dart` |
+| `lib/features/grammar/ui/grammar_practice_screen.dart` | 594 | 265 | **-55.4%** | `grammar_practice_question_content.dart`, `grammar_exit_dialog.dart`, `practice_shortcuts_guide.dart`, `grammar_practice_layouts.dart` |
+| `lib/features/grammar/ui/widgets/grammar_theory_mobile_tabs.dart` | 518 | 176 | **-66.0%** | `grammar_theory_tab_views.dart`, `grammar_theory_extra_tab_views.dart` |
+| `lib/features/grammar/ui/widgets/explanation_sheet.dart` | 461 | 206 | **-55.3%** | `explanation_content_cards.dart` (`ExplanationSection`, `DistractorItemCard`) |
+| `lib/features/grammar/ui/widgets/grammar_theory_sections.dart` | 424 | 167 | **-60.6%** | `grammar_traps_guides_cards.dart` (`GrammarTheoryTrapsCard`, `GrammarTheoryGuidesCard`) |
+| `lib/features/exam/ui/exam_taking_screen.dart` | 492 | 329 | **-33.1%** | `exam_taking_dialogs.dart`, `exam_questions_sheet.dart`, `exam_question_cards.dart`, `ExamTimerBadge` (tách scope rebuild) |
+| `lib/features/sync/ui/anki_web_auth_sheet.dart` | 458 | 300 | **-34.5%** | `anki_web_auth_form.dart` (`AnkiWebAuthHeader`, `AnkiWebAuthErrorBanner`, `AnkiWebSubmitButton`) |
+| `lib/features/sync/ui/supabase_auth_sheet.dart` | 349 | 256 | **-26.6%** | `supabase_auth_header.dart` (`SupabaseAuthHeader`) |
+| `lib/features/sync/ui/widgets/sync_conflict_dialog.dart` | 365 | 273 | **-25.2%** | `sync_conflict_option_tile.dart` (`ConflictOptionCard`) |
+| `lib/features/settings/ui/licenses_screen.dart` | 485 | 212 | **-56.3%** | `license_cards.dart` (`PackageLicense`, `LicenseCodeBlock`, `FlankiLicenseCard`, `PackageLicenseCard`) |
 
 ---
 
@@ -265,5 +277,35 @@ Chi tiết quy chuẩn kiến trúc xem tại: [[01-Architecture/06-State-Manage
 * **Phản Hồi Trạng Thái (Active/Inactive State)**:
   * Khi ô nhập đang focus (`isFocused = true`): Tag chuyển sang viền sáng nhận diện `theme.colorScheme.primary` kèm hiệu ứng viền phát sáng nhẹ.
   * Khi bấm vào Tag: Tự động gọi `focusNode.requestFocus()` và cuộn mượt đưa ô gõ vào vùng nhìn (`scrollController.animateTo`).
+
+---
+
+## 16. Hệ Thống Điều Hướng Đa Nền Tảng & Chống Tràn Thanh Tab Mobile (5-Tab Adaptive Navigation & Zero-Overflow)
+
+> [!IMPORTANT] Thích Ứng Điều Hướng Nhất Quán Giữa Desktop Sidebar, Tablet NavRail & Mobile BottomNav
+> Khi bổ sung phân hệ Đề Thi (`/exams`), số lượng nhánh chính tăng lên 5 tabs: **Decks (0)**, **Browser (1)**, **Grammar (2)**, **Exams (3)**, **Stats (4)**, cộng thêm lối tắt Cài đặt **Settings**.
+
+* **Cấu Trúc Router Phân Nhánh (`StatefulShellBranch`)**:
+  * Định nghĩa tại `lib/router/app_router.dart`: Tích hợp nhánh thứ 4 cho `/exams` render `ExamCatalogScreen()`.
+  * Các màn hình thi (`ExamTakingScreen`) và kết quả thi (`ExamResultScreen`) là tuyến con nhưng cấu hình `parentNavigatorKey: rootNavigatorKey` để hiển thị chế độ toàn màn hình (Fullscreen Experience), ẩn hoàn toàn thanh điều hướng ngoài.
+* **Phím Tắt Đa Nền Tảng (Desktop & Keyboard Ergonomics)**:
+  * Desktop Sidebar (`DesktopSidebar`):
+    * `Ctrl+1`: Decks
+    * `Ctrl+2`: Card Browser
+    * `Ctrl+3`: Grammar
+    * `Ctrl+4`: Exams (Icon: `LucideIcons.graduationCap`)
+    * `Ctrl+5`: Stats
+    * `Ctrl+6`: Settings
+  * Tablet NavRail (`TabletNavRail`): Đồng bộ các phím tắt `Ctrl+1`..`Ctrl+6` và hỗ trợ cả tap lẫn keyboard shortcuts.
+* **Quy Chuẩn Chống Tràn Thanh Điều Hướng Đáy 5 Tab (Mobile Bottom Bar Zero-Overflow)**:
+  * Trên màn hình mobile siêu hẹp 320px (iPhone SE 1st gen, Android nhỏ), thanh điều hướng đáy có 5 items cạnh tranh bề ngang $320px - 2 \times 8px \text{ padding} = 304px$ (mỗi tab chỉ có ~60px).
+  * Quy tắc bảo vệ nghiêm ngặt trong `MobileBottomNavBar`:
+    1. Bọc mỗi tab trong `Expanded`.
+    2. Ràng buộc `constraints: BoxConstraints(minWidth: 40)`.
+    3. Padding ngang thu hẹp tối đa: `EdgeInsets.symmetric(horizontal: 2, vertical: 4)`.
+    4. Cỡ icon 18px (`AppIconSize.md`).
+    5. Text nhãn: `maxLines: 1`, `overflow: TextOverflow.ellipsis`, `fontSize: 10.5px`.
+  * Đảm bảo kiểm thử **Zero Overflow Guarantee** vượt qua 100% trong `overflow_resizing_matrix_test.dart`.
+
 
 

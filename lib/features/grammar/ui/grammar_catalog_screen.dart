@@ -67,12 +67,13 @@ class GrammarCatalogScreen extends HookConsumerWidget {
 
         return Scaffold(
           headers: [_buildAppBar(context, l10n, totalGhosts, isMobile)],
-          child: grammarAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) => Center(
-              child: Text(l10n.grammarErrorLoadCatalog(err.toString())),
+          child: switch (grammarAsync) {
+            AsyncLoading() => const Center(child: CircularProgressIndicator()),
+            AsyncError(:final error) => Center(
+              child: Text(l10n.grammarErrorLoadCatalog(error.toString())),
             ),
-            data: (units) {
+            AsyncData(:final value) => () {
+              final units = value;
               final filteredUnits = units.where((u) {
                 if (selectedLevel.value != null &&
                     u.level != selectedLevel.value) {
@@ -84,10 +85,17 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                   final matchesCatName = u.category.displayName
                       .toLowerCase()
                       .contains(query);
+                  final matchesLocalizedCat = u.category
+                      .getLocalizedName(l10n)
+                      .toLowerCase()
+                      .contains(query);
                   final matchesCatCode = u.category.code.toLowerCase().contains(
                     query,
                   );
-                  return matchesTitle || matchesCatName || matchesCatCode;
+                  return matchesTitle ||
+                      matchesCatName ||
+                      matchesLocalizedCat ||
+                      matchesCatCode;
                 }
                 return true;
               }).toList();
@@ -158,8 +166,8 @@ class GrammarCatalogScreen extends HookConsumerWidget {
                   ),
                 ),
               );
-            },
-          ),
+            }(),
+          },
         );
       },
     );

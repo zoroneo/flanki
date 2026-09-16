@@ -138,12 +138,31 @@ etworkError, ateLimited, parseError, serverError, unknown.
 ---
 
 ### 3.4. 100% Bản Địa Hóa (Localization Coverage)
-Bổ sung 21 translation keys mới cho cả Tiếng Anh (pp_en.arb) và Tiếng Việt (pp_vi.arb):
-- Các thông báo lỗi tên deck (errorInvalidDeckName).
-- Thông báo rỗng khi cày đề (cramEmptyNotice, cramEmptyHint).
-- Dialog cấu hình học tập (studyOptionsTitle, maxReviewsPerDayLabel, maxNewCardsPerDayLabel).
-- Trạng thái kiểm tra cập nhật (checkingForUpdates, 
-oUpdatesAvailable, updateAvailableTitle).
+Bổ sung 65+ translation keys mới cho cả Tiếng Anh (`app_en.arb`) và Tiếng Việt (`app_vi.arb`):
+- Bản địa hóa 100% 4 màn hình thi: `ExamCatalogScreen`, `ExamTakingScreen`, `ExamResultScreen`, `WrongNotebookScreen`.
+- Bản địa hóa các widget dùng chung: `DeckAppBar`, `AccountSyncCard`, `TabletNavRail`.
+- Enum labels: `GrammarDifficulty` và `GrammarCategory` qua extension methods `getLocalizedLabel(l10n)` và `getLocalizedName(l10n)`; chuẩn hóa fallback tiếng Anh cho `ExamCategory` và `WrongQuestionStatus`.
+- Bổ sung 5 mã lỗi và khóa thông báo lỗi đa ngôn ngữ: `examNotFound`, `examLoadFailed`, `examSubmitFailed`, `examDownloadFailed`, `wrongStatusUpdateFailed`.
+
+---
+
+### 3.5. Tách Dữ Liệu Mock Ra Asset JSON & Nạp Headless An Toàn
+- **Vấn đề**: `ExamRepository.seedSampleExams()` từng chứa hơn 90 dòng code chứa chuỗi hardcode tiếng Nhật và tiếng Việt cho đề thi mẫu JLPT N3.
+- **Giải pháp**:
+  - Trích xuất toàn bộ sang file JSON chuẩn: [`assets/data/exams/jlpt_n3_mock_01.json`](file:///d:/Workspace/flanki/assets/data/exams/jlpt_n3_mock_01.json).
+  - Tải động qua `rootBundle.loadString(...)` khi ứng dụng chạy thông thường.
+  - Cơ chế **Headless Fallback**: Nếu `rootBundle` ném ngoại lệ (như khi chạy headless unit tests mà không gắn kết flutter test asset bundle), tự động fallback đọc file vật lý trực tiếp qua `dart:io File('assets/data/exams/...')`. Đảm bảo code sạch 100% chuỗi thô mà không làm gãy bất kỳ unit test nào.
+
+---
+
+### 3.6. Làm Sạch Database & Tập Trung Hóa Tham Số Hệ Thống
+1. **Làm sạch Database Field**:
+   - Thay thế `userAnswer ?? '(Bỏ trống)'` thành `userAnswer ?? ''` (chuỗi rỗng).
+   - Tầng UI tự động ánh xạ chuỗi rỗng sang `l10n.unansweredPlaceholder` ("Chưa trả lời" / "Unanswered"). Database SQLite hoàn toàn trung lập với ngôn ngữ hiển thị.
+2. **Tập trung hóa hằng số kết nối & đồng bộ**:
+   - `SupabaseConfig`: Tập trung `defaultPushBatchLimit = 100`, `defaultPullBatchLimit = 500`, `mockUrl`, `mockAnonKey`, hỗ trợ `--dart-define=SUPABASE_MEDIA_BUCKET=...`.
+   - `AppConfig`: Tập trung `defaultSyncPeriodicInterval`, `defaultSyncDebounceDuration`, `defaultMaxClockDriftMillis`, `GITHUB_REPO_OWNER`, `GITHUB_REPO_NAME`.
+   - `AnkiWebConfig`: Tập trung `defaultSyncHost`, `defaultTimeout`, hỗ trợ `--dart-define=ANKIWEB_SYNC_HOST=...`.
 
 ---
 
@@ -158,17 +177,19 @@ fvm dart run tool/check_dimensions.dart
 # Kiểm tra phân tích mã nguồn linter
 fvm flutter analyze
 
-# Chạy toàn bộ 154 test cases
-fvm flutter test
+# Chạy toàn bộ test suite (70 widget + 138 unit tests)
+fvm flutter test test/unit/ test/widget/
 ```
 
 **Kết quả**:
-- **154 / 154 tests PASS** (100% Xanh).
-- Thời gian thực thi: ~14s.
+- **208 / 208 tests PASS** (100% Xanh).
+- **Phân tích tĩnh**: `No issues found! (ran in 4.6s)`.
 - Không phát sinh hồi quy (zero regression) trên:
   - FSRS Algorithm & Deck Scheduling.
   - Academic Grammar Two-Tier Engine & Ghost Review.
   - AnkiWeb Sync Engine, Delta Media Sync & Auth.
+  - Supabase Sync Engine, HLC Clock Drift & Chaos Fault Hardening.
+  - Exam Taking, Scoring, Auto-Submit, Question Palettes & Wrong Notebook.
   - Multi-platform Desktop Window Manager & In-app Updater.
   - Responsive Viewport & Scale Matrix (320px -> 1280px, A11y 1.5x) - Zero Overflow.
 

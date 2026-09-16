@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/core/localization/locale_notifier.dart';
+import 'package:flanki/features/exam/models/exam_models.dart';
+import 'package:flanki/features/grammar/models/grammar_enums.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
 
 void main() {
@@ -19,6 +21,7 @@ void main() {
       final l10nEn = await AppLocalizations.delegate.load(const Locale('en'));
       expect(l10nEn.navDecks, 'Decks');
       expect(l10nEn.navBrowser, 'Browser');
+      expect(l10nEn.navExams, 'Exams');
       expect(l10nEn.navStats, 'Stats');
       expect(l10nEn.navSettings, 'Settings');
       expect(l10nEn.studyNow, 'Study Now');
@@ -55,12 +58,22 @@ void main() {
       expect(l10nEn.desktopSubtitle, 'Desktop • Zinc');
       expect(l10nEn.rslibLinked, 'rslib (Linked)');
       expect(l10nEn.unknown, 'Unknown');
+      expect(l10nEn.examBank, 'Exam Bank');
+      expect(l10nEn.wrongNotebook, 'Mistake Notebook');
+      expect(l10nEn.allFilter, 'All');
+      expect(l10nEn.allCountFilter(5), 'All (5)');
+      expect(l10nEn.examDurationAndQuestions(30, 10), '30 mins • 10 questions');
+      expect(l10nEn.examPassed, 'PASSED');
+      expect(l10nEn.examFailed, 'FAILED');
+      expect(l10nEn.examScorePoints(80), '80 Pts');
+      expect(l10nEn.ankiWebLegacy, 'AnkiWeb (Legacy)');
     });
 
     test('Vietnamese translations load correctly', () async {
       final l10nVi = await AppLocalizations.delegate.load(const Locale('vi'));
       expect(l10nVi.navDecks, 'Bộ thẻ');
       expect(l10nVi.navBrowser, 'Duyệt thẻ');
+      expect(l10nVi.navExams, 'Đề thi');
       expect(l10nVi.navStats, 'Thống kê');
       expect(l10nVi.navSettings, 'Cài đặt');
       expect(l10nVi.studyNow, 'Học ngay');
@@ -97,7 +110,112 @@ void main() {
       expect(l10nVi.desktopSubtitle, 'Máy tính • Zinc');
       expect(l10nVi.rslibLinked, 'rslib (Đã liên kết)');
       expect(l10nVi.unknown, 'Không xác định');
+      expect(l10nVi.examBank, 'Ngân hàng đề thi');
+      expect(l10nVi.wrongNotebook, 'Sổ tay câu sai');
+      expect(l10nVi.allFilter, 'Tất cả');
+      expect(l10nVi.allCountFilter(5), 'Tất cả (5)');
+      expect(l10nVi.examDurationAndQuestions(30, 10), '30 phút • 10 câu');
+      expect(l10nVi.examPassed, 'ĐẠT');
+      expect(l10nVi.examFailed, 'CHƯA ĐẠT');
+      expect(l10nVi.examScorePoints(80), '80 Điểm');
+      expect(l10nVi.ankiWebLegacy, 'AnkiWeb (Cũ)');
     });
+
+    test(
+      'Enum localized labels work properly for English and Vietnamese',
+      () async {
+        final l10nEn = await AppLocalizations.delegate.load(const Locale('en'));
+        final l10nVi = await AppLocalizations.delegate.load(const Locale('vi'));
+
+        // GrammarDifficulty
+        expect(
+          GrammarDifficulty.recognition.getLocalizedLabel(l10nEn),
+          'Recognition',
+        );
+        expect(
+          GrammarDifficulty.recognition.getLocalizedLabel(l10nVi),
+          'Nhận biết',
+        );
+        expect(
+          GrammarDifficulty.analysis.getLocalizedLabel(l10nEn),
+          'Analysis & Traps',
+        );
+        expect(
+          GrammarDifficulty.analysis.getLocalizedLabel(l10nVi),
+          'Phân tích & Bẫy',
+        );
+        expect(
+          GrammarDifficulty.production.getLocalizedLabel(l10nEn),
+          'Production',
+        );
+        expect(
+          GrammarDifficulty.production.getLocalizedLabel(l10nVi),
+          'Vận dụng thực hành',
+        );
+
+        // GrammarCategory
+        expect(
+          GrammarCategory.tenses.getLocalizedName(l10nEn),
+          'Tenses & Aspects',
+        );
+        expect(
+          GrammarCategory.tenses.getLocalizedName(l10nVi),
+          'Thì & Khía Cạnh',
+        );
+        expect(
+          GrammarCategory.capstone.getLocalizedName(l10nEn),
+          'Capstone Exam Mastery',
+        );
+        expect(
+          GrammarCategory.capstone.getLocalizedName(l10nVi),
+          'Tổng Ôn Toàn Diện',
+        );
+
+        // ExamCategory
+        expect(ExamCategory.jlpt.getLocalizedLabel(l10nEn), 'JLPT');
+        expect(
+          ExamCategory.jlpt.getLocalizedLabel(l10nVi),
+          'Kỳ thi Năng lực Nhật ngữ (JLPT)',
+        );
+
+        // WrongQuestionStatus
+        expect(
+          WrongQuestionStatus.newQuestion.getLocalizedLabel(l10nEn),
+          'New Mistake',
+        );
+        expect(
+          WrongQuestionStatus.newQuestion.getLocalizedLabel(l10nVi),
+          'Mới sai',
+        );
+
+        // Exam & Wrong Notebook Error messages
+        expect(l10nEn.examNotFound, 'Exam paper not found or deleted.');
+        expect(l10nVi.examNotFound, 'Đề thi không tồn tại hoặc đã bị xóa.');
+        expect(l10nEn.examLoadFailed('404'), 'Failed to load exam paper: 404');
+        expect(l10nVi.examLoadFailed('404'), 'Lỗi tải đề thi: 404');
+        expect(
+          l10nEn.examSubmitFailed('Timeout'),
+          'Failed to submit exam: Timeout',
+        );
+        expect(l10nVi.examSubmitFailed('Timeout'), 'Lỗi nộp bài: Timeout');
+        expect(
+          l10nEn.examDownloadFailed('Network'),
+          'Failed to download exam paper: Network',
+        );
+        expect(
+          l10nVi.examDownloadFailed('Network'),
+          'Tải đề thi thất bại: Network',
+        );
+        expect(
+          l10nEn.wrongStatusUpdateFailed('Fail'),
+          'Failed to update question status: Fail',
+        );
+        expect(
+          l10nVi.wrongStatusUpdateFailed('Fail'),
+          'Cập nhật trạng thái thất bại: Fail',
+        );
+      },
+    );
 
     test('LocaleNotifier can update and reset state', () async {
       final container = ProviderContainer();

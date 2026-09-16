@@ -7,6 +7,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../localization/locale_notifier.dart';
 import '../../features/decks/providers/deck_notifier.dart';
 import '../../features/browser/providers/card_browser_notifier.dart';
+import '../../features/exam/providers/exam_catalog_notifier.dart';
 import '../../features/stats/providers/stats_notifier.dart';
 import '../../features/sync/providers/auth_notifier.dart';
 import 'navigation/desktop_sidebar.dart';
@@ -25,6 +26,8 @@ class AdaptiveScaffold extends HookConsumerWidget {
     } else if (index == 1) {
       ref.read(cardBrowserProvider.notifier).refresh();
     } else if (index == 3) {
+      ref.read(examCatalogProvider.notifier).loadCatalog();
+    } else if (index == 4) {
       ref.read(statsNotifierProvider.notifier).refresh();
     }
     navigationShell.goBranch(
@@ -92,6 +95,8 @@ class AdaptiveScaffold extends HookConsumerWidget {
           _onTap(3, ref),
       const SingleActivator(LogicalKeyboardKey.digit5, control: true): () =>
           _onTap(4, ref),
+      const SingleActivator(LogicalKeyboardKey.digit6, control: true): () =>
+          _onTap(5, ref),
     };
   }
 

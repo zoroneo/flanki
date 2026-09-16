@@ -40,6 +40,9 @@ Toàn bộ 7 State Classes của ứng dụng đã được đóng gói thành c
 | 5 | `StudySettings` | `lib/features/settings/domain/settings_state.dart` | `settings_state.freezed.dart`<br>`settings_state.g.dart` | 10 tham số thuật toán FSRS, tuần tự hóa tự động qua `json_serializable` (`fromJson`/`toJson`) |
 | 6 | `StatsData` | `lib/features/stats/domain/stats_state.dart` | `stats_state.freezed.dart` | Ma trận 2D `List<List<int>> heatmapLevels` deep equal |
 | 7 | `UpdateState` | `lib/features/settings/domain/update_state.dart` | `update_state.freezed.dart` | Tiến độ tải bản cập nhật, enum `UpdateStatus`, `UpdateErrorType` |
+| 8 | `ExamSessionState` | `lib/features/exam/domain/exam_session_state.dart` | `exam_session_state.freezed.dart` | 15 trường: timer, progressRatio, score, answers map, localized errors |
+| 9 | `ExamCatalogState` | `lib/features/exam/domain/exam_catalog_state.dart` | `exam_catalog_state.freezed.dart` | Catalog đề thi, danh mục, filter levels, search |
+| 10 | `WrongNotebookState` | `lib/features/exam/domain/wrong_notebook_state.dart` | `wrong_notebook_state.freezed.dart` | Sổ tay câu sai, filter status (unresolved/reviewing/mastered) |
 
 ---
 
@@ -68,6 +71,24 @@ Toàn bộ 7 State Classes của ứng dụng đã được đóng gói thành c
   - `StudyRemindersCard`: Tự watch `studySettingsProvider`.
   - `AboutInfoCard`: Tự watch `updateProvider`, `themeNotifierProvider`.
 - Màn hình cha `SettingsScreen` không còn bất kỳ `ref.watch` nào; tất cả các card đều là `const` constructor. Khi người dùng kéo thanh trượt tỷ lệ ghi nhớ (retention) hay chọn theme sáng/tối, chỉ duy nhất thẻ tương ứng được dựng hình lại.
+
+### 3.4. Cô Lập Luồng Cập Nhật Tần Suất Cao (High-Frequency Stream & Timer Isolation)
+- **Vấn Đề (Bottleneck)**: Trong phòng thi (`ExamTakingScreen`), đồng hồ đếm ngược `remainingSeconds` tick mỗi 1 giây (60 lần/phút). Nếu lắng nghe toàn bộ `examSessionProvider` ở cấp màn hình, toàn bộ cây giao diện nặng nề (gồm `ExamPassageCard`, danh sách 4 lựa chọn đáp án, thanh tiến độ, các nút nộp bài) sẽ bị gọi `build()` lại liên tục 60 lần/phút gây tiêu hao CPU và pin di động.
+- **Giải Pháp**:
+  - Tách riêng component `ExamTimerBadge`:
+    ```dart
+    class ExamTimerBadge extends ConsumerWidget {
+      @override
+      Widget build(BuildContext context, WidgetRef ref) {
+        final remaining = ref.watch(
+          examSessionProvider.select((s) => s.remainingSeconds),
+        );
+        return Badge(...);
+      }
+    }
+    ```
+  - Màn hình cha `ExamTakingScreen` sử dụng `.select(...)` riêng biệt cho từng giá trị: `isLoading`, `error`, `currentQuestion`, `paperTitle`, `progressRatio`, `selectedAnswers`, `currentIndex`, `questionsLength`, `isFlagged`.
+  - Kết quả: Khi đồng hồ đếm ngược từng giây, duy nhất badge đồng hồ 60x24px được vẽ lại, giữ tỷ lệ khung hình 120 FPS mượt mà.
 
 ---
 
@@ -105,6 +126,15 @@ lib/
 │   │   └── logic/card_browser_notifier.dart
 │   ├── decks/
 │   │   └── logic/deck_list_notifier.dart
+│   ├── exam/
+│   │   ├── domain/
+│   │   │   ├── exam_session_state.dart
+│   │   │   ├── exam_catalog_state.dart
+│   │   │   └── wrong_notebook_state.dart
+│   │   └── logic/
+│   │       ├── exam_session_notifier.dart
+│   │       ├── exam_catalog_notifier.dart
+│   │       └── wrong_notebook_notifier.dart
 │   ├── grammar/
 │   │   ├── domain/grammar_session_state.dart
 │   │   └── logic/
@@ -156,4 +186,4 @@ lib/
 
 Mọi thay đổi liên quan đến State & Notifier đều phải thỏa mãn 2 điều kiện tiên quyết:
 1. `fvm flutter analyze` đạt 0 warnings, 0 errors, 0 lints.
-2. `fvm flutter test` chạy trọn vẹn toàn bộ 120 tests không lỗi (100% pass rate).
+2. `fvm flutter test test/unit/ test/widget/` chạy trọn vẹn toàn bộ 208 tests không lỗi (100% pass rate).

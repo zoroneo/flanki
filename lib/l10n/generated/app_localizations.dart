@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Grammar'**
   String get navGrammar;
 
+  /// No description provided for @navExams.
+  ///
+  /// In en, this message translates to:
+  /// **'Exams'**
+  String get navExams;
+
   /// No description provided for @navStats.
   ///
   /// In en, this message translates to:
@@ -2719,6 +2725,666 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown'**
   String get unknown;
+
+  /// No description provided for @flankiCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Flanki Cloud'**
+  String get flankiCloud;
+
+  /// No description provided for @cloudSyncSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic real-time sync across devices with zero data loss'**
+  String get cloudSyncSubtitle;
+
+  /// No description provided for @signInCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In to Cloud'**
+  String get signInCloud;
+
+  /// No description provided for @signUpCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Cloud Account'**
+  String get signUpCloud;
+
+  /// No description provided for @cloudAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Account'**
+  String get cloudAccount;
+
+  /// No description provided for @cloudNotConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Account Not Connected'**
+  String get cloudNotConnected;
+
+  /// No description provided for @cloudConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to Cloud'**
+  String get cloudConnected;
+
+  /// No description provided for @pendingChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} changes pending'**
+  String pendingChanges(int count);
+
+  /// No description provided for @signOutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of Cloud?'**
+  String get signOutConfirmTitle;
+
+  /// No description provided for @signOutConfirmDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your local cards and study history will remain safely on this device.'**
+  String get signOutConfirmDesc;
+
+  /// No description provided for @authInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get authInvalidEmail;
+
+  /// No description provided for @authPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get authPasswordTooShort;
+
+  /// No description provided for @authSuccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created and signed in successfully.'**
+  String get authSuccessSubtitle;
+
+  /// No description provided for @examBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam Bank'**
+  String get examBank;
+
+  /// No description provided for @wrongNotebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Mistake Notebook'**
+  String get wrongNotebook;
+
+  /// No description provided for @searchExamsPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search exams by title or level...'**
+  String get searchExamsPlaceholder;
+
+  /// No description provided for @allFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allFilter;
+
+  /// No description provided for @allCountFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All ({count})'**
+  String allCountFilter(int count);
+
+  /// No description provided for @examDurationAndQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} mins • {count} questions'**
+  String examDurationAndQuestions(int duration, int count);
+
+  /// No description provided for @examDownloadedOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded'**
+  String get examDownloadedOffline;
+
+  /// No description provided for @downloadExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get downloadExam;
+
+  /// No description provided for @downloadingExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading...'**
+  String get downloadingExam;
+
+  /// No description provided for @takeExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Exam'**
+  String get takeExam;
+
+  /// No description provided for @noExamsFoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching exams found'**
+  String get noExamsFoundTitle;
+
+  /// No description provided for @noExamsFoundDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Try changing your search terms or category filters.'**
+  String get noExamsFoundDesc;
+
+  /// No description provided for @takingExamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Exam'**
+  String get takingExamTitle;
+
+  /// No description provided for @backButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get backButton;
+
+  /// No description provided for @examNoQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'No questions found in this exam paper'**
+  String get examNoQuestions;
+
+  /// No description provided for @submitExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submitExam;
+
+  /// No description provided for @submitExamNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Now'**
+  String get submitExamNow;
+
+  /// No description provided for @continueExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueExam;
+
+  /// No description provided for @previousQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get previousQuestion;
+
+  /// No description provided for @nextQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextQuestion;
+
+  /// No description provided for @questionList.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get questionList;
+
+  /// No description provided for @questionListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Question Overview'**
+  String get questionListTitle;
+
+  /// No description provided for @readingPassage.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Passage:'**
+  String get readingPassage;
+
+  /// No description provided for @questionProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {current} / {total}'**
+  String questionProgress(int current, int total);
+
+  /// No description provided for @questionNumberPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {number}'**
+  String questionNumberPrefix(int number);
+
+  /// No description provided for @confirmSubmitExamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Exam Submission?'**
+  String get confirmSubmitExamTitle;
+
+  /// No description provided for @confirmSubmitUnfinished.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} unanswered question(s). Are you sure you want to submit now?'**
+  String confirmSubmitUnfinished(int count);
+
+  /// No description provided for @confirmSubmitFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'You have answered all questions. Submit for grading?'**
+  String get confirmSubmitFinished;
+
+  /// No description provided for @confirmExitExamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit Exam?'**
+  String get confirmExitExamTitle;
+
+  /// No description provided for @confirmExitExamDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'If you leave now, your current answers will not be saved.'**
+  String get confirmExitExamDesc;
+
+  /// No description provided for @stayInExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay in Exam'**
+  String get stayInExam;
+
+  /// No description provided for @exitExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exitExam;
+
+  /// No description provided for @examResultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam Result'**
+  String get examResultTitle;
+
+  /// No description provided for @examResultNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam submission result not found'**
+  String get examResultNotFound;
+
+  /// No description provided for @backToCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Catalog'**
+  String get backToCatalog;
+
+  /// No description provided for @examPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'PASSED'**
+  String get examPassed;
+
+  /// No description provided for @examFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'FAILED'**
+  String get examFailed;
+
+  /// No description provided for @examScorePoints.
+  ///
+  /// In en, this message translates to:
+  /// **'{score} Pts'**
+  String examScorePoints(int score);
+
+  /// No description provided for @correctCountStat.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct Answers'**
+  String get correctCountStat;
+
+  /// No description provided for @durationStat.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Taken'**
+  String get durationStat;
+
+  /// No description provided for @passingScoreStat.
+  ///
+  /// In en, this message translates to:
+  /// **'Passing Score'**
+  String get passingScoreStat;
+
+  /// No description provided for @retakeExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake Exam'**
+  String get retakeExam;
+
+  /// No description provided for @questionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Question & Answer Details'**
+  String get questionDetails;
+
+  /// No description provided for @correctBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get correctBadge;
+
+  /// No description provided for @wrongBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get wrongBadge;
+
+  /// No description provided for @explanationPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Explanation: {exp}'**
+  String explanationPrefix(String exp);
+
+  /// No description provided for @examPrefixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam: {examId}'**
+  String examPrefixLabel(String examId);
+
+  /// No description provided for @selectedAnswerPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected: {answer}'**
+  String selectedAnswerPrefix(String answer);
+
+  /// No description provided for @reviewMistakeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get reviewMistakeButton;
+
+  /// No description provided for @masteredMistakeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastered'**
+  String get masteredMistakeButton;
+
+  /// No description provided for @noWrongQuestionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No mistakes recorded!'**
+  String get noWrongQuestionsTitle;
+
+  /// No description provided for @noWrongQuestionsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Great job! You have zero recorded mistakes or all have been mastered.'**
+  String get noWrongQuestionsDesc;
+
+  /// No description provided for @ankiWebLegacy.
+  ///
+  /// In en, this message translates to:
+  /// **'AnkiWeb (Legacy)'**
+  String get ankiWebLegacy;
+
+  /// No description provided for @unansweredPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'(Unanswered)'**
+  String get unansweredPlaceholder;
+
+  /// No description provided for @examCategoryJlpt.
+  ///
+  /// In en, this message translates to:
+  /// **'JLPT'**
+  String get examCategoryJlpt;
+
+  /// No description provided for @examCategoryToeic.
+  ///
+  /// In en, this message translates to:
+  /// **'TOEIC'**
+  String get examCategoryToeic;
+
+  /// No description provided for @examCategoryThptqg.
+  ///
+  /// In en, this message translates to:
+  /// **'National High School Exam'**
+  String get examCategoryThptqg;
+
+  /// No description provided for @examCategoryGrammarTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Grammar Mastery Test'**
+  String get examCategoryGrammarTest;
+
+  /// No description provided for @examCategoryCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Exam'**
+  String get examCategoryCustom;
+
+  /// No description provided for @wrongStatusNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New Mistake'**
+  String get wrongStatusNew;
+
+  /// No description provided for @wrongStatusReviewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewing'**
+  String get wrongStatusReviewing;
+
+  /// No description provided for @wrongStatusMastered.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastered'**
+  String get wrongStatusMastered;
+
+  /// No description provided for @grammarDifficultyRecognition.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognition'**
+  String get grammarDifficultyRecognition;
+
+  /// No description provided for @grammarDifficultyAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis & Traps'**
+  String get grammarDifficultyAnalysis;
+
+  /// No description provided for @grammarDifficultyProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Production'**
+  String get grammarDifficultyProduction;
+
+  /// No description provided for @grammarCatTenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenses & Aspects'**
+  String get grammarCatTenses;
+
+  /// No description provided for @grammarCatVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Passive Voice'**
+  String get grammarCatVoice;
+
+  /// No description provided for @grammarCatModals.
+  ///
+  /// In en, this message translates to:
+  /// **'Modal Verbs'**
+  String get grammarCatModals;
+
+  /// No description provided for @grammarCatConditionals.
+  ///
+  /// In en, this message translates to:
+  /// **'Conditionals'**
+  String get grammarCatConditionals;
+
+  /// No description provided for @grammarCatSubjunctive.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjunctive Mood'**
+  String get grammarCatSubjunctive;
+
+  /// No description provided for @grammarCatClauses.
+  ///
+  /// In en, this message translates to:
+  /// **'Relative Clauses'**
+  String get grammarCatClauses;
+
+  /// No description provided for @grammarCatInversion.
+  ///
+  /// In en, this message translates to:
+  /// **'Inversion'**
+  String get grammarCatInversion;
+
+  /// No description provided for @grammarCatVerbForms.
+  ///
+  /// In en, this message translates to:
+  /// **'Gerund & Infinitive'**
+  String get grammarCatVerbForms;
+
+  /// No description provided for @grammarCatConjunctions.
+  ///
+  /// In en, this message translates to:
+  /// **'Conjunctions'**
+  String get grammarCatConjunctions;
+
+  /// No description provided for @grammarCatSubjectVerbAgreement.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject-Verb Agreement'**
+  String get grammarCatSubjectVerbAgreement;
+
+  /// No description provided for @grammarCatComparisons.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparisons'**
+  String get grammarCatComparisons;
+
+  /// No description provided for @grammarCatArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Articles'**
+  String get grammarCatArticles;
+
+  /// No description provided for @grammarCatDeterminers.
+  ///
+  /// In en, this message translates to:
+  /// **'Determiners'**
+  String get grammarCatDeterminers;
+
+  /// No description provided for @grammarCatPronouns.
+  ///
+  /// In en, this message translates to:
+  /// **'Pronouns'**
+  String get grammarCatPronouns;
+
+  /// No description provided for @grammarCatPrepositions.
+  ///
+  /// In en, this message translates to:
+  /// **'Prepositions'**
+  String get grammarCatPrepositions;
+
+  /// No description provided for @grammarCatAdjectivesAdverbs.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjectives & Adverbs'**
+  String get grammarCatAdjectivesAdverbs;
+
+  /// No description provided for @grammarCatNounClauses.
+  ///
+  /// In en, this message translates to:
+  /// **'Noun Clauses'**
+  String get grammarCatNounClauses;
+
+  /// No description provided for @grammarCatSentenceStructure.
+  ///
+  /// In en, this message translates to:
+  /// **'Sentence Structure'**
+  String get grammarCatSentenceStructure;
+
+  /// No description provided for @grammarCatCausativeVerbs.
+  ///
+  /// In en, this message translates to:
+  /// **'Causative Verbs'**
+  String get grammarCatCausativeVerbs;
+
+  /// No description provided for @grammarCatPhrasalVerbs.
+  ///
+  /// In en, this message translates to:
+  /// **'Phrasal Verbs'**
+  String get grammarCatPhrasalVerbs;
+
+  /// No description provided for @grammarCatQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions & Tag Questions'**
+  String get grammarCatQuestions;
+
+  /// No description provided for @grammarCatEmphasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Emphasis & Cleft Sentences'**
+  String get grammarCatEmphasis;
+
+  /// No description provided for @grammarCatParallelStructure.
+  ///
+  /// In en, this message translates to:
+  /// **'Parallelism'**
+  String get grammarCatParallelStructure;
+
+  /// No description provided for @grammarCatParticiples.
+  ///
+  /// In en, this message translates to:
+  /// **'Participles'**
+  String get grammarCatParticiples;
+
+  /// No description provided for @grammarCatWordFormation.
+  ///
+  /// In en, this message translates to:
+  /// **'Word Formation'**
+  String get grammarCatWordFormation;
+
+  /// No description provided for @grammarCatCollocations.
+  ///
+  /// In en, this message translates to:
+  /// **'Collocations'**
+  String get grammarCatCollocations;
+
+  /// No description provided for @grammarCatCapstone.
+  ///
+  /// In en, this message translates to:
+  /// **'Capstone Exam Mastery'**
+  String get grammarCatCapstone;
+
+  /// No description provided for @examNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam paper not found or deleted.'**
+  String get examNotFound;
+
+  /// No description provided for @examLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load exam paper: {error}'**
+  String examLoadFailed(String error);
+
+  /// No description provided for @examSubmitFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit exam: {error}'**
+  String examSubmitFailed(String error);
+
+  /// No description provided for @examDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download exam paper: {error}'**
+  String examDownloadFailed(String error);
+
+  /// No description provided for @wrongStatusUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update question status: {error}'**
+  String wrongStatusUpdateFailed(String error);
 }
 
 class _AppLocalizationsDelegate

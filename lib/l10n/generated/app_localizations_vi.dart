@@ -22,6 +22,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get navGrammar => 'Ngữ pháp';
 
   @override
+  String get navExams => 'Đề thi';
+
+  @override
   String get navStats => 'Thống kê';
 
   @override
@@ -1508,4 +1511,369 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get unknown => 'Không xác định';
+
+  @override
+  String get flankiCloud => 'Đám mây Flanki';
+
+  @override
+  String get cloudSyncSubtitle =>
+      'Tự động đồng bộ thời gian thực giữa các thiết bị';
+
+  @override
+  String get signInCloud => 'Đăng nhập Cloud';
+
+  @override
+  String get signUpCloud => 'Tạo tài khoản Cloud';
+
+  @override
+  String get cloudAccount => 'Tài khoản Cloud';
+
+  @override
+  String get cloudNotConnected => 'Chưa kết nối tài khoản Cloud';
+
+  @override
+  String get cloudConnected => 'Đã kết nối Cloud';
+
+  @override
+  String pendingChanges(int count) {
+    return '$count thay đổi chờ đồng bộ';
+  }
+
+  @override
+  String get signOutConfirmTitle => 'Đăng xuất khỏi Cloud?';
+
+  @override
+  String get signOutConfirmDesc =>
+      'Dữ liệu thẻ và lịch sử học tập cục bộ vẫn được bảo toàn trên thiết bị này.';
+
+  @override
+  String get authInvalidEmail => 'Vui lòng nhập địa chỉ email hợp lệ.';
+
+  @override
+  String get authPasswordTooShort => 'Mật khẩu phải có ít nhất 6 ký tự.';
+
+  @override
+  String get authSuccessSubtitle => 'Tạo tài khoản và đăng nhập thành công.';
+
+  @override
+  String get examBank => 'Ngân hàng đề thi';
+
+  @override
+  String get wrongNotebook => 'Sổ tay câu sai';
+
+  @override
+  String get searchExamsPlaceholder =>
+      'Tìm kiếm đề thi theo tên hoặc cấp độ...';
+
+  @override
+  String get allFilter => 'Tất cả';
+
+  @override
+  String allCountFilter(int count) {
+    return 'Tất cả ($count)';
+  }
+
+  @override
+  String examDurationAndQuestions(int duration, int count) {
+    return '$duration phút • $count câu';
+  }
+
+  @override
+  String get examDownloadedOffline => 'Đã tải về';
+
+  @override
+  String get downloadExam => 'Tải về';
+
+  @override
+  String get downloadingExam => 'Đang tải...';
+
+  @override
+  String get takeExam => 'Vào thi';
+
+  @override
+  String get noExamsFoundTitle => 'Không tìm thấy đề thi phù hợp';
+
+  @override
+  String get noExamsFoundDesc =>
+      'Hãy thử thay đổi từ khóa hoặc bộ lọc danh mục.';
+
+  @override
+  String get takingExamTitle => 'Làm bài thi';
+
+  @override
+  String get backButton => 'Quay lại';
+
+  @override
+  String get examNoQuestions => 'Không có câu hỏi nào trong đề thi này';
+
+  @override
+  String get submitExam => 'Nộp bài';
+
+  @override
+  String get submitExamNow => 'Nộp bài ngay';
+
+  @override
+  String get continueExam => 'Tiếp tục làm';
+
+  @override
+  String get previousQuestion => 'Câu trước';
+
+  @override
+  String get nextQuestion => 'Câu sau';
+
+  @override
+  String get questionList => 'Danh sách';
+
+  @override
+  String get questionListTitle => 'Danh sách câu hỏi';
+
+  @override
+  String get readingPassage => 'Đoạn văn đọc hiểu:';
+
+  @override
+  String questionProgress(int current, int total) {
+    return 'Câu $current / $total';
+  }
+
+  @override
+  String questionNumberPrefix(int number) {
+    return 'Câu $number';
+  }
+
+  @override
+  String get confirmSubmitExamTitle => 'Xác nhận nộp bài thi?';
+
+  @override
+  String confirmSubmitUnfinished(int count) {
+    return 'Bạn còn $count câu chưa hoàn thành. Bạn có chắc chắn muốn nộp bài thi ngay bây giờ?';
+  }
+
+  @override
+  String get confirmSubmitFinished =>
+      'Bạn đã hoàn thành tất cả các câu hỏi. Nộp bài để chấm điểm?';
+
+  @override
+  String get confirmExitExamTitle => 'Rời khỏi bài thi?';
+
+  @override
+  String get confirmExitExamDesc =>
+      'Nếu rời khỏi bây giờ, toàn bộ câu trả lời hiện tại sẽ không được lưu lại.';
+
+  @override
+  String get stayInExam => 'Ở lại làm bài';
+
+  @override
+  String get exitExam => 'Rời khỏi';
+
+  @override
+  String get examResultTitle => 'Kết quả bài thi';
+
+  @override
+  String get examResultNotFound => 'Không tìm thấy kết quả làm bài';
+
+  @override
+  String get backToCatalog => 'Về danh mục';
+
+  @override
+  String get examPassed => 'ĐẠT';
+
+  @override
+  String get examFailed => 'CHƯA ĐẠT';
+
+  @override
+  String examScorePoints(int score) {
+    return '$score Điểm';
+  }
+
+  @override
+  String get correctCountStat => 'Số câu đúng';
+
+  @override
+  String get durationStat => 'Thời gian';
+
+  @override
+  String get passingScoreStat => 'Điểm chuẩn';
+
+  @override
+  String get retakeExam => 'Làm lại đề';
+
+  @override
+  String get questionDetails => 'Chi tiết câu hỏi & đáp án';
+
+  @override
+  String get correctBadge => 'Đúng';
+
+  @override
+  String get wrongBadge => 'Sai';
+
+  @override
+  String explanationPrefix(String exp) {
+    return 'Giải thích: $exp';
+  }
+
+  @override
+  String examPrefixLabel(String examId) {
+    return 'Đề: $examId';
+  }
+
+  @override
+  String selectedAnswerPrefix(String answer) {
+    return 'Đã chọn: $answer';
+  }
+
+  @override
+  String get reviewMistakeButton => 'Ôn lại';
+
+  @override
+  String get masteredMistakeButton => 'Thành thạo';
+
+  @override
+  String get noWrongQuestionsTitle => 'Không có câu sai nào!';
+
+  @override
+  String get noWrongQuestionsDesc =>
+      'Tuyệt vời! Bạn chưa có câu hỏi nào bị sai hoặc tất cả đã thành thạo.';
+
+  @override
+  String get ankiWebLegacy => 'AnkiWeb (Cũ)';
+
+  @override
+  String get unansweredPlaceholder => '(Bỏ trống)';
+
+  @override
+  String get examCategoryJlpt => 'Kỳ thi Năng lực Nhật ngữ (JLPT)';
+
+  @override
+  String get examCategoryToeic => 'Chứng chỉ TOEIC Quốc tế';
+
+  @override
+  String get examCategoryThptqg => 'Thi tốt nghiệp THPT Quốc Gia';
+
+  @override
+  String get examCategoryGrammarTest => 'Kiểm tra Ngữ pháp Tổng hợp';
+
+  @override
+  String get examCategoryCustom => 'Đề thi tùy chỉnh';
+
+  @override
+  String get wrongStatusNew => 'Mới sai';
+
+  @override
+  String get wrongStatusReviewing => 'Đang ôn lại';
+
+  @override
+  String get wrongStatusMastered => 'Đã thành thạo';
+
+  @override
+  String get grammarDifficultyRecognition => 'Nhận biết';
+
+  @override
+  String get grammarDifficultyAnalysis => 'Phân tích & Bẫy';
+
+  @override
+  String get grammarDifficultyProduction => 'Vận dụng thực hành';
+
+  @override
+  String get grammarCatTenses => 'Thì & Khía Cạnh';
+
+  @override
+  String get grammarCatVoice => 'Câu Bị Động';
+
+  @override
+  String get grammarCatModals => 'Động Từ Khuyết Thiếu';
+
+  @override
+  String get grammarCatConditionals => 'Câu Điều Kiện';
+
+  @override
+  String get grammarCatSubjunctive => 'Thể Giả Định';
+
+  @override
+  String get grammarCatClauses => 'Mệnh Đề Quan Hệ';
+
+  @override
+  String get grammarCatInversion => 'Đảo Ngữ';
+
+  @override
+  String get grammarCatVerbForms => 'Dạng Động Từ';
+
+  @override
+  String get grammarCatConjunctions => 'Liên Từ';
+
+  @override
+  String get grammarCatSubjectVerbAgreement => 'Hòa Hợp Chủ Vị';
+
+  @override
+  String get grammarCatComparisons => 'Cấu Trúc So Sánh';
+
+  @override
+  String get grammarCatArticles => 'Mạo Từ';
+
+  @override
+  String get grammarCatDeterminers => 'Từ Hạn Định';
+
+  @override
+  String get grammarCatPronouns => 'Đại Từ';
+
+  @override
+  String get grammarCatPrepositions => 'Giới Từ';
+
+  @override
+  String get grammarCatAdjectivesAdverbs => 'Tính Từ & Trạng Từ';
+
+  @override
+  String get grammarCatNounClauses => 'Mệnh Đề Danh Từ';
+
+  @override
+  String get grammarCatSentenceStructure => 'Cấu Trúc Câu';
+
+  @override
+  String get grammarCatCausativeVerbs => 'Thể Sai Khiến';
+
+  @override
+  String get grammarCatPhrasalVerbs => 'Cụm Động Từ';
+
+  @override
+  String get grammarCatQuestions => 'Câu Hỏi & Đuôi';
+
+  @override
+  String get grammarCatEmphasis => 'Cấu Trúc Nhấn Mạnh';
+
+  @override
+  String get grammarCatParallelStructure => 'Cấu Trúc Song Song';
+
+  @override
+  String get grammarCatParticiples => 'Phân Từ & Mệnh Đề Rút Gọn';
+
+  @override
+  String get grammarCatWordFormation => 'Cấu Tạo Từ';
+
+  @override
+  String get grammarCatCollocations => 'Kết Hợp Từ';
+
+  @override
+  String get grammarCatCapstone => 'Tổng Ôn Toàn Diện';
+
+  @override
+  String get examNotFound => 'Đề thi không tồn tại hoặc đã bị xóa.';
+
+  @override
+  String examLoadFailed(String error) {
+    return 'Lỗi tải đề thi: $error';
+  }
+
+  @override
+  String examSubmitFailed(String error) {
+    return 'Lỗi nộp bài: $error';
+  }
+
+  @override
+  String examDownloadFailed(String error) {
+    return 'Tải đề thi thất bại: $error';
+  }
+
+  @override
+  String wrongStatusUpdateFailed(String error) {
+    return 'Cập nhật trạng thái thất bại: $error';
+  }
 }

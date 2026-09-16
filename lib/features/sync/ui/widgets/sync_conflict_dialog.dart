@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/adaptive_modal.dart';
+import 'sync_conflict_option_tile.dart';
 
 enum SyncConflictChoice { merge, upload, download }
 
@@ -178,9 +179,7 @@ class SyncConflictDialog extends StatelessWidget {
           style: theme.typography.semiBold.copyWith(fontSize: 13),
         ),
         AppGaps.v8,
-        _buildOptionCard(
-          context: context,
-          theme: theme,
+        ConflictOptionCard(
           icon: LucideIcons.gitMerge,
           iconColor: theme.colorScheme.primary,
           title: l10n.mergeCollectionsTitle,
@@ -189,9 +188,7 @@ class SyncConflictDialog extends StatelessWidget {
           onTap: () => Navigator.of(context).pop(SyncConflictChoice.merge),
         ),
         AppGaps.v8,
-        _buildOptionCard(
-          context: context,
-          theme: theme,
+        ConflictOptionCard(
           icon: LucideIcons.cloudUpload,
           iconColor: theme.colorScheme.primary,
           title: l10n.uploadToCloudTitle,
@@ -199,9 +196,7 @@ class SyncConflictDialog extends StatelessWidget {
           onTap: () => Navigator.of(context).pop(SyncConflictChoice.upload),
         ),
         AppGaps.v8,
-        _buildOptionCard(
-          context: context,
-          theme: theme,
+        ConflictOptionCard(
           icon: LucideIcons.cloudDownload,
           iconColor: theme.colorScheme.primary,
           title: l10n.downloadFromCloudTitle,
@@ -258,106 +253,6 @@ class SyncConflictDialog extends StatelessWidget {
       child: SingleChildScrollView(
         padding: AppEdgeInsets.all20,
         child: content,
-      ),
-    );
-  }
-
-  Widget _buildOptionCard({
-    required BuildContext context,
-    required ThemeData theme,
-    required IconData icon,
-    required Color iconColor,
-    required String title,
-    required String desc,
-    String? badge,
-    required VoidCallback onTap,
-  }) {
-    return m.Material(
-      color: theme.colorScheme.card,
-      borderRadius: AppRadius.borderMd,
-      child: m.InkWell(
-        onTap: onTap,
-        borderRadius: AppRadius.borderMd,
-        child: Container(
-          padding: AppEdgeInsets.all12,
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.borderMd,
-            border: Border.all(
-              color: badge != null
-                  ? theme.colorScheme.primary.withValues(alpha: 0.4)
-                  : theme.colorScheme.border.withValues(alpha: 0.8),
-            ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: AppEdgeInsets.all8,
-                decoration: BoxDecoration(
-                  color: iconColor.withValues(alpha: 0.12),
-                  borderRadius: AppRadius.borderMd,
-                ),
-                child: Icon(icon, size: AppIconSize.md, color: iconColor),
-              ),
-              AppGaps.h8,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            title,
-                            style: theme.typography.semiBold.copyWith(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                        if (badge != null) ...[
-                          AppGaps.h8,
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.xs,
-                              vertical: AppSpacing.xxs,
-                            ),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withValues(
-                                alpha: 0.15,
-                              ),
-                              borderRadius: AppRadius.borderSm,
-                            ),
-                            child: Text(
-                              badge,
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.primary,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    AppGaps.v2,
-                    Text(
-                      desc,
-                      style: theme.typography.xSmall.copyWith(
-                        color: theme.colorScheme.mutedForeground,
-                        height: 1.25,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              AppGaps.h8,
-              Icon(
-                LucideIcons.chevronRight,
-                size: AppIconSize.sm,
-                color: theme.colorScheme.mutedForeground,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

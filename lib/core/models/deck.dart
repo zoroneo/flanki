@@ -1,4 +1,4 @@
-﻿class DeckModel {
+class DeckModel {
   final String id;
   final String title;
   final String description;
@@ -10,10 +10,10 @@
   const DeckModel({
     required this.id,
     required this.title,
-    required this.description,
-    required this.dueCount,
-    required this.newCount,
-    required this.totalCount,
+    this.description = '',
+    this.dueCount = 0,
+    this.newCount = 0,
+    this.totalCount = 0,
     this.lastStudied,
   });
 

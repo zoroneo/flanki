@@ -23,6 +23,7 @@ import 'widgets/study_app_bar.dart';
 import 'widgets/study_bottom_action_area.dart';
 import 'widgets/study_card_flipper.dart';
 import 'widgets/study_finished_view.dart';
+import 'widgets/study_shortcuts.dart';
 
 class StudySessionScreen extends HookConsumerWidget {
   final String deckId;
@@ -156,7 +157,6 @@ class StudySessionScreen extends HookConsumerWidget {
     if (currentDeckId != deckId) {
       return const Scaffold(child: Center(child: CircularProgressIndicator()));
     }
-
     if (isFinished) {
       return StudyFinishedView(
         l10n: l10n,
@@ -188,45 +188,14 @@ class StudySessionScreen extends HookConsumerWidget {
       ],
     );
 
-    final shortcuts = <ShortcutActivator, VoidCallback>{
-      const SingleActivator(LogicalKeyboardKey.space): () {
-        isFlipped ? handleRate(ReviewRating.good) : handleFlip();
-      },
-      const SingleActivator(LogicalKeyboardKey.enter): () {
-        isFlipped ? handleRate(ReviewRating.good) : handleFlip();
-      },
-      const SingleActivator(LogicalKeyboardKey.digit1): () {
-        if (isFlipped) handleRate(ReviewRating.again);
-      },
-      const SingleActivator(LogicalKeyboardKey.numpad1): () {
-        if (isFlipped) handleRate(ReviewRating.again);
-      },
-      const SingleActivator(LogicalKeyboardKey.digit2): () {
-        if (isFlipped) handleRate(ReviewRating.hard);
-      },
-      const SingleActivator(LogicalKeyboardKey.numpad2): () {
-        if (isFlipped) handleRate(ReviewRating.hard);
-      },
-      const SingleActivator(LogicalKeyboardKey.digit3): () {
-        if (isFlipped) handleRate(ReviewRating.good);
-      },
-      const SingleActivator(LogicalKeyboardKey.numpad3): () {
-        if (isFlipped) handleRate(ReviewRating.good);
-      },
-      const SingleActivator(LogicalKeyboardKey.digit4): () {
-        if (isFlipped) handleRate(ReviewRating.easy);
-      },
-      const SingleActivator(LogicalKeyboardKey.numpad4): () {
-        if (isFlipped) handleRate(ReviewRating.easy);
-      },
-      const SingleActivator(LogicalKeyboardKey.keyZ, control: true): () {
-        if (canUndo) handleUndo();
-      },
-      const SingleActivator(LogicalKeyboardKey.keyZ): () {
-        if (canUndo) handleUndo();
-      },
-      const SingleActivator(LogicalKeyboardKey.escape): () => context.pop(),
-    };
+    final shortcuts = buildStudyShortcuts(
+      isFlipped: isFlipped,
+      canUndo: canUndo,
+      onFlip: handleFlip,
+      onRate: handleRate,
+      onUndo: handleUndo,
+      onEscape: () => context.pop(),
+    );
 
     final isMobile = context.isMobile;
     final cardPadding = switch (context.deviceScreenType) {

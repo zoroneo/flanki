@@ -4,14 +4,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../data/anki_web_auth_service.dart';
-import '../providers/auth_notifier.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
-import '../../../l10n/generated/app_localizations.dart';
-
 import '../../../core/widgets/adaptive_modal.dart';
 import '../../../core/widgets/form_focus_helper.dart';
+import '../providers/auth_notifier.dart';
+import 'widgets/anki_web_auth_form.dart';
 
 class AnkiWebAuthSheet extends HookConsumerWidget {
   final bool isDesktop;
@@ -90,29 +88,27 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
       }
 
       final success = await authNotifier.login(email, password);
-      if (context.mounted) {
-        if (success) {
-          Navigator.of(context).pop(true);
-          showToast(
-            context: context,
-            builder: (context, overlay) {
-              return SurfaceCard(
-                child: Basic(
-                  title: Text(l10n.authSuccessToastTitle),
-                  subtitle: Text(l10n.authSuccessToastDesc(email)),
-                  leading: const Icon(
-                    LucideIcons.circleCheck,
-                    color: m.Colors.green,
-                  ),
-                  trailing: IconButton.ghost(
-                    icon: const Icon(LucideIcons.x),
-                    onPressed: () => overlay.close(),
-                  ),
+      if (context.mounted && success) {
+        Navigator.of(context).pop(true);
+        showToast(
+          context: context,
+          builder: (context, overlay) {
+            return SurfaceCard(
+              child: Basic(
+                title: Text(l10n.authSuccessToastTitle),
+                subtitle: Text(l10n.authSuccessToastDesc(email)),
+                leading: const Icon(
+                  LucideIcons.circleCheck,
+                  color: m.Colors.green,
                 ),
-              );
-            },
-          );
-        }
+                trailing: IconButton.ghost(
+                  icon: const Icon(LucideIcons.x),
+                  onPressed: () => overlay.close(),
+                ),
+              ),
+            );
+          },
+        );
       }
     }
 
@@ -161,7 +157,6 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (!isDesktopMode)
-                  // Top drag grab handle
                   Center(
                     child: Container(
                       width: 36,
@@ -181,57 +176,9 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
 
                 if (isDesktopMode) AppGaps.v16,
 
-                // Header with icon badge, title, subtitle, and desktop close button
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: AppEdgeInsets.all8,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.1,
-                          ),
-                          borderRadius: AppRadius.borderMd,
-                        ),
-                        child: Icon(
-                          LucideIcons.cloud,
-                          color: theme.colorScheme.primary,
-                          size: AppIconSize.md,
-                        ),
-                      ),
-                      AppGaps.h12,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              l10n.authHeaderTitle,
-                              style: theme.typography.h4.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            AppGaps.v2,
-                            Text(
-                              l10n.authHeaderDesc,
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (isDesktopMode)
-                        IconButton.ghost(
-                          icon: const Icon(LucideIcons.x, size: AppIconSize.md),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                    ],
-                  ),
+                AnkiWebAuthHeader(
+                  isDesktopMode: isDesktopMode,
+                  onClose: () => Navigator.of(context).pop(),
                 ),
                 AppGaps.v12,
                 Divider(
@@ -239,7 +186,6 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                   color: theme.colorScheme.border.withValues(alpha: 0.6),
                 ),
 
-                // Form fields & actions
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
@@ -255,7 +201,6 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Email input
                         TextField(
                           controller: emailController,
                           focusNode: emailFocusNode,
@@ -281,7 +226,6 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                         ),
                         AppGaps.v12,
 
-                        // Password input
                         TextField(
                           controller: passwordController,
                           focusNode: passwordFocusNode,
@@ -328,102 +272,20 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           ],
                         ),
 
-                        // Auth error message banner
                         if (authState.status == AuthStatus.error &&
                             authState.errorMessage != null) ...[
                           AppGaps.v12,
-                          Container(
-                            padding: AppEdgeInsets.all12,
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.destructive.withValues(
-                                alpha: 0.1,
-                              ),
-                              borderRadius: AppRadius.borderMd,
-                              border: Border.all(
-                                color: theme.colorScheme.destructive.withValues(
-                                  alpha: 0.3,
-                                ),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  LucideIcons.circleAlert,
-                                  size: AppIconSize.sm,
-                                  color: theme.colorScheme.destructive,
-                                ),
-                                AppGaps.h8,
-                                Expanded(
-                                  child: Text(
-                                    _getAuthErrorMessage(l10n, authState),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: theme.colorScheme.destructive,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          AnkiWebAuthErrorBanner(authState: authState),
                         ],
 
                         AppGaps.v16,
 
-                        // Primary submit button (height matching input ~48px)
-                        SizedBox(
-                          height: AppSpacing.xxxl,
-                          child: PrimaryButton(
-                            onPressed: authState.isLoading ? null : handleLogin,
-                            child: authState.isLoading
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const SizedBox(
-                                        width: AppIconSize.sm,
-                                        height: AppIconSize.sm,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                        ),
-                                      ),
-                                      AppGaps.h8,
-                                      Text(l10n.authSubmitting),
-                                    ],
-                                  )
-                                : m.Center(
-                                    child: Text(
-                                      l10n.authLoginButton,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                          ),
+                        AnkiWebSubmitButton(
+                          isLoading: authState.isLoading,
+                          onSubmit: handleLogin,
                         ),
-
                         AppGaps.v12,
-
-                        // Security footnote
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              LucideIcons.shieldCheck,
-                              size: AppIconSize.xs,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
-                            AppGaps.h8,
-                            Flexible(
-                              child: Text(
-                                l10n.authSecurityNote,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: theme.colorScheme.mutedForeground,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
+                        const AnkiWebSecurityNote(),
                       ],
                     ),
                   ),
@@ -434,24 +296,5 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
         ),
       ),
     );
-  }
-
-  String _getAuthErrorMessage(AppLocalizations l10n, AuthState state) {
-    switch (state.errorCode) {
-      case AuthErrorCode.emptyCredentials:
-        return l10n.authEmailPasswordEmpty;
-      case AuthErrorCode.invalidCredentials:
-        return l10n.authInvalidCredentials;
-      case AuthErrorCode.rateLimited:
-        return l10n.authTooManyAttempts;
-      case AuthErrorCode.invalidResponse:
-        return l10n.authServerResponseInvalid;
-      case AuthErrorCode.networkError:
-        return l10n.authNetworkError(state.errorMessage ?? '');
-      case AuthErrorCode.serverError:
-      case AuthErrorCode.unknown:
-      case null:
-        return state.errorMessage ?? l10n.authUnknownError(l10n.unknown);
-    }
   }
 }

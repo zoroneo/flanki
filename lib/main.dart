@@ -4,12 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/config/app_config.dart';
+import 'core/config/supabase_config.dart';
 import 'core/localization/locale_notifier.dart';
 import 'core/localization/shadcn_localizations_vi.dart';
 import 'core/services/desktop_window_service.dart';
 import 'core/services/notification_service.dart';
+import 'core/sync/sync_replicator.dart';
 import 'core/theme/theme_notifier.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'router/app_router.dart';
@@ -57,6 +60,17 @@ SOFTWARE.''',
     MediaStorageService.instance.init(),
   ]);
 
+  if (SupabaseConfig.isConfigured) {
+    try {
+      await Supabase.initialize(
+        url: SupabaseConfig.url,
+        publishableKey: SupabaseConfig.anonKey,
+      );
+    } catch (e) {
+      debugPrint('Failed to initialize Supabase: $e');
+    }
+  }
+
   // 2. Render UI immediately to establish window focus and dismiss splash
   runApp(const ProviderScope(child: FlankiApp()));
 
@@ -68,6 +82,9 @@ SOFTWARE.''',
 
 void _initSecondaryServices() {
   CardAudioService.instance.init();
+  if (SupabaseConfig.isConfigured) {
+    SyncReplicator().start();
+  }
   if (DesktopWindowService.isDesktop) {
     DesktopWindowService.instance.init(
       onOpenStudy: () {

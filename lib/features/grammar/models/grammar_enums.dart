@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart' as m;
+import 'package:flutter/material.dart' as m;
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../l10n/generated/app_localizations.dart';
@@ -7,11 +7,11 @@ import '../../../l10n/generated/app_localizations.dart';
 @JsonEnum(valueField: 'value')
 enum GrammarExerciseType {
   @JsonValue('choice')
-  choice('choice', 'TRẮC NGHIỆM'),
+  choice('choice', 'Multiple Choice'),
   @JsonValue('error_id')
-  errorId('error_id', 'TÌM LỖI SAI'),
+  errorId('error_id', 'Error Identification'),
   @JsonValue('cloze')
-  cloze('cloze', 'ĐIỀN TỪ');
+  cloze('cloze', 'Fill in the Blank');
 
   final String value;
   final String label;
@@ -96,16 +96,27 @@ enum GrammarLevel {
 @JsonEnum(valueField: 'value')
 enum GrammarDifficulty {
   @JsonValue(1)
-  recognition(1, 'Nhận Biết (Recognition)'),
+  recognition(1, 'Recognition'),
   @JsonValue(2)
-  analysis(2, 'Phân Tích & Bẫy (Analysis)'),
+  analysis(2, 'Analysis & Traps'),
   @JsonValue(3)
-  production(3, 'Sản Sinh Thực Hành (Production)');
+  production(3, 'Production');
 
   final int value;
   final String label;
 
   const GrammarDifficulty(this.value, this.label);
+
+  String getLocalizedLabel(AppLocalizations l10n) {
+    switch (this) {
+      case GrammarDifficulty.recognition:
+        return l10n.grammarDifficultyRecognition;
+      case GrammarDifficulty.analysis:
+        return l10n.grammarDifficultyAnalysis;
+      case GrammarDifficulty.production:
+        return l10n.grammarDifficultyProduction;
+    }
+  }
 
   static GrammarDifficulty fromValue(dynamic val) {
     if (val is GrammarDifficulty) return val;
@@ -127,44 +138,97 @@ enum GrammarDifficulty {
 /// 27 Academic Grammar Domains
 @JsonEnum(valueField: 'code')
 enum GrammarCategory {
-  tenses('tenses', 'Thì & Khía Cạnh (Tenses & Aspects)'),
-  voice('voice', 'Câu Bị Động (Passive Voice)'),
-  modals('modals', 'Động Từ Khuyết Thiếu (Modal Verbs)'),
-  conditionals('conditionals', 'Câu Điều Kiện (Conditionals)'),
-  subjunctive('subjunctive', 'Thể Giả Định (Subjunctive Mood)'),
-  clauses('clauses', 'Mệnh Đề Quan Hệ (Relative Clauses)'),
-  inversion('inversion', 'Đảo Ngữ (Inversion)'),
-  verbForms('verb_forms', 'Dạng Động Từ (Gerund & Infinitive)'),
-  conjunctions('conjunctions', 'Liên Từ (Conjunctions)'),
-  subjectVerbAgreement(
-    'subject_verb_agreement',
-    'Hòa Hợp Chủ Vị (Subject-Verb Agreement)',
-  ),
-  comparisons('comparisons', 'Cấu Trúc So Sánh (Comparisons)'),
-  articles('articles', 'Mạo Từ (Articles)'),
-  determiners('determiners', 'Từ Hạn Định (Determiners)'),
-  pronouns('pronouns', 'Đại Từ (Pronouns)'),
-  prepositions('prepositions', 'Giới Từ (Prepositions)'),
-  adjectivesAdverbs(
-    'adjectives_adverbs',
-    'Tính Từ & Trạng Từ (Adjectives & Adverbs)',
-  ),
-  nounClauses('noun_clauses', 'Mệnh Đề Danh Từ (Noun Clauses)'),
-  sentenceStructure('sentence_structure', 'Cấu Trúc Câu (Sentence Structure)'),
-  causativeVerbs('causative_verbs', 'Thể Sai Khiến (Causative Verbs)'),
-  phrasalVerbs('phrasal_verbs', 'Cụm Động Từ (Phrasal Verbs)'),
-  questions('questions', 'Câu Hỏi & Đuôi (Questions & Tag Questions)'),
-  emphasis('emphasis', 'Cấu Trúc Nhấn Mạnh (Emphasis & Cleft Sentences)'),
-  parallelStructure('parallel_structure', 'Cấu Trúc Song Song (Parallelism)'),
-  participles('participles', 'Phân Từ & Mệnh Đề Rút Gọn (Participles)'),
-  wordFormation('word_formation', 'Cấu Tạo Từ (Word Formation)'),
-  collocations('collocations', 'Kết Hợp Từ (Collocations)'),
-  capstone('capstone', 'Tổng Ôn Toàn Diện (Capstone Exam Mastery)');
+  tenses('tenses', 'Tenses & Aspects'),
+  voice('voice', 'Passive Voice'),
+  modals('modals', 'Modal Verbs'),
+  conditionals('conditionals', 'Conditionals'),
+  subjunctive('subjunctive', 'Subjunctive Mood'),
+  clauses('clauses', 'Relative Clauses'),
+  inversion('inversion', 'Inversion'),
+  verbForms('verb_forms', 'Gerund & Infinitive'),
+  conjunctions('conjunctions', 'Conjunctions'),
+  subjectVerbAgreement('subject_verb_agreement', 'Subject-Verb Agreement'),
+  comparisons('comparisons', 'Comparisons'),
+  articles('articles', 'Articles'),
+  determiners('determiners', 'Determiners'),
+  pronouns('pronouns', 'Pronouns'),
+  prepositions('prepositions', 'Prepositions'),
+  adjectivesAdverbs('adjectives_adverbs', 'Adjectives & Adverbs'),
+  nounClauses('noun_clauses', 'Noun Clauses'),
+  sentenceStructure('sentence_structure', 'Sentence Structure'),
+  causativeVerbs('causative_verbs', 'Causative Verbs'),
+  phrasalVerbs('phrasal_verbs', 'Phrasal Verbs'),
+  questions('questions', 'Questions & Tag Questions'),
+  emphasis('emphasis', 'Emphasis & Cleft Sentences'),
+  parallelStructure('parallel_structure', 'Parallelism'),
+  participles('participles', 'Participles'),
+  wordFormation('word_formation', 'Word Formation'),
+  collocations('collocations', 'Collocations'),
+  capstone('capstone', 'Capstone Exam Mastery');
 
   final String code;
   final String displayName;
 
   const GrammarCategory(this.code, this.displayName);
+
+  String getLocalizedName(AppLocalizations l10n) {
+    switch (this) {
+      case GrammarCategory.tenses:
+        return l10n.grammarCatTenses;
+      case GrammarCategory.voice:
+        return l10n.grammarCatVoice;
+      case GrammarCategory.modals:
+        return l10n.grammarCatModals;
+      case GrammarCategory.conditionals:
+        return l10n.grammarCatConditionals;
+      case GrammarCategory.subjunctive:
+        return l10n.grammarCatSubjunctive;
+      case GrammarCategory.clauses:
+        return l10n.grammarCatClauses;
+      case GrammarCategory.inversion:
+        return l10n.grammarCatInversion;
+      case GrammarCategory.verbForms:
+        return l10n.grammarCatVerbForms;
+      case GrammarCategory.conjunctions:
+        return l10n.grammarCatConjunctions;
+      case GrammarCategory.subjectVerbAgreement:
+        return l10n.grammarCatSubjectVerbAgreement;
+      case GrammarCategory.comparisons:
+        return l10n.grammarCatComparisons;
+      case GrammarCategory.articles:
+        return l10n.grammarCatArticles;
+      case GrammarCategory.determiners:
+        return l10n.grammarCatDeterminers;
+      case GrammarCategory.pronouns:
+        return l10n.grammarCatPronouns;
+      case GrammarCategory.prepositions:
+        return l10n.grammarCatPrepositions;
+      case GrammarCategory.adjectivesAdverbs:
+        return l10n.grammarCatAdjectivesAdverbs;
+      case GrammarCategory.nounClauses:
+        return l10n.grammarCatNounClauses;
+      case GrammarCategory.sentenceStructure:
+        return l10n.grammarCatSentenceStructure;
+      case GrammarCategory.causativeVerbs:
+        return l10n.grammarCatCausativeVerbs;
+      case GrammarCategory.phrasalVerbs:
+        return l10n.grammarCatPhrasalVerbs;
+      case GrammarCategory.questions:
+        return l10n.grammarCatQuestions;
+      case GrammarCategory.emphasis:
+        return l10n.grammarCatEmphasis;
+      case GrammarCategory.parallelStructure:
+        return l10n.grammarCatParallelStructure;
+      case GrammarCategory.participles:
+        return l10n.grammarCatParticiples;
+      case GrammarCategory.wordFormation:
+        return l10n.grammarCatWordFormation;
+      case GrammarCategory.collocations:
+        return l10n.grammarCatCollocations;
+      case GrammarCategory.capstone:
+        return l10n.grammarCatCapstone;
+    }
+  }
 
   static GrammarCategory fromCode(dynamic code) {
     if (code is GrammarCategory) return code;
