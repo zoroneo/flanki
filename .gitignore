@@ -204,3 +204,7 @@ ehthumbs.db
 **/.obsidian/community-plugin-stats.json
 # Widget Preview related
 .widget_preview/
+
+# Environment Variables & Secrets
+.env
+.env*.local
