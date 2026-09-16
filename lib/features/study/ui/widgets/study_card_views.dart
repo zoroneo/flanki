@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/extensions/responsive_extensions.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
+import '../../../../core/services/desktop_window_service.dart';
 import '../../../../core/theme/app_tokens.dart';
 import 'card_action_sheet.dart';
 import 'draggable_quick_focus_tag.dart';
@@ -34,6 +36,7 @@ class CardFrontView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final isDesktop = DesktopWindowService.isDesktop || context.isDesktop;
     final focusNode = useFocusNode();
     final scrollController = useScrollController();
     useListenable(focusNode);
@@ -43,6 +46,16 @@ class CardFrontView extends HookWidget {
       () => RichCardContent.hasTypeInput(card?.front),
       [card?.front],
     );
+
+    // Auto-focus the input box on desktop once card data finishes loading
+    useEffect(() {
+      if (isDesktop && hasTypeInput) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          focusNode.requestFocus();
+        });
+      }
+      return null;
+    }, [card?.id, isDesktop, hasTypeInput]);
 
     void handleQuickFocus() {
       HapticFeedback.lightImpact();
@@ -106,7 +119,10 @@ class CardFrontView extends HookWidget {
                       ),
                     ],
                   ),
-                  if (hasTypeInput && cardWidth > 0 && cardHeight > 0)
+                  if (hasTypeInput &&
+                      !isDesktop &&
+                      cardWidth > 0 &&
+                      cardHeight > 0)
                     DraggableQuickFocusTag(
                       theme: theme,
                       isFocused: isFocused,

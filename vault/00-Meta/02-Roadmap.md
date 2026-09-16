@@ -56,6 +56,11 @@ gantt
     CardAudioService & Case-Insensitive Ext4 :done, p10_3, 2026-09-13, 1d
     Background Desktop Downloader (Dio)      :done, p10_4, 2026-09-13, 1d
     100% L10n Coverage & 154/154 Tests Pass  :done, p10_5, 2026-09-13, 1d
+    section Phase 11: Build Isolation, Input Ergonomics & Inset Resilience (v1.1.5)
+    Phân tách Build Mode & Dữ liệu 5 Nền tảng :done, p11_1, 2026-09-14, 1d
+    Draggable Quick Focus Tag & Input UX     :done, p11_2, 2026-09-15, 1d
+    Zero-Distortion Viewport & Bottom Inset Fix :done, p11_3, 2026-09-15, 1d
+    154/154 Tests PASS (100% Suite Stability):done, p11_4, 2026-09-16, 1d
 ```
 
 ### Chi tiết các cột mốc:
@@ -75,3 +80,8 @@ gantt
     - Quản lý âm thanh đơn phiên `CardAudioService` chống tràn bộ nhớ đệm native Android MediaPlayer; phân giải file media đa nền tảng `MediaStorageService` (URL decoding, loại bỏ quotes, tìm kiếm case-insensitive trên Android ext4, xử lý file rỗng 0-byte).
     - Cập nhật desktop in-app trực tiếp qua `Dio` chạy nền (background download toast, tiến độ thời gian thực, tự động khởi động lại và cài đặt).
     - Bản địa hóa 100% ARB song ngữ Anh - Việt, đạt mốc **154 / 154 tests PASS**.
+11. **Milestone 11 — Build Mode Isolation, Input Ergonomics & Bottom Inset Resilience (v1.1.5)**:
+    - **Phân tách môi trường Build & Cô lập dữ liệu (5 Nền tảng)**: Áp dụng định danh riêng (`.debug`, `.profile`) và nhãn ứng dụng (`[DEBUG] Flanki`, `[PROFILE] Flanki`, `Flanki`) trên Android, iOS, macOS, Linux, Windows. Phân tách database `flanki_debug.sqlite` / `flanki.sqlite` và thư mục media `flanki_media_debug` / `flanki_media`, bảo vệ triệt để collection thật của người dùng khi dev/test.
+    - **Draggable Quick Focus Tag & Input Ergonomics**: Nút nổi tương tác (`DraggableQuickFocusTag`) cho thẻ flashcard có ô nhập `{{type:...}}` trên mobile. Tích hợp cơ chế vật lý hút viền thông minh (edge-snapping physics dựa trên vận tốc kéo `VelocityTracker` > 400 hoặc điểm giữa `midX`), phản hồi rung xúc giác `HapticFeedback.lightImpact()`, tự động cuộn đến ô nhập và tự động focus trên desktop.
+    - **Zero-Distortion Viewport & Bottom Inset Fix**: Cấu hình `resizeToAvoidBottomInset: false` trên toàn bộ Scaffolds (`AdaptiveScaffold`, `MobileScaffold`, `DecksScreen`, `BrowserMobileLayout`) kết hợp bù trừ khoảng cách bàn phím ảo bằng `SizedBox(height: ... + keyboardBottom)`, triệt tiêu hiện tượng méo layout hoặc giật khung hình khi bàn phím xuất hiện.
+    - Toàn bộ test suite duy trì độ ổn định tuyệt đối: **154 / 154 tests PASS**.

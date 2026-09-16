@@ -1,4 +1,4 @@
-﻿---
+---
 title: Kiến Trúc Feature-First & Chuẩn Hóa Ranh Giới Module
 created: 2026-09-12
 tags:
@@ -51,7 +51,7 @@ lib/
 │   ├── grammar/                  # Hệ thống ngữ pháp C1/C2 (3 screens, 14 widgets, FSRS 2-tier)
 │   ├── settings/                 # Cài đặt ứng dụng, tùy chọn học & cập nhật Desktop (UpdateService)
 │   ├── stats/                    # Thống kê học tập, Heatmap & biểu đồ tiến độ (StatsScreen)
-│   ├── study/                    # Phiên ôn tập thẻ (StudySessionScreen, Notifier, 8 sub-widgets)
+│   ├── study/                    # Phiên ôn tập thẻ (StudySessionScreen, Notifier, 9 sub-widgets bao gồm DraggableQuickFocusTag)
 │   └── sync/                     # Đồng bộ AnkiWeb & Xác thực đám mây (Auth & SyncFlowCoordinator)
 │
 ├── l10n/                         # Bản dịch ARB (app_en.arb, app_vi.arb) & sinh mã l10n
@@ -110,4 +110,4 @@ Dự án đã thực hiện quá trình tái cấu trúc theo nguyên tắc **Po
 
 1. **Tính Tự Trị Cao (High Autonomy)**: Khi phát triển hoặc sửa lỗi trong bất kỳ feature nào, nhà phát triển chỉ cần làm việc trọn vẹn trong một thư mục `lib/features/<name>/`.
 2. **Kiến Trúc Bền Vững (Future-Proof)**: Dễ dàng thêm mới các tính năng lớn tiếp theo (ví dụ: AI Card Generator, Multiplayer Deck Sharing) mà không làm ảnh hưởng đến mã nguồn hiện tại.
-3. **Zero Regression**: Toàn bộ 120 unit, widget và flow integration tests được bảo toàn 100% pass rate qua toàn bộ hành trình chuyển đổi.
+3. **Zero Regression**: Toàn bộ hệ thống test (154/154 unit, widget và flow integration tests) được bảo toàn 100% pass rate qua toàn bộ hành trình chuyển đổi và mở rộng tính năng.

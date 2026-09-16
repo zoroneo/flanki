@@ -233,4 +233,37 @@ Chi tiết quy chuẩn kiến trúc xem tại: [[01-Architecture/06-State-Manage
   * **Form & Sheet Inputs**: Luôn có `SingleChildScrollView` với `keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag` để không bị bàn phím ảo đẩy tràn màn hình.
   * **Test Tự Động**: Toàn bộ ma trận được bảo vệ bởi test suite `test/widget/screens/overflow_resizing_matrix_test.dart`.
 
+---
+
+## 14. Cách Ly Đổi Kích Thước Bàn Phím (Bottom Inset Isolation & Stable Layout)
+
+> [!IMPORTANT] Triệt Tiêu Biến Dạng Khung Nhìn Khi Xuất Hiện Bàn Phím Ảo
+> Mặc định Flutter Scaffold bật `resizeToAvoidBottomInset: true`. Khi người dùng chạm vào ô tìm kiếm hoặc ô nhập từ, bàn phím ảo bật lên đẩy đáy màn hình lên đột ngột, làm các widget layout (như thẻ Card, FAB, SpeedDial, BottomNav) bị ép méo hoặc nhảy vị trí giật cục.
+
+* **Khóa Khung Nhìn Tuyệt Đối (`resizeToAvoidBottomInset: false`)**:
+  * Áp dụng trên toàn bộ khung Scaffold chính: `AdaptiveScaffold`, `DecksScreen`, `BrowserMobileLayout`.
+  * Giữ nguyên kích thước chiều cao của toàn bộ cây widget, bảo toàn tỉ lệ card 100%.
+* **Bù Trừ Khoảng Đệm Bàn Phím Có Chọn Lọc (Selective Inset Compensation)**:
+  * Đọc độ cao bàn phím động: `final keyboardBottom = MediaQuery.viewInsetsOf(context).bottom;`
+  * Ở chân danh sách cuộn (`SliverToBoxAdapter` / `CustomScrollView`), cộng thêm `keyboardBottom` vào khoảng đệm cuối (`height: 100 + keyboardBottom`), bảo đảm phần tử cuối cùng vẫn cuộn lên được trên bàn phím.
+  * Ẩn các nút hành động nổi (Floating SpeedDial/Buttons) khi `isKeyboardOpen = keyboardBottom > 0` để không che khuất nội dung gõ.
+
+---
+
+## 15. Nút Thẻ Tương Tác Nổi & Vật Lý Hút Viền (`DraggableQuickFocusTag`)
+
+* **Khái Niệm**: Thẻ điều khiển nổi mini kích thước **44px x 44px** trên các thẻ học có ô nhập `{{type:...}}` trên thiết bị cảm ứng (Mobile/Tablet).
+* **Mô Hình Vật Lý Hút Viền (Edge-Snapping Kinematics)**:
+  * Sử dụng `GestureDetector` với `onPanUpdate` và `onPanEnd(DragEndDetails details)`.
+  * Khi người dùng buông tay, vận tốc vuốt được đánh giá qua `details.velocity.pixelsPerSecond`:
+    * Nếu `velocityX > 400`: Hút mạnh về cạnh phải (`cardWidth - tagSize`).
+    * Nếu `velocityX < -400`: Hút mạnh về cạnh trái (`0.0`).
+    * Nếu vuốt nhẹ hoặc thả tay: So sánh tọa độ ngang với điểm giữa `midX = (cardWidth - tagSize) / 2` để quyết định mép hút gần nhất.
+  * Tọa độ dọc $Y$ tính toán đà rơi tự nhiên kết hợp clamp an toàn:
+    `targetY = (startPos.dy + velocityY * 0.06).clamp(edgeMargin, cardHeight - tagSize - edgeMargin)`
+  * Chuyển động hút dùng `AnimationController` với `Curves.easeOutCubic` (thời lượng 250ms), kết hợp rung xúc giác nhẹ `HapticFeedback.lightImpact()`.
+* **Phản Hồi Trạng Thái (Active/Inactive State)**:
+  * Khi ô nhập đang focus (`isFocused = true`): Tag chuyển sang viền sáng nhận diện `theme.colorScheme.primary` kèm hiệu ứng viền phát sáng nhẹ.
+  * Khi bấm vào Tag: Tự động gọi `focusNode.requestFocus()` và cuộn mượt đưa ô gõ vào vùng nhìn (`scrollController.animateTo`).
+
 
