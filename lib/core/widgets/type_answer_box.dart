@@ -10,12 +10,14 @@ class TypeAnswerInputBox extends HookWidget {
   final String initialValue;
   final ValueChanged<String>? onAnswerChanged;
   final VoidCallback? onSubmitAnswer;
+  final FocusNode? focusNode;
 
   const TypeAnswerInputBox({
     super.key,
     this.initialValue = '',
     this.onAnswerChanged,
     this.onSubmitAnswer,
+    this.focusNode,
   });
 
   @override
@@ -33,6 +35,7 @@ class TypeAnswerInputBox extends HookWidget {
         constraints: const BoxConstraints(maxWidth: 400),
         child: TextField(
           controller: controller,
+          focusNode: focusNode,
           autofocus: false,
           textInputAction: TextInputAction.done,
           keyboardType: TextInputType.text,

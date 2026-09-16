@@ -14,6 +14,8 @@ class StudyCardFlipper extends StatelessWidget {
   final VoidCallback onSubmitAnswer;
   final double cardHorizontalPadding;
   final double dragOffset;
+  final Offset? quickFocusTagOffset;
+  final ValueChanged<Offset>? onQuickFocusTagOffsetChanged;
 
   const StudyCardFlipper({
     super.key,
@@ -24,6 +26,8 @@ class StudyCardFlipper extends StatelessWidget {
     required this.onSubmitAnswer,
     required this.cardHorizontalPadding,
     this.dragOffset = 0.0,
+    this.quickFocusTagOffset,
+    this.onQuickFocusTagOffsetChanged,
   });
 
   @override
@@ -88,6 +92,9 @@ class StudyCardFlipper extends StatelessWidget {
                                 typedAnswer: typedAnswer,
                                 onAnswerChanged: onAnswerChanged,
                                 onSubmitAnswer: onSubmitAnswer,
+                                quickFocusTagOffset: quickFocusTagOffset,
+                                onQuickFocusTagOffsetChanged:
+                                    onQuickFocusTagOffsetChanged,
                               ),
                       ),
                     ),

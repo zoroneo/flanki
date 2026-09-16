@@ -37,6 +37,7 @@ class RichCardContent extends HookWidget {
   final String? typedAnswer;
   final ValueChanged<String>? onAnswerChanged;
   final VoidCallback? onSubmitAnswer;
+  final FocusNode? typeAnswerFocusNode;
 
   const RichCardContent({
     super.key,
@@ -48,7 +49,14 @@ class RichCardContent extends HookWidget {
     this.typedAnswer,
     this.onAnswerChanged,
     this.onSubmitAnswer,
+    this.typeAnswerFocusNode,
   });
+
+  /// Check whether the raw content contains a type-in answer placeholder.
+  static bool hasTypeInput(String? content) {
+    if (content == null || content.isEmpty) return false;
+    return _typeInputRegex.hasMatch(content);
+  }
 
   // ignore: deprecated_member_use
   static final _soundRegex = RegExp(
@@ -295,6 +303,7 @@ class RichCardContent extends HookWidget {
           TypeAnswerInputBox(
             key: ValueKey(content),
             initialValue: typedAnswer ?? '',
+            focusNode: typeAnswerFocusNode,
             onAnswerChanged: onAnswerChanged,
             onSubmitAnswer: onSubmitAnswer,
           ),

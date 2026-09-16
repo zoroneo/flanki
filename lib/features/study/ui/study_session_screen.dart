@@ -71,6 +71,7 @@ class StudySessionScreen extends HookConsumerWidget {
     final dragOffset = useState<double>(0.0);
     final isWhiteboardOpen = useState<bool>(false);
     final userTypedAnswer = useRef<String>('');
+    final quickFocusTagOffset = useState<Offset?>(null);
 
     useEffect(() {
       userTypedAnswer.value = '';
@@ -313,6 +314,9 @@ class StudySessionScreen extends HookConsumerWidget {
                             onSubmitAnswer: handleFlip,
                             cardHorizontalPadding: cardPadding,
                             dragOffset: dragOffset.value,
+                            quickFocusTagOffset: quickFocusTagOffset.value,
+                            onQuickFocusTagOffsetChanged: (offset) =>
+                                quickFocusTagOffset.value = offset,
                           ),
                         ),
                       ),

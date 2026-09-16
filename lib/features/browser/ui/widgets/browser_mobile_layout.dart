@@ -73,35 +73,37 @@ class BrowserMobileLayout extends StatelessWidget {
             Positioned(
               bottom: AppSpacing.xl,
               right: AppSpacing.lg,
-            child: GestureDetector(
-              onTap: () {
-                HapticFeedback.lightImpact();
-                context.push('/editor');
-              },
-              child: Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.35),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+              child: GestureDetector(
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  context.push('/editor');
+                },
+                child: Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: theme.colorScheme.primary.withValues(
+                          alpha: 0.35,
+                        ),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Icon(
+                      LucideIcons.plus,
+                      color: theme.colorScheme.primaryForeground,
+                      size: AppIconSize.lg,
                     ),
-                  ],
-                ),
-                child: Center(
-                  child: Icon(
-                    LucideIcons.plus,
-                    color: theme.colorScheme.primaryForeground,
-                    size: AppIconSize.lg,
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
