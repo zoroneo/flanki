@@ -1,0 +1,40 @@
+﻿name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  verify:
+    name: Verify Code Quality & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Verify Formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Dimension Guardrail
+        run: dart run tool/check_dimensions.dart
+
+      - name: Flutter Analyze
+        run: flutter analyze
+
+      - name: Run Tests
+        run: flutter test

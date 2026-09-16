@@ -142,7 +142,8 @@ release: ## Auto bump version, test, tag and push (e.g. make release [v=1.0.3] [
 	$(DART) run tool/release.dart $(v) $(ARGS)
 
 release-push: ## Retry pushing release commits and tags to origin
-	git push origin HEAD
+	git push origin main
+	git push origin dev
 	git push origin --tags
 
 qr: ## Show download link and open QR code image for latest APK

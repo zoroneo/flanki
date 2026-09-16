@@ -30,21 +30,41 @@ void main(List<String> args) async {
       .toList();
 
   if (modifiedTracked.isNotEmpty) {
-    _warning('There are uncommitted changes in tracked files:');
-    for (final line in modifiedTracked) {
-      print('    $line');
+    if (dryRun) {
+      _warning('There are uncommitted changes in tracked files (ignored for dry-run):');
+      for (final line in modifiedTracked) {
+        print('    $line');
+      }
+    } else {
+      _error('There are uncommitted changes in tracked files:');
+      for (final line in modifiedTracked) {
+        print('    $line');
+      }
+      _error('Release requires a clean working tree to switch and merge branches.');
+      _error('Please commit or stash your changes before running make release.');
+      exit(1);
     }
+  }
+
+  // 2. Identify current branch
+  final branchProc = await Process.run('git', ['branch', '--show-current']);
+  final currentBranch = branchProc.stdout.toString().trim();
+  print('Current branch: \x1B[35m$currentBranch\x1B[0m');
+
+  if (currentBranch != 'dev' && currentBranch != 'main') {
+    _warning('You are currently on branch "$currentBranch".');
+    _warning('Standard release workflow requires releasing from "dev" or "main".');
     if (!dryRun) {
-      stdout.write('\x1B[33mContinue anyway? [y/N]: \x1B[0m');
+      stdout.write('\x1B[33mDo you want to proceed anyway? [y/N]: \x1B[0m');
       final answer = stdin.readLineSync()?.trim().toLowerCase();
       if (answer != 'y' && answer != 'yes') {
-        _error('Release aborted due to uncommitted changes.');
+        _error('Release aborted.');
         exit(1);
       }
     }
   }
 
-  // 2. Read pubspec.yaml to get current version
+  // 3. Read pubspec.yaml to get current version
   final pubspecFile = File('pubspec.yaml');
   if (!pubspecFile.existsSync()) {
     _error('pubspec.yaml not found in current directory.');
@@ -68,7 +88,7 @@ void main(List<String> args) async {
   final currentSemver = '$major.$minor.$patch';
   print('Current version: \x1B[32mv$currentSemver+$buildNumber\x1B[0m');
 
-  // 3. Compute new version and build number
+  // 4. Compute new version and build number
   String newSemver;
   int newBuildNumber = buildNumber + 1;
 
@@ -106,7 +126,7 @@ void main(List<String> args) async {
   final newFullVersion = '$newSemver+$newBuildNumber';
   print('Target release:  \x1B[1;32mv$newFullVersion (Tag: v$newSemver)\x1B[0m\n');
 
-  // 4. Run tests and static checks
+  // 5. Run tests and static checks
   if (!skipTests) {
     print('\x1B[1;34m==> Running pre-release checks (analyze, test)...\x1B[0m');
     final analyzeResult = await _runCommand('fvm', ['dart', 'analyze']);
@@ -127,24 +147,71 @@ void main(List<String> args) async {
   }
 
   if (dryRun) {
-    print('\x1B[1;33m[DRY RUN] Would update:\x1B[0m');
-    print('  - pubspec.yaml -> version: $newFullVersion');
-    print('  - lib/core/config/app_config.dart -> version: $newSemver, buildNumber: $newBuildNumber');
-    print('  - packaging/windows/inno_setup.iss -> MyAppVersion: $newSemver');
-    print('  - git commit: "chore(release): bump version to v$newSemver"');
-    print('  - git tag: "v$newSemver"');
-    if (autoPush) {
-      print('  - git push origin HEAD && git push origin v$newSemver');
+    print('\x1B[1;33m[DRY RUN] Release flow preview:\x1B[0m');
+    if (currentBranch == 'dev') {
+      print('  1. git fetch origin');
+      print('  2. git checkout main && git pull origin main');
+      print('  3. git merge dev --no-edit');
+    } else {
+      print('  1. git fetch origin && git pull origin main');
+    }
+    print('  4. Update files on main:');
+    print('     - pubspec.yaml -> version: $newFullVersion');
+    print('     - lib/core/config/app_config.dart -> version: $newSemver, buildNumber: $newBuildNumber');
+    print('     - packaging/windows/inno_setup.iss -> MyAppVersion: $newSemver');
+    print('  5. git commit -m "chore(release): bump version to v$newSemver"');
+    print('  6. git tag -a v$newSemver -m "Release v$newSemver"');
+    if (currentBranch == 'dev') {
+      print('  7. git checkout dev && git merge main --no-edit');
+      print('  8. Push:');
+      print('     - git push origin main');
+      print('     - git push origin dev');
+      print('     - git push origin v$newSemver');
+    } else {
+      print('  7. Push:');
+      print('     - git push origin main');
+      print('     - git push origin v$newSemver');
     }
     print('\n\x1B[32mDry run complete. No changes were made.\x1B[0m');
     exit(0);
   }
 
-  // 5. Update files
+  // 6. Branch sync & checkout main if starting from dev
+  final isDev = (currentBranch == 'dev');
+  if (isDev) {
+    print('\x1B[1;34m==> Synchronizing branches: dev -> main...\x1B[0m');
+    await _runCommand('git', ['fetch', 'origin']);
+
+    int code = await _runCommand('git', ['checkout', 'main']);
+    if (code != 0) {
+      _error('Failed to checkout main. Aborting release.');
+      exit(1);
+    }
+
+    code = await _runCommand('git', ['pull', 'origin', 'main']);
+    if (code != 0) {
+      _error('Failed to pull latest main from origin.');
+      await _runCommand('git', ['checkout', 'dev']);
+      exit(1);
+    }
+
+    code = await _runCommand('git', ['merge', 'dev', '--no-edit']);
+    if (code != 0) {
+      _error('Merge conflict or failure merging dev into main.');
+      _error('Aborting merge. Returning to dev branch.');
+      await _runCommand('git', ['merge', '--abort']);
+      await _runCommand('git', ['checkout', 'dev']);
+      exit(1);
+    }
+    print('\x1B[32m✔ Merged dev into main successfully.\x1B[0m\n');
+  }
+
+  // 7. Update files on main
   print('\x1B[1;34m==> Updating version metadata across codebase...\x1B[0m');
 
-  // Update pubspec.yaml
-  final updatedPubspec = pubspecContent.replaceFirst(
+  // Re-read pubspec on main to avoid any drift
+  final currentPubspecContent = pubspecFile.readAsStringSync();
+  final updatedPubspec = currentPubspecContent.replaceFirst(
     versionRegex,
     'version: $newFullVersion',
   );
@@ -179,8 +246,8 @@ void main(List<String> args) async {
     print('  ✔ Updated packaging/windows/inno_setup.iss');
   }
 
-  // 6. Git commit & tag
-  print('\n\x1B[1;34m==> Creating git commit and tag...\x1B[0m');
+  // 8. Git commit & tag on main
+  print('\n\x1B[1;34m==> Creating release commit and tag on main...\x1B[0m');
 
   final addCode = await _runCommand('git', [
     'add',
@@ -190,6 +257,7 @@ void main(List<String> args) async {
   ]);
   if (addCode != 0) {
     _error('Failed to stage version files.');
+    if (isDev) await _runCommand('git', ['checkout', 'dev']);
     exit(1);
   }
 
@@ -200,6 +268,7 @@ void main(List<String> args) async {
   ]);
   if (commitCode != 0) {
     _error('Failed to commit version bump.');
+    if (isDev) await _runCommand('git', ['checkout', 'dev']);
     exit(1);
   }
 
@@ -212,44 +281,72 @@ void main(List<String> args) async {
   ]);
   if (tagCode != 0) {
     _error('Failed to create git tag v$newSemver.');
+    if (isDev) await _runCommand('git', ['checkout', 'dev']);
     exit(1);
   }
 
-  print('\x1B[32m✔ Successfully committed and tagged v$newSemver\x1B[0m\n');
+  print('\x1B[32m✔ Successfully committed and tagged v$newSemver on main\x1B[0m\n');
 
-  // 7. Push to remote
+  // 9. If started from dev, switch back to dev and sync release commit
+  if (isDev) {
+    print('\x1B[1;34m==> Syncing release commit back to dev...\x1B[0m');
+    int code = await _runCommand('git', ['checkout', 'dev']);
+    if (code == 0) {
+      code = await _runCommand('git', ['merge', 'main', '--no-edit']);
+      if (code == 0) {
+        print('\x1B[32m✔ dev is now up-to-date with main.\x1B[0m\n');
+      } else {
+        _warning('Could not automatically merge main back to dev. Please run: git merge main');
+      }
+    }
+  }
+
+  // 10. Push to remote
   bool doPush = autoPush;
   if (!doPush) {
-    stdout.write('\x1B[1;33mPush commit and tag to origin now? [y/N]: \x1B[0m');
+    stdout.write('\x1B[1;33mPush commits (main, dev) and tag (v$newSemver) to origin now? [y/N]: \x1B[0m');
     final answer = stdin.readLineSync()?.trim().toLowerCase();
     doPush = (answer == 'y' || answer == 'yes');
   }
 
   if (doPush) {
     print('\x1B[1;34m==> Pushing to origin...\x1B[0m');
-    final pushCommitCode = await _runCommand('git', ['push', 'origin', 'HEAD']);
-    if (pushCommitCode != 0) {
-      _error('Failed to push commits to origin (network issue/timeout).');
-      _printManualPushInstructions(newSemver);
+    final pushMainCode = await _runCommand('git', ['push', 'origin', 'main']);
+    if (pushMainCode != 0) {
+      _error('Failed to push main to origin.');
+      _printManualPushInstructions(newSemver, isDev: isDev);
       exit(1);
     }
+
+    if (isDev) {
+      final pushDevCode = await _runCommand('git', ['push', 'origin', 'dev']);
+      if (pushDevCode != 0) {
+        _error('Failed to push dev to origin.');
+        _printManualPushInstructions(newSemver, isDev: isDev);
+        exit(1);
+      }
+    }
+
     final pushTagCode = await _runCommand('git', ['push', 'origin', 'v$newSemver']);
     if (pushTagCode != 0) {
-      _error('Failed to push tag v$newSemver to origin (network issue/timeout).');
-      _printManualPushInstructions(newSemver);
+      _error('Failed to push tag v$newSemver to origin.');
+      _printManualPushInstructions(newSemver, isDev: isDev);
       exit(1);
     }
-    print('\x1B[32m✔ Pushed commit & tag to origin!\x1B[0m');
+    print('\x1B[32m✔ Pushed main, ${isDev ? 'dev, ' : ''}and tag v$newSemver to origin!\x1B[0m');
     print('\x1B[1;35m🚀 GitHub Actions workflow has been triggered.\x1B[0m');
     print('Track release progress: https://github.com/zoroneo/flanki/actions\n');
   } else {
-    _printManualPushInstructions(newSemver);
+    _printManualPushInstructions(newSemver, isDev: isDev);
   }
 }
 
-void _printManualPushInstructions(String semver) {
-  print('\n\x1B[33mTag v$semver is created locally. To push and trigger CI/CD, run:\x1B[0m');
-  print('  git push origin HEAD');
+void _printManualPushInstructions(String semver, {required bool isDev}) {
+  print('\n\x1B[33mRelease commit and tag v$semver are created locally. To push and trigger CI/CD, run:\x1B[0m');
+  print('  git push origin main');
+  if (isDev) {
+    print('  git push origin dev');
+  }
   print('  git push origin v$semver');
   print('  (hoặc: make release-push)\n');
 }
@@ -281,15 +378,16 @@ Arguments:
                      Defaults to 'patch' if omitted.
 
 Flags:
-  --push, -p         Automatically push commit and tag to origin without prompt.
+  --push, -p         Automatically push commits and tag to origin without prompt.
   --skip-tests       Skip running tests before release.
-  --dry-run          Preview changes without modifying files or git tags.
+  --dry-run          Preview changes without modifying files or git branches/tags.
   -h, --help         Show this help message.
 
 Examples:
-  make release                  # Bump patch (1.0.2 -> 1.0.3), test, tag & prompt push
+  make release                  # Bump patch from dev -> merge to main -> tag & prompt push
   make release v=minor          # Bump minor (1.0.2 -> 1.1.0)
   make release v=1.2.0          # Set explicit version
   make release ARGS="--push"    # Auto push to GitHub to trigger CI/CD build
+  make release ARGS="--dry-run" # Preview release operations safely
 ''');
 }
