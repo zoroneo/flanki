@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import '../config/app_config.dart';
+
 class ParsedCardContent {
   final String cleanHtml;
   final bool hasTypeInput;
@@ -42,7 +44,7 @@ class CardContentParser {
     var cleanHtml = content.replaceAllMapped(soundRegex, (m) {
       final filename = m.group(1)!.trim();
       final escaped = htmlEscape.convert(filename);
-      return '<anki-sound src="$escaped"></anki-sound>';
+      return '<${AppConfig.customTagAnkiSound} src="$escaped"></${AppConfig.customTagAnkiSound}>';
     });
 
     cleanHtml = cleanHtml.replaceAllMapped(
@@ -56,7 +58,7 @@ class CardContentParser {
     cleanHtml = cleanHtml.replaceAllMapped(typeResultRegex, (m) {
       final expected = m.group(1)!.trim();
       final escaped = htmlEscape.convert(expected);
-      return '<anki-type-result expected="$escaped"></anki-type-result>';
+      return '<${AppConfig.customTagAnkiTypeResult} expected="$escaped"></${AppConfig.customTagAnkiTypeResult}>';
     });
 
     cleanHtml = cleanHtml.replaceAll(curlyTagsRegex, '').trim();

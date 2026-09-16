@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 import '../config/app_config.dart';
+import '../config/supabase_config.dart';
 import '../models/card.dart';
 import '../models/custom_study_mode.dart';
 import '../models/deck.dart';
@@ -28,8 +29,7 @@ class DatabaseService {
   AppDatabase? _db;
 
   // Hybrid Logical Clock (HLC) & Node Identity
-  String _nodeId =
-      'node_${DateTime.now().microsecondsSinceEpoch.toRadixString(16)}';
+  String _nodeId = IdHelper.generateNodeId();
   Hlc? _lastHlc;
 
   String get nodeId => _nodeId;
@@ -326,10 +326,14 @@ class DatabaseService {
           .into(db.syncOutbox)
           .insertOnConflictUpdate(
             SyncOutboxCompanion.insert(
-              id: 'outbox_deck_${deck.id}_$hlcStr',
-              entityType: 'deck',
+              id: IdHelper.outboxId(
+                prefix: 'deck',
+                entityId: deck.id,
+                hlc: hlcStr,
+              ),
+              entityType: SupabaseConfig.entityDeck,
               entityId: deck.id,
-              operation: 'UPSERT',
+              operation: SupabaseConfig.opUpsert,
               payloadJson: jsonEncode(deck.toJson()),
               hlc: hlcStr,
             ),
@@ -390,10 +394,14 @@ class DatabaseService {
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
               SyncOutboxCompanion.insert(
-                id: 'outbox_deck_${deck.id}_$hlcStr',
-                entityType: 'deck',
+                id: IdHelper.outboxId(
+                  prefix: 'deck',
+                  entityId: deck.id,
+                  hlc: hlcStr,
+                ),
+                entityType: SupabaseConfig.entityDeck,
                 entityId: deck.id,
-                operation: 'UPSERT',
+                operation: SupabaseConfig.opUpsert,
                 payloadJson: jsonEncode(deck.toJson()),
                 hlc: hlcStr,
               ),
@@ -476,10 +484,14 @@ class DatabaseService {
           .into(db.syncOutbox)
           .insertOnConflictUpdate(
             SyncOutboxCompanion.insert(
-              id: 'outbox_deck_del_${deckId}_$hlcStr',
-              entityType: 'deck',
+              id: IdHelper.outboxId(
+                prefix: 'deck_del',
+                entityId: deckId,
+                hlc: hlcStr,
+              ),
+              entityType: SupabaseConfig.entityDeck,
               entityId: deckId,
-              operation: 'DELETE',
+              operation: SupabaseConfig.opDelete,
               payloadJson: jsonEncode(SyncIdPayload(id: deckId).toJson()),
               hlc: hlcStr,
             ),
@@ -593,10 +605,14 @@ class DatabaseService {
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
               SyncOutboxCompanion.insert(
-                id: 'outbox_card_${card.id}_$hlcStr',
-                entityType: 'card',
+                id: IdHelper.outboxId(
+                  prefix: 'card',
+                  entityId: card.id,
+                  hlc: hlcStr,
+                ),
+                entityType: SupabaseConfig.entityCard,
                 entityId: card.id,
-                operation: 'UPSERT',
+                operation: SupabaseConfig.opUpsert,
                 payloadJson: jsonEncode(card.toJson()),
                 hlc: hlcStr,
               ),
@@ -658,10 +674,14 @@ class DatabaseService {
               .into(db.syncOutbox)
               .insertOnConflictUpdate(
                 SyncOutboxCompanion.insert(
-                  id: 'outbox_card_${card.id}_$hlcStr',
-                  entityType: 'card',
+                  id: IdHelper.outboxId(
+                    prefix: 'card',
+                    entityId: card.id,
+                    hlc: hlcStr,
+                  ),
+                  entityType: SupabaseConfig.entityCard,
                   entityId: card.id,
-                  operation: 'UPSERT',
+                  operation: SupabaseConfig.opUpsert,
                   payloadJson: jsonEncode(card.toJson()),
                   hlc: hlcStr,
                 ),
@@ -735,10 +755,14 @@ class DatabaseService {
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
               SyncOutboxCompanion.insert(
-                id: 'outbox_card_del_${cardId}_$hlcStr',
-                entityType: 'card',
+                id: IdHelper.outboxId(
+                  prefix: 'card_del',
+                  entityId: cardId,
+                  hlc: hlcStr,
+                ),
+                entityType: SupabaseConfig.entityCard,
                 entityId: cardId,
-                operation: 'DELETE',
+                operation: SupabaseConfig.opDelete,
                 payloadJson: jsonEncode(SyncIdPayload(id: cardId).toJson()),
                 hlc: hlcStr,
               ),
@@ -790,10 +814,14 @@ class DatabaseService {
           .into(db.syncOutbox)
           .insertOnConflictUpdate(
             SyncOutboxCompanion.insert(
-              id: 'outbox_revlog_${clientLogId}_$hlcStr',
-              entityType: 'review_log',
+              id: IdHelper.outboxId(
+                prefix: 'revlog',
+                entityId: clientLogId,
+                hlc: hlcStr,
+              ),
+              entityType: SupabaseConfig.entityReviewLog,
               entityId: clientLogId,
-              operation: 'INSERT',
+              operation: SupabaseConfig.opInsert,
               payloadJson: jsonEncode(log.toJson()),
               hlc: hlcStr,
             ),
@@ -838,7 +866,7 @@ class DatabaseService {
   }
 
   static String _cleanMediaPaths(String html) {
-    if (!html.contains('flanki_media')) return html;
+    if (!html.contains(AppConfig.appMediaBaseDirectory)) return html;
     return html.replaceAllMapped(
       RegExp(
         r'''(<img\s+[^>]*src\s*=\s*["'])file:\/\/[^"'>]*[\\\/]([^"'>]+)(["'][^>]*>)''',
@@ -911,9 +939,15 @@ class DatabaseService {
   /// Exports local collection and review logs to a valid SQLite collection.anki2 binary.
   Future<Uint8List> exportToAnki2Db() async {
     final supportDir = await getApplicationSupportDirectory();
-    final templateFile = File('${supportDir.path}/sync_template.anki2');
-    final tempDir = Directory.systemTemp.createTempSync('flanki_export_');
-    final targetDbFile = File('${tempDir.path}/collection.anki2');
+    final templateFile = File(
+      '${supportDir.path}/${AppConfig.ankiSyncTemplateFileName}',
+    );
+    final tempDir = Directory.systemTemp.createTempSync(
+      AppConfig.tempExportPrefix,
+    );
+    final targetDbFile = File(
+      '${tempDir.path}/${AppConfig.anki2DbFileName}',
+    );
 
     try {
       if (templateFile.existsSync()) {
@@ -1591,10 +1625,14 @@ class DatabaseService {
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
               SyncOutboxCompanion.insert(
-                id: 'outbox_exam_sub_${submission.id}_$hlcStr',
-                entityType: 'exam_submission',
+                id: IdHelper.outboxId(
+                  prefix: 'exam_sub',
+                  entityId: submission.id,
+                  hlc: hlcStr,
+                ),
+                entityType: SupabaseConfig.entityExamSubmission,
                 entityId: submission.id,
-                operation: 'UPSERT',
+                operation: SupabaseConfig.opUpsert,
                 payloadJson: jsonEncode(submission.toJson()),
                 hlc: hlcStr,
               ),
@@ -1626,10 +1664,14 @@ class DatabaseService {
               .into(db.syncOutbox)
               .insertOnConflictUpdate(
                 SyncOutboxCompanion.insert(
-                  id: 'outbox_wrong_q_${w.id}_$wHlcStr',
-                  entityType: 'wrong_question',
+                  id: IdHelper.outboxId(
+                    prefix: 'wrong_q',
+                    entityId: w.id,
+                    hlc: wHlcStr,
+                  ),
+                  entityType: SupabaseConfig.entityWrongQuestion,
                   entityId: w.id,
-                  operation: 'UPSERT',
+                  operation: SupabaseConfig.opUpsert,
                   payloadJson: jsonEncode(w.toJson()),
                   hlc: wHlcStr,
                 ),
@@ -1745,10 +1787,14 @@ class DatabaseService {
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
               SyncOutboxCompanion.insert(
-                id: 'outbox_wrong_status_${id}_$hlcStr',
-                entityType: 'wrong_question',
+                id: IdHelper.outboxId(
+                  prefix: 'wrong_status',
+                  entityId: id,
+                  hlc: hlcStr,
+                ),
+                entityType: SupabaseConfig.entityWrongQuestion,
                 entityId: id,
-                operation: 'UPSERT',
+                operation: SupabaseConfig.opUpsert,
                 payloadJson: jsonEncode(payload),
                 hlc: hlcStr,
               ),

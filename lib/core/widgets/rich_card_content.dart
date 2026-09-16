@@ -5,6 +5,7 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:path/path.dart' as p;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../config/app_config.dart';
 import '../database/media_storage_service.dart';
 import '../services/card_audio_service.dart';
 import '../theme/app_tokens.dart';
@@ -94,7 +95,7 @@ class RichCardContent extends HookWidget {
             formattedHtml,
             textStyle: defaultStyle,
             customWidgetBuilder: (element) {
-              if (element.localName == 'anki-sound') {
+              if (element.localName == AppConfig.customTagAnkiSound) {
                 final filename = element.attributes['src'] ?? '';
                 if (filename.isEmpty) return const SizedBox.shrink();
                 return InlineCustomWidget(
@@ -108,7 +109,7 @@ class RichCardContent extends HookWidget {
                   ),
                 );
               }
-              if (element.localName == 'anki-type-result') {
+              if (element.localName == AppConfig.customTagAnkiTypeResult) {
                 final expected = element.attributes['expected'] ?? '';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
@@ -174,7 +175,8 @@ class RichCardContent extends HookWidget {
               return null;
             },
             customStylesBuilder: (element) {
-              if (element.children.any((c) => c.localName == 'anki-sound')) {
+              if (element.children
+                  .any((c) => c.localName == AppConfig.customTagAnkiSound)) {
                 final isDarkTheme = theme.brightness == Brightness.dark;
                 return {
                   'color': isDarkTheme ? '#e4e4e7' : '#3f3f46',

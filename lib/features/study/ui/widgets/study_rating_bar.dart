@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
@@ -30,8 +31,8 @@ class StudyRatingBar extends StatelessWidget {
             shortcutHint: isMobile ? null : '1',
             interval:
                 intervals[ReviewRating.again] ??
-                '< ${l10n.intervalMinutes(10)}',
-            backgroundColor: m.Colors.red.shade600,
+                '< ${l10n.intervalMinutes(FsrsEngineService.fallbackAgainMinutes)}',
+            backgroundColor: AppColors.ratingAgain,
             onTap: () => onRate(ReviewRating.again),
           ),
         ),
@@ -40,8 +41,10 @@ class StudyRatingBar extends StatelessWidget {
           child: RatingButton(
             label: l10n.ratingHard,
             shortcutHint: isMobile ? null : '2',
-            interval: intervals[ReviewRating.hard] ?? l10n.intervalDays(1),
-            backgroundColor: m.Colors.orange.shade700,
+            interval:
+                intervals[ReviewRating.hard] ??
+                l10n.intervalDays(FsrsEngineService.fallbackHardIntervalDays),
+            backgroundColor: AppColors.ratingHard,
             onTap: () => onRate(ReviewRating.hard),
           ),
         ),
@@ -50,8 +53,10 @@ class StudyRatingBar extends StatelessWidget {
           child: RatingButton(
             label: l10n.ratingGood,
             shortcutHint: isMobile ? null : '3',
-            interval: intervals[ReviewRating.good] ?? l10n.intervalDays(4),
-            backgroundColor: m.Colors.blue.shade600,
+            interval:
+                intervals[ReviewRating.good] ??
+                l10n.intervalDays(FsrsEngineService.fallbackGoodIntervalDays),
+            backgroundColor: AppColors.ratingGood,
             onTap: () => onRate(ReviewRating.good),
           ),
         ),
@@ -60,8 +65,10 @@ class StudyRatingBar extends StatelessWidget {
           child: RatingButton(
             label: l10n.ratingEasy,
             shortcutHint: isMobile ? null : '4',
-            interval: intervals[ReviewRating.easy] ?? l10n.intervalDays(12),
-            backgroundColor: m.Colors.green.shade600,
+            interval:
+                intervals[ReviewRating.easy] ??
+                l10n.intervalDays(FsrsEngineService.fallbackEasyIntervalDays),
+            backgroundColor: AppColors.ratingEasy,
             onTap: () => onRate(ReviewRating.easy),
           ),
         ),
@@ -98,11 +105,13 @@ class RatingButton extends HookWidget {
         onTapCancel: () => isPressed.value = false,
         onTap: onTap,
         child: AnimatedScale(
-          scale: isPressed.value ? 0.94 : 1.0,
-          duration: const Duration(milliseconds: 100),
+          scale: isPressed.value ? AppThemeValues.ratingButtonPressedScale : 1.0,
+          duration: AppDurations.quick,
           curve: Curves.easeOutCubic,
           child: Container(
-            constraints: const BoxConstraints(minHeight: 48),
+            constraints: const BoxConstraints(
+              minHeight: AppDimensions.ratingButtonMinHeight,
+            ),
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
             decoration: BoxDecoration(
               color: backgroundColor,
@@ -125,7 +134,7 @@ class RatingButton extends HookWidget {
                   interval,
                   style: TextStyle(
                     color: m.Colors.white.withValues(alpha: 0.85),
-                    fontSize: 10,
+                    fontSize: AppTypography.caption,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -146,7 +155,7 @@ class RatingButton extends HookWidget {
           label,
           style: const TextStyle(
             color: m.Colors.white,
-            fontSize: 13,
+            fontSize: AppTypography.nav,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -165,7 +174,7 @@ class RatingButton extends HookWidget {
               shortcutHint!,
               style: const TextStyle(
                 color: m.Colors.white,
-                fontSize: 9,
+                fontSize: AppTypography.badge,
                 fontWeight: FontWeight.w700,
               ),
             ),

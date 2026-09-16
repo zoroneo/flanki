@@ -46,9 +46,9 @@ class MobileBottomNavBar extends StatelessWidget {
                   icon: LucideIcons.layers,
                   activeIcon: LucideIcons.layers2,
                   label: l10n.navDecks,
-                  isSelected: currentIndex == 0,
+                  isSelected: currentIndex == AppNavIndex.decks,
                   badgeCount: totalDue > 0 ? totalDue : null,
-                  onTap: () => onTap(0),
+                  onTap: () => onTap(AppNavIndex.decks),
                 ),
               ),
               Expanded(
@@ -56,8 +56,8 @@ class MobileBottomNavBar extends StatelessWidget {
                   icon: LucideIcons.search,
                   activeIcon: LucideIcons.fileSearch,
                   label: l10n.navBrowser,
-                  isSelected: currentIndex == 1,
-                  onTap: () => onTap(1),
+                  isSelected: currentIndex == AppNavIndex.browser,
+                  onTap: () => onTap(AppNavIndex.browser),
                 ),
               ),
               Expanded(
@@ -65,8 +65,8 @@ class MobileBottomNavBar extends StatelessWidget {
                   icon: LucideIcons.bookOpenText,
                   activeIcon: LucideIcons.bookOpen,
                   label: l10n.navGrammar,
-                  isSelected: currentIndex == 2,
-                  onTap: () => onTap(2),
+                  isSelected: currentIndex == AppNavIndex.grammar,
+                  onTap: () => onTap(AppNavIndex.grammar),
                 ),
               ),
               Expanded(
@@ -74,8 +74,8 @@ class MobileBottomNavBar extends StatelessWidget {
                   icon: LucideIcons.graduationCap,
                   activeIcon: LucideIcons.graduationCap,
                   label: l10n.navExams,
-                  isSelected: currentIndex == 3,
-                  onTap: () => onTap(3),
+                  isSelected: currentIndex == AppNavIndex.exams,
+                  onTap: () => onTap(AppNavIndex.exams),
                 ),
               ),
               Expanded(
@@ -83,8 +83,8 @@ class MobileBottomNavBar extends StatelessWidget {
                   icon: LucideIcons.chartColumn,
                   activeIcon: LucideIcons.chartNoAxesCombined,
                   label: l10n.navStats,
-                  isSelected: currentIndex == 4,
-                  onTap: () => onTap(4),
+                  isSelected: currentIndex == AppNavIndex.stats,
+                  onTap: () => onTap(AppNavIndex.stats),
                 ),
               ),
               Expanded(
@@ -92,9 +92,9 @@ class MobileBottomNavBar extends StatelessWidget {
                   icon: LucideIcons.settings,
                   activeIcon: LucideIcons.settings2,
                   label: l10n.navSettings,
-                  isSelected: currentIndex == 5,
-                  indicatorColor: isAuthenticated ? m.Colors.green : null,
-                  onTap: () => onTap(5),
+                  isSelected: currentIndex == AppNavIndex.settings,
+                  indicatorColor: isAuthenticated ? AppColors.success : null,
+                  onTap: () => onTap(AppNavIndex.settings),
                 ),
               ),
             ],
@@ -136,7 +136,10 @@ class BottomNavItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
-        constraints: const BoxConstraints(minWidth: 40, minHeight: 48),
+        constraints: const BoxConstraints(
+          minWidth: AppDimensions.mobileNavItemMinWidth,
+          minHeight: AppDimensions.mobileNavItemMinHeight,
+        ),
         padding: const EdgeInsets.symmetric(
           horizontal: 2,
           vertical: AppSpacing.xxs,
@@ -191,12 +194,14 @@ class BottomNavItem extends StatelessWidget {
         border: Border.all(color: theme.colorScheme.background, width: 1.5),
       ),
       child: Text(
-        badgeCount! > 99 ? '99+' : '$badgeCount',
+        badgeCount! > AppLimits.badgeMaxCount
+            ? AppLimits.badgeOverflowText
+            : '$badgeCount',
         style: const TextStyle(
           color: m.Colors.white,
-          fontSize: 10,
+          fontSize: AppTypography.caption,
           fontWeight: FontWeight.w700,
-          height: 1.1,
+          height: AppTypography.lineHeightBadge,
         ),
       ),
     );
@@ -204,8 +209,8 @@ class BottomNavItem extends StatelessWidget {
 
   Widget _buildIndicator(ThemeData theme) {
     return Container(
-      width: AppSpacing.sm,
-      height: AppSpacing.sm,
+      width: AppDimensions.statusDotSize,
+      height: AppDimensions.statusDotSize,
       decoration: BoxDecoration(
         color: indicatorColor,
         shape: BoxShape.circle,
@@ -221,7 +226,7 @@ class BottomNavItem extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 10,
+        fontSize: AppTypography.caption,
         fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         color: color,
       ),

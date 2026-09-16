@@ -103,7 +103,7 @@ class CardTagsConverter implements JsonConverter<List<String>, dynamic> {
     if (json is String) {
       if (json.trim().isEmpty) return const [];
       return json
-          .split(',')
+          .split(CardModel.tagDelimiter)
           .map((t) => t.trim())
           .where((t) => t.isNotEmpty)
           .toList();
@@ -112,12 +112,14 @@ class CardTagsConverter implements JsonConverter<List<String>, dynamic> {
   }
 
   @override
-  dynamic toJson(List<String> object) => object.join(',');
+  dynamic toJson(List<String> object) => object.join(CardModel.tagDelimiter);
 }
 
 @freezed
 abstract class CardModel with _$CardModel {
   const CardModel._();
+
+  static const String tagDelimiter = ',';
 
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CardModel({

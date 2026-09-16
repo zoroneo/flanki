@@ -6,6 +6,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import '../../../router/app_router.dart';
 import '../data/grammar_repository.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
@@ -194,7 +195,10 @@ class GrammarCatalogScreen extends HookConsumerWidget {
             density: ButtonDensity.compact,
             size: ButtonSize.small,
             onPressed: () => context.push(
-              '/grammar/ghost_review/practice?mode=${GrammarPracticeMode.ghost.value}',
+              AppRoutes.grammarPractice(
+                'ghost_review',
+                mode: GrammarPracticeMode.ghost.value,
+              ),
             ),
             leading: const Icon(
               LucideIcons.flame,

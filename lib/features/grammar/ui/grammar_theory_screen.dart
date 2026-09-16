@@ -6,6 +6,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import '../../../router/app_router.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -106,7 +107,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
           padding: EdgeInsets.only(right: isMobile ? AppSpacing.xs : 0),
           child: PrimaryButton(
             size: ButtonSize.small,
-            onPressed: () => context.push('/grammar/$unitId/practice'),
+            onPressed: () => context.push(AppRoutes.grammarPractice(unitId)),
             leading: Icon(
               LucideIcons.play,
               size: AppIconSize.xs,

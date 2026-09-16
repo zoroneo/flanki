@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../config/app_config.dart';
+
 part 'deck.freezed.dart';
 part 'deck.g.dart';
 
@@ -22,7 +24,7 @@ abstract class DeckModel with _$DeckModel {
       _$DeckModelFromJson(json);
 
   bool get isCram =>
-      id.startsWith('cram') ||
+      id.startsWith(IdHelper.prefixCram) ||
       title.startsWith('⚡') ||
-      title.toLowerCase().contains('cram');
+      title.toLowerCase().contains(IdHelper.prefixCram);
 }

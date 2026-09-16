@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/config/app_config.dart';
+import '../../../core/config/supabase_config.dart';
 import '../../../core/database/app_database.dart';
 import '../../../core/database/database_service.dart';
 import '../models/grammar_models.dart';
@@ -25,7 +27,8 @@ class GrammarRepository {
 
   GrammarRepository(this._db);
 
-  String _cacheKey(String unitId, String exerciseId) => '$unitId:$exerciseId';
+  String _cacheKey(String unitId, String exerciseId) =>
+      '$unitId${GrammarConstants.cacheKeySeparator}$exerciseId';
 
   /// Preload all progress entries into memory cache
   Future<void> init() async {
@@ -126,10 +129,14 @@ class GrammarRepository {
           .into(_db.syncOutbox)
           .insertOnConflictUpdate(
             SyncOutboxCompanion.insert(
-              id: 'outbox_grammar_${model.unitId}_${model.exerciseId}_$hlcStr',
-              entityType: 'grammar_progress',
+              id: IdHelper.outboxId(
+                prefix: 'grammar',
+                entityId: '${model.unitId}_${model.exerciseId}',
+                hlc: hlcStr,
+              ),
+              entityType: SupabaseConfig.entityGrammarProgress,
               entityId: '${model.unitId}_${model.exerciseId}',
-              operation: 'UPSERT',
+              operation: SupabaseConfig.opUpsert,
               payloadJson: jsonEncode(model.toJson()),
               hlc: hlcStr,
             ),
@@ -178,10 +185,14 @@ class GrammarRepository {
             .into(_db.syncOutbox)
             .insertOnConflictUpdate(
               SyncOutboxCompanion.insert(
-                id: 'outbox_grammar_del_${entry.unitId}_${entry.exerciseId}_$hlcStr',
-                entityType: 'grammar_progress',
+                id: IdHelper.outboxId(
+                  prefix: 'grammar_del',
+                  entityId: '${entry.unitId}_${entry.exerciseId}',
+                  hlc: hlcStr,
+                ),
+                entityType: SupabaseConfig.entityGrammarProgress,
                 entityId: '${entry.unitId}_${entry.exerciseId}',
-                operation: 'DELETE',
+                operation: SupabaseConfig.opDelete,
                 payloadJson: jsonEncode(
                   GrammarUnitDeletePayload(
                     unitId: entry.unitId,

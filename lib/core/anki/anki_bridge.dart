@@ -1,8 +1,10 @@
-﻿import 'dart:ffi';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
+
+import '../config/app_config.dart';
 
 typedef AnkiOpenBackendNative = Int32 Function(
   Pointer<Uint8> initData,
@@ -51,9 +53,9 @@ class AnkiBridge {
   int _backendHandle = 0;
 
   static String get _defaultLibraryName {
-    if (Platform.isWindows) return 'anki_bridge.dll';
-    if (Platform.isMacOS || Platform.isIOS) return 'libanki_bridge.dylib';
-    return 'libanki_bridge.so';
+    if (Platform.isWindows) return AppConfig.nativeLibWindows;
+    if (Platform.isMacOS || Platform.isIOS) return AppConfig.nativeLibDarwin;
+    return AppConfig.nativeLibLinux;
   }
 
   static bool? _cachedIsAvailable;

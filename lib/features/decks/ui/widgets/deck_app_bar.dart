@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 import '../../../settings/providers/settings_notifier.dart';
 import '../../../sync/providers/auth_notifier.dart';
 import '../../../sync/providers/supabase_auth_notifier.dart';
@@ -147,7 +148,7 @@ class DeckAppBar extends StatelessWidget {
                   GhostButton(
                     alignment: Alignment.center,
                     size: ButtonSize.small,
-                    onPressed: () => context.go('/exams'),
+                    onPressed: () => context.go(AppRoutes.exams),
                     leading: const Icon(
                       LucideIcons.graduationCap,
                       size: AppIconSize.sm,

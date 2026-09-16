@@ -32,7 +32,9 @@ class TypeAnswerInputBox extends HookWidget {
         horizontal: AppSpacing.xs,
       ),
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.typeInputMaxWidth,
+        ),
         child: TextField(
           controller: controller,
           focusNode: focusNode,
@@ -98,19 +100,21 @@ class TypeAnswerResultBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 380),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.typeResultMaxWidth,
+        ),
         padding: AppEdgeInsets.h16v12,
         decoration: BoxDecoration(
           color: isEmpty
               ? theme.colorScheme.muted
               : (isCorrect
-                    ? m.Colors.green.withValues(alpha: 0.12)
-                    : m.Colors.red.withValues(alpha: 0.12)),
+                    ? AppColors.success.withValues(alpha: 0.12)
+                    : AppColors.error.withValues(alpha: 0.12)),
           borderRadius: AppRadius.borderLg,
           border: Border.all(
             color: isEmpty
                 ? theme.colorScheme.border
-                : (isCorrect ? m.Colors.green : m.Colors.red),
+                : (isCorrect ? AppColors.success : AppColors.error),
             width: 1.5,
           ),
         ),

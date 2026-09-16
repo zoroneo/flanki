@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/config/app_config.dart';
 import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/models/card.dart';
@@ -75,8 +76,14 @@ class StudySessionNotifier extends _$StudySessionNotifier {
     // 3. Track real elapsed study time
     final now = DateTime.now();
     final elapsedSeconds = state.cardPresentedAt != null
-        ? now.difference(state.cardPresentedAt!).inSeconds.clamp(1, 120)
-        : 15;
+        ? now
+              .difference(state.cardPresentedAt!)
+              .inSeconds
+              .clamp(
+                AppConfig.minTrackedStudySeconds,
+                AppConfig.maxTrackedStudySeconds,
+              )
+        : AppConfig.fallbackSecondsPerCard;
     ref
         .read(statsNotifierProvider.notifier)
         .recordStudyDuration(elapsedSeconds);

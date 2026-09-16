@@ -3,6 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
 import 'card_browser_list_item.dart';
@@ -106,7 +107,7 @@ class BrowserDesktopLayout extends StatelessWidget {
               alignment: Alignment.center,
               leading: const Icon(LucideIcons.plus, size: AppIconSize.sm),
               child: Text(l10n.addCard, maxLines: 1, softWrap: false),
-              onPressed: () => context.push('/editor'),
+              onPressed: () => context.push(AppRoutes.editor),
             ),
           ],
         ),

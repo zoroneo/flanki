@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/config/app_config.dart';
 import '../models/auth_state.dart';
 import '../data/anki_web_auth_service.dart';
 
@@ -20,9 +21,9 @@ FlutterSecureStorage secureStorage(Ref ref) {
 
 @Riverpod(keepAlive: true, name: 'authNotifierProvider')
 class AuthNotifier extends _$AuthNotifier {
-  static const _keyHostKey = 'flanki_ankiweb_hostkey';
-  static const _keyEmail = 'flanki_ankiweb_email';
-  static const _keyLastSync = 'flanki_ankiweb_last_sync';
+  static const _keyHostKey = AppConfig.storageKeyAnkiWebHostKey;
+  static const _keyEmail = AppConfig.storageKeyAnkiWebEmail;
+  static const _keyLastSync = AppConfig.storageKeyAnkiWebLastSync;
 
   late final FlutterSecureStorage _storage;
   late final AnkiWebAuthService _authService;

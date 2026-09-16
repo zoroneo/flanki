@@ -1,4 +1,4 @@
-﻿import '../models/grammar_models.dart';
+import '../models/grammar_models.dart';
 
 /// Evaluates and normalizes user answers for Choice, Error ID, and Cloze questions
 class GrammarAnswerEvaluator {
@@ -32,9 +32,10 @@ class GrammarAnswerEvaluator {
         if (normUser == normCorrect) return true;
 
         // Check for alternative answers if slash separated (e.g. "will go / goes")
-        if (exercise.correctAnswer.contains('/')) {
+        if (exercise.correctAnswer
+            .contains(GrammarConstants.clozeAlternativeDelimiter)) {
           final parts = exercise.correctAnswer
-              .split('/')
+              .split(GrammarConstants.clozeAlternativeDelimiter)
               .map((p) => normalizeCloze(p))
               .toList();
           return parts.contains(normUser);

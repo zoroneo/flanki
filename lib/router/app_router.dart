@@ -23,13 +23,43 @@ import '../core/widgets/adaptive_scaffold.dart';
 
 part 'app_router.g.dart';
 
+abstract final class AppRoutes {
+  const AppRoutes._();
+
+  static const String decks = '/decks';
+  static const String browser = '/browser';
+  static const String grammar = '/grammar';
+  static const String exams = '/exams';
+  static const String stats = '/stats';
+  static const String settings = '/settings';
+  static const String auth = '/auth';
+  static const String editor = '/editor';
+  static const String licenses = '/licenses';
+  static const String privacyPolicy = '/privacy-policy';
+  static const String wrongNotebook = '/exams/wrong-notebook';
+
+  static const String studyPattern = '/decks/:deckId/study';
+  static const String grammarTheoryPattern = '/grammar/:unitId/theory';
+  static const String grammarPracticePattern = '/grammar/:unitId/practice';
+  static const String examTakingPattern = '/exams/:examId/taking';
+  static const String examResultPattern = '/exams/:examId/result';
+
+  static String study(String deckId) => '/decks/$deckId/study';
+  static String grammarTheory(String unitId) => '/grammar/$unitId/theory';
+  static String grammarPractice(String unitId, {String? mode}) => mode != null
+      ? '/grammar/$unitId/practice?mode=$mode'
+      : '/grammar/$unitId/practice';
+  static String examTaking(String examId) => '/exams/$examId/taking';
+  static String examResult(String examId) => '/exams/$examId/result';
+}
+
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: '/decks',
+    initialLocation: AppRoutes.decks,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -39,7 +69,7 @@ GoRouter appRouter(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/decks',
+                path: AppRoutes.decks,
                 name: 'decks',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: DecksScreen()),
@@ -49,7 +79,7 @@ GoRouter appRouter(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/browser',
+                path: AppRoutes.browser,
                 name: 'browser',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: CardBrowserScreen()),
@@ -59,7 +89,7 @@ GoRouter appRouter(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/grammar',
+                path: AppRoutes.grammar,
                 name: 'grammar',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: GrammarCatalogScreen()),
@@ -69,7 +99,7 @@ GoRouter appRouter(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/exams',
+                path: AppRoutes.exams,
                 name: 'exams',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: ExamCatalogScreen()),
@@ -79,7 +109,7 @@ GoRouter appRouter(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/stats',
+                path: AppRoutes.stats,
                 name: 'stats',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: StatsScreen()),
@@ -89,7 +119,7 @@ GoRouter appRouter(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/settings',
+                path: AppRoutes.settings,
                 name: 'settings',
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: SettingsScreen()),
@@ -101,31 +131,31 @@ GoRouter appRouter(Ref ref) {
       // Top-level full screen routes (no bottom nav)
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/auth',
+        path: AppRoutes.auth,
         name: 'auth',
         builder: (context, state) => const AnkiWebAuthScreen(),
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/editor',
+        path: AppRoutes.editor,
         name: 'editor',
         builder: (context, state) => const NoteEditorScreen(),
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/licenses',
+        path: AppRoutes.licenses,
         name: 'licenses',
         builder: (context, state) => const LicensesScreen(),
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/privacy-policy',
+        path: AppRoutes.privacyPolicy,
         name: 'privacy-policy',
         builder: (context, state) => const PrivacyPolicyScreen(),
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/decks/:deckId/study',
+        path: AppRoutes.studyPattern,
         name: 'study',
         builder: (context, state) {
           final deckId = state.pathParameters['deckId'] ?? 'default';
@@ -134,7 +164,7 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/grammar/:unitId/theory',
+        path: AppRoutes.grammarTheoryPattern,
         name: 'grammar-theory',
         builder: (context, state) {
           final unitId = state.pathParameters['unitId'] ?? '';
@@ -143,7 +173,7 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/grammar/:unitId/practice',
+        path: AppRoutes.grammarPracticePattern,
         name: 'grammar-practice',
         builder: (context, state) {
           final unitId = state.pathParameters['unitId'] ?? '';
@@ -155,13 +185,13 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/exams/wrong-notebook',
+        path: AppRoutes.wrongNotebook,
         name: 'wrong-notebook',
         builder: (context, state) => const WrongNotebookScreen(),
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/exams/:examId/taking',
+        path: AppRoutes.examTakingPattern,
         name: 'exam-taking',
         builder: (context, state) {
           final examId = state.pathParameters['examId'] ?? '';
@@ -170,7 +200,7 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
-        path: '/exams/:examId/result',
+        path: AppRoutes.examResultPattern,
         name: 'exam-result',
         builder: (context, state) {
           final examId = state.pathParameters['examId'] ?? '';

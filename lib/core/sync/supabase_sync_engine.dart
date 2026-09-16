@@ -117,15 +117,15 @@ class SupabaseSyncEngine {
           'entity_type': item.entityType,
           'entity_id': item.entityId,
           'op': item.operation,
-          'is_deleted': item.operation == 'DELETE',
+          'is_deleted': item.operation == SupabaseConfig.opDelete,
           'payload': jsonDecode(item.payloadJson),
           'hlc': item.hlc,
         };
       }).toList();
 
       final response = await _client.rpc(
-        'sync_push_mutations',
-        params: {'mutations': mutationsPayload},
+        SupabaseConfig.rpcPushMutations,
+        params: {SupabaseConfig.paramMutations: mutationsPayload},
       );
 
       final respMap = response is Map<String, dynamic>
@@ -166,28 +166,37 @@ class SupabaseSyncEngine {
       throw const AuthException('User must be logged in to pull deltas');
     }
 
-    final deckCursor = await _dbService.getSyncCursor('deck') ?? '';
-    final cardCursor = await _dbService.getSyncCursor('card') ?? '';
+    final deckCursor =
+        await _dbService.getSyncCursor(SupabaseConfig.entityDeck) ?? '';
+    final cardCursor =
+        await _dbService.getSyncCursor(SupabaseConfig.entityCard) ?? '';
     final grammarCursor =
-        await _dbService.getSyncCursor('grammar_progress') ?? '';
+        await _dbService.getSyncCursor(SupabaseConfig.entityGrammarProgress) ??
+        '';
     final revlogCursor =
-        await _dbService.getSyncCursor('review_log') ??
-        '1970-01-01T00:00:00.000Z';
-    final examCursor = await _dbService.getSyncCursor('exam_submission') ?? '';
-    final wrongCursor = await _dbService.getSyncCursor('wrong_question') ?? '';
+        await _dbService.getSyncCursor(SupabaseConfig.entityReviewLog) ??
+        SupabaseConfig.initialSyncCursorEpoch;
+    final examCursor =
+        await _dbService.getSyncCursor(SupabaseConfig.entityExamSubmission) ??
+        '';
+    final wrongCursor =
+        await _dbService.getSyncCursor(SupabaseConfig.entityWrongQuestion) ?? '';
 
     final cursorsPayload = {
-      'deck': deckCursor,
-      'card': cardCursor,
-      'grammar_progress': grammarCursor,
-      'review_log': revlogCursor,
-      'exam_submission': examCursor,
-      'wrong_question': wrongCursor,
+      SupabaseConfig.entityDeck: deckCursor,
+      SupabaseConfig.entityCard: cardCursor,
+      SupabaseConfig.entityGrammarProgress: grammarCursor,
+      SupabaseConfig.entityReviewLog: revlogCursor,
+      SupabaseConfig.entityExamSubmission: examCursor,
+      SupabaseConfig.entityWrongQuestion: wrongCursor,
     };
 
     final response = await _client.rpc(
-      'sync_pull_deltas',
-      params: {'cursors': cursorsPayload, 'batch_limit': batchLimit},
+      SupabaseConfig.rpcPullDeltas,
+      params: {
+        SupabaseConfig.paramCursors: cursorsPayload,
+        SupabaseConfig.paramBatchLimit: batchLimit,
+      },
     );
 
     final respMap = response is Map<String, dynamic>
@@ -233,7 +242,7 @@ class SupabaseSyncEngine {
           .map((d) => d['updated_at_hlc'] as String? ?? '')
           .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
       if (maxHlc.isNotEmpty) {
-        await _dbService.setSyncCursor('deck', maxHlc);
+        await _dbService.setSyncCursor(SupabaseConfig.entityDeck, maxHlc);
       }
     }
 
@@ -242,7 +251,7 @@ class SupabaseSyncEngine {
           .map((c) => c['updated_at_hlc'] as String? ?? '')
           .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
       if (maxHlc.isNotEmpty) {
-        await _dbService.setSyncCursor('card', maxHlc);
+        await _dbService.setSyncCursor(SupabaseConfig.entityCard, maxHlc);
       }
     }
 
@@ -251,7 +260,10 @@ class SupabaseSyncEngine {
           .map((g) => g['updated_at_hlc'] as String? ?? '')
           .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
       if (maxHlc.isNotEmpty) {
-        await _dbService.setSyncCursor('grammar_progress', maxHlc);
+        await _dbService.setSyncCursor(
+          SupabaseConfig.entityGrammarProgress,
+          maxHlc,
+        );
       }
     }
 
@@ -260,7 +272,10 @@ class SupabaseSyncEngine {
           .map((r) => r['review_time'] as String? ?? '')
           .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
       if (maxReviewTime.isNotEmpty) {
-        await _dbService.setSyncCursor('review_log', maxReviewTime);
+        await _dbService.setSyncCursor(
+          SupabaseConfig.entityReviewLog,
+          maxReviewTime,
+        );
       }
     }
 
@@ -269,7 +284,10 @@ class SupabaseSyncEngine {
           .map((s) => s['updated_at_hlc'] as String? ?? '')
           .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
       if (maxHlc.isNotEmpty) {
-        await _dbService.setSyncCursor('exam_submission', maxHlc);
+        await _dbService.setSyncCursor(
+          SupabaseConfig.entityExamSubmission,
+          maxHlc,
+        );
       }
     }
 
@@ -278,7 +296,10 @@ class SupabaseSyncEngine {
           .map((w) => w['updated_at_hlc'] as String? ?? '')
           .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
       if (maxHlc.isNotEmpty) {
-        await _dbService.setSyncCursor('wrong_question', maxHlc);
+        await _dbService.setSyncCursor(
+          SupabaseConfig.entityWrongQuestion,
+          maxHlc,
+        );
       }
     }
 
@@ -299,10 +320,17 @@ class SupabaseSyncEngine {
   }) async {
     try {
       final params = <String, dynamic>{};
-      if (category != null) params['p_category'] = category.code;
-      if (level != null) params['p_level'] = level;
+      if (category != null) {
+        params[SupabaseConfig.paramCategory] = category.code;
+      }
+      if (level != null) {
+        params[SupabaseConfig.paramLevel] = level;
+      }
 
-      final response = await _client.rpc('fetch_exam_catalog', params: params);
+      final response = await _client.rpc(
+        SupabaseConfig.rpcFetchExamCatalog,
+        params: params,
+      );
 
       final list = (response as List<dynamic>?) ?? [];
       final papers = list.map((item) {
@@ -323,8 +351,8 @@ class SupabaseSyncEngine {
   /// Downloads full questions & sections for an exam paper on-demand and saves into SQLite.
   Future<ExamPaperModel> downloadExamPaperOffline(String examId) async {
     final response = await _client.rpc(
-      'download_exam_paper',
-      params: {'p_exam_id': examId},
+      SupabaseConfig.rpcDownloadExamPaper,
+      params: {SupabaseConfig.paramExamId: examId},
     );
 
     final respMap = response is Map<String, dynamic>

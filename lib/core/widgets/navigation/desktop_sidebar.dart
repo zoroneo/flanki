@@ -23,7 +23,7 @@ class DesktopSidebar extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      width: 240,
+      width: AppDimensions.sidebarWidth,
       decoration: BoxDecoration(color: theme.colorScheme.background),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,8 +50,8 @@ class DesktopSidebar extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 36,
-            height: 36,
+            width: AppDimensions.brandIconDesktop,
+            height: AppDimensions.brandIconDesktop,
             decoration: BoxDecoration(
               color: theme.colorScheme.primary,
               borderRadius: AppRadius.borderMd,
@@ -98,9 +98,9 @@ class DesktopSidebar extends StatelessWidget {
             activeIcon: LucideIcons.layers2,
             label: l10n.navDecks,
             shortcutHint: 'Ctrl+1',
-            isSelected: currentIndex == 0,
+            isSelected: currentIndex == AppNavIndex.decks,
             badgeCount: totalDue > 0 ? totalDue : null,
-            onTap: () => onSelectTab(0),
+            onTap: () => onSelectTab(AppNavIndex.decks),
           ),
           AppGaps.v4,
           SidebarNavItem(
@@ -108,8 +108,8 @@ class DesktopSidebar extends StatelessWidget {
             activeIcon: LucideIcons.fileSearch,
             label: l10n.navBrowser,
             shortcutHint: 'Ctrl+2',
-            isSelected: currentIndex == 1,
-            onTap: () => onSelectTab(1),
+            isSelected: currentIndex == AppNavIndex.browser,
+            onTap: () => onSelectTab(AppNavIndex.browser),
           ),
           AppGaps.v4,
           SidebarNavItem(
@@ -117,8 +117,8 @@ class DesktopSidebar extends StatelessWidget {
             activeIcon: LucideIcons.bookOpen,
             label: l10n.navGrammar,
             shortcutHint: 'Ctrl+3',
-            isSelected: currentIndex == 2,
-            onTap: () => onSelectTab(2),
+            isSelected: currentIndex == AppNavIndex.grammar,
+            onTap: () => onSelectTab(AppNavIndex.grammar),
           ),
           AppGaps.v4,
           SidebarNavItem(
@@ -126,8 +126,8 @@ class DesktopSidebar extends StatelessWidget {
             activeIcon: LucideIcons.graduationCap,
             label: l10n.navExams,
             shortcutHint: 'Ctrl+4',
-            isSelected: currentIndex == 3,
-            onTap: () => onSelectTab(3),
+            isSelected: currentIndex == AppNavIndex.exams,
+            onTap: () => onSelectTab(AppNavIndex.exams),
           ),
           AppGaps.v4,
           SidebarNavItem(
@@ -135,8 +135,8 @@ class DesktopSidebar extends StatelessWidget {
             activeIcon: LucideIcons.chartNoAxesCombined,
             label: l10n.navStats,
             shortcutHint: 'Ctrl+5',
-            isSelected: currentIndex == 4,
-            onTap: () => onSelectTab(4),
+            isSelected: currentIndex == AppNavIndex.stats,
+            onTap: () => onSelectTab(AppNavIndex.stats),
           ),
           AppGaps.v4,
           SidebarNavItem(
@@ -144,9 +144,9 @@ class DesktopSidebar extends StatelessWidget {
             activeIcon: LucideIcons.settings2,
             label: l10n.navSettings,
             shortcutHint: 'Ctrl+6',
-            isSelected: currentIndex == 5,
-            indicatorColor: isAuthenticated ? m.Colors.green : null,
-            onTap: () => onSelectTab(5),
+            isSelected: currentIndex == AppNavIndex.settings,
+            indicatorColor: isAuthenticated ? AppColors.success : null,
+            onTap: () => onSelectTab(AppNavIndex.settings),
           ),
         ],
       ),
@@ -168,11 +168,11 @@ class DesktopSidebar extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: AppSpacing.sm,
-              height: AppSpacing.sm,
+              width: AppDimensions.statusDotSize,
+              height: AppDimensions.statusDotSize,
               decoration: BoxDecoration(
                 color: isAuthenticated
-                    ? m.Colors.green
+                    ? AppColors.success
                     : theme.colorScheme.mutedForeground,
                 shape: BoxShape.circle,
               ),
@@ -191,7 +191,7 @@ class DesktopSidebar extends StatelessWidget {
                   Text(
                     isAuthenticated ? l10n.connected : l10n.offlineMode,
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: AppTypography.caption,
                       color: theme.colorScheme.mutedForeground,
                     ),
                   ),
@@ -274,7 +274,7 @@ class SidebarNavItem extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          fontSize: 13,
+          fontSize: AppTypography.nav,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
           color: isSelected
               ? theme.colorScheme.foreground
@@ -295,10 +295,12 @@ class SidebarNavItem extends StatelessWidget {
         borderRadius: AppRadius.borderFull,
       ),
       child: Text(
-        badgeCount! > 99 ? '99+' : '$badgeCount',
+        badgeCount! > AppLimits.badgeMaxCount
+            ? AppLimits.badgeOverflowText
+            : '$badgeCount',
         style: const TextStyle(
           color: m.Colors.white,
-          fontSize: 10,
+          fontSize: AppTypography.caption,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -311,7 +313,7 @@ class SidebarNavItem extends StatelessWidget {
       child: Text(
         shortcutHint!,
         style: TextStyle(
-          fontSize: 10,
+          fontSize: AppTypography.caption,
           color: theme.colorScheme.mutedForeground,
         ),
       ),
@@ -320,8 +322,8 @@ class SidebarNavItem extends StatelessWidget {
 
   Widget _buildIndicator() {
     return Container(
-      width: 6,
-      height: 6,
+      width: AppDimensions.indicatorDotSize,
+      height: AppDimensions.indicatorDotSize,
       margin: const EdgeInsets.only(left: 6),
       decoration: BoxDecoration(color: indicatorColor, shape: BoxShape.circle),
     );

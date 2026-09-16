@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/app_config.dart';
 import '../../../core/database/database_service.dart';
 import '../../../core/sync/supabase_sync_engine.dart';
 import '../models/exam_models.dart';
@@ -100,7 +101,7 @@ class ExamRepository {
     final targetBundle = bundle ?? rootBundle;
     try {
       final jsonStr = await targetBundle.loadString(
-        'assets/data/exams/jlpt_n3_mock_01.json',
+        AppConfig.sampleMockExamAssetPath,
       );
       final data = jsonDecode(jsonStr) as Map<String, dynamic>;
       final paper = ExamPaperModel.fromJson(
@@ -123,7 +124,7 @@ class ExamRepository {
     } catch (_) {
       // In headless test environments where rootBundle is unavailable, load from file system directly
       try {
-        final file = File('assets/data/exams/jlpt_n3_mock_01.json');
+        final file = File(AppConfig.sampleMockExamAssetPath);
         if (file.existsSync()) {
           final jsonStr = await file.readAsString();
           final data = jsonDecode(jsonStr) as Map<String, dynamic>;

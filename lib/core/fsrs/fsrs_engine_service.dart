@@ -1,4 +1,4 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:fsrs/fsrs.dart' as fsrs;
 
@@ -8,10 +8,21 @@ import '../models/card.dart';
 
 /// Service wrapping package:fsrs to manage spaced repetition scheduling.
 class FsrsEngineService {
+  static const int minutesPerHour = 60;
+  static const int hoursPerDay = 24;
+  static const int daysPerMonth = 30;
+  static const int daysPerYear = 365;
+
+  static const int minIntervalDays = 1;
+  static const int fallbackAgainMinutes = 10;
+  static const int fallbackHardIntervalDays = 1;
+  static const int fallbackGoodIntervalDays = 4;
+  static const int fallbackEasyIntervalDays = 12;
+
   final fsrs.Scheduler scheduler;
 
   FsrsEngineService({
-    double desiredRetention = 0.9,
+    double desiredRetention = AppConfig.defaultDesiredRetention,
     bool enableFuzzing = false, // deterministic intervals for UI preview
   }) : scheduler = fsrs.Scheduler(
          desiredRetention: desiredRetention,
@@ -85,7 +96,7 @@ class FsrsEngineService {
 
     final newCard = outcome.card;
     final intervalDuration = newCard.due.difference(now);
-    final intervalDays = math.max(1, intervalDuration.inDays);
+    final intervalDays = math.max(minIntervalDays, intervalDuration.inDays);
 
     final isAgain = ratingEnum == ReviewRating.again;
 
@@ -105,23 +116,23 @@ class FsrsEngineService {
   /// Formats a duration into Anki-style interval strings: < 10m, 1d, 4d, 1.2m, etc.
   static String formatInterval(Duration duration, {AppLocalizations? l10n}) {
     final resL10n = l10n ?? _defaultL10n();
-    if (duration.inMinutes < 60) {
+    if (duration.inMinutes < minutesPerHour) {
       final mins = duration.inMinutes <= 1 ? 1 : duration.inMinutes;
       return resL10n.intervalMinutes(mins);
-    } else if (duration.inHours < 24) {
+    } else if (duration.inHours < hoursPerDay) {
       final hours = duration.inHours;
       return resL10n.intervalHours(hours);
-    } else if (duration.inDays < 30) {
+    } else if (duration.inDays < daysPerMonth) {
       final days = duration.inDays;
       return resL10n.intervalDays(days);
-    } else if (duration.inDays < 365) {
-      final months = (duration.inDays / 30).toStringAsFixed(1);
+    } else if (duration.inDays < daysPerYear) {
+      final months = (duration.inDays / daysPerMonth).toStringAsFixed(1);
       final clean = months.endsWith('.0')
           ? months.substring(0, months.length - 2)
           : months;
       return resL10n.intervalMonths(clean);
     } else {
-      final years = (duration.inDays / 365).toStringAsFixed(1);
+      final years = (duration.inDays / daysPerYear).toStringAsFixed(1);
       final clean = years.endsWith('.0')
           ? years.substring(0, years.length - 2)
           : years;
@@ -136,13 +147,13 @@ class FsrsEngineService {
     final resL10n = l10n ?? _defaultL10n();
     switch (rating) {
       case ReviewRating.again:
-        return '< ${resL10n.intervalMinutes(10)}';
+        return '< ${resL10n.intervalMinutes(fallbackAgainMinutes)}';
       case ReviewRating.hard:
-        return resL10n.intervalDays(1);
+        return resL10n.intervalDays(fallbackHardIntervalDays);
       case ReviewRating.good:
-        return resL10n.intervalDays(4);
+        return resL10n.intervalDays(fallbackGoodIntervalDays);
       case ReviewRating.easy:
-        return resL10n.intervalDays(12);
+        return resL10n.intervalDays(fallbackEasyIntervalDays);
     }
   }
 }

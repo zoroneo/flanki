@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
+import '../../theme/app_tokens.dart';
+
 /// Reusable widget that applies a smooth damped horizontal shake animation
 /// (inspired by Duolingo error feedback).
 class ShakeAnimation extends StatefulWidget {
@@ -16,7 +18,7 @@ class ShakeAnimation extends StatefulWidget {
     required this.child,
     this.trigger = false,
     this.shakeOffset = 8.0,
-    this.duration = const Duration(milliseconds: 360),
+    this.duration = AppDurations.shake,
     this.onComplete,
   });
 

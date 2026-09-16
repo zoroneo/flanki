@@ -58,8 +58,8 @@ class LicenseCodeBlock extends StatelessWidget {
           SelectableText(
             licenseText,
             style: TextStyle(
-              fontFamily: 'JetBrainsMono',
-              fontSize: 11,
+              fontFamily: AppTypography.fontFamilyMono,
+              fontSize: AppTypography.sub,
               height: 1.45,
               color: theme.colorScheme.foreground.withValues(alpha: 0.88),
             ),

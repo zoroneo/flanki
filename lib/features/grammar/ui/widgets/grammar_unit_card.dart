@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 import '../../models/grammar_models.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
@@ -200,7 +201,7 @@ class GrammarUnitCard extends StatelessWidget {
   ) {
     final theoryButton = OutlineButton(
       size: ButtonSize.small,
-      onPressed: () => context.push('/grammar/${unit.unitId}/theory'),
+      onPressed: () => context.push(AppRoutes.grammarTheory(unit.unitId)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -220,7 +221,7 @@ class GrammarUnitCard extends StatelessWidget {
 
     final practiceButton = PrimaryButton(
       size: ButtonSize.small,
-      onPressed: () => context.push('/grammar/${unit.unitId}/practice'),
+      onPressed: () => context.push(AppRoutes.grammarPractice(unit.unitId)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

@@ -5,6 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Lightweight retry interceptor supporting exponential backoff for transient network errors.
 class RetryInterceptor extends Interceptor {
+  static const int defaultMaxRetries = 3;
+  static const Duration defaultInitialDelay = Duration(seconds: 1);
+  static const double defaultBackoffMultiplier = 2.0;
+  static const List<int> defaultRetryStatusCodes = [502, 503, 504];
+
   final Dio dio;
   final int maxRetries;
   final Duration initialDelay;
@@ -13,10 +18,10 @@ class RetryInterceptor extends Interceptor {
 
   RetryInterceptor({
     required this.dio,
-    this.maxRetries = 3,
-    this.initialDelay = const Duration(seconds: 1),
-    this.backoffMultiplier = 2.0,
-    this.retryStatusCodes = const [502, 503, 504],
+    this.maxRetries = defaultMaxRetries,
+    this.initialDelay = defaultInitialDelay,
+    this.backoffMultiplier = defaultBackoffMultiplier,
+    this.retryStatusCodes = defaultRetryStatusCodes,
   });
 
   @override
@@ -78,10 +83,14 @@ class RetryInterceptor extends Interceptor {
 class DioClient {
   const DioClient._();
 
+  static const Duration defaultConnectTimeout = Duration(seconds: 15);
+  static const Duration defaultReceiveTimeout = Duration(seconds: 60);
+  static const Duration defaultSendTimeout = Duration(seconds: 60);
+
   static Dio createDefaultDio({
-    Duration connectTimeout = const Duration(seconds: 15),
-    Duration receiveTimeout = const Duration(seconds: 60),
-    Duration sendTimeout = const Duration(seconds: 60),
+    Duration connectTimeout = defaultConnectTimeout,
+    Duration receiveTimeout = defaultReceiveTimeout,
+    Duration sendTimeout = defaultSendTimeout,
     bool enableRetry = true,
   }) {
     final dio = Dio(

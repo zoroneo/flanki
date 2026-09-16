@@ -74,17 +74,22 @@ class DesktopUpdateService {
   static Future<bool> openUrl(String url) async {
     try {
       if (Platform.isWindows) {
-        await Process.run('cmd', ['/c', 'start', '', url]);
+        await Process.run(AppConfig.cliCmd, [
+          ...AppConfig.cliCmdStartArgs,
+          url,
+        ]);
         return true;
       } else if (Platform.isMacOS) {
-        await Process.run('open', [url]);
+        await Process.run(AppConfig.cliOpen, [url]);
         return true;
       } else if (Platform.isLinux) {
-        await Process.run('xdg-open', [url]);
+        await Process.run(AppConfig.cliXdgOpen, [url]);
         return true;
       } else if (Platform.isAndroid) {
-        const channel = MethodChannel('com.flanki.flanki/app_updater');
-        await channel.invokeMethod('openUrl', {'url': url});
+        const channel = MethodChannel(AppConfig.appUpdaterMethodChannel);
+        await channel.invokeMethod(AppConfig.methodOpenUrl, {
+          AppConfig.paramUrl: url,
+        });
         return true;
       }
     } catch (_) {}
@@ -105,27 +110,30 @@ class DesktopUpdateService {
 
       switch (platform) {
         case AppPlatform.windows:
-          if (name.endsWith('.exe') ||
-              name.endsWith('.msi') ||
-              (name.contains('win') && name.endsWith('.zip'))) {
+          if (name.endsWith(AppConfig.extExe) ||
+              name.endsWith(AppConfig.extMsi) ||
+              (name.contains(AppConfig.tokenWin) &&
+                  name.endsWith(AppConfig.extZip))) {
             return asset;
           }
           break;
         case AppPlatform.macos:
-          if (name.endsWith('.dmg') ||
-              (name.contains('mac') && name.endsWith('.zip'))) {
+          if (name.endsWith(AppConfig.extDmg) ||
+              (name.contains(AppConfig.tokenMac) &&
+                  name.endsWith(AppConfig.extZip))) {
             return asset;
           }
           break;
         case AppPlatform.linux:
-          if (name.endsWith('.appimage') ||
-              name.endsWith('.deb') ||
-              (name.contains('linux') && name.endsWith('.tar.gz'))) {
+          if (name.endsWith(AppConfig.extAppImage) ||
+              name.endsWith(AppConfig.extDeb) ||
+              (name.contains(AppConfig.tokenLinux) &&
+                  name.endsWith(AppConfig.extTarGz))) {
             return asset;
           }
           break;
         case AppPlatform.android:
-          if (name.endsWith('.apk')) {
+          if (name.endsWith(AppConfig.extApk)) {
             return asset;
           }
           break;
@@ -151,8 +159,8 @@ class DesktopUpdateService {
         url,
         options: Options(
           headers: {
-            'Accept': 'application/vnd.github+json',
-            'User-Agent': 'Flanki-Desktop-Updater',
+            'Accept': AppConfig.githubApiAcceptHeader,
+            'User-Agent': AppConfig.desktopUpdaterUserAgent,
           },
           receiveTimeout: AppConfig.updateCheckTimeout,
         ),
@@ -227,7 +235,9 @@ class DesktopUpdateService {
         downloadUrl,
         saveFile.path,
         cancelToken: token,
-        options: Options(headers: {'User-Agent': 'Flanki-Desktop-Updater'}),
+        options: Options(
+          headers: {'User-Agent': AppConfig.desktopUpdaterUserAgent},
+        ),
         onReceiveProgress: (receivedBytes, totalBytes) {
           if (totalBytes > 0 && onProgress != null) {
             onProgress(receivedBytes / totalBytes);
@@ -262,7 +272,7 @@ class DesktopUpdateService {
     try {
       final ext = p.extension(filePath).toLowerCase();
       if (Platform.isWindows) {
-        if (ext == '.exe' || ext == '.msi') {
+        if (ext == AppConfig.extExe || ext == AppConfig.extMsi) {
           // Launch installer detached so it continues after app exits
           await Process.start(
             filePath,
@@ -273,18 +283,23 @@ class DesktopUpdateService {
           exit(0);
         } else {
           // Select file in explorer for user
-          await Process.run('explorer.exe', ['/select,', filePath]);
+          await Process.run(AppConfig.cliExplorer, [
+            AppConfig.cliSelectArg,
+            filePath,
+          ]);
           return true;
         }
       } else if (Platform.isMacOS) {
-        await Process.run('open', [filePath]);
+        await Process.run(AppConfig.cliOpen, [filePath]);
         exit(0);
       } else if (Platform.isLinux) {
-        await Process.run('xdg-open', [filePath]);
+        await Process.run(AppConfig.cliXdgOpen, [filePath]);
         exit(0);
       } else if (Platform.isAndroid) {
-        const channel = MethodChannel('com.flanki.flanki/app_updater');
-        await channel.invokeMethod('installApk', {'filePath': filePath});
+        const channel = MethodChannel(AppConfig.appUpdaterMethodChannel);
+        await channel.invokeMethod(AppConfig.methodInstallApk, {
+          AppConfig.paramFilePath: filePath,
+        });
         return true;
       }
     } catch (_) {}

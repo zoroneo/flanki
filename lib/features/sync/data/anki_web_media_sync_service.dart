@@ -45,7 +45,7 @@ class MediaSyncResult {
 /// Service implementing AnkiWeb Media Sync Protocol (/msync/).
 /// Downloads media assets (images, audio) directly from AnkiWeb sync servers.
 class AnkiWebMediaSyncService {
-  static const int maxMediaFilesInZip = 25;
+  static const int maxMediaFilesInZip = AnkiWebConfig.defaultMediaBatchLimit;
 
   final Dio _dio;
   final AnkiWebConfig _config;
@@ -86,7 +86,7 @@ class AnkiWebMediaSyncService {
       });
 
       final beginRes = await _dio.post<dynamic>(
-        '${_config.syncHost}/msync/begin',
+        _config.msyncBeginUrl,
         data: beginFormData,
         cancelToken: cancelToken,
         options: Options(
@@ -115,7 +115,7 @@ class AnkiWebMediaSyncService {
       });
 
       final changesRes = await _dio.post<dynamic>(
-        '${_config.syncHost}/msync/mediaChanges',
+        _config.msyncChangesUrl,
         data: changesFormData,
         cancelToken: cancelToken,
         options: Options(
@@ -178,7 +178,7 @@ class AnkiWebMediaSyncService {
         });
 
         final downloadRes = await _dio.post<List<int>>(
-          '${_config.syncHost}/msync/downloadFiles',
+          _config.msyncDownloadUrl,
           data: downloadFormData,
           cancelToken: cancelToken,
           options: Options(

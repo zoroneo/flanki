@@ -77,9 +77,9 @@ class AudioPlayButton extends HookWidget {
           behavior: HitTestBehavior.opaque,
           onTap: handlePlay,
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            width: 28,
-            height: 28,
+            duration: AppDurations.short,
+            width: AppDimensions.audioButtonSize,
+            height: AppDimensions.audioButtonSize,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: isPlaying.value

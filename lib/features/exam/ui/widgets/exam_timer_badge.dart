@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../models/exam_models.dart';
 import '../../providers/exam_session_notifier.dart';
 
 class ExamTimerBadge extends ConsumerWidget {
@@ -15,11 +16,11 @@ class ExamTimerBadge extends ConsumerWidget {
       examSessionProvider.select((s) => s.remainingSeconds),
     );
 
-    final mins = remainingSec ~/ 60;
-    final secs = remainingSec % 60;
+    final mins = remainingSec ~/ ExamConstants.secondsPerMinute;
+    final secs = remainingSec % ExamConstants.secondsPerMinute;
     final timeStr =
         '${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
-    final isUrgent = remainingSec < 300;
+    final isUrgent = remainingSec < ExamConstants.urgentTimerSeconds;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

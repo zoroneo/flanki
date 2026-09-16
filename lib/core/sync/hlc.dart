@@ -115,7 +115,7 @@ class Hlc implements Comparable<Hlc> {
   ///
   /// Throws [FormatException] if the string format is invalid.
   factory Hlc.parse(String value) {
-    final parts = value.split('_');
+    final parts = value.split(IdHelper.hlcSeparator);
     if (parts.length < 3) {
       throw FormatException('Invalid HLC string format: $value');
     }
@@ -123,7 +123,7 @@ class Hlc implements Comparable<Hlc> {
     final isoTime = parts[0];
     final counterHex = parts[1];
     // In case nodeId contains underscores, rejoin remaining parts
-    final nodeId = parts.sublist(2).join('_');
+    final nodeId = parts.sublist(2).join(IdHelper.hlcSeparator);
 
     final parsedDate = DateTime.parse(isoTime);
     final millis = parsedDate.toUtc().millisecondsSinceEpoch;
@@ -149,8 +149,10 @@ class Hlc implements Comparable<Hlc> {
       millis,
       isUtc: true,
     ).toIso8601String();
-    final hexCounter = counter.toRadixString(16).padLeft(4, '0');
-    return '${iso}_${hexCounter}_$nodeId';
+    final hexCounter = counter
+        .toRadixString(16)
+        .padLeft(IdHelper.hlcCounterHexWidth, '0');
+    return '$iso${IdHelper.hlcSeparator}$hexCounter${IdHelper.hlcSeparator}$nodeId';
   }
 
   @override

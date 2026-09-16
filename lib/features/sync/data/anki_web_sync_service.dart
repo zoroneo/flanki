@@ -234,7 +234,7 @@ class AnkiWebSyncService {
       });
 
       final metaResponse = await _dio.post<dynamic>(
-        '${_config.syncHost}/sync/meta',
+        _config.metaUrl,
         data: metaFormData,
         cancelToken: cancelToken,
         options: Options(
@@ -264,7 +264,7 @@ class AnkiWebSyncService {
       });
 
       final downloadResponse = await _dio.post<List<int>>(
-        '${_config.syncHost}/sync/download',
+        _config.downloadUrl,
         data: downloadFormData,
         cancelToken: cancelToken,
         options: Options(
@@ -408,7 +408,7 @@ class AnkiWebSyncService {
       });
 
       final metaResponse = await _dio.post<dynamic>(
-        '${_config.syncHost}/sync/meta',
+        _config.metaUrl,
         data: metaFormData,
         cancelToken: cancelToken,
         options: Options(
@@ -538,7 +538,7 @@ class AnkiWebSyncService {
 
       onProgress?.call(_messages.uploadingCloud, 0.6);
       final response = await _dio.post<dynamic>(
-        '${_config.syncHost}/sync/upload',
+        _config.uploadUrl,
         data: uploadFormData,
         cancelToken: cancelToken,
         options: Options(

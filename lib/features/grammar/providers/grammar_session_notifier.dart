@@ -167,7 +167,9 @@ class GrammarSessionNotifier extends _$GrammarSessionNotifier {
     fsrs.State stateType;
     if (existing.reps == 0 && existing.stability == 0.0) {
       stateType = fsrs.State.learning;
-    } else if (existing.lapses > 0 && existing.stability < 1.0) {
+    } else if (existing.lapses > 0 &&
+        existing.stability <
+            GrammarConstants.fsrsLearningStabilityThreshold) {
       stateType = fsrs.State.learning;
     } else {
       stateType = fsrs.State.review;

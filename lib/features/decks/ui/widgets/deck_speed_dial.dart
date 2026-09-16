@@ -26,7 +26,7 @@ class DeckSpeedDial extends HookWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final controller = useAnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: AppDurations.normal,
     );
 
     useEffect(() {
@@ -67,21 +67,21 @@ class DeckSpeedDial extends HookWidget {
               children: [
                 SpeedDialOption(
                   icon: LucideIcons.folderPlus,
-                  iconColor: m.Colors.green,
+                  iconColor: AppColors.success,
                   label: l10n.createDeckAction,
                   onTap: onCreateDeck,
                 ),
                 AppGaps.v12,
                 SpeedDialOption(
                   icon: LucideIcons.upload,
-                  iconColor: m.Colors.blue,
+                  iconColor: AppColors.info,
                   label: l10n.importApkgAction,
                   onTap: onImportApkg,
                 ),
                 AppGaps.v12,
                 SpeedDialOption(
                   icon: LucideIcons.zap,
-                  iconColor: m.Colors.amber,
+                  iconColor: AppColors.warning,
                   label: l10n.cramAction,
                   onTap: onCram,
                 ),
@@ -98,8 +98,8 @@ class DeckSpeedDial extends HookWidget {
     return GestureDetector(
       onTap: onToggle,
       child: Container(
-        width: 56,
-        height: 56,
+        width: AppDimensions.speedDialFabSize,
+        height: AppDimensions.speedDialFabSize,
         decoration: BoxDecoration(
           color: theme.colorScheme.primary,
           shape: BoxShape.circle,
@@ -113,8 +113,8 @@ class DeckSpeedDial extends HookWidget {
         ),
         child: Center(
           child: AnimatedRotation(
-            turns: isOpen ? 0.125 : 0.0,
-            duration: const Duration(milliseconds: 200),
+            turns: isOpen ? AppThemeValues.speedDialRotationTurns : 0.0,
+            duration: AppDurations.normal,
             child: Icon(
               LucideIcons.plus,
               color: theme.colorScheme.primaryForeground,
@@ -171,7 +171,7 @@ class SpeedDialOption extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: AppTypography.nav,
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.cardForeground,
               ),
@@ -179,8 +179,8 @@ class SpeedDialOption extends StatelessWidget {
           ),
           AppGaps.h8,
           Container(
-            width: 44,
-            height: 44,
+            width: AppDimensions.speedDialOptionSize,
+            height: AppDimensions.speedDialOptionSize,
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
               shape: BoxShape.circle,

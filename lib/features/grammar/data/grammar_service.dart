@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,8 +31,7 @@ class GrammarService {
     final units = <GrammarUnit>[];
 
     for (int i = 1; i <= GrammarConstants.totalUnits; i++) {
-      final unitNum = i.toString().padLeft(2, '0');
-      final path = '${GrammarConstants.assetDir}/unit_$unitNum.json';
+      final path = GrammarConstants.unitAssetPath(i);
 
       try {
         final jsonString = await targetBundle.loadString(path);

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/app_config.dart';
 import '../data/exam_repository.dart';
 import '../models/exam_models.dart';
 import '../models/exam_session_state.dart';
@@ -51,7 +52,7 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
         questions = await _repository.getExamQuestions(examId);
       }
 
-      final durationSec = paper.durationMinutes * 60;
+      final durationSec = paper.durationMinutes * ExamConstants.secondsPerMinute;
 
       state = state.copyWith(
         isLoading: false,
@@ -148,7 +149,11 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
         } else {
           wrongList.add(
             WrongQuestionModel(
-              id: 'wrong_${q.examId}_${q.id}_${now.millisecondsSinceEpoch}',
+              id: IdHelper.wrongQuestionId(
+                q.examId,
+                q.id,
+                now.millisecondsSinceEpoch,
+              ),
               examId: q.examId,
               questionId: q.id,
               userAnswer: userAnswer ?? '',
@@ -162,7 +167,10 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
       }
 
       final submission = ExamSubmissionModel(
-        id: 'sub_${state.paper!.id}_${now.millisecondsSinceEpoch}',
+        id: IdHelper.examSubmissionId(
+          state.paper!.id,
+          now.millisecondsSinceEpoch,
+        ),
         examId: state.paper!.id,
         score: score,
         totalCorrect: totalCorrect,

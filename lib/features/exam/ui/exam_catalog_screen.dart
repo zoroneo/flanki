@@ -7,6 +7,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
+import '../../../router/app_router.dart';
 import '../models/exam_models.dart';
 import '../providers/exam_catalog_notifier.dart';
 
@@ -37,7 +38,7 @@ class ExamCatalogScreen extends HookConsumerWidget {
           trailing: [
             OutlineButton(
               size: ButtonSize.small,
-              onPressed: () => context.push('/exams/wrong-notebook'),
+              onPressed: () => context.push(AppRoutes.wrongNotebook),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -283,7 +284,7 @@ class ExamCatalogScreen extends HookConsumerWidget {
                 PrimaryButton(
                   alignment: Alignment.center,
                   size: ButtonSize.small,
-                  onPressed: () => context.push('/exams/${paper.id}/taking'),
+                  onPressed: () => context.push(AppRoutes.examTaking(paper.id)),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

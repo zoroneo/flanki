@@ -44,10 +44,14 @@ class ApkgImporterService {
     final sampleBytes = await file.openRead(0, 16).first;
     if (sampleBytes.length >= 16 &&
         utf8.decode(sampleBytes.sublist(0, 15), allowMalformed: true) ==
-            'SQLite format 3') {
+            AppConfig.sqliteHeaderMarker) {
       await DatabaseService.instance.saveSyncTemplateFile(file);
-      final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
-      final tempDbFile = File('${tempDir.path}/collection.anki2');
+      final tempDir = Directory.systemTemp.createTempSync(
+        AppConfig.tempApkgPrefix,
+      );
+      final tempDbFile = File(
+        '${tempDir.path}/${AppConfig.anki2DbFileName}',
+      );
       await file.copy(tempDbFile.path);
       return _parseWithExistingDbFile(
         tempDbFile,
@@ -66,9 +70,10 @@ class ApkgImporterService {
 
     for (final f in archive) {
       archiveFilesMap[f.name] = f;
-      if (f.name == 'collection.anki2' || f.name == 'collection.anki21') {
+      if (f.name == AppConfig.anki2DbFileName ||
+          f.name == AppConfig.anki21DbFileName) {
         colFile = f;
-      } else if (f.name == 'media') {
+      } else if (f.name == AppConfig.ankiMediaFileName) {
         mediaFile = f;
       }
     }
@@ -257,7 +262,7 @@ class ApkgImporterService {
 
           decks.add(
             DeckModel(
-              id: 'deck-$id',
+              id: IdHelper.ankiDeckId(id),
               title: name,
               description: desc.isNotEmpty
                   ? desc
@@ -330,7 +335,8 @@ class ApkgImporterService {
           // Review card: due is day offset relative to collection creation date (crt)
           final crtDate = DateTime.fromMillisecondsSinceEpoch(colCrt * 1000);
           calculatedDue = crtDate.add(Duration(days: dueRaw));
-        } else if (dueRaw != null && dueRaw > 1000000000) {
+        } else if (dueRaw != null &&
+            dueRaw > AppConfig.ankiDueEpochThreshold) {
           // Learning card: epoch timestamp in seconds
           calculatedDue = DateTime.fromMillisecondsSinceEpoch(dueRaw * 1000);
         } else if (reps == 0 || (cardType != null && cardType == 0)) {
@@ -380,9 +386,12 @@ class ApkgImporterService {
 
         // Hint: take third field if non-empty, or null
         final hint =
-            noteData.flds.length > 2 && noteData.flds[2].trim().isNotEmpty
-            ? noteData.flds[2].trim()
-            : null;
+            noteData.flds.length > AppConfig.ankiDefaultHintFieldIndex &&
+                    noteData.flds[AppConfig.ankiDefaultHintFieldIndex]
+                        .trim()
+                        .isNotEmpty
+                ? noteData.flds[AppConfig.ankiDefaultHintFieldIndex].trim()
+                : null;
 
         // Tags separated by space
         final tags = noteData.tags
@@ -390,17 +399,17 @@ class ApkgImporterService {
             .where((t) => t.isNotEmpty)
             .toList();
 
-        final deckId = 'deck-$did';
+        final deckId = IdHelper.ankiDeckId(did);
 
         // Anki note type detection (Cloze contains {{c1::...}})
         final isCloze =
-            front.contains('cloze') ||
-            noteData.flds.any((f) => f.contains('{{c'));
+            front.contains(AppConfig.clozeTypeMarker) ||
+            noteData.flds.any((f) => f.contains(AppConfig.clozeDeletionTag));
         final noteType = isCloze ? NoteType.cloze : NoteType.basic;
 
         cards.add(
           CardModel(
-            id: 'c_$cid',
+            id: IdHelper.ankiCardId(cid),
             deckId: deckId,
             front: front,
             back: back,
@@ -458,7 +467,7 @@ class ApkgImporterService {
           reviewLogs.add(
             ReviewLogModel(
               id: id,
-              cardId: 'c_$cid',
+              cardId: IdHelper.ankiCardId(cid),
               rating: rating,
               reviewTime: reviewTime,
               scheduledDays: ivl,

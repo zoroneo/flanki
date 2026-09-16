@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
 import 'card_browser_list_item.dart';
@@ -76,7 +77,7 @@ class BrowserMobileLayout extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   HapticFeedback.lightImpact();
-                  context.push('/editor');
+                  context.push(AppRoutes.editor);
                 },
                 child: Container(
                   width: 52,

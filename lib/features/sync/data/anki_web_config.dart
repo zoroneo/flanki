@@ -12,6 +12,18 @@ class AnkiWebConfig {
   static const String userAgent = defaultUserAgent;
   static const int protocolVersion = 10;
 
+  /// Default batch size of media files requested per zip download.
+  static const int defaultMediaBatchLimit = 25;
+
+  /// AnkiWeb sync and media sync endpoint paths.
+  static const String endpointHostKey = '/sync/hostKey';
+  static const String endpointMeta = '/sync/meta';
+  static const String endpointDownload = '/sync/download';
+  static const String endpointUpload = '/sync/upload';
+  static const String endpointMsyncBegin = '/msync/begin';
+  static const String endpointMsyncChanges = '/msync/mediaChanges';
+  static const String endpointMsyncDownload = '/msync/downloadFiles';
+
   static const Duration defaultAuthTimeout = Duration(seconds: 15);
   static const Duration defaultMetaTimeout = Duration(seconds: 15);
   static const Duration defaultDownloadTimeout = Duration(seconds: 30);
@@ -63,4 +75,13 @@ class AnkiWebConfig {
   Duration get effectiveUploadTimeout => customUploadTimeout;
   String get effectiveClientVersion => customClientVersion ?? clientVersion;
   String get effectiveUserAgent => customUserAgent ?? userAgent;
+
+  // Fully resolved URL endpoints
+  String get hostKeyUrl => '$syncHost$endpointHostKey';
+  String get metaUrl => '$syncHost$endpointMeta';
+  String get downloadUrl => '$syncHost$endpointDownload';
+  String get uploadUrl => '$syncHost$endpointUpload';
+  String get msyncBeginUrl => '$syncHost$endpointMsyncBegin';
+  String get msyncChangesUrl => '$syncHost$endpointMsyncChanges';
+  String get msyncDownloadUrl => '$syncHost$endpointMsyncDownload';
 }

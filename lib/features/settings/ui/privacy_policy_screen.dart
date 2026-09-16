@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
+import '../../../router/app_router.dart';
 
 class PrivacyPolicyScreen extends HookWidget {
   const PrivacyPolicyScreen({super.key});
@@ -23,7 +24,7 @@ class PrivacyPolicyScreen extends HookWidget {
                 if (context.canPop()) {
                   context.pop();
                 } else {
-                  context.go('/settings');
+                  context.go(AppRoutes.settings);
                 }
               },
             ),

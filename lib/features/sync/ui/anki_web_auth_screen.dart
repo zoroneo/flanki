@@ -3,6 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
+import '../../../router/app_router.dart';
 import 'anki_web_auth_sheet.dart';
 
 class AnkiWebAuthScreen extends StatelessWidget {
@@ -23,7 +24,7 @@ class AnkiWebAuthScreen extends StatelessWidget {
                 if (context.canPop()) {
                   context.pop();
                 } else {
-                  context.go('/decks');
+                  context.go(AppRoutes.decks);
                 }
               },
             ),

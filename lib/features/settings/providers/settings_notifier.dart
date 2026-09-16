@@ -9,16 +9,16 @@ export '../models/settings_state.dart';
 
 part 'settings_notifier.g.dart';
 
-const String _kFsrsEnabledKey = 'settings_fsrs_enabled';
-const String _kDesiredRetentionKey = 'settings_desired_retention';
-const String _kNewCardsPerDayKey = 'settings_new_cards_per_day';
-const String _kMaxReviewsPerDayKey = 'settings_max_reviews_per_day';
-const String _kReminderEnabledKey = 'settings_reminder_enabled';
-const String _kReminderHourKey = 'settings_reminder_hour';
-const String _kReminderMinuteKey = 'settings_reminder_minute';
-const String _kStreakSaverEnabledKey = 'settings_streak_saver_enabled';
-const String _kMinimizeToTrayKey = 'settings_minimize_to_tray';
-const String _kLaunchAtStartupKey = 'settings_launch_at_startup';
+const String _kFsrsEnabledKey = AppConfig.storageKeyFsrsEnabled;
+const String _kDesiredRetentionKey = AppConfig.storageKeyDesiredRetention;
+const String _kNewCardsPerDayKey = AppConfig.storageKeyNewCardsPerDay;
+const String _kMaxReviewsPerDayKey = AppConfig.storageKeyMaxReviewsPerDay;
+const String _kReminderEnabledKey = AppConfig.storageKeyReminderEnabled;
+const String _kReminderHourKey = AppConfig.storageKeyReminderHour;
+const String _kReminderMinuteKey = AppConfig.storageKeyReminderMinute;
+const String _kStreakSaverEnabledKey = AppConfig.storageKeyStreakSaverEnabled;
+const String _kMinimizeToTrayKey = AppConfig.storageKeyMinimizeToTray;
+const String _kLaunchAtStartupKey = AppConfig.storageKeyLaunchAtStartup;
 
 @Riverpod(keepAlive: true, name: 'studySettingsProvider')
 class StudySettingsNotifier extends _$StudySettingsNotifier {
@@ -89,7 +89,10 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
   }
 
   Future<void> setDesiredRetention(double retention) async {
-    final clamped = retention.clamp(0.70, 0.97);
+    final clamped = retention.clamp(
+      AppConfig.minDesiredRetention,
+      AppConfig.maxDesiredRetention,
+    );
     state = state.copyWith(desiredRetention: clamped);
     try {
       await _storage.write(
@@ -100,7 +103,10 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
   }
 
   Future<void> setNewCardsPerDay(int count) async {
-    final clamped = count.clamp(1, 200);
+    final clamped = count.clamp(
+      AppConfig.minNewCardsPerDay,
+      AppConfig.maxNewCardsPerDay,
+    );
     state = state.copyWith(newCardsPerDay: clamped);
     try {
       await _storage.write(key: _kNewCardsPerDayKey, value: clamped.toString());
@@ -108,7 +114,10 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
   }
 
   Future<void> setMaxReviewsPerDay(int count) async {
-    final clamped = count.clamp(5, 1000);
+    final clamped = count.clamp(
+      AppConfig.minReviewsPerDay,
+      AppConfig.maxReviewsPerDay,
+    );
     state = state.copyWith(maxReviewsPerDay: clamped);
     try {
       await _storage.write(

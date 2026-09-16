@@ -174,7 +174,9 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
         const SingleActivator(LogicalKeyboardKey.space): () =>
             notifier.nextQuestion(),
       } else if (currentExercise?.type != GrammarExerciseType.cloze) ...{
-        if (currentExercise != null && currentExercise.options.length >= 4) ...{
+        if (currentExercise != null &&
+            currentExercise.options.length >=
+                GrammarConstants.standardChoiceOptionCount) ...{
           const SingleActivator(LogicalKeyboardKey.digit1): () {
             notifier.selectAnswer(currentExercise.options[0]);
             notifier.submitAnswer();

@@ -52,7 +52,7 @@ class DeckNotifier extends _$DeckNotifier {
   void createCramDeck({
     required String name,
     required String filterTag,
-    int cardLimit = 20,
+    int cardLimit = AppConfig.defaultCramLimit,
     CustomStudyMode mode = CustomStudyMode.byTag,
     String? title,
     String? description,
@@ -69,7 +69,11 @@ class DeckNotifier extends _$DeckNotifier {
     final cramTitle = title ?? _defaultCramTitle(name, filterTag);
 
     final cramDeck = DeckModel(
-      id: 'cram_${mode.value}_${encodedTag}_${cardLimit}_${DateTime.now().millisecondsSinceEpoch}',
+      id: IdHelper.cramDeckId(
+        mode: mode.value,
+        encodedTag: encodedTag,
+        cardLimit: cardLimit,
+      ),
       title: cramTitle,
       description: description ?? _defaultCramDescription(),
       dueCount: count,

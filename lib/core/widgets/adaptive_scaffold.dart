@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../localization/locale_notifier.dart';
+import '../theme/app_tokens.dart';
 import '../../features/decks/providers/deck_notifier.dart';
 import '../../features/browser/providers/card_browser_notifier.dart';
 import '../../features/exam/providers/exam_catalog_notifier.dart';
@@ -21,13 +22,13 @@ class AdaptiveScaffold extends HookConsumerWidget {
 
   void _onTap(int index, WidgetRef ref) {
     HapticFeedback.selectionClick();
-    if (index == 0) {
+    if (index == AppNavIndex.decks) {
       ref.read(deckListProvider.notifier).refresh();
-    } else if (index == 1) {
+    } else if (index == AppNavIndex.browser) {
       ref.read(cardBrowserProvider.notifier).refresh();
-    } else if (index == 3) {
+    } else if (index == AppNavIndex.exams) {
       ref.read(examCatalogProvider.notifier).loadCatalog();
-    } else if (index == 4) {
+    } else if (index == AppNavIndex.stats) {
       ref.read(statsNotifierProvider.notifier).refresh();
     }
     navigationShell.goBranch(
@@ -86,17 +87,17 @@ class AdaptiveScaffold extends HookConsumerWidget {
   Map<ShortcutActivator, VoidCallback> _buildKeyboardShortcuts(WidgetRef ref) {
     return <ShortcutActivator, VoidCallback>{
       const SingleActivator(LogicalKeyboardKey.digit1, control: true): () =>
-          _onTap(0, ref),
+          _onTap(AppNavIndex.decks, ref),
       const SingleActivator(LogicalKeyboardKey.digit2, control: true): () =>
-          _onTap(1, ref),
+          _onTap(AppNavIndex.browser, ref),
       const SingleActivator(LogicalKeyboardKey.digit3, control: true): () =>
-          _onTap(2, ref),
+          _onTap(AppNavIndex.grammar, ref),
       const SingleActivator(LogicalKeyboardKey.digit4, control: true): () =>
-          _onTap(3, ref),
+          _onTap(AppNavIndex.exams, ref),
       const SingleActivator(LogicalKeyboardKey.digit5, control: true): () =>
-          _onTap(4, ref),
+          _onTap(AppNavIndex.stats, ref),
       const SingleActivator(LogicalKeyboardKey.digit6, control: true): () =>
-          _onTap(5, ref),
+          _onTap(AppNavIndex.settings, ref),
     };
   }
 

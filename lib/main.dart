@@ -13,6 +13,7 @@ import 'core/localization/shadcn_localizations_vi.dart';
 import 'core/services/desktop_window_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/sync/sync_replicator.dart';
+import 'core/theme/app_tokens.dart';
 import 'core/theme/theme_notifier.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'router/app_router.dart';
@@ -25,7 +26,11 @@ import 'core/services/card_audio_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
-    const ScreenBreakpoints(desktop: 1024, tablet: 600, watch: 200),
+    const ScreenBreakpoints(
+      desktop: AppConfig.desktopBreakpoint,
+      tablet: AppConfig.tabletBreakpoint,
+      watch: AppConfig.watchBreakpoint,
+    ),
   );
   LicenseRegistry.addLicense(() async* {
     yield const LicenseEntryWithLineBreaks(
@@ -88,7 +93,7 @@ void _initSecondaryServices() {
   if (DesktopWindowService.isDesktop) {
     DesktopWindowService.instance.init(
       onOpenStudy: () {
-        rootNavigatorKey.currentContext?.go('/decks');
+        rootNavigatorKey.currentContext?.go(AppRoutes.decks);
       },
     );
   }
@@ -114,27 +119,27 @@ class FlankiApp extends ConsumerWidget {
     final themeMode = ref.watch(themeNotifierProvider);
 
     const baseTextStyle = TextStyle(
-      fontFamily: 'BeVietnamPro',
-      height: 1.35,
+      fontFamily: AppTypography.fontFamilySans,
+      height: AppTypography.lineHeightNormal,
       leadingDistribution: TextLeadingDistribution.even,
     );
 
     const monoTextStyle = TextStyle(
-      fontFamily: 'JetBrainsMono',
-      height: 1.35,
+      fontFamily: AppTypography.fontFamilyMono,
+      height: AppTypography.lineHeightNormal,
       leadingDistribution: TextLeadingDistribution.even,
     );
 
     final typography = const Typography.geist().copyWith(
       sans: () => baseTextStyle,
       mono: () => monoTextStyle,
-      xSmall: () => baseTextStyle.copyWith(fontSize: 12),
-      small: () => baseTextStyle.copyWith(fontSize: 14),
-      base: () => baseTextStyle.copyWith(fontSize: 16),
-      large: () => baseTextStyle.copyWith(fontSize: 18),
-      xLarge: () => baseTextStyle.copyWith(fontSize: 20),
-      p: () => baseTextStyle.copyWith(fontSize: 16),
-      textSmall: () => baseTextStyle.copyWith(fontSize: 14),
+      xSmall: () => baseTextStyle.copyWith(fontSize: AppTypography.xSmall),
+      small: () => baseTextStyle.copyWith(fontSize: AppTypography.small),
+      base: () => baseTextStyle.copyWith(fontSize: AppTypography.base),
+      large: () => baseTextStyle.copyWith(fontSize: AppTypography.large),
+      xLarge: () => baseTextStyle.copyWith(fontSize: AppTypography.xLarge),
+      p: () => baseTextStyle.copyWith(fontSize: AppTypography.base),
+      textSmall: () => baseTextStyle.copyWith(fontSize: AppTypography.small),
     );
 
     return ShadcnApp.router(
@@ -153,42 +158,44 @@ class FlankiApp extends ConsumerWidget {
       ],
       theme: ThemeData(
         colorScheme: ColorSchemes.lightZinc,
-        radius: 0.5,
+        radius: AppThemeValues.shadcnRadiusFactor,
         typography: typography,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorSchemes.darkZinc,
-        radius: 0.5,
+        radius: AppThemeValues.shadcnRadiusFactor,
         typography: typography,
       ),
       builder: (context, child) => ComponentTheme<TextFieldTheme>(
         data: const TextFieldTheme(
-          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          padding: AppThemeValues.textFieldPadding,
         ),
         child: ComponentTheme<PrimaryButtonTheme>(
           data: PrimaryButtonTheme(
             textStyle: (context, states, value) => value.copyWith(
-              height: 1.2,
+              height: AppTypography.lineHeightTight,
               leadingDistribution: TextLeadingDistribution.even,
             ),
           ),
           child: ComponentTheme<OutlineButtonTheme>(
             data: OutlineButtonTheme(
               textStyle: (context, states, value) => value.copyWith(
-                height: 1.2,
+                height: AppTypography.lineHeightTight,
                 leadingDistribution: TextLeadingDistribution.even,
               ),
             ),
             child: ComponentTheme<GhostButtonTheme>(
               data: GhostButtonTheme(
                 textStyle: (context, states, value) => value.copyWith(
-                  height: 1.2,
+                  height: AppTypography.lineHeightTight,
                   leadingDistribution: TextLeadingDistribution.even,
                 ),
               ),
               child: ComponentTheme<ToastTheme>(
                 data: const ToastTheme(
-                  toastConstraints: BoxConstraints.tightFor(width: 380),
+                  toastConstraints: BoxConstraints.tightFor(
+                    width: AppDimensions.toastWidth,
+                  ),
                 ),
                 child: Listener(
                   behavior: HitTestBehavior.translucent,

@@ -74,7 +74,7 @@ class AnkiWebAuthService {
       });
 
       final response = await _dio.post<String>(
-        '${_config.syncHost}/sync/hostKey',
+        _config.hostKeyUrl,
         data: formData,
         options: Options(
           headers: {'User-Agent': _config.effectiveUserAgent},

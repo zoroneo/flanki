@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import '../../../l10n/generated/app_localizations.dart';
+import 'exam_constants.dart';
+
+export 'exam_constants.dart';
 
 /// Categories of examinations supported by Flanki.
 enum ExamCategory {
@@ -64,12 +67,12 @@ class ExamPaperModel {
     required this.title,
     this.description = '',
     this.category = ExamCategory.jlpt,
-    this.level = 'N3',
-    this.durationMinutes = 60,
-    this.totalQuestions = 40,
-    this.passingScore = 60,
-    this.iconName = 'file-text',
-    this.version = 1,
+    this.level = ExamConstants.defaultExamLevel,
+    this.durationMinutes = ExamConstants.defaultDurationMinutes,
+    this.totalQuestions = ExamConstants.defaultTotalQuestions,
+    this.passingScore = ExamConstants.defaultPassingScorePercent,
+    this.iconName = ExamConstants.defaultExamIcon,
+    this.version = ExamConstants.defaultExamVersion,
     this.isPublished = true,
     this.isDownloaded = false,
     required this.createdAt,
@@ -82,12 +85,18 @@ class ExamPaperModel {
       title: json['title'] as String? ?? 'Untitled Exam',
       description: json['description'] as String? ?? '',
       category: ExamCategory.fromString(json['category'] as String?),
-      level: json['level'] as String? ?? 'N3',
-      durationMinutes: json['duration_minutes'] as int? ?? 60,
-      totalQuestions: json['total_questions'] as int? ?? 40,
-      passingScore: json['passing_score'] as int? ?? 60,
-      iconName: json['icon_name'] as String? ?? 'file-text',
-      version: json['version'] as int? ?? 1,
+      level: json['level'] as String? ?? ExamConstants.defaultExamLevel,
+      durationMinutes:
+          json['duration_minutes'] as int? ??
+          ExamConstants.defaultDurationMinutes,
+      totalQuestions:
+          json['total_questions'] as int? ??
+          ExamConstants.defaultTotalQuestions,
+      passingScore:
+          json['passing_score'] as int? ??
+          ExamConstants.defaultPassingScorePercent,
+      iconName: json['icon_name'] as String? ?? ExamConstants.defaultExamIcon,
+      version: json['version'] as int? ?? ExamConstants.defaultExamVersion,
       isPublished: json['is_published'] as bool? ?? true,
       isDownloaded: json['is_downloaded'] as bool? ?? false,
       createdAt: json['created_at'] != null
@@ -164,8 +173,8 @@ class ExamSectionModel {
     required this.id,
     required this.examId,
     required this.title,
-    this.sectionType = 'general',
-    this.orderIndex = 0,
+    this.sectionType = ExamConstants.defaultSectionType,
+    this.orderIndex = ExamConstants.defaultSectionOrder,
     this.instruction = '',
   });
 
@@ -174,8 +183,10 @@ class ExamSectionModel {
       id: json['id'] as String,
       examId: json['exam_id'] as String,
       title: json['title'] as String? ?? '',
-      sectionType: json['section_type'] as String? ?? 'general',
-      orderIndex: json['order_index'] as int? ?? 0,
+      sectionType:
+          json['section_type'] as String? ?? ExamConstants.defaultSectionType,
+      orderIndex:
+          json['order_index'] as int? ?? ExamConstants.defaultSectionOrder,
       instruction: json['instruction'] as String? ?? '',
     );
   }
@@ -232,7 +243,7 @@ class ExamQuestionModel {
     required this.options,
     required this.correctAnswer,
     this.explanation = '',
-    this.points = 1,
+    this.points = ExamConstants.defaultQuestionPoints,
   });
 
   factory ExamQuestionModel.fromJson(Map<String, dynamic> json) {
@@ -265,14 +276,16 @@ class ExamQuestionModel {
       id: json['id'] as String,
       examId: json['exam_id'] as String,
       sectionId: json['section_id'] as String,
-      questionNumber: json['question_number'] as int? ?? 1,
+      questionNumber:
+          json['question_number'] as int? ??
+          ExamConstants.defaultQuestionNumber,
       questionText: json['question_text'] as String? ?? '',
       contextPassage: json['context_passage'] as String?,
       audioUrl: json['audio_url'] as String?,
       options: parsedOptions,
       correctAnswer: json['correct_answer'] as String? ?? '',
       explanation: json['explanation'] as String? ?? '',
-      points: json['points'] as int? ?? 1,
+      points: json['points'] as int? ?? ExamConstants.defaultQuestionPoints,
     );
   }
 
@@ -316,7 +329,9 @@ class ExamSubmissionModel {
   });
 
   bool get isPassed =>
-      totalQuestions > 0 && ((totalCorrect / totalQuestions) * 100) >= 60;
+      totalQuestions > 0 &&
+      ((totalCorrect / totalQuestions) * 100) >=
+          ExamConstants.defaultPassingScorePercent;
 
   factory ExamSubmissionModel.fromJson(Map<String, dynamic> json) {
     Map<String, String> parsedAnswers = {};

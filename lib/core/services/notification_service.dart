@@ -31,7 +31,10 @@ class NotificationService {
   /// Updates current locale for notification text generation.
   void updateLocale(String? code) {
     if (code != null && code.isNotEmpty) {
-      currentLocaleCode = code.toLowerCase().startsWith('vi') ? 'vi' : 'en';
+      currentLocaleCode =
+          code.toLowerCase().startsWith(AppConfig.localeCodeVi)
+          ? AppConfig.localeCodeVi
+          : AppConfig.localeCodeEn;
     }
   }
 
@@ -63,7 +66,7 @@ class NotificationService {
 
     // 2. Plugin settings
     const androidSettings = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
+      AppConfig.androidNotificationIcon,
     );
     const darwinSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
@@ -71,12 +74,12 @@ class NotificationService {
       requestSoundPermission: false,
     );
     const linuxSettings = LinuxInitializationSettings(
-      defaultActionName: 'Open Flanki',
+      defaultActionName: AppConfig.linuxNotificationActionName,
     );
     const windowsSettings = WindowsInitializationSettings(
-      appName: 'Flanki',
-      appUserModelId: 'com.flanki.app',
-      guid: 'a413114b-d67f-4a01-8b22-7f07a57623bf',
+      appName: AppConfig.appName,
+      appUserModelId: AppConfig.windowsNotificationAppUserModelId,
+      guid: AppConfig.windowsNotificationGuid,
     );
 
     const initSettings = InitializationSettings(
@@ -225,7 +228,7 @@ class NotificationService {
         notificationDetails: details,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time,
-        payload: '/decks',
+        payload: AppConfig.defaultNotificationPayload,
       );
     } catch (e) {
       debugPrint('[NotificationService] scheduleDailyReminder error: $e');
@@ -287,7 +290,7 @@ class NotificationService {
         notificationDetails: details,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time,
-        payload: '/decks',
+        payload: AppConfig.defaultNotificationPayload,
       );
     } catch (e) {
       debugPrint('[NotificationService] scheduleStreakSaver error: $e');
@@ -387,7 +390,7 @@ class NotificationService {
 
   /// Instant test notification for developer verification & desktop toasts
   Future<void> showInstantTestNotification({
-    int id = 9999,
+    int id = AppConfig.testNotificationId,
     String? title,
     String? body,
     String? localeCode,
@@ -419,7 +422,7 @@ class NotificationService {
       title: effectiveTitle,
       body: effectiveBody,
       notificationDetails: details,
-      payload: '/decks',
+      payload: AppConfig.defaultNotificationPayload,
     );
   }
 }

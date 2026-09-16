@@ -42,7 +42,7 @@ final class GrammarSessionNotifierProvider
 }
 
 String _$grammarSessionNotifierHash() =>
-    r'07aa73d6a2bf1e5a37638a02b45734f082423cf2';
+    r'cf04368d6033377f5c71d25235899e1ecc865dcb';
 
 abstract class _$GrammarSessionNotifier extends $Notifier<GrammarSessionState> {
   GrammarSessionState build();

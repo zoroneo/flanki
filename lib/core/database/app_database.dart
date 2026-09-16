@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
+import '../config/app_config.dart';
 import '../models/card.dart';
 
 part 'app_database.g.dart';
@@ -226,10 +227,11 @@ class WrongQuestionNotebook extends Table {
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase([QueryExecutor? e]) : super(e ?? driftDatabase(name: 'flanki'));
+  AppDatabase([QueryExecutor? e])
+    : super(e ?? driftDatabase(name: AppConfig.databaseName));
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => AppConfig.currentDatabaseSchemaVersion;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(

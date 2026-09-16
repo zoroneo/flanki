@@ -60,7 +60,9 @@ class StatsScreen extends HookConsumerWidget {
           ],
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 880),
+              constraints: const BoxConstraints(
+                maxWidth: AppDimensions.statsMaxWidth,
+              ),
               child: ListView(
                 padding: EdgeInsets.symmetric(
                   horizontal: horizontalPadding,
@@ -92,8 +94,8 @@ class StatsScreen extends HookConsumerWidget {
                                 decoration: BoxDecoration(
                                   color:
                                       (isTargetReached
-                                              ? m.Colors.green
-                                              : m.Colors.orange)
+                                              ? AppColors.success
+                                              : AppColors.warning)
                                           .withValues(alpha: 0.15),
                                   borderRadius: AppRadius.borderSm,
                                 ),
@@ -102,11 +104,11 @@ class StatsScreen extends HookConsumerWidget {
                                       ? l10n.targetReached
                                       : l10n.targetNotReached,
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: AppTypography.caption,
                                     fontWeight: FontWeight.w700,
                                     color: isTargetReached
-                                        ? m.Colors.green
-                                        : m.Colors.orange,
+                                        ? AppColors.success
+                                        : AppColors.warning,
                                   ),
                                 ),
                               ),
@@ -221,7 +223,7 @@ class StatsScreen extends HookConsumerWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 110,
+                    height: AppDimensions.bottomNavClearance,
                   ), // Safe scroll clearance for bottom navigation
                 ],
               ),

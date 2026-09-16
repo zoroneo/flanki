@@ -24,7 +24,7 @@ class TabletNavRail extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      width: 72,
+      width: AppDimensions.navRailWidth,
       decoration: BoxDecoration(color: theme.colorScheme.background),
       child: Column(
         children: [
@@ -46,8 +46,8 @@ class TabletNavRail extends StatelessWidget {
         tooltip: (context) =>
             const TooltipContainer(child: Text(AppConfig.appName)),
         child: Container(
-          width: 38,
-          height: 38,
+          width: AppDimensions.brandIconTablet,
+          height: AppDimensions.brandIconTablet,
           decoration: BoxDecoration(
             color: theme.colorScheme.primary,
             borderRadius: AppRadius.borderMd,
@@ -72,9 +72,9 @@ class TabletNavRail extends StatelessWidget {
           activeIcon: LucideIcons.layers2,
           label: l10n.navDecks,
           shortcutHint: 'Ctrl+1',
-          isSelected: currentIndex == 0,
+          isSelected: currentIndex == AppNavIndex.decks,
           badgeCount: totalDue > 0 ? totalDue : null,
-          onTap: () => onSelectTab(0),
+          onTap: () => onSelectTab(AppNavIndex.decks),
         ),
         AppGaps.v8,
         NavRailItem(
@@ -82,8 +82,8 @@ class TabletNavRail extends StatelessWidget {
           activeIcon: LucideIcons.fileSearch,
           label: l10n.navBrowser,
           shortcutHint: 'Ctrl+2',
-          isSelected: currentIndex == 1,
-          onTap: () => onSelectTab(1),
+          isSelected: currentIndex == AppNavIndex.browser,
+          onTap: () => onSelectTab(AppNavIndex.browser),
         ),
         AppGaps.v8,
         NavRailItem(
@@ -91,8 +91,8 @@ class TabletNavRail extends StatelessWidget {
           activeIcon: LucideIcons.bookOpen,
           label: l10n.navGrammar,
           shortcutHint: 'Ctrl+3',
-          isSelected: currentIndex == 2,
-          onTap: () => onSelectTab(2),
+          isSelected: currentIndex == AppNavIndex.grammar,
+          onTap: () => onSelectTab(AppNavIndex.grammar),
         ),
         AppGaps.v8,
         NavRailItem(
@@ -100,8 +100,8 @@ class TabletNavRail extends StatelessWidget {
           activeIcon: LucideIcons.graduationCap,
           label: l10n.navExams,
           shortcutHint: 'Ctrl+4',
-          isSelected: currentIndex == 3,
-          onTap: () => onSelectTab(3),
+          isSelected: currentIndex == AppNavIndex.exams,
+          onTap: () => onSelectTab(AppNavIndex.exams),
         ),
         AppGaps.v8,
         NavRailItem(
@@ -109,8 +109,8 @@ class TabletNavRail extends StatelessWidget {
           activeIcon: LucideIcons.chartNoAxesCombined,
           label: l10n.navStats,
           shortcutHint: 'Ctrl+5',
-          isSelected: currentIndex == 4,
-          onTap: () => onSelectTab(4),
+          isSelected: currentIndex == AppNavIndex.stats,
+          onTap: () => onSelectTab(AppNavIndex.stats),
         ),
         AppGaps.v8,
         NavRailItem(
@@ -118,9 +118,9 @@ class TabletNavRail extends StatelessWidget {
           activeIcon: LucideIcons.settings2,
           label: l10n.navSettings,
           shortcutHint: 'Ctrl+6',
-          isSelected: currentIndex == 5,
-          indicatorColor: isAuthenticated ? m.Colors.green : null,
-          onTap: () => onSelectTab(5),
+          isSelected: currentIndex == AppNavIndex.settings,
+          indicatorColor: isAuthenticated ? AppColors.success : null,
+          onTap: () => onSelectTab(AppNavIndex.settings),
         ),
       ],
     );
@@ -136,8 +136,8 @@ class TabletNavRail extends StatelessWidget {
           ),
         ),
         child: Container(
-          width: 36,
-          height: 36,
+          width: AppDimensions.brandIconDesktop,
+          height: AppDimensions.brandIconDesktop,
           decoration: BoxDecoration(
             color: theme.colorScheme.muted.withValues(alpha: 0.5),
             shape: BoxShape.circle,
@@ -147,11 +147,11 @@ class TabletNavRail extends StatelessWidget {
           ),
           child: Center(
             child: Container(
-              width: AppSpacing.sm,
-              height: AppSpacing.sm,
+              width: AppDimensions.statusDotSize,
+              height: AppDimensions.statusDotSize,
               decoration: BoxDecoration(
                 color: isAuthenticated
-                    ? m.Colors.green
+                    ? AppColors.success
                     : theme.colorScheme.mutedForeground,
                 shape: BoxShape.circle,
               ),
@@ -204,12 +204,12 @@ class NavRailItem extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
           child: Container(
-            width: 48,
-            height: 48,
+            width: AppDimensions.navRailItemSize,
+            height: AppDimensions.navRailItemSize,
             decoration: BoxDecoration(
               color: isSelected
-                  ? theme.colorScheme.primary.withValues(alpha: 0.12)
-                  : m.Colors.transparent,
+                ? theme.colorScheme.primary.withValues(alpha: 0.12)
+                : m.Colors.transparent,
               borderRadius: AppRadius.borderMd,
             ),
             child: Stack(
@@ -245,12 +245,14 @@ class NavRailItem extends StatelessWidget {
         borderRadius: AppRadius.borderFull,
       ),
       child: Text(
-        badgeCount! > 99 ? '99+' : '$badgeCount',
+        badgeCount! > AppLimits.badgeMaxCount
+            ? AppLimits.badgeOverflowText
+            : '$badgeCount',
         style: const TextStyle(
           color: m.Colors.white,
-          fontSize: 9,
+          fontSize: AppTypography.badge,
           fontWeight: FontWeight.w700,
-          height: 1.1,
+          height: AppTypography.lineHeightBadge,
         ),
       ),
     );
@@ -258,8 +260,8 @@ class NavRailItem extends StatelessWidget {
 
   Widget _buildIndicator(ThemeData theme) {
     return Container(
-      width: 7,
-      height: 7,
+      width: AppDimensions.indicatorDotSize,
+      height: AppDimensions.indicatorDotSize,
       decoration: BoxDecoration(
         color: indicatorColor,
         shape: BoxShape.circle,

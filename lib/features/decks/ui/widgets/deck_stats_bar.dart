@@ -45,7 +45,7 @@ class DeckStatsBar extends StatelessWidget {
           children: [
             const Icon(
               LucideIcons.flame,
-              color: m.Colors.deepOrange,
+              color: AppColors.streakFlame,
               size: AppIconSize.lg,
             ),
             AppGaps.h8,
@@ -126,17 +126,17 @@ class StatMiniBox extends StatelessWidget {
               Text(
                 value,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: AppTypography.large,
                   fontWeight: FontWeight.w800,
                   color: color,
-                  height: 1.1,
+                  height: AppTypography.lineHeightBadge,
                 ),
               ),
               AppGaps.v2,
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: AppTypography.sub,
                   fontWeight: FontWeight.w600,
                   color: color.withValues(alpha: 0.8),
                 ),

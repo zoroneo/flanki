@@ -1,5 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flanki/core/config/app_config.dart';
+import 'package:flanki/core/gen/assets.gen.dart';
+import 'package:flanki/core/gen/fonts.gen.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
 
 void main() {
@@ -125,6 +128,141 @@ void main() {
       expect(AppEdgeInsets.h16v8.vertical, equals(16));
       expect(AppEdgeInsets.h16v12.horizontal, equals(32));
       expect(AppEdgeInsets.h16v12.vertical, equals(24));
+    });
+  });
+
+  group('AppTypography Tokens', () {
+    test('font families are defined', () {
+      expect(AppTypography.fontFamilySans, equals('BeVietnamPro'));
+      expect(AppTypography.fontFamilyMono, equals('JetBrainsMono'));
+    });
+
+    test('font sizes are monotonically non-decreasing', () {
+      expect(AppTypography.badge, equals(9));
+      expect(AppTypography.caption, equals(10));
+      expect(AppTypography.sub, equals(11));
+      expect(AppTypography.xSmall, equals(12));
+      expect(AppTypography.nav, equals(13));
+      expect(AppTypography.small, equals(14));
+      expect(AppTypography.base, equals(16));
+      expect(AppTypography.large, equals(18));
+      expect(AppTypography.xLarge, equals(20));
+      expect(AppTypography.h4, equals(24));
+
+      const sizes = [
+        AppTypography.badge,
+        AppTypography.caption,
+        AppTypography.sub,
+        AppTypography.xSmall,
+        AppTypography.nav,
+        AppTypography.small,
+        AppTypography.base,
+        AppTypography.large,
+        AppTypography.xLarge,
+        AppTypography.h4,
+      ];
+
+      for (var i = 0; i < sizes.length - 1; i++) {
+        expect(sizes[i] <= sizes[i + 1], isTrue);
+      }
+    });
+
+    test('line heights are valid', () {
+      expect(AppTypography.lineHeightNormal, equals(1.35));
+      expect(AppTypography.lineHeightTight, equals(1.2));
+      expect(AppTypography.lineHeightBadge, equals(1.1));
+    });
+  });
+
+  group('AppColors Tokens', () {
+    test('study rating colors are distinct', () {
+      final ratings = {
+        AppColors.ratingAgain,
+        AppColors.ratingHard,
+        AppColors.ratingGood,
+        AppColors.ratingEasy,
+      };
+      expect(ratings.length, equals(4));
+    });
+
+    test('semantic alert colors are defined', () {
+      expect(AppColors.success, equals(const Color(0xFF4CAF50)));
+      expect(AppColors.warning, equals(const Color(0xFFFF9800)));
+      expect(AppColors.error, equals(const Color(0xFFF44336)));
+      expect(AppColors.info, equals(const Color(0xFF2196F3)));
+      expect(AppColors.streakFlame, equals(const Color(0xFFFF5722)));
+    });
+  });
+
+  group('AppNavIndex Tokens', () {
+    test('navigation indexes are sequential from 0 to 5', () {
+      expect(AppNavIndex.decks, equals(0));
+      expect(AppNavIndex.browser, equals(1));
+      expect(AppNavIndex.grammar, equals(2));
+      expect(AppNavIndex.exams, equals(3));
+      expect(AppNavIndex.stats, equals(4));
+      expect(AppNavIndex.settings, equals(5));
+    });
+  });
+
+  group('AppDimensions Tokens', () {
+    test('dimensions are strictly positive', () {
+      expect(AppDimensions.sidebarWidth > 0, isTrue);
+      expect(AppDimensions.navRailWidth > 0, isTrue);
+      expect(AppDimensions.cardMaxWidth > 0, isTrue);
+      expect(AppDimensions.statsMaxWidth > 0, isTrue);
+      expect(AppDimensions.typeInputMaxWidth > 0, isTrue);
+      expect(AppDimensions.typeResultMaxWidth > 0, isTrue);
+      expect(AppDimensions.modalDesktopMaxWidth > 0, isTrue);
+      expect(AppDimensions.audioButtonSize > 0, isTrue);
+      expect(AppDimensions.speedDialFabSize > 0, isTrue);
+      expect(AppDimensions.ratingButtonMinHeight > 0, isTrue);
+    });
+  });
+
+  group('AppDurations Tokens', () {
+    test('durations are strictly increasing', () {
+      const durations = [
+        AppDurations.quick,
+        AppDurations.short,
+        AppDurations.normal,
+        AppDurations.medium,
+        AppDurations.shake,
+        AppDurations.long,
+      ];
+
+      for (var i = 0; i < durations.length - 1; i++) {
+        expect(durations[i] < durations[i + 1], isTrue);
+      }
+    });
+  });
+
+  group('AppLimits & AppThemeValues Tokens', () {
+    test('limits are consistent', () {
+      expect(AppLimits.badgeMaxCount, equals(99));
+      expect(AppLimits.badgeOverflowText, equals('99+'));
+    });
+
+    test('theme values are within reasonable bounds', () {
+      expect(AppThemeValues.shadcnRadiusFactor, equals(0.5));
+      expect(AppThemeValues.ratingButtonPressedScale < 1.0, isTrue);
+      expect(AppThemeValues.speedDialRotationTurns, equals(0.125));
+      expect(AppThemeValues.cardFlipPerspective > 0, isTrue);
+    });
+  });
+
+  group('FlutterGen Integration', () {
+    test('typography font families match generated FontFamily constants', () {
+      expect(AppTypography.fontFamilySans, equals(FontFamily.beVietnamPro));
+      expect(AppTypography.fontFamilyMono, equals(FontFamily.jetBrainsMono));
+    });
+
+    test('config asset paths match generated Assets getters', () {
+      expect(AppConfig.desktopIconWindows, equals(Assets.icons.appIconIco));
+      expect(AppConfig.desktopIconDefault, equals(Assets.icons.appIconPng.path));
+      expect(AppConfig.sampleMockExamAssetPath, equals(Assets.data.exams.jlptN3Mock01));
+      expect(Assets.data.grammar.values.length, equals(36));
+      expect(Assets.icons.flanki.path, equals('assets/icons/flanki.png'));
     });
   });
 }

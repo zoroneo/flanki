@@ -6,6 +6,7 @@ import '../../../../core/anki/anki_bridge.dart';
 import '../../../../core/config/app_config.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 import '../../providers/settings_notifier.dart';
 import '../../providers/update_notifier.dart';
 import '../../../../core/theme/theme_notifier.dart';
@@ -80,12 +81,12 @@ class AboutInfoCard extends ConsumerWidget {
               const Divider(),
               ClickableInfoRow(
                 label: l10n.openSourceLicenses,
-                onTap: () => context.push('/licenses'),
+                onTap: () => context.push(AppRoutes.licenses),
               ),
               const Divider(),
               ClickableInfoRow(
                 label: l10n.privacyPolicy,
-                onTap: () => context.push('/privacy-policy'),
+                onTap: () => context.push(AppRoutes.privacyPolicy),
               ),
             ],
           ),

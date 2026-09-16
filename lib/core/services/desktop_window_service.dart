@@ -61,8 +61,8 @@ class DesktopWindowService with WindowListener, TrayListener {
     try {
       trayManager.addListener(this);
       final iconPath = Platform.isWindows
-          ? 'assets/icons/app_icon.ico'
-          : 'assets/icons/app_icon.png';
+          ? AppConfig.desktopIconWindows
+          : AppConfig.desktopIconDefault;
       await trayManager.setIcon(iconPath);
       await updateTrayMenu(localeCode: localeCode);
     } catch (e) {

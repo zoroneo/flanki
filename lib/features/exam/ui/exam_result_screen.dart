@@ -6,6 +6,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
+import '../../../router/app_router.dart';
 import '../data/exam_repository.dart';
 import '../models/exam_models.dart';
 
@@ -66,7 +67,7 @@ class ExamResultScreen extends HookConsumerWidget {
             Text(l10n.examResultNotFound),
             AppGaps.v16,
             PrimaryButton(
-              onPressed: () => context.go('/exams'),
+              onPressed: () => context.go(AppRoutes.exams),
               child: Text(l10n.backToCatalog),
             ),
           ],
@@ -84,8 +85,8 @@ class ExamResultScreen extends HookConsumerWidget {
     required List<ExamQuestionModel> questions,
   }) {
     final isPassed = sub.isPassed;
-    final mins = sub.durationSeconds ~/ 60;
-    final secs = sub.durationSeconds % 60;
+    final mins = sub.durationSeconds ~/ ExamConstants.secondsPerMinute;
+    final secs = sub.durationSeconds % ExamConstants.secondsPerMinute;
     final durationStr =
         '${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
 
@@ -95,7 +96,7 @@ class ExamResultScreen extends HookConsumerWidget {
           leading: [
             IconButton.ghost(
               icon: const Icon(RadixIcons.arrowLeft, size: 18),
-              onPressed: () => context.go('/exams'),
+              onPressed: () => context.go(AppRoutes.exams),
             ),
           ],
           title: Text(l10n.examResultTitle),
@@ -179,7 +180,7 @@ class ExamResultScreen extends HookConsumerWidget {
                     Expanded(
                       child: OutlineButton(
                         alignment: Alignment.center,
-                        onPressed: () => context.push('/exams/wrong-notebook'),
+                        onPressed: () => context.push(AppRoutes.wrongNotebook),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/models/deck.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 import 'deck_card.dart';
 import 'grouped_deck_card.dart';
 
@@ -44,7 +45,7 @@ class DeckSlivers extends StatelessWidget {
                 subdecks: entry.value,
                 autoExpand: searchQuery.isNotEmpty,
                 onStudyDeck: (deckId) {
-                  context.push('/decks/$deckId/study');
+                  context.push(AppRoutes.study(deckId));
                 },
               );
             },
@@ -69,7 +70,7 @@ class DeckSlivers extends StatelessWidget {
                 newCount: deck.newCount,
                 totalCount: deck.totalCount,
                 onStudy: () {
-                  context.push('/decks/${deck.id}/study');
+                  context.push(AppRoutes.study(deck.id));
                 },
               );
             },

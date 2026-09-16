@@ -10,8 +10,8 @@ import '../theme/app_tokens.dart';
 Future<T?> showAdaptiveModal<T>({
   required BuildContext context,
   required Widget Function(BuildContext context, bool isDesktop) builder,
-  double desktopMaxWidth = 480,
-  double desktopMaxHeightFactor = 0.85,
+  double desktopMaxWidth = AppDimensions.modalDesktopMaxWidth,
+  double desktopMaxHeightFactor = AppDimensions.modalDesktopMaxHeightFactor,
   bool isDismissible = true,
   bool useRootNavigator = false,
 }) {
@@ -25,7 +25,9 @@ Future<T?> showAdaptiveModal<T>({
       isScrollControlled: true,
       isDismissible: isDismissible,
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.sizeOf(context).height * 0.9,
+        maxHeight:
+            MediaQuery.sizeOf(context).height *
+            AppDimensions.modalMobileMaxHeightFactor,
       ),
       builder: (ctx) => m.Material(
         type: m.MaterialType.transparency,
@@ -77,7 +79,7 @@ class AdaptiveModalFrame extends StatelessWidget {
 
     return AnimatedPadding(
       padding: EdgeInsets.only(bottom: viewInsets.bottom),
-      duration: const Duration(milliseconds: 150),
+      duration: AppDurations.short,
       curve: Curves.easeOut,
       child: Container(
         decoration: BoxDecoration(
@@ -120,8 +122,8 @@ class AdaptiveModalFrame extends StatelessWidget {
                   if (!isDesktop && showGrabHandle)
                     Center(
                       child: Container(
-                        width: 36,
-                        height: 4,
+                        width: AppDimensions.modalGrabHandleWidth,
+                        height: AppDimensions.modalGrabHandleHeight,
                         margin: const EdgeInsets.only(
                           top: AppSpacing.sm,
                           bottom: AppSpacing.smPlus,
