@@ -13,27 +13,15 @@ import '../config/app_config.dart';
 import '../models/card.dart';
 import '../models/custom_study_mode.dart';
 import '../models/deck.dart';
+import '../models/review_log.dart';
+import '../models/sync_payloads.dart';
 import '../sync/hlc.dart';
 import '../../features/exam/models/exam_models.dart';
+import '../../features/grammar/models/grammar_progress.dart';
 import 'app_database.dart';
 
-class ReviewLogModel {
-  final int id;
-  final String cardId;
-  final ReviewRating rating;
-  final DateTime reviewTime;
-  final int scheduledDays;
-  final int elapsedDays;
-
-  const ReviewLogModel({
-    required this.id,
-    required this.cardId,
-    required this.rating,
-    required this.reviewTime,
-    required this.scheduledDays,
-    required this.elapsedDays,
-  });
-}
+export '../models/review_log.dart';
+export '../models/sync_payloads.dart';
 
 class DatabaseService {
   static DatabaseService? _instance;
@@ -342,15 +330,7 @@ class DatabaseService {
               entityType: 'deck',
               entityId: deck.id,
               operation: 'UPSERT',
-              payloadJson: jsonEncode({
-                'id': deck.id,
-                'title': deck.title,
-                'description': deck.description,
-                'due_count': deck.dueCount,
-                'new_count': deck.newCount,
-                'total_count': deck.totalCount,
-                'last_studied': deck.lastStudied?.toIso8601String(),
-              }),
+              payloadJson: jsonEncode(deck.toJson()),
               hlc: hlcStr,
             ),
           );
@@ -414,15 +394,7 @@ class DatabaseService {
                 entityType: 'deck',
                 entityId: deck.id,
                 operation: 'UPSERT',
-                payloadJson: jsonEncode({
-                  'id': deck.id,
-                  'title': deck.title,
-                  'description': deck.description,
-                  'due_count': deck.dueCount,
-                  'new_count': deck.newCount,
-                  'total_count': deck.totalCount,
-                  'last_studied': deck.lastStudied?.toIso8601String(),
-                }),
+                payloadJson: jsonEncode(deck.toJson()),
                 hlc: hlcStr,
               ),
             );
@@ -508,7 +480,7 @@ class DatabaseService {
               entityType: 'deck',
               entityId: deckId,
               operation: 'DELETE',
-              payloadJson: jsonEncode({'id': deckId}),
+              payloadJson: jsonEncode(SyncIdPayload(id: deckId).toJson()),
               hlc: hlcStr,
             ),
           );
@@ -625,26 +597,7 @@ class DatabaseService {
                 entityType: 'card',
                 entityId: card.id,
                 operation: 'UPSERT',
-                payloadJson: jsonEncode({
-                  'id': card.id,
-                  'deck_id': card.deckId,
-                  'front': card.front,
-                  'back': card.back,
-                  'hint': card.hint,
-                  'note_type': card.noteType.value,
-                  'flag': card.flag.value,
-                  'is_suspended': card.isSuspended,
-                  'is_buried': card.isBuried,
-                  'tags': card.tags.join(','),
-                  'interval_days': card.intervalDays,
-                  'stability': card.stability,
-                  'difficulty': card.difficulty,
-                  'reps': card.reps,
-                  'lapses': card.lapses,
-                  'due': card.due?.toIso8601String(),
-                  'last_studied': card.lastStudied?.toIso8601String(),
-                  'created_at': card.createdAt?.toIso8601String(),
-                }),
+                payloadJson: jsonEncode(card.toJson()),
                 hlc: hlcStr,
               ),
             );
@@ -709,26 +662,7 @@ class DatabaseService {
                   entityType: 'card',
                   entityId: card.id,
                   operation: 'UPSERT',
-                  payloadJson: jsonEncode({
-                    'id': card.id,
-                    'deck_id': card.deckId,
-                    'front': card.front,
-                    'back': card.back,
-                    'hint': card.hint,
-                    'note_type': card.noteType.value,
-                    'flag': card.flag.value,
-                    'is_suspended': card.isSuspended,
-                    'is_buried': card.isBuried,
-                    'tags': card.tags.join(','),
-                    'interval_days': card.intervalDays,
-                    'stability': card.stability,
-                    'difficulty': card.difficulty,
-                    'reps': card.reps,
-                    'lapses': card.lapses,
-                    'due': card.due?.toIso8601String(),
-                    'last_studied': card.lastStudied?.toIso8601String(),
-                    'created_at': card.createdAt?.toIso8601String(),
-                  }),
+                  payloadJson: jsonEncode(card.toJson()),
                   hlc: hlcStr,
                 ),
               );
@@ -805,7 +739,7 @@ class DatabaseService {
                 entityType: 'card',
                 entityId: cardId,
                 operation: 'DELETE',
-                payloadJson: jsonEncode({'id': cardId}),
+                payloadJson: jsonEncode(SyncIdPayload(id: cardId).toJson()),
                 hlc: hlcStr,
               ),
             );
@@ -832,6 +766,7 @@ class DatabaseService {
       reviewTime: reviewTime,
       scheduledDays: scheduledDays,
       elapsedDays: elapsedDays,
+      clientLogId: clientLogId,
     );
     _cachedReviewLogs.insert(0, log);
 
@@ -859,14 +794,7 @@ class DatabaseService {
               entityType: 'review_log',
               entityId: clientLogId,
               operation: 'INSERT',
-              payloadJson: jsonEncode({
-                'card_id': cardId,
-                'rating': rating.value,
-                'review_time': reviewTime.toUtc().toIso8601String(),
-                'scheduled_days': scheduledDays,
-                'elapsed_days': elapsedDays,
-                'client_log_id': clientLogId,
-              }),
+              payloadJson: jsonEncode(log.toJson()),
               hlc: hlcStr,
             ),
           );
@@ -1261,16 +1189,7 @@ class DatabaseService {
     await db.transaction(() async {
       // 1. Apply Decks
       for (final raw in decks) {
-        final id = raw['id'] as String;
-        final title = raw['title'] as String? ?? 'Untitled Deck';
-        final description = raw['description'] as String? ?? '';
-        final dueCount = raw['due_count'] as int? ?? 0;
-        final newCount = raw['new_count'] as int? ?? 0;
-        final totalCount = raw['total_count'] as int? ?? 0;
-        final lastStudiedStr = raw['last_studied'] as String?;
-        final lastStudied = lastStudiedStr != null
-            ? DateTime.tryParse(lastStudiedStr)
-            : null;
+        final deck = DeckModel.fromJson(raw);
         final hlc = raw['updated_at_hlc'] as String? ?? '';
         final isDeleted = raw['is_deleted'] as bool? ?? false;
 
@@ -1278,13 +1197,13 @@ class DatabaseService {
             .into(db.decks)
             .insertOnConflictUpdate(
               DecksCompanion.insert(
-                id: id,
-                title: title,
-                description: description,
-                dueCount: Value(dueCount),
-                newCount: Value(newCount),
-                totalCount: Value(totalCount),
-                lastStudied: Value(lastStudied),
+                id: deck.id,
+                title: deck.title,
+                description: deck.description,
+                dueCount: Value(deck.dueCount),
+                newCount: Value(deck.newCount),
+                totalCount: Value(deck.totalCount),
+                lastStudied: Value(deck.lastStudied),
                 updatedAtHlc: Value(hlc),
                 isDeleted: Value(isDeleted),
               ),
@@ -1293,31 +1212,7 @@ class DatabaseService {
 
       // 2. Apply Cards
       for (final raw in cards) {
-        final id = raw['id'] as String;
-        final deckId = raw['deck_id'] as String? ?? '';
-        final front = raw['front'] as String? ?? '';
-        final back = raw['back'] as String? ?? '';
-        final hint = raw['hint'] as String?;
-        final noteType = raw['note_type'] as String? ?? 'basic';
-        final flag = raw['flag'] as int? ?? 0;
-        final isSuspended = raw['is_suspended'] as bool? ?? false;
-        final isBuried = raw['is_buried'] as bool? ?? false;
-        final tags = raw['tags'] as String? ?? '';
-        final intervalDays = raw['interval_days'] as int? ?? 0;
-        final stability = (raw['stability'] as num?)?.toDouble() ?? 0.0;
-        final difficulty = (raw['difficulty'] as num?)?.toDouble() ?? 0.0;
-        final reps = raw['reps'] as int? ?? 0;
-        final lapses = raw['lapses'] as int? ?? 0;
-        final dueStr = raw['due'] as String?;
-        final due = dueStr != null ? DateTime.tryParse(dueStr) : null;
-        final lastStudiedStr = raw['last_studied'] as String?;
-        final lastStudied = lastStudiedStr != null
-            ? DateTime.tryParse(lastStudiedStr)
-            : null;
-        final createdAtStr = raw['created_at'] as String?;
-        final createdAt = createdAtStr != null
-            ? DateTime.tryParse(createdAtStr)
-            : DateTime.now();
+        final card = CardModel.fromJson(raw);
         final hlc = raw['updated_at_hlc'] as String? ?? '';
         final isDeleted = raw['is_deleted'] as bool? ?? false;
 
@@ -1325,24 +1220,24 @@ class DatabaseService {
             .into(db.cards)
             .insertOnConflictUpdate(
               CardsCompanion.insert(
-                id: id,
-                deckId: deckId,
-                front: front,
-                back: back,
-                hint: Value(hint),
-                noteType: Value(noteType),
-                flag: Value(flag),
-                isSuspended: Value(isSuspended),
-                isBuried: Value(isBuried),
-                tags: Value(tags),
-                intervalDays: Value(intervalDays),
-                stability: Value(stability),
-                difficulty: Value(difficulty),
-                reps: Value(reps),
-                lapses: Value(lapses),
-                due: Value(due),
-                lastStudied: Value(lastStudied),
-                createdAt: Value(createdAt),
+                id: card.id,
+                deckId: card.deckId,
+                front: card.front,
+                back: card.back,
+                hint: Value(card.hint),
+                noteType: Value(card.noteType.value),
+                flag: Value(card.flag.value),
+                isSuspended: Value(card.isSuspended),
+                isBuried: Value(card.isBuried),
+                tags: Value(card.tags.join(',')),
+                intervalDays: Value(card.intervalDays),
+                stability: Value(card.stability),
+                difficulty: Value(card.difficulty),
+                reps: Value(card.reps),
+                lapses: Value(card.lapses),
+                due: Value(card.due),
+                lastStudied: Value(card.lastStudied),
+                createdAt: Value(card.createdAt ?? DateTime.now()),
                 updatedAtHlc: Value(hlc),
                 isDeleted: Value(isDeleted),
               ),
@@ -1351,15 +1246,11 @@ class DatabaseService {
 
       // 3. Apply Review Logs
       for (final raw in reviewLogs) {
-        final cardId = raw['card_id'] as String;
-        final rating = raw['rating'] as int;
-        final reviewTimeStr = raw['review_time'] as String;
-        final reviewTime = DateTime.parse(reviewTimeStr);
-        final scheduledDays = raw['scheduled_days'] as int? ?? 0;
-        final elapsedDays = raw['elapsed_days'] as int? ?? 0;
-        final clientLogId =
-            raw['client_log_id'] as String? ??
-            'log_${cardId}_${reviewTime.millisecondsSinceEpoch}';
+        final log = ReviewLogModel.fromJson(raw);
+        final clientLogId = log.clientLogId.isNotEmpty
+            ? log.clientLogId
+            : (raw['client_log_id'] as String? ??
+                  'log_${log.cardId}_${log.reviewTime.millisecondsSinceEpoch}');
 
         final existing =
             await (db.select(db.reviewLogs)
@@ -1371,11 +1262,11 @@ class DatabaseService {
               .into(db.reviewLogs)
               .insert(
                 ReviewLogsCompanion.insert(
-                  cardId: cardId,
-                  rating: rating,
-                  reviewTime: reviewTime,
-                  scheduledDays: Value(scheduledDays),
-                  elapsedDays: Value(elapsedDays),
+                  cardId: log.cardId,
+                  rating: log.rating.value,
+                  reviewTime: log.reviewTime,
+                  scheduledDays: Value(log.scheduledDays),
+                  elapsedDays: Value(log.elapsedDays),
                   clientLogId: Value(clientLogId),
                 ),
               );
@@ -1384,28 +1275,7 @@ class DatabaseService {
 
       // 4. Apply Grammar Progress
       for (final raw in grammarProgress) {
-        final unitId = raw['unit_id'] as String;
-        final exerciseId = raw['exercise_id'] as String;
-        final stability = (raw['stability'] as num?)?.toDouble() ?? 0.0;
-        final difficulty = (raw['difficulty'] as num?)?.toDouble() ?? 0.0;
-        final dueStr = raw['due'] as String?;
-        final due = dueStr != null ? DateTime.tryParse(dueStr) : null;
-        final lastStudiedStr = raw['last_studied'] as String?;
-        final lastStudied = lastStudiedStr != null
-            ? DateTime.tryParse(lastStudiedStr)
-            : null;
-        final reps = raw['reps'] as int? ?? 0;
-        final lapses = raw['lapses'] as int? ?? 0;
-        final stateIdx = raw['state'] as int? ?? 0;
-        final state =
-            CardState.values[stateIdx.clamp(0, CardState.values.length - 1)];
-        final isGhost = raw['is_ghost'] as bool? ?? false;
-        final isCompleted = raw['is_completed'] as bool? ?? false;
-        final lastUserAnswer = raw['last_user_answer'] as String?;
-        final updatedAtStr = raw['updated_at'] as String?;
-        final updatedAt = updatedAtStr != null
-            ? DateTime.tryParse(updatedAtStr) ?? DateTime.now()
-            : DateTime.now();
+        final model = GrammarProgressModel.fromJson(raw);
         final hlc = raw['updated_at_hlc'] as String? ?? '';
         final isDeleted = raw['is_deleted'] as bool? ?? false;
 
@@ -1413,19 +1283,19 @@ class DatabaseService {
             .into(db.grammarProgressEntries)
             .insertOnConflictUpdate(
               GrammarProgressEntriesCompanion.insert(
-                unitId: unitId,
-                exerciseId: exerciseId,
-                stability: Value(stability),
-                difficulty: Value(difficulty),
-                due: Value(due),
-                lastStudied: Value(lastStudied),
-                reps: Value(reps),
-                lapses: Value(lapses),
-                state: Value(state),
-                isGhost: Value(isGhost),
-                isCompleted: Value(isCompleted),
-                lastUserAnswer: Value(lastUserAnswer),
-                updatedAt: Value(updatedAt),
+                unitId: model.unitId,
+                exerciseId: model.exerciseId,
+                stability: Value(model.stability),
+                difficulty: Value(model.difficulty),
+                due: Value(model.due),
+                lastStudied: Value(model.lastStudied),
+                reps: Value(model.reps),
+                lapses: Value(model.lapses),
+                state: Value(model.state),
+                isGhost: Value(model.isGhost),
+                isCompleted: Value(model.isCompleted),
+                lastUserAnswer: Value(model.lastUserAnswer),
+                updatedAt: Value(model.updatedAt),
                 updatedAtHlc: Value(hlc),
                 isDeleted: Value(isDeleted),
               ),
@@ -1434,19 +1304,10 @@ class DatabaseService {
 
       // 5. Apply Exam Submissions
       for (final raw in examSubmissions) {
-        final id = raw['id'] as String;
-        final examId = raw['exam_id'] as String;
-        final score = raw['score'] as int? ?? 0;
-        final totalCorrect = raw['total_correct'] as int? ?? 0;
-        final totalQuestions = raw['total_questions'] as int? ?? 0;
-        final durationSeconds = raw['duration_seconds'] as int? ?? 0;
+        final submission = ExamSubmissionModel.fromJson(raw);
         final answersJson = raw['answers_json'] is String
             ? raw['answers_json'] as String
-            : jsonEncode(raw['answers_json'] ?? {});
-        final submittedAtStr = raw['submitted_at'] as String?;
-        final submittedAt = submittedAtStr != null
-            ? DateTime.tryParse(submittedAtStr) ?? DateTime.now()
-            : DateTime.now();
+            : jsonEncode(submission.answers);
         final hlc = raw['updated_at_hlc'] as String? ?? '';
         final isDeleted = raw['is_deleted'] as bool? ?? false;
 
@@ -1454,14 +1315,14 @@ class DatabaseService {
             .into(db.examSubmissions)
             .insertOnConflictUpdate(
               ExamSubmissionsCompanion.insert(
-                id: id,
-                examId: examId,
-                score: Value(score),
-                totalCorrect: Value(totalCorrect),
-                totalQuestions: Value(totalQuestions),
-                durationSeconds: Value(durationSeconds),
+                id: submission.id,
+                examId: submission.examId,
+                score: Value(submission.score),
+                totalCorrect: Value(submission.totalCorrect),
+                totalQuestions: Value(submission.totalQuestions),
+                durationSeconds: Value(submission.durationSeconds),
                 answersJson: Value(answersJson),
-                submittedAt: Value(submittedAt),
+                submittedAt: Value(submission.submittedAt),
                 updatedAtHlc: Value(hlc),
                 isDeleted: Value(isDeleted),
               ),
@@ -1470,21 +1331,7 @@ class DatabaseService {
 
       // 6. Apply Wrong Questions Notebook
       for (final raw in wrongQuestions) {
-        final id = raw['id'] as String;
-        final examId = raw['exam_id'] as String;
-        final questionId = raw['question_id'] as String;
-        final userAnswer = raw['user_answer'] as String? ?? '';
-        final explanation = raw['explanation'] as String? ?? '';
-        final notes = raw['notes'] as String? ?? '';
-        final status = raw['status'] as String? ?? 'new';
-        final createdAtStr = raw['created_at'] as String?;
-        final createdAt = createdAtStr != null
-            ? DateTime.tryParse(createdAtStr) ?? DateTime.now()
-            : DateTime.now();
-        final updatedAtStr = raw['updated_at'] as String?;
-        final updatedAt = updatedAtStr != null
-            ? DateTime.tryParse(updatedAtStr) ?? DateTime.now()
-            : DateTime.now();
+        final w = WrongQuestionModel.fromJson(raw);
         final hlc = raw['updated_at_hlc'] as String? ?? '';
         final isDeleted = raw['is_deleted'] as bool? ?? false;
 
@@ -1492,15 +1339,15 @@ class DatabaseService {
             .into(db.wrongQuestionNotebook)
             .insertOnConflictUpdate(
               WrongQuestionNotebookCompanion.insert(
-                id: id,
-                examId: examId,
-                questionId: questionId,
-                userAnswer: userAnswer,
-                explanation: Value(explanation),
-                notes: Value(notes),
-                status: Value(status),
-                createdAt: Value(createdAt),
-                updatedAt: Value(updatedAt),
+                id: w.id,
+                examId: w.examId,
+                questionId: w.questionId,
+                userAnswer: w.userAnswer,
+                explanation: Value(w.explanation),
+                notes: Value(w.notes),
+                status: Value(w.status.code),
+                createdAt: Value(w.createdAt),
+                updatedAt: Value(w.updatedAt),
                 updatedAtHlc: Value(hlc),
                 isDeleted: Value(isDeleted),
               ),
@@ -1748,16 +1595,7 @@ class DatabaseService {
                 entityType: 'exam_submission',
                 entityId: submission.id,
                 operation: 'UPSERT',
-                payloadJson: jsonEncode({
-                  'id': submission.id,
-                  'exam_id': submission.examId,
-                  'score': submission.score,
-                  'total_correct': submission.totalCorrect,
-                  'total_questions': submission.totalQuestions,
-                  'duration_seconds': submission.durationSeconds,
-                  'answers_json': submission.answers,
-                  'submitted_at': submission.submittedAt.toIso8601String(),
-                }),
+                payloadJson: jsonEncode(submission.toJson()),
                 hlc: hlcStr,
               ),
             );
@@ -1792,17 +1630,7 @@ class DatabaseService {
                   entityType: 'wrong_question',
                   entityId: w.id,
                   operation: 'UPSERT',
-                  payloadJson: jsonEncode({
-                    'id': w.id,
-                    'exam_id': w.examId,
-                    'question_id': w.questionId,
-                    'user_answer': w.userAnswer,
-                    'explanation': w.explanation,
-                    'notes': w.notes,
-                    'status': w.status.code,
-                    'created_at': w.createdAt.toIso8601String(),
-                    'updated_at': DateTime.now().toUtc().toIso8601String(),
-                  }),
+                  payloadJson: jsonEncode(w.toJson()),
                   hlc: wHlcStr,
                 ),
               );
@@ -1880,6 +1708,10 @@ class DatabaseService {
   }) async {
     final hlcStr = markOutbox ? advanceHlc().pack() : '';
     await db.transaction(() async {
+      final existing = await (db.select(
+        db.wrongQuestionNotebook,
+      )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+
       await (db.update(
         db.wrongQuestionNotebook,
       )..where((tbl) => tbl.id.equals(id))).write(
@@ -1891,6 +1723,24 @@ class DatabaseService {
       );
 
       if (markOutbox) {
+        final payload = existing != null
+            ? WrongQuestionModel(
+                id: id,
+                examId: existing.examId,
+                questionId: existing.questionId,
+                userAnswer: existing.userAnswer,
+                explanation: existing.explanation,
+                notes: existing.notes,
+                status: status,
+                createdAt: existing.createdAt,
+                updatedAt: DateTime.now().toUtc(),
+              ).toJson()
+            : WrongQuestionStatusPayload(
+                id: id,
+                status: status.code,
+                updatedAt: DateTime.now().toUtc().toIso8601String(),
+              ).toJson();
+
         await db
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
@@ -1899,11 +1749,7 @@ class DatabaseService {
                 entityType: 'wrong_question',
                 entityId: id,
                 operation: 'UPSERT',
-                payloadJson: jsonEncode({
-                  'id': id,
-                  'status': status.code,
-                  'updated_at': DateTime.now().toUtc().toIso8601String(),
-                }),
+                payloadJson: jsonEncode(payload),
                 hlc: hlcStr,
               ),
             );

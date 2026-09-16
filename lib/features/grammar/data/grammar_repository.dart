@@ -130,21 +130,7 @@ class GrammarRepository {
               entityType: 'grammar_progress',
               entityId: '${model.unitId}_${model.exerciseId}',
               operation: 'UPSERT',
-              payloadJson: jsonEncode({
-                'unit_id': model.unitId,
-                'exercise_id': model.exerciseId,
-                'stability': model.stability,
-                'difficulty': model.difficulty,
-                'due': model.due?.toIso8601String(),
-                'last_studied': model.lastStudied?.toIso8601String(),
-                'reps': model.reps,
-                'lapses': model.lapses,
-                'state': model.state.index,
-                'is_ghost': model.isGhost,
-                'is_completed': model.isCompleted,
-                'last_user_answer': model.lastUserAnswer,
-                'updated_at': DateTime.now().toUtc().toIso8601String(),
-              }),
+              payloadJson: jsonEncode(model.toJson()),
               hlc: hlcStr,
             ),
           );
@@ -196,10 +182,12 @@ class GrammarRepository {
                 entityType: 'grammar_progress',
                 entityId: '${entry.unitId}_${entry.exerciseId}',
                 operation: 'DELETE',
-                payloadJson: jsonEncode({
-                  'unit_id': entry.unitId,
-                  'exercise_id': entry.exerciseId,
-                }),
+                payloadJson: jsonEncode(
+                  GrammarUnitDeletePayload(
+                    unitId: entry.unitId,
+                    exerciseId: entry.exerciseId,
+                  ).toJson(),
+                ),
                 hlc: hlcStr,
               ),
             );

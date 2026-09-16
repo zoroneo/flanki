@@ -1412,6 +1412,12 @@ abstract class AppLocalizations {
   /// **'Select a card on the left to view and edit details'**
   String get selectCardToViewDetails;
 
+  /// No description provided for @noCardSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No card selected'**
+  String get noCardSelected;
+
   /// No description provided for @unsuspendCard.
   ///
   /// In en, this message translates to:

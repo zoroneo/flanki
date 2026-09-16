@@ -250,6 +250,7 @@
   "newCardsPerDay": "Thẻ mới mỗi ngày",
   "maxReviewsPerDay": "Ôn tập tối đa mỗi ngày",
   "selectCardToViewDetails": "Chọn thẻ bên trái để xem và sửa chi tiết",
+  "noCardSelected": "Chưa chọn thẻ nào",
   "unsuspendCard": "Bỏ tạm dừng",
   "fsrsScheduleTitle": "FSRS THUẬT TOÁN & LỊCH ÔN TẬP",
   "intervalLabel": "Khoảng cách (Interval)",

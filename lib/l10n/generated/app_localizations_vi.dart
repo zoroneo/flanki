@@ -740,6 +740,9 @@ class AppLocalizationsVi extends AppLocalizations {
       'Chọn thẻ bên trái để xem và sửa chi tiết';
 
   @override
+  String get noCardSelected => 'Chưa chọn thẻ nào';
+
+  @override
   String get unsuspendCard => 'Bỏ tạm dừng';
 
   @override

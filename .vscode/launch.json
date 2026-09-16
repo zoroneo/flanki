@@ -2,26 +2,36 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flanki (Debug)",
+      "name": "Flanki Dev (Debug)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
       "flutterMode": "debug",
-      "args": ["--no-start-paused"]
+      "args": ["--no-start-paused", "--dart-define-from-file=.env.dev"]
     },
     {
-      "name": "Flanki (Profile)",
+      "name": "Flanki Dev (Profile)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      "args": ["--dart-define-from-file=.env.dev"]
     },
     {
-      "name": "Flanki (Release)",
+      "name": "Flanki Prod (Debug)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "flutterMode": "release"
+      "flutterMode": "debug",
+      "args": ["--no-start-paused", "--dart-define-from-file=.env.prod"]
+    },
+    {
+      "name": "Flanki Prod (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": ["--dart-define-from-file=.env.prod"]
     }
   ]
 }

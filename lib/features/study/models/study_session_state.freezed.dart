@@ -55,7 +55,7 @@ $Res call({
 });
 
 
-
+$CardModelCopyWith<$Res>? get currentCard;
 
 }
 /// @nodoc
@@ -78,7 +78,19 @@ as int,isFinished: null == isFinished ? _self.isFinished : isFinished // ignore:
 as bool,
   ));
 }
+/// Create a copy of StudySessionSnapshot
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CardModelCopyWith<$Res>? get currentCard {
+    if (_self.currentCard == null) {
+    return null;
+  }
 
+  return $CardModelCopyWith<$Res>(_self.currentCard!, (value) {
+    return _then(_self.copyWith(currentCard: value));
+  });
+}
 }
 
 
@@ -267,7 +279,7 @@ $Res call({
 });
 
 
-
+@override $CardModelCopyWith<$Res>? get currentCard;
 
 }
 /// @nodoc
@@ -291,7 +303,19 @@ as bool,
   ));
 }
 
+/// Create a copy of StudySessionSnapshot
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CardModelCopyWith<$Res>? get currentCard {
+    if (_self.currentCard == null) {
+    return null;
+  }
 
+  return $CardModelCopyWith<$Res>(_self.currentCard!, (value) {
+    return _then(_self.copyWith(currentCard: value));
+  });
+}
 }
 
 /// @nodoc
@@ -337,7 +361,7 @@ $Res call({
 });
 
 
-
+$CardModelCopyWith<$Res>? get currentCard;
 
 }
 /// @nodoc
@@ -364,7 +388,19 @@ as List<StudySessionSnapshot>,cardPresentedAt: freezed == cardPresentedAt ? _sel
 as DateTime?,
   ));
 }
+/// Create a copy of StudySessionState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CardModelCopyWith<$Res>? get currentCard {
+    if (_self.currentCard == null) {
+    return null;
+  }
 
+  return $CardModelCopyWith<$Res>(_self.currentCard!, (value) {
+    return _then(_self.copyWith(currentCard: value));
+  });
+}
 }
 
 
@@ -563,7 +599,7 @@ $Res call({
 });
 
 
-
+@override $CardModelCopyWith<$Res>? get currentCard;
 
 }
 /// @nodoc
@@ -591,7 +627,19 @@ as DateTime?,
   ));
 }
 
+/// Create a copy of StudySessionState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CardModelCopyWith<$Res>? get currentCard {
+    if (_self.currentCard == null) {
+    return null;
+  }
 
+  return $CardModelCopyWith<$Res>(_self.currentCard!, (value) {
+    return _then(_self.copyWith(currentCard: value));
+  });
+}
 }
 
 // dart format on

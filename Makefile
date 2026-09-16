@@ -6,6 +6,13 @@ FLUTTER ?= fvm flutter
 DART    ?= fvm dart
 CARGO   ?= cargo
 
+# Environment-specific configuration:
+# Defaults to .env.dev for local run/test, and .env.prod for release/build targets.
+ENV_DEV_FILE  := $(wildcard .env.dev)
+ENV_PROD_FILE := $(wildcard .env.prod)
+ENV_FILE      ?= $(if $(filter build-% release,$(MAKECMDGOALS)),$(if $(ENV_PROD_FILE),.env.prod,.env),$(if $(ENV_DEV_FILE),.env.dev,.env))
+ENV_ARGS      ?= --dart-define-from-file=$(ENV_FILE)
+
 .DEFAULT_GOAL := help
 .PHONY: help setup get upgrade outdated codegen watch l10n gen native \
         format fmt analyze lint-dimensions test check run run-windows run-macos run-linux run-android \
@@ -84,38 +91,38 @@ check: ## Verify format, analyze linter, dimension guardrail, and run tests (CI-
 ## ----------------------------------------------------------------------
 
 run: ## Run Flutter app with default device
-	$(FLUTTER) run
+	$(FLUTTER) run $(ENV_ARGS)
 
 run-windows: ## Run Flutter app on Windows desktop
-	$(FLUTTER) run -d windows
+	$(FLUTTER) run -d windows $(ENV_ARGS)
 
 run-macos: ## Run Flutter app on macOS desktop
-	$(FLUTTER) run -d macos
+	$(FLUTTER) run -d macos $(ENV_ARGS)
 
 run-linux: ## Run Flutter app on Linux desktop
-	$(FLUTTER) run -d linux
+	$(FLUTTER) run -d linux $(ENV_ARGS)
 
 run-android: ## Run Flutter app on Android device/emulator
-	$(FLUTTER) run -d android
+	$(FLUTTER) run -d android $(ENV_ARGS)
 
 ## ----------------------------------------------------------------------
 ## Build (Release)
 ## ----------------------------------------------------------------------
 
 build-windows: ## Build Windows release executable
-	$(FLUTTER) build windows --release
+	$(FLUTTER) build windows --release $(ENV_ARGS)
 
 build-macos: ## Build macOS release app bundle
-	$(FLUTTER) build macos --release
+	$(FLUTTER) build macos --release $(ENV_ARGS)
 
 build-linux: ## Build Linux release executable
-	$(FLUTTER) build linux --release
+	$(FLUTTER) build linux --release $(ENV_ARGS)
 
 build-apk: ## Build Android release APK
-	$(FLUTTER) build apk --release
+	$(FLUTTER) build apk --release $(ENV_ARGS)
 
 build-appbundle: ## Build Android release App Bundle (.aab)
-	$(FLUTTER) build appbundle --release
+	$(FLUTTER) build appbundle --release $(ENV_ARGS)
 
 ## ----------------------------------------------------------------------
 ## Clean

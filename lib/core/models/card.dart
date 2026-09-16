@@ -1,6 +1,14 @@
-﻿enum NoteType {
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'card.freezed.dart';
+part 'card.g.dart';
+
+enum NoteType {
+  @JsonValue('basic')
   basic('basic'),
+  @JsonValue('cloze')
   cloze('cloze'),
+  @JsonValue('reversed')
   reversed('reversed');
 
   final String value;
@@ -15,13 +23,21 @@
 }
 
 enum CardFlag {
+  @JsonValue(0)
   none(0),
+  @JsonValue(1)
   red(1),
+  @JsonValue(2)
   orange(2),
+  @JsonValue(3)
   green(3),
+  @JsonValue(4)
   blue(4),
+  @JsonValue(5)
   pink(5),
+  @JsonValue(6)
   turquoise(6),
+  @JsonValue(7)
   purple(7);
 
   final int value;
@@ -36,9 +52,13 @@ enum CardFlag {
 }
 
 enum ReviewRating {
+  @JsonValue(1)
   again(1),
+  @JsonValue(2)
   hard(2),
+  @JsonValue(3)
   good(3),
+  @JsonValue(4)
   easy(4);
 
   final int value;
@@ -53,9 +73,13 @@ enum ReviewRating {
 }
 
 enum CardState {
+  @JsonValue(0)
   newCard(0),
+  @JsonValue(1)
   learning(1),
+  @JsonValue(2)
   review(2),
+  @JsonValue(3)
   relearning(3);
 
   final int value;
@@ -69,88 +93,56 @@ enum CardState {
   }
 }
 
-class CardModel {
-  final String id;
-  final String deckId;
-  final String front;
-  final String back;
-  final String? hint;
-  final NoteType noteType;
-  final CardFlag flag;
-  final bool isSuspended;
-  final bool isBuried;
-  final List<String> tags;
-  final int intervalDays;
-  final double stability;
-  final double difficulty;
-  final int reps;
-  final int lapses;
-  final DateTime? due;
-  final DateTime? lastStudied;
-  final DateTime? createdAt;
+class CardTagsConverter implements JsonConverter<List<String>, dynamic> {
+  const CardTagsConverter();
 
-  const CardModel({
-    required this.id,
-    required this.deckId,
-    required this.front,
-    required this.back,
-    this.hint,
-    this.noteType = NoteType.basic,
-    this.flag = CardFlag.none,
-    this.isSuspended = false,
-    this.isBuried = false,
-    this.tags = const [],
-    this.intervalDays = 0,
-    this.stability = 0.0,
-    this.difficulty = 0.0,
-    this.reps = 0,
-    this.lapses = 0,
-    this.due,
-    this.lastStudied,
-    this.createdAt,
-  });
+  @override
+  List<String> fromJson(dynamic json) {
+    if (json == null) return const [];
+    if (json is List) return json.map((e) => e.toString()).toList();
+    if (json is String) {
+      if (json.trim().isEmpty) return const [];
+      return json
+          .split(',')
+          .map((t) => t.trim())
+          .where((t) => t.isNotEmpty)
+          .toList();
+    }
+    return const [];
+  }
 
-  bool get hasFlag => flag != CardFlag.none;
+  @override
+  dynamic toJson(List<String> object) => object.join(',');
+}
 
-  CardModel copyWith({
-    String? id,
-    String? deckId,
-    String? front,
-    String? back,
+@freezed
+abstract class CardModel with _$CardModel {
+  const CardModel._();
+
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory CardModel({
+    required String id,
+    @Default('') String deckId,
+    @Default('') String front,
+    @Default('') String back,
     String? hint,
-    NoteType? noteType,
-    CardFlag? flag,
-    bool? isSuspended,
-    bool? isBuried,
-    List<String>? tags,
-    int? intervalDays,
-    double? stability,
-    double? difficulty,
-    int? reps,
-    int? lapses,
+    @Default(NoteType.basic) NoteType noteType,
+    @Default(CardFlag.none) CardFlag flag,
+    @Default(false) bool isSuspended,
+    @Default(false) bool isBuried,
+    @CardTagsConverter() @Default([]) List<String> tags,
+    @Default(0) int intervalDays,
+    @Default(0.0) double stability,
+    @Default(0.0) double difficulty,
+    @Default(0) int reps,
+    @Default(0) int lapses,
     DateTime? due,
     DateTime? lastStudied,
     DateTime? createdAt,
-  }) {
-    return CardModel(
-      id: id ?? this.id,
-      deckId: deckId ?? this.deckId,
-      front: front ?? this.front,
-      back: back ?? this.back,
-      hint: hint ?? this.hint,
-      noteType: noteType ?? this.noteType,
-      flag: flag ?? this.flag,
-      isSuspended: isSuspended ?? this.isSuspended,
-      isBuried: isBuried ?? this.isBuried,
-      tags: tags ?? this.tags,
-      intervalDays: intervalDays ?? this.intervalDays,
-      stability: stability ?? this.stability,
-      difficulty: difficulty ?? this.difficulty,
-      reps: reps ?? this.reps,
-      lapses: lapses ?? this.lapses,
-      due: due ?? this.due,
-      lastStudied: lastStudied ?? this.lastStudied,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
+  }) = _CardModel;
+
+  factory CardModel.fromJson(Map<String, dynamic> json) =>
+      _$CardModelFromJson(json);
+
+  bool get hasFlag => flag != CardFlag.none;
 }

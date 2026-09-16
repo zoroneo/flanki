@@ -32,7 +32,7 @@ CREATE POLICY "Authenticated Users Upload Media"
     TO authenticated
     WITH CHECK (
         bucket_id = 'flanki_media' AND
-        (storage.foldername(name))[1] = auth.uid()::TEXT
+        (storage.foldername(name))[1] = (select auth.uid())::TEXT
     );
 
 -- Allow authenticated users to update their own media files
@@ -41,7 +41,7 @@ CREATE POLICY "Users Update Own Media"
     TO authenticated
     USING (
         bucket_id = 'flanki_media' AND
-        (storage.foldername(name))[1] = auth.uid()::TEXT
+        (storage.foldername(name))[1] = (select auth.uid())::TEXT
     );
 
 -- Allow authenticated users to delete their own media files
@@ -50,5 +50,5 @@ CREATE POLICY "Users Delete Own Media"
     TO authenticated
     USING (
         bucket_id = 'flanki_media' AND
-        (storage.foldername(name))[1] = auth.uid()::TEXT
+        (storage.foldername(name))[1] = (select auth.uid())::TEXT
     );

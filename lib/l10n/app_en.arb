@@ -414,6 +414,7 @@
   "newCardsPerDay": "New cards per day",
   "maxReviewsPerDay": "Maximum reviews per day",
   "selectCardToViewDetails": "Select a card on the left to view and edit details",
+  "noCardSelected": "No card selected",
   "unsuspendCard": "Unsuspend",
   "fsrsScheduleTitle": "FSRS ALGORITHM & SCHEDULE",
   "intervalLabel": "Interval",

@@ -744,6 +744,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Select a card on the left to view and edit details';
 
   @override
+  String get noCardSelected => 'No card selected';
+
+  @override
   String get unsuspendCard => 'Unsuspend';
 
   @override
