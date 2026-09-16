@@ -193,36 +193,41 @@ class WrongNotebookScreen extends HookConsumerWidget {
             ),
           ],
           AppGaps.v12,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (item.status != WrongQuestionStatus.reviewing)
-                OutlineButton(
-                  size: ButtonSize.small,
-                  onPressed: () => notifier.markStatus(
-                    item.id,
-                    WrongQuestionStatus.reviewing,
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (item.status != WrongQuestionStatus.reviewing)
+                  OutlineButton(
+                    alignment: Alignment.center,
+                    size: ButtonSize.small,
+                    onPressed: () => notifier.markStatus(
+                      item.id,
+                      WrongQuestionStatus.reviewing,
+                    ),
+                    child: Text(l10n.reviewMistakeButton),
                   ),
-                  child: Text(l10n.reviewMistakeButton),
-                ),
-              AppGaps.h8,
-              if (item.status != WrongQuestionStatus.mastered)
-                PrimaryButton(
-                  size: ButtonSize.small,
-                  onPressed: () => notifier.markStatus(
-                    item.id,
-                    WrongQuestionStatus.mastered,
+                AppGaps.h8,
+                if (item.status != WrongQuestionStatus.mastered)
+                  PrimaryButton(
+                    alignment: Alignment.center,
+                    size: ButtonSize.small,
+                    onPressed: () => notifier.markStatus(
+                      item.id,
+                      WrongQuestionStatus.mastered,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(RadixIcons.check, size: 14),
+                        AppGaps.h4,
+                        Text(l10n.masteredMistakeButton),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(RadixIcons.check, size: 14),
-                      AppGaps.h4,
-                      Text(l10n.masteredMistakeButton),
-                    ],
-                  ),
-                ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

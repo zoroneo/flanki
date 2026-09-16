@@ -282,35 +282,38 @@ class CreateDeckModal extends HookWidget {
                       AppGaps.v24,
 
                       // Action Buttons
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlineButton(
-                              alignment: Alignment.center,
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Text(l10n.cancel),
-                            ),
-                          ),
-                          AppGaps.h12,
-                          Expanded(
-                            child: PrimaryButton(
-                              alignment: Alignment.center,
-                              onPressed: handleCreate,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    LucideIcons.plus,
-                                    size: AppIconSize.sm,
-                                  ),
-                                  AppGaps.h8,
-                                  Text(l10n.createDeckTitle),
-                                ],
+                      IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: OutlineButton(
+                                alignment: Alignment.center,
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text(l10n.cancel),
                               ),
                             ),
-                          ),
-                        ],
+                            AppGaps.h12,
+                            Expanded(
+                              child: PrimaryButton(
+                                alignment: Alignment.center,
+                                onPressed: handleCreate,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      LucideIcons.plus,
+                                      size: AppIconSize.sm,
+                                    ),
+                                    AppGaps.h8,
+                                    Text(l10n.createDeckTitle),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

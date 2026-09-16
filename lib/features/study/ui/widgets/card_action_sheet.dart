@@ -184,46 +184,49 @@ class CardActionSheet extends HookWidget {
                   },
                 ),
                 AppGaps.v24,
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlineButton(
-                        alignment: Alignment.center,
-                        onPressed: () {
-                          onBury();
-                          Navigator.of(context).pop();
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(LucideIcons.clock, size: AppIconSize.sm),
-                            AppGaps.h8,
-                            Text(l10n.buryCard),
-                          ],
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: OutlineButton(
+                          alignment: Alignment.center,
+                          onPressed: () {
+                            onBury();
+                            Navigator.of(context).pop();
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(LucideIcons.clock, size: AppIconSize.sm),
+                              AppGaps.h8,
+                              Text(l10n.buryCard),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    AppGaps.h8,
-                    Expanded(
-                      child: OutlineButton(
-                        alignment: Alignment.center,
-                        onPressed: () {
-                          onSuspend();
-                          Navigator.of(context).pop();
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(LucideIcons.pause, size: AppIconSize.sm),
-                            AppGaps.h8,
-                            Text(l10n.suspendCard),
-                          ],
+                      AppGaps.h8,
+                      Expanded(
+                        child: OutlineButton(
+                          alignment: Alignment.center,
+                          onPressed: () {
+                            onSuspend();
+                            Navigator.of(context).pop();
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(LucideIcons.pause, size: AppIconSize.sm),
+                              AppGaps.h8,
+                              Text(l10n.suspendCard),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 AppGaps.v8,
                 OutlineButton(

@@ -172,37 +172,42 @@ class ExamResultScreen extends HookConsumerWidget {
               AppGaps.v16,
 
               // Action Buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlineButton(
-                      onPressed: () => context.push('/exams/wrong-notebook'),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(RadixIcons.bookmark, size: 14),
-                          AppGaps.h8,
-                          Text(l10n.wrongNotebook),
-                        ],
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: OutlineButton(
+                        alignment: Alignment.center,
+                        onPressed: () => context.push('/exams/wrong-notebook'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(RadixIcons.bookmark, size: 14),
+                            AppGaps.h8,
+                            Text(l10n.wrongNotebook),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  AppGaps.h12,
-                  Expanded(
-                    child: PrimaryButton(
-                      onPressed: () =>
-                          context.pushReplacement('/exams/$examId/taking'),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(RadixIcons.reload, size: 14),
-                          AppGaps.h8,
-                          Text(l10n.retakeExam),
-                        ],
+                    AppGaps.h12,
+                    Expanded(
+                      child: PrimaryButton(
+                        alignment: Alignment.center,
+                        onPressed: () =>
+                            context.pushReplacement('/exams/$examId/taking'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(RadixIcons.reload, size: 14),
+                            AppGaps.h8,
+                            Text(l10n.retakeExam),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               AppGaps.v24,
 

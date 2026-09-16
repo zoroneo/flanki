@@ -260,36 +260,41 @@ class ExamCatalogScreen extends HookConsumerWidget {
             overflow: TextOverflow.ellipsis,
           ),
           AppGaps.v8,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (!paper.isDownloaded)
-                OutlineButton(
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (!paper.isDownloaded)
+                  OutlineButton(
+                    alignment: Alignment.center,
+                    size: ButtonSize.small,
+                    onPressed: () => notifier.downloadExam(paper.id),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(RadixIcons.download, size: 14),
+                        AppGaps.h4,
+                        Text(l10n.downloadExam),
+                      ],
+                    ),
+                  ),
+                AppGaps.h8,
+                PrimaryButton(
+                  alignment: Alignment.center,
                   size: ButtonSize.small,
-                  onPressed: () => notifier.downloadExam(paper.id),
+                  onPressed: () => context.push('/exams/${paper.id}/taking'),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(RadixIcons.download, size: 14),
+                      Text(l10n.takeExam),
                       AppGaps.h4,
-                      Text(l10n.downloadExam),
+                      const Icon(RadixIcons.arrowRight, size: 14),
                     ],
                   ),
                 ),
-              AppGaps.h8,
-              PrimaryButton(
-                size: ButtonSize.small,
-                onPressed: () => context.push('/exams/${paper.id}/taking'),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(l10n.takeExam),
-                    AppGaps.h4,
-                    const Icon(RadixIcons.arrowRight, size: 14),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

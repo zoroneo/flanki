@@ -79,17 +79,24 @@ class CardActionEditForm extends HookWidget {
           maxLines: 4,
         ),
         AppGaps.v20,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            GhostButton(onPressed: onCancel, child: Text(l10n.cancel)),
-            AppGaps.h8,
-            PrimaryButton(
-              alignment: Alignment.center,
-              onPressed: handleSave,
-              child: Text(l10n.saveChanges),
-            ),
-          ],
+        IntrinsicHeight(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              GhostButton(
+                alignment: Alignment.center,
+                onPressed: onCancel,
+                child: Text(l10n.cancel),
+              ),
+              AppGaps.h8,
+              PrimaryButton(
+                alignment: Alignment.center,
+                onPressed: handleSave,
+                child: Text(l10n.saveChanges),
+              ),
+            ],
+          ),
         ),
       ],
     );

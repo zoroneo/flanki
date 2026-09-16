@@ -281,62 +281,68 @@ class ExamTakingScreen extends HookConsumerWidget {
         color: theme.colorScheme.card,
         border: Border(top: BorderSide(color: theme.colorScheme.border)),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          OutlineButton(
-            size: ButtonSize.small,
-            onPressed: isFirst ? null : () => notifier.prevQuestion(),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(RadixIcons.arrowLeft, size: 14),
-                AppGaps.h4,
-                Text(context.l10n.previousQuestion),
-              ],
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            OutlineButton(
+              alignment: Alignment.center,
+              size: ButtonSize.small,
+              onPressed: isFirst ? null : () => notifier.prevQuestion(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(RadixIcons.arrowLeft, size: 14),
+                  AppGaps.h4,
+                  Text(context.l10n.previousQuestion),
+                ],
+              ),
             ),
-          ),
-          OutlineButton(
-            size: ButtonSize.small,
-            onPressed: () => ExamQuestionsSheet.show(
-              context: context,
-              state: ref.read(examSessionProvider),
-              notifier: notifier,
-              theme: theme,
+            OutlineButton(
+              alignment: Alignment.center,
+              size: ButtonSize.small,
+              onPressed: () => ExamQuestionsSheet.show(
+                context: context,
+                state: ref.read(examSessionProvider),
+                notifier: notifier,
+                theme: theme,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(RadixIcons.viewGrid, size: 14),
+                  AppGaps.h4,
+                  Text(context.l10n.questionList),
+                ],
+              ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(RadixIcons.viewGrid, size: 14),
-                AppGaps.h4,
-                Text(context.l10n.questionList),
-              ],
+            PrimaryButton(
+              alignment: Alignment.center,
+              size: ButtonSize.small,
+              onPressed: isLast
+                  ? () => ExamTakingDialogs.showConfirmSubmit(
+                      context: context,
+                      state: ref.read(examSessionProvider),
+                      notifier: notifier,
+                    )
+                  : () => notifier.nextQuestion(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    isLast ? context.l10n.submitExam : context.l10n.nextQuestion,
+                  ),
+                  AppGaps.h4,
+                  Icon(
+                    isLast ? RadixIcons.check : RadixIcons.arrowRight,
+                    size: 14,
+                  ),
+                ],
+              ),
             ),
-          ),
-          PrimaryButton(
-            size: ButtonSize.small,
-            onPressed: isLast
-                ? () => ExamTakingDialogs.showConfirmSubmit(
-                    context: context,
-                    state: ref.read(examSessionProvider),
-                    notifier: notifier,
-                  )
-                : () => notifier.nextQuestion(),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  isLast ? context.l10n.submitExam : context.l10n.nextQuestion,
-                ),
-                AppGaps.h4,
-                Icon(
-                  isLast ? RadixIcons.check : RadixIcons.arrowRight,
-                  size: 14,
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -83,6 +83,7 @@ class BrowserDesktopLayout extends StatelessWidget {
       child: SizedBox(
         height: 38,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: TextField(
@@ -102,9 +103,9 @@ class BrowserDesktopLayout extends StatelessWidget {
             ),
             AppGaps.h8,
             PrimaryButton(
-              size: ButtonSize.small,
+              alignment: Alignment.center,
               leading: const Icon(LucideIcons.plus, size: AppIconSize.sm),
-              child: Text(l10n.addCard),
+              child: Text(l10n.addCard, maxLines: 1, softWrap: false),
               onPressed: () => context.push('/editor'),
             ),
           ],

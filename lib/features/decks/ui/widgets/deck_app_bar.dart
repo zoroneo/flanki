@@ -139,26 +139,31 @@ class DeckAppBar extends StatelessWidget {
               badgeText = l10n.syncBadge;
             }
 
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GhostButton(
-                  size: ButtonSize.small,
-                  onPressed: () => context.go('/exams'),
-                  leading: const Icon(
-                    LucideIcons.graduationCap,
-                    size: AppIconSize.sm,
+            return IntrinsicHeight(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  GhostButton(
+                    alignment: Alignment.center,
+                    size: ButtonSize.small,
+                    onPressed: () => context.go('/exams'),
+                    leading: const Icon(
+                      LucideIcons.graduationCap,
+                      size: AppIconSize.sm,
+                    ),
+                    child: Text(l10n.examBank, maxLines: 1, softWrap: false),
                   ),
-                  child: Text(l10n.examBank, maxLines: 1, softWrap: false),
-                ),
-                AppGaps.h4,
-                GhostButton(
-                  size: ButtonSize.small,
-                  onPressed: onTap,
-                  leading: leadingIcon,
-                  child: Text(badgeText, maxLines: 1, softWrap: false),
-                ),
-              ],
+                  AppGaps.h4,
+                  GhostButton(
+                    alignment: Alignment.center,
+                    size: ButtonSize.small,
+                    onPressed: onTap,
+                    leading: leadingIcon,
+                    child: Text(badgeText, maxLines: 1, softWrap: false),
+                  ),
+                ],
+              ),
             );
           },
         ),
