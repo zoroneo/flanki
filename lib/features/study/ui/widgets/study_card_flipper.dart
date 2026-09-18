@@ -9,6 +9,7 @@ import 'study_card_views.dart';
 class StudyCardFlipper extends StatelessWidget {
   final AnimationController flipController;
   final CardModel? currentCard;
+  final bool isFlipped;
   final String typedAnswer;
   final ValueChanged<String> onAnswerChanged;
   final VoidCallback onSubmitAnswer;
@@ -21,6 +22,7 @@ class StudyCardFlipper extends StatelessWidget {
     super.key,
     required this.flipController,
     required this.currentCard,
+    this.isFlipped = false,
     required this.typedAnswer,
     required this.onAnswerChanged,
     required this.onSubmitAnswer,
@@ -45,7 +47,7 @@ class StudyCardFlipper extends StatelessWidget {
       builder: (context, child) {
         final flipProgress = flipAnimation.value;
         final angle = flipProgress * math.pi;
-        final isUnder = angle > (math.pi / 2);
+        final isUnder = isFlipped && angle > (math.pi / 2);
 
         // Perspective flip matrix with 0.001 depth entry
         final flipMatrix = Matrix4.identity()

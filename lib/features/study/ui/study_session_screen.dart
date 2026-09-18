@@ -10,6 +10,7 @@ import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
+import '../../../core/services/card_audio_service.dart';
 import '../../../core/theme/app_tokens.dart';
 
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
@@ -63,7 +64,9 @@ class StudySessionScreen extends HookConsumerWidget {
 
     useEffect(() {
       Future.microtask(() => sessionNotifier.init(deckId));
-      return null;
+      return () {
+        CardAudioService.instance.stop();
+      };
     }, [deckId]);
 
     final flipController = useAnimationController(
@@ -76,6 +79,8 @@ class StudySessionScreen extends HookConsumerWidget {
 
     useEffect(() {
       userTypedAnswer.value = '';
+      flipController.value = 0.0;
+      CardAudioService.instance.stop();
       return null;
     }, [currentCard?.id]);
 
@@ -113,11 +118,15 @@ class StudySessionScreen extends HookConsumerWidget {
       HapticFeedback.mediumImpact();
       deckNotifier.recordStudyProgress(deckId);
       dragOffset.value = 0.0;
+      CardAudioService.instance.stop();
+      flipController.value = 0.0;
       sessionNotifier.rateCard(rating);
     }
 
     void handleUndo() {
       HapticFeedback.mediumImpact();
+      CardAudioService.instance.stop();
+      flipController.value = 0.0;
       final success = sessionNotifier.undo();
       if (success) {
         showToast(
@@ -278,6 +287,7 @@ class StudySessionScreen extends HookConsumerWidget {
                           child: StudyCardFlipper(
                             flipController: flipController,
                             currentCard: currentCard,
+                            isFlipped: isFlipped,
                             typedAnswer: userTypedAnswer.value,
                             onAnswerChanged: (v) => userTypedAnswer.value = v,
                             onSubmitAnswer: handleFlip,
