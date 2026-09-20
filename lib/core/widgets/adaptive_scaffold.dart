@@ -52,32 +52,39 @@ class AdaptiveScaffold extends HookConsumerWidget {
 
     final currentIndex = navigationShell.currentIndex;
 
-    return CallbackShortcuts(
-      bindings: _buildKeyboardShortcuts(ref),
-      child: Focus(
-        autofocus: true,
-        child: ScreenTypeLayout.builder(
-          mobile: (context) => _buildMobileLayout(
-            theme: theme,
-            currentIndex: currentIndex,
-            totalDue: totalDue,
-            isAuthenticated: isAuthenticated,
-            l10n: l10n,
-            ref: ref,
-          ),
-          tablet: (context) => _buildTabletLayout(
-            currentIndex: currentIndex,
-            totalDue: totalDue,
-            isAuthenticated: isAuthenticated,
-            l10n: l10n,
-            ref: ref,
-          ),
-          desktop: (context) => _buildDesktopLayout(
-            currentIndex: currentIndex,
-            totalDue: totalDue,
-            isAuthenticated: isAuthenticated,
-            l10n: l10n,
-            ref: ref,
+    return PopScope(
+      canPop: currentIndex == AppNavIndex.decks,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _onTap(AppNavIndex.decks, ref);
+      },
+      child: CallbackShortcuts(
+        bindings: _buildKeyboardShortcuts(ref),
+        child: Focus(
+          autofocus: true,
+          child: ScreenTypeLayout.builder(
+            mobile: (context) => _buildMobileLayout(
+              theme: theme,
+              currentIndex: currentIndex,
+              totalDue: totalDue,
+              isAuthenticated: isAuthenticated,
+              l10n: l10n,
+              ref: ref,
+            ),
+            tablet: (context) => _buildTabletLayout(
+              currentIndex: currentIndex,
+              totalDue: totalDue,
+              isAuthenticated: isAuthenticated,
+              l10n: l10n,
+              ref: ref,
+            ),
+            desktop: (context) => _buildDesktopLayout(
+              currentIndex: currentIndex,
+              totalDue: totalDue,
+              isAuthenticated: isAuthenticated,
+              l10n: l10n,
+              ref: ref,
+            ),
           ),
         ),
       ),
@@ -109,19 +116,26 @@ class AdaptiveScaffold extends HookConsumerWidget {
     required dynamic l10n,
     required WidgetRef ref,
   }) {
+    final showBottomBar =
+        currentIndex == AppNavIndex.decks ||
+        currentIndex == AppNavIndex.grammar ||
+        currentIndex == AppNavIndex.exams ||
+        currentIndex == AppNavIndex.settings;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       child: Column(
         children: [
           Expanded(child: navigationShell),
-          MobileBottomNavBar(
-            theme: theme,
-            currentIndex: currentIndex,
-            totalDue: totalDue,
-            isAuthenticated: isAuthenticated,
-            l10n: l10n,
-            onTap: (index) => _onTap(index, ref),
-          ),
+          if (showBottomBar)
+            MobileBottomNavBar(
+              theme: theme,
+              currentIndex: currentIndex,
+              totalDue: totalDue,
+              isAuthenticated: isAuthenticated,
+              l10n: l10n,
+              onTap: (index) => _onTap(index, ref),
+            ),
         ],
       ),
     );

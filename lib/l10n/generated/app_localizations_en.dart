@@ -1883,4 +1883,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String wrongStatusUpdateFailed(String error) {
     return 'Failed to update question status: $error';
   }
+
+  @override
+  String get learningTools => 'Learning Tools';
+
+  @override
+  String get refreshTooltip => 'Refresh';
+
+  @override
+  String get bookmarkQuestion => 'Save';
+
+  @override
+  String get bookmarkedQuestion => 'Saved';
 }

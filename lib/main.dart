@@ -167,9 +167,7 @@ class FlankiApp extends ConsumerWidget {
         typography: typography,
       ),
       builder: (context, child) => ComponentTheme<TextFieldTheme>(
-        data: const TextFieldTheme(
-          padding: AppThemeValues.textFieldPadding,
-        ),
+        data: const TextFieldTheme(padding: AppThemeValues.textFieldPadding),
         child: ComponentTheme<PrimaryButtonTheme>(
           data: PrimaryButtonTheme(
             textStyle: (context, states, value) => value.copyWith(

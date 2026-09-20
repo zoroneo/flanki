@@ -199,7 +199,10 @@ class CardActionSheet extends HookWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(LucideIcons.clock, size: AppIconSize.sm),
+                              const Icon(
+                                LucideIcons.clock,
+                                size: AppIconSize.sm,
+                              ),
                               AppGaps.h8,
                               Text(l10n.buryCard),
                             ],
@@ -218,7 +221,10 @@ class CardActionSheet extends HookWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(LucideIcons.pause, size: AppIconSize.sm),
+                              const Icon(
+                                LucideIcons.pause,
+                                size: AppIconSize.sm,
+                              ),
                               AppGaps.h8,
                               Text(l10n.suspendCard),
                             ],

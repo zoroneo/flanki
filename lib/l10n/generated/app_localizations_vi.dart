@@ -1879,4 +1879,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String wrongStatusUpdateFailed(String error) {
     return 'Cập nhật trạng thái thất bại: $error';
   }
+
+  @override
+  String get learningTools => 'Công cụ học tập';
+
+  @override
+  String get refreshTooltip => 'Làm mới';
+
+  @override
+  String get bookmarkQuestion => 'Lưu';
+
+  @override
+  String get bookmarkedQuestion => 'Đã lưu';
 }

@@ -10,6 +10,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 import '../models/exam_models.dart';
 import '../providers/exam_catalog_notifier.dart';
+import 'widgets/exam_paper_card.dart';
 
 class ExamCatalogScreen extends HookConsumerWidget {
   const ExamCatalogScreen({super.key});
@@ -34,25 +35,31 @@ class ExamCatalogScreen extends HookConsumerWidget {
     return Scaffold(
       headers: [
         AppBar(
-          title: Text(l10n.examBank),
+          title: Text(
+            l10n.examBank,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.typography.h4.copyWith(fontWeight: FontWeight.w700),
+          ),
           trailing: [
-            OutlineButton(
-              size: ButtonSize.small,
-              onPressed: () => context.push(AppRoutes.wrongNotebook),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(RadixIcons.bookmark, size: 14),
-                  AppGaps.h8,
-                  Text(l10n.wrongNotebook),
-                ],
+            Tooltip(
+              tooltip: (context) =>
+                  TooltipContainer(child: Text(l10n.wrongNotebook)),
+              child: IconButton.outline(
+                size: ButtonSize.small,
+                icon: const Icon(LucideIcons.bookmark, size: AppIconSize.sm),
+                onPressed: () => context.push(AppRoutes.wrongNotebook),
               ),
             ),
             AppGaps.h8,
-            IconButton.outline(
-              size: ButtonSize.small,
-              icon: const Icon(RadixIcons.reload, size: 16),
-              onPressed: () => notifier.refreshFromCloud(),
+            Tooltip(
+              tooltip: (context) =>
+                  TooltipContainer(child: Text(l10n.refreshTooltip)),
+              child: IconButton.outline(
+                size: ButtonSize.small,
+                icon: const Icon(LucideIcons.rotateCw, size: AppIconSize.sm),
+                onPressed: () => notifier.refreshFromCloud(),
+              ),
             ),
           ],
         ),
@@ -65,55 +72,70 @@ class ExamCatalogScreen extends HookConsumerWidget {
             tablet: 2,
             desktop: sizingInfo.screenSize.width >= 1280 ? 3 : 2,
           );
+          final isMobile =
+              sizingInfo.deviceScreenType == DeviceScreenType.mobile;
           final padding = getValueForScreenType<double>(
             context: context,
-            mobile: AppSpacing.sm,
-            tablet: AppSpacing.md,
-            desktop: AppSpacing.lg,
+            mobile: AppSpacing.pageMobile,
+            tablet: AppSpacing.pageTablet,
+            desktop: AppSpacing.pageDesktop,
           );
+          final vSpacing = isMobile ? AppGaps.v12 : AppGaps.v16;
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(padding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Search and Category Tabs
-                _buildSearchAndFilters(
-                  context,
-                  ref,
-                  notifier,
-                  catalogState,
-                  searchQuery,
-                ),
-                AppGaps.v16,
-
-                if (catalogState.isLoading && catalogState.papers.isEmpty)
-                  const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(AppSpacing.xxl),
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                else if (filteredPapers.isEmpty)
-                  _buildEmptyState(theme, context)
-                else
-                  m.GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: m.SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      mainAxisSpacing: AppSpacing.md,
-                      crossAxisSpacing: AppSpacing.md,
-                      mainAxisExtent: 170,
-                    ),
-                    itemCount: filteredPapers.length,
-                    itemBuilder: (context, index) {
-                      final paper = filteredPapers[index];
-                      return _buildExamCard(context, paper, notifier, theme);
-                    },
-                  ),
-              ],
-            ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              vSpacing,
+              _buildSearchAndFilters(
+                context,
+                ref,
+                notifier,
+                catalogState,
+                searchQuery,
+                theme,
+                padding,
+                vSpacing,
+              ),
+              vSpacing,
+              Expanded(
+                child: catalogState.isLoading && catalogState.papers.isEmpty
+                    ? const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(AppSpacing.xxl),
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : filteredPapers.isEmpty
+                    ? SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(horizontal: padding),
+                        child: _buildEmptyState(theme, context),
+                      )
+                    : m.GridView.builder(
+                        padding: EdgeInsets.fromLTRB(
+                          padding,
+                          0,
+                          padding,
+                          AppDimensions.bottomNavClearance,
+                        ),
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate:
+                            m.SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              mainAxisSpacing: AppSpacing.md,
+                              crossAxisSpacing: AppSpacing.md,
+                              mainAxisExtent: 170,
+                            ),
+                        itemCount: filteredPapers.length,
+                        itemBuilder: (context, index) {
+                          final paper = filteredPapers[index];
+                          return ExamPaperCard(
+                            paper: paper,
+                            notifier: notifier,
+                          );
+                        },
+                      ),
+              ),
+            ],
           );
         },
       ),
@@ -126,24 +148,35 @@ class ExamCatalogScreen extends HookConsumerWidget {
     ExamCatalogNotifier notifier,
     ExamCatalogState state,
     ValueNotifier<String> searchQuery,
+    ThemeData theme,
+    double horizontalPadding,
+    SizedBox vSpacing,
   ) {
     final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextField(
-          features: const [
-            InputFeature.leading(Icon(RadixIcons.magnifyingGlass, size: 16)),
-          ],
-          placeholder: Text(l10n.searchExamsPlaceholder),
-          onChanged: (val) => searchQuery.value = val,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+          child: TextField(
+            features: const [
+              InputFeature.leading(
+                Icon(LucideIcons.search, size: AppIconSize.sm),
+              ),
+            ],
+            placeholder: Text(l10n.searchExamsPlaceholder),
+            onChanged: (val) => searchQuery.value = val,
+          ),
         ),
-        AppGaps.v12,
+        vSpacing,
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           child: Row(
             children: [
               _buildFilterChip(
+                theme: theme,
                 label: l10n.allFilter,
                 isSelected: state.selectedCategory == null,
                 onTap: () => notifier.filterCategory(null),
@@ -153,6 +186,7 @@ class ExamCatalogScreen extends HookConsumerWidget {
                 (cat) => Padding(
                   padding: const EdgeInsets.only(right: AppSpacing.sm),
                   child: _buildFilterChip(
+                    theme: theme,
                     label: cat.code,
                     isSelected: state.selectedCategory == cat,
                     onTap: () => notifier.filterCategory(cat),
@@ -167,137 +201,41 @@ class ExamCatalogScreen extends HookConsumerWidget {
   }
 
   Widget _buildFilterChip({
+    required ThemeData theme,
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    return isSelected
-        ? PrimaryButton(
-            size: ButtonSize.small,
-            onPressed: onTap,
-            child: Text(label),
-          )
-        : OutlineButton(
-            size: ButtonSize.small,
-            onPressed: onTap,
-            child: Text(label),
-          );
-  }
-
-  Widget _buildBadge(ThemeData theme, String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: AppSpacing.xxs,
-      ),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.secondary,
-        borderRadius: AppRadius.borderLg,
-      ),
-      child: Text(
-        text,
-        style: theme.typography.xSmall.copyWith(
-          fontWeight: FontWeight.w600,
-          color: theme.colorScheme.secondaryForeground,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.smPlus,
+          vertical: 6,
         ),
-      ),
-    );
-  }
-
-  Widget _buildExamCard(
-    BuildContext context,
-    ExamPaperModel paper,
-    ExamCatalogNotifier notifier,
-    ThemeData theme,
-  ) {
-    final l10n = context.l10n;
-    return Card(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  _buildBadge(theme, '${paper.category.code} ${paper.level}'),
-                  AppGaps.h8,
-                  Text(
-                    l10n.examDurationAndQuestions(
-                      paper.durationMinutes,
-                      paper.totalQuestions,
-                    ),
-                    style: theme.typography.xSmall.copyWith(
-                      color: theme.colorScheme.mutedForeground,
-                    ),
-                  ),
-                ],
-              ),
-              if (paper.isDownloaded)
-                const Icon(
-                  RadixIcons.checkCircled,
-                  size: 16,
-                  color: m.Colors.green,
-                )
-              else
-                const Icon(m.Icons.cloud_download_outlined, size: 16),
-            ],
+        decoration: BoxDecoration(
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.muted.withValues(alpha: 0.5),
+          borderRadius: AppRadius.borderFull,
+          border: Border.all(
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.border,
+            width: 1,
           ),
-          AppGaps.v8,
-          Text(
-            paper.title,
-            style: theme.typography.base.copyWith(fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+        ),
+        child: Text(
+          label,
+          style: theme.typography.xSmall.copyWith(
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+            color: isSelected
+                ? theme.colorScheme.primaryForeground
+                : theme.colorScheme.foreground,
           ),
-          Text(
-            paper.description,
-            style: theme.typography.small.copyWith(
-              color: theme.colorScheme.mutedForeground,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          AppGaps.v8,
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (!paper.isDownloaded)
-                  OutlineButton(
-                    alignment: Alignment.center,
-                    size: ButtonSize.small,
-                    onPressed: () => notifier.downloadExam(paper.id),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(RadixIcons.download, size: 14),
-                        AppGaps.h4,
-                        Text(l10n.downloadExam),
-                      ],
-                    ),
-                  ),
-                AppGaps.h8,
-                PrimaryButton(
-                  alignment: Alignment.center,
-                  size: ButtonSize.small,
-                  onPressed: () => context.push(AppRoutes.examTaking(paper.id)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(l10n.takeExam),
-                      AppGaps.h4,
-                      const Icon(RadixIcons.arrowRight, size: 14),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -309,7 +247,7 @@ class ExamCatalogScreen extends HookConsumerWidget {
         padding: const EdgeInsets.all(AppSpacing.xxxl),
         child: Column(
           children: [
-            const Icon(RadixIcons.fileText, size: 48),
+            const Icon(LucideIcons.fileText, size: AppSpacing.xxxl),
             AppGaps.v12,
             Text(
               l10n.noExamsFoundTitle,

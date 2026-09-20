@@ -169,6 +169,8 @@ abstract final class AppDimensions {
   static const double mobileNavItemMinHeight = 48.0;
   static const double statusDotSize = 8.0;
   static const double indicatorDotSize = 6.0;
+  static const double navIndicatorPillWidth = 64.0;
+  static const double navIndicatorPillHeight = 32.0;
 
   // Modals & Sheets
   static const double modalDesktopMaxWidth = 480.0;
@@ -190,6 +192,7 @@ abstract final class AppDimensions {
   static const double audioButtonSize = 28.0;
   static const double speedDialFabSize = 56.0;
   static const double speedDialOptionSize = 44.0;
+  static const double touchTargetMin = 44.0;
 }
 
 /// Flanki Standard Animation Durations.
@@ -222,4 +225,3 @@ abstract final class AppThemeValues {
   static const double cardFlipTiltFactor = 0.0006;
   static const double cardFlipMaxTilt = 0.12;
 }
-

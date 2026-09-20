@@ -68,7 +68,13 @@ class ExamRepository {
   }
 
   Future<List<ExamQuestionModel>> getExamQuestions(String examId) async {
-    return dbService.getExamQuestions(examId);
+    final list = await dbService.getExamQuestions(examId);
+    if (list.isNotEmpty && list.any((q) => q.options.isEmpty)) {
+      // Re-seed to repair questions that were seeded with old json structure
+      await seedSampleExams();
+      return dbService.getExamQuestions(examId);
+    }
+    return list;
   }
 
   Future<void> submitExam({

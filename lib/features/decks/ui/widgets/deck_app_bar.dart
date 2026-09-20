@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart' as m;
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../router/app_router.dart';
 import '../../../settings/providers/settings_notifier.dart';
 import '../../../sync/providers/auth_notifier.dart';
 import '../../../sync/providers/supabase_auth_notifier.dart';
@@ -140,31 +138,12 @@ class DeckAppBar extends StatelessWidget {
               badgeText = l10n.syncBadge;
             }
 
-            return IntrinsicHeight(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  GhostButton(
-                    alignment: Alignment.center,
-                    size: ButtonSize.small,
-                    onPressed: () => context.go(AppRoutes.exams),
-                    leading: const Icon(
-                      LucideIcons.graduationCap,
-                      size: AppIconSize.sm,
-                    ),
-                    child: Text(l10n.examBank, maxLines: 1, softWrap: false),
-                  ),
-                  AppGaps.h4,
-                  GhostButton(
-                    alignment: Alignment.center,
-                    size: ButtonSize.small,
-                    onPressed: onTap,
-                    leading: leadingIcon,
-                    child: Text(badgeText, maxLines: 1, softWrap: false),
-                  ),
-                ],
-              ),
+            return GhostButton(
+              alignment: Alignment.center,
+              size: ButtonSize.small,
+              onPressed: onTap,
+              leading: leadingIcon,
+              child: Text(badgeText, maxLines: 1, softWrap: false),
             );
           },
         ),

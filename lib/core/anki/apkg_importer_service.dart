@@ -49,9 +49,7 @@ class ApkgImporterService {
       final tempDir = Directory.systemTemp.createTempSync(
         AppConfig.tempApkgPrefix,
       );
-      final tempDbFile = File(
-        '${tempDir.path}/${AppConfig.anki2DbFileName}',
-      );
+      final tempDbFile = File('${tempDir.path}/${AppConfig.anki2DbFileName}');
       await file.copy(tempDbFile.path);
       return _parseWithExistingDbFile(
         tempDbFile,
@@ -335,8 +333,7 @@ class ApkgImporterService {
           // Review card: due is day offset relative to collection creation date (crt)
           final crtDate = DateTime.fromMillisecondsSinceEpoch(colCrt * 1000);
           calculatedDue = crtDate.add(Duration(days: dueRaw));
-        } else if (dueRaw != null &&
-            dueRaw > AppConfig.ankiDueEpochThreshold) {
+        } else if (dueRaw != null && dueRaw > AppConfig.ankiDueEpochThreshold) {
           // Learning card: epoch timestamp in seconds
           calculatedDue = DateTime.fromMillisecondsSinceEpoch(dueRaw * 1000);
         } else if (reps == 0 || (cardType != null && cardType == 0)) {
@@ -387,11 +384,11 @@ class ApkgImporterService {
         // Hint: take third field if non-empty, or null
         final hint =
             noteData.flds.length > AppConfig.ankiDefaultHintFieldIndex &&
-                    noteData.flds[AppConfig.ankiDefaultHintFieldIndex]
-                        .trim()
-                        .isNotEmpty
-                ? noteData.flds[AppConfig.ankiDefaultHintFieldIndex].trim()
-                : null;
+                noteData.flds[AppConfig.ankiDefaultHintFieldIndex]
+                    .trim()
+                    .isNotEmpty
+            ? noteData.flds[AppConfig.ankiDefaultHintFieldIndex].trim()
+            : null;
 
         // Tags separated by space
         final tags = noteData.tags

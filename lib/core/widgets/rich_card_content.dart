@@ -175,8 +175,9 @@ class RichCardContent extends HookWidget {
               return null;
             },
             customStylesBuilder: (element) {
-              if (element.children
-                  .any((c) => c.localName == AppConfig.customTagAnkiSound)) {
+              if (element.children.any(
+                (c) => c.localName == AppConfig.customTagAnkiSound,
+              )) {
                 final isDarkTheme = theme.brightness == Brightness.dark;
                 return {
                   'color': isDarkTheme ? '#e4e4e7' : '#3f3f46',

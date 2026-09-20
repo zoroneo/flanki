@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -23,7 +22,7 @@ class WrongNotebookScreen extends HookConsumerWidget {
         AppBar(
           leading: [
             IconButton.ghost(
-              icon: const Icon(RadixIcons.arrowLeft, size: 18),
+              icon: const Icon(RadixIcons.arrowLeft, size: AppIconSize.sm),
               onPressed: () => context.pop(),
             ),
           ],
@@ -130,18 +129,17 @@ class WrongNotebookScreen extends HookConsumerWidget {
                 ),
                 decoration: BoxDecoration(
                   color: switch (item.status) {
-                    WrongQuestionStatus.mastered => m.Colors.green.shade600,
-                    WrongQuestionStatus.reviewing => m.Colors.amber.shade700,
-                    WrongQuestionStatus.newQuestion => m.Colors.red.shade600,
+                    WrongQuestionStatus.mastered => AppColors.success,
+                    WrongQuestionStatus.reviewing => AppColors.warning,
+                    WrongQuestionStatus.newQuestion => AppColors.error,
                   },
                   borderRadius: AppRadius.borderLg,
                 ),
                 child: Text(
                   item.status.getLocalizedLabel(l10n),
-                  style: const TextStyle(
+                  style: theme.typography.xSmall.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: m.Colors.white,
-                    fontSize: 11,
+                    color: const Color(0xFFFFFFFF),
                   ),
                 ),
               ),
@@ -157,16 +155,16 @@ class WrongNotebookScreen extends HookConsumerWidget {
           Container(
             padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
-              color: m.Colors.red.withValues(alpha: 0.08),
+              color: AppColors.error.withValues(alpha: 0.08),
               borderRadius: AppRadius.borderMd,
-              border: Border.all(color: m.Colors.red.withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
             ),
             child: Row(
               children: [
                 const Icon(
                   RadixIcons.crossCircled,
-                  size: 14,
-                  color: m.Colors.red,
+                  size: AppIconSize.sm,
+                  color: AppColors.error,
                 ),
                 AppGaps.h8,
                 Text(
@@ -175,8 +173,8 @@ class WrongNotebookScreen extends HookConsumerWidget {
                         ? l10n.unansweredPlaceholder
                         : item.userAnswer,
                   ),
-                  style: const TextStyle(
-                    color: m.Colors.red,
+                  style: theme.typography.small.copyWith(
+                    color: AppColors.error,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -220,7 +218,7 @@ class WrongNotebookScreen extends HookConsumerWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(RadixIcons.check, size: 14),
+                        const Icon(RadixIcons.check, size: AppIconSize.sm),
                         AppGaps.h4,
                         Text(l10n.masteredMistakeButton),
                       ],
@@ -244,8 +242,8 @@ class WrongNotebookScreen extends HookConsumerWidget {
           children: [
             const Icon(
               RadixIcons.checkCircled,
-              size: 48,
-              color: m.Colors.green,
+              size: AppSpacing.xxxl,
+              color: AppColors.success,
             ),
             AppGaps.v12,
             Text(

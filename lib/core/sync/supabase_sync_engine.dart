@@ -180,7 +180,8 @@ class SupabaseSyncEngine {
         await _dbService.getSyncCursor(SupabaseConfig.entityExamSubmission) ??
         '';
     final wrongCursor =
-        await _dbService.getSyncCursor(SupabaseConfig.entityWrongQuestion) ?? '';
+        await _dbService.getSyncCursor(SupabaseConfig.entityWrongQuestion) ??
+        '';
 
     final cursorsPayload = {
       SupabaseConfig.entityDeck: deckCursor,

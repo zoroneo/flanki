@@ -56,14 +56,16 @@ class StudyCardFlipper extends StatelessWidget {
 
         // Scale dip during mid-turn (simulating slight depth recoil in 3D space)
         final depthScale =
-            1.0 - (math.sin(flipProgress * math.pi) *
+            1.0 -
+            (math.sin(flipProgress * math.pi) *
                 AppThemeValues.cardFlipDepthScaleDip);
 
         // Drag & tilt physics: horizontal displacement and slight Z-axis rotation
-        final tiltAngle = (dragOffset * AppThemeValues.cardFlipTiltFactor).clamp(
-          -AppThemeValues.cardFlipMaxTilt,
-          AppThemeValues.cardFlipMaxTilt,
-        );
+        final tiltAngle = (dragOffset * AppThemeValues.cardFlipTiltFactor)
+            .clamp(
+              -AppThemeValues.cardFlipMaxTilt,
+              AppThemeValues.cardFlipMaxTilt,
+            );
 
         return Center(
           child: ConstrainedBox(

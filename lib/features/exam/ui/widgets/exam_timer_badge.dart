@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -22,26 +21,37 @@ class ExamTimerBadge extends ConsumerWidget {
         '${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
     final isUrgent = remainingSec < ExamConstants.urgentTimerSeconds;
 
+    final urgentColor = theme.colorScheme.destructive;
+    final normalTextColor = theme.colorScheme.foreground;
+    final badgeColor = isUrgent
+        ? urgentColor.withValues(alpha: 0.12)
+        : theme.colorScheme.muted.withValues(alpha: 0.45);
+    final borderColor = isUrgent
+        ? urgentColor.withValues(alpha: 0.4)
+        : theme.colorScheme.border.withValues(alpha: 0.5);
+    final contentColor = isUrgent ? urgentColor : normalTextColor;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
-        color: isUrgent ? m.Colors.red.shade700 : theme.colorScheme.secondary,
-        borderRadius: AppRadius.borderLg,
+        color: badgeColor,
+        borderRadius: AppRadius.borderFull,
+        border: Border.all(color: borderColor, width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            RadixIcons.clock,
-            size: 14,
-            color: isUrgent ? m.Colors.white : theme.colorScheme.foreground,
-          ),
+          Icon(RadixIcons.clock, size: AppIconSize.sm, color: contentColor),
           AppGaps.h8,
           Text(
             timeStr,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: isUrgent ? m.Colors.white : theme.colorScheme.foreground,
+            style: theme.typography.small.copyWith(
+              fontWeight: FontWeight.w700,
+              color: contentColor,
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
         ],

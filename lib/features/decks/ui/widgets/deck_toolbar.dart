@@ -1,7 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 
 class DeckToolbar extends StatelessWidget {
   final bool isMobile;
@@ -50,6 +52,20 @@ class DeckToolbar extends StatelessWidget {
                   onChanged: (val) => searchQuery.value = val,
                 ),
               ),
+              if (isMobile) ...[
+                AppGaps.h8,
+                Tooltip(
+                  tooltip: (context) =>
+                      TooltipContainer(child: Text(l10n.navBrowser)),
+                  child: IconButton.outline(
+                    icon: const Icon(
+                      LucideIcons.fileSearch,
+                      size: AppIconSize.sm,
+                    ),
+                    onPressed: () => context.go(AppRoutes.browser),
+                  ),
+                ),
+              ],
               if (!isMobile) ...[
                 AppGaps.h12,
                 PrimaryButton(

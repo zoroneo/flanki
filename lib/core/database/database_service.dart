@@ -945,9 +945,7 @@ class DatabaseService {
     final tempDir = Directory.systemTemp.createTempSync(
       AppConfig.tempExportPrefix,
     );
-    final targetDbFile = File(
-      '${tempDir.path}/${AppConfig.anki2DbFileName}',
-    );
+    final targetDbFile = File('${tempDir.path}/${AppConfig.anki2DbFileName}');
 
     try {
       if (templateFile.existsSync()) {

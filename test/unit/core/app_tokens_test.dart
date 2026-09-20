@@ -259,8 +259,14 @@ void main() {
 
     test('config asset paths match generated Assets getters', () {
       expect(AppConfig.desktopIconWindows, equals(Assets.icons.appIconIco));
-      expect(AppConfig.desktopIconDefault, equals(Assets.icons.appIconPng.path));
-      expect(AppConfig.sampleMockExamAssetPath, equals(Assets.data.exams.jlptN3Mock01));
+      expect(
+        AppConfig.desktopIconDefault,
+        equals(Assets.icons.appIconPng.path),
+      );
+      expect(
+        AppConfig.sampleMockExamAssetPath,
+        equals(Assets.data.exams.jlptN3Mock01),
+      );
       expect(Assets.data.grammar.values.length, equals(36));
       expect(Assets.icons.flanki.path, equals('assets/icons/flanki.png'));
     });

@@ -208,8 +208,8 @@ class NavRailItem extends StatelessWidget {
             height: AppDimensions.navRailItemSize,
             decoration: BoxDecoration(
               color: isSelected
-                ? theme.colorScheme.primary.withValues(alpha: 0.12)
-                : m.Colors.transparent,
+                  ? theme.colorScheme.primary.withValues(alpha: 0.12)
+                  : m.Colors.transparent,
               borderRadius: AppRadius.borderMd,
             ),
             child: Stack(

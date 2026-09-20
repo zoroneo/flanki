@@ -3391,6 +3391,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to update question status: {error}'**
   String wrongStatusUpdateFailed(String error);
+
+  /// Section title for learning tools in settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Learning Tools'**
+  String get learningTools;
+
+  /// Tooltip for refresh action
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refreshTooltip;
+
+  /// Label for bookmarking a question
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get bookmarkQuestion;
+
+  /// Label when a question is bookmarked
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get bookmarkedQuestion;
 }
 
 class _AppLocalizationsDelegate

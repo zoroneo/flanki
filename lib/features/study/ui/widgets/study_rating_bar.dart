@@ -105,7 +105,9 @@ class RatingButton extends HookWidget {
         onTapCancel: () => isPressed.value = false,
         onTap: onTap,
         child: AnimatedScale(
-          scale: isPressed.value ? AppThemeValues.ratingButtonPressedScale : 1.0,
+          scale: isPressed.value
+              ? AppThemeValues.ratingButtonPressedScale
+              : 1.0,
           duration: AppDurations.quick,
           curve: Curves.easeOutCubic,
           child: Container(

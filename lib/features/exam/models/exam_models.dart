@@ -247,7 +247,7 @@ class ExamQuestionModel {
   });
 
   factory ExamQuestionModel.fromJson(Map<String, dynamic> json) {
-    final rawOptions = json['options_json'];
+    final rawOptions = json['options_json'] ?? json['options'];
     List<ExamQuestionOption> parsedOptions = [];
     if (rawOptions is List) {
       parsedOptions = rawOptions

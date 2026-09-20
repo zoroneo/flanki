@@ -579,6 +579,10 @@
   "examLoadFailed": "Lỗi tải đề thi: {error}",
   "examSubmitFailed": "Lỗi nộp bài: {error}",
   "examDownloadFailed": "Tải đề thi thất bại: {error}",
-  "wrongStatusUpdateFailed": "Cập nhật trạng thái thất bại: {error}"
+  "wrongStatusUpdateFailed": "Cập nhật trạng thái thất bại: {error}",
+  "learningTools": "Công cụ học tập",
+  "refreshTooltip": "Làm mới",
+  "bookmarkQuestion": "Lưu",
+  "bookmarkedQuestion": "Đã lưu"
 }
 

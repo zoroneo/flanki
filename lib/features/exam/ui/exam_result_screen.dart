@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -119,27 +118,25 @@ class ExamResultScreen extends HookConsumerWidget {
                         vertical: AppSpacing.xxs,
                       ),
                       decoration: BoxDecoration(
-                        color: isPassed
-                            ? m.Colors.green.shade600
-                            : m.Colors.red.shade600,
+                        color: isPassed ? AppColors.success : AppColors.error,
                         borderRadius: AppRadius.borderXl,
                       ),
                       child: Text(
                         isPassed ? l10n.examPassed : l10n.examFailed,
-                        style: const TextStyle(
+                        style: theme.typography.xSmall.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: m.Colors.white,
+                          color: const Color(0xFFFFFFFF),
                         ),
                       ),
                     ),
                     AppGaps.v12,
                     Text(
                       l10n.examScorePoints(sub.score),
-                      style: theme.typography.xLarge.copyWith(
+                      style: theme.typography.h1.copyWith(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
                         color: isPassed
-                            ? m.Colors.green.shade700
+                            ? AppColors.success
                             : theme.colorScheme.foreground,
                       ),
                     ),
@@ -248,14 +245,14 @@ class ExamResultScreen extends HookConsumerWidget {
                                 children: [
                                   const Icon(
                                     RadixIcons.checkCircled,
-                                    size: 16,
-                                    color: m.Colors.green,
+                                    size: AppIconSize.sm,
+                                    color: AppColors.success,
                                   ),
                                   AppGaps.h4,
                                   Text(
                                     l10n.correctBadge,
-                                    style: const TextStyle(
-                                      color: m.Colors.green,
+                                    style: theme.typography.xSmall.copyWith(
+                                      color: AppColors.success,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -266,14 +263,14 @@ class ExamResultScreen extends HookConsumerWidget {
                                 children: [
                                   const Icon(
                                     RadixIcons.crossCircled,
-                                    size: 16,
-                                    color: m.Colors.red,
+                                    size: AppIconSize.sm,
+                                    color: AppColors.error,
                                   ),
                                   AppGaps.h4,
                                   Text(
                                     l10n.wrongBadge,
-                                    style: const TextStyle(
-                                      color: m.Colors.red,
+                                    style: theme.typography.xSmall.copyWith(
+                                      color: AppColors.error,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -292,14 +289,14 @@ class ExamResultScreen extends HookConsumerWidget {
                               q.correctAnswer.toUpperCase() ==
                               opt.id.toUpperCase();
 
-                          m.Color? borderColor;
-                          m.Color? bgColor;
+                          Color? borderColor;
+                          Color? bgColor;
                           if (isRightChoice) {
-                            borderColor = m.Colors.green;
-                            bgColor = m.Colors.green.withValues(alpha: 0.08);
+                            borderColor = AppColors.success;
+                            bgColor = AppColors.success.withValues(alpha: 0.08);
                           } else if (isUserChoice) {
-                            borderColor = m.Colors.red;
-                            bgColor = m.Colors.red.withValues(alpha: 0.08);
+                            borderColor = AppColors.error;
+                            bgColor = AppColors.error.withValues(alpha: 0.08);
                           }
 
                           return Container(
@@ -321,7 +318,7 @@ class ExamResultScreen extends HookConsumerWidget {
                               children: [
                                 Text(
                                   '${opt.id}. ',
-                                  style: const TextStyle(
+                                  style: theme.typography.small.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -329,14 +326,14 @@ class ExamResultScreen extends HookConsumerWidget {
                                 if (isRightChoice)
                                   const Icon(
                                     RadixIcons.check,
-                                    size: 14,
-                                    color: m.Colors.green,
+                                    size: AppIconSize.sm,
+                                    color: AppColors.success,
                                   )
                                 else if (isUserChoice)
                                   const Icon(
                                     RadixIcons.cross1,
-                                    size: 14,
-                                    color: m.Colors.red,
+                                    size: AppIconSize.sm,
+                                    color: AppColors.error,
                                   ),
                               ],
                             ),

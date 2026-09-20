@@ -31,8 +31,7 @@ class NotificationService {
   /// Updates current locale for notification text generation.
   void updateLocale(String? code) {
     if (code != null && code.isNotEmpty) {
-      currentLocaleCode =
-          code.toLowerCase().startsWith(AppConfig.localeCodeVi)
+      currentLocaleCode = code.toLowerCase().startsWith(AppConfig.localeCodeVi)
           ? AppConfig.localeCodeVi
           : AppConfig.localeCodeEn;
     }

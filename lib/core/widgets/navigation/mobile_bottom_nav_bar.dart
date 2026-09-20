@@ -53,15 +53,6 @@ class MobileBottomNavBar extends StatelessWidget {
               ),
               Expanded(
                 child: BottomNavItem(
-                  icon: LucideIcons.search,
-                  activeIcon: LucideIcons.fileSearch,
-                  label: l10n.navBrowser,
-                  isSelected: currentIndex == AppNavIndex.browser,
-                  onTap: () => onTap(AppNavIndex.browser),
-                ),
-              ),
-              Expanded(
-                child: BottomNavItem(
                   icon: LucideIcons.bookOpenText,
                   activeIcon: LucideIcons.bookOpen,
                   label: l10n.navGrammar,
@@ -76,15 +67,6 @@ class MobileBottomNavBar extends StatelessWidget {
                   label: l10n.navExams,
                   isSelected: currentIndex == AppNavIndex.exams,
                   onTap: () => onTap(AppNavIndex.exams),
-                ),
-              ),
-              Expanded(
-                child: BottomNavItem(
-                  icon: LucideIcons.chartColumn,
-                  activeIcon: LucideIcons.chartNoAxesCombined,
-                  label: l10n.navStats,
-                  isSelected: currentIndex == AppNavIndex.stats,
-                  onTap: () => onTap(AppNavIndex.stats),
                 ),
               ),
               Expanded(
@@ -148,7 +130,7 @@ class BottomNavItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildIconStack(theme, color),
-            AppGaps.v2,
+            AppGaps.v4,
             _buildLabel(color),
           ],
         ),
@@ -159,28 +141,30 @@ class BottomNavItem extends StatelessWidget {
   Widget _buildIconStack(ThemeData theme, Color color) {
     return Stack(
       clipBehavior: Clip.none,
+      alignment: Alignment.center,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.xs,
-            vertical: AppSpacing.xxs,
-          ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: AppDimensions.navIndicatorPillWidth,
+          height: AppDimensions.navIndicatorPillHeight,
           decoration: BoxDecoration(
             color: isSelected
-                ? theme.colorScheme.primary.withValues(alpha: 0.12)
+                ? theme.colorScheme.primary.withValues(alpha: 0.14)
                 : m.Colors.transparent,
-            borderRadius: AppRadius.borderXl,
+            borderRadius: AppRadius.borderFull,
           ),
-          child: Icon(
-            isSelected ? activeIcon : icon,
-            size: AppIconSize.md,
-            color: color,
+          child: Center(
+            child: Icon(
+              isSelected ? activeIcon : icon,
+              size: AppIconSize.lg,
+              color: color,
+            ),
           ),
         ),
         if (badgeCount != null)
-          Positioned(top: -2, right: 2, child: _buildBadge(theme)),
+          Positioned(top: -3, right: 8, child: _buildBadge(theme)),
         if (indicatorColor != null)
-          Positioned(bottom: 2, right: 6, child: _buildIndicator(theme)),
+          Positioned(bottom: 2, right: 12, child: _buildIndicator(theme)),
       ],
     );
   }
@@ -226,8 +210,8 @@ class BottomNavItem extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: AppTypography.caption,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+        fontSize: AppTypography.sub,
+        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
         color: color,
       ),
     );

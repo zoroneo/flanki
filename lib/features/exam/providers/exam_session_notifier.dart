@@ -52,7 +52,8 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
         questions = await _repository.getExamQuestions(examId);
       }
 
-      final durationSec = paper.durationMinutes * ExamConstants.secondsPerMinute;
+      final durationSec =
+          paper.durationMinutes * ExamConstants.secondsPerMinute;
 
       state = state.copyWith(
         isLoading: false,
@@ -74,6 +75,14 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
     } catch (e) {
       state = state.copyWith(isLoading: false, error: '$errExamLoadPrefix$e');
     }
+  }
+
+  Future<void> reloadQuestions() async {
+    if (state.paper == null) return;
+    final examId = state.paper!.id;
+    await _repository.seedSampleExams();
+    final questions = await _repository.getExamQuestions(examId);
+    state = state.copyWith(questions: questions);
   }
 
   void _startTimer() {

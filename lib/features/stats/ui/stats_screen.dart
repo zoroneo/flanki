@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
+import '../../../router/app_router.dart';
 import '../../settings/providers/settings_notifier.dart';
 import '../providers/stats_notifier.dart';
 
@@ -49,6 +51,23 @@ class StatsScreen extends HookConsumerWidget {
         return Scaffold(
           headers: [
             AppBar(
+              leading: isMobile
+                  ? [
+                      IconButton.ghost(
+                        icon: const Icon(
+                          LucideIcons.arrowLeft,
+                          size: AppIconSize.md,
+                        ),
+                        onPressed: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.go(AppRoutes.decks);
+                          }
+                        },
+                      ),
+                    ]
+                  : const [],
               title: Text(
                 l10n.statsTitle,
                 maxLines: 1,

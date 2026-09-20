@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart' as m;
+import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../router/app_router.dart';
 
 class DeckStatsBar extends StatelessWidget {
   final int totalDue;
   final int totalNew;
   final int streakDays;
   final double desiredRetention;
+  final VoidCallback? onTap;
 
   const DeckStatsBar({
     super.key,
@@ -16,6 +19,7 @@ class DeckStatsBar extends StatelessWidget {
     required this.totalNew,
     required this.streakDays,
     required this.desiredRetention,
+    this.onTap,
   });
 
   @override
@@ -23,16 +27,20 @@ class DeckStatsBar extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
 
-    return Card(
-      filled: true,
-      padding: AppEdgeInsets.all16,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildStreakHeader(theme, l10n),
-          AppGaps.v16,
-          _buildCountBoxes(theme, l10n),
-        ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap ?? () => context.go(AppRoutes.stats),
+      child: Card(
+        filled: true,
+        padding: AppEdgeInsets.all16,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildStreakHeader(theme, l10n),
+            AppGaps.v16,
+            _buildCountBoxes(theme, l10n),
+          ],
+        ),
       ),
     );
   }
@@ -55,12 +63,23 @@ class DeckStatsBar extends StatelessWidget {
             ),
           ],
         ),
-        Text(
-          l10n.targetRetentionBadge('${(desiredRetention * 100).toInt()}%'),
-          style: theme.typography.xSmall.copyWith(
-            color: theme.colorScheme.foreground.withValues(alpha: 0.65),
-            fontWeight: FontWeight.w500,
-          ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.targetRetentionBadge('${(desiredRetention * 100).toInt()}%'),
+              style: theme.typography.xSmall.copyWith(
+                color: theme.colorScheme.foreground.withValues(alpha: 0.65),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            AppGaps.h4,
+            Icon(
+              LucideIcons.chevronRight,
+              size: AppIconSize.sm,
+              color: theme.colorScheme.mutedForeground,
+            ),
+          ],
         ),
       ],
     );

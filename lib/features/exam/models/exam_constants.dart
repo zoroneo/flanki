@@ -9,7 +9,8 @@ abstract final class ExamConstants {
   // Timing constants (seconds / minutes)
   static const int defaultDurationMinutes = 60;
   static const int secondsPerMinute = 60;
-  static const int urgentTimerSeconds = 300; // 5 minutes remaining alert threshold
+  static const int urgentTimerSeconds =
+      300; // 5 minutes remaining alert threshold
 
   // Structure & Default parameters
   static const int defaultTotalQuestions = 40;

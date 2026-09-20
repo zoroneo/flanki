@@ -57,7 +57,7 @@ class BrowserMobileLayout extends StatelessWidget {
                 delegate: SearchHeaderDelegate(
                   topPadding: topPadding,
                   theme: theme,
-                  titleRow: _buildTitleRow(),
+                  titleRow: _buildTitleRow(context),
                   searchBox: _buildSearchBox(),
                   filterRow: _buildFilterRow(),
                 ),
@@ -110,13 +110,23 @@ class BrowserMobileLayout extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleRow() {
+  Widget _buildTitleRow(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.baseline,
-        textBaseline: TextBaseline.alphabetic,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          IconButton.ghost(
+            icon: const Icon(LucideIcons.arrowLeft, size: AppIconSize.md),
+            onPressed: () {
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go(AppRoutes.decks);
+              }
+            },
+          ),
+          AppGaps.h4,
           Text(
             l10n.navBrowser,
             style: theme.typography.large.copyWith(fontWeight: FontWeight.w700),

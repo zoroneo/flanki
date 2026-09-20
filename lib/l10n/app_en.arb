@@ -1028,6 +1028,22 @@
     "placeholders": {
       "error": {"type": "String"}
     }
+  },
+  "learningTools": "Learning Tools",
+  "@learningTools": {
+    "description": "Section title for learning tools in settings screen"
+  },
+  "refreshTooltip": "Refresh",
+  "@refreshTooltip": {
+    "description": "Tooltip for refresh action"
+  },
+  "bookmarkQuestion": "Save",
+  "@bookmarkQuestion": {
+    "description": "Label for bookmarking a question"
+  },
+  "bookmarkedQuestion": "Saved",
+  "@bookmarkedQuestion": {
+    "description": "Label when a question is bookmarked"
   }
 }
 

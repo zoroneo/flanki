@@ -37,7 +37,8 @@ class Sm2EngineService {
   /// Maps unified card difficulty back to SM-2 ease factor.
   static double difficultyToFactor(double difficulty) {
     if (difficulty > 0) {
-      final ease = maxEaseFactor -
+      final ease =
+          maxEaseFactor -
           ((difficulty - minDifficulty) / difficultySpan * easeSpan);
       return ease.clamp(minEaseFactor, maxEaseFactor);
     }
@@ -46,7 +47,8 @@ class Sm2EngineService {
 
   /// Maps SM-2 ease factor into unified card difficulty.
   static double factorToDifficulty(double factor) {
-    return ((maxEaseFactor - factor) / easeSpan * difficultySpan + minDifficulty)
+    return ((maxEaseFactor - factor) / easeSpan * difficultySpan +
+            minDifficulty)
         .clamp(minDifficulty, maxDifficulty);
   }
 

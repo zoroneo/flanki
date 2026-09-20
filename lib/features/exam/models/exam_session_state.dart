@@ -38,6 +38,15 @@ abstract class ExamSessionState with _$ExamSessionState {
   double get progressRatio =>
       questions.isNotEmpty ? answeredCount / questions.length : 0.0;
 
+  double get timeProgressRatio => totalDurationSeconds > 0
+      ? (remainingSeconds / totalDurationSeconds).clamp(0.0, 1.0)
+      : 0.0;
+
+  double get timeElapsedRatio => totalDurationSeconds > 0
+      ? ((totalDurationSeconds - remainingSeconds) / totalDurationSeconds)
+            .clamp(0.0, 1.0)
+      : 0.0;
+
   String? getLocalizedError(AppLocalizations l10n) {
     final err = error;
     if (err == null) return null;

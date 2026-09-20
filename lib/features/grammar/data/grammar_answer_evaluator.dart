@@ -32,8 +32,9 @@ class GrammarAnswerEvaluator {
         if (normUser == normCorrect) return true;
 
         // Check for alternative answers if slash separated (e.g. "will go / goes")
-        if (exercise.correctAnswer
-            .contains(GrammarConstants.clozeAlternativeDelimiter)) {
+        if (exercise.correctAnswer.contains(
+          GrammarConstants.clozeAlternativeDelimiter,
+        )) {
           final parts = exercise.correctAnswer
               .split(GrammarConstants.clozeAlternativeDelimiter)
               .map((p) => normalizeCloze(p))

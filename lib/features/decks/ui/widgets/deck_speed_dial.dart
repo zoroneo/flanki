@@ -25,9 +25,7 @@ class DeckSpeedDial extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final controller = useAnimationController(
-      duration: AppDurations.normal,
-    );
+    final controller = useAnimationController(duration: AppDurations.normal);
 
     useEffect(() {
       if (isOpen) {

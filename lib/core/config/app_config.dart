@@ -306,6 +306,5 @@ abstract final class IdHelper {
     required String prefix,
     required String entityId,
     required String hlc,
-  }) =>
-      '$prefixOutbox${prefix}_${entityId}_$hlc';
+  }) => '$prefixOutbox${prefix}_${entityId}_$hlc';
 }
