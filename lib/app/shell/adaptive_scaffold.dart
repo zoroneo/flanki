@@ -4,13 +4,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../localization/locale_notifier.dart';
-import '../theme/app_tokens.dart';
-import '../../features/decks/providers/deck_notifier.dart';
-import '../../features/browser/providers/card_browser_notifier.dart';
-import '../../features/exam/providers/exam_catalog_notifier.dart';
-import '../../features/stats/providers/stats_notifier.dart';
-import '../../features/sync/providers/auth_notifier.dart';
+import 'package:flanki/core/localization/locale_notifier.dart';
+import 'package:flanki/core/theme/app_tokens.dart';
+import 'package:flanki/features/decks/providers/deck_notifier.dart';
+import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
+import 'package:flanki/features/exam/providers/exam_catalog_notifier.dart';
+import 'package:flanki/features/stats/providers/stats_notifier.dart';
+import 'package:flanki/features/sync/providers/auth_notifier.dart';
+
 import 'navigation/desktop_sidebar.dart';
 import 'navigation/mobile_bottom_nav_bar.dart';
 import 'navigation/tablet_nav_rail.dart';

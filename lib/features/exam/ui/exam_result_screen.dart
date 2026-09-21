@@ -8,6 +8,8 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 import '../data/exam_repository.dart';
 import '../models/exam_models.dart';
+import 'widgets/exam_question_result_card.dart';
+import 'widgets/exam_score_summary_card.dart';
 
 class ExamResultScreen extends HookConsumerWidget {
   final String examId;
@@ -83,12 +85,6 @@ class ExamResultScreen extends HookConsumerWidget {
     required ExamPaperModel p,
     required List<ExamQuestionModel> questions,
   }) {
-    final isPassed = sub.isPassed;
-    final mins = sub.durationSeconds ~/ ExamConstants.secondsPerMinute;
-    final secs = sub.durationSeconds % ExamConstants.secondsPerMinute;
-    final durationStr =
-        '${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
-
     return Scaffold(
       headers: [
         AppBar(
@@ -108,64 +104,7 @@ class ExamResultScreen extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Big Result Summary Card
-              Card(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.md,
-                        vertical: AppSpacing.xxs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isPassed
-                            ? context.colors.success
-                            : context.colors.error,
-                        borderRadius: AppRadius.borderXl,
-                      ),
-                      child: Text(
-                        isPassed ? l10n.examPassed : l10n.examFailed,
-                        style: context.textStyles.xSmallBold.copyWith(
-                          color: theme.colorScheme.primaryForeground,
-                        ),
-                      ),
-                    ),
-                    AppGaps.v12,
-                    Text(
-                      l10n.examScorePoints(sub.score),
-                      style: context.textStyles.display.copyWith(
-                        color: isPassed
-                            ? context.colors.success
-                            : theme.colorScheme.foreground,
-                      ),
-                    ),
-                    AppGaps.v8,
-                    Text(
-                      p.title,
-                      style: theme.typography.base.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    AppGaps.v16,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildStatColumn(
-                          l10n.correctCountStat,
-                          '${sub.totalCorrect}/${sub.totalQuestions}',
-                          theme,
-                        ),
-                        _buildStatColumn(l10n.durationStat, durationStr, theme),
-                        _buildStatColumn(
-                          l10n.passingScoreStat,
-                          '${p.passingScore}',
-                          theme,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              ExamScoreSummaryCard(submission: sub, paper: p, l10n: l10n),
               AppGaps.v16,
 
               // Action Buttons
@@ -216,179 +155,17 @@ class ExamResultScreen extends HookConsumerWidget {
               ),
               AppGaps.v12,
 
-              ...questions.map((q) {
-                final userAns = sub.answers[q.id];
-                final isCorrect =
-                    userAns != null &&
-                    userAns.trim().toUpperCase() ==
-                        q.correctAnswer.trim().toUpperCase();
-
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.smPlus),
-                  child: Card(
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              l10n.questionNumberPrefix(q.questionNumber),
-                              style: theme.typography.small.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            if (isCorrect)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    RadixIcons.checkCircled,
-                                    size: AppIconSize.sm,
-                                    color: AppColors.success,
-                                  ),
-                                  AppGaps.h4,
-                                  Text(
-                                    l10n.correctBadge,
-                                    style: theme.typography.xSmall.copyWith(
-                                      color: AppColors.success,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            else
-                              Row(
-                                children: [
-                                  const Icon(
-                                    RadixIcons.crossCircled,
-                                    size: AppIconSize.sm,
-                                    color: AppColors.error,
-                                  ),
-                                  AppGaps.h4,
-                                  Text(
-                                    l10n.wrongBadge,
-                                    style: theme.typography.xSmall.copyWith(
-                                      color: AppColors.error,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                        AppGaps.v6,
-                        Text(q.questionText, style: theme.typography.base),
-                        AppGaps.v8,
-
-                        // Options preview
-                        ...q.options.map((opt) {
-                          final isUserChoice = userAns == opt.id;
-                          final isRightChoice =
-                              q.correctAnswer.toUpperCase() ==
-                              opt.id.toUpperCase();
-
-                          Color? borderColor;
-                          Color? bgColor;
-                          if (isRightChoice) {
-                            borderColor = AppColors.success;
-                            bgColor = AppColors.success.withValues(alpha: 0.08);
-                          } else if (isUserChoice) {
-                            borderColor = AppColors.error;
-                            bgColor = AppColors.error.withValues(alpha: 0.08);
-                          }
-
-                          return Container(
-                            margin: const EdgeInsets.only(
-                              bottom: AppSpacing.xs,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.smPlus,
-                              vertical: AppSpacing.xs,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: AppRadius.borderMd,
-                              border: Border.all(
-                                color: borderColor ?? theme.colorScheme.border,
-                              ),
-                              color: bgColor,
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '${opt.id}. ',
-                                  style: theme.typography.small.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Expanded(child: Text(opt.text)),
-                                if (isRightChoice)
-                                  const Icon(
-                                    RadixIcons.check,
-                                    size: AppIconSize.sm,
-                                    color: AppColors.success,
-                                  )
-                                else if (isUserChoice)
-                                  const Icon(
-                                    RadixIcons.cross1,
-                                    size: AppIconSize.sm,
-                                    color: AppColors.error,
-                                  ),
-                              ],
-                            ),
-                          );
-                        }),
-
-                        if (q.explanation.isNotEmpty) ...[
-                          AppGaps.v8,
-                          Container(
-                            padding: const EdgeInsets.all(AppSpacing.sm),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.muted,
-                              borderRadius: AppRadius.borderMd,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Icon(RadixIcons.infoCircled, size: 14),
-                                AppGaps.h8,
-                                Expanded(
-                                  child: Text(
-                                    l10n.explanationPrefix(q.explanation),
-                                    style: theme.typography.xSmall,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                );
-              }),
+              ...questions.map(
+                (q) => ExamQuestionResultCard(
+                  question: q,
+                  userAnswer: sub.answers[q.id],
+                  l10n: l10n,
+                ),
+              ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildStatColumn(String label, String value, ThemeData theme) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: theme.typography.base.copyWith(fontWeight: FontWeight.bold),
-        ),
-        AppGaps.v2,
-        Text(
-          label,
-          style: theme.typography.xSmall.copyWith(
-            color: theme.colorScheme.mutedForeground,
-          ),
-        ),
-      ],
     );
   }
 }

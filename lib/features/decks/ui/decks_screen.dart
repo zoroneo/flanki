@@ -5,10 +5,10 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/config/app_config.dart';
 import '../../../core/localization/locale_notifier.dart';
+import '../../../core/config/settings_notifier.dart';
 import '../../../core/models/deck.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../providers/deck_notifier.dart';
-import '../../settings/providers/settings_notifier.dart';
 import '../../stats/providers/stats_notifier.dart';
 import '../../sync/providers/sync_state_notifier.dart';
 import '../../sync/ui/sync_flow_coordinator.dart';

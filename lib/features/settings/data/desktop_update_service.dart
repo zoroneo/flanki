@@ -11,6 +11,12 @@ import '../../../core/config/app_config.dart';
 import '../../../core/network/dio_client.dart';
 import '../models/update_info.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final desktopUpdateServiceProvider = Provider<DesktopUpdateService>((ref) {
+  return DesktopUpdateService();
+});
+
 enum AppPlatform {
   windows,
   macos,

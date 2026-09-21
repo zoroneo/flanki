@@ -3,19 +3,20 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../features/decks/providers/deck_notifier.dart';
-import '../../features/settings/data/update_poller.dart';
-import '../../features/settings/models/update_info.dart';
-import '../../features/settings/providers/settings_notifier.dart';
-import '../../features/settings/providers/update_notifier.dart';
-import '../../features/settings/ui/widgets/update_dialog.dart';
-import '../../features/stats/providers/stats_notifier.dart';
-import '../../l10n/generated/app_localizations.dart';
-import '../config/app_config.dart';
-import '../localization/locale_notifier.dart';
-import '../services/desktop_window_service.dart';
-import '../services/notification_service.dart';
-import '../theme/app_tokens.dart';
+import 'package:flanki/features/decks/providers/deck_notifier.dart';
+import 'package:flanki/features/settings/data/update_poller.dart';
+import 'package:flanki/features/settings/models/update_info.dart';
+import 'package:flanki/features/settings/providers/settings_notifier.dart';
+import 'package:flanki/features/settings/providers/update_notifier.dart';
+import 'package:flanki/features/settings/ui/widgets/update_dialog.dart';
+import 'package:flanki/features/stats/providers/stats_notifier.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
+import 'package:flanki/core/config/app_config.dart';
+import 'package:flanki/core/localization/locale_notifier.dart';
+import 'package:flanki/core/services/desktop_window_service.dart';
+import 'package:flanki/core/services/notification_service.dart';
+import 'package:flanki/core/theme/app_tokens.dart';
+
 import 'update_toasts.dart';
 
 /// Top-level coordinator managing app lifecycle events, desktop tray menu sync,

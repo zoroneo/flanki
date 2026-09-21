@@ -11,7 +11,7 @@ import 'package:flanki/features/exam/models/exam_models.dart';
 import 'package:flanki/features/exam/providers/exam_session_notifier.dart';
 import 'package:flanki/l10n/generated/app_localizations.dart';
 
-import '../../helpers/virtual_sync_cluster.dart';
+import '../../../helpers/virtual_sync_cluster.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

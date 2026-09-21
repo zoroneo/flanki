@@ -39,8 +39,9 @@ class SupabaseAuthService {
     String? redirectTo,
   }) async {
     final client = _client;
-    if (client == null)
+    if (client == null) {
       throw StateError(SupabaseConfig.errSupabaseNotInitialized);
+    }
     return client.auth.signInWithOAuth(
       provider,
       redirectTo: redirectTo ?? SupabaseConfig.authCallbackUrl,
@@ -54,8 +55,9 @@ class SupabaseAuthService {
     required String password,
   }) async {
     final client = _client;
-    if (client == null)
+    if (client == null) {
       throw StateError(SupabaseConfig.errSupabaseNotInitialized);
+    }
     return client.auth.signUp(email: email.trim(), password: password);
   }
 
@@ -65,8 +67,9 @@ class SupabaseAuthService {
     required String password,
   }) async {
     final client = _client;
-    if (client == null)
+    if (client == null) {
       throw StateError(SupabaseConfig.errSupabaseNotInitialized);
+    }
     return client.auth.signInWithPassword(
       email: email.trim(),
       password: password,
@@ -76,8 +79,9 @@ class SupabaseAuthService {
   /// Refreshes the active session token.
   Future<AuthResponse> refreshSession() async {
     final client = _client;
-    if (client == null)
+    if (client == null) {
       throw StateError(SupabaseConfig.errSupabaseNotInitialized);
+    }
     return client.auth.refreshSession();
   }
 

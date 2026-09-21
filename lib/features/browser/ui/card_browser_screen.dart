@@ -8,10 +8,10 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
 
-import 'package:flanki/features/decks/providers/deck_notifier.dart';
+import '../../../core/providers/shared_deck_provider.dart';
 
 import '../providers/card_browser_notifier.dart';
-import '../../study/ui/widgets/card_action_sheet.dart';
+import '../../../core/widgets/cards/card_action_sheet.dart';
 import 'widgets/browser_desktop_layout.dart';
 import 'widgets/browser_mobile_layout.dart';
 
@@ -35,7 +35,7 @@ class CardBrowserScreen extends HookConsumerWidget {
       cardBrowserProvider.select((s) => s.selectedDeckId),
     );
     final browserNotifier = ref.read(cardBrowserProvider.notifier);
-    final decks = ref.watch(deckListProvider);
+    final decks = ref.watch(sharedDeckListProvider);
     final deckMap = {for (final d in decks) d.id: d.title};
 
     final searchController = useTextEditingController(text: searchQuery);

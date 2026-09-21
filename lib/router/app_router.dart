@@ -19,7 +19,7 @@ import '../features/settings/ui/privacy_policy_screen.dart';
 import '../features/settings/ui/settings_screen.dart';
 import '../features/stats/ui/stats_screen.dart';
 import '../features/study/ui/study_session_screen.dart';
-import '../core/widgets/adaptive_scaffold.dart';
+import '../app/shell/adaptive_scaffold.dart';
 
 part 'app_router.g.dart';
 

@@ -1,8 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/theme/app_tokens.dart';
-import '../../../settings/providers/settings_notifier.dart';
+import '../../../../core/config/settings_notifier.dart';
 import '../../../sync/providers/auth_notifier.dart';
 import '../../../sync/providers/supabase_auth_notifier.dart';
 import '../../../sync/providers/sync_state_notifier.dart';
@@ -30,7 +31,7 @@ class DeckAppBar extends StatelessWidget {
           const Icon(LucideIcons.zap, size: AppIconSize.md),
           AppGaps.h8,
           Text(
-            'Flanki',
+            AppConfig.appName,
             style: theme.typography.h3.copyWith(fontWeight: FontWeight.w700),
           ),
           AppGaps.h8,

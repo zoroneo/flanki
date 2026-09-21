@@ -5,10 +5,9 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/anki/apkg_importer_service.dart';
 import '../../../../core/config/app_config.dart';
+import '../../../../core/database/database_service.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/generated/app_localizations.dart';
-
-import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 
 import '../../providers/deck_notifier.dart';
 
@@ -105,7 +104,7 @@ class DeckImportHelper {
         deckNotifier.addDecks(importResult.decks);
       }
       if (importResult.cards.isNotEmpty) {
-        ref.read(cardBrowserProvider.notifier).addCards(importResult.cards);
+        DatabaseService.instance.saveCards(importResult.cards);
       }
 
       if (context.mounted) {

@@ -2,12 +2,11 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/database/data_change_bus.dart';
 import '../../../core/services/cloud_backup_service.dart';
 import '../../../core/services/cloud_storage_stats_service.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../browser/providers/card_browser_notifier.dart';
-import '../../decks/providers/deck_notifier.dart';
-import '../../stats/providers/stats_notifier.dart';
+import 'supabase_auth_notifier.dart';
 
 /// Specific operation state for Cloud Backup workflows.
 enum CloudBackupOp {
@@ -77,7 +76,8 @@ class CloudBackupState {
 }
 
 final cloudBackupServiceProvider = Provider<CloudBackupService>((ref) {
-  return CloudBackupService();
+  final authService = ref.watch(supabaseAuthServiceProvider);
+  return CloudBackupService(userIdProvider: () => authService.currentUser?.id);
 });
 
 final cloudStorageStatsServiceProvider = Provider<CloudStorageStatsService>((
@@ -175,9 +175,7 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
       );
 
       // Refresh UI stores
-      ref.invalidate(deckListProvider);
-      ref.invalidate(cardBrowserProvider);
-      ref.invalidate(statsNotifierProvider);
+      DataChangeBus.instance.notifyAll();
 
       await refresh();
       state = state.copyWith(
@@ -243,9 +241,7 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
     );
     try {
       await _backupService.restoreFromSnapshot(backupFile);
-      ref.invalidate(deckListProvider);
-      ref.invalidate(cardBrowserProvider);
-      ref.invalidate(statsNotifierProvider);
+      DataChangeBus.instance.notifyAll();
 
       await refresh();
       state = state.copyWith(

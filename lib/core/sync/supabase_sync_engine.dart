@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config/supabase_config.dart';
 import '../database/database_service.dart';
-import '../../features/exam/models/exam_models.dart';
+import '../models/exam_models.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'payload_optimizer.dart';
 import 'supabase_media_sync_service.dart';

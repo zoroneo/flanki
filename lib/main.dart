@@ -18,7 +18,7 @@ import 'core/theme/app_tokens.dart';
 import 'core/theme/theme_notifier.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'router/app_router.dart';
-import 'core/widgets/app_lifecycle_manager.dart';
+import 'app/lifecycle/app_lifecycle_manager.dart';
 
 import 'core/database/database_service.dart';
 import 'core/database/media_storage_service.dart';

@@ -7,10 +7,10 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/extensions/responsive_extensions.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
+import '../../../core/database/database_service.dart';
+import '../../../core/providers/shared_deck_provider.dart';
 import '../../../core/theme/app_tokens.dart';
 
-import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
-import 'package:flanki/features/decks/providers/deck_notifier.dart';
 import 'package:flanki/core/widgets/form_focus_helper.dart';
 
 import 'widgets/note_editor_desktop_layout.dart';
@@ -23,8 +23,7 @@ class NoteEditorScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final decks = ref.watch(deckListProvider);
-    final browserNotifier = ref.read(cardBrowserProvider.notifier);
+    final decks = ref.watch(sharedDeckListProvider);
     final isDesktop = !context.isMobile;
 
     final noteType = useState<NoteType>(NoteType.basic);
@@ -118,7 +117,7 @@ class NoteEditorScreen extends HookConsumerWidget {
         createdAt: DateTime.now(),
       );
 
-      browserNotifier.addCard(newCard);
+      DatabaseService.instance.saveCard(newCard);
 
       showToast(
         context: context,

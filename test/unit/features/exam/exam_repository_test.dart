@@ -8,7 +8,7 @@ import 'package:flanki/core/sync/supabase_sync_engine.dart';
 import 'package:flanki/features/exam/data/exam_repository.dart';
 import 'package:flanki/features/exam/models/exam_models.dart';
 
-import '../../helpers/virtual_sync_cluster.dart';
+import '../../../helpers/virtual_sync_cluster.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

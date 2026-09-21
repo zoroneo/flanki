@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
+
 import 'exam_constants.dart';
 
 export 'exam_constants.dart';

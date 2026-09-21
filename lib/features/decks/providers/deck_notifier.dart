@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/models/custom_study_mode.dart';
 import '../../../core/models/deck.dart';
+import '../../../core/database/data_change_bus.dart';
 import '../../../core/database/database_service.dart';
 
 part 'deck_notifier.g.dart';
@@ -27,6 +28,14 @@ class DeckTreeNode {
 class DeckNotifier extends _$DeckNotifier {
   @override
   List<DeckModel> build() {
+    final sub = DataChangeBus.instance.stream.listen((scope) {
+      if (scope == DataScope.all ||
+          scope == DataScope.decks ||
+          scope == DataScope.cards) {
+        state = DatabaseService.instance.getAllDecks();
+      }
+    });
+    ref.onDispose(sub.cancel);
     return DatabaseService.instance.getAllDecks();
   }
 

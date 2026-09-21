@@ -2,10 +2,10 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
-import '../../../../core/models/card.dart';
-import '../../../../core/theme/app_tokens.dart';
-import '../../../../core/widgets/adaptive_modal.dart';
+import '../../localization/locale_notifier.dart';
+import '../../models/card.dart';
+import '../../theme/app_tokens.dart';
+import '../adaptive_modal.dart';
 import 'card_action_edit_form.dart';
 import 'card_action_sheet_components.dart';
 

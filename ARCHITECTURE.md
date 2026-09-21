@@ -1,17 +1,24 @@
-﻿# Flanki Architecture Guidelines (Feature-First)
+# Flanki Architecture Guidelines (Feature-First)
 
 ## 1. Directory Blueprint
 
 ```text
 lib/
+├── app/                          # Application-level shell & orchestration
+│   ├── shell/                    # AdaptiveScaffold, desktop/mobile/tablet navigation
+│   └── lifecycle/                # AppLifecycleManager, update toasts, global coordinators
+│
 ├── core/                         # Shared infrastructure across the entire app
 │   ├── anki/                     # anki_bridge, template engine, apkg importer
+│   ├── config/                   # AppConfig, SupabaseConfig
 │   ├── database/                 # app_database (Drift), database_service
 │   ├── fsrs/                     # FSRS & SM2 scheduler engines
+│   ├── models/                   # Shared domain entities (Card, Deck, ReviewLog, Exam, Grammar)
 │   ├── services/                 # notification, window, desktop update poller
+│   ├── sync/                     # Supabase sync engine, replicator, HLC, circuit breaker
 │   ├── theme/ & localization/    # App styling, l10n
 │   ├── extensions/ & utils/      # Common helpers
-│   └── widgets/                  # Primitive UI (adaptive_scaffold, mobile_scaffold, etc.)
+│   └── widgets/                  # Primitive/dumb UI components (modals, buttons, audio player)
 │
 ├── features/                     # Vertical Slices
 │   ├── <feature_name>/
@@ -28,9 +35,10 @@ lib/
 
 | Source Layer | Allowed to Import | FORBIDDEN to Import |
 | :--- | :--- | :--- |
-| **`core/`** | External packages, Flutter SDK, `core/` internals | ❌ `features/**`, `router/**` |
-| **`features/<A>/`** | `core/**`, internal `features/<A>/**` | ❌ `features/<B>/ui/**`, `features/<B>/providers/**` |
-| **`router/`** | `features/**/ui/**`, `core/**` | - |
+| **`core/`** | External packages, Flutter SDK, `core/` internals | ❌ `features/**`, `router/**`, `app/**` |
+| **`features/<A>/`** | `core/**`, internal `features/<A>/**` | ❌ `features/<B>/ui/**`, `features/<B>/providers/**`, `app/**` |
+| **`router/`** | `app/shell/**`, `features/**/ui/**`, `core/**` | - |
+| **`app/`** | `features/**`, `router/**`, `core/**` | - |
 
 ### Cross-Feature Communication Rules
 1. **Navigation:** Features must never push or instantiate screens belonging to another feature directly. Always use `context.go(...)` or `context.push(...)` via **GoRouter**.

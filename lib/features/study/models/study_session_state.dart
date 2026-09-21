@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/config/app_config.dart';
 import '../../../core/models/card.dart';
-import '../../settings/models/settings_state.dart';
+import '../../../core/models/settings_state.dart';
 import '../../../core/database/database_service.dart';
 
 part 'study_session_state.freezed.dart';

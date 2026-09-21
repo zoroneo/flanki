@@ -1,15 +1,13 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/config/app_config.dart';
+import '../../../core/config/settings_notifier.dart';
+import '../../../core/database/database_service.dart';
 import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
 import '../../../core/models/card.dart';
-import '../../browser/providers/card_browser_notifier.dart';
-import '../../settings/providers/settings_notifier.dart';
 import '../../../core/services/notification_service.dart';
-import '../../../core/database/database_service.dart';
-import '../../decks/providers/deck_notifier.dart';
-import '../../stats/providers/stats_notifier.dart';
+import '../../../core/services/study_timer_service.dart';
 import '../models/study_session_state.dart';
 
 export '../models/study_session_state.dart';
@@ -84,9 +82,7 @@ class StudySessionNotifier extends _$StudySessionNotifier {
                 AppConfig.maxTrackedStudySeconds,
               )
         : AppConfig.fallbackSecondsPerCard;
-    ref
-        .read(statsNotifierProvider.notifier)
-        .recordStudyDuration(elapsedSeconds);
+    StudyTimerService.instance.recordStudyDuration(elapsedSeconds);
 
     // 4. Persist card updates and record Review Log into SQLite
     DatabaseService.instance.saveCard(scheduledCard);
@@ -100,9 +96,6 @@ class StudySessionNotifier extends _$StudySessionNotifier {
           : 0,
     );
 
-    ref.read(statsNotifierProvider.notifier).refresh();
-    ref.read(deckListProvider.notifier).refresh();
-    ref.read(cardBrowserProvider.notifier).refresh();
     NotificationService.instance.onStudyCompletedToday();
 
     final remainingQueue = List<CardModel>.from(state.queue);
@@ -151,10 +144,6 @@ class StudySessionNotifier extends _$StudySessionNotifier {
       DatabaseService.instance.saveCard(lastSnapshot.currentCard!);
     }
 
-    ref.read(statsNotifierProvider.notifier).refresh();
-    ref.read(deckListProvider.notifier).refresh();
-    ref.read(cardBrowserProvider.notifier).refresh();
-
     state = StudySessionState(
       deckId: state.deckId,
       queue: lastSnapshot.queue,
@@ -175,8 +164,6 @@ class StudySessionNotifier extends _$StudySessionNotifier {
 
     final updatedCard = state.currentCard!.copyWith(flag: newFlag);
     DatabaseService.instance.saveCard(updatedCard);
-    ref.read(deckListProvider.notifier).refresh();
-    ref.read(cardBrowserProvider.notifier).refresh();
 
     state = StudySessionState(
       deckId: state.deckId,
@@ -194,8 +181,6 @@ class StudySessionNotifier extends _$StudySessionNotifier {
     if (state.currentCard == null) return;
     final buriedCard = state.currentCard!.copyWith(isBuried: true);
     DatabaseService.instance.saveCard(buriedCard);
-    ref.read(deckListProvider.notifier).refresh();
-    ref.read(cardBrowserProvider.notifier).refresh();
     _skipCurrentCard();
   }
 
@@ -203,8 +188,6 @@ class StudySessionNotifier extends _$StudySessionNotifier {
     if (state.currentCard == null) return;
     final suspendedCard = state.currentCard!.copyWith(isSuspended: true);
     DatabaseService.instance.saveCard(suspendedCard);
-    ref.read(deckListProvider.notifier).refresh();
-    ref.read(cardBrowserProvider.notifier).refresh();
     _skipCurrentCard();
   }
 
@@ -212,9 +195,6 @@ class StudySessionNotifier extends _$StudySessionNotifier {
     if (state.currentCard == null) return;
     final cardId = state.currentCard!.id;
     DatabaseService.instance.deleteCard(cardId);
-    ref.read(deckListProvider.notifier).refresh();
-    ref.read(cardBrowserProvider.notifier).refresh();
-    ref.read(statsNotifierProvider.notifier).refresh();
     _skipCurrentCard();
   }
 
@@ -222,8 +202,6 @@ class StudySessionNotifier extends _$StudySessionNotifier {
     if (state.currentCard == null) return;
     final updatedCard = state.currentCard!.copyWith(front: front, back: back);
     DatabaseService.instance.saveCard(updatedCard);
-    ref.read(deckListProvider.notifier).refresh();
-    ref.read(cardBrowserProvider.notifier).refresh();
 
     state = StudySessionState(
       deckId: state.deckId,

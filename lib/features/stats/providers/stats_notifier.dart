@@ -1,8 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/config/app_config.dart';
-import '../../../core/models/card.dart';
+import '../../../core/database/data_change_bus.dart';
 import '../../../core/database/database_service.dart';
+import '../../../core/models/card.dart';
+import '../../../core/services/study_timer_service.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../models/stats_state.dart';
 
@@ -12,10 +14,16 @@ part 'stats_notifier.g.dart';
 
 @Riverpod(keepAlive: true, name: 'statsNotifierProvider')
 class StatsNotifier extends _$StatsNotifier {
-  int _trackedStudySecondsToday = 0;
-
   @override
   StatsData build() {
+    final sub = DataChangeBus.instance.stream.listen((scope) {
+      if (scope == DataScope.all ||
+          scope == DataScope.reviews ||
+          scope == DataScope.cards) {
+        refresh();
+      }
+    });
+    ref.onDispose(sub.cancel);
     return _computeStats();
   }
 
@@ -24,8 +32,7 @@ class StatsNotifier extends _$StatsNotifier {
   }
 
   void recordStudyDuration(int seconds) {
-    _trackedStudySecondsToday += seconds;
-    refresh();
+    StudyTimerService.instance.recordStudyDuration(seconds);
   }
 
   StatsData _computeStats() {
@@ -60,8 +67,9 @@ class StatsNotifier extends _$StatsNotifier {
     final retention = logs.isNotEmpty ? (successfulReviews / logs.length) : 0.0;
 
     // Study time: prefer tracked real duration, or fallback to configured seconds per card
-    final studyTimeMinutes = _trackedStudySecondsToday > 0
-        ? (_trackedStudySecondsToday / 60).ceil()
+    final trackedSeconds = StudyTimerService.instance.trackedStudySecondsToday;
+    final studyTimeMinutes = trackedSeconds > 0
+        ? (trackedSeconds / 60).ceil()
         : (reviewedToday * AppConfig.fallbackSecondsPerCard / 60).round();
 
     // Calculate Streak

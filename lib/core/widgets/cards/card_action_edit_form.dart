@@ -1,10 +1,10 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
-import '../../../../core/models/card.dart';
-import '../../../../core/theme/app_tokens.dart';
-import '../../../../core/widgets/form_focus_helper.dart';
+import '../../localization/locale_notifier.dart';
+import '../../models/card.dart';
+import '../../theme/app_tokens.dart';
+import '../form_focus_helper.dart';
 
 class CardActionEditForm extends HookWidget {
   final CardModel card;

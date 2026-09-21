@@ -1,11 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../features/settings/models/update_info.dart';
-import '../../features/settings/providers/update_notifier.dart';
-import '../../features/settings/ui/widgets/update_dialog.dart';
-import '../../l10n/generated/app_localizations.dart';
-import '../theme/app_tokens.dart';
+import 'package:flanki/features/settings/models/update_info.dart';
+import 'package:flanki/features/settings/providers/update_notifier.dart';
+import 'package:flanki/features/settings/ui/widgets/update_dialog.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
+import 'package:flanki/core/theme/app_tokens.dart';
 
 class BackgroundDownloadToast extends ConsumerWidget {
   final UpdateInfo info;

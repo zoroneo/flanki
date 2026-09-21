@@ -14,7 +14,7 @@ class UpdateNotifier extends _$UpdateNotifier {
 
   @override
   UpdateState build() {
-    _service = DesktopUpdateService();
+    _service = ref.watch(desktopUpdateServiceProvider);
     return const UpdateState();
   }
 

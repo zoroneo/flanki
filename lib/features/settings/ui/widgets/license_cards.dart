@@ -111,7 +111,10 @@ class FlankiLicenseCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text('Flanki', style: context.textStyles.bodySemiBold),
+                        Text(
+                          AppConfig.appName,
+                          style: context.textStyles.bodySemiBold,
+                        ),
                         AppGaps.h8,
                         Container(
                           padding: AppEdgeInsets.h8v4,

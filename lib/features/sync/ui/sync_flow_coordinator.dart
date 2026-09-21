@@ -4,10 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart' show ToastOverlay;
 
 import '../providers/auth_notifier.dart';
 
-import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
-
-import '../../decks/providers/deck_notifier.dart';
-import '../../stats/providers/stats_notifier.dart';
+import '../../../core/database/data_change_bus.dart';
 import '../../../core/database/database_service.dart';
 import '../data/anki_web_sync_service.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -46,12 +43,8 @@ class SyncFlowCoordinator {
 
     if (isSyncing != null) isSyncing.value = true;
 
-    final service =
-        syncService ??
-        AnkiWebSyncService(
-          messages: SyncProgressMessages.fromL10n(l10n),
-          l10n: l10n,
-        );
+    final AnkiWebSyncService service =
+        syncService ?? ref.read(ankiWebSyncServiceProvider);
 
     try {
       final lastSyncTime = currentAuthState.lastSyncedAt;
@@ -135,21 +128,17 @@ class SyncFlowCoordinator {
             progress: 0.45,
           );
           if (downloadResult.decks.isNotEmpty) {
-            await ref
-                .read(deckListProvider.notifier)
-                .addDecks(downloadResult.decks);
+            await DatabaseService.instance.saveDecks(downloadResult.decks);
           }
           if (downloadResult.cards.isNotEmpty) {
             await DatabaseService.instance.mergeCards(downloadResult.cards);
-            ref.read(cardBrowserProvider.notifier).refresh();
           }
           if (downloadResult.reviewLogs.isNotEmpty) {
             await DatabaseService.instance.saveReviewLogs(
               downloadResult.reviewLogs,
             );
-            ref.read(statsNotifierProvider.notifier).refresh();
           }
-          await ref.read(deckListProvider.notifier).refresh();
+          DataChangeBus.instance.notifyAll();
 
           // 3. Export merged collection and upload back to AnkiWeb
           statusNotifier.value = SyncProgressStatus(
@@ -203,22 +192,17 @@ class SyncFlowCoordinator {
 
           if (!shouldMerge) {
             if (syncResult.decks.isNotEmpty) {
-              await ref
-                  .read(deckListProvider.notifier)
-                  .addDecks(syncResult.decks);
+              await DatabaseService.instance.saveDecks(syncResult.decks);
             }
             if (syncResult.cards.isNotEmpty) {
-              await ref
-                  .read(cardBrowserProvider.notifier)
-                  .addCards(syncResult.cards);
+              await DatabaseService.instance.saveCards(syncResult.cards);
             }
             if (syncResult.reviewLogs.isNotEmpty) {
               await DatabaseService.instance.saveReviewLogs(
                 syncResult.reviewLogs,
               );
-              ref.read(statsNotifierProvider.notifier).refresh();
             }
-            await ref.read(deckListProvider.notifier).refresh();
+            DataChangeBus.instance.notifyAll();
           }
 
           statusNotifier.value = SyncProgressStatus(
@@ -276,12 +260,8 @@ class SyncFlowCoordinator {
 
     _isAutoSyncRunning = true;
     try {
-      final service =
-          syncService ??
-          AnkiWebSyncService(
-            messages: SyncProgressMessages.fromL10n(l10n),
-            l10n: l10n,
-          );
+      final AnkiWebSyncService service =
+          syncService ?? ref.read(ankiWebSyncServiceProvider);
 
       final lastSyncTime = authState.lastSyncedAt;
       final hasLocalChanges = DatabaseService.instance.hasLocalChangesSince(
@@ -301,21 +281,17 @@ class SyncFlowCoordinator {
         if (syncResult.success) {
           ref.read(authNotifierProvider.notifier).recordSyncSuccess();
           if (syncResult.decks.isNotEmpty) {
-            await ref
-                .read(deckListProvider.notifier)
-                .addDecks(syncResult.decks);
+            await DatabaseService.instance.saveDecks(syncResult.decks);
           }
           if (syncResult.cards.isNotEmpty) {
             await DatabaseService.instance.mergeCards(syncResult.cards);
-            ref.read(cardBrowserProvider.notifier).refresh();
           }
           if (syncResult.reviewLogs.isNotEmpty) {
             await DatabaseService.instance.saveReviewLogs(
               syncResult.reviewLogs,
             );
-            ref.read(statsNotifierProvider.notifier).refresh();
           }
-          await ref.read(deckListProvider.notifier).refresh();
+          DataChangeBus.instance.notifyAll();
         }
       } else if (check.action == SyncActionRequired.upload) {
         final dbBytes = await DatabaseService.instance.exportToAnki2Db();

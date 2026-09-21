@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
+import 'package:flanki/l10n/generated/app_localizations.dart';
 
 class MobileBottomNavBar extends StatelessWidget {
   final ThemeData theme;
   final int currentIndex;
   final int totalDue;
   final bool isAuthenticated;
-  final dynamic l10n;
+  final AppLocalizations l10n;
   final ValueChanged<int> onTap;
 
   const MobileBottomNavBar({

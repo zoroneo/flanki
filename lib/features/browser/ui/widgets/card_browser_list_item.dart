@@ -4,7 +4,7 @@ import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
 
-import 'package:flanki/features/study/ui/widgets/card_action_sheet.dart';
+import '../../../../core/widgets/cards/card_action_sheet.dart';
 
 final _htmlTagRegex = RegExp(r'<[^>]*>');
 final _whitespaceRegex = RegExp(r'\s+');

@@ -4,7 +4,7 @@ import 'package:flanki/core/models/deck.dart';
 import 'package:flanki/core/sync/hlc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../helpers/virtual_sync_cluster.dart';
+import '../../../helpers/virtual_sync_cluster.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

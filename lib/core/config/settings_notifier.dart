@@ -1,8 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/config/app_config.dart';
-import '../../../core/services/desktop_window_service.dart';
+import 'app_config.dart';
+import '../services/desktop_window_service.dart';
 import '../models/settings_state.dart';
 
 export '../models/settings_state.dart';

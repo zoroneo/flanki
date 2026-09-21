@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../core/models/card.dart';
+import 'card.dart';
 
 part 'grammar_progress.freezed.dart';
 part 'grammar_progress.g.dart';

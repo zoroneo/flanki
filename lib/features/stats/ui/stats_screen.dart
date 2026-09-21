@@ -7,8 +7,11 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
-import '../../settings/providers/settings_notifier.dart';
+import '../../../core/config/settings_notifier.dart';
 import '../providers/stats_notifier.dart';
+import 'widgets/stats_heatmap_grid.dart';
+import 'widgets/stats_metric_card.dart';
+import 'widgets/stats_retention_card.dart';
 
 class StatsScreen extends HookConsumerWidget {
   const StatsScreen({super.key});
@@ -28,13 +31,6 @@ class StatsScreen extends HookConsumerWidget {
       );
       return null;
     }, const []);
-
-    final retentionPercentStr =
-        '${(stats.retentionRate * 100).toStringAsFixed(1)}%';
-    final isTargetReached = stats.retentionRate >= desiredRetention;
-    final targetLabel = l10n.targetSuffix(
-      '${(desiredRetention * 100).toInt()}%',
-    );
 
     return ResponsiveBuilder(
       builder: (context, sizingInfo) {
@@ -88,82 +84,18 @@ class StatsScreen extends HookConsumerWidget {
                 ),
                 children: [
                   // Retention & FSRS Overview Card
-                  Card(
-                    filled: true,
-                    padding: AppEdgeInsets.all20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              l10n.retentionRate,
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                            if (stats.totalReviews > 0)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.sm,
-                                  vertical: AppSpacing.xxs,
-                                ),
-                                decoration: BoxDecoration(
-                                  color:
-                                      (isTargetReached
-                                              ? context.colors.success
-                                              : context.colors.warning)
-                                          .withValues(alpha: 0.15),
-                                  borderRadius: AppRadius.borderSm,
-                                ),
-                                child: Text(
-                                  isTargetReached
-                                      ? l10n.targetReached
-                                      : l10n.targetNotReached,
-                                  style: context.textStyles.captionBold
-                                      .copyWith(
-                                        color: isTargetReached
-                                            ? context.colors.success
-                                            : context.colors.warning,
-                                      ),
-                                ),
-                              ),
-                          ],
-                        ),
-                        AppGaps.v12,
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            Text(
-                              retentionPercentStr,
-                              style: theme.typography.h1.copyWith(
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: -1,
-                              ),
-                            ),
-                            AppGaps.h8,
-                            Text(
-                              targetLabel,
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                          ],
-                        ),
-                        AppGaps.v16,
-                        Progress(progress: stats.retentionRate),
-                      ],
-                    ),
+                  StatsRetentionCard(
+                    stats: stats,
+                    desiredRetention: desiredRetention,
+                    l10n: l10n,
                   ),
                   AppGaps.v16,
 
-                  // 3 Metric Grid
+                  // 2 Metric Cards Grid
                   Row(
                     children: [
                       Expanded(
-                        child: _MetricCard(
+                        child: StatsMetricCard(
                           label: l10n.reviewedToday,
                           value: '${stats.reviewedToday}',
                           subtitle: l10n.reviewedDiff,
@@ -172,7 +104,7 @@ class StatsScreen extends HookConsumerWidget {
                       ),
                       AppGaps.h12,
                       Expanded(
-                        child: _MetricCard(
+                        child: StatsMetricCard(
                           label: l10n.studyTime,
                           value: l10n.studyMinutesUnit(stats.studyTimeMinutes),
                           subtitle: l10n.studyTimePerCard,
@@ -184,175 +116,17 @@ class StatsScreen extends HookConsumerWidget {
                   AppGaps.v20,
 
                   // Study Activity Heatmap (GitHub / Anki style)
-                  Card(
-                    padding: AppEdgeInsets.all16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                l10n.studyHistory,
-                                style: theme.typography.semiBold,
-                              ),
-                            ),
-                            AppGaps.h8,
-                            Text(
-                              l10n.streakDays(stats.streakDays),
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                          ],
-                        ),
-                        AppGaps.v16,
-                        _HeatmapGrid(theme: theme, levels: stats.heatmapLevels),
-                        AppGaps.v12,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              l10n.less,
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                            AppGaps.h8,
-                            _HeatmapDot(level: 0, theme: theme),
-                            AppGaps.h4,
-                            _HeatmapDot(level: 1, theme: theme),
-                            AppGaps.h4,
-                            _HeatmapDot(level: 2, theme: theme),
-                            AppGaps.h4,
-                            _HeatmapDot(level: 3, theme: theme),
-                            AppGaps.h8,
-                            Text(
-                              l10n.more,
-                              style: theme.typography.xSmall.copyWith(
-                                color: theme.colorScheme.mutedForeground,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  StatsHeatmapGrid(
+                    levels: stats.heatmapLevels,
+                    streakDays: stats.streakDays,
+                    l10n: l10n,
                   ),
-                  const SizedBox(
-                    height: AppDimensions.bottomNavClearance,
-                  ), // Safe scroll clearance for bottom navigation
                 ],
               ),
             ),
           ),
         );
       },
-    );
-  }
-}
-
-class _MetricCard extends StatelessWidget {
-  final String label;
-  final String value;
-  final String subtitle;
-  final IconData icon;
-
-  const _MetricCard({
-    required this.label,
-    required this.value,
-    required this.subtitle,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      padding: AppEdgeInsets.all16,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: AppIconSize.md, color: theme.colorScheme.primary),
-          AppGaps.v12,
-          Text(
-            value,
-            style: theme.typography.h3.copyWith(fontWeight: FontWeight.w700),
-          ),
-          AppGaps.v4,
-          Text(
-            label,
-            style: theme.typography.xSmall.copyWith(
-              color: theme.colorScheme.mutedForeground,
-            ),
-          ),
-          AppGaps.v2,
-          Text(subtitle, style: context.textStyles.caption),
-        ],
-      ),
-    );
-  }
-}
-
-class _HeatmapGrid extends StatelessWidget {
-  final ThemeData theme;
-  final List<List<int>> levels;
-
-  const _HeatmapGrid({required this.theme, required this.levels});
-
-  @override
-  Widget build(BuildContext context) {
-    if (levels.isEmpty) {
-      return const SizedBox.shrink();
-    }
-    return SizedBox(
-      height: AppDimensions.statsForecastChartHeight,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: levels.length,
-        separatorBuilder: (context, index) => AppGaps.h4,
-        itemBuilder: (context, w) {
-          final week = levels[w];
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (int d = 0; d < week.length; d++) ...[
-                if (d > 0) AppGaps.v4,
-                _HeatmapDot(level: week[d], theme: theme, size: 14),
-              ],
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _HeatmapDot extends StatelessWidget {
-  final int level;
-  final ThemeData theme;
-  final double size;
-
-  const _HeatmapDot({required this.level, required this.theme, this.size = 10});
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = context.colors;
-    final colors = [
-      theme.colorScheme.muted,
-      appColors.heatmapL1,
-      appColors.heatmapL2,
-      appColors.heatmapL3,
-    ];
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: colors[level.clamp(0, 3)],
-        borderRadius: AppRadius.borderXs,
-      ),
     );
   }
 }
