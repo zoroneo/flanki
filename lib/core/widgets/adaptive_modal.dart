@@ -21,7 +21,7 @@ Future<T?> showAdaptiveModal<T>({
     return m.showModalBottomSheet<T>(
       context: context,
       useRootNavigator: useRootNavigator,
-      backgroundColor: m.Colors.transparent,
+      backgroundColor: AppColors.transparent,
       isScrollControlled: true,
       isDismissible: isDismissible,
       constraints: BoxConstraints(
@@ -41,7 +41,7 @@ Future<T?> showAdaptiveModal<T>({
     useRootNavigator: useRootNavigator,
     barrierDismissible: isDismissible,
     builder: (ctx) => m.Dialog(
-      backgroundColor: m.Colors.transparent,
+      backgroundColor: AppColors.transparent,
       insetPadding: AppEdgeInsets.all24,
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -98,7 +98,7 @@ class AdaptiveModalFrame extends StatelessWidget {
                 ),
           boxShadow: [
             BoxShadow(
-              color: m.Colors.black.withValues(alpha: isDesktop ? 0.2 : 0.15),
+              color: AppColors.black.withValues(alpha: isDesktop ? 0.2 : 0.15),
               blurRadius: isDesktop ? 24 : 16,
               offset: isDesktop ? const Offset(0, 8) : const Offset(0, -4),
             ),

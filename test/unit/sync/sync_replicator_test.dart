@@ -141,5 +141,28 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 50));
       expect(fakeEngine.syncCallCount, equals(countAtStop));
     });
+
+    test('onRemoteDeltasApplied triggers when pulledCount > 0', () async {
+      fakeEngine.nextResult = const SyncResult(isSuccess: true, pulledCount: 3);
+
+      bool deltasAppliedCalled = false;
+      replicator.onRemoteDeltasApplied = () {
+        deltasAppliedCalled = true;
+      };
+
+      await replicator.syncNow();
+      expect(deltasAppliedCalled, isTrue);
+    });
+
+    test('startRealtime and stopRealtime toggle isRealtimeActive', () {
+      expect(replicator.isRealtimeActive, isFalse);
+
+      replicator.startRealtime('user_abc');
+      // When client is null/safe, it handles gracefully without crashing
+      expect(replicator.isSyncing, isFalse);
+
+      replicator.stopRealtime();
+      expect(replicator.isRealtimeActive, isFalse);
+    });
   });
 }

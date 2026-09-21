@@ -59,20 +59,12 @@ class ConflictOptionCard extends StatelessWidget {
                     Row(
                       children: [
                         Flexible(
-                          child: Text(
-                            title,
-                            style: theme.typography.semiBold.copyWith(
-                              fontSize: 13,
-                            ),
-                          ),
+                          child: Text(title, style: context.textStyles.nav),
                         ),
                         if (badge != null) ...[
                           AppGaps.h8,
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.xs,
-                              vertical: AppSpacing.xxs,
-                            ),
+                            padding: AppEdgeInsets.h4v2,
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary.withValues(
                                 alpha: 0.15,
@@ -81,10 +73,8 @@ class ConflictOptionCard extends StatelessWidget {
                             ),
                             child: Text(
                               badge!,
-                              style: theme.typography.xSmall.copyWith(
+                              style: context.textStyles.captionBold.copyWith(
                                 color: theme.colorScheme.primary,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10,
                               ),
                             ),
                           ),

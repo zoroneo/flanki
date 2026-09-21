@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -8,6 +7,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/adaptive_modal.dart';
 import '../providers/supabase_auth_notifier.dart';
 import '../providers/sync_state_notifier.dart';
+import 'widgets/social_auth_buttons.dart';
 import 'widgets/supabase_auth_header.dart';
 
 /// Modal sheet for Flanki Cloud authentication (Sign in & Sign up via Supabase).
@@ -85,9 +85,9 @@ class SupabaseAuthSheet extends HookConsumerWidget {
                       ? l10n.authSuccessSubtitle
                       : l10n.syncConnecting,
                 ),
-                leading: const Icon(
+                leading: Icon(
                   LucideIcons.circleCheck,
-                  color: m.Colors.green,
+                  color: context.colors.success,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
@@ -100,7 +100,8 @@ class SupabaseAuthSheet extends HookConsumerWidget {
       }
     }
 
-    final displayedError = localError.value ?? authState.errorMessage;
+    final displayedError =
+        localError.value ?? authState.getLocalizedError(l10n);
 
     return Container(
       decoration: BoxDecoration(
@@ -124,8 +125,8 @@ class SupabaseAuthSheet extends HookConsumerWidget {
             if (!isDesktop) ...[
               Center(
                 child: Container(
-                  width: 36,
-                  height: 4,
+                  width: AppDimensions.modalGrabHandleWidth,
+                  height: AppDimensions.modalGrabHandleHeight,
                   margin: const EdgeInsets.only(bottom: AppSpacing.md),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.mutedForeground.withValues(
@@ -142,6 +143,19 @@ class SupabaseAuthSheet extends HookConsumerWidget {
               onClose: () => Navigator.of(context).pop(false),
             ),
             AppGaps.v16,
+
+            // Social Authentication Buttons (Google & Apple OAuth)
+            SocialAuthButtons(
+              isLoading: authState.isLoading,
+              onGooglePressed: () async {
+                localError.value = null;
+                await authNotifier.signInWithGoogle();
+              },
+              onApplePressed: () async {
+                localError.value = null;
+                await authNotifier.signInWithApple();
+              },
+            ),
 
             // Error Message Banner
             if (displayedError != null) ...[
@@ -188,7 +202,7 @@ class SupabaseAuthSheet extends HookConsumerWidget {
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               autocorrect: false,
-              placeholder: const Text('user@example.com'),
+              placeholder: Text(l10n.authEmailPlaceholder),
             ),
             AppGaps.v12,
 
@@ -203,7 +217,7 @@ class SupabaseAuthSheet extends HookConsumerWidget {
             TextField(
               controller: passwordController,
               obscureText: obscurePassword.value,
-              placeholder: const Text('••••••••'),
+              placeholder: Text(l10n.authPasswordDots),
               features: [
                 InputFeature.trailing(
                   IconButton.ghost(
@@ -233,7 +247,7 @@ class SupabaseAuthSheet extends HookConsumerWidget {
                     )
                   : Text(
                       isSignUp.value ? l10n.signUpCloud : l10n.authLoginButton,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: context.textStyles.bodySemiBold,
                     ),
             ),
           ],

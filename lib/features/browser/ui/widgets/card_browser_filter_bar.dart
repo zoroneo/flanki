@@ -20,10 +20,9 @@ class FilterChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.smPlus,
-          vertical: 6,
-        ),
+        height: AppDimensions.filterChipHeight,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
@@ -32,8 +31,7 @@ class FilterChip extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: 11,
+          style: theme.typography.xSmall.copyWith(
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             color: isSelected
                 ? theme.colorScheme.primaryForeground

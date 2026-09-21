@@ -33,9 +33,7 @@ class DraggableQuickFocusTag extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final snapController = useAnimationController(
-      duration: const Duration(milliseconds: 320),
-    );
+    final snapController = useAnimationController(duration: AppDurations.snap);
     final curvedAnimation = useMemoized(
       () => CurvedAnimation(parent: snapController, curve: Curves.easeOutBack),
       [snapController],
@@ -128,7 +126,7 @@ class DraggableQuickFocusTag extends HookWidget {
           child: RepaintBoundary(
             child: AnimatedOpacity(
               opacity: isFocused ? 0.0 : 1.0,
-              duration: const Duration(milliseconds: 200),
+              duration: AppDurations.normal,
               child: IgnorePointer(
                 ignoring: isFocused,
                 child: GestureDetector(
@@ -177,14 +175,14 @@ class DraggableQuickFocusTag extends HookWidget {
                   behavior: HitTestBehavior.opaque,
                   child: AnimatedScale(
                     scale: isDragging.value ? 1.12 : 1.0,
-                    duration: const Duration(milliseconds: 150),
+                    duration: AppDurations.short,
                     curve: Curves.easeOutCubic,
                     child: ClipRRect(
                       borderRadius: borderRadius,
                       child: BackdropFilter(
                         filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
                         child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 150),
+                          duration: AppDurations.short,
                           width: tagSize,
                           height: tagSize,
                           decoration: BoxDecoration(
@@ -200,7 +198,7 @@ class DraggableQuickFocusTag extends HookWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(
+                                color: AppColors.black.withValues(
                                   alpha: isDragging.value ? 0.35 : 0.18,
                                 ),
                                 blurRadius: isDragging.value ? 14 : 8,

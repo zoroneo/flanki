@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SyncUiState {
 
- SyncStatus get status; DateTime? get lastSyncedAt; int get pendingCount; String? get errorMessage;
+ SyncStatus get status; DateTime? get lastSyncedAt; int get pendingCount; String? get errorMessage; int get mediaUploadedCount; int get mediaDownloadedCount;
 /// Create a copy of SyncUiState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $SyncUiStateCopyWith<SyncUiState> get copyWith => _$SyncUiStateCopyWithImpl<Sync
 @override
 bool operator ==(Object other) {
   final _this = this as SyncUiState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SyncUiState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.lastSyncedAt, _this.lastSyncedAt) || other.lastSyncedAt == _this.lastSyncedAt)&&(identical(other.pendingCount, _this.pendingCount) || other.pendingCount == _this.pendingCount)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SyncUiState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.lastSyncedAt, _this.lastSyncedAt) || other.lastSyncedAt == _this.lastSyncedAt)&&(identical(other.pendingCount, _this.pendingCount) || other.pendingCount == _this.pendingCount)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage)&&(identical(other.mediaUploadedCount, _this.mediaUploadedCount) || other.mediaUploadedCount == _this.mediaUploadedCount)&&(identical(other.mediaDownloadedCount, _this.mediaDownloadedCount) || other.mediaDownloadedCount == _this.mediaDownloadedCount));
 }
 
 
 @override
 int get hashCode {
   final _this = this as SyncUiState;
-  return Object.hash(runtimeType,_this.status,_this.lastSyncedAt,_this.pendingCount,_this.errorMessage);
+  return Object.hash(runtimeType,_this.status,_this.lastSyncedAt,_this.pendingCount,_this.errorMessage,_this.mediaUploadedCount,_this.mediaDownloadedCount);
 }
 
 @override
 String toString() {
   final _this = this as SyncUiState;
-  return 'SyncUiState(status: ${_this.status}, lastSyncedAt: ${_this.lastSyncedAt}, pendingCount: ${_this.pendingCount}, errorMessage: ${_this.errorMessage})';
+  return 'SyncUiState(status: ${_this.status}, lastSyncedAt: ${_this.lastSyncedAt}, pendingCount: ${_this.pendingCount}, errorMessage: ${_this.errorMessage}, mediaUploadedCount: ${_this.mediaUploadedCount}, mediaDownloadedCount: ${_this.mediaDownloadedCount})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $SyncUiStateCopyWith<$Res>  {
   factory $SyncUiStateCopyWith(SyncUiState value, $Res Function(SyncUiState) _then) = _$SyncUiStateCopyWithImpl;
 @useResult
 $Res call({
- SyncStatus status, DateTime? lastSyncedAt, int pendingCount, String? errorMessage
+ SyncStatus status, DateTime? lastSyncedAt, int pendingCount, String? errorMessage, int mediaUploadedCount, int mediaDownloadedCount
 });
 
 
@@ -68,13 +68,15 @@ class _$SyncUiStateCopyWithImpl<$Res>
 
 /// Create a copy of SyncUiState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? lastSyncedAt = freezed,Object? pendingCount = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? lastSyncedAt = freezed,Object? pendingCount = null,Object? errorMessage = freezed,Object? mediaUploadedCount = null,Object? mediaDownloadedCount = null,}) {
   return _then(SyncUiState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as SyncStatus,lastSyncedAt: freezed == lastSyncedAt ? _self.lastSyncedAt : lastSyncedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,pendingCount: null == pendingCount ? _self.pendingCount : pendingCount // ignore: cast_nullable_to_non_nullable
 as int,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,mediaUploadedCount: null == mediaUploadedCount ? _self.mediaUploadedCount : mediaUploadedCount // ignore: cast_nullable_to_non_nullable
+as int,mediaDownloadedCount: null == mediaDownloadedCount ? _self.mediaDownloadedCount : mediaDownloadedCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -159,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SyncStatus status,  DateTime? lastSyncedAt,  int pendingCount,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SyncStatus status,  DateTime? lastSyncedAt,  int pendingCount,  String? errorMessage,  int mediaUploadedCount,  int mediaDownloadedCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SyncUiState() when $default != null:
-return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMessage);case _:
+return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMessage,_that.mediaUploadedCount,_that.mediaDownloadedCount);case _:
   return orElse();
 
 }
@@ -180,10 +182,10 @@ return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SyncStatus status,  DateTime? lastSyncedAt,  int pendingCount,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SyncStatus status,  DateTime? lastSyncedAt,  int pendingCount,  String? errorMessage,  int mediaUploadedCount,  int mediaDownloadedCount)  $default,) {final _that = this;
 switch (_that) {
 case _SyncUiState():
-return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMessage);case _:
+return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMessage,_that.mediaUploadedCount,_that.mediaDownloadedCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +202,10 @@ return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SyncStatus status,  DateTime? lastSyncedAt,  int pendingCount,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SyncStatus status,  DateTime? lastSyncedAt,  int pendingCount,  String? errorMessage,  int mediaUploadedCount,  int mediaDownloadedCount)?  $default,) {final _that = this;
 switch (_that) {
 case _SyncUiState() when $default != null:
-return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMessage);case _:
+return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMessage,_that.mediaUploadedCount,_that.mediaDownloadedCount);case _:
   return null;
 
 }
@@ -215,13 +217,15 @@ return $default(_that.status,_that.lastSyncedAt,_that.pendingCount,_that.errorMe
 
 
 class _SyncUiState extends SyncUiState {
-  const _SyncUiState({this.status = SyncStatus.idle, this.lastSyncedAt, this.pendingCount = 0, this.errorMessage}): super._();
+  const _SyncUiState({this.status = SyncStatus.idle, this.lastSyncedAt, this.pendingCount = 0, this.errorMessage, this.mediaUploadedCount = 0, this.mediaDownloadedCount = 0}): super._();
   
 
 @override@JsonKey() final  SyncStatus status;
 @override final  DateTime? lastSyncedAt;
 @override@JsonKey() final  int pendingCount;
 @override final  String? errorMessage;
+@override@JsonKey() final  int mediaUploadedCount;
+@override@JsonKey() final  int mediaDownloadedCount;
 
 /// Create a copy of SyncUiState
 /// with the given fields replaced by the non-null parameter values.
@@ -233,18 +237,18 @@ _$SyncUiStateCopyWith<_SyncUiState> get copyWith => __$SyncUiStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SyncUiState&&(identical(other.status, status) || other.status == status)&&(identical(other.lastSyncedAt, lastSyncedAt) || other.lastSyncedAt == lastSyncedAt)&&(identical(other.pendingCount, pendingCount) || other.pendingCount == pendingCount)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SyncUiState&&(identical(other.status, status) || other.status == status)&&(identical(other.lastSyncedAt, lastSyncedAt) || other.lastSyncedAt == lastSyncedAt)&&(identical(other.pendingCount, pendingCount) || other.pendingCount == pendingCount)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.mediaUploadedCount, mediaUploadedCount) || other.mediaUploadedCount == mediaUploadedCount)&&(identical(other.mediaDownloadedCount, mediaDownloadedCount) || other.mediaDownloadedCount == mediaDownloadedCount));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,lastSyncedAt,pendingCount,errorMessage);
+    return Object.hash(runtimeType,status,lastSyncedAt,pendingCount,errorMessage,mediaUploadedCount,mediaDownloadedCount);
 }
 
 @override
 String toString() {
-    return 'SyncUiState(status: $status, lastSyncedAt: $lastSyncedAt, pendingCount: $pendingCount, errorMessage: $errorMessage)';
+    return 'SyncUiState(status: $status, lastSyncedAt: $lastSyncedAt, pendingCount: $pendingCount, errorMessage: $errorMessage, mediaUploadedCount: $mediaUploadedCount, mediaDownloadedCount: $mediaDownloadedCount)';
 }
 
 
@@ -255,7 +259,7 @@ abstract mixin class _$SyncUiStateCopyWith<$Res> implements $SyncUiStateCopyWith
   factory _$SyncUiStateCopyWith(_SyncUiState value, $Res Function(_SyncUiState) _then) = __$SyncUiStateCopyWithImpl;
 @override @useResult
 $Res call({
- SyncStatus status, DateTime? lastSyncedAt, int pendingCount, String? errorMessage
+ SyncStatus status, DateTime? lastSyncedAt, int pendingCount, String? errorMessage, int mediaUploadedCount, int mediaDownloadedCount
 });
 
 
@@ -272,13 +276,15 @@ class __$SyncUiStateCopyWithImpl<$Res>
 
 /// Create a copy of SyncUiState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? lastSyncedAt = freezed,Object? pendingCount = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? lastSyncedAt = freezed,Object? pendingCount = null,Object? errorMessage = freezed,Object? mediaUploadedCount = null,Object? mediaDownloadedCount = null,}) {
   return _then(_SyncUiState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as SyncStatus,lastSyncedAt: freezed == lastSyncedAt ? _self.lastSyncedAt : lastSyncedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,pendingCount: null == pendingCount ? _self.pendingCount : pendingCount // ignore: cast_nullable_to_non_nullable
 as int,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,mediaUploadedCount: null == mediaUploadedCount ? _self.mediaUploadedCount : mediaUploadedCount // ignore: cast_nullable_to_non_nullable
+as int,mediaDownloadedCount: null == mediaDownloadedCount ? _self.mediaDownloadedCount : mediaDownloadedCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

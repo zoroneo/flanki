@@ -22,6 +22,7 @@ class StudyRatingBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colors = context.colors;
 
     return Row(
       children: [
@@ -32,7 +33,7 @@ class StudyRatingBar extends StatelessWidget {
             interval:
                 intervals[ReviewRating.again] ??
                 '< ${l10n.intervalMinutes(FsrsEngineService.fallbackAgainMinutes)}',
-            backgroundColor: AppColors.ratingAgain,
+            backgroundColor: colors.ratingAgain,
             onTap: () => onRate(ReviewRating.again),
           ),
         ),
@@ -44,7 +45,7 @@ class StudyRatingBar extends StatelessWidget {
             interval:
                 intervals[ReviewRating.hard] ??
                 l10n.intervalDays(FsrsEngineService.fallbackHardIntervalDays),
-            backgroundColor: AppColors.ratingHard,
+            backgroundColor: colors.ratingHard,
             onTap: () => onRate(ReviewRating.hard),
           ),
         ),
@@ -56,7 +57,7 @@ class StudyRatingBar extends StatelessWidget {
             interval:
                 intervals[ReviewRating.good] ??
                 l10n.intervalDays(FsrsEngineService.fallbackGoodIntervalDays),
-            backgroundColor: AppColors.ratingGood,
+            backgroundColor: colors.ratingGood,
             onTap: () => onRate(ReviewRating.good),
           ),
         ),
@@ -68,7 +69,7 @@ class StudyRatingBar extends StatelessWidget {
             interval:
                 intervals[ReviewRating.easy] ??
                 l10n.intervalDays(FsrsEngineService.fallbackEasyIntervalDays),
-            backgroundColor: AppColors.ratingEasy,
+            backgroundColor: colors.ratingEasy,
             onTap: () => onRate(ReviewRating.easy),
           ),
         ),
@@ -130,13 +131,12 @@ class RatingButton extends HookWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildLabelRow(),
+                _buildLabelRow(context),
                 AppGaps.v2,
                 Text(
                   interval,
-                  style: TextStyle(
-                    color: m.Colors.white.withValues(alpha: 0.85),
-                    fontSize: AppTypography.caption,
+                  style: context.textStyles.caption.copyWith(
+                    color: AppColors.white.withValues(alpha: 0.85),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -148,37 +148,26 @@ class RatingButton extends HookWidget {
     );
   }
 
-  Widget _buildLabelRow() {
+  Widget _buildLabelRow(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           label,
-          style: const TextStyle(
-            color: m.Colors.white,
-            fontSize: AppTypography.nav,
-            fontWeight: FontWeight.w700,
-          ),
+          style: context.textStyles.navBold.copyWith(color: AppColors.white),
         ),
         if (shortcutHint != null) ...[
           AppGaps.h4,
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.xs,
-              vertical: 1,
-            ),
+            padding: AppEdgeInsets.ratingKeyBadge,
             decoration: BoxDecoration(
-              color: m.Colors.black.withValues(alpha: 0.25),
+              color: AppColors.black.withValues(alpha: 0.25),
               borderRadius: AppRadius.borderSm,
             ),
             child: Text(
               shortcutHint!,
-              style: const TextStyle(
-                color: m.Colors.white,
-                fontSize: AppTypography.badge,
-                fontWeight: FontWeight.w700,
-              ),
+              style: context.textStyles.badge.copyWith(color: AppColors.white),
             ),
           ),
         ],

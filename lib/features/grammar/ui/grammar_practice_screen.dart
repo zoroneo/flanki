@@ -223,20 +223,14 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
               trailing: [
                 if (currentExercise != null)
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                      vertical: 3,
-                    ),
+                    padding: AppEdgeInsets.countBadge,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.muted,
                       borderRadius: AppRadius.borderSm,
                     ),
                     child: Text(
                       currentExercise.type.getLocalizedLabel(l10n),
-                      style: theme.typography.xSmall.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11,
-                      ),
+                      style: context.textStyles.subBold,
                     ),
                   ),
               ],

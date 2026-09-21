@@ -37,7 +37,7 @@ class ApkgImporterService {
   }) async {
     final file = File(filePath);
     if (!file.existsSync()) {
-      throw const FormatException('File not found');
+      throw const FormatException(AppConfig.errFileNotFound);
     }
 
     // Check if raw SQLite database directly
@@ -106,13 +106,13 @@ class ApkgImporterService {
     if (colFile == null) {
       await inputStream.close();
       await archive.clear();
-      throw const FormatException(
-        'Invalid .apkg package: collection.anki2 not found',
-      );
+      throw const FormatException(AppConfig.errInvalidApkgNoCollection);
     }
 
-    final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
-    final tempDbFile = File('${tempDir.path}/collection.anki2');
+    final tempDir = Directory.systemTemp.createTempSync(
+      AppConfig.tempApkgPrefix,
+    );
+    final tempDbFile = File('${tempDir.path}/${AppConfig.anki2DbFileName}');
     final dbOutput = OutputFileStream(tempDbFile.path);
     try {
       colFile.writeContent(dbOutput);
@@ -141,7 +141,7 @@ class ApkgImporterService {
     // If the data is raw SQLite database directly (e.g. from AnkiWeb full sync download)
     if (apkgBytes.length >= 16 &&
         utf8.decode(apkgBytes.sublist(0, 15), allowMalformed: true) ==
-            'SQLite format 3') {
+            AppConfig.sqliteHeaderMarker) {
       DatabaseService.instance.saveSyncTemplateBytes(apkgBytes);
       return _parseWithTempDb(
         apkgBytes,
@@ -158,9 +158,10 @@ class ApkgImporterService {
 
     for (final file in archive) {
       archiveFilesMap[file.name] = file;
-      if (file.name == 'collection.anki2' || file.name == 'collection.anki21') {
+      if (file.name == AppConfig.anki2DbFileName ||
+          file.name == AppConfig.anki21DbFileName) {
         colFile = file;
-      } else if (file.name == 'media') {
+      } else if (file.name == AppConfig.ankiMediaFileName) {
         mediaFile = file;
       }
     }
@@ -188,9 +189,7 @@ class ApkgImporterService {
     }
 
     if (colFile == null) {
-      throw const FormatException(
-        'Invalid .apkg package: collection.anki2 not found',
-      );
+      throw const FormatException(AppConfig.errInvalidApkgNoCollection);
     }
 
     final dbBytes = Uint8List.fromList(colFile.content as List<int>);

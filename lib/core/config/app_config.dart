@@ -71,12 +71,44 @@ class AppConfig {
   static const Duration updateCheckTimeout = Duration(seconds: 10);
   static const Duration toastLongDuration = Duration(seconds: 20);
   static const Duration toastDefaultDuration = Duration(seconds: 4);
+  static const Duration toastSuccessDismissDelay = Duration(seconds: 4);
+  static const Duration toastErrorDismissDelay = Duration(seconds: 5);
+  static const Duration toastExtendedDuration = Duration(minutes: 5);
+  static const Duration toastPersistentDuration = Duration(hours: 1);
   static const Duration defaultRelearnStep = Duration(minutes: 10);
+
+  /// Background services & poller intervals
+  static const Duration desktopReminderCheckInterval = Duration(minutes: 1);
+  static const Duration desktopUpdatePollInterval = Duration(hours: 4);
+  static const Duration desktopUpdateInitialDelay = Duration(seconds: 4);
+  static const Duration examTimerTickInterval = Duration(seconds: 1);
 
   /// Centralized sync scheduling and clock drift thresholds
   static const Duration defaultSyncPeriodicInterval = Duration(minutes: 5);
   static const Duration defaultSyncDebounceDuration = Duration(seconds: 2);
+  static const Duration defaultRealtimeDebounce = Duration(milliseconds: 1500);
+  static const Duration syncClockSkewTolerance = Duration(seconds: 2);
   static const int defaultMaxClockDriftMillis = 60000;
+  static const int syncMediaMaxConcurrent = 4;
+
+  /// Circuit Breaker resilience thresholds
+  static const int circuitBreakerFailureThreshold = 3;
+  static const Duration circuitBreakerCooldown = Duration(seconds: 30);
+  static const int circuitBreakerMaxMultiplier = 4;
+
+  /// Exponential Backoff Strategy parameters
+  static const Duration syncBackoffBaseDelay = Duration(seconds: 2);
+  static const Duration syncBackoffMaxDelay = Duration(seconds: 60);
+  static const int syncBackoffMaxShiftAttempts = 30;
+
+  /// Telemetry metrics thresholds and limits
+  static const int syncTelemetryMaxCapacity = 50;
+  static const double syncHealthyMinSuccessRate = 90.0;
+
+  /// Bandwidth calculation unit factors
+  static const int bytesPerKb = 1024;
+  static const int bytesPerMb = 1024 * 1024;
+  static const int bytesPerGb = 1024 * 1024 * 1024;
 
   static String _version = defaultVersion;
   static int _buildNumber = defaultBuildNumber;
@@ -180,10 +212,29 @@ class AppConfig {
   static const String ankiSyncTemplateFileName = 'sync_template.anki2';
   static const String sqliteHeaderMarker = 'SQLite format 3';
 
+  /// Standard internal exception error messages
+  static const String errFileNotFound = 'File not found';
+  static const String errFileDataUnreadable = 'File data unreadable';
+  static const String errInvalidHlcFormatPrefix = 'Invalid HLC string format: ';
+  static const String errFailedLoadGrammarUnitPrefix =
+      'Failed to load grammar unit from ';
+  static const String errInvalidApkgNoCollection =
+      'Invalid .apkg package: collection.anki2 not found';
+
+  /// Service log message prefixes
+  static const String logSupabaseInitFailedPrefix =
+      'Failed to initialize Supabase: ';
+
   /// Local Drift Database schema and defaults
-  static const int currentDatabaseSchemaVersion = 4;
+  static const int currentDatabaseSchemaVersion = 6;
   static const String defaultNoteType = 'basic';
   static const String defaultQuestionStatus = 'new';
+
+  /// Cloud & Local Snapshot Backup Packaging
+  static const String flankiBackupExtension = '.flanki';
+  static const String backupManifestFileName = 'manifest.json';
+  static const String backupDataFileName = 'data.json';
+  static const String backupMediaDirectoryName = 'media';
 
   /// Notification and OS integration metadata
   static const String androidNotificationIcon = '@mipmap/ic_launcher';
@@ -219,6 +270,11 @@ class AppConfig {
   static const String clozeDeletionTag = '{{c';
   static const String customTagAnkiSound = 'anki-sound';
   static const String customTagAnkiTypeResult = 'anki-type-result';
+  static const String ankiModelPrefix = 'Model ';
+  static const String ankiFrontSideTag = '{{FrontSide}}';
+  static const String ankiTypeResultPrefix = '[[TYPE_RESULT:';
+  static const String ankiTypeInputPrefix = '[[TYPE_INPUT:';
+  static const String ankiTagSuffix = ']]';
 
   /// Notification IDs
   static const int testNotificationId = 9999;
@@ -261,6 +317,26 @@ class AppConfig {
   static const String tokenWin = 'win';
   static const String tokenMac = 'mac';
   static const String tokenLinux = 'linux';
+
+  /// Environment variables & runtime testing flags
+  static const String envFlutterTest = 'FLUTTER_TEST';
+  static bool get isFlutterTest =>
+      Platform.environment.containsKey(envFlutterTest);
+
+  /// Default tags & identifiers
+  static const String defaultCramTag = 'all';
+  static const String tagPrefix = '#';
+
+  /// Cram limit options for Custom Study modal
+  static const List<int> cramLimitOptions = [10, 20, 50, 100];
+
+  /// Deck hierarchy path separators
+  static const String deckHierarchyDelimiter = '::';
+  static const String deckHierarchyBreadcrumbSeparator = ' › ';
+
+  /// Formats a DateTime into a consistent ISO date key (YYYY-MM-DD) for stats & streaks
+  static String formatDayKey(DateTime date) =>
+      '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 }
 
 /// Standardized entity, outbox, and sync ID formats
@@ -268,6 +344,7 @@ abstract final class IdHelper {
   const IdHelper._();
 
   static const String prefixNode = 'node_';
+  static const String prefixDeck = 'deck_';
   static const String prefixCram = 'cram';
   static const String prefixCramUnderscore = 'cram_';
   static const String prefixOutbox = 'outbox_';
@@ -280,6 +357,9 @@ abstract final class IdHelper {
 
   static String generateNodeId([int? microseconds]) =>
       '$prefixNode${(microseconds ?? DateTime.now().microsecondsSinceEpoch).toRadixString(16)}';
+
+  static String newDeckId([int? timestamp]) =>
+      '$prefixDeck${timestamp ?? DateTime.now().millisecondsSinceEpoch}';
 
   static String cramDeckId({
     required String mode,

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -54,7 +53,7 @@ class StudyAppBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color:
                     CardActionSheet.ankiFlagColors[currentCard!.flag] ??
-                    m.Colors.grey,
+                    AppColors.mutedGrey,
                 shape: BoxShape.circle,
               ),
             ),

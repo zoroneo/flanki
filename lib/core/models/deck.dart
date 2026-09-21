@@ -18,6 +18,7 @@ abstract class DeckModel with _$DeckModel {
     @Default(0) int newCount,
     @Default(0) int totalCount,
     DateTime? lastStudied,
+    @Default(true) bool isSyncEnabled,
   }) = _DeckModel;
 
   factory DeckModel.fromJson(Map<String, dynamic> json) =>

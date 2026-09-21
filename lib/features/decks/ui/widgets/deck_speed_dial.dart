@@ -65,21 +65,21 @@ class DeckSpeedDial extends HookWidget {
               children: [
                 SpeedDialOption(
                   icon: LucideIcons.folderPlus,
-                  iconColor: AppColors.success,
+                  iconColor: context.colors.success,
                   label: l10n.createDeckAction,
                   onTap: onCreateDeck,
                 ),
                 AppGaps.v12,
                 SpeedDialOption(
                   icon: LucideIcons.upload,
-                  iconColor: AppColors.info,
+                  iconColor: context.colors.info,
                   label: l10n.importApkgAction,
                   onTap: onImportApkg,
                 ),
                 AppGaps.v12,
                 SpeedDialOption(
                   icon: LucideIcons.zap,
-                  iconColor: AppColors.warning,
+                  iconColor: context.colors.warning,
                   label: l10n.cramAction,
                   onTap: onCram,
                 ),
@@ -150,17 +150,14 @@ class SpeedDialOption extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.smPlus,
-              vertical: 7,
-            ),
+            padding: AppEdgeInsets.h12v8,
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
               borderRadius: AppRadius.borderMd,
               border: Border.all(color: theme.colorScheme.border, width: 1),
               boxShadow: [
                 BoxShadow(
-                  color: m.Colors.black.withValues(alpha: 0.12),
+                  color: AppColors.black.withValues(alpha: 0.12),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -168,9 +165,7 @@ class SpeedDialOption extends StatelessWidget {
             ),
             child: Text(
               label,
-              style: TextStyle(
-                fontSize: AppTypography.nav,
-                fontWeight: FontWeight.w600,
+              style: context.textStyles.nav.copyWith(
                 color: theme.colorScheme.cardForeground,
               ),
             ),
@@ -185,7 +180,7 @@ class SpeedDialOption extends StatelessWidget {
               border: Border.all(color: theme.colorScheme.border, width: 1),
               boxShadow: [
                 BoxShadow(
-                  color: m.Colors.black.withValues(alpha: 0.15),
+                  color: AppColors.black.withValues(alpha: 0.15),
                   blurRadius: 6,
                   offset: const Offset(0, 2),
                 ),

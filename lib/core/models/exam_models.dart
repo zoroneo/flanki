@@ -1,16 +1,26 @@
 import 'dart:convert';
 
+import 'package:json_annotation/json_annotation.dart';
+
 import '../../../l10n/generated/app_localizations.dart';
 import 'exam_constants.dart';
 
 export 'exam_constants.dart';
 
+part 'exam_models.g.dart';
+
 /// Categories of examinations supported by Flanki.
+@JsonEnum()
 enum ExamCategory {
+  @JsonValue('JLPT')
   jlpt('JLPT', 'Japanese Language Proficiency Test'),
+  @JsonValue('TOEIC')
   toeic('TOEIC', 'Test of English for International Communication'),
+  @JsonValue('THPTQG')
   thptqg('THPTQG', 'National High School Graduation Exam'),
+  @JsonValue('GRAMMAR')
   grammarTest('GRAMMAR', 'Comprehensive Grammar Test'),
+  @JsonValue('CUSTOM')
   custom('CUSTOM', 'Custom Exam');
 
   final String code;
@@ -45,21 +55,112 @@ enum ExamCategory {
   }
 }
 
+/// Fallback helper for createdAt / updatedAt parsing in JSON models
+DateTime _dateTimeFromJson(Object? val) {
+  if (val is String && val.isNotEmpty) {
+    return DateTime.tryParse(val) ?? DateTime.now();
+  }
+  return DateTime.now();
+}
+
+String _dateTimeToJson(DateTime dt) => dt.toIso8601String();
+
+Object? _readOptions(Map json, String key) =>
+    json['options_json'] ?? json['options'];
+
+Object? _readAnswers(Map json, String key) =>
+    json['answers_json'] ?? json['answers'];
+
+/// Converts list of ExamQuestionOptions from List or raw JSON String
+class ExamOptionsConverter
+    implements JsonConverter<List<ExamQuestionOption>, Object?> {
+  const ExamOptionsConverter();
+
+  @override
+  List<ExamQuestionOption> fromJson(Object? json) {
+    if (json is List) {
+      return json
+          .map(
+            (e) => ExamQuestionOption.fromJson(
+              Map<String, dynamic>.from(e as Map),
+            ),
+          )
+          .toList();
+    } else if (json is String && json.isNotEmpty) {
+      try {
+        final decoded = jsonDecode(json);
+        if (decoded is List) {
+          return decoded
+              .map(
+                (e) => ExamQuestionOption.fromJson(
+                  Map<String, dynamic>.from(e as Map),
+                ),
+              )
+              .toList();
+        }
+      } catch (_) {}
+    }
+    return const [];
+  }
+
+  @override
+  Object? toJson(List<ExamQuestionOption> object) =>
+      object.map((o) => o.toJson()).toList();
+}
+
+/// Converts answers map from Map or raw JSON String
+class ExamAnswersConverter
+    implements JsonConverter<Map<String, String>, Object?> {
+  const ExamAnswersConverter();
+
+  @override
+  Map<String, String> fromJson(Object? json) {
+    if (json is Map) {
+      return json.map((k, v) => MapEntry(k.toString(), v.toString()));
+    } else if (json is String && json.isNotEmpty) {
+      try {
+        final decoded = jsonDecode(json);
+        if (decoded is Map) {
+          return decoded.map((k, v) => MapEntry(k.toString(), v.toString()));
+        }
+      } catch (_) {}
+    }
+    return const {};
+  }
+
+  @override
+  Object? toJson(Map<String, String> object) => object;
+}
+
 /// Metadata describing an Exam Paper in the catalog.
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ExamPaperModel {
   final String id;
+  @JsonKey(defaultValue: ExamConstants.defaultExamTitle)
   final String title;
+  @JsonKey(defaultValue: '')
   final String description;
+  @JsonKey(unknownEnumValue: ExamCategory.jlpt)
   final ExamCategory category;
+  @JsonKey(defaultValue: ExamConstants.defaultExamLevel)
   final String level; // e.g. "N3", "750+", "12"
+  @JsonKey(defaultValue: ExamConstants.defaultDurationMinutes)
   final int durationMinutes;
+  @JsonKey(defaultValue: ExamConstants.defaultTotalQuestions)
   final int totalQuestions;
+  @JsonKey(defaultValue: ExamConstants.defaultPassingScorePercent)
   final int passingScore;
+  @JsonKey(defaultValue: ExamConstants.defaultExamIcon)
   final String iconName;
+  @JsonKey(defaultValue: ExamConstants.defaultExamVersion)
   final int version;
+  @JsonKey(defaultValue: true)
   final bool isPublished;
+  @JsonKey(defaultValue: false)
   final bool isDownloaded;
+  @JsonKey(fromJson: _dateTimeFromJson, toJson: _dateTimeToJson)
   final DateTime createdAt;
+  @JsonKey(fromJson: _dateTimeFromJson, toJson: _dateTimeToJson)
   final DateTime updatedAt;
 
   const ExamPaperModel({
@@ -79,51 +180,10 @@ class ExamPaperModel {
     required this.updatedAt,
   });
 
-  factory ExamPaperModel.fromJson(Map<String, dynamic> json) {
-    return ExamPaperModel(
-      id: json['id'] as String,
-      title: json['title'] as String? ?? 'Untitled Exam',
-      description: json['description'] as String? ?? '',
-      category: ExamCategory.fromString(json['category'] as String?),
-      level: json['level'] as String? ?? ExamConstants.defaultExamLevel,
-      durationMinutes:
-          json['duration_minutes'] as int? ??
-          ExamConstants.defaultDurationMinutes,
-      totalQuestions:
-          json['total_questions'] as int? ??
-          ExamConstants.defaultTotalQuestions,
-      passingScore:
-          json['passing_score'] as int? ??
-          ExamConstants.defaultPassingScorePercent,
-      iconName: json['icon_name'] as String? ?? ExamConstants.defaultExamIcon,
-      version: json['version'] as int? ?? ExamConstants.defaultExamVersion,
-      isPublished: json['is_published'] as bool? ?? true,
-      isDownloaded: json['is_downloaded'] as bool? ?? false,
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
-          : DateTime.now(),
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'] as String)
-          : DateTime.now(),
-    );
-  }
+  factory ExamPaperModel.fromJson(Map<String, dynamic> json) =>
+      _$ExamPaperModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'description': description,
-    'category': category.code,
-    'level': level,
-    'duration_minutes': durationMinutes,
-    'total_questions': totalQuestions,
-    'passing_score': passingScore,
-    'icon_name': iconName,
-    'version': version,
-    'is_published': isPublished,
-    'is_downloaded': isDownloaded,
-    'created_at': createdAt.toIso8601String(),
-    'updated_at': updatedAt.toIso8601String(),
-  };
+  Map<String, dynamic> toJson() => _$ExamPaperModelToJson(this);
 
   ExamPaperModel copyWith({
     String? id,
@@ -161,12 +221,17 @@ class ExamPaperModel {
 }
 
 /// A distinct Section within an Exam Paper.
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ExamSectionModel {
   final String id;
   final String examId;
+  @JsonKey(defaultValue: '')
   final String title;
+  @JsonKey(defaultValue: ExamConstants.defaultSectionType)
   final String sectionType;
+  @JsonKey(defaultValue: ExamConstants.defaultSectionOrder)
   final int orderIndex;
+  @JsonKey(defaultValue: '')
   final String instruction;
 
   const ExamSectionModel({
@@ -178,58 +243,48 @@ class ExamSectionModel {
     this.instruction = '',
   });
 
-  factory ExamSectionModel.fromJson(Map<String, dynamic> json) {
-    return ExamSectionModel(
-      id: json['id'] as String,
-      examId: json['exam_id'] as String,
-      title: json['title'] as String? ?? '',
-      sectionType:
-          json['section_type'] as String? ?? ExamConstants.defaultSectionType,
-      orderIndex:
-          json['order_index'] as int? ?? ExamConstants.defaultSectionOrder,
-      instruction: json['instruction'] as String? ?? '',
-    );
-  }
+  factory ExamSectionModel.fromJson(Map<String, dynamic> json) =>
+      _$ExamSectionModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'exam_id': examId,
-    'title': title,
-    'section_type': sectionType,
-    'order_index': orderIndex,
-    'instruction': instruction,
-  };
+  Map<String, dynamic> toJson() => _$ExamSectionModelToJson(this);
 }
 
 /// Individual multiple choice option.
+@JsonSerializable()
 class ExamQuestionOption {
+  @JsonKey(defaultValue: '')
   final String id; // e.g. "A", "B", "C", "D"
+  @JsonKey(defaultValue: '')
   final String text;
 
   const ExamQuestionOption({required this.id, required this.text});
 
-  factory ExamQuestionOption.fromJson(Map<String, dynamic> json) {
-    return ExamQuestionOption(
-      id: json['id'] as String? ?? '',
-      text: json['text'] as String? ?? '',
-    );
-  }
+  factory ExamQuestionOption.fromJson(Map<String, dynamic> json) =>
+      _$ExamQuestionOptionFromJson(json);
 
-  Map<String, dynamic> toJson() => {'id': id, 'text': text};
+  Map<String, dynamic> toJson() => _$ExamQuestionOptionToJson(this);
 }
 
 /// An individual question within an exam paper.
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ExamQuestionModel {
   final String id;
   final String examId;
   final String sectionId;
+  @JsonKey(defaultValue: ExamConstants.defaultQuestionNumber)
   final int questionNumber;
+  @JsonKey(defaultValue: '')
   final String questionText;
   final String? contextPassage;
   final String? audioUrl;
+  @JsonKey(name: 'options_json', readValue: _readOptions)
+  @ExamOptionsConverter()
   final List<ExamQuestionOption> options;
+  @JsonKey(defaultValue: '')
   final String correctAnswer;
+  @JsonKey(defaultValue: '')
   final String explanation;
+  @JsonKey(defaultValue: ExamConstants.defaultQuestionPoints)
   final int points;
 
   const ExamQuestionModel({
@@ -246,74 +301,31 @@ class ExamQuestionModel {
     this.points = ExamConstants.defaultQuestionPoints,
   });
 
-  factory ExamQuestionModel.fromJson(Map<String, dynamic> json) {
-    final rawOptions = json['options_json'] ?? json['options'];
-    List<ExamQuestionOption> parsedOptions = [];
-    if (rawOptions is List) {
-      parsedOptions = rawOptions
-          .map(
-            (e) => ExamQuestionOption.fromJson(
-              Map<String, dynamic>.from(e as Map),
-            ),
-          )
-          .toList();
-    } else if (rawOptions is String && rawOptions.isNotEmpty) {
-      try {
-        final decoded = jsonDecode(rawOptions);
-        if (decoded is List) {
-          parsedOptions = decoded
-              .map(
-                (e) => ExamQuestionOption.fromJson(
-                  Map<String, dynamic>.from(e as Map),
-                ),
-              )
-              .toList();
-        }
-      } catch (_) {}
-    }
+  factory ExamQuestionModel.fromJson(Map<String, dynamic> json) =>
+      _$ExamQuestionModelFromJson(json);
 
-    return ExamQuestionModel(
-      id: json['id'] as String,
-      examId: json['exam_id'] as String,
-      sectionId: json['section_id'] as String,
-      questionNumber:
-          json['question_number'] as int? ??
-          ExamConstants.defaultQuestionNumber,
-      questionText: json['question_text'] as String? ?? '',
-      contextPassage: json['context_passage'] as String?,
-      audioUrl: json['audio_url'] as String?,
-      options: parsedOptions,
-      correctAnswer: json['correct_answer'] as String? ?? '',
-      explanation: json['explanation'] as String? ?? '',
-      points: json['points'] as int? ?? ExamConstants.defaultQuestionPoints,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'exam_id': examId,
-    'section_id': sectionId,
-    'question_number': questionNumber,
-    'question_text': questionText,
-    'context_passage': contextPassage,
-    'audio_url': audioUrl,
-    'options_json': options.map((o) => o.toJson()).toList(),
-    'correct_answer': correctAnswer,
-    'explanation': explanation,
-    'points': points,
-  };
+  Map<String, dynamic> toJson() => _$ExamQuestionModelToJson(this);
 }
 
 /// A completed submission record of an exam attempt.
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ExamSubmissionModel {
   final String id;
   final String examId;
+  @JsonKey(defaultValue: 0)
   final int score;
+  @JsonKey(defaultValue: 0)
   final int totalCorrect;
+  @JsonKey(defaultValue: 0)
   final int totalQuestions;
+  @JsonKey(defaultValue: 0)
   final int durationSeconds;
+  @JsonKey(name: 'answers_json', readValue: _readAnswers)
+  @ExamAnswersConverter()
   final Map<String, String> answers; // questionId -> selectedOptionId
+  @JsonKey(fromJson: _dateTimeFromJson, toJson: _dateTimeToJson)
   final DateTime submittedAt;
+  @JsonKey(defaultValue: '')
   final String updatedAtHlc;
 
   const ExamSubmissionModel({
@@ -333,56 +345,20 @@ class ExamSubmissionModel {
       ((totalCorrect / totalQuestions) * 100) >=
           ExamConstants.defaultPassingScorePercent;
 
-  factory ExamSubmissionModel.fromJson(Map<String, dynamic> json) {
-    Map<String, String> parsedAnswers = {};
-    final rawAnswers = json['answers_json'];
-    if (rawAnswers is Map) {
-      parsedAnswers = rawAnswers.map(
-        (k, v) => MapEntry(k.toString(), v.toString()),
-      );
-    } else if (rawAnswers is String && rawAnswers.isNotEmpty) {
-      try {
-        final decoded = jsonDecode(rawAnswers);
-        if (decoded is Map) {
-          parsedAnswers = decoded.map(
-            (k, v) => MapEntry(k.toString(), v.toString()),
-          );
-        }
-      } catch (_) {}
-    }
+  factory ExamSubmissionModel.fromJson(Map<String, dynamic> json) =>
+      _$ExamSubmissionModelFromJson(json);
 
-    return ExamSubmissionModel(
-      id: json['id'] as String,
-      examId: json['exam_id'] as String,
-      score: json['score'] as int? ?? 0,
-      totalCorrect: json['total_correct'] as int? ?? 0,
-      totalQuestions: json['total_questions'] as int? ?? 0,
-      durationSeconds: json['duration_seconds'] as int? ?? 0,
-      answers: parsedAnswers,
-      submittedAt: json['submitted_at'] != null
-          ? DateTime.parse(json['submitted_at'] as String)
-          : DateTime.now(),
-      updatedAtHlc: json['updated_at_hlc'] as String? ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'exam_id': examId,
-    'score': score,
-    'total_correct': totalCorrect,
-    'total_questions': totalQuestions,
-    'duration_seconds': durationSeconds,
-    'answers_json': answers,
-    'submitted_at': submittedAt.toIso8601String(),
-    'updated_at_hlc': updatedAtHlc,
-  };
+  Map<String, dynamic> toJson() => _$ExamSubmissionModelToJson(this);
 }
 
 /// Status of a mistake entry in the Wrong Question Notebook.
+@JsonEnum()
 enum WrongQuestionStatus {
+  @JsonValue('new')
   newQuestion('new', 'New'),
+  @JsonValue('reviewing')
   reviewing('reviewing', 'Reviewing'),
+  @JsonValue('mastered')
   mastered('mastered', 'Mastered');
 
   final String code;
@@ -411,16 +387,24 @@ enum WrongQuestionStatus {
 }
 
 /// An entry in the user's personal Wrong Question Notebook.
+@JsonSerializable(fieldRename: FieldRename.snake)
 class WrongQuestionModel {
   final String id;
   final String examId;
   final String questionId;
+  @JsonKey(defaultValue: '')
   final String userAnswer;
+  @JsonKey(defaultValue: '')
   final String explanation;
+  @JsonKey(defaultValue: '')
   final String notes;
+  @JsonKey(unknownEnumValue: WrongQuestionStatus.newQuestion)
   final WrongQuestionStatus status;
+  @JsonKey(fromJson: _dateTimeFromJson, toJson: _dateTimeToJson)
   final DateTime createdAt;
+  @JsonKey(fromJson: _dateTimeFromJson, toJson: _dateTimeToJson)
   final DateTime updatedAt;
+  @JsonKey(defaultValue: '')
   final String updatedAtHlc;
 
   const WrongQuestionModel({
@@ -436,37 +420,10 @@ class WrongQuestionModel {
     this.updatedAtHlc = '',
   });
 
-  factory WrongQuestionModel.fromJson(Map<String, dynamic> json) {
-    return WrongQuestionModel(
-      id: json['id'] as String,
-      examId: json['exam_id'] as String,
-      questionId: json['question_id'] as String,
-      userAnswer: json['user_answer'] as String? ?? '',
-      explanation: json['explanation'] as String? ?? '',
-      notes: json['notes'] as String? ?? '',
-      status: WrongQuestionStatus.fromString(json['status'] as String?),
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
-          : DateTime.now(),
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'] as String)
-          : DateTime.now(),
-      updatedAtHlc: json['updated_at_hlc'] as String? ?? '',
-    );
-  }
+  factory WrongQuestionModel.fromJson(Map<String, dynamic> json) =>
+      _$WrongQuestionModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'exam_id': examId,
-    'question_id': questionId,
-    'user_answer': userAnswer,
-    'explanation': explanation,
-    'notes': notes,
-    'status': status.code,
-    'created_at': createdAt.toIso8601String(),
-    'updated_at': updatedAt.toIso8601String(),
-    'updated_at_hlc': updatedAtHlc,
-  };
+  Map<String, dynamic> toJson() => _$WrongQuestionModelToJson(this);
 
   WrongQuestionModel copyWith({
     String? id,
@@ -493,4 +450,25 @@ class WrongQuestionModel {
       updatedAtHlc: updatedAtHlc ?? this.updatedAtHlc,
     );
   }
+}
+
+/// Composite payload representing a complete downloaded exam bundle (paper, sections, questions)
+@JsonSerializable(explicitToJson: true)
+class ExamPaperDetailsDto {
+  final ExamPaperModel paper;
+  @JsonKey(defaultValue: [])
+  final List<ExamSectionModel> sections;
+  @JsonKey(defaultValue: [])
+  final List<ExamQuestionModel> questions;
+
+  const ExamPaperDetailsDto({
+    required this.paper,
+    this.sections = const [],
+    this.questions = const [],
+  });
+
+  factory ExamPaperDetailsDto.fromJson(Map<String, dynamic> json) =>
+      _$ExamPaperDetailsDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExamPaperDetailsDtoToJson(this);
 }

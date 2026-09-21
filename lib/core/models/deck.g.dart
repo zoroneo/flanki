@@ -16,6 +16,7 @@ _DeckModel _$DeckModelFromJson(Map<String, dynamic> json) => _DeckModel(
   lastStudied: json['last_studied'] == null
       ? null
       : DateTime.parse(json['last_studied'] as String),
+  isSyncEnabled: json['is_sync_enabled'] as bool? ?? true,
 );
 
 Map<String, dynamic> _$DeckModelToJson(_DeckModel instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$DeckModelToJson(_DeckModel instance) =>
       'new_count': instance.newCount,
       'total_count': instance.totalCount,
       'last_studied': instance.lastStudied?.toIso8601String(),
+      'is_sync_enabled': instance.isSyncEnabled,
     };

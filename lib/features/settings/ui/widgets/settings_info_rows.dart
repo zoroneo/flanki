@@ -24,8 +24,11 @@ class LanguageOptionButton extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+        duration: AppDurations.short,
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.s10,
+          horizontal: AppSpacing.s6,
+        ),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
@@ -42,15 +45,17 @@ class LanguageOptionButton extends StatelessWidget {
           child: Text(
             label,
             overflow: TextOverflow.visible,
-            style: theme.typography.small.copyWith(
-              fontSize: 12,
-              height: 1.2,
-              leadingDistribution: TextLeadingDistribution.even,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-              color: isSelected
-                  ? theme.colorScheme.primaryForeground
-                  : theme.colorScheme.foreground,
-            ),
+            style:
+                (isSelected
+                        ? context.textStyles.xSmallSemiBold
+                        : context.textStyles.xSmall)
+                    .copyWith(
+                      height: 1.2,
+                      leadingDistribution: TextLeadingDistribution.even,
+                      color: isSelected
+                          ? theme.colorScheme.primaryForeground
+                          : theme.colorScheme.foreground,
+                    ),
           ),
         ),
       ),
@@ -118,7 +123,7 @@ class VersionInfoRow extends StatelessWidget {
     final isSupported = DesktopUpdateService.isSupported;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: AppEdgeInsets.v6,
       child: Row(
         children: [
           Expanded(
@@ -203,8 +208,8 @@ class VersionInfoRow extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  width: 10,
-                  height: 10,
+                  width: AppDimensions.legendColorDotSize,
+                  height: AppDimensions.legendColorDotSize,
                   child: CircularProgressIndicator(
                     strokeWidth: 1.5,
                     value: updateState.downloadProgress > 0

@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
-import '../../../sync/providers/auth_notifier.dart';
 import '../../../sync/providers/supabase_auth_notifier.dart';
 import '../../../sync/providers/sync_state_notifier.dart';
-import '../../../sync/ui/anki_web_auth_sheet.dart';
 import '../../../sync/ui/supabase_auth_sheet.dart';
+import '../../../sync/ui/widgets/sync_diagnostics_sheet.dart';
+import 'anki_web_card.dart';
 
 class AccountSyncCard extends ConsumerWidget {
   final ValueNotifier<bool> isSyncing;
@@ -26,9 +25,6 @@ class AccountSyncCard extends ConsumerWidget {
     final cloudAuthNotifier = ref.read(supabaseAuthNotifierProvider.notifier);
     final syncState = ref.watch(syncStateNotifierProvider);
     final syncNotifier = ref.read(syncStateNotifierProvider.notifier);
-
-    final ankiAuthState = ref.watch(authNotifierProvider);
-    final ankiAuthNotifier = ref.read(authNotifierProvider.notifier);
 
     final theme = Theme.of(context);
     final l10n = context.l10n;
@@ -51,7 +47,7 @@ class AccountSyncCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildCloudHeader(theme, l10n, cloudAuth, syncState),
+              _buildCloudHeader(context, theme, l10n, cloudAuth, syncState),
               AppGaps.v16,
               const Divider(),
               AppGaps.v12,
@@ -71,80 +67,13 @@ class AccountSyncCard extends ConsumerWidget {
         AppGaps.v16,
 
         // --- 2. Secondary Card: Legacy AnkiWeb Sync ---
-        Card(
-          padding: AppEdgeInsets.all16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    LucideIcons.repeat,
-                    size: AppIconSize.sm,
-                    color: theme.colorScheme.mutedForeground,
-                  ),
-                  AppGaps.h8,
-                  Text(
-                    l10n.ankiWebLegacy,
-                    style: theme.typography.small.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const Spacer(),
-                  if (ankiAuthState.isAuthenticated)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xxs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: m.Colors.green.withValues(alpha: 0.15),
-                        borderRadius: AppRadius.borderSm,
-                      ),
-                      child: Text(
-                        l10n.linkedBadge,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: m.Colors.green,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              AppGaps.v8,
-              Text(
-                l10n.connectAnkiWebSubtitle,
-                style: theme.typography.xSmall.copyWith(
-                  color: theme.colorScheme.mutedForeground,
-                ),
-              ),
-              AppGaps.v12,
-              if (ankiAuthState.isAuthenticated)
-                OutlineButton(
-                  onPressed: () => ankiAuthNotifier.logout(),
-                  child: Text(l10n.logout),
-                )
-              else
-                OutlineButton(
-                  onPressed: () => AnkiWebAuthSheet.show(context),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(LucideIcons.logIn, size: AppIconSize.sm),
-                      AppGaps.h8,
-                      Text(l10n.connectAnkiWeb),
-                    ],
-                  ),
-                ),
-            ],
-          ),
-        ),
+        const AnkiWebCard(),
       ],
     );
   }
 
   Widget _buildCloudHeader(
+    BuildContext context,
     ThemeData theme,
     dynamic l10n,
     SupabaseAuthState cloudAuth,
@@ -158,7 +87,7 @@ class AccountSyncCard extends ConsumerWidget {
           padding: AppEdgeInsets.all8,
           decoration: BoxDecoration(
             color: isOnlineAndAuthed
-                ? m.Colors.green.withValues(alpha: 0.15)
+                ? AppColors.success.withValues(alpha: 0.15)
                 : theme.colorScheme.muted,
             shape: BoxShape.circle,
           ),
@@ -169,7 +98,7 @@ class AccountSyncCard extends ConsumerWidget {
                       : LucideIcons.cloud)
                 : LucideIcons.cloudOff,
             color: isOnlineAndAuthed
-                ? m.Colors.green
+                ? AppColors.success
                 : theme.colorScheme.mutedForeground,
             size: AppIconSize.md,
           ),
@@ -196,6 +125,10 @@ class AccountSyncCard extends ConsumerWidget {
               ),
             ],
           ),
+        ),
+        IconButton.ghost(
+          icon: const Icon(LucideIcons.activity, size: AppIconSize.sm),
+          onPressed: () => SyncDiagnosticsSheet.show(context),
         ),
       ],
     );
@@ -237,7 +170,7 @@ class AccountSyncCard extends ConsumerWidget {
   ) {
     if (cloudAuth.isAuthenticated) {
       return SizedBox(
-        height: 42,
+        height: AppDimensions.buttonHeightStandard,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -299,7 +232,7 @@ class AccountSyncCard extends ConsumerWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 42,
+      height: AppDimensions.buttonHeightStandard,
       child: PrimaryButton(
         alignment: Alignment.center,
         onPressed: () => SupabaseAuthSheet.show(context),

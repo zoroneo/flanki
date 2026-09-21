@@ -64,10 +64,8 @@ class AudioPlayButton extends HookWidget {
       }
     }
 
-    final l10n = AppLocalizations.of(context);
-    final tooltipText = isPlaying.value
-        ? (l10n?.audioStop ?? 'Stop audio')
-        : (l10n?.audioPlay ?? 'Play audio');
+    final l10n = AppLocalizations.of(context)!;
+    final tooltipText = isPlaying.value ? l10n.audioStop : l10n.audioPlay;
 
     return Tooltip(
       tooltip: (context) => TooltipContainer(child: Text(tooltipText)),

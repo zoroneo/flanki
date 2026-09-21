@@ -80,18 +80,26 @@ class ExamTakingDialogs {
                   children: [
                     Expanded(
                       child: OutlineButton(
+                        alignment: Alignment.center,
                         onPressed: () => Navigator.pop(ctx),
-                        child: Text(l10n.continueExam),
+                        child: Text(
+                          l10n.continueExam,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                     AppGaps.h12,
                     Expanded(
                       child: PrimaryButton(
+                        alignment: Alignment.center,
                         onPressed: () {
                           Navigator.pop(ctx);
                           notifier.submitExam();
                         },
-                        child: Text(l10n.submitExamNow),
+                        child: Text(
+                          l10n.submitExamNow,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ],
@@ -161,18 +169,23 @@ class ExamTakingDialogs {
                   children: [
                     Expanded(
                       child: OutlineButton(
+                        alignment: Alignment.center,
                         onPressed: () => Navigator.pop(ctx),
-                        child: Text(l10n.stayInExam),
+                        child: Text(
+                          l10n.stayInExam,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                     AppGaps.h12,
                     Expanded(
                       child: DestructiveButton(
+                        alignment: Alignment.center,
                         onPressed: () {
                           Navigator.pop(ctx);
                           context.pop();
                         },
-                        child: Text(l10n.exitExam),
+                        child: Text(l10n.exitExam, textAlign: TextAlign.center),
                       ),
                     ),
                   ],

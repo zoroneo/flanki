@@ -118,25 +118,24 @@ class ExamResultScreen extends HookConsumerWidget {
                         vertical: AppSpacing.xxs,
                       ),
                       decoration: BoxDecoration(
-                        color: isPassed ? AppColors.success : AppColors.error,
+                        color: isPassed
+                            ? context.colors.success
+                            : context.colors.error,
                         borderRadius: AppRadius.borderXl,
                       ),
                       child: Text(
                         isPassed ? l10n.examPassed : l10n.examFailed,
-                        style: theme.typography.xSmall.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFFFFFFFF),
+                        style: context.textStyles.xSmallBold.copyWith(
+                          color: theme.colorScheme.primaryForeground,
                         ),
                       ),
                     ),
                     AppGaps.v12,
                     Text(
                       l10n.examScorePoints(sub.score),
-                      style: theme.typography.h1.copyWith(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
+                      style: context.textStyles.display.copyWith(
                         color: isPassed
-                            ? AppColors.success
+                            ? context.colors.success
                             : theme.colorScheme.foreground,
                       ),
                     ),

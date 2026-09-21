@@ -1,5 +1,6 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 
@@ -60,7 +61,10 @@ class NoteTagEditor extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('#$t', style: const TextStyle(fontSize: 11)),
+                    Text(
+                      '${AppConfig.tagPrefix}$t',
+                      style: context.textStyles.sub,
+                    ),
                     AppGaps.h4,
                     GestureDetector(
                       onTap: () => onRemoveTag(t),

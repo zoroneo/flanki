@@ -110,23 +110,13 @@ class ExamRepository {
         AppConfig.sampleMockExamAssetPath,
       );
       final data = jsonDecode(jsonStr) as Map<String, dynamic>;
-      final paper = ExamPaperModel.fromJson(
-        Map<String, dynamic>.from(data['paper'] as Map),
-      );
-      final sections = (data['sections'] as List<dynamic>)
-          .map(
-            (s) =>
-                ExamSectionModel.fromJson(Map<String, dynamic>.from(s as Map)),
-          )
-          .toList();
-      final questions = (data['questions'] as List<dynamic>)
-          .map(
-            (q) =>
-                ExamQuestionModel.fromJson(Map<String, dynamic>.from(q as Map)),
-          )
-          .toList();
+      final details = ExamPaperDetailsDto.fromJson(data);
 
-      await dbService.saveExamPaperWithQuestions(paper, sections, questions);
+      await dbService.saveExamPaperWithQuestions(
+        details.paper,
+        details.sections,
+        details.questions,
+      );
     } catch (_) {
       // In headless test environments where rootBundle is unavailable, load from file system directly
       try {
@@ -134,28 +124,12 @@ class ExamRepository {
         if (file.existsSync()) {
           final jsonStr = await file.readAsString();
           final data = jsonDecode(jsonStr) as Map<String, dynamic>;
-          final paper = ExamPaperModel.fromJson(
-            Map<String, dynamic>.from(data['paper'] as Map),
-          );
-          final sections = (data['sections'] as List<dynamic>)
-              .map(
-                (s) => ExamSectionModel.fromJson(
-                  Map<String, dynamic>.from(s as Map),
-                ),
-              )
-              .toList();
-          final questions = (data['questions'] as List<dynamic>)
-              .map(
-                (q) => ExamQuestionModel.fromJson(
-                  Map<String, dynamic>.from(q as Map),
-                ),
-              )
-              .toList();
+          final details = ExamPaperDetailsDto.fromJson(data);
 
           await dbService.saveExamPaperWithQuestions(
-            paper,
-            sections,
-            questions,
+            details.paper,
+            details.sections,
+            details.questions,
           );
         }
       } catch (_) {}

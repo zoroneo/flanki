@@ -57,9 +57,7 @@ class LicenseCodeBlock extends StatelessWidget {
           AppGaps.v4,
           SelectableText(
             licenseText,
-            style: TextStyle(
-              fontFamily: AppTypography.fontFamilyMono,
-              fontSize: AppTypography.sub,
+            style: context.textStyles.codeSmall.copyWith(
               height: 1.45,
               color: theme.colorScheme.foreground.withValues(alpha: 0.88),
             ),
@@ -113,12 +111,7 @@ class FlankiLicenseCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'Flanki',
-                          style: theme.typography.semiBold.copyWith(
-                            fontSize: 16,
-                          ),
-                        ),
+                        Text('Flanki', style: context.textStyles.bodySemiBold),
                         AppGaps.h8,
                         Container(
                           padding: AppEdgeInsets.h8v4,
@@ -205,7 +198,7 @@ class PackageLicenseCard extends StatelessWidget {
     final l10n = context.l10n;
 
     return Card(
-      key: ValueKey('pkg_${item.package}'),
+      key: AppWidgetKeys.licensePkg(item.package),
       padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,7 +239,7 @@ class PackageLicenseCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.md,
-                0,
+                AppSpacing.none,
                 AppSpacing.md,
                 AppSpacing.md,
               ),

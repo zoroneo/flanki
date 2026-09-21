@@ -75,7 +75,9 @@ class MobileBottomNavBar extends StatelessWidget {
                   activeIcon: LucideIcons.settings2,
                   label: l10n.navSettings,
                   isSelected: currentIndex == AppNavIndex.settings,
-                  indicatorColor: isAuthenticated ? AppColors.success : null,
+                  indicatorColor: isAuthenticated
+                      ? context.colors.success
+                      : null,
                   onTap: () => onTap(AppNavIndex.settings),
                 ),
               ),
@@ -123,34 +125,34 @@ class BottomNavItem extends StatelessWidget {
           minHeight: AppDimensions.mobileNavItemMinHeight,
         ),
         padding: const EdgeInsets.symmetric(
-          horizontal: 2,
+          horizontal: AppSpacing.xxs,
           vertical: AppSpacing.xxs,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildIconStack(theme, color),
+            _buildIconStack(context, theme, color),
             AppGaps.v4,
-            _buildLabel(color),
+            _buildLabel(context, color),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildIconStack(ThemeData theme, Color color) {
+  Widget _buildIconStack(BuildContext context, ThemeData theme, Color color) {
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
         AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: AppDurations.normal,
           width: AppDimensions.navIndicatorPillWidth,
           height: AppDimensions.navIndicatorPillHeight,
           decoration: BoxDecoration(
             color: isSelected
                 ? theme.colorScheme.primary.withValues(alpha: 0.14)
-                : m.Colors.transparent,
+                : AppColors.transparent,
             borderRadius: AppRadius.borderFull,
           ),
           child: Center(
@@ -162,16 +164,16 @@ class BottomNavItem extends StatelessWidget {
           ),
         ),
         if (badgeCount != null)
-          Positioned(top: -3, right: 8, child: _buildBadge(theme)),
+          Positioned(top: -3, right: 8, child: _buildBadge(context, theme)),
         if (indicatorColor != null)
           Positioned(bottom: 2, right: 12, child: _buildIndicator(theme)),
       ],
     );
   }
 
-  Widget _buildBadge(ThemeData theme) {
+  Widget _buildBadge(BuildContext context, ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+      padding: AppEdgeInsets.badge,
       decoration: BoxDecoration(
         color: theme.colorScheme.destructive,
         borderRadius: AppRadius.borderFull,
@@ -181,10 +183,8 @@ class BottomNavItem extends StatelessWidget {
         badgeCount! > AppLimits.badgeMaxCount
             ? AppLimits.badgeOverflowText
             : '$badgeCount',
-        style: const TextStyle(
-          color: m.Colors.white,
-          fontSize: AppTypography.caption,
-          fontWeight: FontWeight.w700,
+        style: context.textStyles.captionBold.copyWith(
+          color: AppColors.white,
           height: AppTypography.lineHeightBadge,
         ),
       ),
@@ -203,17 +203,15 @@ class BottomNavItem extends StatelessWidget {
     );
   }
 
-  Widget _buildLabel(Color color) {
+  Widget _buildLabel(BuildContext context, Color color) {
     return Text(
       label,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: AppTypography.sub,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-        color: color,
-      ),
+      style:
+          (isSelected ? context.textStyles.subSemiBold : context.textStyles.sub)
+              .copyWith(color: color),
     );
   }
 }

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/custom_study_mode.dart';
 
@@ -52,8 +52,8 @@ class CustomStudyModal extends HookWidget {
     void handleStartCram() {
       final tagName = switch (mode.value) {
         CustomStudyMode.byTag => tagController.text.trim(),
-        CustomStudyMode.flagged => 'flagged',
-        CustomStudyMode.reviewAhead => 'ahead',
+        CustomStudyMode.flagged => CustomStudyMode.tagFlagged,
+        CustomStudyMode.reviewAhead => CustomStudyMode.tagReviewAhead,
       };
       final displayName = switch (mode.value) {
         CustomStudyMode.byTag => tagName,
@@ -81,7 +81,9 @@ class CustomStudyModal extends HookWidget {
               ),
         boxShadow: [
           BoxShadow(
-            color: m.Colors.black.withValues(alpha: isDesktopMode ? 0.2 : 0.15),
+            color: AppColors.black.withValues(
+              alpha: isDesktopMode ? 0.2 : 0.15,
+            ),
             blurRadius: isDesktopMode ? 24 : 16,
             offset: isDesktopMode ? const Offset(0, 8) : const Offset(0, -4),
           ),
@@ -98,8 +100,8 @@ class CustomStudyModal extends HookWidget {
               if (!isDesktopMode) ...[
                 Center(
                   child: Container(
-                    width: 40,
-                    height: 4,
+                    width: AppDimensions.modalGrabHandleWidth,
+                    height: AppDimensions.modalGrabHandleHeight,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.mutedForeground.withValues(
                         alpha: 0.3,
@@ -112,9 +114,9 @@ class CustomStudyModal extends HookWidget {
               ],
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LucideIcons.zap,
-                    color: m.Colors.amber,
+                    color: context.colors.cramAmber,
                     size: AppIconSize.lg,
                   ),
                   AppGaps.h8,
@@ -201,17 +203,21 @@ class CustomStudyModal extends HookWidget {
               ),
               AppGaps.v8,
               Row(
-                children: [10, 20, 50, 100].map((l) {
+                children: AppConfig.cramLimitOptions.map((l) {
                   final isSelected = limit.value == l;
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.xxs,
+                      ),
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () => limit.value = l,
                         child: Container(
-                          constraints: const BoxConstraints(minHeight: 42),
-                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          constraints: const BoxConstraints(
+                            minHeight: AppDimensions.buttonHeightStandard,
+                          ),
+                          padding: AppEdgeInsets.v8,
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? theme.colorScheme.primary
@@ -221,15 +227,15 @@ class CustomStudyModal extends HookWidget {
                           alignment: Alignment.center,
                           child: Text(
                             l10n.cardsCountUnit(l),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: isSelected
-                                  ? FontWeight.w700
-                                  : FontWeight.w500,
-                              color: isSelected
-                                  ? theme.colorScheme.primaryForeground
-                                  : theme.colorScheme.foreground,
-                            ),
+                            style:
+                                (isSelected
+                                        ? context.textStyles.xSmallBold
+                                        : context.textStyles.xSmallMedium)
+                                    .copyWith(
+                                      color: isSelected
+                                          ? theme.colorScheme.primaryForeground
+                                          : theme.colorScheme.foreground,
+                                    ),
                           ),
                         ),
                       ),
@@ -280,13 +286,15 @@ class _ModeButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-            color: isSelected
-                ? theme.colorScheme.primaryForeground
-                : theme.colorScheme.foreground,
-          ),
+          style:
+              (isSelected
+                      ? context.textStyles.xSmallBold
+                      : context.textStyles.xSmallMedium)
+                  .copyWith(
+                    color: isSelected
+                        ? theme.colorScheme.primaryForeground
+                        : theme.colorScheme.foreground,
+                  ),
         ),
       ),
     );

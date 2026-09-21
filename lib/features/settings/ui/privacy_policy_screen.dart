@@ -69,9 +69,7 @@ class PrivacyPolicyScreen extends HookWidget {
                         children: [
                           Text(
                             l10n.privacyPolicy,
-                            style: theme.typography.semiBold.copyWith(
-                              fontSize: 16,
-                            ),
+                            style: context.textStyles.bodySemiBold,
                           ),
                           AppGaps.v2,
                           Text(

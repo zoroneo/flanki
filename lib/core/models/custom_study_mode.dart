@@ -1,8 +1,11 @@
-﻿/// Mode for Custom Study / Cram session filtering.
+/// Mode for Custom Study / Cram session filtering.
 enum CustomStudyMode {
   byTag('byTag'),
   flagged('flagged'),
   reviewAhead('ahead');
+
+  static const String tagFlagged = 'flagged';
+  static const String tagReviewAhead = 'ahead';
 
   final String value;
   const CustomStudyMode(this.value);

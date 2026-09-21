@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/app_config.dart';
 import 'desktop_update_service.dart';
 import '../providers/update_notifier.dart';
 
@@ -11,8 +12,8 @@ class UpdatePoller {
   /// Start background update checking on supported platforms.
   static void start(
     WidgetRef ref, {
-    Duration initialDelay = const Duration(seconds: 4),
-    Duration interval = const Duration(hours: 4),
+    Duration initialDelay = AppConfig.desktopUpdateInitialDelay,
+    Duration interval = AppConfig.desktopUpdatePollInterval,
   }) {
     if (!DesktopUpdateService.isSupported) return;
 

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,7 +32,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
       if (key.currentContext != null) {
         Scrollable.ensureVisible(
           key.currentContext!,
-          duration: const Duration(milliseconds: 300),
+          duration: AppDurations.medium,
           curve: Curves.easeInOut,
         );
       }
@@ -104,7 +103,9 @@ class GrammarTheoryScreen extends HookConsumerWidget {
       ),
       trailing: [
         Padding(
-          padding: EdgeInsets.only(right: isMobile ? AppSpacing.xs : 0),
+          padding: EdgeInsets.only(
+            right: isMobile ? AppSpacing.xs : AppSpacing.none,
+          ),
           child: PrimaryButton(
             size: ButtonSize.small,
             onPressed: () => context.push(AppRoutes.grammarPractice(unitId)),
@@ -121,9 +122,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                     ),
               maxLines: 1,
               softWrap: false,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+              style: context.textStyles.nav.copyWith(
                 color: theme.colorScheme.primaryForeground,
               ),
             ),
@@ -157,7 +156,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 320,
+                width: AppDimensions.grammarTocSidebarWidth,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
@@ -184,7 +183,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                         key: conceptKey,
                         child: GrammarTheorySectionCard(
                           icon: LucideIcons.lightbulb,
-                          iconColor: m.Colors.amber,
+                          iconColor: AppColors.warning,
                           title: l10n.grammarCoreConceptTitle,
                           content: unit.coreConcept,
                         ),

@@ -3,6 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
@@ -11,7 +12,7 @@ import 'desktop_card_detail_pane.dart';
 
 class BrowserDesktopLayout extends StatelessWidget {
   final ThemeData theme;
-  final dynamic l10n;
+  final AppLocalizations l10n;
   final CardFilterType filterType;
   final CardBrowserNotifier browserNotifier;
   final List<dynamic> decks;
@@ -45,13 +46,13 @@ class BrowserDesktopLayout extends StatelessWidget {
         children: [
           // Left Column: Search, Filters & Card Table (Width: 420px)
           SizedBox(
-            width: 420,
+            width: AppDimensions.browserDetailPaneWidth,
             child: Column(
               children: [
                 _buildSearchBar(context),
                 _buildFilterBar(),
                 const Divider(height: 1),
-                _buildHeaderCount(),
+                _buildHeaderCount(context),
                 Expanded(child: _buildCardList()),
               ],
             ),
@@ -82,7 +83,7 @@ class BrowserDesktopLayout extends StatelessWidget {
         AppSpacing.sm,
       ),
       child: SizedBox(
-        height: 38,
+        height: AppDimensions.searchToolbarHeight,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -119,7 +120,7 @@ class BrowserDesktopLayout extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
-        vertical: 6,
+        vertical: AppSpacing.s6,
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -163,7 +164,7 @@ class BrowserDesktopLayout extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderCount() {
+  Widget _buildHeaderCount(BuildContext context) {
     return Container(
       padding: AppEdgeInsets.h16v8,
       color: theme.colorScheme.muted.withValues(alpha: 0.3),
@@ -171,9 +172,7 @@ class BrowserDesktopLayout extends StatelessWidget {
         children: [
           Text(
             l10n.cardsCount(filteredCards.length),
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
+            style: context.textStyles.subSemiBold.copyWith(
               color: theme.colorScheme.mutedForeground,
             ),
           ),

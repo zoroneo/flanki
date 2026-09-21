@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../core/config/app_config.dart';
 import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/deck.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../providers/deck_notifier.dart';
 import '../../settings/providers/settings_notifier.dart';
 import '../../stats/providers/stats_notifier.dart';
+import '../../sync/providers/sync_state_notifier.dart';
 import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/create_deck_modal.dart';
 import 'widgets/custom_study_modal.dart';
@@ -40,6 +41,9 @@ class DecksScreen extends HookConsumerWidget {
         if (!context.mounted) return;
         deckNotifier.refresh();
         ref.read(statsNotifierProvider.notifier).refresh();
+        ref.read(
+          syncStateNotifierProvider,
+        ); // Activates SyncStateNotifier & Realtime listener
         SyncFlowCoordinator.runAutoSync(context: context, ref: ref, l10n: l10n);
       });
       return null;
@@ -67,9 +71,11 @@ class DecksScreen extends HookConsumerWidget {
     final List<DeckModel> standaloneDecks = [];
 
     for (final deck in deduplicatedFilteredDecks) {
-      if (deck.title.contains('::')) {
-        final parts = deck.title.split('::');
-        final parentName = parts.sublist(0, parts.length - 1).join(' › ');
+      if (deck.title.contains(AppConfig.deckHierarchyDelimiter)) {
+        final parts = deck.title.split(AppConfig.deckHierarchyDelimiter);
+        final parentName = parts
+            .sublist(0, parts.length - 1)
+            .join(AppConfig.deckHierarchyBreadcrumbSeparator);
         groupedMap.putIfAbsent(parentName, () => []).add(deck);
       } else {
         standaloneDecks.add(deck);
@@ -195,7 +201,7 @@ class DecksScreen extends HookConsumerWidget {
                     behavior: HitTestBehavior.opaque,
                     onTap: () => isDialOpen.value = false,
                     child: Container(
-                      color: m.Colors.black.withValues(alpha: 0.35),
+                      color: AppColors.black.withValues(alpha: 0.35),
                     ),
                   ),
                 ),
@@ -254,7 +260,10 @@ class DecksScreen extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.cramDeckCreated),
                 subtitle: Text(l10n.cramDeckCreatedDesc(limit, tag)),
-                leading: const Icon(LucideIcons.zap, color: m.Colors.amber),
+                leading: const Icon(
+                  LucideIcons.zap,
+                  color: AppColors.cramAmber,
+                ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
                   onPressed: () => overlay.close(),
@@ -278,7 +287,7 @@ class DecksScreen extends HookConsumerWidget {
       existingDeckNames: decks.map((d) => d.title).toList(),
       onCreateDeck: (name, description) {
         final newDeck = DeckModel(
-          id: 'deck_${DateTime.now().millisecondsSinceEpoch}',
+          id: IdHelper.newDeckId(),
           title: name,
           description: description,
           dueCount: 0,
@@ -296,7 +305,7 @@ class DecksScreen extends HookConsumerWidget {
                 subtitle: Text(l10n.deckCreatedSuccessDesc(name)),
                 leading: const Icon(
                   LucideIcons.circleCheck,
-                  color: m.Colors.green,
+                  color: AppColors.success,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),

@@ -220,6 +220,9 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get loadMoreCards => 'Tải thêm thẻ';
+
+  @override
   String get ratingAgain => 'Học lại';
 
   @override
@@ -1891,4 +1894,179 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get bookmarkedQuestion => 'Đã lưu';
+
+  @override
+  String get networkUnavailable => 'Không có kết nối mạng';
+
+  @override
+  String get authEmailPlaceholder => 'user@example.com';
+
+  @override
+  String get authPasswordDots => '••••••••';
+
+  @override
+  String get authUserAlreadyExists => 'Tài khoản đã tồn tại';
+
+  @override
+  String get authEmailNotConfirmed => 'Email chưa được xác nhận';
+
+  @override
+  String get updateCheckFailed => 'Không thể kiểm tra bản cập nhật';
+
+  @override
+  String get updateInstallFailed => 'Không thể tải gói cài đặt';
+
+  @override
+  String get importApkgInvalidFormat => 'Định dạng tệp APKG không hợp lệ';
+
+  @override
+  String get continueWithGoogle => 'Tiếp tục với Google';
+
+  @override
+  String get continueWithApple => 'Tiếp tục với Apple';
+
+  @override
+  String get orContinueWithEmail => 'Hoặc tiếp tục với email';
+
+  @override
+  String get authOAuthFailed =>
+      'Đăng nhập bằng mạng xã hội thất bại hoặc đã bị huỷ.';
+
+  @override
+  String get selectiveSyncTitle => 'Đồng bộ chọn lọc bộ thẻ';
+
+  @override
+  String get selectiveSyncSubtitle =>
+      'Chọn bộ thẻ được đồng bộ lên đám mây để tiết kiệm dung lượng';
+
+  @override
+  String get deckExcludedFromSync => 'Chỉ lưu cục bộ';
+
+  @override
+  String get deckSyncActive => 'Đã bật đồng bộ';
+
+  @override
+  String get cloudBackupTitle => 'Sao lưu & Snapshot Đám Mây';
+
+  @override
+  String get cloudBackupSubtitle =>
+      'Tạo hoặc khôi phục bản sao lưu .flanki toàn diện';
+
+  @override
+  String get createBackupNow => 'Sao lưu ngay';
+
+  @override
+  String get backupCreating => 'Đang tạo bản sao lưu...';
+
+  @override
+  String get backupUploading => 'Đang tải bản sao lưu lên đám mây...';
+
+  @override
+  String get backupRestoring => 'Đang khôi phục bản sao lưu...';
+
+  @override
+  String get backupExporting => 'Đang xuất bản sao lưu...';
+
+  @override
+  String get backupSuccess => 'Tạo bản sao lưu thành công!';
+
+  @override
+  String backupFailed(String error) {
+    return 'Sao lưu thất bại: $error';
+  }
+
+  @override
+  String get restoreBackup => 'Khôi phục';
+
+  @override
+  String get restoreConfirmTitle => 'Khôi phục bản sao lưu?';
+
+  @override
+  String get restoreConfirmMessage =>
+      'Hành động này sẽ hợp nhất hoặc khôi phục thẻ, bộ thẻ và dữ liệu đa phương tiện từ bản sao lưu này.';
+
+  @override
+  String get restoreSuccess => 'Khôi phục thành công!';
+
+  @override
+  String restoreFailed(String error) {
+    return 'Khôi phục thất bại: $error';
+  }
+
+  @override
+  String get noBackupsFound => 'Chưa có bản sao lưu đám mây nào.';
+
+  @override
+  String get exportLocalBackup => 'Xuất tệp .flanki';
+
+  @override
+  String get importLocalBackup => 'Nhập tệp .flanki';
+
+  @override
+  String get storageStatsTitle => 'Thống kê dung lượng';
+
+  @override
+  String get databaseStorage => 'Bản ghi cơ sở dữ liệu';
+
+  @override
+  String get mediaStorage => 'Tệp âm thanh & hình ảnh';
+
+  @override
+  String get backupStorage => 'Bản sao lưu đám mây';
+
+  @override
+  String get localStorageUsed => 'Dung lượng cục bộ đã dùng';
+
+  @override
+  String get manageDeckSync => 'Tùy chọn đồng bộ bộ thẻ';
+
+  @override
+  String get syncDiagnosticsTitle => 'Chẩn đoán & Đo lường đồng bộ';
+
+  @override
+  String get syncDiagnosticsSubtitle =>
+      'Chỉ số sức khỏe, ngắt mạch (Circuit Breaker) và dữ liệu truyền tải';
+
+  @override
+  String get syncSuccessRate => 'Tỷ lệ thành công';
+
+  @override
+  String get syncAvgLatency => 'Độ trễ trung bình';
+
+  @override
+  String get syncBandwidthTransferred => 'Dữ liệu đã truyền';
+
+  @override
+  String get syncBandwidthSaved => 'Băng thông tiết kiệm';
+
+  @override
+  String get circuitBreakerStatus => 'Trạng thái ngắt mạch';
+
+  @override
+  String get circuitBreakerClosed => 'Bình thường (Closed)';
+
+  @override
+  String get circuitBreakerOpen => 'Tạm ngắt (Open)';
+
+  @override
+  String get circuitBreakerHalfOpen => 'Đang thăm dò (Half-Open)';
+
+  @override
+  String get circuitBreakerReset => 'Đặt lại ngắt mạch';
+
+  @override
+  String get circuitBreakerResetSuccess =>
+      'Đã đặt lại ngắt mạch về trạng thái bình thường.';
+
+  @override
+  String get clearTelemetryLogs => 'Xóa nhật ký';
+
+  @override
+  String get syncHistoryTitle => 'Nhật ký các phiên đồng bộ gần nhất';
+
+  @override
+  String get noSyncHistory => 'Chưa có phiên đồng bộ nào được ghi nhận.';
+
+  @override
+  String get syncDiagnosticsButton => 'Chẩn đoán';
 }

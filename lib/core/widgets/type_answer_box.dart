@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -43,11 +42,19 @@ class TypeAnswerInputBox extends HookWidget {
           keyboardType: TextInputType.text,
           placeholder: Text(l10n.typeAnswerPlaceholder),
           clipBehavior: Clip.none,
-          padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.smPlus,
+            AppSpacing.s6,
+            AppSpacing.s6,
+            AppSpacing.s6,
+          ),
           features: [
             InputFeature.leading(
               Padding(
-                padding: const EdgeInsets.only(left: 4, right: 6),
+                padding: const EdgeInsets.only(
+                  left: AppSpacing.xs,
+                  right: AppSpacing.s6,
+                ),
                 child: Icon(
                   LucideIcons.keyboard,
                   size: AppIconSize.md,
@@ -58,7 +65,7 @@ class TypeAnswerInputBox extends HookWidget {
             if (onSubmitAnswer != null)
               InputFeature.trailing(
                 Padding(
-                  padding: const EdgeInsets.only(right: 2),
+                  padding: const EdgeInsets.only(right: AppSpacing.xxs),
                   child: PrimaryButton(
                     alignment: Alignment.center,
                     size: ButtonSize.small,
@@ -91,6 +98,7 @@ class TypeAnswerResultBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final colors = context.colors;
     final typed = typedAnswer?.trim() ?? '';
     final expected = expectedAnswer.trim();
     final isCorrect =
@@ -108,13 +116,13 @@ class TypeAnswerResultBox extends StatelessWidget {
           color: isEmpty
               ? theme.colorScheme.muted
               : (isCorrect
-                    ? AppColors.success.withValues(alpha: 0.12)
-                    : AppColors.error.withValues(alpha: 0.12)),
+                    ? colors.success.withValues(alpha: 0.12)
+                    : colors.error.withValues(alpha: 0.12)),
           borderRadius: AppRadius.borderLg,
           border: Border.all(
             color: isEmpty
                 ? theme.colorScheme.border
-                : (isCorrect ? AppColors.success : AppColors.error),
+                : (isCorrect ? colors.success : colors.error),
             width: 1.5,
           ),
         ),
@@ -122,9 +130,9 @@ class TypeAnswerResultBox extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (isCorrect) ...[
-              _buildCorrectContent(theme, l10n, expected),
+              _buildCorrectContent(theme, colors, l10n, expected),
             ] else if (!isEmpty) ...[
-              _buildIncorrectContent(theme, l10n, typed, expected),
+              _buildIncorrectContent(theme, colors, l10n, typed, expected),
             ] else ...[
               _buildEmptyContent(theme, l10n, expected),
             ],
@@ -134,21 +142,26 @@ class TypeAnswerResultBox extends StatelessWidget {
     );
   }
 
-  Widget _buildCorrectContent(ThemeData theme, dynamic l10n, String expected) {
+  Widget _buildCorrectContent(
+    ThemeData theme,
+    AppColorsExtension colors,
+    dynamic l10n,
+    String expected,
+  ) {
     return Column(
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               LucideIcons.circleCheck,
-              color: m.Colors.green,
+              color: colors.success,
               size: AppIconSize.md,
             ),
             AppGaps.h8,
             Text(
               l10n.correctAnswerLabel,
-              style: theme.typography.semiBold.copyWith(color: m.Colors.green),
+              style: theme.typography.semiBold.copyWith(color: colors.success),
             ),
           ],
         ),
@@ -157,7 +170,7 @@ class TypeAnswerResultBox extends StatelessWidget {
           expected,
           style: theme.typography.h3.copyWith(
             fontWeight: FontWeight.w700,
-            color: m.Colors.green.shade700,
+            color: colors.successDark,
           ),
         ),
       ],
@@ -166,6 +179,7 @@ class TypeAnswerResultBox extends StatelessWidget {
 
   Widget _buildIncorrectContent(
     ThemeData theme,
+    AppColorsExtension colors,
     dynamic l10n,
     String typed,
     String expected,
@@ -175,9 +189,9 @@ class TypeAnswerResultBox extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               LucideIcons.circleAlert,
-              color: m.Colors.red,
+              color: colors.error,
               size: AppIconSize.md,
             ),
             AppGaps.h8,
@@ -190,7 +204,7 @@ class TypeAnswerResultBox extends StatelessWidget {
             Text(
               typed,
               style: theme.typography.semiBold.copyWith(
-                color: m.Colors.red,
+                color: colors.error,
                 decoration: TextDecoration.lineThrough,
               ),
             ),
@@ -210,7 +224,7 @@ class TypeAnswerResultBox extends StatelessWidget {
               expected,
               style: theme.typography.h4.copyWith(
                 fontWeight: FontWeight.w700,
-                color: m.Colors.green.shade700,
+                color: colors.successDark,
               ),
             ),
           ],

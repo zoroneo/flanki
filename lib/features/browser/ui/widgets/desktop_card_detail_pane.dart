@@ -91,9 +91,7 @@ class DesktopCardDetailPane extends HookWidget {
             ),
             child: Text(
               deckTitle ?? card.deckId,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+              style: context.textStyles.xSmallSemiBold.copyWith(
                 color: theme.colorScheme.primary,
               ),
             ),
@@ -108,10 +106,7 @@ class DesktopCardDetailPane extends HookWidget {
               ),
               child: Text(
                 l10n.clozeDeletion,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: context.textStyles.xSmallSemiBold,
               ),
             ),
           const Spacer(),
@@ -313,19 +308,13 @@ class MetricCard extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: theme.colorScheme.mutedForeground,
-                  ),
+                  style: context.textStyles.captionMuted,
                 ),
               ),
             ],
           ),
           AppGaps.v6,
-          Text(
-            value,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-          ),
+          Text(value, style: context.textStyles.smallBold),
         ],
       ),
     );

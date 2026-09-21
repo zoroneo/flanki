@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' as m;
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
 /// Exercise question formats
@@ -41,20 +42,20 @@ enum GrammarExerciseType {
 @JsonEnum(valueField: 'value')
 enum GrammarLevel {
   @JsonValue(1)
-  foundation(1, 'Foundation', 'Level 1: Foundation (8)', m.Colors.blue),
+  foundation(1, 'Foundation', 'Level 1: Foundation (8)', AppColors.accentBlue),
   @JsonValue(2)
   intermediate(
     2,
     'Intermediate',
     'Level 2: Intermediate (17)',
-    m.Colors.purple,
+    AppColors.accentPurple,
   ),
   @JsonValue(3)
   advanced(
     3,
     'Advanced C1/C2',
     'Level 3: Advanced C1/C2 (11)',
-    m.Colors.orange,
+    AppColors.accentOrange,
   );
 
   final int value;

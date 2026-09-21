@@ -180,5 +180,104 @@ void main() {
       );
       expect(newWrongs, isEmpty);
     });
+
+    test('Exam models json_serializable serialization roundtrip', () {
+      final now = DateTime.now();
+
+      // 1. ExamPaperModel
+      final paper = ExamPaperModel(
+        id: 'paper_1',
+        title: 'Title 1',
+        category: ExamCategory.toeic,
+        level: '800',
+        durationMinutes: 45,
+        totalQuestions: 50,
+        passingScore: 70,
+        iconName: 'book',
+        version: 2,
+        isPublished: true,
+        isDownloaded: true,
+        createdAt: now,
+        updatedAt: now,
+      );
+      final paperJson = paper.toJson();
+      final paperDeserialized = ExamPaperModel.fromJson(paperJson);
+      expect(paperDeserialized.id, equals(paper.id));
+      expect(paperDeserialized.category, equals(ExamCategory.toeic));
+      expect(paperDeserialized.durationMinutes, equals(45));
+      expect(paperDeserialized.isDownloaded, isTrue);
+
+      // 2. ExamSectionModel
+      const section = ExamSectionModel(
+        id: 'sec_1',
+        examId: 'paper_1',
+        title: 'Section 1',
+        sectionType: 'listening',
+        orderIndex: 1,
+        instruction: 'Listen carefully',
+      );
+      final sectionJson = section.toJson();
+      final sectionDeserialized = ExamSectionModel.fromJson(sectionJson);
+      expect(sectionDeserialized.id, equals(section.id));
+      expect(sectionDeserialized.sectionType, equals('listening'));
+
+      // 3. ExamQuestionOption & ExamQuestionModel
+      const optA = ExamQuestionOption(id: 'A', text: 'Option A');
+      const optB = ExamQuestionOption(id: 'B', text: 'Option B');
+      const question = ExamQuestionModel(
+        id: 'q_1',
+        examId: 'paper_1',
+        sectionId: 'sec_1',
+        questionNumber: 1,
+        questionText: 'What is this?',
+        options: [optA, optB],
+        correctAnswer: 'A',
+        explanation: 'Because it is A',
+        points: 2,
+      );
+      final qJson = question.toJson();
+      final qDeserialized = ExamQuestionModel.fromJson(qJson);
+      expect(qDeserialized.id, equals(question.id));
+      expect(qDeserialized.options.length, equals(2));
+      expect(qDeserialized.options[0].id, equals('A'));
+      expect(qDeserialized.options[1].text, equals('Option B'));
+
+      // 4. ExamSubmissionModel
+      final submission = ExamSubmissionModel(
+        id: 'sub_1',
+        examId: 'paper_1',
+        score: 100,
+        totalCorrect: 1,
+        totalQuestions: 1,
+        durationSeconds: 120,
+        answers: {'q_1': 'A'},
+        submittedAt: now,
+        updatedAtHlc: '123_0001_node',
+      );
+      final subJson = submission.toJson();
+      final subDeserialized = ExamSubmissionModel.fromJson(subJson);
+      expect(subDeserialized.id, equals(submission.id));
+      expect(subDeserialized.answers['q_1'], equals('A'));
+      expect(subDeserialized.isPassed, isTrue);
+
+      // 5. WrongQuestionModel
+      final wrong = WrongQuestionModel(
+        id: 'wq_1',
+        examId: 'paper_1',
+        questionId: 'q_1',
+        userAnswer: 'B',
+        explanation: 'Wrong guess',
+        notes: 'Review vocabulary',
+        status: WrongQuestionStatus.reviewing,
+        createdAt: now,
+        updatedAt: now,
+        updatedAtHlc: '123_0002_node',
+      );
+      final wrongJson = wrong.toJson();
+      final wrongDeserialized = WrongQuestionModel.fromJson(wrongJson);
+      expect(wrongDeserialized.id, equals(wrong.id));
+      expect(wrongDeserialized.status, equals(WrongQuestionStatus.reviewing));
+      expect(wrongDeserialized.userAnswer, equals('B'));
+    });
   });
 }

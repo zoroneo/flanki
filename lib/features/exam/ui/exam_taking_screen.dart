@@ -119,60 +119,60 @@ class ExamTakingScreen extends HookConsumerWidget {
 
     return Scaffold(
       headers: [
-        AppBar(
-          child: SizedBox(
-            height: 44,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton.ghost(
-                    size: ButtonSize.small,
-                    density: ButtonDensity.compact,
-                    icon: const Icon(
-                      RadixIcons.arrowLeft,
-                      size: AppIconSize.sm,
-                    ),
-                    onPressed: () => ExamTakingDialogs.showConfirmExit(context),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.center,
-                  child: ExamTimerBadge(),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: PrimaryButton(
-                    size: ButtonSize.normal,
-                    onPressed: () => ExamTakingDialogs.showConfirmSubmit(
-                      context: context,
-                      state: ref.read(examSessionProvider),
-                      notifier: notifier,
-                    ),
-                    child: Text(
-                      l10n.submitExam,
-                      style: theme.typography.small.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-      child: SafeArea(
-        child: Column(
+        Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Progress indicator bar reflecting time elapsed
+            AppBar(
+              child: SizedBox(
+                height: AppDimensions.touchTargetMin,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton.ghost(
+                        size: ButtonSize.small,
+                        density: ButtonDensity.compact,
+                        icon: const Icon(
+                          RadixIcons.arrowLeft,
+                          size: AppIconSize.sm,
+                        ),
+                        onPressed: () =>
+                            ExamTakingDialogs.showConfirmExit(context),
+                      ),
+                    ),
+                    const Align(
+                      alignment: Alignment.center,
+                      child: ExamTimerBadge(),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: PrimaryButton(
+                        size: ButtonSize.normal,
+                        onPressed: () => ExamTakingDialogs.showConfirmSubmit(
+                          context: context,
+                          state: ref.read(examSessionProvider),
+                          notifier: notifier,
+                        ),
+                        child: Text(
+                          l10n.submitExam,
+                          style: theme.typography.small.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Progress indicator bar attached to the bottom of the AppBar
             SizedBox(
               width: double.infinity,
               child: LinearProgressIndicator(
                 value: timeElapsedRatio,
-                minHeight: 4,
+                minHeight: 3,
                 color: isUrgent
                     ? theme.colorScheme.destructive
                     : theme.colorScheme.primary,
@@ -181,7 +181,13 @@ class ExamTakingScreen extends HookConsumerWidget {
                 ),
               ),
             ),
-
+          ],
+        ),
+      ],
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
             // Scrollable question area
             Expanded(
               child: SingleChildScrollView(

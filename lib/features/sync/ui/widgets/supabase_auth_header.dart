@@ -78,25 +78,22 @@ class SupabaseAuthHeader extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => onTabChanged(false),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: AppEdgeInsets.v8,
                     decoration: BoxDecoration(
                       color: !isSignUp
                           ? theme.colorScheme.background
-                          : Colors.transparent,
+                          : AppColors.transparent,
                       borderRadius: AppRadius.borderSm,
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       l10n.authLoginButton,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: !isSignUp
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                        color: !isSignUp
-                            ? theme.colorScheme.foreground
-                            : theme.colorScheme.mutedForeground,
-                      ),
+                      style: !isSignUp
+                          ? context.textStyles.nav
+                          : context.textStyles.nav.copyWith(
+                              fontWeight: FontWeight.normal,
+                              color: theme.colorScheme.mutedForeground,
+                            ),
                     ),
                   ),
                 ),
@@ -105,25 +102,22 @@ class SupabaseAuthHeader extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => onTabChanged(true),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: AppEdgeInsets.v8,
                     decoration: BoxDecoration(
                       color: isSignUp
                           ? theme.colorScheme.background
-                          : Colors.transparent,
+                          : AppColors.transparent,
                       borderRadius: AppRadius.borderSm,
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       l10n.signUpCloud,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: isSignUp
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                        color: isSignUp
-                            ? theme.colorScheme.foreground
-                            : theme.colorScheme.mutedForeground,
-                      ),
+                      style: isSignUp
+                          ? context.textStyles.nav
+                          : context.textStyles.nav.copyWith(
+                              fontWeight: FontWeight.normal,
+                              color: theme.colorScheme.mutedForeground,
+                            ),
                     ),
                   ),
                 ),

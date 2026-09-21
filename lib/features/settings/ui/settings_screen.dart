@@ -8,6 +8,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/about_info_card.dart';
 import 'widgets/account_sync_card.dart';
+import 'widgets/cloud_backup_card.dart';
 import 'widgets/app_preferences_card.dart';
 import 'widgets/spaced_repetition_card.dart';
 import 'widgets/study_reminders_card.dart';
@@ -60,6 +61,8 @@ class SettingsScreen extends HookConsumerWidget {
                 ),
                 children: [
                   AccountSyncCard(isSyncing: isSyncing, onSync: handleSync),
+                  AppGaps.v24,
+                  const CloudBackupCard(),
                   AppGaps.v24,
                   const ToolsNavigationCard(),
                   AppGaps.v24,

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../l10n/generated/app_localizations.dart';
 import 'update_info.dart';
 
 part 'update_state.freezed.dart';
@@ -28,4 +29,20 @@ abstract class UpdateState with _$UpdateState {
     DateTime? lastChecked,
     @Default(false) bool isBackgroundCheck,
   }) = _UpdateState;
+}
+
+extension UpdateStateX on UpdateState {
+  String? getLocalizedError(AppLocalizations l10n) {
+    if (status != UpdateStatus.error) return null;
+    switch (errorType) {
+      case UpdateErrorType.checkFailed:
+        return l10n.updateCheckFailed;
+      case UpdateErrorType.downloadFailed:
+        return l10n.updateDownloadFailed;
+      case UpdateErrorType.installFailed:
+        return l10n.updateInstallFailed;
+      case null:
+        return errorMessage ?? l10n.updateDownloadFailed;
+    }
+  }
 }

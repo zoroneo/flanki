@@ -1,14 +1,22 @@
 import 'package:flutter/widgets.dart';
 
 import '../gen/fonts.gen.dart';
+import 'app_colors_extension.dart';
+
+export 'app_colors_extension.dart';
+export 'app_text_theme.dart';
 
 /// Flanki Spacing Tokens (Dựa trên 8-pt grid với 4-pt half-steps).
 abstract final class AppSpacing {
   static const double none = 0;
   static const double xxs = 2;
+  static const double s3 = 3;
   static const double xs = 4;
+  static const double s6 = 6;
   static const double sm = 8;
+  static const double s10 = 10;
   static const double smPlus = 12;
+  static const double s14 = 14;
   static const double md = 16;
   static const double lg = 20;
   static const double xl = 24;
@@ -28,23 +36,28 @@ abstract final class AppGaps {
   // Horizontal gaps
   static const SizedBox h2 = SizedBox(width: AppSpacing.xxs);
   static const SizedBox h4 = SizedBox(width: AppSpacing.xs);
+  static const SizedBox h6 = SizedBox(width: AppSpacing.s6);
   static const SizedBox h8 = SizedBox(width: AppSpacing.sm);
+  static const SizedBox h10 = SizedBox(width: AppSpacing.s10);
   static const SizedBox h12 = SizedBox(width: AppSpacing.smPlus);
   static const SizedBox h16 = SizedBox(width: AppSpacing.md);
   static const SizedBox h20 = SizedBox(width: AppSpacing.lg);
   static const SizedBox h24 = SizedBox(width: AppSpacing.xl);
   static const SizedBox h32 = SizedBox(width: AppSpacing.xxl);
+  static const SizedBox h48 = SizedBox(width: AppSpacing.xxxl);
 
   // Vertical gaps
   static const SizedBox v2 = SizedBox(height: AppSpacing.xxs);
   static const SizedBox v4 = SizedBox(height: AppSpacing.xs);
-  static const SizedBox v6 = SizedBox(height: 6);
+  static const SizedBox v6 = SizedBox(height: AppSpacing.s6);
   static const SizedBox v8 = SizedBox(height: AppSpacing.sm);
+  static const SizedBox v10 = SizedBox(height: AppSpacing.s10);
   static const SizedBox v12 = SizedBox(height: AppSpacing.smPlus);
   static const SizedBox v16 = SizedBox(height: AppSpacing.md);
   static const SizedBox v20 = SizedBox(height: AppSpacing.lg);
   static const SizedBox v24 = SizedBox(height: AppSpacing.xl);
   static const SizedBox v32 = SizedBox(height: AppSpacing.xxl);
+  static const SizedBox v48 = SizedBox(height: AppSpacing.xxxl);
 }
 
 /// Flanki Border Radius Tokens.
@@ -87,8 +100,41 @@ abstract final class AppEdgeInsets {
   static const EdgeInsets all16 = EdgeInsets.all(AppSpacing.md);
   static const EdgeInsets all20 = EdgeInsets.all(AppSpacing.lg);
   static const EdgeInsets all24 = EdgeInsets.all(AppSpacing.xl);
+  static const EdgeInsets all32 = EdgeInsets.all(AppSpacing.xxl);
+  static const EdgeInsets all48 = EdgeInsets.all(AppSpacing.xxxl);
+
+  // Vertical only
+  static const EdgeInsets v2 = EdgeInsets.symmetric(vertical: AppSpacing.xxs);
+  static const EdgeInsets v4 = EdgeInsets.symmetric(vertical: AppSpacing.xs);
+  static const EdgeInsets v6 = EdgeInsets.symmetric(vertical: AppSpacing.s6);
+  static const EdgeInsets v8 = EdgeInsets.symmetric(vertical: AppSpacing.sm);
+  static const EdgeInsets v10 = EdgeInsets.symmetric(vertical: AppSpacing.s10);
+  static const EdgeInsets v12 = EdgeInsets.symmetric(
+    vertical: AppSpacing.smPlus,
+  );
+  static const EdgeInsets v16 = EdgeInsets.symmetric(vertical: AppSpacing.md);
+  static const EdgeInsets v48 = EdgeInsets.symmetric(vertical: AppSpacing.xxxl);
+
+  // Horizontal only
+  static const EdgeInsets h4 = EdgeInsets.symmetric(horizontal: AppSpacing.xs);
+  static const EdgeInsets h6 = EdgeInsets.symmetric(horizontal: AppSpacing.s6);
+  static const EdgeInsets h8 = EdgeInsets.symmetric(horizontal: AppSpacing.sm);
+  static const EdgeInsets h12 = EdgeInsets.symmetric(
+    horizontal: AppSpacing.smPlus,
+  );
+  static const EdgeInsets h16 = EdgeInsets.symmetric(horizontal: AppSpacing.md);
+  static const EdgeInsets h20 = EdgeInsets.symmetric(horizontal: AppSpacing.lg);
+  static const EdgeInsets h24 = EdgeInsets.symmetric(horizontal: AppSpacing.xl);
 
   // Symmetric
+  static const EdgeInsets h4v2 = EdgeInsets.symmetric(
+    horizontal: AppSpacing.xs,
+    vertical: AppSpacing.xxs,
+  );
+  static const EdgeInsets h8v2 = EdgeInsets.symmetric(
+    horizontal: AppSpacing.sm,
+    vertical: AppSpacing.xxs,
+  );
   static const EdgeInsets h8v4 = EdgeInsets.symmetric(
     horizontal: AppSpacing.sm,
     vertical: AppSpacing.xs,
@@ -105,6 +151,44 @@ abstract final class AppEdgeInsets {
     horizontal: AppSpacing.md,
     vertical: AppSpacing.smPlus,
   );
+
+  // Semantic & Component presets
+  static const EdgeInsets badge = EdgeInsets.symmetric(
+    horizontal: 5,
+    vertical: 1.5,
+  );
+  static const EdgeInsets badgeSm = EdgeInsets.symmetric(
+    horizontal: 5,
+    vertical: 1.0,
+  );
+  static const EdgeInsets ratingKeyBadge = EdgeInsets.symmetric(
+    horizontal: AppSpacing.xs,
+    vertical: 1.0,
+  );
+  static const EdgeInsets tag = EdgeInsets.symmetric(
+    horizontal: AppSpacing.s6,
+    vertical: AppSpacing.xxs,
+  );
+  static const EdgeInsets countBadge = EdgeInsets.symmetric(
+    horizontal: AppSpacing.sm,
+    vertical: AppSpacing.s3,
+  );
+  static const EdgeInsets chip = EdgeInsets.symmetric(
+    horizontal: AppSpacing.s10,
+    vertical: AppSpacing.s6,
+  );
+  static const EdgeInsets chipSm = EdgeInsets.symmetric(
+    horizontal: AppSpacing.sm,
+    vertical: AppSpacing.xs,
+  );
+  static const EdgeInsets modalGrabHandle = EdgeInsets.only(
+    top: AppSpacing.s10,
+    bottom: AppSpacing.smPlus,
+  );
+  static const EdgeInsets textField = EdgeInsets.symmetric(
+    horizontal: AppSpacing.s14,
+    vertical: AppSpacing.s10,
+  );
 }
 
 /// Flanki Typography Tokens.
@@ -116,14 +200,20 @@ abstract final class AppTypography {
   // Font sizes
   static const double badge = 9.0;
   static const double caption = 10.0;
+  static const double captionPlus = 10.5;
   static const double sub = 11.0;
+  static const double subPlus = 11.5;
   static const double xSmall = 12.0;
+  static const double xSmallPlus = 12.5;
   static const double nav = 13.0;
+  static const double navPlus = 13.5;
   static const double small = 14.0;
+  static const double medium = 15.0;
   static const double base = 16.0;
   static const double large = 18.0;
   static const double xLarge = 20.0;
   static const double h4 = 24.0;
+  static const double displayLarge = 36.0;
 
   // Line heights
   static const double lineHeightNormal = 1.35;
@@ -133,18 +223,59 @@ abstract final class AppTypography {
 
 /// Flanki Semantic Colors & Rating Palette Tokens.
 abstract final class AppColors {
+  // Basic & Neutral Utilities
+  static const Color transparent = Color(0x00000000);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
+  static const Color mutedGrey = Color(0xFF9E9E9E);
+
   // FSRS & SM-2 Review Rating Colors
-  static const Color ratingAgain = Color(0xFFE53935);
-  static const Color ratingHard = Color(0xFFF57C00);
-  static const Color ratingGood = Color(0xFF1E88E5);
-  static const Color ratingEasy = Color(0xFF43A047);
+  static const Color ratingAgain = AppColorsExtension.lightRatingAgain;
+  static const Color ratingHard = AppColorsExtension.lightRatingHard;
+  static const Color ratingGood = AppColorsExtension.lightRatingGood;
+  static const Color ratingEasy = AppColorsExtension.lightRatingEasy;
 
   // Status & Highlights
-  static const Color streakFlame = Color(0xFFFF5722);
-  static const Color success = Color(0xFF4CAF50);
-  static const Color warning = Color(0xFFFF9800);
-  static const Color error = Color(0xFFF44336);
-  static const Color info = Color(0xFF2196F3);
+  static const Color streakFlame = AppColorsExtension.lightStreakFlame;
+  static const Color success = AppColorsExtension.lightSuccess;
+  static const Color successDark = AppColorsExtension.lightSuccessDark;
+  static const Color warning = AppColorsExtension.lightWarning;
+  static const Color error = AppColorsExtension.lightError;
+  static const Color info = AppColorsExtension.lightInfo;
+
+  // Cram & Custom Study Highlights
+  static const Color cramAmber = AppColorsExtension.lightCramAmber;
+  static const Color cramAmberBg = AppColorsExtension.lightCramAmberBg;
+
+  // Accent & Domain Colors
+  static const Color accentCyan = AppColorsExtension.lightAccentCyan;
+  static const Color accentPurple = AppColorsExtension.lightAccentPurple;
+  static const Color accentBlue = AppColorsExtension.lightAccentBlue;
+  static const Color accentOrange = AppColorsExtension.lightAccentOrange;
+
+  // Card Flag Palette (Anki Compatible)
+  static const Color flagRed = AppColorsExtension.lightFlagRed;
+  static const Color flagOrange = AppColorsExtension.lightFlagOrange;
+  static const Color flagGreen = AppColorsExtension.lightFlagGreen;
+  static const Color flagBlue = AppColorsExtension.lightFlagBlue;
+  static const Color flagPink = AppColorsExtension.lightFlagPink;
+  static const Color flagTurquoise = AppColorsExtension.lightFlagTurquoise;
+  static const Color flagPurple = AppColorsExtension.lightFlagPurple;
+
+  // Scratchpad Drawing Palette
+  static const Color scratchAmber = AppColorsExtension.lightScratchAmber;
+  static const Color scratchCyan = AppColorsExtension.lightScratchCyan;
+  static const Color scratchWhite = AppColorsExtension.lightScratchWhite;
+  static const Color scratchRed = AppColorsExtension.lightScratchRed;
+  static const Color scratchBorder = AppColorsExtension.lightScratchBorder;
+
+  // Stats Heatmap Levels
+  static const Color heatmapL1Light = AppColorsExtension.lightHeatmapL1;
+  static const Color heatmapL1Dark = AppColorsExtension.darkHeatmapL1;
+  static const Color heatmapL2Light = AppColorsExtension.lightHeatmapL2;
+  static const Color heatmapL2Dark = AppColorsExtension.darkHeatmapL2;
+  static const Color heatmapL3Light = AppColorsExtension.lightHeatmapL3;
+  static const Color heatmapL3Dark = AppColorsExtension.darkHeatmapL3;
 }
 
 /// Flanki Tab Navigation Indices.
@@ -186,13 +317,33 @@ abstract final class AppDimensions {
   static const double typeResultMaxWidth = 380.0;
   static const double toastWidth = 380.0;
   static const double bottomNavClearance = 110.0;
+  static const double bottomSheetClearance = 240.0;
 
   // Interactive buttons
   static const double ratingButtonMinHeight = 48.0;
   static const double audioButtonSize = 28.0;
+  static const double optionCircleSize = 28.0;
   static const double speedDialFabSize = 56.0;
   static const double speedDialOptionSize = 44.0;
   static const double touchTargetMin = 44.0;
+  static const double filterChipHeight = 32.0;
+  static const double buttonHeightStandard = 42.0;
+  static const double fabMobileSize = 52.0;
+
+  // Sidebars & Panes
+  static const double noteEditorSidebarWidth = 340.0;
+  static const double grammarTocSidebarWidth = 320.0;
+  static const double browserDetailPaneWidth = 420.0;
+
+  // Search & Toolbars
+  static const double searchToolbarHeight = 38.0;
+
+  // Component Metrics
+  static const double cardThumbnailSize = 52.0;
+  static const double summaryIconContainerSize = 64.0;
+  static const double legendColorDotSize = 10.0;
+  static const double statsForecastChartHeight = 128.0;
+  static const double toastSpinnerSize = 14.0;
 }
 
 /// Flanki Standard Animation Durations.
@@ -200,9 +351,18 @@ abstract final class AppDurations {
   static const Duration quick = Duration(milliseconds: 100);
   static const Duration short = Duration(milliseconds: 150);
   static const Duration normal = Duration(milliseconds: 200);
+  static const Duration switchSlide = Duration(milliseconds: 220);
+  static const Duration modal = Duration(milliseconds: 250);
   static const Duration medium = Duration(milliseconds: 300);
+  static const Duration snap = Duration(milliseconds: 320);
   static const Duration shake = Duration(milliseconds: 360);
   static const Duration long = Duration(milliseconds: 500);
+  static const Duration celebration = Duration(milliseconds: 600);
+  static const Duration celebrationBounce = Duration(milliseconds: 650);
+
+  // Time-based intervals & calendar offsets
+  static const Duration second1 = Duration(seconds: 1);
+  static const Duration day1 = Duration(days: 1);
 }
 
 /// Flanki Display Limits & Overflows.
@@ -224,4 +384,23 @@ abstract final class AppThemeValues {
   static const double cardFlipDepthScaleDip = 0.035;
   static const double cardFlipTiltFactor = 0.0006;
   static const double cardFlipMaxTilt = 0.12;
+}
+
+/// Standardized [ValueKey] instances and key generators for widget trees and testing.
+abstract final class AppWidgetKeys {
+  static const ValueKey<String> ratingBar = ValueKey('rating_bar');
+  static const ValueKey<String> flipButton = ValueKey('flip_button');
+
+  static ValueKey<String> card(String? id) => ValueKey('card_${id ?? 'none'}');
+  static ValueKey<String> deck(String id) => ValueKey('deck_$id');
+  static ValueKey<String> deckGroup(String key) => ValueKey('group_$key');
+  static ValueKey<String> licensePkg(String pkg) => ValueKey('pkg_$pkg');
+  static ValueKey<String> explanationSheet(String id) =>
+      ValueKey('explanation_sheet_$id');
+}
+
+/// Centralized UI marker symbols and emojis.
+abstract final class AppSymbols {
+  static const String markCorrect = '✅ ';
+  static const String markIncorrect = '❌ ';
 }

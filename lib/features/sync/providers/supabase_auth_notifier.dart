@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/config/supabase_config.dart';
 import '../data/supabase_auth_service.dart';
 
 import '../models/supabase_auth_state.dart';
@@ -105,6 +106,36 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
       return false;
     }
   }
+
+  Future<bool> signInWithOAuth(OAuthProvider provider) async {
+    state = state.copyWith(status: SupabaseAuthStatus.loading);
+    try {
+      final initiated = await _authService.signInWithOAuth(provider);
+      if (!initiated) {
+        state = const SupabaseAuthState(
+          status: SupabaseAuthStatus.error,
+          errorMessage: SupabaseConfig.errOAuthInitiationFailed,
+        );
+      }
+      return initiated;
+    } on AuthException catch (e) {
+      state = SupabaseAuthState(
+        status: SupabaseAuthStatus.error,
+        errorMessage: e.message,
+      );
+      return false;
+    } catch (e) {
+      state = SupabaseAuthState(
+        status: SupabaseAuthStatus.error,
+        errorMessage: e.toString(),
+      );
+      return false;
+    }
+  }
+
+  Future<bool> signInWithGoogle() => signInWithOAuth(OAuthProvider.google);
+
+  Future<bool> signInWithApple() => signInWithOAuth(OAuthProvider.apple);
 
   Future<void> signOut() async {
     await _authService.signOut();

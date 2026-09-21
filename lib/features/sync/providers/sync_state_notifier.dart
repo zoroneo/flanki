@@ -5,8 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/database/database_service.dart';
 import '../../../core/sync/supabase_sync_engine.dart';
 import '../../../core/sync/sync_replicator.dart';
-
+import '../../browser/providers/card_browser_notifier.dart';
+import '../../decks/providers/deck_notifier.dart';
+import '../../stats/providers/stats_notifier.dart';
 import '../models/sync_ui_state.dart';
+import 'supabase_auth_notifier.dart';
 
 export '../models/sync_ui_state.dart';
 
@@ -41,9 +44,37 @@ class SyncStateNotifier extends Notifier<SyncUiState> {
         status: status,
         lastSyncedAt: now,
         errorMessage: result?.error,
+        mediaUploadedCount:
+            result?.mediaUploadedCount ?? state.mediaUploadedCount,
+        mediaDownloadedCount:
+            result?.mediaDownloadedCount ?? state.mediaDownloadedCount,
       );
       refreshPendingCount();
     };
+
+    // When remote deltas (decks/cards/reviews) are pulled and applied, auto-refresh UI
+    _replicator.onRemoteDeltasApplied = () {
+      ref.read(deckListProvider.notifier).refresh();
+      ref.read(cardBrowserProvider.notifier).refresh();
+      ref.read(statsNotifierProvider.notifier).refresh();
+    };
+
+    // Listen to Supabase auth state to automatically connect/disconnect Realtime channel
+    ref.listen<SupabaseAuthState>(supabaseAuthNotifierProvider, (
+      previous,
+      next,
+    ) {
+      if (next.isAuthenticated && next.user != null) {
+        _replicator.startRealtime(next.user!.id);
+      } else {
+        _replicator.stopRealtime();
+      }
+    });
+
+    final currentAuth = ref.read(supabaseAuthNotifierProvider);
+    if (currentAuth.isAuthenticated && currentAuth.user != null) {
+      _replicator.startRealtime(currentAuth.user!.id);
+    }
 
     refreshPendingCount();
 

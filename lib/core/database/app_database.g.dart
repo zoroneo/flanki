@@ -111,6 +111,21 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _isSyncEnabledMeta = const VerificationMeta(
+    'isSyncEnabled',
+  );
+  @override
+  late final GeneratedColumn<bool> isSyncEnabled = GeneratedColumn<bool>(
+    'is_sync_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_sync_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -122,6 +137,7 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
     lastStudied,
     updatedAtHlc,
     isDeleted,
+    isSyncEnabled,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -201,6 +217,15 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
         isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
       );
     }
+    if (data.containsKey('is_sync_enabled')) {
+      context.handle(
+        _isSyncEnabledMeta,
+        isSyncEnabled.isAcceptableOrUnknown(
+          data['is_sync_enabled']!,
+          _isSyncEnabledMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -246,6 +271,10 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
         DriftSqlType.bool,
         data['${effectivePrefix}is_deleted'],
       )!,
+      isSyncEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_sync_enabled'],
+      )!,
     );
   }
 
@@ -265,6 +294,7 @@ class Deck extends DataClass implements Insertable<Deck> {
   final DateTime? lastStudied;
   final String updatedAtHlc;
   final bool isDeleted;
+  final bool isSyncEnabled;
   const Deck({
     required this.id,
     required this.title,
@@ -275,6 +305,7 @@ class Deck extends DataClass implements Insertable<Deck> {
     this.lastStudied,
     required this.updatedAtHlc,
     required this.isDeleted,
+    required this.isSyncEnabled,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -290,6 +321,7 @@ class Deck extends DataClass implements Insertable<Deck> {
     }
     map['updated_at_hlc'] = Variable<String>(updatedAtHlc);
     map['is_deleted'] = Variable<bool>(isDeleted);
+    map['is_sync_enabled'] = Variable<bool>(isSyncEnabled);
     return map;
   }
 
@@ -306,6 +338,7 @@ class Deck extends DataClass implements Insertable<Deck> {
           : Value(lastStudied),
       updatedAtHlc: Value(updatedAtHlc),
       isDeleted: Value(isDeleted),
+      isSyncEnabled: Value(isSyncEnabled),
     );
   }
 
@@ -324,6 +357,7 @@ class Deck extends DataClass implements Insertable<Deck> {
       lastStudied: serializer.fromJson<DateTime?>(json['lastStudied']),
       updatedAtHlc: serializer.fromJson<String>(json['updatedAtHlc']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      isSyncEnabled: serializer.fromJson<bool>(json['isSyncEnabled']),
     );
   }
   @override
@@ -339,6 +373,7 @@ class Deck extends DataClass implements Insertable<Deck> {
       'lastStudied': serializer.toJson<DateTime?>(lastStudied),
       'updatedAtHlc': serializer.toJson<String>(updatedAtHlc),
       'isDeleted': serializer.toJson<bool>(isDeleted),
+      'isSyncEnabled': serializer.toJson<bool>(isSyncEnabled),
     };
   }
 
@@ -352,6 +387,7 @@ class Deck extends DataClass implements Insertable<Deck> {
     Value<DateTime?> lastStudied = const Value.absent(),
     String? updatedAtHlc,
     bool? isDeleted,
+    bool? isSyncEnabled,
   }) => Deck(
     id: id ?? this.id,
     title: title ?? this.title,
@@ -362,6 +398,7 @@ class Deck extends DataClass implements Insertable<Deck> {
     lastStudied: lastStudied.present ? lastStudied.value : this.lastStudied,
     updatedAtHlc: updatedAtHlc ?? this.updatedAtHlc,
     isDeleted: isDeleted ?? this.isDeleted,
+    isSyncEnabled: isSyncEnabled ?? this.isSyncEnabled,
   );
   Deck copyWithCompanion(DecksCompanion data) {
     return Deck(
@@ -382,6 +419,9 @@ class Deck extends DataClass implements Insertable<Deck> {
           ? data.updatedAtHlc.value
           : this.updatedAtHlc,
       isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
+      isSyncEnabled: data.isSyncEnabled.present
+          ? data.isSyncEnabled.value
+          : this.isSyncEnabled,
     );
   }
 
@@ -396,7 +436,8 @@ class Deck extends DataClass implements Insertable<Deck> {
           ..write('totalCount: $totalCount, ')
           ..write('lastStudied: $lastStudied, ')
           ..write('updatedAtHlc: $updatedAtHlc, ')
-          ..write('isDeleted: $isDeleted')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('isSyncEnabled: $isSyncEnabled')
           ..write(')'))
         .toString();
   }
@@ -412,6 +453,7 @@ class Deck extends DataClass implements Insertable<Deck> {
     lastStudied,
     updatedAtHlc,
     isDeleted,
+    isSyncEnabled,
   );
   @override
   bool operator ==(Object other) =>
@@ -425,7 +467,8 @@ class Deck extends DataClass implements Insertable<Deck> {
           other.totalCount == this.totalCount &&
           other.lastStudied == this.lastStudied &&
           other.updatedAtHlc == this.updatedAtHlc &&
-          other.isDeleted == this.isDeleted);
+          other.isDeleted == this.isDeleted &&
+          other.isSyncEnabled == this.isSyncEnabled);
 }
 
 class DecksCompanion extends UpdateCompanion<Deck> {
@@ -438,6 +481,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
   final Value<DateTime?> lastStudied;
   final Value<String> updatedAtHlc;
   final Value<bool> isDeleted;
+  final Value<bool> isSyncEnabled;
   final Value<int> rowid;
   const DecksCompanion({
     this.id = const Value.absent(),
@@ -449,6 +493,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     this.lastStudied = const Value.absent(),
     this.updatedAtHlc = const Value.absent(),
     this.isDeleted = const Value.absent(),
+    this.isSyncEnabled = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   DecksCompanion.insert({
@@ -461,6 +506,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     this.lastStudied = const Value.absent(),
     this.updatedAtHlc = const Value.absent(),
     this.isDeleted = const Value.absent(),
+    this.isSyncEnabled = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        title = Value(title),
@@ -475,6 +521,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     Expression<DateTime>? lastStudied,
     Expression<String>? updatedAtHlc,
     Expression<bool>? isDeleted,
+    Expression<bool>? isSyncEnabled,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -487,6 +534,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
       if (lastStudied != null) 'last_studied': lastStudied,
       if (updatedAtHlc != null) 'updated_at_hlc': updatedAtHlc,
       if (isDeleted != null) 'is_deleted': isDeleted,
+      if (isSyncEnabled != null) 'is_sync_enabled': isSyncEnabled,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -501,6 +549,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     Value<DateTime?>? lastStudied,
     Value<String>? updatedAtHlc,
     Value<bool>? isDeleted,
+    Value<bool>? isSyncEnabled,
     Value<int>? rowid,
   }) {
     return DecksCompanion(
@@ -513,6 +562,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
       lastStudied: lastStudied ?? this.lastStudied,
       updatedAtHlc: updatedAtHlc ?? this.updatedAtHlc,
       isDeleted: isDeleted ?? this.isDeleted,
+      isSyncEnabled: isSyncEnabled ?? this.isSyncEnabled,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -547,6 +597,9 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     if (isDeleted.present) {
       map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
+    if (isSyncEnabled.present) {
+      map['is_sync_enabled'] = Variable<bool>(isSyncEnabled.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -565,6 +618,7 @@ class DecksCompanion extends UpdateCompanion<Deck> {
           ..write('lastStudied: $lastStudied, ')
           ..write('updatedAtHlc: $updatedAtHlc, ')
           ..write('isDeleted: $isDeleted, ')
+          ..write('isSyncEnabled: $isSyncEnabled, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6926,6 +6980,570 @@ class WrongQuestionNotebookCompanion
   }
 }
 
+class $UserMediaTable extends UserMedia
+    with TableInfo<$UserMediaTable, UserMediaData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserMediaTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _filenameMeta = const VerificationMeta(
+    'filename',
+  );
+  @override
+  late final GeneratedColumn<String> filename = GeneratedColumn<String>(
+    'filename',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _hashSha256Meta = const VerificationMeta(
+    'hashSha256',
+  );
+  @override
+  late final GeneratedColumn<String> hashSha256 = GeneratedColumn<String>(
+    'hash_sha256',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _sizeBytesMeta = const VerificationMeta(
+    'sizeBytes',
+  );
+  @override
+  late final GeneratedColumn<int> sizeBytes = GeneratedColumn<int>(
+    'size_bytes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _mimeTypeMeta = const VerificationMeta(
+    'mimeType',
+  );
+  @override
+  late final GeneratedColumn<String> mimeType = GeneratedColumn<String>(
+    'mime_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('application/octet-stream'),
+  );
+  static const VerificationMeta _isUploadedMeta = const VerificationMeta(
+    'isUploaded',
+  );
+  @override
+  late final GeneratedColumn<bool> isUploaded = GeneratedColumn<bool>(
+    'is_uploaded',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_uploaded" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _updatedAtHlcMeta = const VerificationMeta(
+    'updatedAtHlc',
+  );
+  @override
+  late final GeneratedColumn<String> updatedAtHlc = GeneratedColumn<String>(
+    'updated_at_hlc',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _isDeletedMeta = const VerificationMeta(
+    'isDeleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
+    'is_deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    filename,
+    hashSha256,
+    sizeBytes,
+    mimeType,
+    isUploaded,
+    updatedAtHlc,
+    isDeleted,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_media';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserMediaData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('filename')) {
+      context.handle(
+        _filenameMeta,
+        filename.isAcceptableOrUnknown(data['filename']!, _filenameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_filenameMeta);
+    }
+    if (data.containsKey('hash_sha256')) {
+      context.handle(
+        _hashSha256Meta,
+        hashSha256.isAcceptableOrUnknown(data['hash_sha256']!, _hashSha256Meta),
+      );
+    }
+    if (data.containsKey('size_bytes')) {
+      context.handle(
+        _sizeBytesMeta,
+        sizeBytes.isAcceptableOrUnknown(data['size_bytes']!, _sizeBytesMeta),
+      );
+    }
+    if (data.containsKey('mime_type')) {
+      context.handle(
+        _mimeTypeMeta,
+        mimeType.isAcceptableOrUnknown(data['mime_type']!, _mimeTypeMeta),
+      );
+    }
+    if (data.containsKey('is_uploaded')) {
+      context.handle(
+        _isUploadedMeta,
+        isUploaded.isAcceptableOrUnknown(data['is_uploaded']!, _isUploadedMeta),
+      );
+    }
+    if (data.containsKey('updated_at_hlc')) {
+      context.handle(
+        _updatedAtHlcMeta,
+        updatedAtHlc.isAcceptableOrUnknown(
+          data['updated_at_hlc']!,
+          _updatedAtHlcMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(
+        _isDeletedMeta,
+        isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {filename};
+  @override
+  UserMediaData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserMediaData(
+      filename: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}filename'],
+      )!,
+      hashSha256: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}hash_sha256'],
+      )!,
+      sizeBytes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}size_bytes'],
+      )!,
+      mimeType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}mime_type'],
+      )!,
+      isUploaded: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_uploaded'],
+      )!,
+      updatedAtHlc: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}updated_at_hlc'],
+      )!,
+      isDeleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_deleted'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $UserMediaTable createAlias(String alias) {
+    return $UserMediaTable(attachedDatabase, alias);
+  }
+}
+
+class UserMediaData extends DataClass implements Insertable<UserMediaData> {
+  final String filename;
+  final String hashSha256;
+  final int sizeBytes;
+  final String mimeType;
+  final bool isUploaded;
+  final String updatedAtHlc;
+  final bool isDeleted;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const UserMediaData({
+    required this.filename,
+    required this.hashSha256,
+    required this.sizeBytes,
+    required this.mimeType,
+    required this.isUploaded,
+    required this.updatedAtHlc,
+    required this.isDeleted,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['filename'] = Variable<String>(filename);
+    map['hash_sha256'] = Variable<String>(hashSha256);
+    map['size_bytes'] = Variable<int>(sizeBytes);
+    map['mime_type'] = Variable<String>(mimeType);
+    map['is_uploaded'] = Variable<bool>(isUploaded);
+    map['updated_at_hlc'] = Variable<String>(updatedAtHlc);
+    map['is_deleted'] = Variable<bool>(isDeleted);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  UserMediaCompanion toCompanion(bool nullToAbsent) {
+    return UserMediaCompanion(
+      filename: Value(filename),
+      hashSha256: Value(hashSha256),
+      sizeBytes: Value(sizeBytes),
+      mimeType: Value(mimeType),
+      isUploaded: Value(isUploaded),
+      updatedAtHlc: Value(updatedAtHlc),
+      isDeleted: Value(isDeleted),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory UserMediaData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserMediaData(
+      filename: serializer.fromJson<String>(json['filename']),
+      hashSha256: serializer.fromJson<String>(json['hashSha256']),
+      sizeBytes: serializer.fromJson<int>(json['sizeBytes']),
+      mimeType: serializer.fromJson<String>(json['mimeType']),
+      isUploaded: serializer.fromJson<bool>(json['isUploaded']),
+      updatedAtHlc: serializer.fromJson<String>(json['updatedAtHlc']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'filename': serializer.toJson<String>(filename),
+      'hashSha256': serializer.toJson<String>(hashSha256),
+      'sizeBytes': serializer.toJson<int>(sizeBytes),
+      'mimeType': serializer.toJson<String>(mimeType),
+      'isUploaded': serializer.toJson<bool>(isUploaded),
+      'updatedAtHlc': serializer.toJson<String>(updatedAtHlc),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  UserMediaData copyWith({
+    String? filename,
+    String? hashSha256,
+    int? sizeBytes,
+    String? mimeType,
+    bool? isUploaded,
+    String? updatedAtHlc,
+    bool? isDeleted,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => UserMediaData(
+    filename: filename ?? this.filename,
+    hashSha256: hashSha256 ?? this.hashSha256,
+    sizeBytes: sizeBytes ?? this.sizeBytes,
+    mimeType: mimeType ?? this.mimeType,
+    isUploaded: isUploaded ?? this.isUploaded,
+    updatedAtHlc: updatedAtHlc ?? this.updatedAtHlc,
+    isDeleted: isDeleted ?? this.isDeleted,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  UserMediaData copyWithCompanion(UserMediaCompanion data) {
+    return UserMediaData(
+      filename: data.filename.present ? data.filename.value : this.filename,
+      hashSha256: data.hashSha256.present
+          ? data.hashSha256.value
+          : this.hashSha256,
+      sizeBytes: data.sizeBytes.present ? data.sizeBytes.value : this.sizeBytes,
+      mimeType: data.mimeType.present ? data.mimeType.value : this.mimeType,
+      isUploaded: data.isUploaded.present
+          ? data.isUploaded.value
+          : this.isUploaded,
+      updatedAtHlc: data.updatedAtHlc.present
+          ? data.updatedAtHlc.value
+          : this.updatedAtHlc,
+      isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserMediaData(')
+          ..write('filename: $filename, ')
+          ..write('hashSha256: $hashSha256, ')
+          ..write('sizeBytes: $sizeBytes, ')
+          ..write('mimeType: $mimeType, ')
+          ..write('isUploaded: $isUploaded, ')
+          ..write('updatedAtHlc: $updatedAtHlc, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    filename,
+    hashSha256,
+    sizeBytes,
+    mimeType,
+    isUploaded,
+    updatedAtHlc,
+    isDeleted,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserMediaData &&
+          other.filename == this.filename &&
+          other.hashSha256 == this.hashSha256 &&
+          other.sizeBytes == this.sizeBytes &&
+          other.mimeType == this.mimeType &&
+          other.isUploaded == this.isUploaded &&
+          other.updatedAtHlc == this.updatedAtHlc &&
+          other.isDeleted == this.isDeleted &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class UserMediaCompanion extends UpdateCompanion<UserMediaData> {
+  final Value<String> filename;
+  final Value<String> hashSha256;
+  final Value<int> sizeBytes;
+  final Value<String> mimeType;
+  final Value<bool> isUploaded;
+  final Value<String> updatedAtHlc;
+  final Value<bool> isDeleted;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const UserMediaCompanion({
+    this.filename = const Value.absent(),
+    this.hashSha256 = const Value.absent(),
+    this.sizeBytes = const Value.absent(),
+    this.mimeType = const Value.absent(),
+    this.isUploaded = const Value.absent(),
+    this.updatedAtHlc = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UserMediaCompanion.insert({
+    required String filename,
+    this.hashSha256 = const Value.absent(),
+    this.sizeBytes = const Value.absent(),
+    this.mimeType = const Value.absent(),
+    this.isUploaded = const Value.absent(),
+    this.updatedAtHlc = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : filename = Value(filename);
+  static Insertable<UserMediaData> custom({
+    Expression<String>? filename,
+    Expression<String>? hashSha256,
+    Expression<int>? sizeBytes,
+    Expression<String>? mimeType,
+    Expression<bool>? isUploaded,
+    Expression<String>? updatedAtHlc,
+    Expression<bool>? isDeleted,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (filename != null) 'filename': filename,
+      if (hashSha256 != null) 'hash_sha256': hashSha256,
+      if (sizeBytes != null) 'size_bytes': sizeBytes,
+      if (mimeType != null) 'mime_type': mimeType,
+      if (isUploaded != null) 'is_uploaded': isUploaded,
+      if (updatedAtHlc != null) 'updated_at_hlc': updatedAtHlc,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UserMediaCompanion copyWith({
+    Value<String>? filename,
+    Value<String>? hashSha256,
+    Value<int>? sizeBytes,
+    Value<String>? mimeType,
+    Value<bool>? isUploaded,
+    Value<String>? updatedAtHlc,
+    Value<bool>? isDeleted,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return UserMediaCompanion(
+      filename: filename ?? this.filename,
+      hashSha256: hashSha256 ?? this.hashSha256,
+      sizeBytes: sizeBytes ?? this.sizeBytes,
+      mimeType: mimeType ?? this.mimeType,
+      isUploaded: isUploaded ?? this.isUploaded,
+      updatedAtHlc: updatedAtHlc ?? this.updatedAtHlc,
+      isDeleted: isDeleted ?? this.isDeleted,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (filename.present) {
+      map['filename'] = Variable<String>(filename.value);
+    }
+    if (hashSha256.present) {
+      map['hash_sha256'] = Variable<String>(hashSha256.value);
+    }
+    if (sizeBytes.present) {
+      map['size_bytes'] = Variable<int>(sizeBytes.value);
+    }
+    if (mimeType.present) {
+      map['mime_type'] = Variable<String>(mimeType.value);
+    }
+    if (isUploaded.present) {
+      map['is_uploaded'] = Variable<bool>(isUploaded.value);
+    }
+    if (updatedAtHlc.present) {
+      map['updated_at_hlc'] = Variable<String>(updatedAtHlc.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserMediaCompanion(')
+          ..write('filename: $filename, ')
+          ..write('hashSha256: $hashSha256, ')
+          ..write('sizeBytes: $sizeBytes, ')
+          ..write('mimeType: $mimeType, ')
+          ..write('isUploaded: $isUploaded, ')
+          ..write('updatedAtHlc: $updatedAtHlc, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -6944,6 +7562,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $WrongQuestionNotebookTable wrongQuestionNotebook =
       $WrongQuestionNotebookTable(this);
+  late final $UserMediaTable userMedia = $UserMediaTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -6960,6 +7579,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     examQuestions,
     examSubmissions,
     wrongQuestionNotebook,
+    userMedia,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -7018,6 +7638,7 @@ typedef $$DecksTableCreateCompanionBuilder = DecksCompanion Function({
   Value<DateTime?> lastStudied,
   Value<String> updatedAtHlc,
   Value<bool> isDeleted,
+  Value<bool> isSyncEnabled,
   Value<int> rowid,
 });
 typedef $$DecksTableUpdateCompanionBuilder = DecksCompanion Function({
@@ -7030,6 +7651,7 @@ typedef $$DecksTableUpdateCompanionBuilder = DecksCompanion Function({
   Value<DateTime?> lastStudied,
   Value<String> updatedAtHlc,
   Value<bool> isDeleted,
+  Value<bool> isSyncEnabled,
   Value<int> rowid,
 });
 
@@ -7107,6 +7729,11 @@ class $$DecksTableFilterComposer extends Composer<_$AppDatabase, $DecksTable> {
 
   ColumnFilters<bool> get isDeleted => $composableBuilder(
     column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isSyncEnabled => $composableBuilder(
+    column: $table.isSyncEnabled,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -7189,6 +7816,11 @@ class $$DecksTableOrderingComposer
     column: $table.isDeleted,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isSyncEnabled => $composableBuilder(
+    column: $table.isSyncEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$DecksTableAnnotationComposer
@@ -7234,6 +7866,11 @@ class $$DecksTableAnnotationComposer
 
   GeneratedColumn<bool> get isDeleted =>
       $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSyncEnabled => $composableBuilder(
+    column: $table.isSyncEnabled,
+    builder: (column) => column,
+  );
 
   Expression<T> cardsRefs<T extends Object>(
     Expression<T> Function($$CardsTableAnnotationComposer a) f,
@@ -7298,6 +7935,7 @@ class $$DecksTableTableManager
                 Value<DateTime?> lastStudied = const Value.absent(),
                 Value<String> updatedAtHlc = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
+                Value<bool> isSyncEnabled = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DecksCompanion(
                 id: id,
@@ -7309,6 +7947,7 @@ class $$DecksTableTableManager
                 lastStudied: lastStudied,
                 updatedAtHlc: updatedAtHlc,
                 isDeleted: isDeleted,
+                isSyncEnabled: isSyncEnabled,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -7322,6 +7961,7 @@ class $$DecksTableTableManager
                 Value<DateTime?> lastStudied = const Value.absent(),
                 Value<String> updatedAtHlc = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
+                Value<bool> isSyncEnabled = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DecksCompanion.insert(
                 id: id,
@@ -7333,6 +7973,7 @@ class $$DecksTableTableManager
                 lastStudied: lastStudied,
                 updatedAtHlc: updatedAtHlc,
                 isDeleted: isDeleted,
+                isSyncEnabled: isSyncEnabled,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -11707,6 +12348,295 @@ typedef $$WrongQuestionNotebookTableProcessedTableManager =
       WrongQuestionNotebookData,
       PrefetchHooks Function()
     >;
+typedef $$UserMediaTableCreateCompanionBuilder = UserMediaCompanion Function({
+  required String filename,
+  Value<String> hashSha256,
+  Value<int> sizeBytes,
+  Value<String> mimeType,
+  Value<bool> isUploaded,
+  Value<String> updatedAtHlc,
+  Value<bool> isDeleted,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+typedef $$UserMediaTableUpdateCompanionBuilder = UserMediaCompanion Function({
+  Value<String> filename,
+  Value<String> hashSha256,
+  Value<int> sizeBytes,
+  Value<String> mimeType,
+  Value<bool> isUploaded,
+  Value<String> updatedAtHlc,
+  Value<bool> isDeleted,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$UserMediaTableFilterComposer
+    extends Composer<_$AppDatabase, $UserMediaTable> {
+  $$UserMediaTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get filename => $composableBuilder(
+    column: $table.filename,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get hashSha256 => $composableBuilder(
+    column: $table.hashSha256,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sizeBytes => $composableBuilder(
+    column: $table.sizeBytes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get mimeType => $composableBuilder(
+    column: $table.mimeType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isUploaded => $composableBuilder(
+    column: $table.isUploaded,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get updatedAtHlc => $composableBuilder(
+    column: $table.updatedAtHlc,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$UserMediaTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserMediaTable> {
+  $$UserMediaTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get filename => $composableBuilder(
+    column: $table.filename,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get hashSha256 => $composableBuilder(
+    column: $table.hashSha256,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sizeBytes => $composableBuilder(
+    column: $table.sizeBytes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get mimeType => $composableBuilder(
+    column: $table.mimeType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isUploaded => $composableBuilder(
+    column: $table.isUploaded,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get updatedAtHlc => $composableBuilder(
+    column: $table.updatedAtHlc,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UserMediaTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserMediaTable> {
+  $$UserMediaTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get filename =>
+      $composableBuilder(column: $table.filename, builder: (column) => column);
+
+  GeneratedColumn<String> get hashSha256 => $composableBuilder(
+    column: $table.hashSha256,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get sizeBytes =>
+      $composableBuilder(column: $table.sizeBytes, builder: (column) => column);
+
+  GeneratedColumn<String> get mimeType =>
+      $composableBuilder(column: $table.mimeType, builder: (column) => column);
+
+  GeneratedColumn<bool> get isUploaded => $composableBuilder(
+    column: $table.isUploaded,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get updatedAtHlc => $composableBuilder(
+    column: $table.updatedAtHlc,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isDeleted =>
+      $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$UserMediaTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserMediaTable,
+          UserMediaData,
+          $$UserMediaTableFilterComposer,
+          $$UserMediaTableOrderingComposer,
+          $$UserMediaTableAnnotationComposer,
+          $$UserMediaTableCreateCompanionBuilder,
+          $$UserMediaTableUpdateCompanionBuilder,
+          (
+            UserMediaData,
+            BaseReferences<_$AppDatabase, $UserMediaTable, UserMediaData>,
+          ),
+          UserMediaData,
+          PrefetchHooks Function()
+        > {
+  $$UserMediaTableTableManager(_$AppDatabase db, $UserMediaTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserMediaTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserMediaTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserMediaTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> filename = const Value.absent(),
+                Value<String> hashSha256 = const Value.absent(),
+                Value<int> sizeBytes = const Value.absent(),
+                Value<String> mimeType = const Value.absent(),
+                Value<bool> isUploaded = const Value.absent(),
+                Value<String> updatedAtHlc = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserMediaCompanion(
+                filename: filename,
+                hashSha256: hashSha256,
+                sizeBytes: sizeBytes,
+                mimeType: mimeType,
+                isUploaded: isUploaded,
+                updatedAtHlc: updatedAtHlc,
+                isDeleted: isDeleted,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String filename,
+                Value<String> hashSha256 = const Value.absent(),
+                Value<int> sizeBytes = const Value.absent(),
+                Value<String> mimeType = const Value.absent(),
+                Value<bool> isUploaded = const Value.absent(),
+                Value<String> updatedAtHlc = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserMediaCompanion.insert(
+                filename: filename,
+                hashSha256: hashSha256,
+                sizeBytes: sizeBytes,
+                mimeType: mimeType,
+                isUploaded: isUploaded,
+                updatedAtHlc: updatedAtHlc,
+                isDeleted: isDeleted,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$UserMediaTable, UserMediaData>(table),
+                  BaseReferences<_$AppDatabase, $UserMediaTable, UserMediaData>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$UserMediaTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserMediaTable,
+      UserMediaData,
+      $$UserMediaTableFilterComposer,
+      $$UserMediaTableOrderingComposer,
+      $$UserMediaTableAnnotationComposer,
+      $$UserMediaTableCreateCompanionBuilder,
+      $$UserMediaTableUpdateCompanionBuilder,
+      (
+        UserMediaData,
+        BaseReferences<_$AppDatabase, $UserMediaTable, UserMediaData>,
+      ),
+      UserMediaData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -11736,4 +12666,6 @@ class $AppDatabaseManager {
       $$ExamSubmissionsTableTableManager(_db, _db.examSubmissions);
   $$WrongQuestionNotebookTableTableManager get wrongQuestionNotebook =>
       $$WrongQuestionNotebookTableTableManager(_db, _db.wrongQuestionNotebook);
+  $$UserMediaTableTableManager get userMedia =>
+      $$UserMediaTableTableManager(_db, _db.userMedia);
 }

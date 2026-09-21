@@ -24,10 +24,10 @@ class DesktopTypeOption extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
+        duration: AppDurations.short,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.smPlus,
-          vertical: 10,
+          vertical: AppSpacing.s10,
         ),
         decoration: BoxDecoration(
           color: isSelected
@@ -57,24 +57,20 @@ class DesktopTypeOption extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: isSelected
-                          ? FontWeight.w700
-                          : FontWeight.w500,
-                      color: isSelected
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.foreground,
-                    ),
+                    style:
+                        (isSelected
+                                ? context.textStyles.navBold
+                                : context.textStyles.nav.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ))
+                            .copyWith(
+                              color: isSelected
+                                  ? theme.colorScheme.primary
+                                  : theme.colorScheme.foreground,
+                            ),
                   ),
                   AppGaps.v2,
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: theme.colorScheme.mutedForeground,
-                    ),
-                  ),
+                  Text(subtitle, style: context.textStyles.subMuted),
                 ],
               ),
             ),
@@ -113,7 +109,7 @@ class TypeSelectButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.smPlus,
-          vertical: 10,
+          vertical: AppSpacing.s10,
         ),
         decoration: BoxDecoration(
           color: isSelected
@@ -130,9 +126,7 @@ class TypeSelectButton extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
+              style: context.textStyles.xSmallBold.copyWith(
                 color: isSelected
                     ? theme.colorScheme.primaryForeground
                     : theme.colorScheme.foreground,
@@ -142,8 +136,7 @@ class TypeSelectButton extends StatelessWidget {
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 9,
+              style: context.textStyles.badge.copyWith(
                 color: isSelected
                     ? theme.colorScheme.primaryForeground.withValues(alpha: 0.8)
                     : theme.colorScheme.mutedForeground,

@@ -71,8 +71,8 @@ class ExamOptionCard extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 28,
-                height: 28,
+                width: AppDimensions.optionCircleSize,
+                height: AppDimensions.optionCircleSize,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -91,7 +91,14 @@ class ExamOptionCard extends StatelessWidget {
                 ),
               ),
               AppGaps.h12,
-              Expanded(child: Text(opt.text, style: theme.typography.base)),
+              Expanded(
+                child: Text(
+                  opt.text,
+                  style: theme.typography.base.copyWith(
+                    color: theme.colorScheme.foreground,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -162,9 +169,10 @@ class ExamQuestionPromptCard extends StatelessWidget {
                   borderRadius: AppRadius.borderFull,
                   child: AnimatedContainer(
                     duration: AppDurations.short,
+                    height: AppDimensions.filterChipHeight,
+                    alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.smPlus,
-                      vertical: AppSpacing.xs,
                     ),
                     decoration: BoxDecoration(
                       color: isFlagged

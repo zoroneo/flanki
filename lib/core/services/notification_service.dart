@@ -9,6 +9,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../../l10n/generated/app_localizations.dart';
 import '../config/app_config.dart';
+import '../theme/app_tokens.dart';
 
 class NotificationService {
   NotificationService._();
@@ -172,7 +173,7 @@ class NotificationService {
       minute,
     );
     if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
+      scheduledDate = scheduledDate.add(AppDurations.day1);
     }
     return scheduledDate;
   }
@@ -328,10 +329,12 @@ class NotificationService {
     ValueGetter<int>? getStreakSaverMinute,
   }) {
     if (kIsWeb || (!Platform.isWindows && !Platform.isLinux)) return;
-    if (Platform.environment.containsKey('FLUTTER_TEST')) return;
+    if (AppConfig.isFlutterTest) return;
 
     _desktopTimer?.cancel();
-    _desktopTimer = Timer.periodic(const Duration(minutes: 1), (_) async {
+    _desktopTimer = Timer.periodic(AppConfig.desktopReminderCheckInterval, (
+      _,
+    ) async {
       if (!isReminderEnabled()) return;
 
       final now = DateTime.now();

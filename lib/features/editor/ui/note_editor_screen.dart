@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -92,7 +91,7 @@ class NoteEditorScreen extends HookConsumerWidget {
                 subtitle: Text(l10n.missingContentDesc),
                 leading: const Icon(
                   LucideIcons.triangleAlert,
-                  color: m.Colors.orange,
+                  color: AppColors.warning,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
@@ -128,7 +127,7 @@ class NoteEditorScreen extends HookConsumerWidget {
             child: Basic(
               title: Text(l10n.cardCreatedSuccess),
               subtitle: Text(l10n.cardCreatedSuccessDesc),
-              leading: const Icon(LucideIcons.check, color: m.Colors.green),
+              leading: const Icon(LucideIcons.check, color: AppColors.success),
               trailing: IconButton.ghost(
                 icon: const Icon(LucideIcons.x),
                 onPressed: () => overlay.close(),

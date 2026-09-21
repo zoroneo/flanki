@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
@@ -6,13 +5,13 @@ import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
 
 const ankiFlagColors = {
-  CardFlag.red: m.Colors.red,
-  CardFlag.orange: m.Colors.orange,
-  CardFlag.green: m.Colors.green,
-  CardFlag.blue: m.Colors.blue,
-  CardFlag.pink: m.Colors.pink,
-  CardFlag.turquoise: m.Colors.cyan,
-  CardFlag.purple: m.Colors.purple,
+  CardFlag.red: AppColors.flagRed,
+  CardFlag.orange: AppColors.flagOrange,
+  CardFlag.green: AppColors.flagGreen,
+  CardFlag.blue: AppColors.flagBlue,
+  CardFlag.pink: AppColors.flagPink,
+  CardFlag.turquoise: AppColors.flagTurquoise,
+  CardFlag.purple: AppColors.flagPurple,
 };
 
 class CardFlagSelector extends StatelessWidget {
@@ -35,12 +34,12 @@ class CardFlagSelector extends StatelessWidget {
         GestureDetector(
           onTap: () => onSelectFlag(CardFlag.none),
           child: Container(
-            width: 44,
-            height: 44,
+            width: AppDimensions.touchTargetMin,
+            height: AppDimensions.touchTargetMin,
             alignment: Alignment.center,
             child: Container(
-              width: 32,
-              height: 32,
+              width: AppSpacing.xxl,
+              height: AppSpacing.xxl,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -62,17 +61,17 @@ class CardFlagSelector extends StatelessWidget {
         ),
         ...CardFlag.values.where((f) => f != CardFlag.none).map((flag) {
           final isSelected = currentFlag == flag;
-          final c = ankiFlagColors[flag] ?? m.Colors.grey;
+          final c = ankiFlagColors[flag] ?? AppColors.mutedGrey;
 
           return GestureDetector(
             onTap: () => onSelectFlag(flag),
             child: Container(
-              width: 44,
-              height: 44,
+              width: AppDimensions.touchTargetMin,
+              height: AppDimensions.touchTargetMin,
               alignment: Alignment.center,
               child: Container(
-                width: 32,
-                height: 32,
+                width: AppSpacing.xxl,
+                height: AppSpacing.xxl,
                 decoration: BoxDecoration(
                   color: c,
                   shape: BoxShape.circle,
@@ -87,7 +86,7 @@ class CardFlagSelector extends StatelessWidget {
                     ? const Icon(
                         LucideIcons.check,
                         size: AppIconSize.sm,
-                        color: m.Colors.white,
+                        color: AppColors.white,
                       )
                     : null,
               ),
@@ -143,13 +142,7 @@ class _StatMini extends StatelessWidget {
       children: [
         Text(value, style: theme.typography.semiBold),
         AppGaps.v2,
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            color: theme.colorScheme.mutedForeground,
-          ),
-        ),
+        Text(label, style: context.textStyles.captionMuted),
       ],
     );
   }

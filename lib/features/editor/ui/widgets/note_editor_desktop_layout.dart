@@ -60,7 +60,10 @@ class NoteEditorDesktopLayout extends StatelessWidget {
           ),
         ),
         AppGaps.h20,
-        SizedBox(width: 340, child: _buildDesktopSidebar(context)),
+        SizedBox(
+          width: AppDimensions.noteEditorSidebarWidth,
+          child: _buildDesktopSidebar(context),
+        ),
       ],
     );
   }

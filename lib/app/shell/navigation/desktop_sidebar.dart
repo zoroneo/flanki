@@ -31,9 +31,9 @@ class DesktopSidebar extends StatelessWidget {
           _buildBrandHeader(theme),
           const Divider(height: 1),
           AppGaps.v12,
-          _buildNavLinks(theme),
+          _buildNavLinks(context, theme),
           const Spacer(),
-          _buildSyncStatus(theme),
+          _buildSyncStatus(context, theme),
         ],
       ),
     );
@@ -88,7 +88,7 @@ class DesktopSidebar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavLinks(ThemeData theme) {
+  Widget _buildNavLinks(BuildContext context, ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.smPlus),
       child: Column(
@@ -145,7 +145,7 @@ class DesktopSidebar extends StatelessWidget {
             label: l10n.navSettings,
             shortcutHint: 'Ctrl+6',
             isSelected: currentIndex == AppNavIndex.settings,
-            indicatorColor: isAuthenticated ? AppColors.success : null,
+            indicatorColor: isAuthenticated ? context.colors.success : null,
             onTap: () => onSelectTab(AppNavIndex.settings),
           ),
         ],
@@ -153,7 +153,7 @@ class DesktopSidebar extends StatelessWidget {
     );
   }
 
-  Widget _buildSyncStatus(ThemeData theme) {
+  Widget _buildSyncStatus(BuildContext context, ThemeData theme) {
     return Padding(
       padding: AppEdgeInsets.all16,
       child: Container(
@@ -172,7 +172,7 @@ class DesktopSidebar extends StatelessWidget {
               height: AppDimensions.statusDotSize,
               decoration: BoxDecoration(
                 color: isAuthenticated
-                    ? AppColors.success
+                    ? context.colors.success
                     : theme.colorScheme.mutedForeground,
                 shape: BoxShape.circle,
               ),
@@ -190,10 +190,7 @@ class DesktopSidebar extends StatelessWidget {
                   ),
                   Text(
                     isAuthenticated ? l10n.connected : l10n.offlineMode,
-                    style: TextStyle(
-                      fontSize: AppTypography.caption,
-                      color: theme.colorScheme.mutedForeground,
-                    ),
+                    style: context.textStyles.captionMuted,
                   ),
                 ],
               ),
@@ -241,16 +238,17 @@ class SidebarNavItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: isSelected
                 ? theme.colorScheme.primary.withValues(alpha: 0.12)
-                : m.Colors.transparent,
+                : AppColors.transparent,
             borderRadius: AppRadius.borderMd,
           ),
           child: Row(
             children: [
               _buildIcon(theme),
               AppGaps.h12,
-              _buildLabel(theme),
-              if (badgeCount != null) _buildBadge(theme),
-              if (shortcutHint != null && isSelected) _buildShortcutHint(theme),
+              _buildLabel(context, theme),
+              if (badgeCount != null) _buildBadge(context, theme),
+              if (shortcutHint != null && isSelected)
+                _buildShortcutHint(context, theme),
               if (indicatorColor != null) _buildIndicator(),
             ],
           ),
@@ -269,27 +267,22 @@ class SidebarNavItem extends StatelessWidget {
     );
   }
 
-  Widget _buildLabel(ThemeData theme) {
+  Widget _buildLabel(BuildContext context, ThemeData theme) {
     return Expanded(
       child: Text(
         label,
-        style: TextStyle(
-          fontSize: AppTypography.nav,
-          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-          color: isSelected
-              ? theme.colorScheme.foreground
-              : theme.colorScheme.mutedForeground,
-        ),
+        style: isSelected
+            ? context.textStyles.navBold
+            : context.textStyles.nav.copyWith(
+                color: theme.colorScheme.mutedForeground,
+              ),
       ),
     );
   }
 
-  Widget _buildBadge(ThemeData theme) {
+  Widget _buildBadge(BuildContext context, ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: AppSpacing.xxs,
-      ),
+      padding: AppEdgeInsets.tag,
       decoration: BoxDecoration(
         color: theme.colorScheme.destructive,
         borderRadius: AppRadius.borderFull,
@@ -298,25 +291,15 @@ class SidebarNavItem extends StatelessWidget {
         badgeCount! > AppLimits.badgeMaxCount
             ? AppLimits.badgeOverflowText
             : '$badgeCount',
-        style: const TextStyle(
-          color: m.Colors.white,
-          fontSize: AppTypography.caption,
-          fontWeight: FontWeight.w700,
-        ),
+        style: context.textStyles.captionBold.copyWith(color: AppColors.white),
       ),
     );
   }
 
-  Widget _buildShortcutHint(ThemeData theme) {
+  Widget _buildShortcutHint(BuildContext context, ThemeData theme) {
     return Padding(
-      padding: const EdgeInsets.only(left: 6),
-      child: Text(
-        shortcutHint!,
-        style: TextStyle(
-          fontSize: AppTypography.caption,
-          color: theme.colorScheme.mutedForeground,
-        ),
-      ),
+      padding: const EdgeInsets.only(left: AppSpacing.s6),
+      child: Text(shortcutHint!, style: context.textStyles.captionMuted),
     );
   }
 
@@ -324,7 +307,7 @@ class SidebarNavItem extends StatelessWidget {
     return Container(
       width: AppDimensions.indicatorDotSize,
       height: AppDimensions.indicatorDotSize,
-      margin: const EdgeInsets.only(left: 6),
+      margin: const EdgeInsets.only(left: AppSpacing.s6),
       decoration: BoxDecoration(color: indicatorColor, shape: BoxShape.circle),
     );
   }

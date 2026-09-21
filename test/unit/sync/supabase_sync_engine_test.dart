@@ -164,6 +164,7 @@ void main() {
             'cards': [],
             'review_logs': [],
             'grammar_progress': [],
+            'user_media': [],
           };
         }
         return {};
@@ -220,6 +221,7 @@ void main() {
             'cards': [],
             'review_logs': [],
             'grammar_progress': [],
+            'user_media': [],
           };
         }
         return {};

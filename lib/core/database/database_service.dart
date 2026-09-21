@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:crypto/crypto.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_flutter/drift_flutter.dart';
@@ -102,6 +103,7 @@ class DatabaseService {
         newCount: r.newCount,
         totalCount: r.totalCount,
         lastStudied: r.lastStudied,
+        isSyncEnabled: r.isSyncEnabled,
       );
     }).toList();
 
@@ -319,6 +321,7 @@ class DatabaseService {
               lastStudied: Value(deck.lastStudied),
               updatedAtHlc: Value(hlcStr),
               isDeleted: const Value(false),
+              isSyncEnabled: Value(deck.isSyncEnabled),
             ),
           );
 
@@ -387,6 +390,7 @@ class DatabaseService {
                 lastStudied: Value(deck.lastStudied),
                 updatedAtHlc: Value(hlcStr),
                 isDeleted: const Value(false),
+                isSyncEnabled: Value(deck.isSyncEnabled),
               ),
             );
 
@@ -501,6 +505,72 @@ class DatabaseService {
     onMutationEnqueued?.call();
   }
 
+  /// Toggles sync status for a specific deck and handles card outbox synchronization.
+  Future<void> toggleDeckSync(String deckId, bool enabled) async {
+    final deckIdx = _cachedDecks.indexWhere((d) => d.id == deckId);
+    if (deckIdx < 0) return;
+
+    final oldDeck = _cachedDecks[deckIdx];
+    final updatedDeck = oldDeck.copyWith(isSyncEnabled: enabled);
+    _cachedDecks[deckIdx] = updatedDeck;
+
+    final hlcStr = advanceHlc().pack();
+
+    await db.transaction(() async {
+      await (db.update(db.decks)..where((tbl) => tbl.id.equals(deckId))).write(
+        DecksCompanion(
+          isSyncEnabled: Value(enabled),
+          updatedAtHlc: Value(hlcStr),
+        ),
+      );
+
+      // Always enqueue deck update so remote knows sync state
+      await db
+          .into(db.syncOutbox)
+          .insertOnConflictUpdate(
+            SyncOutboxCompanion.insert(
+              id: IdHelper.outboxId(
+                prefix: 'deck',
+                entityId: deckId,
+                hlc: hlcStr,
+              ),
+              entityType: SupabaseConfig.entityDeck,
+              entityId: deckId,
+              operation: SupabaseConfig.opUpsert,
+              payloadJson: jsonEncode(updatedDeck.toJson()),
+              hlc: hlcStr,
+            ),
+          );
+
+      // If re-enabling sync: enqueue all non-deleted cards of this deck into syncOutbox
+      if (enabled) {
+        final cards = _cachedCards.where((c) => c.deckId == deckId).toList();
+        for (final card in cards) {
+          final cardHlc = advanceHlc().pack();
+          await db
+              .into(db.syncOutbox)
+              .insertOnConflictUpdate(
+                SyncOutboxCompanion.insert(
+                  id: IdHelper.outboxId(
+                    prefix: 'card',
+                    entityId: card.id,
+                    hlc: cardHlc,
+                  ),
+                  entityType: SupabaseConfig.entityCard,
+                  entityId: card.id,
+                  operation: SupabaseConfig.opUpsert,
+                  payloadJson: jsonEncode(card.toJson()),
+                  hlc: cardHlc,
+                ),
+              );
+        }
+      }
+    });
+
+    await _reloadCache();
+    onMutationEnqueued?.call();
+  }
+
   Future<void> recalculateAllDeckCounts() async {
     final now = DateTime.now();
 
@@ -562,6 +632,11 @@ class DatabaseService {
   }
 
   Future<void> saveCard(CardModel card, {bool markOutbox = true}) async {
+    final parentDeck = _cachedDecks.firstWhereOrNull(
+      (d) => d.id == card.deckId,
+    );
+    final shouldMarkOutbox = markOutbox && (parentDeck?.isSyncEnabled != false);
+
     // Optimistic cache update
     final idx = _cachedCards.indexWhere((c) => c.id == card.id);
     if (idx >= 0) {
@@ -570,7 +645,7 @@ class DatabaseService {
       _cachedCards.insert(0, card);
     }
 
-    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+    final hlcStr = shouldMarkOutbox ? advanceHlc().pack() : '';
 
     await db.transaction(() async {
       await db
@@ -600,7 +675,7 @@ class DatabaseService {
             ),
           );
 
-      if (markOutbox) {
+      if (shouldMarkOutbox) {
         await db
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
@@ -620,7 +695,7 @@ class DatabaseService {
       }
     });
     await _reloadCache();
-    if (markOutbox) {
+    if (shouldMarkOutbox) {
       onMutationEnqueued?.call();
     }
   }
@@ -638,10 +713,17 @@ class DatabaseService {
       }
     }
 
-    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+    bool anyOutboxEnqueued = false;
 
     await db.transaction(() async {
       for (final card in cards) {
+        final parentDeck = _cachedDecks.firstWhereOrNull(
+          (d) => d.id == card.deckId,
+        );
+        final shouldMarkOutbox =
+            markOutbox && (parentDeck?.isSyncEnabled != false);
+        final hlcStr = shouldMarkOutbox ? advanceHlc().pack() : '';
+
         await db
             .into(db.cards)
             .insertOnConflictUpdate(
@@ -669,7 +751,8 @@ class DatabaseService {
               ),
             );
 
-        if (markOutbox) {
+        if (shouldMarkOutbox) {
+          anyOutboxEnqueued = true;
           await db
               .into(db.syncOutbox)
               .insertOnConflictUpdate(
@@ -690,7 +773,7 @@ class DatabaseService {
       }
     });
     await _reloadCache();
-    if (markOutbox) {
+    if (anyOutboxEnqueued) {
       onMutationEnqueued?.call();
     }
   }
@@ -739,8 +822,14 @@ class DatabaseService {
   }
 
   Future<void> deleteCard(String cardId, {bool markOutbox = true}) async {
+    final cardToDelete = _cachedCards.firstWhereOrNull((c) => c.id == cardId);
+    final parentDeck = cardToDelete != null
+        ? _cachedDecks.firstWhereOrNull((d) => d.id == cardToDelete.deckId)
+        : null;
+    final shouldMarkOutbox = markOutbox && (parentDeck?.isSyncEnabled != false);
+
     _cachedCards.removeWhere((c) => c.id == cardId);
-    final hlcStr = markOutbox ? advanceHlc().pack() : '';
+    final hlcStr = shouldMarkOutbox ? advanceHlc().pack() : '';
 
     await db.transaction(() async {
       await (db.update(db.cards)..where((tbl) => tbl.id.equals(cardId))).write(
@@ -750,7 +839,7 @@ class DatabaseService {
         ),
       );
 
-      if (markOutbox) {
+      if (shouldMarkOutbox) {
         await db
             .into(db.syncOutbox)
             .insertOnConflictUpdate(
@@ -770,7 +859,7 @@ class DatabaseService {
       }
     });
     await _reloadCache();
-    if (markOutbox) {
+    if (shouldMarkOutbox) {
       onMutationEnqueued?.call();
     }
   }
@@ -1208,13 +1297,15 @@ class DatabaseService {
     List<Map<String, dynamic>> grammarProgress = const [],
     List<Map<String, dynamic>> examSubmissions = const [],
     List<Map<String, dynamic>> wrongQuestions = const [],
+    List<Map<String, dynamic>> userMedia = const [],
   }) async {
     if (decks.isEmpty &&
         cards.isEmpty &&
         reviewLogs.isEmpty &&
         grammarProgress.isEmpty &&
         examSubmissions.isEmpty &&
-        wrongQuestions.isEmpty) {
+        wrongQuestions.isEmpty &&
+        userMedia.isEmpty) {
       return;
     }
 
@@ -1238,6 +1329,7 @@ class DatabaseService {
                 lastStudied: Value(deck.lastStudied),
                 updatedAtHlc: Value(hlc),
                 isDeleted: Value(isDeleted),
+                isSyncEnabled: Value(deck.isSyncEnabled),
               ),
             );
       }
@@ -1385,10 +1477,304 @@ class DatabaseService {
               ),
             );
       }
+
+      // 7. Apply User Media
+      for (final raw in userMedia) {
+        final filename = raw['filename'] as String? ?? '';
+        if (filename.isEmpty) continue;
+        final hash = raw['hash_sha256'] as String? ?? '';
+        final size = (raw['size_bytes'] as num?)?.toInt() ?? 0;
+        final mime = raw['mime_type'] as String? ?? 'application/octet-stream';
+        final hlc = raw['updated_at_hlc'] as String? ?? '';
+        final isDeleted = raw['is_deleted'] as bool? ?? false;
+
+        final existing = await (db.select(
+          db.userMedia,
+        )..where((tbl) => tbl.filename.equals(filename))).getSingleOrNull();
+
+        if (existing == null || hlc.compareTo(existing.updatedAtHlc) > 0) {
+          await db
+              .into(db.userMedia)
+              .insertOnConflictUpdate(
+                UserMediaCompanion.insert(
+                  filename: filename,
+                  hashSha256: Value(hash),
+                  sizeBytes: Value(size),
+                  mimeType: Value(mime),
+                  isUploaded: const Value(true),
+                  updatedAtHlc: Value(hlc),
+                  isDeleted: Value(isDeleted),
+                  updatedAt: Value(DateTime.now()),
+                ),
+              );
+        }
+      }
     });
 
     // Reload cache to reflect remote changes immediately
     await _reloadCache();
+  }
+
+  /// Exports all database tables into a JSON-serializable Map for snapshot packaging.
+  Future<Map<String, dynamic>> exportDatabaseSnapshot() async {
+    final decks = _cachedDecks.map((d) => d.toJson()).toList();
+    final cards = _cachedCards.map((c) => c.toJson()).toList();
+    final reviewLogs = _cachedReviewLogs.map((r) => r.toJson()).toList();
+
+    List<Map<String, dynamic>> grammar = [];
+    List<Map<String, dynamic>> exams = [];
+    List<Map<String, dynamic>> wrongs = [];
+    List<Map<String, dynamic>> media = [];
+
+    if (_db != null) {
+      final grammarRows = await (db.select(
+        db.grammarProgressEntries,
+      )..where((t) => t.isDeleted.equals(false))).get();
+      grammar = grammarRows
+          .map(
+            (g) => {
+              'unit_id': g.unitId,
+              'exercise_id': g.exerciseId,
+              'stability': g.stability,
+              'difficulty': g.difficulty,
+              'due': g.due?.toIso8601String(),
+              'last_studied': g.lastStudied?.toIso8601String(),
+              'reps': g.reps,
+              'lapses': g.lapses,
+              'state': g.state.index,
+              'is_ghost': g.isGhost,
+              'is_completed': g.isCompleted,
+              'last_user_answer': g.lastUserAnswer,
+              'updated_at': g.updatedAt.toIso8601String(),
+              'updated_at_hlc': g.updatedAtHlc,
+            },
+          )
+          .toList();
+
+      final examRows = await (db.select(
+        db.examSubmissions,
+      )..where((t) => t.isDeleted.equals(false))).get();
+      exams = examRows
+          .map(
+            (e) => {
+              'id': e.id,
+              'exam_id': e.examId,
+              'score': e.score,
+              'total_correct': e.totalCorrect,
+              'total_questions': e.totalQuestions,
+              'duration_seconds': e.durationSeconds,
+              'submitted_at': e.submittedAt.toIso8601String(),
+              'answers_json': e.answersJson,
+              'updated_at_hlc': e.updatedAtHlc,
+            },
+          )
+          .toList();
+
+      final wrongRows = await (db.select(
+        db.wrongQuestionNotebook,
+      )..where((t) => t.isDeleted.equals(false))).get();
+      wrongs = wrongRows
+          .map(
+            (w) => {
+              'id': w.id,
+              'question_id': w.questionId,
+              'exam_id': w.examId,
+              'user_answer': w.userAnswer,
+              'explanation': w.explanation,
+              'notes': w.notes,
+              'status': w.status,
+              'updated_at_hlc': w.updatedAtHlc,
+            },
+          )
+          .toList();
+
+      final mediaRows = await (db.select(
+        db.userMedia,
+      )..where((t) => t.isDeleted.equals(false))).get();
+      media = mediaRows
+          .map(
+            (m) => {
+              'filename': m.filename,
+              'hash_sha256': m.hashSha256,
+              'size_bytes': m.sizeBytes,
+              'mime_type': m.mimeType,
+              'updated_at_hlc': m.updatedAtHlc,
+            },
+          )
+          .toList();
+    }
+
+    return {
+      'decks': decks,
+      'cards': cards,
+      'review_logs': reviewLogs,
+      'grammar_progress': grammar,
+      'exam_submissions': exams,
+      'wrong_questions': wrongs,
+      'user_media': media,
+    };
+  }
+
+  /// Restores database state from a snapshot Map directly into SQLite and memory caches.
+  Future<void> restoreDatabaseSnapshot(Map<String, dynamic> data) async {
+    final decks = (data['decks'] as List<dynamic>? ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+    final cards = (data['cards'] as List<dynamic>? ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+    final reviewLogs = (data['review_logs'] as List<dynamic>? ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+    final grammar = (data['grammar_progress'] as List<dynamic>? ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+    final exams = (data['exam_submissions'] as List<dynamic>? ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+    final wrongs = (data['wrong_questions'] as List<dynamic>? ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+    final media = (data['user_media'] as List<dynamic>? ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+
+    await applyRemoteDeltasBatch(
+      decks: decks,
+      cards: cards,
+      reviewLogs: reviewLogs,
+      grammarProgress: grammar,
+      examSubmissions: exams,
+      wrongQuestions: wrongs,
+      userMedia: media,
+    );
+  }
+
+  // --- User Media Operations & Helpers ---
+
+  static String lookupMimeType(String filename) {
+    final ext = filename.split('.').last.toLowerCase();
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'gif':
+        return 'image/gif';
+      case 'webp':
+        return 'image/webp';
+      case 'svg':
+        return 'image/svg+xml';
+      case 'mp3':
+        return 'audio/mpeg';
+      case 'm4a':
+        return 'audio/m4a';
+      case 'ogg':
+        return 'audio/ogg';
+      case 'wav':
+        return 'audio/wav';
+      default:
+        return 'application/octet-stream';
+    }
+  }
+
+  /// Registers a local media file into the database and enqueues it into [syncOutbox].
+  Future<UserMediaData> registerLocalMedia({
+    required String filename,
+    required List<int> bytes,
+    String? mimeType,
+  }) async {
+    final sanitized = filename.trim();
+    final hash = sha256.convert(bytes).toString();
+    final size = bytes.length;
+    final mime = mimeType ?? lookupMimeType(sanitized);
+    final hlc = advanceHlc().pack();
+
+    await db
+        .into(db.userMedia)
+        .insertOnConflictUpdate(
+          UserMediaCompanion.insert(
+            filename: sanitized,
+            hashSha256: Value(hash),
+            sizeBytes: Value(size),
+            mimeType: Value(mime),
+            isUploaded: const Value(false),
+            updatedAtHlc: Value(hlc),
+            isDeleted: const Value(false),
+            updatedAt: Value(DateTime.now()),
+          ),
+        );
+
+    await enqueueOutbox(
+      entityType: SupabaseConfig.entityUserMedia,
+      entityId: sanitized,
+      operation: SupabaseConfig.opUpsert,
+      payload: {
+        'filename': sanitized,
+        'hash_sha256': hash,
+        'size_bytes': size,
+        'mime_type': mime,
+      },
+      hlc: hlc,
+    );
+
+    return (await (db.select(
+      db.userMedia,
+    )..where((tbl) => tbl.filename.equals(sanitized))).getSingle());
+  }
+
+  /// Returns media records that need to be uploaded to Supabase Storage.
+  Future<List<UserMediaData>> getPendingUploadMedia({int limit = 50}) async {
+    return (db.select(db.userMedia)
+          ..where(
+            (tbl) => tbl.isUploaded.equals(false) & tbl.isDeleted.equals(false),
+          )
+          ..limit(limit))
+        .get();
+  }
+
+  /// Marks a media record as uploaded.
+  Future<void> markMediaUploaded(String filename) async {
+    await (db.update(db.userMedia)
+          ..where((tbl) => tbl.filename.equals(filename)))
+        .write(const UserMediaCompanion(isUploaded: Value(true)));
+  }
+
+  /// Retrieves all active media records from the registry.
+  Future<List<UserMediaData>> getAllUserMedia() async {
+    return (db.select(
+      db.userMedia,
+    )..where((tbl) => tbl.isDeleted.equals(false))).get();
+  }
+
+  /// Retrieves a specific media record by filename.
+  Future<UserMediaData?> getUserMedia(String filename) async {
+    return (db.select(
+      db.userMedia,
+    )..where((tbl) => tbl.filename.equals(filename))).getSingleOrNull();
+  }
+
+  /// Soft-deletes a local media file and enqueues a tombstone mutation.
+  Future<void> deleteMediaLocal(String filename) async {
+    final hlc = advanceHlc().pack();
+    await (db.update(
+      db.userMedia,
+    )..where((tbl) => tbl.filename.equals(filename))).write(
+      UserMediaCompanion(
+        isDeleted: const Value(true),
+        updatedAtHlc: Value(hlc),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
+
+    await enqueueOutbox(
+      entityType: SupabaseConfig.entityUserMedia,
+      entityId: filename,
+      operation: SupabaseConfig.opDelete,
+      payload: {'filename': filename},
+      hlc: hlc,
+    );
   }
 
   // --- Exam Bank Queries & Operations ---

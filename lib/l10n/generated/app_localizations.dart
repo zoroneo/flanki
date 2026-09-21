@@ -488,6 +488,12 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 card} other{{count} cards}}'**
   String cardsCount(int count);
 
+  /// No description provided for @loadMoreCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more cards'**
+  String get loadMoreCards;
+
   /// No description provided for @ratingAgain.
   ///
   /// In en, this message translates to:
@@ -2726,7 +2732,7 @@ abstract class AppLocalizations {
   /// **'rslib (Linked)'**
   String get rslibLinked;
 
-  /// No description provided for @unknown.
+  /// Fallback text for unknown status or error
   ///
   /// In en, this message translates to:
   /// **'Unknown'**
@@ -3415,6 +3421,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved'**
   String get bookmarkedQuestion;
+
+  /// Error message when device has no network connection
+  ///
+  /// In en, this message translates to:
+  /// **'Network connection is unavailable.'**
+  String get networkUnavailable;
+
+  /// Placeholder for email input
+  ///
+  /// In en, this message translates to:
+  /// **'user@example.com'**
+  String get authEmailPlaceholder;
+
+  /// Placeholder for password input
+  ///
+  /// In en, this message translates to:
+  /// **'••••••••'**
+  String get authPasswordDots;
+
+  /// Error message when user email is already in use
+  ///
+  /// In en, this message translates to:
+  /// **'User already registered'**
+  String get authUserAlreadyExists;
+
+  /// Error message when user email is not yet confirmed
+  ///
+  /// In en, this message translates to:
+  /// **'Email not confirmed'**
+  String get authEmailNotConfirmed;
+
+  /// Error message when checking for app updates fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to check for updates'**
+  String get updateCheckFailed;
+
+  /// Error message when downloading update installer fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download installer'**
+  String get updateInstallFailed;
+
+  /// Error message when APKG file format is corrupted or invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid APKG file format'**
+  String get importApkgInvalidFormat;
+
+  /// Button label for Google OAuth sign in
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// Button label for Apple Sign In
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Apple'**
+  String get continueWithApple;
+
+  /// Divider text separating social auth and email form
+  ///
+  /// In en, this message translates to:
+  /// **'Or continue with email'**
+  String get orContinueWithEmail;
+
+  /// Error message when social OAuth login fails
+  ///
+  /// In en, this message translates to:
+  /// **'Social login failed or was cancelled.'**
+  String get authOAuthFailed;
+
+  /// Title for selective deck sync management
+  ///
+  /// In en, this message translates to:
+  /// **'Selective Deck Sync'**
+  String get selectiveSyncTitle;
+
+  /// Subtitle describing selective deck sync
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which decks sync to the cloud to save storage'**
+  String get selectiveSyncSubtitle;
+
+  /// Badge indicating deck is only stored locally
+  ///
+  /// In en, this message translates to:
+  /// **'Local only'**
+  String get deckExcludedFromSync;
+
+  /// Badge indicating deck sync is enabled
+  ///
+  /// In en, this message translates to:
+  /// **'Sync enabled'**
+  String get deckSyncActive;
+
+  /// Title for cloud backup section
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Backup & Snapshot'**
+  String get cloudBackupTitle;
+
+  /// Subtitle for cloud backup section
+  ///
+  /// In en, this message translates to:
+  /// **'Create or restore comprehensive .flanki snapshots'**
+  String get cloudBackupSubtitle;
+
+  /// Button to trigger immediate cloud backup
+  ///
+  /// In en, this message translates to:
+  /// **'Back Up Now'**
+  String get createBackupNow;
+
+  /// Progress label during backup creation
+  ///
+  /// In en, this message translates to:
+  /// **'Creating backup...'**
+  String get backupCreating;
+
+  /// Progress label during cloud upload
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading backup to cloud...'**
+  String get backupUploading;
+
+  /// Progress label during backup restoration
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring backup...'**
+  String get backupRestoring;
+
+  /// Progress label during local backup export
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting backup...'**
+  String get backupExporting;
+
+  /// Success message when backup succeeds
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created successfully!'**
+  String get backupSuccess;
+
+  /// Error message when backup fails
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed: {error}'**
+  String backupFailed(String error);
+
+  /// Button to restore a backup
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restoreBackup;
+
+  /// Dialog title confirming backup restore
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Snapshot?'**
+  String get restoreConfirmTitle;
+
+  /// Dialog body message confirming backup restore
+  ///
+  /// In en, this message translates to:
+  /// **'This will merge or restore cards, decks, and media from this snapshot.'**
+  String get restoreConfirmMessage;
+
+  /// Success toast when restore finishes
+  ///
+  /// In en, this message translates to:
+  /// **'Restored successfully!'**
+  String get restoreSuccess;
+
+  /// Error message when restore fails
+  ///
+  /// In en, this message translates to:
+  /// **'Restore failed: {error}'**
+  String restoreFailed(String error);
+
+  /// Empty state label when user has no backups
+  ///
+  /// In en, this message translates to:
+  /// **'No cloud snapshots found.'**
+  String get noBackupsFound;
+
+  /// Button to export local backup file
+  ///
+  /// In en, this message translates to:
+  /// **'Export .flanki file'**
+  String get exportLocalBackup;
+
+  /// Button to import local backup file
+  ///
+  /// In en, this message translates to:
+  /// **'Import .flanki file'**
+  String get importLocalBackup;
+
+  /// Title for storage breakdown section
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Breakdown'**
+  String get storageStatsTitle;
+
+  /// Label for database records count and size
+  ///
+  /// In en, this message translates to:
+  /// **'Database Records'**
+  String get databaseStorage;
+
+  /// Label for media storage
+  ///
+  /// In en, this message translates to:
+  /// **'Media Storage'**
+  String get mediaStorage;
+
+  /// Label for cloud snapshots storage
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Snapshots'**
+  String get backupStorage;
+
+  /// Label for total local storage used
+  ///
+  /// In en, this message translates to:
+  /// **'Local Storage Used'**
+  String get localStorageUsed;
+
+  /// Button to open selective deck sync sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Deck Sync'**
+  String get manageDeckSync;
+
+  /// Title for sync diagnostics bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Diagnostics & Telemetry'**
+  String get syncDiagnosticsTitle;
+
+  /// Subtitle for sync diagnostics sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time health metrics, circuit breaker, and bandwidth savings'**
+  String get syncDiagnosticsSubtitle;
+
+  /// KPI label for sync success rate
+  ///
+  /// In en, this message translates to:
+  /// **'Success Rate'**
+  String get syncSuccessRate;
+
+  /// KPI label for average sync latency
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Latency'**
+  String get syncAvgLatency;
+
+  /// KPI label for total bandwidth transferred
+  ///
+  /// In en, this message translates to:
+  /// **'Data Transferred'**
+  String get syncBandwidthTransferred;
+
+  /// KPI label for bandwidth saved by sparse optimization
+  ///
+  /// In en, this message translates to:
+  /// **'Bandwidth Saved'**
+  String get syncBandwidthSaved;
+
+  /// Label for circuit breaker status
+  ///
+  /// In en, this message translates to:
+  /// **'Circuit Breaker'**
+  String get circuitBreakerStatus;
+
+  /// Circuit breaker normal status
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy (Closed)'**
+  String get circuitBreakerClosed;
+
+  /// Circuit breaker tripped status
+  ///
+  /// In en, this message translates to:
+  /// **'Tripped (Open)'**
+  String get circuitBreakerOpen;
+
+  /// Circuit breaker half-open status
+  ///
+  /// In en, this message translates to:
+  /// **'Testing (Half-Open)'**
+  String get circuitBreakerHalfOpen;
+
+  /// Button to manually reset circuit breaker
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Breaker'**
+  String get circuitBreakerReset;
+
+  /// Toast message when breaker is reset
+  ///
+  /// In en, this message translates to:
+  /// **'Circuit breaker reset to Healthy.'**
+  String get circuitBreakerResetSuccess;
+
+  /// Button to clear telemetry log
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Log'**
+  String get clearTelemetryLogs;
+
+  /// Title for recent sync log section
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Sync Cycles'**
+  String get syncHistoryTitle;
+
+  /// Empty state when no sync records exist
+  ///
+  /// In en, this message translates to:
+  /// **'No sync cycles recorded yet.'**
+  String get noSyncHistory;
+
+  /// Button text in AccountSyncCard opening diagnostics
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics'**
+  String get syncDiagnosticsButton;
 }
 
 class _AppLocalizationsDelegate

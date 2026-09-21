@@ -13,6 +13,8 @@ abstract class SyncUiState with _$SyncUiState {
     DateTime? lastSyncedAt,
     @Default(0) int pendingCount,
     String? errorMessage,
+    @Default(0) int mediaUploadedCount,
+    @Default(0) int mediaDownloadedCount,
   }) = _SyncUiState;
 
   bool get isSyncing => status == SyncStatus.syncing;

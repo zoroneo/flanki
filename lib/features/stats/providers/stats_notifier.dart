@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/models/card.dart';
 import '../../../core/database/database_service.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../models/stats_state.dart';
 
 export '../models/stats_state.dart';
@@ -52,8 +53,7 @@ class StatsNotifier extends _$StatsNotifier {
         reviewedToday++;
       }
 
-      final dayKey =
-          '${log.reviewTime.year}-${log.reviewTime.month.toString().padLeft(2, '0')}-${log.reviewTime.day.toString().padLeft(2, '0')}';
+      final dayKey = AppConfig.formatDayKey(log.reviewTime);
       reviewsPerDay[dayKey] = (reviewsPerDay[dayKey] ?? 0) + 1;
     }
 
@@ -69,18 +69,16 @@ class StatsNotifier extends _$StatsNotifier {
     var checkDate = todayStart;
 
     // Check if reviewed today, if not check from yesterday
-    final todayKey =
-        '${checkDate.year}-${checkDate.month.toString().padLeft(2, '0')}-${checkDate.day.toString().padLeft(2, '0')}';
+    final todayKey = AppConfig.formatDayKey(checkDate);
     if ((reviewsPerDay[todayKey] ?? 0) == 0) {
-      checkDate = checkDate.subtract(const Duration(days: 1));
+      checkDate = checkDate.subtract(AppDurations.day1);
     }
 
     while (true) {
-      final key =
-          '${checkDate.year}-${checkDate.month.toString().padLeft(2, '0')}-${checkDate.day.toString().padLeft(2, '0')}';
+      final key = AppConfig.formatDayKey(checkDate);
       if ((reviewsPerDay[key] ?? 0) > 0) {
         streak++;
-        checkDate = checkDate.subtract(const Duration(days: 1));
+        checkDate = checkDate.subtract(AppDurations.day1);
       } else {
         break;
       }
@@ -97,8 +95,7 @@ class StatsNotifier extends _$StatsNotifier {
         final daysAgo = ((totalWeeks - 1 - w) * 7) + (currentWeekday - 1 - d);
         if (daysAgo >= 0) {
           final targetDay = todayStart.subtract(Duration(days: daysAgo));
-          final key =
-              '${targetDay.year}-${targetDay.month.toString().padLeft(2, '0')}-${targetDay.day.toString().padLeft(2, '0')}';
+          final key = AppConfig.formatDayKey(targetDay);
           final count = reviewsPerDay[key] ?? 0;
 
           int level = 0;

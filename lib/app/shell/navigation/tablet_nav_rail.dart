@@ -31,9 +31,9 @@ class TabletNavRail extends StatelessWidget {
           _buildBrandIcon(theme),
           const Divider(height: 1),
           AppGaps.v12,
-          _buildNavItems(theme),
+          _buildNavItems(context, theme),
           const Spacer(),
-          _buildSyncIndicator(theme),
+          _buildSyncIndicator(context, theme),
         ],
       ),
     );
@@ -64,7 +64,7 @@ class TabletNavRail extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItems(ThemeData theme) {
+  Widget _buildNavItems(BuildContext context, ThemeData theme) {
     return Column(
       children: [
         NavRailItem(
@@ -119,14 +119,14 @@ class TabletNavRail extends StatelessWidget {
           label: l10n.navSettings,
           shortcutHint: 'Ctrl+6',
           isSelected: currentIndex == AppNavIndex.settings,
-          indicatorColor: isAuthenticated ? AppColors.success : null,
+          indicatorColor: isAuthenticated ? context.colors.success : null,
           onTap: () => onSelectTab(AppNavIndex.settings),
         ),
       ],
     );
   }
 
-  Widget _buildSyncIndicator(ThemeData theme) {
+  Widget _buildSyncIndicator(BuildContext context, ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Tooltip(
@@ -151,7 +151,7 @@ class TabletNavRail extends StatelessWidget {
               height: AppDimensions.statusDotSize,
               decoration: BoxDecoration(
                 color: isAuthenticated
-                    ? AppColors.success
+                    ? context.colors.success
                     : theme.colorScheme.mutedForeground,
                 shape: BoxShape.circle,
               ),
@@ -209,7 +209,7 @@ class NavRailItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: isSelected
                   ? theme.colorScheme.primary.withValues(alpha: 0.12)
-                  : m.Colors.transparent,
+                  : AppColors.transparent,
               borderRadius: AppRadius.borderMd,
             ),
             child: Stack(
@@ -222,11 +222,15 @@ class NavRailItem extends StatelessWidget {
                   color: color,
                 ),
                 if (badgeCount != null)
-                  Positioned(top: 4, right: 4, child: _buildBadge(theme)),
+                  Positioned(
+                    top: AppSpacing.xs,
+                    right: AppSpacing.xs,
+                    child: _buildBadge(context, theme),
+                  ),
                 if (indicatorColor != null)
                   Positioned(
-                    bottom: 6,
-                    right: 6,
+                    bottom: AppSpacing.s6,
+                    right: AppSpacing.s6,
                     child: _buildIndicator(theme),
                   ),
               ],
@@ -237,9 +241,9 @@ class NavRailItem extends StatelessWidget {
     );
   }
 
-  Widget _buildBadge(ThemeData theme) {
+  Widget _buildBadge(BuildContext context, ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+      padding: AppEdgeInsets.badge,
       decoration: BoxDecoration(
         color: theme.colorScheme.destructive,
         borderRadius: AppRadius.borderFull,
@@ -248,12 +252,7 @@ class NavRailItem extends StatelessWidget {
         badgeCount! > AppLimits.badgeMaxCount
             ? AppLimits.badgeOverflowText
             : '$badgeCount',
-        style: const TextStyle(
-          color: m.Colors.white,
-          fontSize: AppTypography.badge,
-          fontWeight: FontWeight.w700,
-          height: AppTypography.lineHeightBadge,
-        ),
+        style: context.textStyles.badge.copyWith(color: AppColors.white),
       ),
     );
   }

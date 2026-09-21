@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -72,9 +71,9 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.authMissingInfoTitle),
                 subtitle: Text(l10n.authMissingInfoDesc),
-                leading: const Icon(
+                leading: Icon(
                   LucideIcons.triangleAlert,
-                  color: m.Colors.orange,
+                  color: context.colors.warning,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
@@ -97,9 +96,9 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
               child: Basic(
                 title: Text(l10n.authSuccessToastTitle),
                 subtitle: Text(l10n.authSuccessToastDesc(email)),
-                leading: const Icon(
+                leading: Icon(
                   LucideIcons.circleCheck,
-                  color: m.Colors.green,
+                  color: context.colors.success,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
@@ -121,7 +120,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
 
     return AnimatedPadding(
       padding: EdgeInsets.only(bottom: viewInsets.bottom),
-      duration: const Duration(milliseconds: 150),
+      duration: AppDurations.short,
       curve: Curves.easeOut,
       child: Container(
         decoration: BoxDecoration(
@@ -140,7 +139,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                 ),
           boxShadow: [
             BoxShadow(
-              color: m.Colors.black.withValues(
+              color: AppColors.black.withValues(
                 alpha: isDesktopMode ? 0.2 : 0.15,
               ),
               blurRadius: isDesktopMode ? 24 : 16,
@@ -159,8 +158,8 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                 if (!isDesktopMode)
                   Center(
                     child: Container(
-                      width: 36,
-                      height: AppSpacing.xs,
+                      width: AppDimensions.modalGrabHandleWidth,
+                      height: AppDimensions.modalGrabHandleHeight,
                       margin: const EdgeInsets.only(
                         top: AppSpacing.smPlus,
                         bottom: AppSpacing.smPlus,
@@ -211,7 +210,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                               passwordFocusNode.requestFocus(),
                           onSubmitted: (_) => passwordFocusNode.requestFocus(),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
+                            horizontal: AppSpacing.s14,
                             vertical: AppSpacing.smPlus,
                           ),
                           features: [
@@ -234,7 +233,7 @@ class AnkiWebAuthSheet extends HookConsumerWidget {
                           textInputAction: TextInputAction.done,
                           onSubmitted: (_) => handleLogin(),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
+                            horizontal: AppSpacing.s14,
                             vertical: AppSpacing.smPlus,
                           ),
                           features: [

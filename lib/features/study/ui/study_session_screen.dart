@@ -70,7 +70,7 @@ class StudySessionScreen extends HookConsumerWidget {
     }, [deckId]);
 
     final flipController = useAnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: AppDurations.medium,
     );
     final dragOffset = useState<double>(0.0);
     final isWhiteboardOpen = useState<bool>(false);
@@ -242,7 +242,7 @@ class StudySessionScreen extends HookConsumerWidget {
                 children: [
                   TweenAnimationBuilder<double>(
                     tween: Tween<double>(begin: 0.0, end: progress),
-                    duration: const Duration(milliseconds: 300),
+                    duration: AppDurations.medium,
                     curve: Curves.easeOutCubic,
                     builder: (context, animatedProgress, _) {
                       return Progress(progress: animatedProgress);
@@ -267,7 +267,7 @@ class StudySessionScreen extends HookConsumerWidget {
                         }
                       },
                       child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
+                        duration: AppDurations.modal,
                         switchInCurve: Curves.easeOutCubic,
                         switchOutCurve: Curves.easeInCubic,
                         transitionBuilder: (child, animation) {
@@ -283,7 +283,7 @@ class StudySessionScreen extends HookConsumerWidget {
                           );
                         },
                         child: KeyedSubtree(
-                          key: ValueKey(currentCard?.id ?? 'none'),
+                          key: AppWidgetKeys.card(currentCard?.id),
                           child: StudyCardFlipper(
                             flipController: flipController,
                             currentCard: currentCard,

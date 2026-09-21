@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/theme/app_tokens.dart';
 
 class SyncProgressStatus {
@@ -36,7 +36,7 @@ class SyncProgressToast extends StatelessWidget {
     late ToastOverlay overlay;
     overlay = showToast(
       context: context,
-      showDuration: const Duration(minutes: 5),
+      showDuration: AppConfig.toastExtendedDuration,
       builder: (context, currentOverlay) {
         return SyncProgressToast(
           statusNotifier: statusNotifier,
@@ -65,15 +65,15 @@ class SyncProgressToast extends StatelessWidget {
               Row(
                 children: [
                   if (status.isError)
-                    const Icon(
+                    Icon(
                       LucideIcons.cloudOff,
-                      color: m.Colors.red,
+                      color: context.colors.error,
                       size: AppIconSize.md,
                     )
                   else if (status.isCompleted)
-                    const Icon(
+                    Icon(
                       LucideIcons.cloud,
-                      color: m.Colors.green,
+                      color: context.colors.success,
                       size: AppIconSize.md,
                     )
                   else
@@ -86,7 +86,7 @@ class SyncProgressToast extends StatelessWidget {
                   Expanded(
                     child: Text(
                       status.title,
-                      style: theme.typography.semiBold.copyWith(fontSize: 13),
+                      style: context.textStyles.nav,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -100,10 +100,7 @@ class SyncProgressToast extends StatelessWidget {
               AppGaps.v6,
               Text(
                 status.message,
-                style: theme.typography.small.copyWith(
-                  color: theme.colorScheme.mutedForeground,
-                  fontSize: 12,
-                ),
+                style: context.textStyles.xSmallMuted,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),

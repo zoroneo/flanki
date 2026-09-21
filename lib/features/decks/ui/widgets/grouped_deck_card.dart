@@ -111,19 +111,14 @@ class GroupedDeckCard extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
+                        padding: AppEdgeInsets.tag,
                         decoration: BoxDecoration(
                           color: theme.colorScheme.secondary,
                           borderRadius: AppRadius.borderSm,
                         ),
                         child: Text(
                           l10n.subdecksCount(subdecks.length),
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
+                          style: context.textStyles.captionBold.copyWith(
                             color: theme.colorScheme.secondaryForeground,
                           ),
                         ),
@@ -149,7 +144,7 @@ class GroupedDeckCard extends HookWidget {
                   size: ButtonSize.small,
                   icon: AnimatedRotation(
                     turns: isExpanded.value ? 0.5 : 0.0,
-                    duration: const Duration(milliseconds: 200),
+                    duration: AppDurations.normal,
                     child: const Icon(
                       LucideIcons.chevronDown,
                       size: AppIconSize.md,
@@ -167,16 +162,13 @@ class GroupedDeckCard extends HookWidget {
               children: [
                 Expanded(
                   child: Wrap(
-                    spacing: 6,
-                    runSpacing: 4,
+                    spacing: AppSpacing.s6,
+                    runSpacing: AppSpacing.xs,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       if (totalDue > 0)
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: 3,
-                          ),
+                          padding: AppEdgeInsets.countBadge,
                           decoration: BoxDecoration(
                             color: theme.colorScheme.destructive.withValues(
                               alpha: 0.15,
@@ -185,8 +177,7 @@ class GroupedDeckCard extends HookWidget {
                           ),
                           child: Text(
                             '$totalDue ${l10n.dueCards}',
-                            style: TextStyle(
-                              fontSize: 11,
+                            style: context.textStyles.sub.copyWith(
                               fontWeight: FontWeight.w700,
                               color: theme.colorScheme.destructive,
                             ),
@@ -194,10 +185,7 @@ class GroupedDeckCard extends HookWidget {
                         ),
                       if (totalNew > 0)
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: 3,
-                          ),
+                          padding: AppEdgeInsets.countBadge,
                           decoration: BoxDecoration(
                             color: theme.colorScheme.primary.withValues(
                               alpha: 0.15,
@@ -206,8 +194,7 @@ class GroupedDeckCard extends HookWidget {
                           ),
                           child: Text(
                             '$totalNew ${l10n.newCards}',
-                            style: TextStyle(
-                              fontSize: 11,
+                            style: context.textStyles.sub.copyWith(
                               fontWeight: FontWeight.w700,
                               color: theme.colorScheme.primary,
                             ),
@@ -215,9 +202,7 @@ class GroupedDeckCard extends HookWidget {
                         ),
                       Text(
                         l10n.cardsCount(totalCards),
-                        style: theme.typography.xSmall.copyWith(
-                          color: theme.colorScheme.mutedForeground,
-                        ),
+                        style: context.textStyles.xSmallMuted,
                       ),
                     ],
                   ),
@@ -252,7 +237,7 @@ class GroupedDeckCard extends HookWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
+        padding: AppEdgeInsets.v4,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

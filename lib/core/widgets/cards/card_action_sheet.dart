@@ -11,13 +11,13 @@ import 'card_action_sheet_components.dart';
 
 class CardActionSheet extends HookWidget {
   static const ankiFlagColors = {
-    CardFlag.red: m.Colors.red,
-    CardFlag.orange: m.Colors.orange,
-    CardFlag.green: m.Colors.green,
-    CardFlag.blue: m.Colors.blue,
-    CardFlag.pink: m.Colors.pink,
-    CardFlag.turquoise: m.Colors.cyan,
-    CardFlag.purple: m.Colors.purple,
+    CardFlag.red: AppColors.flagRed,
+    CardFlag.orange: AppColors.flagOrange,
+    CardFlag.green: AppColors.flagGreen,
+    CardFlag.blue: AppColors.flagBlue,
+    CardFlag.pink: AppColors.flagPink,
+    CardFlag.turquoise: AppColors.flagTurquoise,
+    CardFlag.purple: AppColors.flagPurple,
   };
 
   final CardModel card;
@@ -86,7 +86,9 @@ class CardActionSheet extends HookWidget {
               ),
         boxShadow: [
           BoxShadow(
-            color: m.Colors.black.withValues(alpha: isDesktopMode ? 0.2 : 0.15),
+            color: AppColors.black.withValues(
+              alpha: isDesktopMode ? 0.2 : 0.15,
+            ),
             blurRadius: isDesktopMode ? 24 : 16,
             offset: isDesktopMode ? const Offset(0, 8) : const Offset(0, -4),
           ),
@@ -103,7 +105,7 @@ class CardActionSheet extends HookWidget {
               if (!isDesktopMode) ...[
                 Center(
                   child: Container(
-                    width: 40,
+                    width: AppDimensions.modalGrabHandleWidth,
                     height: AppSpacing.xxs,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.mutedForeground.withValues(

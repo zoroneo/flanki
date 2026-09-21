@@ -58,7 +58,7 @@ class DeckNotifier extends _$DeckNotifier {
     String? description,
   }) {
     final encodedTag = Uri.encodeComponent(
-      filterTag.isNotEmpty ? filterTag : 'all',
+      filterTag.isNotEmpty ? filterTag : AppConfig.defaultCramTag,
     );
     final actualCount = DatabaseService.instance.countCardsForCustomStudy(
       mode: mode,
@@ -129,5 +129,10 @@ class DeckNotifier extends _$DeckNotifier {
   void deleteDeck(String deckId) {
     DatabaseService.instance.deleteDeck(deckId);
     refresh();
+  }
+
+  Future<void> toggleDeckSync(String deckId, bool enabled) async {
+    await DatabaseService.instance.toggleDeckSync(deckId, enabled);
+    await refresh();
   }
 }

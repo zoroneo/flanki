@@ -40,7 +40,7 @@ class DeckSlivers extends StatelessWidget {
             itemBuilder: (context, index) {
               final entry = groupedEntries[index];
               return GroupedDeckCard(
-                key: ValueKey('group_${entry.key}'),
+                key: AppWidgetKeys.deckGroup(entry.key),
                 parentName: entry.key,
                 subdecks: entry.value,
                 autoExpand: searchQuery.isNotEmpty,
@@ -62,7 +62,7 @@ class DeckSlivers extends StatelessWidget {
             itemBuilder: (context, index) {
               final deck = standaloneDecks[index];
               return DeckCard(
-                key: ValueKey('deck_${deck.id}'),
+                key: AppWidgetKeys.deck(deck.id),
                 deckId: deck.id,
                 title: deck.title,
                 description: deck.description,

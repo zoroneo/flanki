@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -64,7 +63,7 @@ class CardFrontView extends HookWidget {
           scrollController.position.maxScrollExtent > 0) {
         scrollController.animateTo(
           scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
+          duration: AppDurations.medium,
           curve: Curves.easeOutCubic,
         );
       }
@@ -169,7 +168,8 @@ class CardFrontView extends HookWidget {
             height: AppSpacing.sm,
             decoration: BoxDecoration(
               color:
-                  CardActionSheet.ankiFlagColors[card!.flag] ?? m.Colors.grey,
+                  CardActionSheet.ankiFlagColors[card!.flag] ??
+                  AppColors.mutedGrey,
               shape: BoxShape.circle,
             ),
           ),

@@ -24,20 +24,21 @@ class ScratchpadOverlay extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = context.colors;
     final lines = useState<List<StrokeLine>>([]);
     final currentPoints = useState<List<m.Offset>>([]);
-    final selectedColor = useState<m.Color>(m.Colors.amber.shade300);
+    final selectedColor = useState<m.Color>(appColors.scratchAmber);
 
     final colors = [
-      m.Colors.amber.shade300,
-      m.Colors.cyan.shade300,
-      m.Colors.white,
-      m.Colors.red.shade400,
+      appColors.scratchAmber,
+      appColors.scratchCyan,
+      appColors.scratchWhite,
+      appColors.scratchRed,
     ];
 
     return Positioned.fill(
       child: Container(
-        color: m.Colors.black.withValues(alpha: 0.25),
+        color: AppColors.black.withValues(alpha: 0.25),
         child: Stack(
           children: [
             // Interactive drawing canvas
@@ -81,7 +82,7 @@ class ScratchpadOverlay extends HookWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.smPlus,
-                  vertical: 6,
+                  vertical: AppSpacing.s6,
                 ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.background.withValues(alpha: 0.95),
@@ -89,7 +90,7 @@ class ScratchpadOverlay extends HookWidget {
                   border: Border.all(color: theme.colorScheme.border),
                   boxShadow: [
                     BoxShadow(
-                      color: m.Colors.black.withValues(alpha: 0.15),
+                      color: AppColors.black.withValues(alpha: 0.15),
                       blurRadius: 10,
                     ),
                   ],
@@ -115,7 +116,10 @@ class ScratchpadOverlay extends HookWidget {
                                     color: theme.colorScheme.foreground,
                                     width: 2,
                                   )
-                                : Border.all(color: m.Colors.black26, width: 1),
+                                : Border.all(
+                                    color: AppColors.scratchBorder,
+                                    width: 1,
+                                  ),
                           ),
                         ),
                       );

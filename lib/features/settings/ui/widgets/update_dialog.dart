@@ -64,7 +64,7 @@ class UpdateDialog extends ConsumerWidget {
                     children: [
                       Text(
                         l10n.updateAvailable,
-                        style: theme.typography.semiBold.copyWith(fontSize: 16),
+                        style: context.textStyles.bodySemiBold,
                       ),
                       AppGaps.v2,
                       Text(
@@ -125,7 +125,7 @@ class UpdateDialog extends ConsumerWidget {
               AppGaps.v16,
             ],
             if (updateState.status == UpdateStatus.error &&
-                updateState.errorMessage != null) ...[
+                updateState.getLocalizedError(l10n) != null) ...[
               Container(
                 padding: AppEdgeInsets.all8,
                 decoration: BoxDecoration(
@@ -133,11 +133,7 @@ class UpdateDialog extends ConsumerWidget {
                   borderRadius: AppRadius.borderSm,
                 ),
                 child: Text(
-                  updateState.errorType == UpdateErrorType.downloadFailed ||
-                          updateState.errorMessage ==
-                              'Failed to download installer'
-                      ? l10n.updateDownloadFailed
-                      : updateState.errorMessage!,
+                  updateState.getLocalizedError(l10n)!,
                   style: theme.typography.xSmall.copyWith(
                     color: theme.colorScheme.destructive,
                   ),

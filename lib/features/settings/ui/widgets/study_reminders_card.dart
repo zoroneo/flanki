@@ -50,6 +50,7 @@ class StudyRemindersCard extends ConsumerWidget {
                 const Divider(),
                 AppGaps.v12,
                 _buildStreakSaverToggle(
+                  context,
                   theme,
                   l10n,
                   studySettings,
@@ -168,6 +169,7 @@ class StudyRemindersCard extends ConsumerWidget {
   }
 
   Widget _buildStreakSaverToggle(
+    BuildContext context,
     ThemeData theme,
     dynamic l10n,
     StudySettings studySettings,
@@ -184,19 +186,13 @@ class StudyRemindersCard extends ConsumerWidget {
                 children: [
                   Text(l10n.settingsStreakSaver),
                   AppGaps.h8,
-                  const Text(
-                    '(22:30)',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                  ),
+                  Text('(22:30)', style: context.textStyles.xSmallMedium),
                 ],
               ),
               AppGaps.v2,
               Text(
                 l10n.settingsStreakSaverSubtitle,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: theme.colorScheme.mutedForeground,
-                ),
+                style: context.textStyles.subMuted,
               ),
             ],
           ),

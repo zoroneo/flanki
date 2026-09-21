@@ -140,26 +140,38 @@ void main() {
     test('font sizes are monotonically non-decreasing', () {
       expect(AppTypography.badge, equals(9));
       expect(AppTypography.caption, equals(10));
+      expect(AppTypography.captionPlus, equals(10.5));
       expect(AppTypography.sub, equals(11));
+      expect(AppTypography.subPlus, equals(11.5));
       expect(AppTypography.xSmall, equals(12));
+      expect(AppTypography.xSmallPlus, equals(12.5));
       expect(AppTypography.nav, equals(13));
+      expect(AppTypography.navPlus, equals(13.5));
       expect(AppTypography.small, equals(14));
+      expect(AppTypography.medium, equals(15));
       expect(AppTypography.base, equals(16));
       expect(AppTypography.large, equals(18));
       expect(AppTypography.xLarge, equals(20));
       expect(AppTypography.h4, equals(24));
+      expect(AppTypography.displayLarge, equals(36));
 
       const sizes = [
         AppTypography.badge,
         AppTypography.caption,
+        AppTypography.captionPlus,
         AppTypography.sub,
+        AppTypography.subPlus,
         AppTypography.xSmall,
+        AppTypography.xSmallPlus,
         AppTypography.nav,
+        AppTypography.navPlus,
         AppTypography.small,
+        AppTypography.medium,
         AppTypography.base,
         AppTypography.large,
         AppTypography.xLarge,
         AppTypography.h4,
+        AppTypography.displayLarge,
       ];
 
       for (var i = 0; i < sizes.length - 1; i++) {
@@ -226,14 +238,24 @@ void main() {
         AppDurations.quick,
         AppDurations.short,
         AppDurations.normal,
+        AppDurations.switchSlide,
+        AppDurations.modal,
         AppDurations.medium,
+        AppDurations.snap,
         AppDurations.shake,
         AppDurations.long,
+        AppDurations.celebration,
+        AppDurations.celebrationBounce,
       ];
 
       for (var i = 0; i < durations.length - 1; i++) {
         expect(durations[i] < durations[i + 1], isTrue);
       }
+    });
+
+    test('calendar and time intervals are valid', () {
+      expect(AppDurations.second1.inSeconds, equals(1));
+      expect(AppDurations.day1.inDays, equals(1));
     });
   });
 
@@ -248,6 +270,66 @@ void main() {
       expect(AppThemeValues.ratingButtonPressedScale < 1.0, isTrue);
       expect(AppThemeValues.speedDialRotationTurns, equals(0.125));
       expect(AppThemeValues.cardFlipPerspective > 0, isTrue);
+    });
+  });
+
+  group('AppColors Tokens', () {
+    test('basic utility colors are valid', () {
+      expect(AppColors.transparent.a, equals(0.0));
+      expect(AppColors.white, equals(const Color(0xFFFFFFFF)));
+      expect(AppColors.black, equals(const Color(0xFF000000)));
+      expect(AppColors.mutedGrey, equals(const Color(0xFF9E9E9E)));
+    });
+
+    test('rating colors are distinct', () {
+      final ratings = [
+        AppColors.ratingAgain,
+        AppColors.ratingHard,
+        AppColors.ratingGood,
+        AppColors.ratingEasy,
+      ];
+      expect(ratings.toSet().length, equals(4));
+    });
+
+    test('semantic & accent colors are defined', () {
+      expect(AppColors.success, isNotNull);
+      expect(AppColors.successDark, isNotNull);
+      expect(AppColors.warning, isNotNull);
+      expect(AppColors.error, isNotNull);
+      expect(AppColors.info, isNotNull);
+      expect(AppColors.streakFlame, isNotNull);
+      expect(AppColors.cramAmber, isNotNull);
+      expect(AppColors.cramAmberBg.a > 0, isTrue);
+    });
+
+    test('Anki flag palette has 7 distinct colors', () {
+      final flags = [
+        AppColors.flagRed,
+        AppColors.flagOrange,
+        AppColors.flagGreen,
+        AppColors.flagBlue,
+        AppColors.flagPink,
+        AppColors.flagTurquoise,
+        AppColors.flagPurple,
+      ];
+      expect(flags.toSet().length, equals(7));
+    });
+
+    test('scratchpad colors are defined', () {
+      expect(AppColors.scratchAmber, isNotNull);
+      expect(AppColors.scratchCyan, isNotNull);
+      expect(AppColors.scratchWhite, isNotNull);
+      expect(AppColors.scratchRed, isNotNull);
+      expect(AppColors.scratchBorder, isNotNull);
+    });
+
+    test('heatmap light and dark levels are defined', () {
+      expect(AppColors.heatmapL1Light, isNotNull);
+      expect(AppColors.heatmapL1Dark, isNotNull);
+      expect(AppColors.heatmapL2Light, isNotNull);
+      expect(AppColors.heatmapL2Dark, isNotNull);
+      expect(AppColors.heatmapL3Light, isNotNull);
+      expect(AppColors.heatmapL3Dark, isNotNull);
     });
   });
 
@@ -269,6 +351,35 @@ void main() {
       );
       expect(Assets.data.grammar.values.length, equals(36));
       expect(Assets.icons.flanki.path, equals('assets/icons/flanki.png'));
+    });
+  });
+
+  group('AppWidgetKeys & AppSymbols', () {
+    test('widget keys have expected stable identifiers', () {
+      expect(AppWidgetKeys.ratingBar.value, equals('rating_bar'));
+      expect(AppWidgetKeys.flipButton.value, equals('flip_button'));
+      expect(AppWidgetKeys.card('123').value, equals('card_123'));
+      expect(AppWidgetKeys.card(null).value, equals('card_none'));
+      expect(AppWidgetKeys.deck('abc').value, equals('deck_abc'));
+      expect(
+        AppWidgetKeys.deckGroup('japanese').value,
+        equals('group_japanese'),
+      );
+      expect(AppWidgetKeys.licensePkg('flutter').value, equals('pkg_flutter'));
+      expect(
+        AppWidgetKeys.explanationSheet('q1').value,
+        equals('explanation_sheet_q1'),
+      );
+    });
+
+    test('symbols have expected values', () {
+      expect(AppSymbols.markCorrect, equals('✅ '));
+      expect(AppSymbols.markIncorrect, equals('❌ '));
+    });
+
+    test('AppConfig test env and cram defaults', () {
+      expect(AppConfig.envFlutterTest, equals('FLUTTER_TEST'));
+      expect(AppConfig.defaultCramTag, equals('all'));
     });
   });
 }

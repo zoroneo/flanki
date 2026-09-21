@@ -226,6 +226,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get loadMoreCards => 'Load more cards';
+
+  @override
   String get ratingAgain => 'Again';
 
   @override
@@ -1895,4 +1898,177 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookmarkedQuestion => 'Saved';
+
+  @override
+  String get networkUnavailable => 'Network connection is unavailable.';
+
+  @override
+  String get authEmailPlaceholder => 'user@example.com';
+
+  @override
+  String get authPasswordDots => '••••••••';
+
+  @override
+  String get authUserAlreadyExists => 'User already registered';
+
+  @override
+  String get authEmailNotConfirmed => 'Email not confirmed';
+
+  @override
+  String get updateCheckFailed => 'Failed to check for updates';
+
+  @override
+  String get updateInstallFailed => 'Failed to download installer';
+
+  @override
+  String get importApkgInvalidFormat => 'Invalid APKG file format';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get continueWithApple => 'Continue with Apple';
+
+  @override
+  String get orContinueWithEmail => 'Or continue with email';
+
+  @override
+  String get authOAuthFailed => 'Social login failed or was cancelled.';
+
+  @override
+  String get selectiveSyncTitle => 'Selective Deck Sync';
+
+  @override
+  String get selectiveSyncSubtitle =>
+      'Choose which decks sync to the cloud to save storage';
+
+  @override
+  String get deckExcludedFromSync => 'Local only';
+
+  @override
+  String get deckSyncActive => 'Sync enabled';
+
+  @override
+  String get cloudBackupTitle => 'Cloud Backup & Snapshot';
+
+  @override
+  String get cloudBackupSubtitle =>
+      'Create or restore comprehensive .flanki snapshots';
+
+  @override
+  String get createBackupNow => 'Back Up Now';
+
+  @override
+  String get backupCreating => 'Creating backup...';
+
+  @override
+  String get backupUploading => 'Uploading backup to cloud...';
+
+  @override
+  String get backupRestoring => 'Restoring backup...';
+
+  @override
+  String get backupExporting => 'Exporting backup...';
+
+  @override
+  String get backupSuccess => 'Backup created successfully!';
+
+  @override
+  String backupFailed(String error) {
+    return 'Backup failed: $error';
+  }
+
+  @override
+  String get restoreBackup => 'Restore';
+
+  @override
+  String get restoreConfirmTitle => 'Restore Snapshot?';
+
+  @override
+  String get restoreConfirmMessage =>
+      'This will merge or restore cards, decks, and media from this snapshot.';
+
+  @override
+  String get restoreSuccess => 'Restored successfully!';
+
+  @override
+  String restoreFailed(String error) {
+    return 'Restore failed: $error';
+  }
+
+  @override
+  String get noBackupsFound => 'No cloud snapshots found.';
+
+  @override
+  String get exportLocalBackup => 'Export .flanki file';
+
+  @override
+  String get importLocalBackup => 'Import .flanki file';
+
+  @override
+  String get storageStatsTitle => 'Storage Breakdown';
+
+  @override
+  String get databaseStorage => 'Database Records';
+
+  @override
+  String get mediaStorage => 'Media Storage';
+
+  @override
+  String get backupStorage => 'Cloud Snapshots';
+
+  @override
+  String get localStorageUsed => 'Local Storage Used';
+
+  @override
+  String get manageDeckSync => 'Manage Deck Sync';
+
+  @override
+  String get syncDiagnosticsTitle => 'Sync Diagnostics & Telemetry';
+
+  @override
+  String get syncDiagnosticsSubtitle =>
+      'Real-time health metrics, circuit breaker, and bandwidth savings';
+
+  @override
+  String get syncSuccessRate => 'Success Rate';
+
+  @override
+  String get syncAvgLatency => 'Avg Latency';
+
+  @override
+  String get syncBandwidthTransferred => 'Data Transferred';
+
+  @override
+  String get syncBandwidthSaved => 'Bandwidth Saved';
+
+  @override
+  String get circuitBreakerStatus => 'Circuit Breaker';
+
+  @override
+  String get circuitBreakerClosed => 'Healthy (Closed)';
+
+  @override
+  String get circuitBreakerOpen => 'Tripped (Open)';
+
+  @override
+  String get circuitBreakerHalfOpen => 'Testing (Half-Open)';
+
+  @override
+  String get circuitBreakerReset => 'Reset Breaker';
+
+  @override
+  String get circuitBreakerResetSuccess => 'Circuit breaker reset to Healthy.';
+
+  @override
+  String get clearTelemetryLogs => 'Clear Log';
+
+  @override
+  String get syncHistoryTitle => 'Recent Sync Cycles';
+
+  @override
+  String get noSyncHistory => 'No sync cycles recorded yet.';
+
+  @override
+  String get syncDiagnosticsButton => 'Diagnostics';
 }

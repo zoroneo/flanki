@@ -125,8 +125,7 @@ class AnkiWebAuthErrorBanner extends StatelessWidget {
           Expanded(
             child: Text(
               getErrorMessage(l10n, authState),
-              style: TextStyle(
-                fontSize: 12,
+              style: context.textStyles.xSmall.copyWith(
                 color: theme.colorScheme.destructive,
               ),
             ),
@@ -171,7 +170,7 @@ class AnkiWebSubmitButton extends StatelessWidget {
             : m.Center(
                 child: Text(
                   l10n.authLoginButton,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
+                  style: context.textStyles.smallSemiBold,
                 ),
               ),
       ),
@@ -199,10 +198,7 @@ class AnkiWebSecurityNote extends StatelessWidget {
         Flexible(
           child: Text(
             l10n.authSecurityNote,
-            style: TextStyle(
-              fontSize: 11,
-              color: theme.colorScheme.mutedForeground,
-            ),
+            style: context.textStyles.subMuted,
             textAlign: TextAlign.center,
           ),
         ),

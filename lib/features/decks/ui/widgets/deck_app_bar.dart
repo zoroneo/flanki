@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -41,19 +40,14 @@ class DeckAppBar extends StatelessWidget {
                 studySettingsProvider.select((s) => s.fsrsEnabled),
               );
               return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm,
-                  vertical: AppSpacing.xxs,
-                ),
+                padding: AppEdgeInsets.h8v2,
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: AppRadius.borderSm,
                 ),
                 child: Text(
                   fsrsEnabled ? 'FSRS v5' : 'SM-2',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
+                  style: context.textStyles.captionBold.copyWith(
                     color: theme.colorScheme.primary,
                   ),
                 ),
@@ -98,19 +92,19 @@ class DeckAppBar extends StatelessWidget {
               } else if (syncState.pendingCount > 0) {
                 onTap = () =>
                     ref.read(syncStateNotifierProvider.notifier).syncNow();
-                leadingIcon = const Icon(
+                leadingIcon = Icon(
                   LucideIcons.cloudUpload,
                   size: AppIconSize.sm,
-                  color: m.Colors.green,
+                  color: context.colors.success,
                 );
                 badgeText = '${l10n.sync} (${syncState.pendingCount})';
               } else {
                 onTap = () =>
                     ref.read(syncStateNotifierProvider.notifier).syncNow();
-                leadingIcon = const Icon(
+                leadingIcon = Icon(
                   LucideIcons.cloud,
                   size: AppIconSize.sm,
-                  color: m.Colors.green,
+                  color: context.colors.success,
                 );
                 badgeText = l10n.linkedBadge;
               }
@@ -125,10 +119,10 @@ class DeckAppBar extends StatelessWidget {
                 badgeText = l10n.linkedBadge;
               } else {
                 onTap = onSync;
-                leadingIcon = const Icon(
+                leadingIcon = Icon(
                   LucideIcons.cloud,
                   size: AppIconSize.sm,
-                  color: m.Colors.green,
+                  color: context.colors.success,
                 );
                 badgeText = l10n.linkedBadge;
               }

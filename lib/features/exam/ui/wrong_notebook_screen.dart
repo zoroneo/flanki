@@ -139,7 +139,7 @@ class WrongNotebookScreen extends HookConsumerWidget {
                   item.status.getLocalizedLabel(l10n),
                   style: theme.typography.xSmall.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFFFFFFFF),
+                    color: AppColors.white,
                   ),
                 ),
               ),

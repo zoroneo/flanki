@@ -37,7 +37,7 @@ class StudyBottomActionArea extends StatelessWidget {
               vertical: AppSpacing.smPlus,
             ),
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 220),
+              duration: AppDurations.switchSlide,
               switchInCurve: Curves.easeOutCubic,
               switchOutCurve: Curves.easeInCubic,
               transitionBuilder: (child, animation) {
@@ -51,7 +51,7 @@ class StudyBottomActionArea extends StatelessWidget {
               },
               child: isFlipped
                   ? KeyedSubtree(
-                      key: const ValueKey('rating_bar'),
+                      key: AppWidgetKeys.ratingBar,
                       child: StudyRatingBar(
                         intervals: intervals,
                         isMobile: isMobile,
@@ -59,7 +59,7 @@ class StudyBottomActionArea extends StatelessWidget {
                       ),
                     )
                   : KeyedSubtree(
-                      key: const ValueKey('flip_button'),
+                      key: AppWidgetKeys.flipButton,
                       child: SizedBox(
                         width: double.infinity,
                         child: PrimaryButton(

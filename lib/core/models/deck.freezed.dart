@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DeckModel {
 
- String get id; String get title; String get description; int get dueCount; int get newCount; int get totalCount; DateTime? get lastStudied;
+ String get id; String get title; String get description; int get dueCount; int get newCount; int get totalCount; DateTime? get lastStudied; bool get isSyncEnabled;
 /// Create a copy of DeckModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $DeckModelCopyWith<DeckModel> get copyWith => _$DeckModelCopyWithImpl<DeckModel>
 @override
 bool operator ==(Object other) {
   final _this = this as DeckModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeckModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.dueCount, _this.dueCount) || other.dueCount == _this.dueCount)&&(identical(other.newCount, _this.newCount) || other.newCount == _this.newCount)&&(identical(other.totalCount, _this.totalCount) || other.totalCount == _this.totalCount)&&(identical(other.lastStudied, _this.lastStudied) || other.lastStudied == _this.lastStudied));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeckModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.dueCount, _this.dueCount) || other.dueCount == _this.dueCount)&&(identical(other.newCount, _this.newCount) || other.newCount == _this.newCount)&&(identical(other.totalCount, _this.totalCount) || other.totalCount == _this.totalCount)&&(identical(other.lastStudied, _this.lastStudied) || other.lastStudied == _this.lastStudied)&&(identical(other.isSyncEnabled, _this.isSyncEnabled) || other.isSyncEnabled == _this.isSyncEnabled));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as DeckModel;
-  return Object.hash(runtimeType,_this.id,_this.title,_this.description,_this.dueCount,_this.newCount,_this.totalCount,_this.lastStudied);
+  return Object.hash(runtimeType,_this.id,_this.title,_this.description,_this.dueCount,_this.newCount,_this.totalCount,_this.lastStudied,_this.isSyncEnabled);
 }
 
 @override
 String toString() {
   final _this = this as DeckModel;
-  return 'DeckModel(id: ${_this.id}, title: ${_this.title}, description: ${_this.description}, dueCount: ${_this.dueCount}, newCount: ${_this.newCount}, totalCount: ${_this.totalCount}, lastStudied: ${_this.lastStudied})';
+  return 'DeckModel(id: ${_this.id}, title: ${_this.title}, description: ${_this.description}, dueCount: ${_this.dueCount}, newCount: ${_this.newCount}, totalCount: ${_this.totalCount}, lastStudied: ${_this.lastStudied}, isSyncEnabled: ${_this.isSyncEnabled})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $DeckModelCopyWith<$Res>  {
   factory $DeckModelCopyWith(DeckModel value, $Res Function(DeckModel) _then) = _$DeckModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String description, int dueCount, int newCount, int totalCount, DateTime? lastStudied
+ String id, String title, String description, int dueCount, int newCount, int totalCount, DateTime? lastStudied, bool isSyncEnabled
 });
 
 
@@ -71,7 +71,7 @@ class _$DeckModelCopyWithImpl<$Res>
 
 /// Create a copy of DeckModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = null,Object? dueCount = null,Object? newCount = null,Object? totalCount = null,Object? lastStudied = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = null,Object? dueCount = null,Object? newCount = null,Object? totalCount = null,Object? lastStudied = freezed,Object? isSyncEnabled = null,}) {
   return _then(DeckModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,8 @@ as String,dueCount: null == dueCount ? _self.dueCount : dueCount // ignore: cast
 as int,newCount: null == newCount ? _self.newCount : newCount // ignore: cast_nullable_to_non_nullable
 as int,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
 as int,lastStudied: freezed == lastStudied ? _self.lastStudied : lastStudied // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,isSyncEnabled: null == isSyncEnabled ? _self.isSyncEnabled : isSyncEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String description,  int dueCount,  int newCount,  int totalCount,  DateTime? lastStudied)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String description,  int dueCount,  int newCount,  int totalCount,  DateTime? lastStudied,  bool isSyncEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DeckModel() when $default != null:
-return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newCount,_that.totalCount,_that.lastStudied);case _:
+return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newCount,_that.totalCount,_that.lastStudied,_that.isSyncEnabled);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newC
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String description,  int dueCount,  int newCount,  int totalCount,  DateTime? lastStudied)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String description,  int dueCount,  int newCount,  int totalCount,  DateTime? lastStudied,  bool isSyncEnabled)  $default,) {final _that = this;
 switch (_that) {
 case _DeckModel():
-return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newCount,_that.totalCount,_that.lastStudied);case _:
+return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newCount,_that.totalCount,_that.lastStudied,_that.isSyncEnabled);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newC
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String description,  int dueCount,  int newCount,  int totalCount,  DateTime? lastStudied)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String description,  int dueCount,  int newCount,  int totalCount,  DateTime? lastStudied,  bool isSyncEnabled)?  $default,) {final _that = this;
 switch (_that) {
 case _DeckModel() when $default != null:
-return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newCount,_that.totalCount,_that.lastStudied);case _:
+return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newCount,_that.totalCount,_that.lastStudied,_that.isSyncEnabled);case _:
   return null;
 
 }
@@ -221,7 +222,7 @@ return $default(_that.id,_that.title,_that.description,_that.dueCount,_that.newC
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _DeckModel extends DeckModel {
-  const _DeckModel({required this.id, this.title = 'Untitled Deck', this.description = '', this.dueCount = 0, this.newCount = 0, this.totalCount = 0, this.lastStudied}): super._();
+  const _DeckModel({required this.id, this.title = 'Untitled Deck', this.description = '', this.dueCount = 0, this.newCount = 0, this.totalCount = 0, this.lastStudied, this.isSyncEnabled = true}): super._();
   factory _DeckModel.fromJson(Map<String, dynamic> json) => _$DeckModelFromJson(json);
 
 @override final  String id;
@@ -231,6 +232,7 @@ class _DeckModel extends DeckModel {
 @override@JsonKey() final  int newCount;
 @override@JsonKey() final  int totalCount;
 @override final  DateTime? lastStudied;
+@override@JsonKey() final  bool isSyncEnabled;
 
 /// Create a copy of DeckModel
 /// with the given fields replaced by the non-null parameter values.
@@ -245,18 +247,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeckModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueCount, dueCount) || other.dueCount == dueCount)&&(identical(other.newCount, newCount) || other.newCount == newCount)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.lastStudied, lastStudied) || other.lastStudied == lastStudied));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeckModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueCount, dueCount) || other.dueCount == dueCount)&&(identical(other.newCount, newCount) || other.newCount == newCount)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.lastStudied, lastStudied) || other.lastStudied == lastStudied)&&(identical(other.isSyncEnabled, isSyncEnabled) || other.isSyncEnabled == isSyncEnabled));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,title,description,dueCount,newCount,totalCount,lastStudied);
+    return Object.hash(runtimeType,id,title,description,dueCount,newCount,totalCount,lastStudied,isSyncEnabled);
 }
 
 @override
 String toString() {
-    return 'DeckModel(id: $id, title: $title, description: $description, dueCount: $dueCount, newCount: $newCount, totalCount: $totalCount, lastStudied: $lastStudied)';
+    return 'DeckModel(id: $id, title: $title, description: $description, dueCount: $dueCount, newCount: $newCount, totalCount: $totalCount, lastStudied: $lastStudied, isSyncEnabled: $isSyncEnabled)';
 }
 
 
@@ -267,7 +269,7 @@ abstract mixin class _$DeckModelCopyWith<$Res> implements $DeckModelCopyWith<$Re
   factory _$DeckModelCopyWith(_DeckModel value, $Res Function(_DeckModel) _then) = __$DeckModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String description, int dueCount, int newCount, int totalCount, DateTime? lastStudied
+ String id, String title, String description, int dueCount, int newCount, int totalCount, DateTime? lastStudied, bool isSyncEnabled
 });
 
 
@@ -284,7 +286,7 @@ class __$DeckModelCopyWithImpl<$Res>
 
 /// Create a copy of DeckModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = null,Object? dueCount = null,Object? newCount = null,Object? totalCount = null,Object? lastStudied = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = null,Object? dueCount = null,Object? newCount = null,Object? totalCount = null,Object? lastStudied = freezed,Object? isSyncEnabled = null,}) {
   return _then(_DeckModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -293,7 +295,8 @@ as String,dueCount: null == dueCount ? _self.dueCount : dueCount // ignore: cast
 as int,newCount: null == newCount ? _self.newCount : newCount // ignore: cast_nullable_to_non_nullable
 as int,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
 as int,lastStudied: freezed == lastStudied ? _self.lastStudied : lastStudied // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,isSyncEnabled: null == isSyncEnabled ? _self.isSyncEnabled : isSyncEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

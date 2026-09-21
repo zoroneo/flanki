@@ -35,8 +35,8 @@ class BackgroundDownloadToast extends ConsumerWidget {
           Row(
             children: [
               const SizedBox(
-                width: 14,
-                height: 14,
+                width: AppDimensions.toastSpinnerSize,
+                height: AppDimensions.toastSpinnerSize,
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
               AppGaps.h12,

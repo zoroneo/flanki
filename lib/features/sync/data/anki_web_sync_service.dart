@@ -28,18 +28,17 @@ class SyncProgressMessages {
   final String syncError;
 
   const SyncProgressMessages({
-    this.connecting = 'Connecting to AnkiWeb...',
-    this.downloadingCollection = 'Downloading collection data from AnkiWeb...',
-    this.processingData = 'Processing cards & saving database...',
-    this.checkingMedia = 'Checking media files (images & audio)...',
-    this.compressingUpload = 'Compressing and preparing upload to AnkiWeb...',
-    this.uploadingCloud = 'Uploading data to AnkiWeb Cloud...',
-    this.uploadComplete = 'Upload complete!',
-    this.sessionExpired = 'AnkiWeb session expired. Please log in again.',
-    this.noInternet = 'No internet connection.',
-    this.conflictDetected =
-        'Conflict detected: Both AnkiWeb and this device have new study data.',
-    this.syncError = 'Sync failed',
+    required this.connecting,
+    required this.downloadingCollection,
+    required this.processingData,
+    required this.checkingMedia,
+    required this.compressingUpload,
+    required this.uploadingCloud,
+    required this.uploadComplete,
+    required this.sessionExpired,
+    required this.noInternet,
+    required this.conflictDetected,
+    required this.syncError,
   });
 
   factory SyncProgressMessages.fromL10n(AppLocalizations l10n) {
@@ -176,9 +175,7 @@ class AnkiWebSyncService {
        _l10n = l10n,
        _messages =
            messages ??
-           (l10n != null
-               ? SyncProgressMessages.fromL10n(l10n)
-               : const SyncProgressMessages()),
+           SyncProgressMessages.fromL10n(l10n ?? AppConfig.getL10n()),
        _mediaSyncService =
            mediaSyncService ??
            AnkiWebMediaSyncService(dio: dio, config: config, l10n: l10n);
@@ -464,7 +461,7 @@ class AnkiWebSyncService {
 
       final isServerNewer =
           serverMod != null &&
-          serverMod.isAfter(lastSyncTime.add(const Duration(seconds: 2)));
+          serverMod.isAfter(lastSyncTime.add(AppConfig.syncClockSkewTolerance));
 
       if (isServerNewer && hasLocalChanges) {
         return SyncStatusCheckResult(

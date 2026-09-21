@@ -1,10 +1,12 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' as m;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/anki/apkg_importer_service.dart';
+import '../../../../core/config/app_config.dart';
+import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 
@@ -15,7 +17,7 @@ class DeckImportHelper {
     required BuildContext context,
     required WidgetRef ref,
     required DeckNotifier deckNotifier,
-    required dynamic l10n,
+    required AppLocalizations l10n,
   }) async {
     try {
       final result = await FilePicker.pickFiles(
@@ -44,7 +46,7 @@ class DeckImportHelper {
                   subtitle: Text(l10n.selectApkgOrZipPrompt),
                   leading: const Icon(
                     LucideIcons.circleAlert,
-                    color: m.Colors.red,
+                    color: AppColors.error,
                   ),
                   trailing: IconButton.ghost(
                     icon: const Icon(LucideIcons.x),
@@ -68,8 +70,8 @@ class DeckImportHelper {
                 title: Text(l10n.importApkg),
                 subtitle: Text(selectedFile.name),
                 leading: const SizedBox(
-                  width: 20,
-                  height: 20,
+                  width: AppIconSize.md,
+                  height: AppIconSize.md,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
@@ -93,7 +95,7 @@ class DeckImportHelper {
             defaultDeckDescription: l10n.importedDeckDefaultDesc,
           );
         } else {
-          throw const FormatException('File data unreadable');
+          throw const FormatException(AppConfig.errFileDataUnreadable);
         }
       } finally {
         loadingToast?.close();
@@ -122,7 +124,7 @@ class DeckImportHelper {
                 ),
                 leading: const Icon(
                   LucideIcons.circleCheck,
-                  color: m.Colors.green,
+                  color: AppColors.success,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),
@@ -135,16 +137,19 @@ class DeckImportHelper {
       }
     } catch (e) {
       if (context.mounted) {
+        final errorSubtitle = e is FormatException
+            ? l10n.importApkgInvalidFormat
+            : e.toString();
         showToast(
           context: context,
           builder: (context, overlay) {
             return SurfaceCard(
               child: Basic(
                 title: Text(l10n.importApkgError),
-                subtitle: Text(e.toString()),
+                subtitle: Text(errorSubtitle),
                 leading: const Icon(
                   LucideIcons.circleAlert,
-                  color: m.Colors.red,
+                  color: AppColors.error,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),

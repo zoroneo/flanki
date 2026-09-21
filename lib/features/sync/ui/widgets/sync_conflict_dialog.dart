@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
@@ -56,8 +55,8 @@ class SyncConflictDialog extends StatelessWidget {
         if (isBottomSheet)
           Center(
             child: Container(
-              width: 36,
-              height: AppSpacing.xs,
+              width: AppDimensions.modalGrabHandleWidth,
+              height: AppDimensions.modalGrabHandleHeight,
               margin: const EdgeInsets.only(
                 top: AppSpacing.smPlus,
                 bottom: AppSpacing.smPlus,
@@ -89,7 +88,7 @@ class SyncConflictDialog extends StatelessWidget {
             Expanded(
               child: Text(
                 l10n.syncConflictTitle,
-                style: theme.typography.h4.copyWith(fontSize: 16),
+                style: context.textStyles.bodySemiBold,
               ),
             ),
             IconButton.ghost(
@@ -101,11 +100,7 @@ class SyncConflictDialog extends StatelessWidget {
         AppGaps.v8,
         Text(
           l10n.syncConflictDesc,
-          style: theme.typography.small.copyWith(
-            color: theme.colorScheme.mutedForeground,
-            fontSize: 12.5,
-            height: 1.35,
-          ),
+          style: context.textStyles.xSmallMuted.copyWith(height: 1.35),
         ),
         AppGaps.v12,
         Container(
@@ -174,10 +169,7 @@ class SyncConflictDialog extends StatelessWidget {
           ),
         ),
         AppGaps.v12,
-        Text(
-          l10n.selectVersionToKeep,
-          style: theme.typography.semiBold.copyWith(fontSize: 13),
-        ),
+        Text(l10n.selectVersionToKeep, style: context.textStyles.nav),
         AppGaps.v8,
         ConflictOptionCard(
           icon: LucideIcons.gitMerge,
@@ -227,7 +219,7 @@ class SyncConflictDialog extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: m.Colors.black.withValues(alpha: 0.18),
+              color: AppColors.black.withValues(alpha: 0.18),
               blurRadius: 20,
               offset: const Offset(0, -6),
             ),
@@ -239,7 +231,7 @@ class SyncConflictDialog extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.md,
-              0,
+              AppSpacing.none,
               AppSpacing.md,
               AppSpacing.smPlus,
             ),

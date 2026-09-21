@@ -73,13 +73,53 @@ void main() {
       // Centralized durations
       expect(AppConfig.updateCheckTimeout, equals(const Duration(seconds: 10)));
       expect(AppConfig.toastLongDuration, equals(const Duration(seconds: 20)));
+      expect(
+        AppConfig.toastDefaultDuration,
+        equals(const Duration(seconds: 4)),
+      );
+      expect(
+        AppConfig.toastSuccessDismissDelay,
+        equals(const Duration(seconds: 4)),
+      );
+      expect(
+        AppConfig.toastErrorDismissDelay,
+        equals(const Duration(seconds: 5)),
+      );
+      expect(
+        AppConfig.toastExtendedDuration,
+        equals(const Duration(minutes: 5)),
+      );
+      expect(
+        AppConfig.toastPersistentDuration,
+        equals(const Duration(hours: 1)),
+      );
       expect(AppConfig.defaultRelearnStep, equals(const Duration(minutes: 10)));
+      expect(
+        AppConfig.desktopReminderCheckInterval,
+        equals(const Duration(minutes: 1)),
+      );
+      expect(
+        AppConfig.desktopUpdatePollInterval,
+        equals(const Duration(hours: 4)),
+      );
+      expect(
+        AppConfig.desktopUpdateInitialDelay,
+        equals(const Duration(seconds: 4)),
+      );
+      expect(
+        AppConfig.examTimerTickInterval,
+        equals(const Duration(seconds: 1)),
+      );
       expect(
         AppConfig.defaultSyncPeriodicInterval,
         equals(const Duration(minutes: 5)),
       );
       expect(
         AppConfig.defaultSyncDebounceDuration,
+        equals(const Duration(seconds: 2)),
+      );
+      expect(
+        AppConfig.syncClockSkewTolerance,
         equals(const Duration(seconds: 2)),
       );
       expect(AppConfig.defaultMaxClockDriftMillis, equals(60000));
@@ -95,6 +135,22 @@ void main() {
         AppConfig.githubReleasesUrl,
         equals('https://github.com/zoroneo/flanki/releases'),
       );
+
+      // Business logic constants and helpers
+      expect(AppConfig.cramLimitOptions, equals([10, 20, 50, 100]));
+      expect(AppConfig.deckHierarchyDelimiter, equals('::'));
+      expect(AppConfig.deckHierarchyBreadcrumbSeparator, equals(' › '));
+      expect(AppConfig.tagPrefix, equals('#'));
+      expect(
+        AppConfig.formatDayKey(DateTime(2026, 9, 20)),
+        equals('2026-09-20'),
+      );
+      expect(
+        AppConfig.formatDayKey(DateTime(2026, 1, 5)),
+        equals('2026-01-05'),
+      );
+      expect(IdHelper.newDeckId(123456789), equals('deck_123456789'));
+      expect(IdHelper.newDeckId(), startsWith('deck_'));
     });
   });
 

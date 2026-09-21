@@ -1,4 +1,6 @@
-﻿import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+import '../config/app_config.dart';
 
 part 'anki_template_engine.g.dart';
 
@@ -19,7 +21,8 @@ class AnkiModel {
   });
 
   factory AnkiModel.fromJson(String idKey, Map<String, dynamic> json) {
-    final name = (json['name'] ?? 'Model $idKey') as String;
+    final name =
+        (json['name'] ?? '${AppConfig.ankiModelPrefix}$idKey') as String;
     final css = (json['css'] ?? '') as String;
 
     final fldsList = (json['flds'] as List<dynamic>? ?? []);
@@ -129,8 +132,11 @@ class AnkiTemplateEngine {
 
       // Render Back
       var backTemplate = template.afmt;
-      if (backTemplate.contains('{{FrontSide}}')) {
-        backTemplate = backTemplate.replaceAll('{{FrontSide}}', frontSideClean);
+      if (backTemplate.contains(AppConfig.ankiFrontSideTag)) {
+        backTemplate = backTemplate.replaceAll(
+          AppConfig.ankiFrontSideTag,
+          frontSideClean,
+        );
       }
 
       final backRendered = _renderTemplateString(
@@ -182,7 +188,9 @@ class AnkiTemplateEngine {
       final key = m.group(1)!.trim();
       final raw = fields[key] ?? '';
       final answer = _extractClozeAnswer(raw, clozeIndex);
-      return isBack ? '[[TYPE_RESULT:$answer]]' : '[[TYPE_INPUT:$answer]]';
+      return isBack
+          ? '${AppConfig.ankiTypeResultPrefix}$answer${AppConfig.ankiTagSuffix}'
+          : '${AppConfig.ankiTypeInputPrefix}$answer${AppConfig.ankiTagSuffix}';
     });
 
     // 4. Standard Cloze tags: {{cloze:Field}}
@@ -198,7 +206,9 @@ class AnkiTemplateEngine {
     result = result.replaceAllMapped(typeFieldTagRegex, (m) {
       final key = m.group(1)!.trim();
       final raw = (fields[key] ?? '').replaceAll(RegExp(r'<[^>]*>'), '').trim();
-      return isBack ? '[[TYPE_RESULT:$raw]]' : '[[TYPE_INPUT:$raw]]';
+      return isBack
+          ? '${AppConfig.ankiTypeResultPrefix}$raw${AppConfig.ankiTagSuffix}'
+          : '${AppConfig.ankiTypeInputPrefix}$raw${AppConfig.ankiTagSuffix}';
     });
 
     // 6. Text tags: {{text:Field}}

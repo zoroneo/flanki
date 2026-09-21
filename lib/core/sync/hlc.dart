@@ -117,7 +117,7 @@ class Hlc implements Comparable<Hlc> {
   factory Hlc.parse(String value) {
     final parts = value.split(IdHelper.hlcSeparator);
     if (parts.length < 3) {
-      throw FormatException('Invalid HLC string format: $value');
+      throw FormatException('${AppConfig.errInvalidHlcFormatPrefix}$value');
     }
 
     final isoTime = parts[0];

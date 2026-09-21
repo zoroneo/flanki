@@ -837,4 +837,292 @@ as String?,
 
 }
 
+
+/// @nodoc
+mixin _$OutboxItemPayload {
+
+ String get id; String get entityType; String get entityId; String get op; bool get isDeleted; dynamic get payload; String get hlc;
+/// Create a copy of OutboxItemPayload
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OutboxItemPayloadCopyWith<OutboxItemPayload> get copyWith => _$OutboxItemPayloadCopyWithImpl<OutboxItemPayload>(this as OutboxItemPayload, _$identity);
+
+  /// Serializes this OutboxItemPayload to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as OutboxItemPayload;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OutboxItemPayload&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.entityType, _this.entityType) || other.entityType == _this.entityType)&&(identical(other.entityId, _this.entityId) || other.entityId == _this.entityId)&&(identical(other.op, _this.op) || other.op == _this.op)&&(identical(other.isDeleted, _this.isDeleted) || other.isDeleted == _this.isDeleted)&&const DeepCollectionEquality().equals(other.payload, _this.payload)&&(identical(other.hlc, _this.hlc) || other.hlc == _this.hlc));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as OutboxItemPayload;
+  return Object.hash(runtimeType,_this.id,_this.entityType,_this.entityId,_this.op,_this.isDeleted,const DeepCollectionEquality().hash(_this.payload),_this.hlc);
+}
+
+@override
+String toString() {
+  final _this = this as OutboxItemPayload;
+  return 'OutboxItemPayload(id: ${_this.id}, entityType: ${_this.entityType}, entityId: ${_this.entityId}, op: ${_this.op}, isDeleted: ${_this.isDeleted}, payload: ${_this.payload}, hlc: ${_this.hlc})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OutboxItemPayloadCopyWith<$Res>  {
+  factory $OutboxItemPayloadCopyWith(OutboxItemPayload value, $Res Function(OutboxItemPayload) _then) = _$OutboxItemPayloadCopyWithImpl;
+@useResult
+$Res call({
+ String id, String entityType, String entityId, String op, bool isDeleted, dynamic payload, String hlc
+});
+
+
+
+
+}
+/// @nodoc
+class _$OutboxItemPayloadCopyWithImpl<$Res>
+    implements $OutboxItemPayloadCopyWith<$Res> {
+  _$OutboxItemPayloadCopyWithImpl(this._self, this._then);
+
+  final OutboxItemPayload _self;
+  final $Res Function(OutboxItemPayload) _then;
+
+/// Create a copy of OutboxItemPayload
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? entityType = null,Object? entityId = null,Object? op = null,Object? isDeleted = null,Object? payload = freezed,Object? hlc = null,}) {
+  return _then(OutboxItemPayload(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,entityType: null == entityType ? _self.entityType : entityType // ignore: cast_nullable_to_non_nullable
+as String,entityId: null == entityId ? _self.entityId : entityId // ignore: cast_nullable_to_non_nullable
+as String,op: null == op ? _self.op : op // ignore: cast_nullable_to_non_nullable
+as String,isDeleted: null == isDeleted ? _self.isDeleted : isDeleted // ignore: cast_nullable_to_non_nullable
+as bool,payload: freezed == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
+as dynamic,hlc: null == hlc ? _self.hlc : hlc // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OutboxItemPayload].
+extension OutboxItemPayloadPatterns on OutboxItemPayload {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OutboxItemPayload value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OutboxItemPayload() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OutboxItemPayload value)  $default,){
+final _that = this;
+switch (_that) {
+case _OutboxItemPayload():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OutboxItemPayload value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OutboxItemPayload() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String entityType,  String entityId,  String op,  bool isDeleted,  dynamic payload,  String hlc)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OutboxItemPayload() when $default != null:
+return $default(_that.id,_that.entityType,_that.entityId,_that.op,_that.isDeleted,_that.payload,_that.hlc);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String entityType,  String entityId,  String op,  bool isDeleted,  dynamic payload,  String hlc)  $default,) {final _that = this;
+switch (_that) {
+case _OutboxItemPayload():
+return $default(_that.id,_that.entityType,_that.entityId,_that.op,_that.isDeleted,_that.payload,_that.hlc);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String entityType,  String entityId,  String op,  bool isDeleted,  dynamic payload,  String hlc)?  $default,) {final _that = this;
+switch (_that) {
+case _OutboxItemPayload() when $default != null:
+return $default(_that.id,_that.entityType,_that.entityId,_that.op,_that.isDeleted,_that.payload,_that.hlc);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class _OutboxItemPayload extends OutboxItemPayload {
+  const _OutboxItemPayload({required this.id, required this.entityType, required this.entityId, required this.op, required this.isDeleted, required this.payload, required this.hlc}): super._();
+  factory _OutboxItemPayload.fromJson(Map<String, dynamic> json) => _$OutboxItemPayloadFromJson(json);
+
+@override final  String id;
+@override final  String entityType;
+@override final  String entityId;
+@override final  String op;
+@override final  bool isDeleted;
+@override final  dynamic payload;
+@override final  String hlc;
+
+/// Create a copy of OutboxItemPayload
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OutboxItemPayloadCopyWith<_OutboxItemPayload> get copyWith => __$OutboxItemPayloadCopyWithImpl<_OutboxItemPayload>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OutboxItemPayloadToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OutboxItemPayload&&(identical(other.id, id) || other.id == id)&&(identical(other.entityType, entityType) || other.entityType == entityType)&&(identical(other.entityId, entityId) || other.entityId == entityId)&&(identical(other.op, op) || other.op == op)&&(identical(other.isDeleted, isDeleted) || other.isDeleted == isDeleted)&&const DeepCollectionEquality().equals(other.payload, payload)&&(identical(other.hlc, hlc) || other.hlc == hlc));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,entityType,entityId,op,isDeleted,const DeepCollectionEquality().hash(payload),hlc);
+}
+
+@override
+String toString() {
+    return 'OutboxItemPayload(id: $id, entityType: $entityType, entityId: $entityId, op: $op, isDeleted: $isDeleted, payload: $payload, hlc: $hlc)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OutboxItemPayloadCopyWith<$Res> implements $OutboxItemPayloadCopyWith<$Res> {
+  factory _$OutboxItemPayloadCopyWith(_OutboxItemPayload value, $Res Function(_OutboxItemPayload) _then) = __$OutboxItemPayloadCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String entityType, String entityId, String op, bool isDeleted, dynamic payload, String hlc
+});
+
+
+
+
+}
+/// @nodoc
+class __$OutboxItemPayloadCopyWithImpl<$Res>
+    implements _$OutboxItemPayloadCopyWith<$Res> {
+  __$OutboxItemPayloadCopyWithImpl(this._self, this._then);
+
+  final _OutboxItemPayload _self;
+  final $Res Function(_OutboxItemPayload) _then;
+
+/// Create a copy of OutboxItemPayload
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? entityType = null,Object? entityId = null,Object? op = null,Object? isDeleted = null,Object? payload = freezed,Object? hlc = null,}) {
+  return _then(_OutboxItemPayload(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,entityType: null == entityType ? _self.entityType : entityType // ignore: cast_nullable_to_non_nullable
+as String,entityId: null == entityId ? _self.entityId : entityId // ignore: cast_nullable_to_non_nullable
+as String,op: null == op ? _self.op : op // ignore: cast_nullable_to_non_nullable
+as String,isDeleted: null == isDeleted ? _self.isDeleted : isDeleted // ignore: cast_nullable_to_non_nullable
+as bool,payload: freezed == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
+as dynamic,hlc: null == hlc ? _self.hlc : hlc // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
 // dart format on

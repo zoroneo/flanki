@@ -99,6 +99,7 @@
       }
     }
   },
+  "loadMoreCards": "Load more cards",
 
   "ratingAgain": "Again",
   "ratingHard": "Hard",
@@ -1044,6 +1045,242 @@
   "bookmarkedQuestion": "Saved",
   "@bookmarkedQuestion": {
     "description": "Label when a question is bookmarked"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Fallback text for unknown status or error"
+  },
+  "networkUnavailable": "Network connection is unavailable.",
+  "@networkUnavailable": {
+    "description": "Error message when device has no network connection"
+  },
+  "authEmailPlaceholder": "user@example.com",
+  "@authEmailPlaceholder": {
+    "description": "Placeholder for email input"
+  },
+  "authPasswordDots": "••••••••",
+  "@authPasswordDots": {
+    "description": "Placeholder for password input"
+  },
+  "authUserAlreadyExists": "User already registered",
+  "@authUserAlreadyExists": {
+    "description": "Error message when user email is already in use"
+  },
+  "authEmailNotConfirmed": "Email not confirmed",
+  "@authEmailNotConfirmed": {
+    "description": "Error message when user email is not yet confirmed"
+  },
+  "updateCheckFailed": "Failed to check for updates",
+  "@updateCheckFailed": {
+    "description": "Error message when checking for app updates fails"
+  },
+  "updateInstallFailed": "Failed to download installer",
+  "@updateInstallFailed": {
+    "description": "Error message when downloading update installer fails"
+  },
+  "importApkgInvalidFormat": "Invalid APKG file format",
+  "@importApkgInvalidFormat": {
+    "description": "Error message when APKG file format is corrupted or invalid"
+  },
+  "continueWithGoogle": "Continue with Google",
+  "@continueWithGoogle": {
+    "description": "Button label for Google OAuth sign in"
+  },
+  "continueWithApple": "Continue with Apple",
+  "@continueWithApple": {
+    "description": "Button label for Apple Sign In"
+  },
+  "orContinueWithEmail": "Or continue with email",
+  "@orContinueWithEmail": {
+    "description": "Divider text separating social auth and email form"
+  },
+  "authOAuthFailed": "Social login failed or was cancelled.",
+  "@authOAuthFailed": {
+    "description": "Error message when social OAuth login fails"
+  },
+  "selectiveSyncTitle": "Selective Deck Sync",
+  "@selectiveSyncTitle": {
+    "description": "Title for selective deck sync management"
+  },
+  "selectiveSyncSubtitle": "Choose which decks sync to the cloud to save storage",
+  "@selectiveSyncSubtitle": {
+    "description": "Subtitle describing selective deck sync"
+  },
+  "deckExcludedFromSync": "Local only",
+  "@deckExcludedFromSync": {
+    "description": "Badge indicating deck is only stored locally"
+  },
+  "deckSyncActive": "Sync enabled",
+  "@deckSyncActive": {
+    "description": "Badge indicating deck sync is enabled"
+  },
+  "cloudBackupTitle": "Cloud Backup & Snapshot",
+  "@cloudBackupTitle": {
+    "description": "Title for cloud backup section"
+  },
+  "cloudBackupSubtitle": "Create or restore comprehensive .flanki snapshots",
+  "@cloudBackupSubtitle": {
+    "description": "Subtitle for cloud backup section"
+  },
+  "createBackupNow": "Back Up Now",
+  "@createBackupNow": {
+    "description": "Button to trigger immediate cloud backup"
+  },
+  "backupCreating": "Creating backup...",
+  "@backupCreating": {
+    "description": "Progress label during backup creation"
+  },
+  "backupUploading": "Uploading backup to cloud...",
+  "@backupUploading": {
+    "description": "Progress label during cloud upload"
+  },
+  "backupRestoring": "Restoring backup...",
+  "@backupRestoring": {
+    "description": "Progress label during backup restoration"
+  },
+  "backupExporting": "Exporting backup...",
+  "@backupExporting": {
+    "description": "Progress label during local backup export"
+  },
+  "backupSuccess": "Backup created successfully!",
+  "@backupSuccess": {
+    "description": "Success message when backup succeeds"
+  },
+  "backupFailed": "Backup failed: {error}",
+  "@backupFailed": {
+    "description": "Error message when backup fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "restoreBackup": "Restore",
+  "@restoreBackup": {
+    "description": "Button to restore a backup"
+  },
+  "restoreConfirmTitle": "Restore Snapshot?",
+  "@restoreConfirmTitle": {
+    "description": "Dialog title confirming backup restore"
+  },
+  "restoreConfirmMessage": "This will merge or restore cards, decks, and media from this snapshot.",
+  "@restoreConfirmMessage": {
+    "description": "Dialog body message confirming backup restore"
+  },
+  "restoreSuccess": "Restored successfully!",
+  "@restoreSuccess": {
+    "description": "Success toast when restore finishes"
+  },
+  "restoreFailed": "Restore failed: {error}",
+  "@restoreFailed": {
+    "description": "Error message when restore fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Corrupt archive"
+      }
+    }
+  },
+  "noBackupsFound": "No cloud snapshots found.",
+  "@noBackupsFound": {
+    "description": "Empty state label when user has no backups"
+  },
+  "exportLocalBackup": "Export .flanki file",
+  "@exportLocalBackup": {
+    "description": "Button to export local backup file"
+  },
+  "importLocalBackup": "Import .flanki file",
+  "@importLocalBackup": {
+    "description": "Button to import local backup file"
+  },
+  "storageStatsTitle": "Storage Breakdown",
+  "@storageStatsTitle": {
+    "description": "Title for storage breakdown section"
+  },
+  "databaseStorage": "Database Records",
+  "@databaseStorage": {
+    "description": "Label for database records count and size"
+  },
+  "mediaStorage": "Media Storage",
+  "@mediaStorage": {
+    "description": "Label for media storage"
+  },
+  "backupStorage": "Cloud Snapshots",
+  "@backupStorage": {
+    "description": "Label for cloud snapshots storage"
+  },
+  "localStorageUsed": "Local Storage Used",
+  "@localStorageUsed": {
+    "description": "Label for total local storage used"
+  },
+  "manageDeckSync": "Manage Deck Sync",
+  "@manageDeckSync": {
+    "description": "Button to open selective deck sync sheet"
+  },
+  "syncDiagnosticsTitle": "Sync Diagnostics & Telemetry",
+  "@syncDiagnosticsTitle": {
+    "description": "Title for sync diagnostics bottom sheet"
+  },
+  "syncDiagnosticsSubtitle": "Real-time health metrics, circuit breaker, and bandwidth savings",
+  "@syncDiagnosticsSubtitle": {
+    "description": "Subtitle for sync diagnostics sheet"
+  },
+  "syncSuccessRate": "Success Rate",
+  "@syncSuccessRate": {
+    "description": "KPI label for sync success rate"
+  },
+  "syncAvgLatency": "Avg Latency",
+  "@syncAvgLatency": {
+    "description": "KPI label for average sync latency"
+  },
+  "syncBandwidthTransferred": "Data Transferred",
+  "@syncBandwidthTransferred": {
+    "description": "KPI label for total bandwidth transferred"
+  },
+  "syncBandwidthSaved": "Bandwidth Saved",
+  "@syncBandwidthSaved": {
+    "description": "KPI label for bandwidth saved by sparse optimization"
+  },
+  "circuitBreakerStatus": "Circuit Breaker",
+  "@circuitBreakerStatus": {
+    "description": "Label for circuit breaker status"
+  },
+  "circuitBreakerClosed": "Healthy (Closed)",
+  "@circuitBreakerClosed": {
+    "description": "Circuit breaker normal status"
+  },
+  "circuitBreakerOpen": "Tripped (Open)",
+  "@circuitBreakerOpen": {
+    "description": "Circuit breaker tripped status"
+  },
+  "circuitBreakerHalfOpen": "Testing (Half-Open)",
+  "@circuitBreakerHalfOpen": {
+    "description": "Circuit breaker half-open status"
+  },
+  "circuitBreakerReset": "Reset Breaker",
+  "@circuitBreakerReset": {
+    "description": "Button to manually reset circuit breaker"
+  },
+  "circuitBreakerResetSuccess": "Circuit breaker reset to Healthy.",
+  "@circuitBreakerResetSuccess": {
+    "description": "Toast message when breaker is reset"
+  },
+  "clearTelemetryLogs": "Clear Log",
+  "@clearTelemetryLogs": {
+    "description": "Button to clear telemetry log"
+  },
+  "syncHistoryTitle": "Recent Sync Cycles",
+  "@syncHistoryTitle": {
+    "description": "Title for recent sync log section"
+  },
+  "noSyncHistory": "No sync cycles recorded yet.",
+  "@noSyncHistory": {
+    "description": "Empty state when no sync records exist"
+  },
+  "syncDiagnosticsButton": "Diagnostics",
+  "@syncDiagnosticsButton": {
+    "description": "Button text in AccountSyncCard opening diagnostics"
   }
 }
 

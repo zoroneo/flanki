@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
@@ -11,7 +12,7 @@ import 'card_browser_list_item.dart';
 
 class BrowserMobileLayout extends StatelessWidget {
   final ThemeData theme;
-  final dynamic l10n;
+  final AppLocalizations l10n;
   final CardFilterType filterType;
   final CardBrowserNotifier browserNotifier;
   final List<dynamic> decks;
@@ -80,8 +81,8 @@ class BrowserMobileLayout extends StatelessWidget {
                   context.push(AppRoutes.editor);
                 },
                 child: Container(
-                  width: 52,
-                  height: 52,
+                  width: AppDimensions.fabMobileSize,
+                  height: AppDimensions.fabMobileSize,
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary,
                     shape: BoxShape.circle,
@@ -251,7 +252,7 @@ class BrowserMobileLayout extends StatelessWidget {
 
           final card = filteredCards[index];
           return MobileCardRowItem(
-            key: ValueKey('card_${card.id}'),
+            key: AppWidgetKeys.card(card.id),
             card: card,
             deckTitle: deckMap[card.deckId],
             onTap: () => openCardDetail(card),

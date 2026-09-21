@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -22,6 +23,7 @@ import 'core/widgets/app_lifecycle_manager.dart';
 import 'core/database/database_service.dart';
 import 'core/database/media_storage_service.dart';
 import 'core/services/card_audio_service.dart';
+import 'core/storage/supabase_secure_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +36,7 @@ void main() async {
   );
   LicenseRegistry.addLicense(() async* {
     yield const LicenseEntryWithLineBreaks(
-      <String>['Flanki'],
+      <String>[AppConfig.appName],
       '''
 MIT License
 
@@ -70,9 +72,13 @@ SOFTWARE.''',
       await Supabase.initialize(
         url: SupabaseConfig.url,
         publishableKey: SupabaseConfig.anonKey,
+        authOptions: FlutterAuthClientOptions(
+          localStorage: SupabaseSecureStorage(),
+          authFlowType: AuthFlowType.pkce,
+        ),
       );
     } catch (e) {
-      debugPrint('Failed to initialize Supabase: $e');
+      debugPrint('${AppConfig.logSupabaseInitFailedPrefix}$e');
     }
   }
 
@@ -214,8 +220,23 @@ class FlankiApp extends ConsumerWidget {
                       }
                     }
                   },
-                  child: AppLifecycleManager(
-                    child: child ?? const SizedBox.shrink(),
+                  child: Builder(
+                    builder: (context) {
+                      final isDark =
+                          Theme.of(context).brightness == Brightness.dark;
+                      return m.Theme(
+                        data: m.ThemeData(
+                          extensions: [
+                            isDark
+                                ? AppColorsExtension.dark
+                                : AppColorsExtension.light,
+                          ],
+                        ),
+                        child: AppLifecycleManager(
+                          child: child ?? const SizedBox.shrink(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

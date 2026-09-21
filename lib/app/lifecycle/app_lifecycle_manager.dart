@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -16,6 +15,7 @@ import '../config/app_config.dart';
 import '../localization/locale_notifier.dart';
 import '../services/desktop_window_service.dart';
 import '../services/notification_service.dart';
+import '../theme/app_tokens.dart';
 import 'update_toasts.dart';
 
 /// Top-level coordinator managing app lifecycle events, desktop tray menu sync,
@@ -52,7 +52,7 @@ class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
     if (_activeUpdateToast != null) return;
     _activeUpdateToast = showToast(
       context: context,
-      showDuration: const Duration(hours: 1),
+      showDuration: AppConfig.toastPersistentDuration,
       builder: (context, overlay) {
         return BackgroundDownloadToast(info: info, onDismiss: _dismissToast);
       },
@@ -67,11 +67,11 @@ class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       UpdatePoller.start(ref);
-      if (Platform.environment.containsKey('FLUTTER_TEST')) {
+      if (AppConfig.isFlutterTest) {
         await NotificationService.instance.requestPermissions();
         _syncNotifications();
       } else {
-        _permissionTimer = Timer(const Duration(milliseconds: 500), () async {
+        _permissionTimer = Timer(AppDurations.long, () async {
           if (!mounted) return;
           await NotificationService.instance.requestPermissions();
           _syncNotifications();
@@ -233,7 +233,7 @@ class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
           final info = current.updateInfo!;
           _activeUpdateToast = showToast(
             context: context,
-            showDuration: const Duration(minutes: 5),
+            showDuration: AppConfig.toastExtendedDuration,
             builder: (context, overlay) {
               return UpdateReadyToast(
                 info: info,

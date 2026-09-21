@@ -204,6 +204,7 @@ void main() {
           ProviderScope(child: wrapWithTheme(const SettingsScreen())),
           size: TestViewports.smallMobile,
           textScale: 1.3,
+          duration: const Duration(milliseconds: 100),
         );
       },
     );

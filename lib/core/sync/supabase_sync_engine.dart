@@ -7,6 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../config/supabase_config.dart';
 import '../database/database_service.dart';
 import '../../features/exam/models/exam_models.dart';
+import '../../l10n/generated/app_localizations.dart';
+import 'payload_optimizer.dart';
+import 'supabase_media_sync_service.dart';
 
 /// Status of the sync operation.
 enum SyncStatus { idle, syncing, synced, offline, unauthenticated, error }
@@ -18,6 +21,8 @@ class SyncResult {
   final bool isUnauthenticated;
   final int pushedCount;
   final int pulledCount;
+  final int mediaUploadedCount;
+  final int mediaDownloadedCount;
   final String? error;
 
   const SyncResult({
@@ -26,30 +31,49 @@ class SyncResult {
     this.isUnauthenticated = false,
     this.pushedCount = 0,
     this.pulledCount = 0,
+    this.mediaUploadedCount = 0,
+    this.mediaDownloadedCount = 0,
     this.error,
   });
 
-  factory SyncResult.success({int pushed = 0, int pulled = 0}) =>
-      SyncResult(isSuccess: true, pushedCount: pushed, pulledCount: pulled);
+  factory SyncResult.success({
+    int pushed = 0,
+    int pulled = 0,
+    int mediaUploaded = 0,
+    int mediaDownloaded = 0,
+  }) => SyncResult(
+    isSuccess: true,
+    pushedCount: pushed,
+    pulledCount: pulled,
+    mediaUploadedCount: mediaUploaded,
+    mediaDownloadedCount: mediaDownloaded,
+  );
 
   factory SyncResult.offline() => const SyncResult(
     isSuccess: false,
     isOffline: true,
-    error: 'Network unavailable',
+    error: SupabaseConfig.errNetworkUnavailable,
   );
 
   factory SyncResult.unauthenticated() => const SyncResult(
     isSuccess: false,
     isUnauthenticated: true,
-    error: 'User is not authenticated',
+    error: SupabaseConfig.errUserNotAuthenticated,
   );
 
   factory SyncResult.failure(String message) =>
       SyncResult(isSuccess: false, error: message);
 
+  String? getLocalizedError(AppLocalizations l10n) {
+    if (isSuccess) return null;
+    if (isOffline) return l10n.networkUnavailable;
+    if (isUnauthenticated) return l10n.authInvalidCredentials;
+    return error;
+  }
+
   @override
   String toString() =>
-      'SyncResult(success: $isSuccess, offline: $isOffline, pushed: $pushedCount, pulled: $pulledCount, error: $error)';
+      'SyncResult(success: $isSuccess, offline: $isOffline, pushed: $pushedCount, pulled: $pulledCount, mediaUp: $mediaUploadedCount, mediaDown: $mediaDownloadedCount, error: $error)';
 }
 
 abstract class SupabaseRpcClient {
@@ -74,15 +98,25 @@ class DefaultSupabaseRpcClient implements SupabaseRpcClient {
 class SupabaseSyncEngine {
   final SupabaseRpcClient _client;
   final DatabaseService _dbService;
+  final SupabaseMediaSyncService _mediaSyncService;
 
   SupabaseSyncEngine({
     SupabaseClient? client,
     SupabaseRpcClient? rpcClient,
     DatabaseService? dbService,
+    SupabaseMediaSyncService? mediaSyncService,
   }) : _client =
            rpcClient ??
            DefaultSupabaseRpcClient(client ?? _getSupabaseClientSafe()),
-       _dbService = dbService ?? DatabaseService.instance;
+       _dbService = dbService ?? DatabaseService.instance,
+       _mediaSyncService =
+           mediaSyncService ??
+           SupabaseMediaSyncService(
+             client: client,
+             dbService: dbService ?? DatabaseService.instance,
+             userIdProvider: () =>
+                 (rpcClient?.currentUser ?? client?.auth.currentUser)?.id,
+           );
 
   static SupabaseClient _getSupabaseClientSafe() {
     try {
@@ -102,7 +136,7 @@ class SupabaseSyncEngine {
   }) async {
     final user = _client.currentUser;
     if (user == null) {
-      throw const AuthException('User must be logged in to push mutations');
+      throw const AuthException(SupabaseConfig.errUserMustBeLoggedInToPush);
     }
 
     int totalPushed = 0;
@@ -112,20 +146,36 @@ class SupabaseSyncEngine {
       if (batch.isEmpty) break;
 
       final mutationsPayload = batch.map((item) {
-        return {
-          'id': item.id,
-          'entity_type': item.entityType,
-          'entity_id': item.entityId,
-          'op': item.operation,
-          'is_deleted': item.operation == SupabaseConfig.opDelete,
-          'payload': jsonDecode(item.payloadJson),
-          'hlc': item.hlc,
-        };
+        return OutboxItemPayload(
+          id: item.id,
+          entityType: item.entityType,
+          entityId: item.entityId,
+          op: item.operation,
+          isDeleted: item.operation == SupabaseConfig.opDelete,
+          payload: jsonDecode(item.payloadJson),
+          hlc: item.hlc,
+        ).toJson();
       }).toList();
+
+      final rawBytes = utf8.encode(jsonEncode(mutationsPayload)).length;
+      final optimizedPayload = SparsePayloadOptimizer.cleanMutations(
+        mutationsPayload,
+      );
+      final sentBytes = utf8.encode(jsonEncode(optimizedPayload)).length;
+      final savedBytes = rawBytes > sentBytes ? rawBytes - sentBytes : 0;
 
       final response = await _client.rpc(
         SupabaseConfig.rpcPushMutations,
-        params: {SupabaseConfig.paramMutations: mutationsPayload},
+        params: {SupabaseConfig.paramMutations: optimizedPayload},
+      );
+
+      final respBytes = response != null
+          ? utf8.encode(jsonEncode(response)).length
+          : 0;
+      SyncBandwidthTracker.instance.recordTransfer(
+        sent: sentBytes,
+        received: respBytes,
+        saved: savedBytes,
       );
 
       final respMap = response is Map<String, dynamic>
@@ -134,13 +184,14 @@ class SupabaseSyncEngine {
                 ? jsonDecode(response) as Map<String, dynamic>
                 : <String, dynamic>{});
 
-      final ackIds =
-          (respMap['ack_ids'] as List<dynamic>?)?.cast<String>() ??
-          batch.map((b) => b.id).toList();
+      final pushResponse = PushMutationsResponseDto.fromJson(respMap);
+      final ackIds = pushResponse.ackIds.isNotEmpty
+          ? pushResponse.ackIds
+          : batch.map((b) => b.id).toList();
 
       await _dbService.acknowledgeOutboxBatch(ackIds);
 
-      final serverTimestampStr = respMap['server_timestamp'] as String?;
+      final serverTimestampStr = pushResponse.serverTimestamp;
       if (serverTimestampStr != null) {
         final serverTime = DateTime.tryParse(serverTimestampStr);
         if (serverTime != null) {
@@ -148,7 +199,7 @@ class SupabaseSyncEngine {
         }
       }
 
-      final processed = respMap['processed_count'] as int? ?? ackIds.length;
+      final processed = pushResponse.processedCount ?? ackIds.length;
       totalPushed += processed;
 
       if (batch.length < batchLimit) break;
@@ -163,7 +214,7 @@ class SupabaseSyncEngine {
   }) async {
     final user = _client.currentUser;
     if (user == null) {
-      throw const AuthException('User must be logged in to pull deltas');
+      throw const AuthException(SupabaseConfig.errUserMustBeLoggedInToPull);
     }
 
     final deckCursor =
@@ -182,6 +233,8 @@ class SupabaseSyncEngine {
     final wrongCursor =
         await _dbService.getSyncCursor(SupabaseConfig.entityWrongQuestion) ??
         '';
+    final mediaCursor =
+        await _dbService.getSyncCursor(SupabaseConfig.entityUserMedia) ?? '';
 
     final cursorsPayload = {
       SupabaseConfig.entityDeck: deckCursor,
@@ -190,6 +243,7 @@ class SupabaseSyncEngine {
       SupabaseConfig.entityReviewLog: revlogCursor,
       SupabaseConfig.entityExamSubmission: examCursor,
       SupabaseConfig.entityWrongQuestion: wrongCursor,
+      SupabaseConfig.entityUserMedia: mediaCursor,
     };
 
     final response = await _client.rpc(
@@ -200,33 +254,25 @@ class SupabaseSyncEngine {
       },
     );
 
+    final respBytes = response != null
+        ? utf8.encode(jsonEncode(response)).length
+        : 0;
+    SyncBandwidthTracker.instance.recordTransfer(received: respBytes);
+
     final respMap = response is Map<String, dynamic>
         ? response
         : (response is String
               ? jsonDecode(response) as Map<String, dynamic>
               : <String, dynamic>{});
 
-    final decks = ((respMap['decks'] as List<dynamic>?) ?? [])
-        .map((e) => Map<String, dynamic>.from(e as Map))
-        .toList();
-    final cards = ((respMap['cards'] as List<dynamic>?) ?? [])
-        .map((e) => Map<String, dynamic>.from(e as Map))
-        .toList();
-    final reviewLogs = ((respMap['review_logs'] as List<dynamic>?) ?? [])
-        .map((e) => Map<String, dynamic>.from(e as Map))
-        .toList();
-    final grammarProgress =
-        ((respMap['grammar_progress'] as List<dynamic>?) ?? [])
-            .map((e) => Map<String, dynamic>.from(e as Map))
-            .toList();
-    final examSubmissions =
-        ((respMap['exam_submissions'] as List<dynamic>?) ?? [])
-            .map((e) => Map<String, dynamic>.from(e as Map))
-            .toList();
-    final wrongQuestions =
-        ((respMap['wrong_questions'] as List<dynamic>?) ?? [])
-            .map((e) => Map<String, dynamic>.from(e as Map))
-            .toList();
+    final pullResponse = PullDeltasResponseDto.fromJson(respMap);
+    final decks = pullResponse.decks;
+    final cards = pullResponse.cards;
+    final reviewLogs = pullResponse.reviewLogs;
+    final grammarProgress = pullResponse.grammarProgress;
+    final examSubmissions = pullResponse.examSubmissions;
+    final wrongQuestions = pullResponse.wrongQuestions;
+    final userMedia = pullResponse.userMedia;
 
     await _dbService.applyRemoteDeltasBatch(
       decks: decks,
@@ -235,6 +281,7 @@ class SupabaseSyncEngine {
       grammarProgress: grammarProgress,
       examSubmissions: examSubmissions,
       wrongQuestions: wrongQuestions,
+      userMedia: userMedia,
     );
 
     // Advance cursors to the latest HLC / timestamp received
@@ -304,12 +351,22 @@ class SupabaseSyncEngine {
       }
     }
 
+    if (userMedia.isNotEmpty) {
+      final maxHlc = userMedia
+          .map((m) => m['updated_at_hlc'] as String? ?? '')
+          .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
+      if (maxHlc.isNotEmpty) {
+        await _dbService.setSyncCursor(SupabaseConfig.entityUserMedia, maxHlc);
+      }
+    }
+
     return decks.length +
         cards.length +
         reviewLogs.length +
         grammarProgress.length +
         examSubmissions.length +
-        wrongQuestions.length;
+        wrongQuestions.length +
+        userMedia.length;
   }
 
   // --- Sparse Sync Operations (On-Demand Fetching) ---
@@ -362,27 +419,13 @@ class SupabaseSyncEngine {
               ? jsonDecode(response) as Map<String, dynamic>
               : <String, dynamic>{});
 
-    final paperData = Map<String, dynamic>.from(respMap['paper'] as Map);
-    final paper = ExamPaperModel.fromJson(paperData)
-        .copyWith(isDownloaded: true);
-
-    final sectionsData = (respMap['sections'] as List<dynamic>? ?? [])
-        .map(
-          (e) => ExamSectionModel.fromJson(Map<String, dynamic>.from(e as Map)),
-        )
-        .toList();
-
-    final questionsData = (respMap['questions'] as List<dynamic>? ?? [])
-        .map(
-          (e) =>
-              ExamQuestionModel.fromJson(Map<String, dynamic>.from(e as Map)),
-        )
-        .toList();
+    final details = ExamPaperDetailsDto.fromJson(respMap);
+    final paper = details.paper.copyWith(isDownloaded: true);
 
     await _dbService.saveExamPaperWithQuestions(
       paper,
-      sectionsData,
-      questionsData,
+      details.sections,
+      details.questions,
     );
     return paper;
   }
@@ -396,13 +439,24 @@ class SupabaseSyncEngine {
     try {
       final pushedCount = await pushMutations();
       final pulledCount = await pullDeltas();
-      return SyncResult.success(pushed: pushedCount, pulled: pulledCount);
+
+      // Binary media transfer with Supabase Storage
+      final mediaSummary = await _mediaSyncService.syncMedia(
+        userId: _client.currentUser?.id,
+      );
+
+      return SyncResult.success(
+        pushed: pushedCount,
+        pulled: pulledCount,
+        mediaUploaded: mediaSummary.uploadedCount,
+        mediaDownloaded: mediaSummary.downloadedCount,
+      );
     } on SocketException {
       return SyncResult.offline();
     } on TimeoutException {
       return SyncResult.offline();
     } on AuthException catch (e) {
-      return SyncResult.failure('Auth error: ${e.message}');
+      return SyncResult.failure('${SupabaseConfig.errAuthPrefix}${e.message}');
     } catch (e) {
       final errStr = e.toString().toLowerCase();
       if (errStr.contains('socket') ||

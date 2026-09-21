@@ -18,6 +18,7 @@ class Decks extends Table {
   // Sync Metadata
   TextColumn get updatedAtHlc => text().withDefault(const Constant(''))();
   BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+  BoolColumn get isSyncEnabled => boolean().withDefault(const Constant(true))();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -211,6 +212,25 @@ class WrongQuestionNotebook extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+/// Local registry of User Media files (images, audio) tracked for Supabase Storage sync.
+class UserMedia extends Table {
+  TextColumn get filename => text()();
+  TextColumn get hashSha256 => text().withDefault(const Constant(''))();
+  IntColumn get sizeBytes => integer().withDefault(const Constant(0))();
+  TextColumn get mimeType =>
+      text().withDefault(const Constant('application/octet-stream'))();
+  BoolColumn get isUploaded => boolean().withDefault(const Constant(false))();
+
+  // Sync Metadata
+  TextColumn get updatedAtHlc => text().withDefault(const Constant(''))();
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column> get primaryKey => {filename};
+}
+
 @DriftDatabase(
   tables: [
     Decks,
@@ -224,6 +244,7 @@ class WrongQuestionNotebook extends Table {
     ExamQuestions,
     ExamSubmissions,
     WrongQuestionNotebook,
+    UserMedia,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -263,6 +284,12 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(examQuestions);
         await m.createTable(examSubmissions);
         await m.createTable(wrongQuestionNotebook);
+      }
+      if (from < 5) {
+        await m.createTable(userMedia);
+      }
+      if (from < 6) {
+        await m.addColumn(decks, decks.isSyncEnabled);
       }
     },
   );

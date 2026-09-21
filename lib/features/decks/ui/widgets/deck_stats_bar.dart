@@ -36,7 +36,7 @@ class DeckStatsBar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildStreakHeader(theme, l10n),
+            _buildStreakHeader(context, theme, l10n),
             AppGaps.v16,
             _buildCountBoxes(theme, l10n),
           ],
@@ -45,15 +45,19 @@ class DeckStatsBar extends StatelessWidget {
     );
   }
 
-  Widget _buildStreakHeader(ThemeData theme, dynamic l10n) {
+  Widget _buildStreakHeader(
+    BuildContext context,
+    ThemeData theme,
+    dynamic l10n,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
-            const Icon(
+            Icon(
               LucideIcons.flame,
-              color: AppColors.streakFlame,
+              color: context.colors.streakFlame,
               size: AppIconSize.lg,
             ),
             AppGaps.h8,
@@ -144,8 +148,7 @@ class StatMiniBox extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: TextStyle(
-                  fontSize: AppTypography.large,
+                style: context.textStyles.largeBold.copyWith(
                   fontWeight: FontWeight.w800,
                   color: color,
                   height: AppTypography.lineHeightBadge,
@@ -154,8 +157,7 @@ class StatMiniBox extends StatelessWidget {
               AppGaps.v2,
               Text(
                 label,
-                style: TextStyle(
-                  fontSize: AppTypography.sub,
+                style: context.textStyles.sub.copyWith(
                   fontWeight: FontWeight.w600,
                   color: color.withValues(alpha: 0.8),
                 ),

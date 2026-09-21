@@ -11,6 +11,7 @@ import '../../stats/providers/stats_notifier.dart';
 import '../../../core/database/database_service.dart';
 import '../data/anki_web_sync_service.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../core/config/app_config.dart';
 import 'anki_web_auth_sheet.dart';
 import 'widgets/sync_conflict_dialog.dart';
 import 'widgets/sync_progress_toast.dart';
@@ -121,7 +122,7 @@ class SyncFlowCoordinator {
               progress: 1.0,
               isError: true,
             );
-            Future.delayed(const Duration(seconds: 5), () {
+            Future.delayed(AppConfig.toastErrorDismissDelay, () {
               toastOverlay?.close();
             });
             return false;
@@ -226,7 +227,7 @@ class SyncFlowCoordinator {
             progress: 1.0,
             isCompleted: true,
           );
-          Future.delayed(const Duration(seconds: 4), () {
+          Future.delayed(AppConfig.toastSuccessDismissDelay, () {
             toastOverlay?.close();
           });
           return true;
@@ -237,7 +238,7 @@ class SyncFlowCoordinator {
             progress: 1.0,
             isError: true,
           );
-          Future.delayed(const Duration(seconds: 5), () {
+          Future.delayed(AppConfig.toastErrorDismissDelay, () {
             toastOverlay?.close();
           });
           return false;
@@ -249,7 +250,7 @@ class SyncFlowCoordinator {
           progress: 1.0,
           isError: true,
         );
-        Future.delayed(const Duration(seconds: 5), () {
+        Future.delayed(AppConfig.toastErrorDismissDelay, () {
           toastOverlay?.close();
         });
         return false;

@@ -101,10 +101,7 @@ class RichCardContent extends HookWidget {
                 return InlineCustomWidget(
                   alignment: PlaceholderAlignment.middle,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 4,
-                      vertical: 2,
-                    ),
+                    padding: AppEdgeInsets.h4v2,
                     child: AudioPlayButton(filename: filename),
                   ),
                 );
@@ -161,14 +158,18 @@ class RichCardContent extends HookWidget {
                               file,
                               fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) =>
-                                  _buildMissingMediaBadge(theme, filename),
+                                  _buildMissingMediaBadge(
+                                    context,
+                                    theme,
+                                    filename,
+                                  ),
                             ),
                           ),
                         ),
                       ),
                     );
                   } else {
-                    return _buildMissingMediaBadge(theme, filename);
+                    return _buildMissingMediaBadge(context, theme, filename);
                   }
                 }
               }
@@ -246,10 +247,14 @@ class RichCardContent extends HookWidget {
     );
   }
 
-  static Widget _buildMissingMediaBadge(ThemeData theme, String filename) {
+  static Widget _buildMissingMediaBadge(
+    BuildContext context,
+    ThemeData theme,
+    String filename,
+  ) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      margin: AppEdgeInsets.v6,
+      padding: AppEdgeInsets.chip,
       decoration: BoxDecoration(
         color: theme.colorScheme.muted,
         borderRadius: AppRadius.borderMd,
@@ -267,10 +272,7 @@ class RichCardContent extends HookWidget {
           Flexible(
             child: Text(
               filename,
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.colorScheme.mutedForeground,
-              ),
+              style: context.textStyles.xSmallMuted,
               overflow: TextOverflow.ellipsis,
             ),
           ),

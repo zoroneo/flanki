@@ -113,7 +113,7 @@ class ExamCatalogScreen extends HookConsumerWidget {
                     : m.GridView.builder(
                         padding: EdgeInsets.fromLTRB(
                           padding,
-                          0,
+                          AppSpacing.none,
                           padding,
                           AppDimensions.bottomNavClearance,
                         ),
@@ -210,11 +210,10 @@ class ExamCatalogScreen extends HookConsumerWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.smPlus,
-          vertical: 6,
-        ),
+        duration: AppDurations.short,
+        height: AppDimensions.filterChipHeight,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary

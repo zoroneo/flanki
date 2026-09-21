@@ -17,6 +17,7 @@ abstract final class ExamConstants {
   static const int defaultQuestionNumber = 1;
   static const int defaultExamVersion = 1;
   static const String defaultExamLevel = 'N3';
+  static const String defaultExamTitle = 'Untitled Exam';
   static const String defaultExamIcon = 'file-text';
   static const String defaultSectionType = 'general';
   static const int defaultSectionOrder = 0;

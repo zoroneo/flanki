@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 
@@ -29,16 +29,18 @@ class DeckCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     // Parse Hierarchical deck title (Parent::Child)
-    final parts = title.split('::');
+    final parts = title.split(AppConfig.deckHierarchyDelimiter);
     final hasHierarchy = parts.length > 1;
     final parentPath = hasHierarchy
-        ? parts.sublist(0, parts.length - 1).join(' › ')
+        ? parts
+              .sublist(0, parts.length - 1)
+              .join(AppConfig.deckHierarchyBreadcrumbSeparator)
         : null;
     final leafName = parts.last;
     final isCram =
-        deckId.startsWith('cram') ||
+        deckId.startsWith(IdHelper.prefixCram) ||
         title.startsWith('⚡') ||
-        title.toLowerCase().contains('cram');
+        title.toLowerCase().contains(IdHelper.prefixCram);
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -48,7 +50,7 @@ class DeckCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(theme, isCram, parentPath, leafName),
+            _buildHeader(context, theme, isCram, parentPath, leafName),
             AppGaps.v16,
             _buildFooter(context, theme),
           ],
@@ -58,11 +60,13 @@ class DeckCard extends StatelessWidget {
   }
 
   Widget _buildHeader(
+    BuildContext context,
     ThemeData theme,
     bool isCram,
     String? parentPath,
     String leafName,
   ) {
+    final colors = context.colors;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -70,14 +74,14 @@ class DeckCard extends StatelessWidget {
           padding: AppEdgeInsets.all8,
           decoration: BoxDecoration(
             color: isCram
-                ? m.Colors.amber.withValues(alpha: 0.15)
+                ? colors.cramAmber.withValues(alpha: 0.15)
                 : theme.colorScheme.muted,
             borderRadius: AppRadius.borderMd,
           ),
           child: Icon(
             isCram ? LucideIcons.zap : LucideIcons.folder,
             size: AppIconSize.md,
-            color: isCram ? m.Colors.amber : theme.colorScheme.foreground,
+            color: isCram ? colors.cramAmber : theme.colorScheme.foreground,
           ),
         ),
         AppGaps.h12,
@@ -87,15 +91,8 @@ class DeckCard extends StatelessWidget {
             children: [
               if (parentPath != null)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 2.0),
-                  child: Text(
-                    parentPath,
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: theme.colorScheme.mutedForeground,
-                    ),
-                  ),
+                  padding: const EdgeInsets.only(bottom: AppSpacing.xxs),
+                  child: Text(parentPath, style: context.textStyles.caption),
                 ),
               Text(
                 leafName,
@@ -127,16 +124,13 @@ class DeckCard extends StatelessWidget {
       children: [
         Expanded(
           child: Wrap(
-            spacing: 6,
-            runSpacing: 4,
+            spacing: AppSpacing.s6,
+            runSpacing: AppSpacing.xs,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               if (dueCount > 0)
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                    vertical: 3,
-                  ),
+                  padding: AppEdgeInsets.countBadge,
                   decoration: BoxDecoration(
                     color: theme.colorScheme.destructive.withValues(
                       alpha: 0.15,
@@ -145,8 +139,7 @@ class DeckCard extends StatelessWidget {
                   ),
                   child: Text(
                     '$dueCount ${l10n.dueCards}',
-                    style: TextStyle(
-                      fontSize: 11,
+                    style: context.textStyles.sub.copyWith(
                       fontWeight: FontWeight.w700,
                       color: theme.colorScheme.destructive,
                     ),
@@ -154,18 +147,14 @@ class DeckCard extends StatelessWidget {
                 ),
               if (newCount > 0)
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                    vertical: 3,
-                  ),
+                  padding: AppEdgeInsets.countBadge,
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary.withValues(alpha: 0.15),
                     borderRadius: AppRadius.borderSm,
                   ),
                   child: Text(
                     '$newCount ${l10n.newCards}',
-                    style: TextStyle(
-                      fontSize: 11,
+                    style: context.textStyles.sub.copyWith(
                       fontWeight: FontWeight.w700,
                       color: theme.colorScheme.primary,
                     ),

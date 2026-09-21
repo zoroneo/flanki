@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/deck.dart';
 import '../../../../core/theme/app_tokens.dart';
@@ -19,7 +19,7 @@ class SubdeckRowItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final leafName = deck.title.split('::').last;
+    final leafName = deck.title.split(AppConfig.deckHierarchyDelimiter).last;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -32,30 +32,20 @@ class SubdeckRowItem extends StatelessWidget {
               deck.isCram ? LucideIcons.zap : LucideIcons.fileText,
               size: AppIconSize.sm,
               color: deck.isCram
-                  ? m.Colors.amber
+                  ? AppColors.cramAmber
                   : theme.colorScheme.mutedForeground,
             ),
             AppGaps.h12,
             Expanded(
-              child: Text(
-                leafName,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: theme.colorScheme.foreground,
-                ),
-              ),
+              child: Text(leafName, style: context.textStyles.smallSemiBold),
             ),
             Wrap(
-              spacing: 6,
+              spacing: AppSpacing.s6,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 if (deck.dueCount > 0)
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: AppSpacing.xxs,
-                    ),
+                    padding: AppEdgeInsets.tag,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.destructive.withValues(
                         alpha: 0.15,
@@ -64,38 +54,28 @@ class SubdeckRowItem extends StatelessWidget {
                     ),
                     child: Text(
                       l10n.badgeDue(deck.dueCount),
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
+                      style: context.textStyles.captionBold.copyWith(
                         color: theme.colorScheme.destructive,
                       ),
                     ),
                   ),
                 if (deck.newCount > 0)
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: AppSpacing.xxs,
-                    ),
+                    padding: AppEdgeInsets.tag,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primary.withValues(alpha: 0.15),
                       borderRadius: AppRadius.borderSm,
                     ),
                     child: Text(
                       l10n.badgeNew(deck.newCount),
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
+                      style: context.textStyles.captionBold.copyWith(
                         color: theme.colorScheme.primary,
                       ),
                     ),
                   ),
                 Text(
                   l10n.badgeTotalCards(deck.totalCount),
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: theme.colorScheme.mutedForeground,
-                  ),
+                  style: context.textStyles.subMuted,
                 ),
               ],
             ),

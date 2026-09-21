@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/localization/locale_notifier.dart';
@@ -40,7 +39,7 @@ class DesktopCardRowItem extends StatelessWidget {
     final l10n = context.l10n;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
+      margin: const EdgeInsets.only(bottom: AppSpacing.s6),
       decoration: BoxDecoration(
         color: isSelected
             ? theme.colorScheme.primary.withValues(alpha: 0.1)
@@ -61,7 +60,7 @@ class DesktopCardRowItem extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.smPlus,
-              vertical: 10,
+              vertical: AppSpacing.s10,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +75,7 @@ class DesktopCardRowItem extends StatelessWidget {
                         decoration: BoxDecoration(
                           color:
                               CardActionSheet.ankiFlagColors[card.flag] ??
-                              m.Colors.grey,
+                              AppColors.mutedGrey,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -85,34 +84,29 @@ class DesktopCardRowItem extends StatelessWidget {
                         stripHtml(card.front),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: isSelected
-                              ? FontWeight.w700
-                              : FontWeight.w600,
-                          color: theme.colorScheme.foreground,
-                          decoration: card.isSuspended
-                              ? TextDecoration.lineThrough
-                              : null,
-                        ),
+                        style:
+                            (isSelected
+                                    ? context.textStyles.navBold
+                                    : context.textStyles.nav)
+                                .copyWith(
+                                  color: theme.colorScheme.foreground,
+                                  decoration: card.isSuspended
+                                      ? TextDecoration.lineThrough
+                                      : null,
+                                ),
                       ),
                     ),
                     if (card.isSuspended)
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 5,
-                          vertical: 1,
-                        ),
+                        padding: AppEdgeInsets.badgeSm,
                         decoration: BoxDecoration(
-                          color: m.Colors.orange.withValues(alpha: 0.15),
+                          color: context.colors.warning.withValues(alpha: 0.15),
                           borderRadius: AppRadius.borderSm,
                         ),
                         child: Text(
                           l10n.filterSuspended,
-                          style: const TextStyle(
-                            fontSize: 9,
-                            color: m.Colors.orange,
-                            fontWeight: FontWeight.bold,
+                          style: context.textStyles.badge.copyWith(
+                            color: context.colors.warning,
                           ),
                         ),
                       ),
@@ -123,10 +117,7 @@ class DesktopCardRowItem extends StatelessWidget {
                   stripHtml(card.back),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: theme.colorScheme.mutedForeground,
-                  ),
+                  style: context.textStyles.subMuted,
                 ),
               ],
             ),
@@ -157,7 +148,7 @@ class MobileCardRowItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Card(
-        key: ValueKey('card_${card.id}'),
+        key: AppWidgetKeys.card(card.id),
         filled: true,
         padding: EdgeInsets.zero,
         child: MouseRegion(
@@ -175,13 +166,13 @@ class MobileCardRowItem extends StatelessWidget {
                       width: AppSpacing.sm,
                       height: AppSpacing.sm,
                       margin: const EdgeInsets.only(
-                        top: 5,
+                        top: AppSpacing.xs,
                         right: AppSpacing.sm,
                       ),
                       decoration: BoxDecoration(
                         color:
                             CardActionSheet.ankiFlagColors[card.flag] ??
-                            m.Colors.grey,
+                            AppColors.mutedGrey,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -189,11 +180,11 @@ class MobileCardRowItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildFrontText(theme),
+                        _buildFrontText(context, theme),
                         AppGaps.v4,
-                        _buildBackText(theme),
+                        _buildBackText(context, theme),
                         AppGaps.v8,
-                        _buildMetaRow(theme, l10n),
+                        _buildMetaRow(context, theme, l10n),
                       ],
                     ),
                   ),
@@ -206,50 +197,43 @@ class MobileCardRowItem extends StatelessWidget {
     );
   }
 
-  Widget _buildFrontText(ThemeData theme) {
+  Widget _buildFrontText(BuildContext context, ThemeData theme) {
     return Text(
       stripHtml(card.front),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
+      style: context.textStyles.smallSemiBold.copyWith(
         color: theme.colorScheme.foreground,
         decoration: card.isSuspended ? TextDecoration.lineThrough : null,
       ),
     );
   }
 
-  Widget _buildBackText(ThemeData theme) {
+  Widget _buildBackText(BuildContext context, ThemeData theme) {
     return Text(
       stripHtml(card.back),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontSize: 12, color: theme.colorScheme.mutedForeground),
+      style: context.textStyles.xSmallMuted,
     );
   }
 
-  Widget _buildMetaRow(ThemeData theme, dynamic l10n) {
+  Widget _buildMetaRow(BuildContext context, ThemeData theme, dynamic l10n) {
     return Row(
       children: [
         Text(
           l10n.deckPrefix(deckTitle ?? card.deckId),
-          style: TextStyle(
-            fontSize: 10,
-            color: theme.colorScheme.mutedForeground,
-          ),
+          style: context.textStyles.captionMuted,
         ),
         const Spacer(),
         Text(
           card.intervalDays > 0
               ? l10n.intervalBadge(card.intervalDays)
               : l10n.newBadge,
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
+          style: context.textStyles.captionSemiBold.copyWith(
             color: card.intervalDays > 0
                 ? theme.colorScheme.primary
-                : m.Colors.green,
+                : context.colors.success,
           ),
         ),
       ],

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -113,8 +112,8 @@ class StatsScreen extends HookConsumerWidget {
                                 decoration: BoxDecoration(
                                   color:
                                       (isTargetReached
-                                              ? AppColors.success
-                                              : AppColors.warning)
+                                              ? context.colors.success
+                                              : context.colors.warning)
                                           .withValues(alpha: 0.15),
                                   borderRadius: AppRadius.borderSm,
                                 ),
@@ -122,13 +121,12 @@ class StatsScreen extends HookConsumerWidget {
                                   isTargetReached
                                       ? l10n.targetReached
                                       : l10n.targetNotReached,
-                                  style: TextStyle(
-                                    fontSize: AppTypography.caption,
-                                    fontWeight: FontWeight.w700,
-                                    color: isTargetReached
-                                        ? AppColors.success
-                                        : AppColors.warning,
-                                  ),
+                                  style: context.textStyles.captionBold
+                                      .copyWith(
+                                        color: isTargetReached
+                                            ? context.colors.success
+                                            : context.colors.warning,
+                                      ),
                                 ),
                               ),
                           ],
@@ -289,13 +287,7 @@ class _MetricCard extends StatelessWidget {
             ),
           ),
           AppGaps.v2,
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 10,
-              color: theme.colorScheme.mutedForeground,
-            ),
-          ),
+          Text(subtitle, style: context.textStyles.caption),
         ],
       ),
     );
@@ -314,7 +306,7 @@ class _HeatmapGrid extends StatelessWidget {
       return const SizedBox.shrink();
     }
     return SizedBox(
-      height: 128,
+      height: AppDimensions.statsForecastChartHeight,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
@@ -346,12 +338,12 @@ class _HeatmapDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = theme.brightness == Brightness.dark;
+    final appColors = context.colors;
     final colors = [
       theme.colorScheme.muted,
-      isDark ? m.Colors.green.shade900 : m.Colors.green.shade200,
-      isDark ? m.Colors.green.shade600 : m.Colors.green.shade500,
-      isDark ? m.Colors.green.shade400 : m.Colors.green.shade800,
+      appColors.heatmapL1,
+      appColors.heatmapL2,
+      appColors.heatmapL3,
     ];
 
     return Container(

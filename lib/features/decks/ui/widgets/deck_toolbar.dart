@@ -33,7 +33,7 @@ class DeckToolbar extends StatelessWidget {
         final isUltraCompact = availableWidth < 520;
 
         return SizedBox(
-          height: 38,
+          height: AppDimensions.searchToolbarHeight,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

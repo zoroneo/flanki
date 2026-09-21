@@ -87,7 +87,7 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
 
   void _startTimer() {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(AppConfig.examTimerTickInterval, (timer) {
       if (state.remainingSeconds <= 1) {
         timer.cancel();
         submitExam();

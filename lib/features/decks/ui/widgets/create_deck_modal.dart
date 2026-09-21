@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -78,7 +77,7 @@ class CreateDeckModal extends HookWidget {
 
     return AnimatedPadding(
       padding: EdgeInsets.only(bottom: viewInsets.bottom),
-      duration: const Duration(milliseconds: 150),
+      duration: AppDurations.short,
       curve: Curves.easeOut,
       child: Container(
         decoration: BoxDecoration(
@@ -95,7 +94,7 @@ class CreateDeckModal extends HookWidget {
                 ),
           boxShadow: [
             BoxShadow(
-              color: m.Colors.black.withValues(
+              color: AppColors.black.withValues(
                 alpha: isDesktopMode ? 0.2 : 0.15,
               ),
               blurRadius: isDesktopMode ? 24 : 16,
@@ -115,9 +114,9 @@ class CreateDeckModal extends HookWidget {
                   // Top drag grab handle
                   Center(
                     child: Container(
-                      width: 36,
-                      height: 4,
-                      margin: const EdgeInsets.only(top: 10, bottom: 12),
+                      width: AppDimensions.modalGrabHandleWidth,
+                      height: AppDimensions.modalGrabHandleHeight,
+                      margin: AppEdgeInsets.modalGrabHandle,
                       decoration: BoxDecoration(
                         color: theme.colorScheme.mutedForeground.withValues(
                           alpha: 0.25,
@@ -192,24 +191,14 @@ class CreateDeckModal extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Field 1: Deck Name Input
-                      Text(
-                        l10n.deckNameLabel,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: theme.colorScheme.foreground,
-                        ),
-                      ),
+                      Text(l10n.deckNameLabel, style: context.textStyles.nav),
                       AppGaps.v6,
                       TextField(
                         controller: nameController,
                         focusNode: nameFocusNode,
                         textInputAction: TextInputAction.next,
                         onEditingComplete: () => descFocusNode.requestFocus(),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
-                        ),
+                        padding: AppEdgeInsets.textField,
                         placeholder: Text(l10n.deckNamePlaceholder),
                         features: [
                           InputFeature.leading(
@@ -230,27 +219,24 @@ class CreateDeckModal extends HookWidget {
                       AppGaps.v4,
                       Text(
                         l10n.deckHierarchyTip,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: theme.colorScheme.mutedForeground,
-                        ),
+                        style: context.textStyles.subMuted,
                       ),
 
                       if (errorMessage.value != null) ...[
                         AppGaps.v8,
                         Row(
                           children: [
-                            const Icon(
+                            Icon(
                               LucideIcons.circleAlert,
                               size: AppIconSize.sm,
-                              color: m.Colors.red,
+                              color: context.colors.error,
                             ),
                             AppGaps.h8,
                             Expanded(
                               child: Text(
                                 errorMessage.value!,
                                 style: theme.typography.xSmall.copyWith(
-                                  color: m.Colors.red,
+                                  color: context.colors.error,
                                 ),
                               ),
                             ),
@@ -261,14 +247,7 @@ class CreateDeckModal extends HookWidget {
                       AppGaps.v16,
 
                       // Field 2: Deck Description Input
-                      Text(
-                        l10n.deckDescLabel,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: theme.colorScheme.foreground,
-                        ),
-                      ),
+                      Text(l10n.deckDescLabel, style: context.textStyles.nav),
                       AppGaps.v6,
                       TextField(
                         controller: descController,

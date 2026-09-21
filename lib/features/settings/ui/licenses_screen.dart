@@ -183,16 +183,14 @@ SOFTWARE.''';
                       if (snapshot.connectionState ==
                           ConnectionState.waiting) ...[
                         const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 48),
+                          padding: AppEdgeInsets.v48,
                           child: Center(
                             child: CircularProgressIndicator(strokeWidth: 2),
                           ),
                         ),
                       ] else if (filteredPackages.isEmpty) ...[
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: AppSpacing.xxxl,
-                          ),
+                          padding: AppEdgeInsets.v48,
                           child: Center(
                             child: Text(
                               l10n.noLicensesFound,

@@ -105,7 +105,7 @@ class AnkiWebAuthService {
         return AnkiWebAuthResult.fail(
           l10n.syncServerError(
             response.statusCode ?? 500,
-            response.statusMessage ?? 'Unknown',
+            response.statusMessage ?? l10n.unknown,
           ),
           errorCode: AuthErrorCode.serverError,
         );
@@ -126,14 +126,14 @@ class AnkiWebAuthService {
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.connectionError) {
         return AnkiWebAuthResult.fail(
-          e.message ?? 'Network error',
+          l10n.networkUnavailable,
           errorCode: AuthErrorCode.networkError,
         );
       } else {
         return AnkiWebAuthResult.fail(
           l10n.syncServerError(
             statusCode ?? 500,
-            e.response?.statusMessage ?? e.message ?? 'Unknown',
+            e.response?.statusMessage ?? e.message ?? l10n.unknown,
           ),
           errorCode: AuthErrorCode.serverError,
         );

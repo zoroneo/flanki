@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/config/app_config.dart';
 import '../models/grammar_models.dart';
 
 part 'grammar_service.g.dart';
@@ -43,7 +44,7 @@ class GrammarService {
         }
       } catch (e) {
         // Fallback or rethrow depending on mode
-        throw Exception('Failed to load grammar unit from $path: $e');
+        throw Exception('${AppConfig.errFailedLoadGrammarUnitPrefix}$path: $e');
       }
     }
 

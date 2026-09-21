@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -47,7 +46,7 @@ class StudyFinishedView extends StatelessWidget {
               // Elastic bounce entrance for completion badge
               TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0.2, end: 1.0),
-                duration: const Duration(milliseconds: 650),
+                duration: AppDurations.celebrationBounce,
                 curve: Curves.elasticOut,
                 builder: (context, scale, child) {
                   return Transform.scale(scale: scale, child: child);
@@ -55,13 +54,13 @@ class StudyFinishedView extends StatelessWidget {
                 child: Container(
                   padding: AppEdgeInsets.all24,
                   decoration: BoxDecoration(
-                    color: m.Colors.green.withValues(alpha: 0.15),
+                    color: AppColors.success.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     LucideIcons.checkCheck,
                     size: 64,
-                    color: m.Colors.green,
+                    color: AppColors.success,
                   ),
                 ),
               ),
@@ -77,7 +76,7 @@ class StudyFinishedView extends StatelessWidget {
               // Animated count-up for completed cards
               TweenAnimationBuilder<int>(
                 tween: IntTween(begin: 0, end: completedCount),
-                duration: const Duration(milliseconds: 600),
+                duration: AppDurations.celebration,
                 curve: Curves.easeOutCubic,
                 builder: (context, count, _) {
                   return Text(

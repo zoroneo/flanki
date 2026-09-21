@@ -41,7 +41,7 @@ final class StatsNotifierProvider
   }
 }
 
-String _$statsNotifierHash() => r'20f2fcb5d603f77630972580d6d740fd78e88493';
+String _$statsNotifierHash() => r'386b2293248a9c5a1e5e5782ab689fee63dee9c7';
 
 abstract class _$StatsNotifier extends $Notifier<StatsData> {
   StatsData build();
