@@ -38,8 +38,9 @@ class PrivacyPolicyScreen extends HookWidget {
       ],
       child: Center(
         child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(maxWidth: AppDimensions.contentMaxWidth),
+          constraints: const BoxConstraints(
+            maxWidth: AppDimensions.contentMaxWidth,
+          ),
           child: ListView(
             padding: AppEdgeInsets.all16,
             children: [

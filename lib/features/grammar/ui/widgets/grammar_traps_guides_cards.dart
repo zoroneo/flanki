@@ -88,7 +88,11 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildWrongExample(AppColorsExtension colors, bool isMobile, String wrong) {
+  Widget _buildWrongExample(
+    AppColorsExtension colors,
+    bool isMobile,
+    String wrong,
+  ) {
     return Container(
       padding: isMobile ? AppEdgeInsets.h8v4 : AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
@@ -106,7 +110,9 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: isMobile ? AppTypography.xSmall : AppTypography.navPlus,
+                fontSize: isMobile
+                    ? AppTypography.xSmall
+                    : AppTypography.navPlus,
                 color: colors.error,
                 height: 1.3,
               ),
@@ -117,7 +123,11 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRightExample(AppColorsExtension colors, bool isMobile, String right) {
+  Widget _buildRightExample(
+    AppColorsExtension colors,
+    bool isMobile,
+    String right,
+  ) {
     return Container(
       padding: isMobile ? AppEdgeInsets.h8v4 : AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
@@ -135,7 +145,9 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: isMobile ? AppTypography.xSmallPlus : AppTypography.navPlus,
+                fontSize: isMobile
+                    ? AppTypography.xSmallPlus
+                    : AppTypography.navPlus,
                 color: colors.success,
                 fontWeight: FontWeight.w600,
                 height: 1.35,
@@ -147,15 +159,16 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildNote(AppColorsExtension colors, ThemeData theme, bool isMobile, String note) {
+  Widget _buildNote(
+    AppColorsExtension colors,
+    ThemeData theme,
+    bool isMobile,
+    String note,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          LucideIcons.info,
-          size: AppIconSize.xs,
-          color: colors.warning,
-        ),
+        Icon(LucideIcons.info, size: AppIconSize.xs, color: colors.warning),
         AppGaps.h8,
         Expanded(
           child: RichCardContent(

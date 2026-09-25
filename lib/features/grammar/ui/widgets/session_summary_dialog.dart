@@ -36,8 +36,9 @@ class SessionSummaryDialog extends StatelessWidget {
 
     return Center(
       child: Container(
-        constraints:
-            const BoxConstraints(maxWidth: AppDimensions.modalDesktopMaxWidth),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.modalDesktopMaxWidth,
+        ),
         margin: AppEdgeInsets.all24,
         child: Card(
           child: Padding(
@@ -58,7 +59,9 @@ class SessionSummaryDialog extends StatelessWidget {
                   child: Icon(
                     isPerfect ? LucideIcons.trophy : LucideIcons.award,
                     size: AppIconSize.xl,
-                    color: isPerfect ? colors.success : theme.colorScheme.primary,
+                    color: isPerfect
+                        ? colors.success
+                        : theme.colorScheme.primary,
                   ),
                 ),
                 AppGaps.v16,

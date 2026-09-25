@@ -83,10 +83,7 @@ class CardFlagSelector extends StatelessWidget {
                           color: theme.colorScheme.foreground,
                           width: AppDimensions.borderThick,
                         )
-                      : Border.all(
-                          color: c,
-                          width: AppDimensions.borderFocus,
-                        ),
+                      : Border.all(color: c, width: AppDimensions.borderFocus),
                 ),
                 child: isSelected
                     ? const Icon(

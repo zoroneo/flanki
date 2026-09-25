@@ -23,8 +23,9 @@ class GrammarExitDialog extends StatelessWidget {
 
     return Center(
       child: Container(
-        constraints:
-            const BoxConstraints(maxWidth: AppDimensions.dialogMaxWidth),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.dialogMaxWidth,
+        ),
         margin: AppEdgeInsets.all24,
         child: Card(
           child: Padding(

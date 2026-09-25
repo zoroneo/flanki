@@ -35,6 +35,7 @@ void main() {
   });
 
   tearDown(() async {
+    await DatabaseService.instance.close();
     try {
       if (tempDir.existsSync()) {
         tempDir.deleteSync(recursive: true);

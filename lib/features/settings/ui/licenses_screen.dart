@@ -120,8 +120,9 @@ SOFTWARE.''';
       ],
       child: Center(
         child: Container(
-          constraints:
-              const BoxConstraints(maxWidth: AppDimensions.legalPageMaxWidth),
+          constraints: const BoxConstraints(
+            maxWidth: AppDimensions.legalPageMaxWidth,
+          ),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(

@@ -43,8 +43,9 @@ class AnkiWebAuthScreen extends StatelessWidget {
             vertical: AppSpacing.xl,
           ),
           child: ConstrainedBox(
-            constraints:
-                const BoxConstraints(maxWidth: AppDimensions.authFormMaxWidth),
+            constraints: const BoxConstraints(
+              maxWidth: AppDimensions.authFormMaxWidth,
+            ),
             child: const AnkiWebAuthSheet(),
           ),
         ),

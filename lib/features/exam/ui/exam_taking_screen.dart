@@ -64,7 +64,10 @@ class ExamTakingScreen extends HookConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(RadixIcons.exclamationTriangle, size: AppIconSize.hero),
+              const Icon(
+                RadixIcons.exclamationTriangle,
+                size: AppIconSize.hero,
+              ),
               AppGaps.v12,
               Text(localizedErr ?? error),
               AppGaps.v16,

@@ -52,8 +52,9 @@ class SettingsScreen extends HookConsumerWidget {
           ],
           child: Center(
             child: ConstrainedBox(
-              constraints:
-                  const BoxConstraints(maxWidth: AppDimensions.contentMaxWidth),
+              constraints: const BoxConstraints(
+                maxWidth: AppDimensions.contentMaxWidth,
+              ),
               child: ListView(
                 padding: EdgeInsets.symmetric(
                   horizontal: horizontalPadding,

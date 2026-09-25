@@ -132,6 +132,9 @@ class DatabaseService implements DatabaseContext {
   UserMediaDao get userMediaDao => _userMediaDao;
 
   Future<void> init({String? customPath}) async {
+    if (customPath != null && _db != null) {
+      await close();
+    }
     if (_db == null) {
       if (customPath != null) {
         _db = AppDatabase(NativeDatabase(File(customPath)));

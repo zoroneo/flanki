@@ -136,7 +136,9 @@ class ClozeQuestionWidget extends HookWidget {
                       (isCorrect == true)
                           ? LucideIcons.circleCheck
                           : LucideIcons.circleX,
-                      color: (isCorrect == true) ? colors.success : colors.error,
+                      color: (isCorrect == true)
+                          ? colors.success
+                          : colors.error,
                       size: AppIconSize.md,
                     ),
                     AppGaps.h8,
@@ -146,7 +148,9 @@ class ClozeQuestionWidget extends HookWidget {
                           : l10n.grammarClozeSubmittedIncorrect,
                       style: theme.typography.base.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: (isCorrect == true) ? colors.success : colors.error,
+                        color: (isCorrect == true)
+                            ? colors.success
+                            : colors.error,
                       ),
                     ),
                   ],

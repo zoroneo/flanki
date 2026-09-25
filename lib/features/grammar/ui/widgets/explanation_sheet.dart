@@ -169,7 +169,10 @@ class ExplanationSheet extends StatelessWidget {
         ? Expanded(child: detailsContent)
         : ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: math.min(AppDimensions.sheetContentMaxHeight, screenHeight * 0.45),
+              maxHeight: math.min(
+                AppDimensions.sheetContentMaxHeight,
+                screenHeight * 0.45,
+              ),
             ),
             child: detailsContent,
           );

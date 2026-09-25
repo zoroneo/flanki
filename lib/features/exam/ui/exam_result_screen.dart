@@ -118,7 +118,10 @@ class ExamResultScreen extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(RadixIcons.bookmark, size: AppIconSize.xsPlus),
+                            const Icon(
+                              RadixIcons.bookmark,
+                              size: AppIconSize.xsPlus,
+                            ),
                             AppGaps.h8,
                             Text(l10n.wrongNotebook),
                           ],
@@ -134,7 +137,10 @@ class ExamResultScreen extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(RadixIcons.reload, size: AppIconSize.xsPlus),
+                            const Icon(
+                              RadixIcons.reload,
+                              size: AppIconSize.xsPlus,
+                            ),
                             AppGaps.h8,
                             Text(l10n.retakeExam),
                           ],

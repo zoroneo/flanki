@@ -189,7 +189,8 @@ class DecksScreen extends HookConsumerWidget {
                         ),
                       SliverToBoxAdapter(
                         child: SizedBox(
-                          height: AppDimensions.bottomNavClearanceWithFab +
+                          height:
+                              AppDimensions.bottomNavClearanceWithFab +
                               keyboardBottom,
                         ),
                       ),

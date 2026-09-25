@@ -153,7 +153,10 @@ class SpeedDialOption extends StatelessWidget {
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
               borderRadius: AppRadius.borderMd,
-              border: Border.all(color: theme.colorScheme.border, width: AppDimensions.hairline),
+              border: Border.all(
+                color: theme.colorScheme.border,
+                width: AppDimensions.hairline,
+              ),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.black.withValues(alpha: 0.12),
@@ -176,7 +179,10 @@ class SpeedDialOption extends StatelessWidget {
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
               shape: BoxShape.circle,
-              border: Border.all(color: theme.colorScheme.border, width: AppDimensions.hairline),
+              border: Border.all(
+                color: theme.colorScheme.border,
+                width: AppDimensions.hairline,
+              ),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.black.withValues(alpha: 0.15),
