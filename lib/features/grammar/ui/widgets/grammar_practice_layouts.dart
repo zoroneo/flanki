@@ -1,7 +1,6 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../models/grammar_models.dart';
 import '../../providers/grammar_session_notifier.dart';
 import 'explanation_sheet.dart';
@@ -37,7 +36,7 @@ class GrammarPracticeMobileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return Stack(
       children: [
@@ -62,7 +61,9 @@ class GrammarPracticeMobileLayout extends StatelessWidget {
                       ),
                       child: Center(
                         child: Container(
-                          constraints: const BoxConstraints(maxWidth: 720),
+                          constraints: const BoxConstraints(
+                            maxWidth: AppDimensions.contentMaxWidth,
+                          ),
                           child: GrammarPracticeQuestionContent(
                             theme: theme,
                             l10n: l10n,
@@ -132,7 +133,7 @@ class GrammarPracticeDesktopLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return Column(
       children: [
@@ -145,7 +146,9 @@ class GrammarPracticeDesktopLayout extends StatelessWidget {
               ? const Center(child: CircularProgressIndicator())
               : Center(
                   child: Container(
-                    constraints: const BoxConstraints(maxWidth: 1200),
+                    constraints: const BoxConstraints(
+                      maxWidth: AppDimensions.wideContentMaxWidth,
+                    ),
                     height: double.infinity,
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.xl,

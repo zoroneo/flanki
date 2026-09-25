@@ -4,7 +4,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/anki/anki_bridge.dart';
 import '../../../../core/config/app_config.dart';
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../router/app_router.dart';
 import '../../providers/settings_notifier.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../data/anki_web_auth_service.dart';
 import '../../providers/auth_notifier.dart';
 
@@ -19,7 +18,7 @@ class AnkiWebAuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
@@ -98,7 +97,7 @@ class AnkiWebAuthErrorBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     if (authState.status != AuthStatus.error ||
         authState.errorMessage == null) {
@@ -148,7 +147,7 @@ class AnkiWebSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return SizedBox(
       height: AppSpacing.xxxl,
@@ -161,7 +160,9 @@ class AnkiWebSubmitButton extends StatelessWidget {
                   const SizedBox(
                     width: AppIconSize.sm,
                     height: AppIconSize.sm,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: AppDimensions.spinnerStrokeWidth,
+                    ),
                   ),
                   AppGaps.h8,
                   Text(l10n.authSubmitting),
@@ -184,7 +185,7 @@ class AnkiWebSecurityNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

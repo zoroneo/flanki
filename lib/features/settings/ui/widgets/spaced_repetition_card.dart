@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../providers/settings_notifier.dart';
 import 'settings_info_rows.dart';

@@ -51,9 +51,10 @@ class StudyAppBar extends StatelessWidget {
               width: AppSpacing.sm,
               height: AppSpacing.sm,
               decoration: BoxDecoration(
-                color:
-                    CardActionSheet.ankiFlagColors[currentCard!.flag] ??
-                    AppColors.mutedGrey,
+                color: CardActionSheet.getFlagColor(
+                  context,
+                  currentCard!.flag,
+                ),
                 shape: BoxShape.circle,
               ),
             ),

@@ -2,7 +2,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../../core/services/cloud_storage_stats_service.dart';
 import '../../../../../core/theme/app_tokens.dart';
-import '../../../../../l10n/generated/app_localizations.dart';
 
 class StorageBreakdownGrid extends StatelessWidget {
   final StorageStatsModel? stats;

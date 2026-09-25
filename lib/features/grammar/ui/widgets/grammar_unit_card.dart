@@ -5,7 +5,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../router/app_router.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class GrammarUnitCard extends StatelessWidget {
   final GrammarUnit unit;
@@ -22,7 +21,8 @@ class GrammarUnitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
     final levelColor = unit.level.color;
     final levelText = unit.level.getLocalizedName(l10n);
 
@@ -36,7 +36,7 @@ class GrammarUnitCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeaderBadges(theme, l10n, levelColor, levelText),
+                _buildHeaderBadges(theme, colors, l10n, levelColor, levelText),
                 isMobile ? AppGaps.v6 : AppGaps.v8,
                 Text(
                   unit.title,
@@ -53,7 +53,7 @@ class GrammarUnitCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildMasteryBar(theme, l10n),
+                _buildMasteryBar(theme, colors, l10n),
                 isMobile ? AppGaps.v8 : AppGaps.v12,
                 _buildActionButtons(context, theme, l10n),
               ],
@@ -66,6 +66,7 @@ class GrammarUnitCard extends StatelessWidget {
 
   Widget _buildHeaderBadges(
     ThemeData theme,
+    AppColorsExtension colors,
     AppLocalizations l10n,
     m.Color levelColor,
     String levelText,
@@ -82,7 +83,7 @@ class GrammarUnitCard extends StatelessWidget {
           child: Text(
             levelText,
             style: TextStyle(
-              fontSize: 10.5,
+              fontSize: AppTypography.captionPlus,
               fontWeight: FontWeight.bold,
               color: levelColor,
             ),
@@ -102,7 +103,7 @@ class GrammarUnitCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: theme.typography.xSmall.copyWith(
                 fontWeight: FontWeight.w600,
-                fontSize: 10.5,
+                fontSize: AppTypography.captionPlus,
               ),
             ),
           ),
@@ -113,15 +114,15 @@ class GrammarUnitCard extends StatelessWidget {
             margin: const EdgeInsets.only(right: AppSpacing.xs),
             padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
-              color: m.Colors.red.withValues(alpha: 0.12),
+              color: colors.error.withValues(alpha: 0.12),
               borderRadius: AppRadius.borderLg,
             ),
             child: Text(
               l10n.grammarGhostsCount(summary.ghostCount),
-              style: const TextStyle(
-                fontSize: 10,
+              style: TextStyle(
+                fontSize: AppTypography.caption,
                 fontWeight: FontWeight.bold,
-                color: m.Colors.red,
+                color: colors.error,
               ),
             ),
           ),
@@ -129,15 +130,15 @@ class GrammarUnitCard extends StatelessWidget {
           Container(
             padding: AppEdgeInsets.h8v4,
             decoration: BoxDecoration(
-              color: m.Colors.orange.withValues(alpha: 0.12),
+              color: colors.warning.withValues(alpha: 0.12),
               borderRadius: AppRadius.borderLg,
             ),
             child: Text(
               l10n.grammarBadgeDue(summary.dueCount),
-              style: const TextStyle(
-                fontSize: 10,
+              style: TextStyle(
+                fontSize: AppTypography.caption,
                 fontWeight: FontWeight.bold,
-                color: m.Colors.orange,
+                color: colors.warning,
               ),
             ),
           ),
@@ -145,7 +146,11 @@ class GrammarUnitCard extends StatelessWidget {
     );
   }
 
-  Widget _buildMasteryBar(ThemeData theme, AppLocalizations l10n) {
+  Widget _buildMasteryBar(
+    ThemeData theme,
+    AppColorsExtension colors,
+    AppLocalizations l10n,
+  ) {
     if (isMobile) {
       return Row(
         children: [
@@ -160,9 +165,9 @@ class GrammarUnitCard extends StatelessWidget {
             '${summary.completedCount}/${GrammarConstants.exercisesPerUnit} • ${summary.masteryPercentage.toStringAsFixed(0)}%',
             style: theme.typography.xSmall.copyWith(
               fontWeight: FontWeight.w600,
-              fontSize: 11,
+              fontSize: AppTypography.sub,
               color: summary.isMastered
-                  ? m.Colors.green
+                  ? colors.success
                   : theme.colorScheme.mutedForeground,
             ),
           ),
@@ -186,7 +191,7 @@ class GrammarUnitCard extends StatelessWidget {
           style: theme.typography.xSmall.copyWith(
             fontWeight: FontWeight.bold,
             color: summary.isMastered
-                ? m.Colors.green
+                ? colors.success
                 : theme.colorScheme.mutedForeground,
           ),
         ),
@@ -259,7 +264,7 @@ class GrammarUnitCard extends StatelessWidget {
           ),
           style: theme.typography.xSmall.copyWith(
             color: theme.colorScheme.mutedForeground,
-            fontSize: 11,
+            fontSize: AppTypography.sub,
           ),
         );
 

@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 import '../../../core/config/settings_notifier.dart';

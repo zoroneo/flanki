@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' as m;
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../core/theme/app_tokens.dart';
-import '../../../l10n/generated/app_localizations.dart';
 
 /// Exercise question formats
 @JsonEnum(valueField: 'value')

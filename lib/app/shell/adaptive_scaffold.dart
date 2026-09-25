@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import 'package:flanki/core/localization/locale_notifier.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
 import 'package:flanki/features/decks/providers/deck_notifier.dart';
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
@@ -159,7 +158,7 @@ class AdaptiveScaffold extends HookConsumerWidget {
             l10n: l10n,
             onSelectTab: (index) => _onTap(index, ref),
           ),
-          const VerticalDivider(width: 1),
+          const VerticalDivider(width: AppDimensions.hairline),
           Expanded(child: navigationShell),
         ],
       ),
@@ -183,7 +182,7 @@ class AdaptiveScaffold extends HookConsumerWidget {
             l10n: l10n,
             onSelectTab: (index) => _onTap(index, ref),
           ),
-          const VerticalDivider(width: 1),
+          const VerticalDivider(width: AppDimensions.hairline),
           Expanded(child: navigationShell),
         ],
       ),

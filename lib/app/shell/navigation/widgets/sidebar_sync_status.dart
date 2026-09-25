@@ -1,6 +1,5 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 
 class SidebarSyncStatus extends StatelessWidget {
   final bool isAuthenticated;

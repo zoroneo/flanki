@@ -1,7 +1,6 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/deck.dart';
 import '../../../../core/theme/app_tokens.dart';
 import 'subdeck_row_item.dart';

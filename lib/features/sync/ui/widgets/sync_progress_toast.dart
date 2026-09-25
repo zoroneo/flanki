@@ -80,7 +80,9 @@ class SyncProgressToast extends StatelessWidget {
                     const SizedBox(
                       width: AppIconSize.sm,
                       height: AppIconSize.sm,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+                      child: CircularProgressIndicator(
+                        strokeWidth: AppDimensions.spinnerStrokeWidth,
+                      ),
                     ),
                   AppGaps.h8,
                   Expanded(

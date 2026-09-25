@@ -7,7 +7,6 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
-import '../../l10n/generated/app_localizations.dart';
 import '../config/app_config.dart';
 import '../theme/app_tokens.dart';
 

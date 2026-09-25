@@ -5,7 +5,6 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/theme/app_tokens.dart';
-import '../../../l10n/generated/app_localizations.dart';
 import '../data/grammar_repository.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
@@ -84,7 +83,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final notifier = ref.read(grammarSessionNotifierProvider.notifier);
     final isFinished = ref.watch(
       grammarSessionNotifierProvider.select((s) => s.isFinished),

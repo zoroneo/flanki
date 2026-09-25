@@ -2,7 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../theme/app_tokens.dart';
 
 class TypeAnswerInputBox extends HookWidget {

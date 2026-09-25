@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../providers/exam_session_notifier.dart';
 
@@ -24,7 +23,9 @@ class ExamTakingDialogs {
       barrierDismissible: true,
       builder: (ctx) => Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 380),
+          constraints: const BoxConstraints(
+            maxWidth: AppDimensions.dialogSmMaxWidth,
+          ),
           margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Card(
             padding: const EdgeInsets.all(AppSpacing.lg),
@@ -121,7 +122,9 @@ class ExamTakingDialogs {
       barrierDismissible: true,
       builder: (ctx) => Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 380),
+          constraints: const BoxConstraints(
+            maxWidth: AppDimensions.dialogSmMaxWidth,
+          ),
           margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Card(
             padding: const EdgeInsets.all(AppSpacing.lg),

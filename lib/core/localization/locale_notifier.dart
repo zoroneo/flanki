@@ -2,8 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../l10n/generated/app_localizations.dart';
 import '../config/app_config.dart';
+
+export '../extensions/l10n_extension.dart';
 
 part 'locale_notifier.g.dart';
 
@@ -62,8 +63,4 @@ class LocaleNotifier extends _$LocaleNotifier {
       }
     } catch (_) {}
   }
-}
-
-extension AppLocalizationsX on BuildContext {
-  AppLocalizations get l10n => AppLocalizations.of(this)!;
 }

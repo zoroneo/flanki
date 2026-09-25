@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/sync/payload_optimizer.dart';
 import '../../../../core/sync/sync_telemetry_service.dart';
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 /// 4-column KPI metrics grid for Sync Diagnostics.
 class SyncDiagnosticsMetricsGrid extends StatelessWidget {

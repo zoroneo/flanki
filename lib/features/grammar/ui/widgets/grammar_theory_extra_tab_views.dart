@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../models/grammar_models.dart';
 import 'grammar_theory_tab_views.dart';
 
@@ -15,7 +13,8 @@ class GrammarTrapsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
@@ -29,7 +28,7 @@ class GrammarTrapsTabView extends StatelessWidget {
         children: [
           GrammarTabSectionHeader(
             icon: LucideIcons.triangleAlert,
-            iconColor: m.Colors.orange,
+            iconColor: colors.warning,
             title: l10n.grammarCommonTrapsTitle,
           ),
           AppGaps.v8,
@@ -50,7 +49,7 @@ class GrammarTrapsTabView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     textAlign: TextAlign.start,
                     textStyle: const TextStyle(
-                      fontSize: 13,
+                      fontSize: AppTypography.nav,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -58,13 +57,13 @@ class GrammarTrapsTabView extends StatelessWidget {
                   GrammarExampleBox(
                     icon: '❌ ',
                     content: trap.exampleWrong,
-                    color: m.Colors.red,
+                    color: colors.error,
                   ),
                   AppGaps.v4,
                   GrammarExampleBox(
                     icon: '✅ ',
                     content: trap.exampleRight,
-                    color: m.Colors.green,
+                    color: colors.success,
                     isBold: true,
                   ),
                   if (trap.note.isNotEmpty) ...[
@@ -72,10 +71,10 @@ class GrammarTrapsTabView extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(
+                        Icon(
                           LucideIcons.info,
                           size: AppIconSize.xs,
-                          color: m.Colors.orange,
+                          color: colors.warning,
                         ),
                         AppGaps.h4,
                         Expanded(
@@ -84,7 +83,7 @@ class GrammarTrapsTabView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             textAlign: TextAlign.start,
                             textStyle: TextStyle(
-                              fontSize: 12,
+                              fontSize: AppTypography.xSmall,
                               color: theme.colorScheme.mutedForeground,
                               height: 1.35,
                             ),
@@ -111,7 +110,8 @@ class GrammarGuidesTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
@@ -125,7 +125,7 @@ class GrammarGuidesTabView extends StatelessWidget {
         children: [
           GrammarTabSectionHeader(
             icon: LucideIcons.bookOpen,
-            iconColor: m.Colors.purple,
+            iconColor: colors.accentPurple,
             title: l10n.grammarExtraGuidesTitle,
           ),
           AppGaps.v8,
@@ -145,10 +145,10 @@ class GrammarGuidesTabView extends StatelessWidget {
                 children: [
                   Text(
                     entry.key,
-                    style: const TextStyle(
-                      fontSize: 12.5,
+                    style: TextStyle(
+                      fontSize: AppTypography.xSmallPlus,
                       fontWeight: FontWeight.bold,
-                      color: m.Colors.purple,
+                      color: colors.accentPurple,
                     ),
                   ),
                   AppGaps.v4,
@@ -157,7 +157,7 @@ class GrammarGuidesTabView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     textAlign: TextAlign.start,
                     textStyle: TextStyle(
-                      fontSize: 12.5,
+                      fontSize: AppTypography.xSmallPlus,
                       height: 1.45,
                       color: theme.colorScheme.foreground,
                     ),

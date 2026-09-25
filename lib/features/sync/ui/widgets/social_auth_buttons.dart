@@ -1,7 +1,6 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 /// Standard Social Authentication buttons (Google & Apple OAuth)
 /// conforming to design guidelines and height limits.
@@ -20,7 +19,7 @@ class SocialAuthButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

@@ -112,12 +112,12 @@ class DraggableQuickFocusTag extends HookWidget {
             ? AppRadius.borderLg
             : isAtRight
             ? const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
+                topLeft: Radius.circular(AppRadius.xl),
+                bottomLeft: Radius.circular(AppRadius.xl),
               )
             : const BorderRadius.only(
-                topRight: Radius.circular(16),
-                bottomRight: Radius.circular(16),
+                topRight: Radius.circular(AppRadius.xl),
+                bottomRight: Radius.circular(AppRadius.xl),
               );
 
         return Positioned(

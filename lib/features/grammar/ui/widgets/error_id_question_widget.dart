@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class ErrorIdQuestionWidget extends StatelessWidget {
   final GrammarExercise exercise;
@@ -22,7 +21,8 @@ class ErrorIdQuestionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
     final prompt = exercise.prompt;
     final options = exercise.options.isNotEmpty
         ? exercise.options
@@ -79,13 +79,13 @@ class ErrorIdQuestionWidget extends StatelessWidget {
 
             if (isSubmitted) {
               if (isCorrectError) {
-                backgroundColor = Colors.green.withValues(alpha: 0.15);
-                borderColor = Colors.green;
-                textColor = Colors.green;
+                backgroundColor = colors.success.withValues(alpha: 0.15);
+                borderColor = colors.success;
+                textColor = colors.success;
               } else if (isSelected && !isCorrectError) {
-                backgroundColor = Colors.red.withValues(alpha: 0.15);
-                borderColor = Colors.red;
-                textColor = Colors.red;
+                backgroundColor = colors.error.withValues(alpha: 0.15);
+                borderColor = colors.error;
+                textColor = colors.error;
               } else {
                 backgroundColor = theme.colorScheme.muted.withValues(
                   alpha: 0.3,
@@ -104,8 +104,8 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                 child: GestureDetector(
                   onTap: isSubmitted ? null : () => onSelectAnswer(opt),
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
-                    height: 42,
+                    duration: AppDurations.short,
+                    height: AppDimensions.buttonHeightStandard,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: backgroundColor ?? theme.colorScheme.card,
@@ -114,7 +114,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                         color: borderColor ?? theme.colorScheme.border,
                         width: (isSelected || (isSubmitted && isCorrectError))
                             ? 1.8
-                            : 1.0,
+                            : AppDimensions.hairline,
                       ),
                     ),
                     child: Row(
@@ -123,7 +123,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                         Text(
                           '[$opt]',
                           style: TextStyle(
-                            fontSize: 13.5,
+                            fontSize: AppTypography.navPlus,
                             fontWeight: FontWeight.bold,
                             color:
                                 textColor ??
@@ -134,18 +134,18 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                         ),
                         if (isSubmitted && isCorrectError) ...[
                           AppGaps.h4,
-                          const Icon(
+                          Icon(
                             LucideIcons.check,
                             size: AppIconSize.xs,
-                            color: Colors.green,
+                            color: colors.success,
                           ),
                         ],
                         if (isSubmitted && isSelected && !isCorrectError) ...[
                           AppGaps.h4,
-                          const Icon(
+                          Icon(
                             LucideIcons.x,
                             size: AppIconSize.xs,
-                            color: Colors.red,
+                            color: colors.error,
                           ),
                         ],
                       ],
@@ -179,7 +179,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
           TextSpan(
             text: parts[i],
             style: TextStyle(
-              fontSize: 15,
+              fontSize: AppTypography.medium,
               fontWeight: FontWeight.normal,
               height: 1.45,
               color: theme.colorScheme.foreground,
@@ -193,12 +193,13 @@ class ErrorIdQuestionWidget extends StatelessWidget {
         final isSelected = selectedAnswer?.toUpperCase() == letter;
         final isCorrectError = letter == exercise.correctAnswer.toUpperCase();
 
+        final colors = context.colors;
         m.Color badgeColor = theme.colorScheme.primary;
         if (isSubmitted) {
           if (isCorrectError) {
-            badgeColor = Colors.green;
+            badgeColor = colors.success;
           } else if (isSelected) {
-            badgeColor = Colors.red;
+            badgeColor = colors.error;
           }
         }
 
@@ -208,10 +209,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
             child: GestureDetector(
               onTap: isSubmitted ? null : () => onSelectAnswer(letter),
               child: Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xs,
-                  vertical: AppSpacing.xs / 2,
-                ),
+                margin: AppEdgeInsets.h4v2,
                 padding: AppEdgeInsets.h8v4,
                 decoration: BoxDecoration(
                   color: isSelected
@@ -226,7 +224,7 @@ class ErrorIdQuestionWidget extends StatelessWidget {
                 child: Text(
                   tag,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: AppTypography.nav,
                     fontWeight: FontWeight.bold,
                     color: isSelected
                         ? badgeColor

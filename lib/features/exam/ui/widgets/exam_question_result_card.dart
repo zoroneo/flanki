@@ -137,13 +137,13 @@ class ExamQuestionResultCard extends StatelessWidget {
                     if (isActualCorrect)
                       Icon(
                         RadixIcons.check,
-                        size: 14,
+                        size: AppIconSize.xsPlus,
                         color: context.colors.success,
                       ),
                     if (isUserPick && !isCorrect)
                       Icon(
                         RadixIcons.cross2,
-                        size: 14,
+                        size: AppIconSize.xsPlus,
                         color: context.colors.error,
                       ),
                   ],

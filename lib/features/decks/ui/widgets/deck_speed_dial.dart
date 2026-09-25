@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 
 class DeckSpeedDial extends HookWidget {
@@ -154,7 +153,7 @@ class SpeedDialOption extends StatelessWidget {
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
               borderRadius: AppRadius.borderMd,
-              border: Border.all(color: theme.colorScheme.border, width: 1),
+              border: Border.all(color: theme.colorScheme.border, width: AppDimensions.hairline),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.black.withValues(alpha: 0.12),
@@ -177,7 +176,7 @@ class SpeedDialOption extends StatelessWidget {
             decoration: BoxDecoration(
               color: theme.colorScheme.card,
               shape: BoxShape.circle,
-              border: Border.all(color: theme.colorScheme.border, width: 1),
+              border: Border.all(color: theme.colorScheme.border, width: AppDimensions.hairline),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.black.withValues(alpha: 0.15),

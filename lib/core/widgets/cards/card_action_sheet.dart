@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../localization/locale_notifier.dart';
 import '../../models/card.dart';
 import '../../theme/app_tokens.dart';
 import '../adaptive_modal.dart';
@@ -10,16 +9,6 @@ import 'card_action_edit_form.dart';
 import 'card_action_sheet_components.dart';
 
 class CardActionSheet extends HookWidget {
-  static const ankiFlagColors = {
-    CardFlag.red: AppColors.flagRed,
-    CardFlag.orange: AppColors.flagOrange,
-    CardFlag.green: AppColors.flagGreen,
-    CardFlag.blue: AppColors.flagBlue,
-    CardFlag.pink: AppColors.flagPink,
-    CardFlag.turquoise: AppColors.flagTurquoise,
-    CardFlag.purple: AppColors.flagPurple,
-  };
-
   final CardModel card;
   final ValueChanged<CardFlag> onSetFlag;
   final VoidCallback onBury;
@@ -65,6 +54,10 @@ class CardActionSheet extends HookWidget {
     );
   }
 
+  /// Returns dynamic semantic flag color based on theme context.
+  static Color getFlagColor(BuildContext context, CardFlag flag) =>
+      getAnkiFlagColor(context, flag);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -80,9 +73,15 @@ class CardActionSheet extends HookWidget {
             ? AppRadius.borderXl
             : const BorderRadius.vertical(top: Radius.circular(AppSpacing.lg)),
         border: isDesktopMode
-            ? Border.all(color: theme.colorScheme.border, width: 1)
+            ? Border.all(
+                color: theme.colorScheme.border,
+                width: AppDimensions.hairline,
+              )
             : Border(
-                top: BorderSide(color: theme.colorScheme.border, width: 1),
+                top: BorderSide(
+                  color: theme.colorScheme.border,
+                  width: AppDimensions.hairline,
+                ),
               ),
         boxShadow: [
           BoxShadow(

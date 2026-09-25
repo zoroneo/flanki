@@ -16,7 +16,6 @@ import 'core/services/notification_service.dart';
 import 'core/sync/sync_replicator.dart';
 import 'core/theme/app_tokens.dart';
 import 'core/theme/theme_notifier.dart';
-import 'l10n/generated/app_localizations.dart';
 import 'router/app_router.dart';
 import 'app/lifecycle/app_lifecycle_manager.dart';
 

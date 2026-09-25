@@ -1,7 +1,6 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../localization/locale_notifier.dart';
 import '../../models/card.dart';
 import '../../theme/app_tokens.dart';
 import '../form_focus_helper.dart';

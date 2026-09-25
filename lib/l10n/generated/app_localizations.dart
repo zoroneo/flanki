@@ -98,12 +98,6 @@ abstract class AppLocalizations {
     Locale('vi'),
   ];
 
-  /// The title of the application
-  ///
-  /// In en, this message translates to:
-  /// **'Flanki'**
-  String get appTitle;
-
   /// No description provided for @navDecks.
   ///
   /// In en, this message translates to:
@@ -194,12 +188,6 @@ abstract class AppLocalizations {
   /// **'New'**
   String get newCards;
 
-  /// No description provided for @learningCards.
-  ///
-  /// In en, this message translates to:
-  /// **'Learning'**
-  String get learningCards;
-
   /// No description provided for @totalCards.
   ///
   /// In en, this message translates to:
@@ -242,18 +230,6 @@ abstract class AppLocalizations {
   /// **'ACCOUNT & SYNC'**
   String get accountAndSync;
 
-  /// No description provided for @linkedAnkiWeb.
-  ///
-  /// In en, this message translates to:
-  /// **'Linked with AnkiWeb'**
-  String get linkedAnkiWeb;
-
-  /// No description provided for @notLinkedAnkiWeb.
-  ///
-  /// In en, this message translates to:
-  /// **'Not linked to AnkiWeb'**
-  String get notLinkedAnkiWeb;
-
   /// No description provided for @loginToSyncHint.
   ///
   /// In en, this message translates to:
@@ -277,18 +253,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log out'**
   String get logout;
-
-  /// No description provided for @loggedOut.
-  ///
-  /// In en, this message translates to:
-  /// **'Logged out'**
-  String get loggedOut;
-
-  /// No description provided for @logoutSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Secure session token removed from device.'**
-  String get logoutSubtitle;
 
   /// No description provided for @connectAnkiWeb.
   ///
@@ -337,12 +301,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System'**
   String get languageSystem;
-
-  /// No description provided for @languageChanged.
-  ///
-  /// In en, this message translates to:
-  /// **'Language changed successfully'**
-  String get languageChanged;
 
   /// No description provided for @appearance.
   ///
@@ -518,12 +476,6 @@ abstract class AppLocalizations {
   /// **'Easy'**
   String get ratingEasy;
 
-  /// No description provided for @studySessionComplete.
-  ///
-  /// In en, this message translates to:
-  /// **'Congratulations! You have completed today\'\'s study session.'**
-  String get studySessionComplete;
-
   /// No description provided for @studyCompleteTitle.
   ///
   /// In en, this message translates to:
@@ -542,12 +494,6 @@ abstract class AppLocalizations {
   /// **'Back to decks'**
   String get backToDecks;
 
-  /// No description provided for @authTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Log in to AnkiWeb'**
-  String get authTitle;
-
   /// No description provided for @authEmail.
   ///
   /// In en, this message translates to:
@@ -565,12 +511,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log in'**
   String get authLoginButton;
-
-  /// No description provided for @authLoggingIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Logging in...'**
-  String get authLoggingIn;
 
   /// No description provided for @authSuccess.
   ///
@@ -673,12 +613,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show Answer'**
   String get tapToFlip;
-
-  /// No description provided for @swipeHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Swipe left: Again • Swipe right: Good'**
-  String get swipeHint;
 
   /// No description provided for @cardsRemaining.
   ///
@@ -872,12 +806,6 @@ abstract class AppLocalizations {
   /// **'{count} cards'**
   String cardsCountUnit(int count);
 
-  /// No description provided for @cramButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Cram'**
-  String get cramButton;
-
   /// No description provided for @linkedBadge.
   ///
   /// In en, this message translates to:
@@ -1034,30 +962,6 @@ abstract class AppLocalizations {
   /// **'Log in to your AnkiWeb account to synchronize decks, FSRS schedules, and study progress across devices.'**
   String get authHeaderDesc;
 
-  /// No description provided for @authEmailLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'ANKIWEB EMAIL'**
-  String get authEmailLabel;
-
-  /// No description provided for @authPasswordLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'PASSWORD'**
-  String get authPasswordLabel;
-
-  /// No description provided for @authPasswordPlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter password...'**
-  String get authPasswordPlaceholder;
-
-  /// No description provided for @authSubmitButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Log In & Start Sync'**
-  String get authSubmitButton;
-
   /// No description provided for @authSubmitting.
   ///
   /// In en, this message translates to:
@@ -1087,12 +991,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Linked account {email} with Flanki.'**
   String authSuccessToastDesc(String email);
-
-  /// No description provided for @authGuestMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Try Offline'**
-  String get authGuestMode;
 
   /// No description provided for @authSecurityNote.
   ///
@@ -1171,12 +1069,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Algorithm'**
   String get algorithmLabel;
-
-  /// No description provided for @themeZinc.
-  ///
-  /// In en, this message translates to:
-  /// **'Zinc Theme'**
-  String get themeZinc;
 
   /// No description provided for @ankiRustCore.
   ///
@@ -1261,12 +1153,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this card? This action cannot be undone.'**
   String get deleteCardConfirm;
-
-  /// No description provided for @cardDeleted.
-  ///
-  /// In en, this message translates to:
-  /// **'Card deleted'**
-  String get cardDeleted;
 
   /// No description provided for @undo.
   ///
@@ -1412,12 +1298,6 @@ abstract class AppLocalizations {
   /// **'Maximum reviews per day'**
   String get maxReviewsPerDay;
 
-  /// No description provided for @selectCardToViewDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Select a card on the left to view and edit details'**
-  String get selectCardToViewDetails;
-
   /// No description provided for @noCardSelected.
   ///
   /// In en, this message translates to:
@@ -1471,24 +1351,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide Answer'**
   String get hideAnswer;
-
-  /// No description provided for @syncMediaOnly.
-  ///
-  /// In en, this message translates to:
-  /// **'Sync Media (Images & Audio)'**
-  String get syncMediaOnly;
-
-  /// No description provided for @syncingMedia.
-  ///
-  /// In en, this message translates to:
-  /// **'Syncing media files...'**
-  String get syncingMedia;
-
-  /// No description provided for @addCardButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Card'**
-  String get addCardButton;
 
   /// No description provided for @clozeDeletion.
   ///
@@ -1982,24 +1844,6 @@ abstract class AppLocalizations {
   /// **'Automatically start Flanki in background when logging into your computer.'**
   String get settingsLaunchAtStartupSubtitle;
 
-  /// No description provided for @settingsTestNotificationSent.
-  ///
-  /// In en, this message translates to:
-  /// **'Test notification sent!'**
-  String get settingsTestNotificationSent;
-
-  /// No description provided for @settingsTestNotificationCheck.
-  ///
-  /// In en, this message translates to:
-  /// **'Check your system notification center or desktop toast.'**
-  String get settingsTestNotificationCheck;
-
-  /// No description provided for @settingsTestNotificationButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Test Notification Now'**
-  String get settingsTestNotificationButton;
-
   /// No description provided for @syncSuccessWithMedia.
   ///
   /// In en, this message translates to:
@@ -2132,12 +1976,6 @@ abstract class AppLocalizations {
   /// **'Academic Grammar'**
   String get grammarAcademicTitle;
 
-  /// No description provided for @grammarAcademicSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'36 C1/C2 Units for SAT • GRE • GMAT • Advanced High School'**
-  String get grammarAcademicSubtitle;
-
   /// No description provided for @grammarClearGhostsButton.
   ///
   /// In en, this message translates to:
@@ -2216,12 +2054,6 @@ abstract class AppLocalizations {
   /// **'Practice ({count} Qs)'**
   String grammarPracticeCountButton(int count);
 
-  /// No description provided for @grammarStartPracticeNowButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Start Practicing {count} Questions Now'**
-  String grammarStartPracticeNowButton(int count);
-
   /// No description provided for @grammarCoreConceptTitle.
   ///
   /// In en, this message translates to:
@@ -2275,12 +2107,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Question {current} / {total}'**
   String grammarQuestionCounter(int current, int total);
-
-  /// No description provided for @grammarSubmitAnswer.
-  ///
-  /// In en, this message translates to:
-  /// **'Check Answer'**
-  String get grammarSubmitAnswer;
 
   /// No description provided for @grammarExitDialogTitle.
   ///
@@ -2762,41 +2588,17 @@ abstract class AppLocalizations {
   /// **'Create Cloud Account'**
   String get signUpCloud;
 
-  /// No description provided for @cloudAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Cloud Account'**
-  String get cloudAccount;
-
   /// No description provided for @cloudNotConnected.
   ///
   /// In en, this message translates to:
   /// **'Cloud Account Not Connected'**
   String get cloudNotConnected;
 
-  /// No description provided for @cloudConnected.
-  ///
-  /// In en, this message translates to:
-  /// **'Connected to Cloud'**
-  String get cloudConnected;
-
   /// No description provided for @pendingChanges.
   ///
   /// In en, this message translates to:
   /// **'{count} changes pending'**
   String pendingChanges(int count);
-
-  /// No description provided for @signOutConfirmTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign out of Cloud?'**
-  String get signOutConfirmTitle;
-
-  /// No description provided for @signOutConfirmDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Your local cards and study history will remain safely on this device.'**
-  String get signOutConfirmDesc;
 
   /// No description provided for @authInvalidEmail.
   ///
@@ -2852,23 +2654,11 @@ abstract class AppLocalizations {
   /// **'{duration} mins • {count} questions'**
   String examDurationAndQuestions(int duration, int count);
 
-  /// No description provided for @examDownloadedOffline.
-  ///
-  /// In en, this message translates to:
-  /// **'Downloaded'**
-  String get examDownloadedOffline;
-
   /// No description provided for @downloadExam.
   ///
   /// In en, this message translates to:
   /// **'Download'**
   String get downloadExam;
-
-  /// No description provided for @downloadingExam.
-  ///
-  /// In en, this message translates to:
-  /// **'Downloading...'**
-  String get downloadingExam;
 
   /// No description provided for @takeExam.
   ///
@@ -2887,12 +2677,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try changing your search terms or category filters.'**
   String get noExamsFoundDesc;
-
-  /// No description provided for @takingExamTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Take Exam'**
-  String get takingExamTitle;
 
   /// No description provided for @backButton.
   ///
@@ -2935,12 +2719,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next'**
   String get nextQuestion;
-
-  /// No description provided for @questionList.
-  ///
-  /// In en, this message translates to:
-  /// **'Questions'**
-  String get questionList;
 
   /// No description provided for @questionListTitle.
   ///
@@ -3079,12 +2857,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Correct'**
   String get correctBadge;
-
-  /// No description provided for @wrongBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'Incorrect'**
-  String get wrongBadge;
 
   /// No description provided for @explanationPrefix.
   ///
@@ -3488,12 +3260,6 @@ abstract class AppLocalizations {
   /// **'Or continue with email'**
   String get orContinueWithEmail;
 
-  /// Error message when social OAuth login fails
-  ///
-  /// In en, this message translates to:
-  /// **'Social login failed or was cancelled.'**
-  String get authOAuthFailed;
-
   /// Title for selective deck sync management
   ///
   /// In en, this message translates to:
@@ -3601,12 +3367,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restore failed: {error}'**
   String restoreFailed(String error);
-
-  /// Empty state label when user has no backups
-  ///
-  /// In en, this message translates to:
-  /// **'No cloud snapshots found.'**
-  String get noBackupsFound;
 
   /// Button to export local backup file
   ///
@@ -3746,11 +3506,17 @@ abstract class AppLocalizations {
   /// **'No sync cycles recorded yet.'**
   String get noSyncHistory;
 
-  /// Button text in AccountSyncCard opening diagnostics
+  /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'Diagnostics'**
-  String get syncDiagnosticsButton;
+  /// **'Flanki'**
+  String get appTitle;
+
+  /// No description provided for @themeZinc.
+  ///
+  /// In en, this message translates to:
+  /// **'Zinc Theme'**
+  String get themeZinc;
 }
 
 class _AppLocalizationsDelegate

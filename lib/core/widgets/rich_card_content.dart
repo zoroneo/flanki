@@ -131,7 +131,9 @@ class RichCardContent extends HookWidget {
                         child: ClipRRect(
                           borderRadius: AppRadius.borderMd,
                           child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxHeight: 300),
+                            constraints: const BoxConstraints(
+                              maxHeight: AppDimensions.previewMediaMaxHeight,
+                            ),
                             child: Image.network(rawSrc, fit: BoxFit.contain),
                           ),
                         ),
@@ -153,7 +155,9 @@ class RichCardContent extends HookWidget {
                         child: ClipRRect(
                           borderRadius: AppRadius.borderMd,
                           child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxHeight: 300),
+                            constraints: const BoxConstraints(
+                              maxHeight: AppDimensions.previewMediaMaxHeight,
+                            ),
                             child: Image.file(
                               file,
                               fit: BoxFit.contain,

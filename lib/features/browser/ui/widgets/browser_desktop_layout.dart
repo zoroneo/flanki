@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
@@ -51,13 +50,13 @@ class BrowserDesktopLayout extends StatelessWidget {
               children: [
                 _buildSearchBar(context),
                 _buildFilterBar(),
-                const Divider(height: 1),
+                const Divider(height: AppDimensions.hairline),
                 _buildHeaderCount(context),
                 Expanded(child: _buildCardList()),
               ],
             ),
           ),
-          const VerticalDivider(width: 1),
+          const VerticalDivider(width: AppDimensions.hairline),
           // Right Column: Detail / Preview Pane
           Expanded(
             child: currentSelectedCard != null

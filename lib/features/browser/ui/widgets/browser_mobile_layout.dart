@@ -4,7 +4,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
@@ -66,8 +65,8 @@ class BrowserMobileLayout extends StatelessWidget {
               _buildCardListSliver(),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 100 + keyboardBottom,
-                ), // allow-magic-dimension
+                  height: AppDimensions.bottomNavClearance + keyboardBottom,
+                ),
               ),
             ],
           ),

@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../models/exam_models.dart';
 import '../providers/exam_session_notifier.dart';
@@ -65,7 +64,7 @@ class ExamTakingScreen extends HookConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(RadixIcons.exclamationTriangle, size: 48),
+              const Icon(RadixIcons.exclamationTriangle, size: AppIconSize.hero),
               AppGaps.v12,
               Text(localizedErr ?? error),
               AppGaps.v16,

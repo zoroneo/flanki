@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class GrammarExitDialog extends StatelessWidget {
   const GrammarExitDialog({super.key});
@@ -18,12 +17,14 @@ class GrammarExitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 420),
+        constraints:
+            const BoxConstraints(maxWidth: AppDimensions.dialogMaxWidth),
         margin: AppEdgeInsets.all24,
         child: Card(
           child: Padding(
@@ -37,13 +38,13 @@ class GrammarExitDialog extends StatelessWidget {
                     Container(
                       padding: AppEdgeInsets.all8,
                       decoration: BoxDecoration(
-                        color: Colors.red.withValues(alpha: 0.1),
+                        color: colors.error.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         LucideIcons.triangleAlert,
                         size: AppIconSize.md,
-                        color: Colors.red,
+                        color: colors.error,
                       ),
                     ),
                     AppGaps.h12,

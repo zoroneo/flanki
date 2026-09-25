@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/config/app_config.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 
 class TabletNavRail extends StatelessWidget {
   final int currentIndex;
@@ -30,7 +29,7 @@ class TabletNavRail extends StatelessWidget {
       child: Column(
         children: [
           _buildBrandIcon(theme),
-          const Divider(height: 1),
+          const Divider(height: AppDimensions.hairline),
           AppGaps.v12,
           _buildNavItems(context, theme),
           const Spacer(),
@@ -265,7 +264,10 @@ class NavRailItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: indicatorColor,
         shape: BoxShape.circle,
-        border: Border.all(color: theme.colorScheme.background, width: 1.5),
+        border: Border.all(
+          color: theme.colorScheme.background,
+          width: AppDimensions.borderFocus,
+        ),
       ),
     );
   }

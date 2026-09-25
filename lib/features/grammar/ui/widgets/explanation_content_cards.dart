@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class ExplanationSection extends StatelessWidget {
   final IconData icon;
@@ -35,7 +34,7 @@ class ExplanationSection extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontSize: 12.5,
+                    fontSize: AppTypography.xSmallPlus,
                     fontWeight: FontWeight.bold,
                     color: color,
                   ),
@@ -51,7 +50,7 @@ class ExplanationSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: 13,
+                fontSize: AppTypography.nav,
                 height: 1.4,
                 color: theme.colorScheme.foreground,
               ),
@@ -95,7 +94,8 @@ class DistractorItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
     final (badgeText, detailText) = _parseDistractorKey(rawKey, l10n);
 
     return Container(
@@ -117,24 +117,24 @@ class DistractorItemCard extends StatelessWidget {
               Container(
                 padding: AppEdgeInsets.h8v4,
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.12),
+                  color: colors.error.withValues(alpha: 0.12),
                   borderRadius: AppRadius.borderSm,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       LucideIcons.x,
                       size: AppIconSize.xs,
-                      color: Colors.red,
+                      color: colors.error,
                     ),
                     AppGaps.h4,
                     Text(
                       badgeText,
-                      style: const TextStyle(
-                        fontSize: 11.5,
+                      style: TextStyle(
+                        fontSize: AppTypography.subPlus,
                         fontWeight: FontWeight.bold,
-                        color: Colors.red,
+                        color: colors.error,
                       ),
                     ),
                   ],
@@ -148,7 +148,7 @@ class DistractorItemCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: AppTypography.xSmall,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w600,
                       color: theme.colorScheme.foreground.withValues(
@@ -166,7 +166,7 @@ class DistractorItemCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             textAlign: TextAlign.start,
             textStyle: TextStyle(
-              fontSize: 12.5,
+              fontSize: AppTypography.xSmallPlus,
               height: 1.4,
               color: theme.colorScheme.foreground.withValues(alpha: 0.9),
             ),

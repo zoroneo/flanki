@@ -8,7 +8,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../core/extensions/responsive_extensions.dart';
 import '../../../core/fsrs/fsrs_engine_service.dart';
 import '../../../core/fsrs/sm2_engine_service.dart';
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
 import '../../../core/services/card_audio_service.dart';
 import '../../../core/theme/app_tokens.dart';

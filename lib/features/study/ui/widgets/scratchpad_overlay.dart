@@ -59,7 +59,7 @@ class ScratchpadOverlay extends HookWidget {
                     StrokeLine(
                       points: currentPoints.value,
                       color: selectedColor.value,
-                      strokeWidth: 3.5,
+                      strokeWidth: AppDimensions.scratchStrokeWidth,
                     ),
                   ];
                   currentPoints.value = [];
@@ -80,10 +80,7 @@ class ScratchpadOverlay extends HookWidget {
               top: AppSpacing.md,
               right: AppSpacing.md,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.smPlus,
-                  vertical: AppSpacing.s6,
-                ),
+                padding: AppEdgeInsets.h12v6,
                 decoration: BoxDecoration(
                   color: theme.colorScheme.background.withValues(alpha: 0.95),
                   borderRadius: AppRadius.borderFull,
@@ -114,11 +111,11 @@ class ScratchpadOverlay extends HookWidget {
                             border: isSelected
                                 ? Border.all(
                                     color: theme.colorScheme.foreground,
-                                    width: 2,
+                                    width: AppDimensions.borderSelected,
                                   )
                                 : Border.all(
                                     color: AppColors.scratchBorder,
-                                    width: 1,
+                                    width: AppDimensions.hairline,
                                   ),
                           ),
                         ),

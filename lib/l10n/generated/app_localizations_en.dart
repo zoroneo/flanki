@@ -10,9 +10,6 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Flanki';
-
-  @override
   String get navDecks => 'Decks';
 
   @override
@@ -58,9 +55,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newCards => 'New';
 
   @override
-  String get learningCards => 'Learning';
-
-  @override
   String get totalCards => 'Total Cards';
 
   @override
@@ -83,12 +77,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountAndSync => 'ACCOUNT & SYNC';
 
   @override
-  String get linkedAnkiWeb => 'Linked with AnkiWeb';
-
-  @override
-  String get notLinkedAnkiWeb => 'Not linked to AnkiWeb';
-
-  @override
   String get loginToSyncHint =>
       'Log in to sync cards and progress with the cloud.';
 
@@ -102,12 +90,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Log out';
-
-  @override
-  String get loggedOut => 'Logged out';
-
-  @override
-  String get logoutSubtitle => 'Secure session token removed from device.';
 
   @override
   String get connectAnkiWeb => 'Connect AnkiWeb Account';
@@ -133,9 +115,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageSystem => 'System';
-
-  @override
-  String get languageChanged => 'Language changed successfully';
 
   @override
   String get appearance => 'Appearance';
@@ -241,10 +220,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ratingEasy => 'Easy';
 
   @override
-  String get studySessionComplete =>
-      'Congratulations! You have completed today\'s study session.';
-
-  @override
   String get studyCompleteTitle => 'Great job! You finished';
 
   @override
@@ -256,9 +231,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backToDecks => 'Back to decks';
 
   @override
-  String get authTitle => 'Log in to AnkiWeb';
-
-  @override
   String get authEmail => 'Email';
 
   @override
@@ -266,9 +238,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authLoginButton => 'Log in';
-
-  @override
-  String get authLoggingIn => 'Logging in...';
 
   @override
   String get authSuccess => 'Logged in successfully!';
@@ -324,9 +293,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tapToFlip => 'Show Answer';
-
-  @override
-  String get swipeHint => 'Swipe left: Again • Swipe right: Good';
 
   @override
   String cardsRemaining(int count) {
@@ -436,9 +402,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get cramButton => 'Cram';
-
-  @override
   String get linkedBadge => 'Linked';
 
   @override
@@ -520,18 +483,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Log in to your AnkiWeb account to synchronize decks, FSRS schedules, and study progress across devices.';
 
   @override
-  String get authEmailLabel => 'ANKIWEB EMAIL';
-
-  @override
-  String get authPasswordLabel => 'PASSWORD';
-
-  @override
-  String get authPasswordPlaceholder => 'Enter password...';
-
-  @override
-  String get authSubmitButton => 'Log In & Start Sync';
-
-  @override
   String get authSubmitting => 'Authenticating...';
 
   @override
@@ -548,9 +499,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String authSuccessToastDesc(String email) {
     return 'Linked account $email with Flanki.';
   }
-
-  @override
-  String get authGuestMode => 'Try Offline';
 
   @override
   String get authSecurityNote =>
@@ -611,9 +559,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get algorithmLabel => 'Algorithm';
 
   @override
-  String get themeZinc => 'Zinc Theme';
-
-  @override
   String get ankiRustCore => 'Anki Rust Core';
 
   @override
@@ -657,9 +602,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteCardConfirm =>
       'Are you sure you want to delete this card? This action cannot be undone.';
-
-  @override
-  String get cardDeleted => 'Card deleted';
 
   @override
   String get undo => 'Undo';
@@ -743,10 +685,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get maxReviewsPerDay => 'Maximum reviews per day';
 
   @override
-  String get selectCardToViewDetails =>
-      'Select a card on the left to view and edit details';
-
-  @override
   String get noCardSelected => 'No card selected';
 
   @override
@@ -772,15 +710,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hideAnswer => 'Hide Answer';
-
-  @override
-  String get syncMediaOnly => 'Sync Media (Images & Audio)';
-
-  @override
-  String get syncingMedia => 'Syncing media files...';
-
-  @override
-  String get addCardButton => 'Add Card';
 
   @override
   String get clozeDeletion => 'Cloze Deletion';
@@ -1066,16 +995,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Automatically start Flanki in background when logging into your computer.';
 
   @override
-  String get settingsTestNotificationSent => 'Test notification sent!';
-
-  @override
-  String get settingsTestNotificationCheck =>
-      'Check your system notification center or desktop toast.';
-
-  @override
-  String get settingsTestNotificationButton => 'Test Notification Now';
-
-  @override
   String syncSuccessWithMedia(int deckCount, int cardCount, String media) {
     return 'Successfully downloaded $deckCount decks, $cardCount cards$media from AnkiWeb.';
   }
@@ -1173,10 +1092,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get grammarAcademicTitle => 'Academic Grammar';
 
   @override
-  String get grammarAcademicSubtitle =>
-      '36 C1/C2 Units for SAT • GRE • GMAT • Advanced High School';
-
-  @override
   String grammarClearGhostsButton(int count) {
     return 'Clear $count Ghost Errors';
   }
@@ -1228,11 +1143,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String grammarStartPracticeNowButton(int count) {
-    return 'Start Practicing $count Questions Now';
-  }
-
-  @override
   String get grammarCoreConceptTitle => 'Core Native Mindset';
 
   @override
@@ -1262,9 +1172,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String grammarQuestionCounter(int current, int total) {
     return 'Question $current / $total';
   }
-
-  @override
-  String get grammarSubmitAnswer => 'Check Answer';
 
   @override
   String get grammarExitDialogTitle => 'Exit Practice Session?';
@@ -1536,25 +1443,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUpCloud => 'Create Cloud Account';
 
   @override
-  String get cloudAccount => 'Cloud Account';
-
-  @override
   String get cloudNotConnected => 'Cloud Account Not Connected';
-
-  @override
-  String get cloudConnected => 'Connected to Cloud';
 
   @override
   String pendingChanges(int count) {
     return '$count changes pending';
   }
-
-  @override
-  String get signOutConfirmTitle => 'Sign out of Cloud?';
-
-  @override
-  String get signOutConfirmDesc =>
-      'Your local cards and study history will remain safely on this device.';
 
   @override
   String get authInvalidEmail => 'Please enter a valid email address.';
@@ -1589,13 +1483,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get examDownloadedOffline => 'Downloaded';
-
-  @override
   String get downloadExam => 'Download';
-
-  @override
-  String get downloadingExam => 'Downloading...';
 
   @override
   String get takeExam => 'Start Exam';
@@ -1606,9 +1494,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noExamsFoundDesc =>
       'Try changing your search terms or category filters.';
-
-  @override
-  String get takingExamTitle => 'Take Exam';
 
   @override
   String get backButton => 'Back';
@@ -1630,9 +1515,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextQuestion => 'Next';
-
-  @override
-  String get questionList => 'Questions';
 
   @override
   String get questionListTitle => 'Question Overview';
@@ -1712,9 +1594,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get correctBadge => 'Correct';
-
-  @override
-  String get wrongBadge => 'Incorrect';
 
   @override
   String explanationPrefix(String exp) {
@@ -1933,9 +1812,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orContinueWithEmail => 'Or continue with email';
 
   @override
-  String get authOAuthFailed => 'Social login failed or was cancelled.';
-
-  @override
   String get selectiveSyncTitle => 'Selective Deck Sync';
 
   @override
@@ -1995,9 +1871,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String restoreFailed(String error) {
     return 'Restore failed: $error';
   }
-
-  @override
-  String get noBackupsFound => 'No cloud snapshots found.';
 
   @override
   String get exportLocalBackup => 'Export .flanki file';
@@ -2070,5 +1943,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noSyncHistory => 'No sync cycles recorded yet.';
 
   @override
-  String get syncDiagnosticsButton => 'Diagnostics';
+  String get appTitle => 'Flanki';
+
+  @override
+  String get themeZinc => 'Zinc Theme';
 }

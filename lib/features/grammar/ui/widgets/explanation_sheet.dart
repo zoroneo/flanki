@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../models/grammar_models.dart';
 import 'explanation_content_cards.dart';
 
@@ -30,7 +29,8 @@ class ExplanationSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
     final explanation = exercise.explanation;
 
     final containerDecoration = isSidePanel
@@ -43,7 +43,9 @@ class ExplanationSheet extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
+                color: theme.brightness == Brightness.dark
+                    ? AppColors.transparent
+                    : AppColors.black.withValues(alpha: 0.04),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -62,7 +64,9 @@ class ExplanationSheet extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.12),
+                color: theme.brightness == Brightness.dark
+                    ? AppColors.transparent
+                    : AppColors.black.withValues(alpha: 0.12),
                 blurRadius: 20,
                 offset: const Offset(0, -6),
               ),
@@ -88,21 +92,21 @@ class ExplanationSheet extends StatelessWidget {
               icon: LucideIcons.sparkles,
               title: l10n.grammarSectionKeySignal,
               content: explanation.keySignal,
-              color: Colors.amber,
+              color: colors.cramAmber,
             ),
           if (explanation.rule.isNotEmpty)
             ExplanationSection(
               icon: LucideIcons.bookOpenCheck,
               title: l10n.grammarSectionRule,
               content: explanation.rule,
-              color: Colors.blue,
+              color: colors.info,
             ),
           if (explanation.whyCorrect.isNotEmpty)
             ExplanationSection(
               icon: LucideIcons.checkCheck,
               title: l10n.grammarSectionWhyCorrect,
               content: explanation.whyCorrect,
-              color: Colors.green,
+              color: colors.success,
             ),
           if (explanation.distractorBreakdown.isNotEmpty) ...[
             Padding(
@@ -112,18 +116,18 @@ class ExplanationSheet extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     LucideIcons.shieldAlert,
                     size: AppIconSize.xs,
-                    color: Colors.orange,
+                    color: colors.warning,
                   ),
                   AppGaps.h8,
                   Text(
                     l10n.grammarSectionDistractors,
-                    style: const TextStyle(
-                      fontSize: 12.5,
+                    style: TextStyle(
+                      fontSize: AppTypography.xSmallPlus,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange,
+                      color: colors.warning,
                     ),
                   ),
                 ],
@@ -149,7 +153,7 @@ class ExplanationSheet extends StatelessWidget {
                   sheetController!.size < 0.95) {
                 sheetController!.animateTo(
                   1.0,
-                  duration: const Duration(milliseconds: 250),
+                  duration: AppDurations.modal,
                   curve: Curves.easeOutCubic,
                 );
               }
@@ -165,7 +169,7 @@ class ExplanationSheet extends StatelessWidget {
         ? Expanded(child: detailsContent)
         : ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: math.min(380.0, screenHeight * 0.45),
+              maxHeight: math.min(AppDimensions.sheetContentMaxHeight, screenHeight * 0.45),
             ),
             child: detailsContent,
           );
@@ -193,7 +197,7 @@ class ExplanationSheet extends StatelessWidget {
                     final target = sheetController!.size < 0.75 ? 1.0 : 0.50;
                     sheetController!.animateTo(
                       target,
-                      duration: const Duration(milliseconds: 300),
+                      duration: AppDurations.medium,
                       curve: Curves.easeOutCubic,
                     );
                   }
@@ -202,8 +206,8 @@ class ExplanationSheet extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                   child: Center(
                     child: Container(
-                      width: 40,
-                      height: AppSpacing.xs,
+                      width: AppDimensions.modalGrabHandleWidth,
+                      height: AppDimensions.modalGrabHandleHeight,
                       decoration: BoxDecoration(
                         color: theme.colorScheme.mutedForeground.withValues(
                           alpha: 0.35,
@@ -216,7 +220,7 @@ class ExplanationSheet extends StatelessWidget {
               ),
             Padding(
               padding: EdgeInsets.only(
-                top: isSidePanel ? 0 : 2,
+                top: isSidePanel ? AppSpacing.none : AppSpacing.xxs,
                 bottom: AppSpacing.sm,
               ),
               child: Row(
@@ -225,7 +229,7 @@ class ExplanationSheet extends StatelessWidget {
                     isCorrect
                         ? LucideIcons.circleCheck
                         : LucideIcons.circleAlert,
-                    color: isCorrect ? Colors.green : Colors.red,
+                    color: isCorrect ? colors.success : colors.error,
                     size: AppIconSize.md,
                   ),
                   AppGaps.h8,
@@ -237,9 +241,9 @@ class ExplanationSheet extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: AppTypography.medium,
                         fontWeight: FontWeight.bold,
-                        color: isCorrect ? Colors.green : Colors.red,
+                        color: isCorrect ? colors.success : colors.error,
                       ),
                     ),
                   ),
@@ -261,7 +265,7 @@ class ExplanationSheet extends StatelessWidget {
                           ? l10n.grammarViewResults
                           : l10n.grammarNextQuestion,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: AppTypography.small,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

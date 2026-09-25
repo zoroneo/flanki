@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' as m;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/update_info.dart';
 import '../../providers/update_notifier.dart';
@@ -44,7 +43,10 @@ class UpdateDialog extends ConsumerWidget {
 
     return ModalContainer(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 480, maxHeight: 520),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.modalDesktopMaxWidth,
+          maxHeight: AppDimensions.updateDialogMaxHeight,
+        ),
         padding: AppEdgeInsets.all20,
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart' as m;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../models/grammar_models.dart';
 import 'grammar_theory_tab_views.dart';
 
@@ -18,7 +16,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     // Dynamically assemble available tabs based on unit data
     final availableTabs = useMemoized(() {
@@ -36,7 +34,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
       activeIndex.value = index;
       pageController.animateToPage(
         index,
-        duration: const Duration(milliseconds: 250),
+        duration: AppDurations.modal,
         curve: Curves.easeInOut,
       );
     }
@@ -108,7 +106,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
             child: Text(
               levelLabel,
               style: TextStyle(
-                fontSize: 10,
+                fontSize: AppTypography.caption,
                 fontWeight: FontWeight.bold,
                 color: levelColor,
               ),
@@ -124,7 +122,10 @@ class GrammarTheoryMobileTabs extends HookWidget {
             ),
             child: Text(
               unit.category.code.toUpperCase(),
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                fontSize: AppTypography.caption,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           AppGaps.h8,
@@ -134,7 +135,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: AppTypography.nav,
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.foreground,
               ),
@@ -153,8 +154,8 @@ class GrammarTheoryMobileTabs extends HookWidget {
     ValueChanged<int> onSelect,
   ) {
     return Container(
-      height: 38,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      height: AppDimensions.horizontalTabsHeight,
+      padding: AppEdgeInsets.h16,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: availableTabs.length,
@@ -162,26 +163,27 @@ class GrammarTheoryMobileTabs extends HookWidget {
         itemBuilder: (context, index) {
           final isSelected = activeIndex == index;
           final tabType = availableTabs[index];
+          final colors = context.colors;
           final (IconData icon, String label, Color color) = switch (tabType) {
             GrammarTheoryTabType.concept => (
               LucideIcons.lightbulb,
               l10n.grammarTabConcept,
-              m.Colors.amber,
+              colors.cramAmber,
             ),
             GrammarTheoryTabType.formulas => (
               LucideIcons.sigma,
               l10n.grammarTabFormulas,
-              m.Colors.blue,
+              colors.info,
             ),
             GrammarTheoryTabType.traps => (
               LucideIcons.triangleAlert,
               l10n.grammarTabTraps,
-              m.Colors.orange,
+              colors.warning,
             ),
             GrammarTheoryTabType.guides => (
               LucideIcons.bookOpen,
               l10n.grammarTabGuides,
-              m.Colors.purple,
+              colors.accentPurple,
             ),
           };
 
@@ -189,7 +191,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
             onTap: () => onSelect(index),
             behavior: HitTestBehavior.opaque,
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
+              duration: AppDurations.short,
               padding: AppEdgeInsets.h12v8,
               decoration: BoxDecoration(
                 color: isSelected
@@ -216,7 +218,7 @@ class GrammarTheoryMobileTabs extends HookWidget {
                   Text(
                     label,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: AppTypography.xSmall,
                       fontWeight: isSelected
                           ? FontWeight.w600
                           : FontWeight.w500,

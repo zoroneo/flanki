@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
 import '../../providers/grammar_session_notifier.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import 'choice_question_widget.dart';
 import 'cloze_question_widget.dart';
 import 'error_id_question_widget.dart';

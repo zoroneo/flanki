@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flanki/core/localization/locale_notifier.dart';
 import 'package:flanki/features/exam/models/exam_models.dart';
 import 'package:flanki/features/grammar/models/grammar_enums.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

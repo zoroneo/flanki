@@ -30,7 +30,8 @@ class StudyBottomActionArea extends StatelessWidget {
       top: false,
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 760),
+          constraints:
+              const BoxConstraints(maxWidth: AppDimensions.cardMaxWidth),
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: bottomHorizontalPadding,

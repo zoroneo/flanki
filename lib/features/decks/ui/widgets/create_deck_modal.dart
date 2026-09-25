@@ -2,7 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 
 import 'package:flanki/core/widgets/adaptive_modal.dart';
 import 'package:flanki/core/widgets/form_focus_helper.dart';
@@ -88,9 +87,15 @@ class CreateDeckModal extends HookWidget {
                   top: Radius.circular(AppSpacing.xl),
                 ),
           border: isDesktopMode
-              ? Border.all(color: theme.colorScheme.border, width: 1)
+              ? Border.all(
+                  color: theme.colorScheme.border,
+                  width: AppDimensions.hairline,
+                )
               : Border(
-                  top: BorderSide(color: theme.colorScheme.border, width: 1),
+                  top: BorderSide(
+                    color: theme.colorScheme.border,
+                    width: AppDimensions.hairline,
+                  ),
                 ),
           boxShadow: [
             BoxShadow(

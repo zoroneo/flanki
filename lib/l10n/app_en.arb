@@ -1,16 +1,11 @@
 {
   "@@locale": "en",
-  "appTitle": "Flanki",
-  "@appTitle": {
-    "description": "The title of the application"
-  },
   "navDecks": "Decks",
   "navBrowser": "Browser",
   "navGrammar": "Grammar",
   "navExams": "Exams",
   "navStats": "Stats",
   "navSettings": "Settings",
-
   "searchDecks": "Search decks...",
   "studyNow": "Study Now",
   "customStudy": "Custom Study",
@@ -20,17 +15,13 @@
   "sync": "Sync",
   "dueCards": "Due",
   "newCards": "New",
-  "learningCards": "Learning",
   "totalCards": "Total Cards",
   "noDecksFound": "No decks found. Create one or import from AnkiWeb!",
   "syncing": "Syncing...",
   "syncCompleted": "Sync completed successfully",
   "syncFailed": "Sync failed",
-
   "settingsTitle": "Settings & Configuration",
   "accountAndSync": "ACCOUNT & SYNC",
-  "linkedAnkiWeb": "Linked with AnkiWeb",
-  "notLinkedAnkiWeb": "Not linked to AnkiWeb",
   "loginToSyncHint": "Log in to sync cards and progress with the cloud.",
   "readyToSync": "Ready to sync",
   "syncedAt": "Synced at: {time}",
@@ -44,29 +35,22 @@
     }
   },
   "logout": "Log out",
-  "loggedOut": "Logged out",
-  "logoutSubtitle": "Secure session token removed from device.",
   "connectAnkiWeb": "Connect AnkiWeb Account",
   "connectAnkiWebSubtitle": "Two-way sync for flashcards and learning progress with Anki servers.",
-
   "appPreferences": "APP PREFERENCES",
   "language": "Language",
   "languageSubtitle": "Choose app display language",
   "languageEnglish": "English",
   "languageVietnamese": "Tiếng Việt",
   "languageSystem": "System",
-  "languageChanged": "Language changed successfully",
-
   "appearance": "Appearance",
   "appearanceSubtitle": "Theme and visual customization",
   "themeDark": "Dark",
   "themeLight": "Light",
   "themeSystem": "System Default",
-
   "spacedRepetitionAlgorithm": "SPACED REPETITION ENGINE",
   "enableFsrs": "Enable FSRS v5",
   "fsrsSubtitle": "Optimized retention algorithm based on Difficulty, Stability, and Retrievability.",
-
   "aboutSection": "ABOUT FLANKI",
   "appVersion": "App Version",
   "openSourceLicenses": "Open Source Licenses",
@@ -82,7 +66,6 @@
   },
   "noLicensesFound": "No matching packages found",
   "licenseCopied": "License copied to clipboard",
-
   "searchCardsPlaceholder": "Search questions, answers, or tags...",
   "filterAll": "All",
   "filterDue": "Due",
@@ -100,13 +83,10 @@
     }
   },
   "loadMoreCards": "Load more cards",
-
   "ratingAgain": "Again",
   "ratingHard": "Hard",
   "ratingGood": "Good",
   "ratingEasy": "Easy",
-
-  "studySessionComplete": "Congratulations! You have completed today''s study session.",
   "studyCompleteTitle": "Great job! You finished",
   "studyCompleteDesc": "Completed {count} cards in this session with FSRS algorithm.",
   "@studyCompleteDesc": {
@@ -117,15 +97,11 @@
     }
   },
   "backToDecks": "Back to decks",
-
-  "authTitle": "Log in to AnkiWeb",
   "authEmail": "Email",
   "authPassword": "Password",
   "authLoginButton": "Log in",
-  "authLoggingIn": "Logging in...",
   "authSuccess": "Logged in successfully!",
   "authFailed": "Login failed. Please check your credentials.",
-
   "statsTitle": "Stats & Progress",
   "retentionRate": "RETENTION RATE",
   "targetReached": "Target reached",
@@ -153,11 +129,9 @@
   },
   "less": "Less",
   "more": "More",
-
   "studyQuestion": "QUESTION",
   "studyAnswer": "ANSWER",
   "tapToFlip": "Show Answer",
-  "swipeHint": "Swipe left: Again • Swipe right: Good",
   "cardsRemaining": "Cards left: {count}",
   "@cardsRemaining": {
     "placeholders": {
@@ -167,7 +141,6 @@
     }
   },
   "studyAgain": "Study again",
-
   "cardActionTitle": "Card Options",
   "flagSelector": "MARK WITH FLAG",
   "buryCard": "Bury card",
@@ -177,7 +150,6 @@
   "cancel": "Cancel",
   "frontSide": "FRONT",
   "backSide": "BACK",
-
   "addCardTitle": "Add New Card",
   "saveCard": "Save card",
   "noteType": "NOTE TYPE",
@@ -185,7 +157,6 @@
   "extraNotes": "NOTES",
   "tagsLabel": "TAGS",
   "addTagPlaceholder": "Add tag (e.g. toeic, grammar)...",
-
   "cramModeTitle": "Custom Cram Study",
   "cramModeDesc": "Create an ad-hoc session filtered by tags or flags. Does not affect original FSRS schedules.",
   "filterMode": "CARD FILTER",
@@ -232,7 +203,6 @@
       }
     }
   },
-  "cramButton": "Cram",
   "linkedBadge": "Linked",
   "syncBadge": "Sync",
   "syncError": "Sync Error",
@@ -240,9 +210,15 @@
   "importApkgSuccessDesc": "Imported {decks} decks, {cards} cards ({media} media files).",
   "@importApkgSuccessDesc": {
     "placeholders": {
-      "decks": {"type": "int"},
-      "cards": {"type": "int"},
-      "media": {"type": "int"}
+      "decks": {
+        "type": "int"
+      },
+      "cards": {
+        "type": "int"
+      },
+      "media": {
+        "type": "int"
+      }
     }
   },
   "importApkgError": "Import .apkg Error",
@@ -266,10 +242,6 @@
   "authScreenTitle": "AnkiWeb Account",
   "authHeaderTitle": "AnkiWeb Sync",
   "authHeaderDesc": "Log in to your AnkiWeb account to synchronize decks, FSRS schedules, and study progress across devices.",
-  "authEmailLabel": "ANKIWEB EMAIL",
-  "authPasswordLabel": "PASSWORD",
-  "authPasswordPlaceholder": "Enter password...",
-  "authSubmitButton": "Log In & Start Sync",
   "authSubmitting": "Authenticating...",
   "authMissingInfoTitle": "Missing Credentials",
   "authMissingInfoDesc": "Please provide both AnkiWeb email and password.",
@@ -277,69 +249,87 @@
   "authSuccessToastDesc": "Linked account {email} with Flanki.",
   "@authSuccessToastDesc": {
     "placeholders": {
-      "email": {"type": "String"}
+      "email": {
+        "type": "String"
+      }
     }
   },
-  "authGuestMode": "Try Offline",
   "authSecurityNote": "Security: Flanki stores only your session HostKey securely on device, never your raw password.",
   "intervalMinutes": "{count}m",
   "@intervalMinutes": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "intervalHours": "{count}h",
   "@intervalHours": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "intervalDays": "{count}d",
   "@intervalDays": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "intervalMonths": "{count}mo",
   "@intervalMonths": {
     "placeholders": {
-      "count": {"type": "String"}
+      "count": {
+        "type": "String"
+      }
     }
   },
   "intervalYears": "{count}y",
   "@intervalYears": {
     "placeholders": {
-      "count": {"type": "String"}
+      "count": {
+        "type": "String"
+      }
     }
   },
   "deckPrefix": "Deck: {deck}",
   "@deckPrefix": {
     "placeholders": {
-      "deck": {"type": "String"}
+      "deck": {
+        "type": "String"
+      }
     }
   },
   "intervalBadge": "{days}d interval",
   "@intervalBadge": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "newBadge": "New",
   "studyMinutesUnit": "{count}m",
   "@studyMinutesUnit": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "targetNotReached": "In progress",
   "targetRetentionRate": "Target {rate}",
   "@targetRetentionRate": {
     "placeholders": {
-      "rate": {"type": "String"}
+      "rate": {
+        "type": "String"
+      }
     }
   },
   "algorithmLabel": "Algorithm",
-  "themeZinc": "Zinc Theme",
   "ankiRustCore": "Anki Rust Core",
   "createDeckTitle": "Create Deck",
   "createDeckDesc": "Create a new deck to organize your flashcards.",
@@ -361,7 +351,6 @@
   "deleteCard": "Delete Card",
   "deleteCardTitle": "Delete Card",
   "deleteCardConfirm": "Are you sure you want to delete this card? This action cannot be undone.",
-  "cardDeleted": "Card deleted",
   "undo": "Undo",
   "delete": "Delete",
   "sm2Subtitle": "Traditional SM-2 algorithm",
@@ -414,7 +403,6 @@
   "lapsesLabel": "Lapses",
   "newCardsPerDay": "New cards per day",
   "maxReviewsPerDay": "Maximum reviews per day",
-  "selectCardToViewDetails": "Select a card on the left to view and edit details",
   "noCardSelected": "No card selected",
   "unsuspendCard": "Unsuspend",
   "fsrsScheduleTitle": "FSRS ALGORITHM & SCHEDULE",
@@ -424,9 +412,6 @@
   "submitAnswer": "Submit",
   "showAnswer": "Show Answer",
   "hideAnswer": "Hide Answer",
-  "syncMediaOnly": "Sync Media (Images & Audio)",
-  "syncingMedia": "Syncing media files...",
-  "addCardButton": "Add Card",
   "clozeDeletion": "Cloze Deletion",
   "connected": "Connected",
   "offlineMode": "Offline Mode",
@@ -574,27 +559,34 @@
   "settingsMinimizeToTraySubtitle": "Closing the window (X) minimizes Flanki to tray to keep background reminder timers active.",
   "settingsLaunchAtStartup": "Launch at System Startup",
   "settingsLaunchAtStartupSubtitle": "Automatically start Flanki in background when logging into your computer.",
-  "settingsTestNotificationSent": "Test notification sent!",
-  "settingsTestNotificationCheck": "Check your system notification center or desktop toast.",
-  "settingsTestNotificationButton": "Test Notification Now",
   "syncSuccessWithMedia": "Successfully downloaded {deckCount} decks, {cardCount} cards{media} from AnkiWeb.",
   "@syncSuccessWithMedia": {
     "placeholders": {
-      "deckCount": {"type": "int"},
-      "cardCount": {"type": "int"},
-      "media": {"type": "String"}
+      "deckCount": {
+        "type": "int"
+      },
+      "cardCount": {
+        "type": "int"
+      },
+      "media": {
+        "type": "String"
+      }
     }
   },
   "syncMediaCountPart": " and {count} media files",
   "@syncMediaCountPart": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "syncMediaSyncedSuccess": "Successfully synced {count} media files from AnkiWeb.",
   "@syncMediaSyncedSuccess": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "syncCollectionAndMediaUpToDate": "Deck collection and media are already in sync with AnkiWeb Cloud.",
@@ -608,73 +600,102 @@
   "syncMediaDownloadedSuccess": "Successfully downloaded {count} media files from AnkiWeb.",
   "@syncMediaDownloadedSuccess": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "syncServerError": "AnkiWeb server error ({statusCode}): {message}",
   "@syncServerError": {
     "placeholders": {
-      "statusCode": {"type": "int"},
-      "message": {"type": "String"}
+      "statusCode": {
+        "type": "int"
+      },
+      "message": {
+        "type": "String"
+      }
     }
   },
   "syncCheckStatusServerError": "Server status check error ({statusCode}).",
   "@syncCheckStatusServerError": {
     "placeholders": {
-      "statusCode": {"type": "int"}
+      "statusCode": {
+        "type": "int"
+      }
     }
   },
   "syncCheckError": "Sync check error: {error}",
   "@syncCheckError": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "syncUploadError": "AnkiWeb upload error: {error}",
   "@syncUploadError": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "syncMediaError": "AnkiWeb media sync error: {error}",
   "@syncMediaError": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "syncMediaBatchError": "Media batch download error ({range}): {statusCode} {message}",
   "@syncMediaBatchError": {
     "placeholders": {
-      "range": {"type": "String"},
-      "statusCode": {"type": "int"},
-      "message": {"type": "String"}
+      "range": {
+        "type": "String"
+      },
+      "statusCode": {
+        "type": "int"
+      },
+      "message": {
+        "type": "String"
+      }
     }
   },
   "syncCollectionError": "AnkiWeb sync error: {error}",
   "@syncCollectionError": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "cramDeckTitlePrefix": "⚡ Cram: {name}",
   "@cramDeckTitlePrefix": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "cramDeckTitleWithTag": "⚡ Cram: {name} (#{tag})",
   "@cramDeckTitleWithTag": {
     "placeholders": {
-      "name": {"type": "String"},
-      "tag": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "tag": {
+        "type": "String"
+      }
     }
   },
   "grammarAcademicTitle": "Academic Grammar",
-  "grammarAcademicSubtitle": "36 C1/C2 Units for SAT • GRE • GMAT • Advanced High School",
   "grammarClearGhostsButton": "Clear {count} Ghost Errors",
   "@grammarClearGhostsButton": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "grammarMetricTotalUnits": "Total Units",
@@ -684,7 +705,9 @@
   "grammarFilterAll": "All ({count})",
   "@grammarFilterAll": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "grammarTheoryButton": "Theory",
@@ -692,33 +715,37 @@
   "grammarMasteryPercentage": "{percentage}% Mastery",
   "@grammarMasteryPercentage": {
     "placeholders": {
-      "percentage": {"type": "String"}
+      "percentage": {
+        "type": "String"
+      }
     }
   },
   "grammarCompletedProgress": "Completed: {completed} / {total}",
   "@grammarCompletedProgress": {
     "placeholders": {
-      "completed": {"type": "int"},
-      "total": {"type": "int"}
+      "completed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "grammarErrorLoadCatalog": "Failed to load grammar catalog: {error}",
   "@grammarErrorLoadCatalog": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "grammarTheoryScreenTitle": "Unit Theory",
   "grammarPracticeCountButton": "Practice ({count} Qs)",
   "@grammarPracticeCountButton": {
     "placeholders": {
-      "count": {"type": "int"}
-    }
-  },
-  "grammarStartPracticeNowButton": "Start Practicing {count} Questions Now",
-  "@grammarStartPracticeNowButton": {
-    "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "grammarCoreConceptTitle": "Core Native Mindset",
@@ -729,7 +756,9 @@
   "grammarErrorLoadUnit": "Failed to load unit: {error}",
   "@grammarErrorLoadUnit": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "grammarPracticeScreenTitle": "Grammar Practice",
@@ -737,11 +766,14 @@
   "grammarQuestionCounter": "Question {current} / {total}",
   "@grammarQuestionCounter": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
-  "grammarSubmitAnswer": "Check Answer",
   "grammarExitDialogTitle": "Exit Practice Session?",
   "grammarExitDialogContent": "Your progress for completed questions has been saved into FSRS. Are you sure you want to exit now?",
   "grammarContinueStudying": "Keep Practicing",
@@ -758,7 +790,9 @@
   "grammarFixGhostsNow": "Fix Weaknesses Now ({count} ghosts)",
   "@grammarFixGhostsNow": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "grammarBackToCatalog": "Back to Catalog",
@@ -780,7 +814,9 @@
   "grammarClozeYourAnswer": "Your answer: \"{answer}\"",
   "@grammarClozeYourAnswer": {
     "placeholders": {
-      "answer": {"type": "String"}
+      "answer": {
+        "type": "String"
+      }
     }
   },
   "grammarClozeStandardAnswer": "Standard answer: ",
@@ -823,25 +859,33 @@
   "grammarGhostsCount": "{count} Ghost",
   "@grammarGhostsCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "grammarUnitsCount": "{count} Units",
   "@grammarUnitsCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "grammarBadgeDue": "{count} Due",
   "@grammarBadgeDue": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "grammarOptionBadge": "Option {letter}",
   "@grammarOptionBadge": {
     "placeholders": {
-      "letter": {"type": "String"}
+      "letter": {
+        "type": "String"
+      }
     }
   },
   "updateDownloadFailed": "Failed to download installer",
@@ -852,17 +896,15 @@
   "cloudSyncSubtitle": "Automatic real-time sync across devices with zero data loss",
   "signInCloud": "Sign In to Cloud",
   "signUpCloud": "Create Cloud Account",
-  "cloudAccount": "Cloud Account",
   "cloudNotConnected": "Cloud Account Not Connected",
-  "cloudConnected": "Connected to Cloud",
   "pendingChanges": "{count} changes pending",
   "@pendingChanges": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "signOutConfirmTitle": "Sign out of Cloud?",
-  "signOutConfirmDesc": "Your local cards and study history will remain safely on this device.",
   "authInvalidEmail": "Please enter a valid email address.",
   "authPasswordTooShort": "Password must be at least 6 characters.",
   "authSuccessSubtitle": "Account created and signed in successfully.",
@@ -873,23 +915,26 @@
   "allCountFilter": "All ({count})",
   "@allCountFilter": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "examDurationAndQuestions": "{duration} mins • {count} questions",
   "@examDurationAndQuestions": {
     "placeholders": {
-      "duration": {"type": "int"},
-      "count": {"type": "int"}
+      "duration": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "examDownloadedOffline": "Downloaded",
   "downloadExam": "Download",
-  "downloadingExam": "Downloading...",
   "takeExam": "Start Exam",
   "noExamsFoundTitle": "No matching exams found",
   "noExamsFoundDesc": "Try changing your search terms or category filters.",
-  "takingExamTitle": "Take Exam",
   "backButton": "Back",
   "examNoQuestions": "No questions found in this exam paper",
   "submitExam": "Submit",
@@ -897,27 +942,34 @@
   "continueExam": "Continue",
   "previousQuestion": "Previous",
   "nextQuestion": "Next",
-  "questionList": "Questions",
   "questionListTitle": "Question Overview",
   "readingPassage": "Reading Passage:",
   "questionProgress": "Question {current} / {total}",
   "@questionProgress": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "questionNumberPrefix": "Question {number}",
   "@questionNumberPrefix": {
     "placeholders": {
-      "number": {"type": "int"}
+      "number": {
+        "type": "int"
+      }
     }
   },
   "confirmSubmitExamTitle": "Confirm Exam Submission?",
   "confirmSubmitUnfinished": "You have {count} unanswered question(s). Are you sure you want to submit now?",
   "@confirmSubmitUnfinished": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "confirmSubmitFinished": "You have answered all questions. Submit for grading?",
@@ -933,7 +985,9 @@
   "examScorePoints": "{score} Pts",
   "@examScorePoints": {
     "placeholders": {
-      "score": {"type": "int"}
+      "score": {
+        "type": "int"
+      }
     }
   },
   "correctCountStat": "Correct Answers",
@@ -942,23 +996,28 @@
   "retakeExam": "Retake Exam",
   "questionDetails": "Question & Answer Details",
   "correctBadge": "Correct",
-  "wrongBadge": "Incorrect",
   "explanationPrefix": "Explanation: {exp}",
   "@explanationPrefix": {
     "placeholders": {
-      "exp": {"type": "String"}
+      "exp": {
+        "type": "String"
+      }
     }
   },
   "examPrefixLabel": "Exam: {examId}",
   "@examPrefixLabel": {
     "placeholders": {
-      "examId": {"type": "String"}
+      "examId": {
+        "type": "String"
+      }
     }
   },
   "selectedAnswerPrefix": "Selected: {answer}",
   "@selectedAnswerPrefix": {
     "placeholders": {
-      "answer": {"type": "String"}
+      "answer": {
+        "type": "String"
+      }
     }
   },
   "reviewMistakeButton": "Review",
@@ -1009,25 +1068,33 @@
   "examLoadFailed": "Failed to load exam paper: {error}",
   "@examLoadFailed": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "examSubmitFailed": "Failed to submit exam: {error}",
   "@examSubmitFailed": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "examDownloadFailed": "Failed to download exam paper: {error}",
   "@examDownloadFailed": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "wrongStatusUpdateFailed": "Failed to update question status: {error}",
   "@wrongStatusUpdateFailed": {
     "placeholders": {
-      "error": {"type": "String"}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "learningTools": "Learning Tools",
@@ -1046,7 +1113,6 @@
   "@bookmarkedQuestion": {
     "description": "Label when a question is bookmarked"
   },
-  "unknown": "Unknown",
   "@unknown": {
     "description": "Fallback text for unknown status or error"
   },
@@ -1093,10 +1159,6 @@
   "orContinueWithEmail": "Or continue with email",
   "@orContinueWithEmail": {
     "description": "Divider text separating social auth and email form"
-  },
-  "authOAuthFailed": "Social login failed or was cancelled.",
-  "@authOAuthFailed": {
-    "description": "Error message when social OAuth login fails"
   },
   "selectiveSyncTitle": "Selective Deck Sync",
   "@selectiveSyncTitle": {
@@ -1181,10 +1243,6 @@
         "example": "Corrupt archive"
       }
     }
-  },
-  "noBackupsFound": "No cloud snapshots found.",
-  "@noBackupsFound": {
-    "description": "Empty state label when user has no backups"
   },
   "exportLocalBackup": "Export .flanki file",
   "@exportLocalBackup": {
@@ -1278,9 +1336,9 @@
   "@noSyncHistory": {
     "description": "Empty state when no sync records exist"
   },
-  "syncDiagnosticsButton": "Diagnostics",
-  "@syncDiagnosticsButton": {
-    "description": "Button text in AccountSyncCard opening diagnostics"
-  }
+  "appTitle": "Flanki",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "themeZinc": "Zinc Theme"
 }
-

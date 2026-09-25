@@ -1,7 +1,6 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/config/app_config.dart';
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/deck.dart';
 import '../../../../core/theme/app_tokens.dart';
 

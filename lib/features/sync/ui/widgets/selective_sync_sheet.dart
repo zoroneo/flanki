@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/database/database_service.dart';
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/providers/shared_deck_provider.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/adaptive_modal.dart';
@@ -37,8 +36,8 @@ class SelectiveSyncSheet extends ConsumerWidget {
             // Handle bar
             Center(
               child: Container(
-                width: 36,
-                height: 4,
+                width: AppDimensions.modalGrabHandleWidth,
+                height: AppDimensions.modalGrabHandleHeight,
                 margin: const EdgeInsets.only(bottom: AppSpacing.md),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.mutedForeground.withValues(
@@ -94,7 +93,9 @@ class SelectiveSyncSheet extends ConsumerWidget {
               )
             else
               ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 380),
+                constraints: const BoxConstraints(
+                  maxHeight: AppDimensions.sheetContentMaxHeight,
+                ),
                 child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: decks.length,

@@ -8,7 +8,6 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
-import '../../../l10n/generated/app_localizations.dart';
 import 'widgets/grammar_theory_mobile_tabs.dart';
 import 'widgets/grammar_theory_sections.dart';
 import 'widgets/grammar_theory_toc.dart';
@@ -20,7 +19,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final grammarAsync = ref.watch(grammarUnitsProvider);
 
     final conceptKey = useMemoized(() => GlobalKey());
@@ -144,7 +143,9 @@ class GrammarTheoryScreen extends HookConsumerWidget {
   }) {
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1200),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.wideContentMaxWidth,
+        ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(
             AppSpacing.pageDesktop,

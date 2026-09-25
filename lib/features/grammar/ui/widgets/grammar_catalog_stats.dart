@@ -5,7 +5,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../router/app_router.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class GrammarCatalogStats extends StatelessWidget {
   final bool isCompact;
@@ -23,8 +22,9 @@ class GrammarCatalogStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final theme = Theme.of(context);
+    final colors = context.colors;
 
     if (isCompact) {
       return Card(
@@ -38,8 +38,9 @@ class GrammarCatalogStats extends StatelessWidget {
               Expanded(
                 child: _buildCompactColumn(
                   theme: theme,
+                  colors: colors,
                   icon: LucideIcons.layers,
-                  iconColor: m.Colors.blue,
+                  iconColor: colors.info,
                   value: '${GrammarConstants.totalUnits}',
                   label: l10n.grammarMetricTotalUnits,
                 ),
@@ -48,8 +49,9 @@ class GrammarCatalogStats extends StatelessWidget {
               Expanded(
                 child: _buildCompactColumn(
                   theme: theme,
+                  colors: colors,
                   icon: LucideIcons.circleCheck,
-                  iconColor: m.Colors.green,
+                  iconColor: colors.success,
                   value: '$totalCompleted / ${GrammarConstants.totalExercises}',
                   label: l10n.grammarMetricCompletedExercises,
                 ),
@@ -68,10 +70,11 @@ class GrammarCatalogStats extends StatelessWidget {
                       : null,
                   child: _buildCompactColumn(
                     theme: theme,
+                    colors: colors,
                     icon: LucideIcons.shieldAlert,
                     iconColor: (totalGhosts > 0 || totalDues > 0)
-                        ? m.Colors.red
-                        : m.Colors.green,
+                        ? colors.error
+                        : colors.success,
                     value: '$totalDues / $totalGhosts',
                     label: l10n.grammarMetricDueGhosts,
                     isAlert: totalGhosts > 0 || totalDues > 0,
@@ -91,7 +94,7 @@ class GrammarCatalogStats extends StatelessWidget {
             label: l10n.grammarMetricTotalUnits,
             value: l10n.grammarUnitsCount(GrammarConstants.totalUnits),
             icon: LucideIcons.layers,
-            color: m.Colors.blue,
+            color: colors.info,
             isCompact: isCompact,
           ),
         ),
@@ -101,7 +104,7 @@ class GrammarCatalogStats extends StatelessWidget {
             label: l10n.grammarMetricCompletedExercises,
             value: '$totalCompleted / ${GrammarConstants.totalExercises}',
             icon: LucideIcons.circleCheck,
-            color: m.Colors.green,
+            color: colors.success,
             isCompact: isCompact,
           ),
         ),
@@ -112,8 +115,8 @@ class GrammarCatalogStats extends StatelessWidget {
             value: '$totalDues / $totalGhosts',
             icon: LucideIcons.shieldAlert,
             color: (totalGhosts > 0 || totalDues > 0)
-                ? m.Colors.red
-                : m.Colors.green,
+                ? colors.error
+                : colors.success,
             isCompact: isCompact,
             onTap: totalGhosts > 0
                 ? () => context.push(
@@ -131,15 +134,16 @@ class GrammarCatalogStats extends StatelessWidget {
 
   Widget _buildDivider(ThemeData theme) {
     return Container(
-      width: 1,
-      height: 26,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
+      width: AppDimensions.hairline,
+      height: AppDimensions.statDividerHeight,
+      margin: AppEdgeInsets.h4,
       color: theme.colorScheme.border.withValues(alpha: 0.6),
     );
   }
 
   Widget _buildCompactColumn({
     required ThemeData theme,
+    required AppColorsExtension colors,
     required IconData icon,
     required m.Color iconColor,
     required String value,
@@ -154,7 +158,7 @@ class GrammarCatalogStats extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 13, color: iconColor),
+            Icon(icon, size: AppIconSize.statIcon, color: iconColor),
             AppGaps.h4,
             Flexible(
               child: Text(
@@ -162,10 +166,10 @@ class GrammarCatalogStats extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 13.5,
+                  fontSize: AppTypography.navPlus,
                   fontWeight: FontWeight.bold,
                   letterSpacing: -0.2,
-                  color: isAlert ? m.Colors.red : theme.colorScheme.foreground,
+                  color: isAlert ? colors.error : theme.colorScheme.foreground,
                 ),
               ),
             ),
@@ -178,7 +182,7 @@ class GrammarCatalogStats extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 10,
+            fontSize: AppTypography.caption,
             color: theme.colorScheme.mutedForeground,
           ),
         ),
@@ -242,7 +246,7 @@ class GrammarMetricCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.typography.xSmall.copyWith(
-                      fontSize: 10,
+                      fontSize: AppTypography.caption,
                       color: theme.colorScheme.mutedForeground,
                     ),
                   ),

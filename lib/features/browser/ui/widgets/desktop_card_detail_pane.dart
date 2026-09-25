@@ -1,7 +1,6 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../providers/card_browser_notifier.dart';
@@ -41,7 +40,9 @@ class DesktopCardDetailPane extends HookWidget {
             padding: AppEdgeInsets.all24,
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 720),
+                constraints: const BoxConstraints(
+                  maxWidth: AppDimensions.contentMaxWidth,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

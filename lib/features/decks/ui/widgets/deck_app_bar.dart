@@ -78,7 +78,9 @@ class DeckAppBar extends StatelessWidget {
                 leadingIcon = const SizedBox(
                   width: AppIconSize.sm,
                   height: AppIconSize.sm,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator(
+                    strokeWidth: AppDimensions.spinnerStrokeWidth,
+                  ),
                 );
                 badgeText = l10n.syncing;
               } else if (syncState.isOffline) {
@@ -115,7 +117,9 @@ class DeckAppBar extends StatelessWidget {
                 leadingIcon = const SizedBox(
                   width: AppIconSize.sm,
                   height: AppIconSize.sm,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator(
+                    strokeWidth: AppDimensions.spinnerStrokeWidth,
+                  ),
                 );
                 badgeText = l10n.linkedBadge;
               } else {

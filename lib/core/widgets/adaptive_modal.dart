@@ -90,11 +90,23 @@ class AdaptiveModalFrame extends StatelessWidget {
                   top: Radius.circular(AppSpacing.lg),
                 ),
           border: isDesktop
-              ? Border.all(color: theme.colorScheme.border, width: 1)
+              ? Border.all(
+                  color: theme.colorScheme.border,
+                  width: AppDimensions.hairline,
+                )
               : Border(
-                  top: BorderSide(color: theme.colorScheme.border, width: 1),
-                  left: BorderSide(color: theme.colorScheme.border, width: 1),
-                  right: BorderSide(color: theme.colorScheme.border, width: 1),
+                  top: BorderSide(
+                    color: theme.colorScheme.border,
+                    width: AppDimensions.hairline,
+                  ),
+                  left: BorderSide(
+                    color: theme.colorScheme.border,
+                    width: AppDimensions.hairline,
+                  ),
+                  right: BorderSide(
+                    color: theme.colorScheme.border,
+                    width: AppDimensions.hairline,
+                  ),
                 ),
           boxShadow: [
             BoxShadow(

@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/about_info_card.dart';
@@ -53,7 +52,8 @@ class SettingsScreen extends HookConsumerWidget {
           ],
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 720),
+              constraints:
+                  const BoxConstraints(maxWidth: AppDimensions.contentMaxWidth),
               child: ListView(
                 padding: EdgeInsets.symmetric(
                   horizontal: horizontalPadding,

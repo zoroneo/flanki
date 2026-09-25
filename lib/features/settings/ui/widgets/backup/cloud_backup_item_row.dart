@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../../core/services/cloud_backup_service.dart';
 import '../../../../../core/theme/app_tokens.dart';
-import '../../../../../l10n/generated/app_localizations.dart';
 import '../../../../sync/providers/cloud_backup_notifier.dart';
 
 class CloudBackupItemRow extends StatelessWidget {

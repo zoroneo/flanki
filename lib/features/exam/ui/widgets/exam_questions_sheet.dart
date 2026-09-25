@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/adaptive_modal.dart';
 import '../../providers/exam_session_notifier.dart';
@@ -90,7 +89,7 @@ class ExamQuestionsSheet {
                           border: isCurrent
                               ? Border.all(
                                   color: theme.colorScheme.primary,
-                                  width: 2,
+                                  width: AppDimensions.borderSelected,
                                 )
                               : null,
                         ),

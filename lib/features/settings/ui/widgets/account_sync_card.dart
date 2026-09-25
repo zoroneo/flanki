@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../sync/providers/supabase_auth_notifier.dart';
 import '../../../sync/providers/sync_state_notifier.dart';
@@ -215,7 +214,9 @@ class AccountSyncCard extends ConsumerWidget {
                       const SizedBox(
                         width: AppSpacing.md,
                         height: AppSpacing.md,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator(
+                          strokeWidth: AppDimensions.spinnerStrokeWidth,
+                        ),
                       )
                     else
                       const Icon(LucideIcons.refreshCw, size: AppIconSize.sm),

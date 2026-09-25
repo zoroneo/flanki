@@ -1,6 +1,5 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/adaptive_modal.dart';
 import 'sync_conflict_option_tile.dart';
@@ -215,7 +214,10 @@ class SyncConflictDialog extends StatelessWidget {
             top: Radius.circular(AppSpacing.lg),
           ),
           border: Border(
-            top: BorderSide(color: theme.colorScheme.border, width: 1),
+            top: BorderSide(
+              color: theme.colorScheme.border,
+              width: AppDimensions.hairline,
+            ),
           ),
           boxShadow: [
             BoxShadow(

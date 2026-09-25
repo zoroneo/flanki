@@ -2,7 +2,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class PracticeShortcutsGuide extends StatelessWidget {
   final GrammarExercise? exercise;
@@ -12,7 +11,7 @@ class PracticeShortcutsGuide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return Container(
       padding: AppEdgeInsets.all24,

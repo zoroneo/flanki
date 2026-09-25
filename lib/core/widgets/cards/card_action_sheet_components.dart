@@ -1,18 +1,21 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../localization/locale_notifier.dart';
 import '../../models/card.dart';
 import '../../theme/app_tokens.dart';
 
-const ankiFlagColors = {
-  CardFlag.red: AppColors.flagRed,
-  CardFlag.orange: AppColors.flagOrange,
-  CardFlag.green: AppColors.flagGreen,
-  CardFlag.blue: AppColors.flagBlue,
-  CardFlag.pink: AppColors.flagPink,
-  CardFlag.turquoise: AppColors.flagTurquoise,
-  CardFlag.purple: AppColors.flagPurple,
-};
+Color getAnkiFlagColor(BuildContext context, CardFlag flag) {
+  final colors = context.colors;
+  return switch (flag) {
+    CardFlag.none => AppColors.mutedGrey,
+    CardFlag.red => colors.flagRed,
+    CardFlag.orange => colors.flagOrange,
+    CardFlag.green => colors.flagGreen,
+    CardFlag.blue => colors.flagBlue,
+    CardFlag.pink => colors.flagPink,
+    CardFlag.turquoise => colors.flagTurquoise,
+    CardFlag.purple => colors.flagPurple,
+  };
+}
 
 class CardFlagSelector extends StatelessWidget {
   final CardFlag currentFlag;
@@ -61,7 +64,7 @@ class CardFlagSelector extends StatelessWidget {
         ),
         ...CardFlag.values.where((f) => f != CardFlag.none).map((flag) {
           final isSelected = currentFlag == flag;
-          final c = ankiFlagColors[flag] ?? AppColors.mutedGrey;
+          final c = getAnkiFlagColor(context, flag);
 
           return GestureDetector(
             onTap: () => onSelectFlag(flag),
@@ -78,9 +81,12 @@ class CardFlagSelector extends StatelessWidget {
                   border: isSelected
                       ? Border.all(
                           color: theme.colorScheme.foreground,
-                          width: 2.5,
+                          width: AppDimensions.borderThick,
                         )
-                      : Border.all(color: c, width: 1.5),
+                      : Border.all(
+                          color: c,
+                          width: AppDimensions.borderFocus,
+                        ),
                 ),
                 child: isSelected
                     ? const Icon(

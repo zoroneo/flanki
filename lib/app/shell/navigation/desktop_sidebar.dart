@@ -1,6 +1,5 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flanki/app/shell/navigation/widgets/sidebar_brand_header.dart';
 import 'package:flanki/app/shell/navigation/widgets/sidebar_nav_item.dart';
 import 'package:flanki/app/shell/navigation/widgets/sidebar_sync_status.dart';
@@ -32,7 +31,7 @@ class DesktopSidebar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SidebarBrandHeader(l10n: l10n),
-          const Divider(height: 1),
+          const Divider(height: AppDimensions.hairline),
           AppGaps.v12,
           _buildNavLinks(context),
           const Spacer(),

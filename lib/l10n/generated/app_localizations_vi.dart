@@ -10,9 +10,6 @@ class AppLocalizationsVi extends AppLocalizations {
   AppLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
-  String get appTitle => 'Flanki';
-
-  @override
   String get navDecks => 'Bộ thẻ';
 
   @override
@@ -58,9 +55,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get newCards => 'Mới';
 
   @override
-  String get learningCards => 'Đang học';
-
-  @override
   String get totalCards => 'Tổng số thẻ';
 
   @override
@@ -83,12 +77,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get accountAndSync => 'TÀI KHOẢN & ĐỒNG BỘ';
 
   @override
-  String get linkedAnkiWeb => 'Đã liên kết AnkiWeb';
-
-  @override
-  String get notLinkedAnkiWeb => 'Chưa liên kết AnkiWeb';
-
-  @override
   String get loginToSyncHint =>
       'Đăng nhập để đồng bộ thẻ và tiến độ học với đám mây.';
 
@@ -102,12 +90,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get logout => 'Đăng xuất';
-
-  @override
-  String get loggedOut => 'Đã đăng xuất';
-
-  @override
-  String get logoutSubtitle => 'Đã xóa mã phiên bảo mật khỏi thiết bị.';
 
   @override
   String get connectAnkiWeb => 'Kết nối tài khoản AnkiWeb';
@@ -133,9 +115,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get languageSystem => 'Hệ thống';
-
-  @override
-  String get languageChanged => 'Đã đổi ngôn ngữ thành công';
 
   @override
   String get appearance => 'Giao diện';
@@ -235,10 +214,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get ratingEasy => 'Dễ';
 
   @override
-  String get studySessionComplete =>
-      'Chúc mừng! Bạn đã hoàn thành phiên học hôm nay.';
-
-  @override
   String get studyCompleteTitle => 'Tuyệt vời! Bạn đã hoàn thành';
 
   @override
@@ -250,9 +225,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get backToDecks => 'Quay lại danh sách bộ thẻ';
 
   @override
-  String get authTitle => 'Đăng nhập AnkiWeb';
-
-  @override
   String get authEmail => 'Email';
 
   @override
@@ -260,9 +232,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get authLoginButton => 'Đăng nhập';
-
-  @override
-  String get authLoggingIn => 'Đang đăng nhập...';
 
   @override
   String get authSuccess => 'Đăng nhập thành công!';
@@ -319,9 +288,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get tapToFlip => 'Hiển thị đáp án';
-
-  @override
-  String get swipeHint => 'Vuốt trái: Again • Vuốt phải: Good';
 
   @override
   String cardsRemaining(int count) {
@@ -431,9 +397,6 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get cramButton => 'Cram';
-
-  @override
   String get linkedBadge => 'Đã liên kết';
 
   @override
@@ -515,18 +478,6 @@ class AppLocalizationsVi extends AppLocalizations {
       'Đăng nhập tài khoản AnkiWeb để đồng bộ hai chiều toàn bộ bộ thẻ, lịch ôn FSRS và tiến độ học tập.';
 
   @override
-  String get authEmailLabel => 'EMAIL ANKIWEB';
-
-  @override
-  String get authPasswordLabel => 'MẬT KHẨU';
-
-  @override
-  String get authPasswordPlaceholder => 'Nhập mật khẩu...';
-
-  @override
-  String get authSubmitButton => 'Đăng nhập & Bắt đầu Sync';
-
-  @override
   String get authSubmitting => 'Đang xác thực...';
 
   @override
@@ -543,9 +494,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String authSuccessToastDesc(String email) {
     return 'Đã liên kết tài khoản $email với Flanki.';
   }
-
-  @override
-  String get authGuestMode => 'Dùng thử ngoại tuyến';
 
   @override
   String get authSecurityNote =>
@@ -606,9 +554,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get algorithmLabel => 'Thuật toán';
 
   @override
-  String get themeZinc => 'Chủ đề Zinc';
-
-  @override
   String get ankiRustCore => 'Nhân Anki Rust';
 
   @override
@@ -653,9 +598,6 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get deleteCardConfirm =>
       'Bạn có chắc chắn muốn xóa thẻ này? Thao tác này sẽ xóa thẻ khỏi bộ sưu tập.';
-
-  @override
-  String get cardDeleted => 'Đã xóa thẻ';
 
   @override
   String get undo => 'Hoàn tác';
@@ -739,10 +681,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get maxReviewsPerDay => 'Ôn tập tối đa mỗi ngày';
 
   @override
-  String get selectCardToViewDetails =>
-      'Chọn thẻ bên trái để xem và sửa chi tiết';
-
-  @override
   String get noCardSelected => 'Chưa chọn thẻ nào';
 
   @override
@@ -768,15 +706,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get hideAnswer => 'Ẩn đáp án';
-
-  @override
-  String get syncMediaOnly => 'Đồng bộ Media (Ảnh & Âm thanh)';
-
-  @override
-  String get syncingMedia => 'Đang tải tệp media...';
-
-  @override
-  String get addCardButton => 'Thêm thẻ';
 
   @override
   String get clozeDeletion => 'Thẻ điền khuyết (Cloze)';
@@ -1063,16 +992,6 @@ class AppLocalizationsVi extends AppLocalizations {
       'Tự động chạy ngầm Flanki khi đăng nhập máy tính.';
 
   @override
-  String get settingsTestNotificationSent => 'Đã gửi thông báo thử nghiệm!';
-
-  @override
-  String get settingsTestNotificationCheck =>
-      'Kiểm tra thanh thông báo hệ thống.';
-
-  @override
-  String get settingsTestNotificationButton => 'Thử nghiệm thông báo ngay';
-
-  @override
   String syncSuccessWithMedia(int deckCount, int cardCount, String media) {
     return 'Đã tải thành công $deckCount bộ thẻ, $cardCount thẻ$media từ AnkiWeb.';
   }
@@ -1170,10 +1089,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get grammarAcademicTitle => 'Ngữ pháp học thuật';
 
   @override
-  String get grammarAcademicSubtitle =>
-      '36 Chuyên Đề C1/C2 Chuẩn Mực SAT • GRE • GMAT • THPTQG Chuyên';
-
-  @override
   String grammarClearGhostsButton(int count) {
     return 'Xóa $count Câu Sai (Ghost)';
   }
@@ -1225,11 +1140,6 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String grammarStartPracticeNowButton(int count) {
-    return 'Bắt Đầu Luyện Tập $count Câu Ngay';
-  }
-
-  @override
   String get grammarCoreConceptTitle => 'Tư Duy Bản Xứ Cốt Lõi';
 
   @override
@@ -1259,9 +1169,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String grammarQuestionCounter(int current, int total) {
     return 'Câu $current / $total';
   }
-
-  @override
-  String get grammarSubmitAnswer => 'Kiểm Tra Đáp Án';
 
   @override
   String get grammarExitDialogTitle => 'Thoát Phiên Luyện Tập?';
@@ -1532,25 +1439,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get signUpCloud => 'Tạo tài khoản Cloud';
 
   @override
-  String get cloudAccount => 'Tài khoản Cloud';
-
-  @override
   String get cloudNotConnected => 'Chưa kết nối tài khoản Cloud';
-
-  @override
-  String get cloudConnected => 'Đã kết nối Cloud';
 
   @override
   String pendingChanges(int count) {
     return '$count thay đổi chờ đồng bộ';
   }
-
-  @override
-  String get signOutConfirmTitle => 'Đăng xuất khỏi Cloud?';
-
-  @override
-  String get signOutConfirmDesc =>
-      'Dữ liệu thẻ và lịch sử học tập cục bộ vẫn được bảo toàn trên thiết bị này.';
 
   @override
   String get authInvalidEmail => 'Vui lòng nhập địa chỉ email hợp lệ.';
@@ -1585,13 +1479,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get examDownloadedOffline => 'Đã tải về';
-
-  @override
   String get downloadExam => 'Tải về';
-
-  @override
-  String get downloadingExam => 'Đang tải...';
 
   @override
   String get takeExam => 'Vào thi';
@@ -1602,9 +1490,6 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get noExamsFoundDesc =>
       'Hãy thử thay đổi từ khóa hoặc bộ lọc danh mục.';
-
-  @override
-  String get takingExamTitle => 'Làm bài thi';
 
   @override
   String get backButton => 'Quay lại';
@@ -1626,9 +1511,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get nextQuestion => 'Câu sau';
-
-  @override
-  String get questionList => 'Danh sách';
 
   @override
   String get questionListTitle => 'Danh sách câu hỏi';
@@ -1708,9 +1590,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get correctBadge => 'Đúng';
-
-  @override
-  String get wrongBadge => 'Sai';
 
   @override
   String explanationPrefix(String exp) {
@@ -1929,10 +1808,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get orContinueWithEmail => 'Hoặc tiếp tục với email';
 
   @override
-  String get authOAuthFailed =>
-      'Đăng nhập bằng mạng xã hội thất bại hoặc đã bị huỷ.';
-
-  @override
   String get selectiveSyncTitle => 'Đồng bộ chọn lọc bộ thẻ';
 
   @override
@@ -1992,9 +1867,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String restoreFailed(String error) {
     return 'Khôi phục thất bại: $error';
   }
-
-  @override
-  String get noBackupsFound => 'Chưa có bản sao lưu đám mây nào.';
 
   @override
   String get exportLocalBackup => 'Xuất tệp .flanki';
@@ -2068,5 +1940,8 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noSyncHistory => 'Chưa có phiên đồng bộ nào được ghi nhận.';
 
   @override
-  String get syncDiagnosticsButton => 'Chẩn đoán';
+  String get appTitle => 'Flanki';
+
+  @override
+  String get themeZinc => 'Chủ đề Zinc';
 }

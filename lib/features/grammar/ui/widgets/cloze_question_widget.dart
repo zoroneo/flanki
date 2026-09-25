@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 import 'package:flanki/core/widgets/rich_card_content.dart';
 
@@ -28,7 +27,8 @@ class ClozeQuestionWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
     final textController = useTextEditingController(text: selectedAnswer ?? '');
 
     useEffect(() {
@@ -75,7 +75,7 @@ class ClozeQuestionWidget extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: 15,
+                fontSize: AppTypography.medium,
                 fontWeight: FontWeight.w600,
                 height: 1.45,
                 color: theme.colorScheme.foreground,
@@ -119,11 +119,11 @@ class ClozeQuestionWidget extends HookWidget {
             padding: AppEdgeInsets.all16,
             decoration: BoxDecoration(
               color: (isCorrect == true)
-                  ? Colors.green.withValues(alpha: 0.1)
-                  : Colors.red.withValues(alpha: 0.1),
+                  ? colors.success.withValues(alpha: 0.1)
+                  : colors.error.withValues(alpha: 0.1),
               borderRadius: AppRadius.borderMd,
               border: Border.all(
-                color: (isCorrect == true) ? Colors.green : Colors.red,
+                color: (isCorrect == true) ? colors.success : colors.error,
                 width: 1.5,
               ),
             ),
@@ -136,7 +136,7 @@ class ClozeQuestionWidget extends HookWidget {
                       (isCorrect == true)
                           ? LucideIcons.circleCheck
                           : LucideIcons.circleX,
-                      color: (isCorrect == true) ? Colors.green : Colors.red,
+                      color: (isCorrect == true) ? colors.success : colors.error,
                       size: AppIconSize.md,
                     ),
                     AppGaps.h8,
@@ -146,7 +146,7 @@ class ClozeQuestionWidget extends HookWidget {
                           : l10n.grammarClozeSubmittedIncorrect,
                       style: theme.typography.base.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: (isCorrect == true) ? Colors.green : Colors.red,
+                        color: (isCorrect == true) ? colors.success : colors.error,
                       ),
                     ),
                   ],
@@ -175,17 +175,17 @@ class ClozeQuestionWidget extends HookWidget {
                       Container(
                         padding: AppEdgeInsets.h8v4,
                         decoration: BoxDecoration(
-                          color: Colors.green.withValues(alpha: 0.15),
+                          color: colors.success.withValues(alpha: 0.15),
                           borderRadius: AppRadius.borderSm,
                           border: Border.all(
-                            color: Colors.green.withValues(alpha: 0.4),
+                            color: colors.success.withValues(alpha: 0.4),
                           ),
                         ),
                         child: Text(
                           exercise.correctAnswer,
                           style: theme.typography.small.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: colors.success,
                           ),
                         ),
                       ),

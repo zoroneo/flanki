@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/sync/sync_telemetry_service.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/adaptive_modal.dart';
@@ -30,7 +29,9 @@ class SyncDiagnosticsSheet extends ConsumerWidget {
     final telemetryNotifier = ref.read(syncTelemetryNotifierProvider.notifier);
 
     return Container(
-      constraints: const BoxConstraints(maxHeight: 620),
+      constraints: const BoxConstraints(
+        maxHeight: AppDimensions.diagnosticsSheetMaxHeight,
+      ),
       padding: AppEdgeInsets.all16,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -39,8 +40,8 @@ class SyncDiagnosticsSheet extends ConsumerWidget {
           // Drag handle
           Center(
             child: Container(
-              width: 36,
-              height: 4,
+              width: AppDimensions.modalGrabHandleWidth,
+              height: AppDimensions.modalGrabHandleHeight,
               margin: const EdgeInsets.only(bottom: AppSpacing.md),
               decoration: BoxDecoration(
                 color: theme.colorScheme.mutedForeground.withValues(alpha: 0.3),

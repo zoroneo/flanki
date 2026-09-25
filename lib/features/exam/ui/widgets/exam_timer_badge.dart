@@ -39,7 +39,7 @@ class ExamTimerBadge extends ConsumerWidget {
       decoration: BoxDecoration(
         color: badgeColor,
         borderRadius: AppRadius.borderFull,
-        border: Border.all(color: borderColor, width: 1),
+        border: Border.all(color: borderColor, width: AppDimensions.hairline),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

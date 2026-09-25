@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 import '../models/exam_models.dart';
@@ -213,7 +212,7 @@ class ExamCatalogScreen extends HookConsumerWidget {
         duration: AppDurations.short,
         height: AppDimensions.filterChipHeight,
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+        padding: AppEdgeInsets.h16,
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
@@ -223,7 +222,7 @@ class ExamCatalogScreen extends HookConsumerWidget {
             color: isSelected
                 ? theme.colorScheme.primary
                 : theme.colorScheme.border,
-            width: 1,
+            width: AppDimensions.hairline,
           ),
         ),
         child: Text(

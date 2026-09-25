@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class GrammarTheoryHeaderBanner extends StatelessWidget {
   final GrammarUnit unit;
@@ -18,7 +17,7 @@ class GrammarTheoryHeaderBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final levelLabel = unit.level.getLocalizedName(l10n);
     final levelColor = unit.level.color;
 
@@ -67,7 +66,7 @@ class GrammarTheoryHeaderBanner extends StatelessWidget {
             unit.title,
             style: isMobile
                 ? TextStyle(
-                    fontSize: 14,
+                    fontSize: AppTypography.small,
                     fontWeight: FontWeight.w600,
                     height: 1.3,
                     color: theme.colorScheme.foreground,
@@ -102,7 +101,8 @@ class GrammarTheoryTocCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return Card(
       padding: AppEdgeInsets.all16,
@@ -113,7 +113,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
             children: [
               Icon(
                 LucideIcons.listTree,
-                size: AppIconSize.xs,
+                size: AppIconSize.sm,
                 color: theme.colorScheme.primary,
               ),
               AppGaps.h8,
@@ -128,7 +128,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
           AppGaps.v12,
           GrammarTocItem(
             icon: LucideIcons.lightbulb,
-            iconColor: m.Colors.amber,
+            iconColor: colors.cramAmber,
             title: l10n.grammarCoreConceptTitle,
             onTap: onScrollToConcept,
           ),
@@ -136,7 +136,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
             AppGaps.v2,
             GrammarTocItem(
               icon: LucideIcons.sigma,
-              iconColor: m.Colors.blue,
+              iconColor: colors.info,
               title: l10n.grammarFormulasTitle,
               onTap: onScrollToFormulas!,
             ),
@@ -145,7 +145,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
             AppGaps.v2,
             GrammarTocItem(
               icon: LucideIcons.triangleAlert,
-              iconColor: m.Colors.orange,
+              iconColor: colors.warning,
               title: l10n.grammarCommonTrapsTitle,
               onTap: onScrollToTraps!,
             ),
@@ -154,7 +154,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
             AppGaps.v2,
             GrammarTocItem(
               icon: LucideIcons.bookOpen,
-              iconColor: m.Colors.purple,
+              iconColor: colors.accentPurple,
               title: l10n.grammarExtraGuidesTitle,
               onTap: onScrollToGuides!,
             ),

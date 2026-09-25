@@ -2,7 +2,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class GrammarLevelFilters extends StatelessWidget {
   final ValueNotifier<GrammarLevel?> selectedLevel;
@@ -18,7 +17,7 @@ class GrammarLevelFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     final chips = [
       GrammarFilterChip(
@@ -76,8 +75,8 @@ class GrammarFilterChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        duration: AppDurations.short,
+        padding: AppEdgeInsets.h12v6,
         decoration: BoxDecoration(
           color: isSelected
               ? theme.colorScheme.primary
@@ -92,7 +91,7 @@ class GrammarFilterChip extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: AppTypography.xSmall,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
             color: isSelected
                 ? theme.colorScheme.primaryForeground

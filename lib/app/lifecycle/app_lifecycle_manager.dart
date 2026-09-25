@@ -10,7 +10,6 @@ import 'package:flanki/features/settings/providers/settings_notifier.dart';
 import 'package:flanki/features/settings/providers/update_notifier.dart';
 import 'package:flanki/features/settings/ui/widgets/update_dialog.dart';
 import 'package:flanki/features/stats/providers/stats_notifier.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flanki/core/config/app_config.dart';
 import 'package:flanki/core/localization/locale_notifier.dart';
 import 'package:flanki/core/services/desktop_window_service.dart';
@@ -79,7 +78,7 @@ class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
         });
       }
       if (DesktopWindowService.isDesktop && mounted) {
-        final l10n = AppLocalizations.of(context);
+        final l10n = context.maybeL10n;
         final currentLocale = ref.read(localeNotifierProvider);
         DesktopWindowService.instance.updateTrayMenu(
           openLabel: l10n?.trayOpenFlanki,
@@ -174,7 +173,7 @@ class _AppLifecycleManagerState extends ConsumerState<AppLifecycleManager>
       NotificationService.instance.updateLocale(nextLocale?.languageCode);
       _syncNotifications();
       if (DesktopWindowService.isDesktop) {
-        final l10n = AppLocalizations.of(context);
+        final l10n = context.maybeL10n;
         DesktopWindowService.instance.updateTrayMenu(
           openLabel: l10n?.trayOpenFlanki,
           studyLabel: l10n?.trayStudyNow,

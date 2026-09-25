@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../models/grammar_models.dart';
 export 'grammar_theory_extra_tab_views.dart';
 
@@ -15,7 +13,8 @@ class GrammarConceptTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
@@ -29,7 +28,7 @@ class GrammarConceptTabView extends StatelessWidget {
         children: [
           GrammarTabSectionHeader(
             icon: LucideIcons.lightbulb,
-            iconColor: m.Colors.amber,
+            iconColor: colors.cramAmber,
             title: l10n.grammarCoreConceptTitle,
           ),
           AppGaps.v8,
@@ -38,7 +37,7 @@ class GrammarConceptTabView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             textAlign: TextAlign.start,
             textStyle: TextStyle(
-              fontSize: 13.5,
+              fontSize: AppTypography.navPlus,
               height: 1.5,
               color: theme.colorScheme.foreground,
             ),
@@ -57,7 +56,8 @@ class GrammarFormulasTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
@@ -71,7 +71,7 @@ class GrammarFormulasTabView extends StatelessWidget {
         children: [
           GrammarTabSectionHeader(
             icon: LucideIcons.sigma,
-            iconColor: m.Colors.blue,
+            iconColor: colors.info,
             title: l10n.grammarFormulasTitle,
           ),
           AppGaps.v8,
@@ -92,7 +92,7 @@ class GrammarFormulasTabView extends StatelessWidget {
                   Text(
                     entry.key,
                     style: TextStyle(
-                      fontSize: 12.5,
+                      fontSize: AppTypography.xSmallPlus,
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.primary,
                     ),
@@ -104,7 +104,7 @@ class GrammarFormulasTabView extends StatelessWidget {
                     textAlign: TextAlign.start,
                     textStyle: const TextStyle(
                       fontFamily: 'monospace',
-                      fontSize: 12.5,
+                      fontSize: AppTypography.xSmallPlus,
                       fontWeight: FontWeight.w500,
                       height: 1.35,
                     ),
@@ -141,7 +141,7 @@ class GrammarTabSectionHeader extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: AppTypography.small,
             fontWeight: FontWeight.w700,
             color: theme.colorScheme.foreground,
           ),
@@ -154,7 +154,7 @@ class GrammarTabSectionHeader extends StatelessWidget {
 class GrammarExampleBox extends StatelessWidget {
   final String icon;
   final String content;
-  final m.MaterialColor color;
+  final Color color;
   final bool isBold;
 
   const GrammarExampleBox({
@@ -177,14 +177,14 @@ class GrammarExampleBox extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(icon, style: const TextStyle(fontSize: 12)),
+          Text(icon, style: const TextStyle(fontSize: AppTypography.xSmall)),
           Expanded(
             child: RichCardContent(
               content: content,
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: 12.5,
+                fontSize: AppTypography.xSmallPlus,
                 color: color,
                 fontWeight: isBold ? FontWeight.w600 : FontWeight.normal,
                 height: 1.3,

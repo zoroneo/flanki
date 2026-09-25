@@ -2,7 +2,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/adaptive_modal.dart';
 import '../providers/supabase_auth_notifier.dart';
@@ -243,7 +242,9 @@ class SupabaseAuthSheet extends HookConsumerWidget {
                   ? const SizedBox(
                       width: AppSpacing.md,
                       height: AppSpacing.md,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+                      child: CircularProgressIndicator(
+                        strokeWidth: AppDimensions.spinnerStrokeWidth,
+                      ),
                     )
                   : Text(
                       isSignUp.value ? l10n.signUpCloud : l10n.authLoginButton,

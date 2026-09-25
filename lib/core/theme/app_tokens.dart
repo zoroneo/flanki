@@ -5,6 +5,7 @@ import 'app_colors_extension.dart';
 
 export 'app_colors_extension.dart';
 export 'app_text_theme.dart';
+export '../extensions/l10n_extension.dart';
 
 /// Flanki Spacing Tokens (Dựa trên 8-pt grid với 4-pt half-steps).
 abstract final class AppSpacing {
@@ -85,10 +86,14 @@ abstract final class AppRadius {
 /// Flanki Icon Size Tokens.
 abstract final class AppIconSize {
   static const double xs = 12;
+  static const double statIcon = 13;
+  static const double xsPlus = 14;
   static const double sm = 16;
+  static const double smPlus = 18;
   static const double md = 20;
   static const double lg = 24;
   static const double xl = 32;
+  static const double hero = 48;
 }
 
 /// Pre-allocated [EdgeInsets] thường dùng.
@@ -142,6 +147,10 @@ abstract final class AppEdgeInsets {
   static const EdgeInsets h12v8 = EdgeInsets.symmetric(
     horizontal: AppSpacing.smPlus,
     vertical: AppSpacing.sm,
+  );
+  static const EdgeInsets h12v6 = EdgeInsets.symmetric(
+    horizontal: AppSpacing.smPlus,
+    vertical: AppSpacing.s6,
   );
   static const EdgeInsets h16v8 = EdgeInsets.symmetric(
     horizontal: AppSpacing.md,
@@ -310,13 +319,39 @@ abstract final class AppDimensions {
   static const double modalGrabHandleWidth = 36.0;
   static const double modalGrabHandleHeight = 4.0;
 
+  // Hairline & Border Widths
+  static const double hairline = 1.0;
+  static const double borderFocus = 1.5;
+  static const double borderSelected = 2.0;
+  static const double borderThick = 2.5;
+
+  // Progress Spinners & Stroke Widths
+  static const double spinnerStrokeWidth = 2.0;
+  static const double spinnerStrokeThin = 1.5;
+  static const double scratchStrokeWidth = 3.5;
+
   // Max Widths & Heights
+  static const double wideCatalogMaxWidth = 1320.0;
+  static const double wideContentMaxWidth = 1200.0;
+  static const double deckGridMaxWidth = 960.0;
+  static const double legalPageMaxWidth = 800.0;
+  static const double contentMaxWidth = 720.0;
   static const double cardMaxWidth = 760.0;
   static const double statsMaxWidth = 880.0;
+  static const double authFormMaxWidth = 440.0;
+  static const double dialogMaxWidth = 420.0;
+  static const double dialogSmMaxWidth = 380.0;
   static const double typeInputMaxWidth = 400.0;
   static const double typeResultMaxWidth = 380.0;
   static const double toastWidth = 380.0;
+
+  static const double previewMediaMaxHeight = 300.0;
+  static const double sheetContentMaxHeight = 380.0;
+  static const double updateDialogMaxHeight = 520.0;
+  static const double diagnosticsSheetMaxHeight = 620.0;
+
   static const double bottomNavClearance = 110.0;
+  static const double bottomNavClearanceWithFab = 120.0;
   static const double bottomSheetClearance = 240.0;
 
   // Interactive buttons
@@ -337,6 +372,7 @@ abstract final class AppDimensions {
 
   // Search & Toolbars
   static const double searchToolbarHeight = 38.0;
+  static const double horizontalTabsHeight = 38.0;
 
   // Component Metrics
   static const double cardThumbnailSize = 52.0;
@@ -344,6 +380,7 @@ abstract final class AppDimensions {
   static const double legendColorDotSize = 10.0;
   static const double statsForecastChartHeight = 128.0;
   static const double toastSpinnerSize = 14.0;
+  static const double statDividerHeight = 26.0;
 }
 
 /// Flanki Standard Animation Durations.

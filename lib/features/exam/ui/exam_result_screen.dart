@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 import '../data/exam_repository.dart';
@@ -90,7 +89,7 @@ class ExamResultScreen extends HookConsumerWidget {
         AppBar(
           leading: [
             IconButton.ghost(
-              icon: const Icon(RadixIcons.arrowLeft, size: 18),
+              icon: const Icon(RadixIcons.arrowLeft, size: AppIconSize.smPlus),
               onPressed: () => context.go(AppRoutes.exams),
             ),
           ],
@@ -119,7 +118,7 @@ class ExamResultScreen extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(RadixIcons.bookmark, size: 14),
+                            const Icon(RadixIcons.bookmark, size: AppIconSize.xsPlus),
                             AppGaps.h8,
                             Text(l10n.wrongNotebook),
                           ],
@@ -135,7 +134,7 @@ class ExamResultScreen extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(RadixIcons.reload, size: 14),
+                            const Icon(RadixIcons.reload, size: AppIconSize.xsPlus),
                             AppGaps.h8,
                             Text(l10n.retakeExam),
                           ],

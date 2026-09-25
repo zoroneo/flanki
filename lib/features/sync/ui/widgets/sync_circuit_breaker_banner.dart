@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/sync/circuit_breaker.dart';
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../providers/sync_state_notifier.dart';
 import '../../providers/sync_telemetry_provider.dart';
 

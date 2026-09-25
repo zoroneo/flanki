@@ -2,7 +2,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 
@@ -39,7 +38,8 @@ class PrivacyPolicyScreen extends HookWidget {
       ],
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 720),
+          constraints:
+              const BoxConstraints(maxWidth: AppDimensions.contentMaxWidth),
           child: ListView(
             padding: AppEdgeInsets.all16,
             children: [

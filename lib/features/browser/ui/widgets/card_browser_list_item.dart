@@ -1,6 +1,5 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
 
@@ -73,9 +72,10 @@ class DesktopCardRowItem extends StatelessWidget {
                         height: AppSpacing.sm,
                         margin: const EdgeInsets.only(right: AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color:
-                              CardActionSheet.ankiFlagColors[card.flag] ??
-                              AppColors.mutedGrey,
+                          color: CardActionSheet.getFlagColor(
+                            context,
+                            card.flag,
+                          ),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -170,9 +170,7 @@ class MobileCardRowItem extends StatelessWidget {
                         right: AppSpacing.sm,
                       ),
                       decoration: BoxDecoration(
-                        color:
-                            CardActionSheet.ankiFlagColors[card.flag] ??
-                            AppColors.mutedGrey,
+                        color: CardActionSheet.getFlagColor(context, card.flag),
                         shape: BoxShape.circle,
                       ),
                     ),

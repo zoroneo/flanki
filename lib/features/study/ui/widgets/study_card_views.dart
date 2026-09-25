@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/extensions/responsive_extensions.dart';
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/card.dart';
 import '../../../../core/services/desktop_window_service.dart';
 import '../../../../core/theme/app_tokens.dart';
@@ -98,7 +97,7 @@ class CardFrontView extends HookWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _buildBadgeRow(theme, l10n),
+                              _buildBadgeRow(context, theme, l10n),
                               AppGaps.v16,
                               RichCardContent(
                                 content: card?.front ?? '',
@@ -140,7 +139,7 @@ class CardFrontView extends HookWidget {
     );
   }
 
-  Widget _buildBadgeRow(ThemeData theme, dynamic l10n) {
+  Widget _buildBadgeRow(BuildContext context, ThemeData theme, dynamic l10n) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -167,9 +166,7 @@ class CardFrontView extends HookWidget {
             width: AppSpacing.sm,
             height: AppSpacing.sm,
             decoration: BoxDecoration(
-              color:
-                  CardActionSheet.ankiFlagColors[card!.flag] ??
-                  AppColors.mutedGrey,
+              color: CardActionSheet.getFlagColor(context, card!.flag),
               shape: BoxShape.circle,
             ),
           ),

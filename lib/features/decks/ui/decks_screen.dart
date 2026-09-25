@@ -4,7 +4,6 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/config/app_config.dart';
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/config/settings_notifier.dart';
 import '../../../core/models/deck.dart';
 import '../../../core/theme/app_tokens.dart';
@@ -127,7 +126,9 @@ class DecksScreen extends HookConsumerWidget {
             children: [
               Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 960),
+                  constraints: const BoxConstraints(
+                    maxWidth: AppDimensions.deckGridMaxWidth,
+                  ),
                   child: CustomScrollView(
                     slivers: [
                       SliverPadding(
@@ -188,8 +189,9 @@ class DecksScreen extends HookConsumerWidget {
                         ),
                       SliverToBoxAdapter(
                         child: SizedBox(
-                          height: 120 + keyboardBottom,
-                        ), // allow-magic-dimension
+                          height: AppDimensions.bottomNavClearanceWithFab +
+                              keyboardBottom,
+                        ),
                       ),
                     ],
                   ),

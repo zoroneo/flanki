@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 export 'grammar_traps_guides_cards.dart';
 
@@ -44,7 +43,7 @@ class GrammarTheorySectionCard extends StatelessWidget {
                   title,
                   style: isMobile
                       ? TextStyle(
-                          fontSize: 13.5,
+                          fontSize: AppTypography.navPlus,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.foreground,
                         )
@@ -62,7 +61,7 @@ class GrammarTheorySectionCard extends StatelessWidget {
             textAlign: TextAlign.start,
             textStyle: isMobile
                 ? TextStyle(
-                    fontSize: 13,
+                    fontSize: AppTypography.nav,
                     height: 1.4,
                     color: theme.colorScheme.foreground,
                   )
@@ -90,7 +89,8 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return Card(
       padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
@@ -102,7 +102,7 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
               Icon(
                 LucideIcons.sigma,
                 size: isMobile ? AppIconSize.sm : AppIconSize.md,
-                color: m.Colors.blue,
+                color: colors.info,
               ),
               isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
@@ -110,7 +110,7 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
                   l10n.grammarFormulasTitle,
                   style: isMobile
                       ? TextStyle(
-                          fontSize: 13.5,
+                          fontSize: AppTypography.navPlus,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.foreground,
                         )

@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../../core/theme/app_tokens.dart';
-import '../../../../../l10n/generated/app_localizations.dart';
 import '../../../../sync/providers/cloud_backup_notifier.dart';
 import '../../../../sync/ui/widgets/selective_sync_sheet.dart';
 
@@ -57,9 +56,11 @@ class CloudBackupActionButtons extends StatelessWidget {
             children: [
               if (backupState.isLoading) ...[
                 const SizedBox(
-                  width: 14,
-                  height: 14,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  width: AppDimensions.toastSpinnerSize,
+                  height: AppDimensions.toastSpinnerSize,
+                  child: CircularProgressIndicator(
+                    strokeWidth: AppDimensions.spinnerStrokeWidth,
+                  ),
                 ),
                 AppGaps.h8,
               ] else ...[

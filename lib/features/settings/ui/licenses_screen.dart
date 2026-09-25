@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/theme/app_tokens.dart';
 import 'widgets/license_cards.dart';
 
@@ -121,7 +120,8 @@ SOFTWARE.''';
       ],
       child: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 800),
+          constraints:
+              const BoxConstraints(maxWidth: AppDimensions.legalPageMaxWidth),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
@@ -185,7 +185,9 @@ SOFTWARE.''';
                         const Padding(
                           padding: AppEdgeInsets.v48,
                           child: Center(
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: CircularProgressIndicator(
+                              strokeWidth: AppDimensions.spinnerStrokeWidth,
+                            ),
                           ),
                         ),
                       ] else if (filteredPackages.isEmpty) ...[

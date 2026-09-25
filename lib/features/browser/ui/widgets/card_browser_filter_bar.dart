@@ -117,7 +117,7 @@ class SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
               right: 0,
               bottom: 0,
               child: Container(
-                height: 1,
+                height: AppDimensions.hairline,
                 color: theme.colorScheme.border.withValues(alpha: borderAlpha),
               ),
             ),

@@ -3,7 +3,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../models/grammar_models.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 class SessionSummaryDialog extends StatelessWidget {
   final int totalQuestions;
@@ -28,7 +27,8 @@ class SessionSummaryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final colors = context.colors;
+    final l10n = context.l10n;
     final accuracy = totalQuestions > 0
         ? (correctCount / totalQuestions) * 100.0
         : 0.0;
@@ -36,7 +36,8 @@ class SessionSummaryDialog extends StatelessWidget {
 
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 480),
+        constraints:
+            const BoxConstraints(maxWidth: AppDimensions.modalDesktopMaxWidth),
         margin: AppEdgeInsets.all24,
         child: Card(
           child: Padding(
@@ -46,18 +47,18 @@ class SessionSummaryDialog extends StatelessWidget {
               children: [
                 // Icon Header
                 Container(
-                  width: 64,
-                  height: 64,
+                  width: AppDimensions.summaryIconContainerSize,
+                  height: AppDimensions.summaryIconContainerSize,
                   decoration: BoxDecoration(
                     color: isPerfect
-                        ? Colors.green.withValues(alpha: 0.15)
+                        ? colors.success.withValues(alpha: 0.15)
                         : theme.colorScheme.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     isPerfect ? LucideIcons.trophy : LucideIcons.award,
                     size: AppIconSize.xl,
-                    color: isPerfect ? Colors.green : theme.colorScheme.primary,
+                    color: isPerfect ? colors.success : theme.colorScheme.primary,
                   ),
                 ),
                 AppGaps.v16,
@@ -102,7 +103,7 @@ class SessionSummaryDialog extends StatelessWidget {
                         context,
                         label: l10n.grammarStatCorrectCount,
                         value: '$correctCount / $totalQuestions',
-                        color: Colors.green,
+                        color: colors.success,
                       ),
                       _buildStatColumn(
                         context,
@@ -110,15 +111,15 @@ class SessionSummaryDialog extends StatelessWidget {
                         value: '${accuracy.toStringAsFixed(1)}%',
                         color:
                             accuracy >= GrammarConstants.passAccuracyThreshold
-                            ? Colors.green
-                            : Colors.orange,
+                            ? colors.success
+                            : colors.warning,
                       ),
                       if (!isGhostChallenge)
                         _buildStatColumn(
                           context,
                           label: l10n.grammarStatGhostsToFix,
                           value: '$ghostCount',
-                          color: ghostCount > 0 ? Colors.red : Colors.green,
+                          color: ghostCount > 0 ? colors.error : colors.success,
                         ),
                     ],
                   ),

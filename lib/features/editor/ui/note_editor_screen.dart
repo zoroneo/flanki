@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/extensions/responsive_extensions.dart';
-import '../../../core/localization/locale_notifier.dart';
 import '../../../core/models/card.dart';
 import '../../../core/database/database_service.dart';
 import '../../../core/providers/shared_deck_provider.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 
 class MobileBottomNavBar extends StatelessWidget {
   final ThemeData theme;
@@ -27,7 +26,10 @@ class MobileBottomNavBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         border: Border(
-          top: BorderSide(color: theme.colorScheme.border, width: 1),
+          top: BorderSide(
+            color: theme.colorScheme.border,
+            width: AppDimensions.hairline,
+          ),
         ),
       ),
       child: SafeArea(
@@ -165,9 +167,17 @@ class BottomNavItem extends StatelessWidget {
           ),
         ),
         if (badgeCount != null)
-          Positioned(top: -3, right: 8, child: _buildBadge(context, theme)),
+          Positioned(
+            top: -3,
+            right: AppSpacing.sm,
+            child: _buildBadge(context, theme),
+          ),
         if (indicatorColor != null)
-          Positioned(bottom: 2, right: 12, child: _buildIndicator(theme)),
+          Positioned(
+            bottom: AppSpacing.xxs,
+            right: AppSpacing.smPlus,
+            child: _buildIndicator(theme),
+          ),
       ],
     );
   }
@@ -178,7 +188,10 @@ class BottomNavItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.destructive,
         borderRadius: AppRadius.borderFull,
-        border: Border.all(color: theme.colorScheme.background, width: 1.5),
+        border: Border.all(
+          color: theme.colorScheme.background,
+          width: AppDimensions.borderFocus,
+        ),
       ),
       child: Text(
         badgeCount! > AppLimits.badgeMaxCount
@@ -199,7 +212,10 @@ class BottomNavItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: indicatorColor,
         shape: BoxShape.circle,
-        border: Border.all(color: theme.colorScheme.background, width: 1.5),
+        border: Border.all(
+          color: theme.colorScheme.background,
+          width: AppDimensions.borderFocus,
+        ),
       ),
     );
   }

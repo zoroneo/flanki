@@ -24,6 +24,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = context.colors;
     final options = exercise.options;
 
     return Column(
@@ -38,7 +39,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: 15,
+                fontSize: AppTypography.medium,
                 fontWeight: FontWeight.w600,
                 height: 1.45,
                 color: theme.colorScheme.foreground,
@@ -64,13 +65,13 @@ class ChoiceQuestionWidget extends StatelessWidget {
 
           if (isSubmitted) {
             if (isCorrectOption) {
-              backgroundColor = Colors.green.withValues(alpha: 0.12);
-              borderColor = Colors.green;
-              textColor = Colors.green;
+              backgroundColor = colors.success.withValues(alpha: 0.12);
+              borderColor = colors.success;
+              textColor = colors.success;
             } else if (isSelected && !isCorrectOption) {
-              backgroundColor = Colors.red.withValues(alpha: 0.12);
-              borderColor = Colors.red;
-              textColor = Colors.red;
+              backgroundColor = colors.error.withValues(alpha: 0.12);
+              borderColor = colors.error;
+              textColor = colors.error;
             } else {
               backgroundColor = theme.colorScheme.muted.withValues(alpha: 0.3);
             }
@@ -84,7 +85,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
           Widget optionWidget = GestureDetector(
             onTap: isSubmitted ? null : () => onSelectAnswer(option),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
+              duration: AppDurations.short,
               padding: AppEdgeInsets.h12v8,
               decoration: BoxDecoration(
                 color: backgroundColor ?? theme.colorScheme.card,
@@ -93,7 +94,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
                   color: borderColor ?? theme.colorScheme.border,
                   width: (isSelected || (isSubmitted && isCorrectOption))
                       ? 1.8
-                      : 1.0,
+                      : AppDimensions.hairline,
                 ),
               ),
               child: Row(
@@ -112,7 +113,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
                     child: Text(
                       optionLetter,
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: AppTypography.xSmall,
                         fontWeight: FontWeight.bold,
                         color: (isSelected || (isSubmitted && isCorrectOption))
                             ? theme.colorScheme.primaryForeground
@@ -125,7 +126,7 @@ class ChoiceQuestionWidget extends StatelessWidget {
                     child: Text(
                       option,
                       style: TextStyle(
-                        fontSize: 13.5,
+                        fontSize: AppTypography.navPlus,
                         fontWeight: isSelected
                             ? FontWeight.w600
                             : FontWeight.normal,
@@ -134,16 +135,16 @@ class ChoiceQuestionWidget extends StatelessWidget {
                     ),
                   ),
                   if (isSubmitted && isCorrectOption)
-                    const Icon(
+                    Icon(
                       LucideIcons.check,
                       size: AppIconSize.sm,
-                      color: Colors.green,
+                      color: colors.success,
                     ),
                   if (isSubmitted && isSelected && !isCorrectOption)
-                    const Icon(
+                    Icon(
                       LucideIcons.x,
                       size: AppIconSize.sm,
-                      color: Colors.red,
+                      color: colors.error,
                     ),
                 ],
               ),

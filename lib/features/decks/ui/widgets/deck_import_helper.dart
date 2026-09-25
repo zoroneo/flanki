@@ -7,7 +7,6 @@ import '../../../../core/anki/apkg_importer_service.dart';
 import '../../../../core/config/app_config.dart';
 import '../../../../core/database/database_service.dart';
 import '../../../../core/theme/app_tokens.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 import '../../providers/deck_notifier.dart';
 
@@ -71,7 +70,9 @@ class DeckImportHelper {
                 leading: const SizedBox(
                   width: AppIconSize.md,
                   height: AppIconSize.md,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator(
+                    strokeWidth: AppDimensions.spinnerStrokeWidth,
+                  ),
                 ),
               ),
             );

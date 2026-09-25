@@ -4,7 +4,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/features/settings/models/update_info.dart';
 import 'package:flanki/features/settings/providers/update_notifier.dart';
 import 'package:flanki/features/settings/ui/widgets/update_dialog.dart';
-import 'package:flanki/l10n/generated/app_localizations.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
 
 class BackgroundDownloadToast extends ConsumerWidget {
@@ -20,7 +19,7 @@ class BackgroundDownloadToast extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final progress = ref.watch(
       updateProvider.select((s) => s.downloadProgress),
     );
@@ -37,7 +36,9 @@ class BackgroundDownloadToast extends ConsumerWidget {
               const SizedBox(
                 width: AppDimensions.toastSpinnerSize,
                 height: AppDimensions.toastSpinnerSize,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  strokeWidth: AppDimensions.spinnerStrokeWidth,
+                ),
               ),
               AppGaps.h12,
               Expanded(
@@ -95,7 +96,7 @@ class UpdateAvailableToast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return SurfaceCard(
       padding: AppEdgeInsets.h12v8,
@@ -177,7 +178,7 @@ class UpdateReadyToast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return SurfaceCard(
       padding: AppEdgeInsets.h12v8,
@@ -252,7 +253,7 @@ class UpdateFailedToast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return SurfaceCard(
       padding: AppEdgeInsets.h12v8,

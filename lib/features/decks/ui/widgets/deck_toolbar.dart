@@ -1,7 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../router/app_router.dart';
 
@@ -97,14 +96,14 @@ class DeckToolbar extends StatelessWidget {
       return Tooltip(
         tooltip: (context) => TooltipContainer(child: Text(l10n.importApkg)),
         child: IconButton.outline(
-          icon: const Icon(LucideIcons.fileUp, size: 16),
+          icon: const Icon(LucideIcons.fileUp, size: AppIconSize.sm),
           onPressed: onImportApkg,
         ),
       );
     }
     return OutlineButton(
       alignment: Alignment.center,
-      leading: const Icon(LucideIcons.fileUp, size: 16),
+      leading: const Icon(LucideIcons.fileUp, size: AppIconSize.sm),
       onPressed: onImportApkg,
       child: Text(l10n.importApkg, maxLines: 1, softWrap: false),
     );
@@ -119,14 +118,14 @@ class DeckToolbar extends StatelessWidget {
       return Tooltip(
         tooltip: (context) => TooltipContainer(child: Text(l10n.customStudy)),
         child: IconButton.ghost(
-          icon: const Icon(LucideIcons.zap, size: 16),
+          icon: const Icon(LucideIcons.zap, size: AppIconSize.sm),
           onPressed: onCustomStudy,
         ),
       );
     }
     return GhostButton(
       alignment: Alignment.center,
-      leading: const Icon(LucideIcons.zap, size: 16),
+      leading: const Icon(LucideIcons.zap, size: AppIconSize.sm),
       onPressed: onCustomStudy,
       child: Text(l10n.customStudy, maxLines: 1, softWrap: false),
     );

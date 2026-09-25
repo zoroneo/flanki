@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../models/grammar_models.dart';
 
 class GrammarTheoryTrapsCard extends StatelessWidget {
@@ -19,7 +17,8 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return Card(
       padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
@@ -31,7 +30,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
               Icon(
                 LucideIcons.triangleAlert,
                 size: isMobile ? AppIconSize.sm : AppIconSize.md,
-                color: m.Colors.orange,
+                color: colors.warning,
               ),
               isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
@@ -39,7 +38,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
                   l10n.grammarCommonTrapsTitle,
                   style: isMobile
                       ? TextStyle(
-                          fontSize: 13.5,
+                          fontSize: AppTypography.navPlus,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.foreground,
                         )
@@ -75,11 +74,11 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
                     ),
                   ),
                   isMobile ? AppGaps.v6 : AppGaps.v12,
-                  _buildWrongExample(isMobile, trap.exampleWrong),
+                  _buildWrongExample(colors, isMobile, trap.exampleWrong),
                   AppGaps.v4,
-                  _buildRightExample(isMobile, trap.exampleRight),
+                  _buildRightExample(colors, isMobile, trap.exampleRight),
                   isMobile ? AppGaps.v6 : AppGaps.v12,
-                  _buildNote(theme, isMobile, trap.note),
+                  _buildNote(colors, theme, isMobile, trap.note),
                 ],
               ),
             );
@@ -89,26 +88,26 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildWrongExample(bool isMobile, String wrong) {
+  Widget _buildWrongExample(AppColorsExtension colors, bool isMobile, String wrong) {
     return Container(
       padding: isMobile ? AppEdgeInsets.h8v4 : AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
-        color: m.Colors.red.withValues(alpha: 0.08),
+        color: colors.error.withValues(alpha: 0.08),
         borderRadius: AppRadius.borderSm,
-        border: Border.all(color: m.Colors.red.withValues(alpha: 0.3)),
+        border: Border.all(color: colors.error.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('❌ ', style: TextStyle(fontSize: 12)),
+          const Text('❌ ', style: TextStyle(fontSize: AppTypography.xSmall)),
           Expanded(
             child: RichCardContent(
               content: wrong,
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: isMobile ? 12 : 13.5,
-                color: m.Colors.red,
+                fontSize: isMobile ? AppTypography.xSmall : AppTypography.navPlus,
+                color: colors.error,
                 height: 1.3,
               ),
             ),
@@ -118,26 +117,26 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRightExample(bool isMobile, String right) {
+  Widget _buildRightExample(AppColorsExtension colors, bool isMobile, String right) {
     return Container(
       padding: isMobile ? AppEdgeInsets.h8v4 : AppEdgeInsets.h12v8,
       decoration: BoxDecoration(
-        color: m.Colors.green.withValues(alpha: 0.08),
+        color: colors.success.withValues(alpha: 0.08),
         borderRadius: AppRadius.borderSm,
-        border: Border.all(color: m.Colors.green.withValues(alpha: 0.3)),
+        border: Border.all(color: colors.success.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('✅ ', style: TextStyle(fontSize: 12)),
+          const Text('✅ ', style: TextStyle(fontSize: AppTypography.xSmall)),
           Expanded(
             child: RichCardContent(
               content: right,
               crossAxisAlignment: CrossAxisAlignment.start,
               textAlign: TextAlign.start,
               textStyle: TextStyle(
-                fontSize: isMobile ? 12.5 : 13.5,
-                color: m.Colors.green,
+                fontSize: isMobile ? AppTypography.xSmallPlus : AppTypography.navPlus,
+                color: colors.success,
                 fontWeight: FontWeight.w600,
                 height: 1.35,
               ),
@@ -148,14 +147,14 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildNote(ThemeData theme, bool isMobile, String note) {
+  Widget _buildNote(AppColorsExtension colors, ThemeData theme, bool isMobile, String note) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(
+        Icon(
           LucideIcons.info,
           size: AppIconSize.xs,
-          color: m.Colors.orange,
+          color: colors.warning,
         ),
         AppGaps.h8,
         Expanded(
@@ -188,7 +187,8 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+    final colors = context.colors;
 
     return Card(
       padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
@@ -200,7 +200,7 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
               Icon(
                 LucideIcons.bookOpen,
                 size: isMobile ? AppIconSize.sm : AppIconSize.md,
-                color: m.Colors.purple,
+                color: colors.accentPurple,
               ),
               isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
@@ -208,7 +208,7 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
                   l10n.grammarExtraGuidesTitle,
                   style: isMobile
                       ? TextStyle(
-                          fontSize: 13.5,
+                          fontSize: AppTypography.navPlus,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.foreground,
                         )
@@ -238,7 +238,7 @@ class GrammarTheoryGuidesCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: isMobile ? 12.5 : 15,
                       fontWeight: FontWeight.bold,
-                      color: m.Colors.purple,
+                      color: colors.accentPurple,
                     ),
                   ),
                   isMobile ? AppGaps.v4 : AppGaps.v8,

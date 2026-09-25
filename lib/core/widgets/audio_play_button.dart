@@ -6,7 +6,6 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/database/media_storage_service.dart';
 import '../../../../core/services/card_audio_service.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../theme/app_tokens.dart';
 
 class AudioPlayButton extends HookWidget {
@@ -64,7 +63,7 @@ class AudioPlayButton extends HookWidget {
       }
     }
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final tooltipText = isPlaying.value ? l10n.audioStop : l10n.audioPlay;
 
     return Tooltip(

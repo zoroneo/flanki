@@ -1,6 +1,5 @@
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../providers/update_notifier.dart';
 import '../../data/desktop_update_service.dart';
@@ -38,7 +37,7 @@ class LanguageOptionButton extends StatelessWidget {
             color: isSelected
                 ? theme.colorScheme.primary
                 : theme.colorScheme.border,
-            width: 1,
+            width: AppDimensions.hairline,
           ),
         ),
         child: Center(
@@ -211,7 +210,7 @@ class VersionInfoRow extends StatelessWidget {
                   width: AppDimensions.legendColorDotSize,
                   height: AppDimensions.legendColorDotSize,
                   child: CircularProgressIndicator(
-                    strokeWidth: 1.5,
+                    strokeWidth: AppDimensions.spinnerStrokeThin,
                     value: updateState.downloadProgress > 0
                         ? updateState.downloadProgress
                         : null,

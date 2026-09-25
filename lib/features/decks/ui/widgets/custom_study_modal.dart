@@ -2,7 +2,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/config/app_config.dart';
-import '../../../../core/localization/locale_notifier.dart';
 import '../../../../core/models/custom_study_mode.dart';
 
 import 'package:flanki/core/widgets/adaptive_modal.dart';
@@ -75,9 +74,15 @@ class CustomStudyModal extends HookWidget {
             ? AppRadius.borderXl
             : const BorderRadius.vertical(top: Radius.circular(AppSpacing.lg)),
         border: isDesktopMode
-            ? Border.all(color: theme.colorScheme.border, width: 1)
+            ? Border.all(
+                color: theme.colorScheme.border,
+                width: AppDimensions.hairline,
+              )
             : Border(
-                top: BorderSide(color: theme.colorScheme.border, width: 1),
+                top: BorderSide(
+                  color: theme.colorScheme.border,
+                  width: AppDimensions.hairline,
+                ),
               ),
         boxShadow: [
           BoxShadow(

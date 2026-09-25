@@ -9,7 +9,6 @@ import '../../../router/app_router.dart';
 import '../data/grammar_repository.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
-import '../../../l10n/generated/app_localizations.dart';
 import 'widgets/grammar_catalog_stats.dart';
 import 'widgets/grammar_level_filters.dart';
 import 'widgets/grammar_unit_card.dart';
@@ -20,7 +19,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final grammarAsync = ref.watch(grammarUnitsProvider);
     final repo = ref.watch(grammarRepositoryProvider);
 
@@ -102,7 +101,9 @@ class GrammarCatalogScreen extends HookConsumerWidget {
 
               return Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1320),
+                  constraints: const BoxConstraints(
+                    maxWidth: AppDimensions.wideCatalogMaxWidth,
+                  ),
                   child: CustomScrollView(
                     slivers: [
                       SliverToBoxAdapter(
