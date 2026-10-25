@@ -65,11 +65,15 @@ class AnkiWebAuthService {
     }
 
     try {
+      final formData = FormData.fromMap({
+        'c': '0',
+        'data': jsonEncode({'u': trimmedUser, 'p': trimmedPass}),
+      });
+
       final response = await _dio.post(
         '${_config.syncHost}${AnkiWebConfig.endpointHostKey}',
-        data: {'u': trimmedUser, 'p': trimmedPass},
+        data: formData,
         options: Options(
-          contentType: Headers.formUrlEncodedContentType,
           responseType: ResponseType.plain,
           headers: {'User-Agent': _config.effectiveUserAgent},
           sendTimeout: _config.customAuthTimeout,

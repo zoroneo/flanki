@@ -204,3 +204,6 @@ ehthumbs.db
 **/.obsidian/community-plugin-stats.json
 # Widget Preview related
 .widget_preview/
+
+# Context Mode MCP Sessions
+.github/context-mode/

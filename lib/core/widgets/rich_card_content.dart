@@ -83,7 +83,7 @@ class RichCardContent extends HookWidget {
     final baseStyle = textStyle ?? theme.typography.h3;
     final defaultStyle = baseStyle.copyWith(
       color: baseStyle.color ?? theme.colorScheme.foreground,
-      fontWeight: baseStyle.fontWeight ?? FontWeight.w500,
+      fontWeight: baseStyle.fontWeight ?? FontWeight.normal,
     );
 
     return Column(
@@ -207,12 +207,13 @@ class RichCardContent extends HookWidget {
                 final isDarkTheme = theme.brightness == Brightness.dark;
                 return {
                   'background-color': isDarkTheme
-                      ? 'rgba(245, 158, 11, 0.28)'
-                      : 'rgba(245, 158, 11, 0.18)',
-                  'color': isDarkTheme ? '#fbbf24' : '#b45309',
+                      ? 'rgba(255, 255, 255, 0.08)'
+                      : 'rgba(0, 0, 0, 0.05)',
+                  'color': isDarkTheme ? '#f4f4f5' : '#18181b',
                   'padding': '1px 5px',
                   'border-radius': '4px',
                   'font-weight': '600',
+                  'display': 'inline',
                 };
               }
               if (element.localName == 'code') {

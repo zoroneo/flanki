@@ -24,6 +24,7 @@ class SupabaseSecureStorage extends LocalStorage {
             iOptions: IOSOptions(
               accessibility: KeychainAccessibility.first_unlock,
             ),
+            mOptions: MacOsOptions(usesDataProtectionKeychain: false),
           ),
       sessionKey = sessionKey ?? SupabaseConfig.sessionStorageKey;
 

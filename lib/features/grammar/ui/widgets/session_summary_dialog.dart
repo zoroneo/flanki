@@ -1,7 +1,9 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../models/grammar_models.dart';
 
 class SessionSummaryDialog extends StatelessWidget {
@@ -56,12 +58,13 @@ class SessionSummaryDialog extends StatelessWidget {
                         : theme.colorScheme.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    isPerfect ? LucideIcons.trophy : LucideIcons.award,
-                    size: AppIconSize.xl,
-                    color: isPerfect
-                        ? colors.success
-                        : theme.colorScheme.primary,
+                  child: Center(
+                    child: FlankiAnimatedEmoji(
+                      emoji: isPerfect
+                          ? AnimatedEmojis.trophy
+                          : AnimatedEmojis.star,
+                      size: AppIconSize.xl,
+                    ),
                   ),
                 ),
                 AppGaps.v16,

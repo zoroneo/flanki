@@ -148,30 +148,41 @@ class AnkiWebSubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
 
     return SizedBox(
       height: AppSpacing.xxxl,
       child: PrimaryButton(
+        alignment: Alignment.center,
         onPressed: isLoading ? null : onSubmit,
         child: isLoading
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: AppIconSize.sm,
                     height: AppIconSize.sm,
                     child: CircularProgressIndicator(
                       strokeWidth: AppDimensions.spinnerStrokeWidth,
+                      color: theme.colorScheme.primaryForeground,
                     ),
                   ),
                   AppGaps.h8,
-                  Text(l10n.authSubmitting),
+                  Text(
+                    l10n.authSubmitting,
+                    style: context.textStyles.smallSemiBold.copyWith(
+                      color: theme.colorScheme.primaryForeground,
+                    ),
+                  ),
                 ],
               )
             : m.Center(
                 child: Text(
                   l10n.authLoginButton,
-                  style: context.textStyles.smallSemiBold,
+                  style: context.textStyles.smallSemiBold.copyWith(
+                    color: theme.colorScheme.primaryForeground,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
       ),

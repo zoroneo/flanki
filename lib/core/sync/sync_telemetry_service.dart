@@ -40,6 +40,9 @@ class SyncTelemetryRecord {
   /// Resolves human-readable summary, localizing network/failure messages if [l10n] is provided.
   String resolveSummary(AppLocalizations? l10n) {
     if (isSuccess) {
+      if (l10n != null) {
+        return l10n.syncCycleLog(pushedCount, pulledCount, mediaTransferred);
+      }
       return 'Pushed: $pushedCount | Pulled: $pulledCount | Media: $mediaTransferred';
     }
     if (isOffline) {

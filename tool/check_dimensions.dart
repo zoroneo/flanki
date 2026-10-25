@@ -10,10 +10,7 @@ import 'dart:io';
 /// To whitelist an intentional custom dimension, add `// allow-magic-dimension`
 /// on the same line.
 void main(List<String> args) {
-  final targetDirs = [
-    Directory('lib/features'),
-    Directory('lib/core/widgets'),
-  ];
+  final targetDirs = [Directory('lib/features'), Directory('lib/core/widgets')];
 
   final violations = <DimensionViolation>[];
 
@@ -25,7 +22,8 @@ void main(List<String> args) {
 
       // Only inspect UI files (skip non-UI models, repositories, notifiers, etc.)
       final normalizedPath = entity.path.replaceAll(r'\', '/');
-      final isUiFile = normalizedPath.contains('/ui/') ||
+      final isUiFile =
+          normalizedPath.contains('/ui/') ||
           normalizedPath.contains('/widgets/') ||
           normalizedPath.contains('lib/core/widgets/');
 
@@ -36,10 +34,14 @@ void main(List<String> args) {
   }
 
   if (violations.isEmpty) {
-    stdout.writeln('✅ [check_dimensions] All UI files adhere to AppTokens! No raw magic dimensions found.');
+    stdout.writeln(
+      '✅ [check_dimensions] All UI files adhere to AppTokens! No raw magic dimensions found.',
+    );
     exit(0);
   } else {
-    stderr.writeln('❌ [check_dimensions] Found ${violations.length} dimension token violation(s):');
+    stderr.writeln(
+      '❌ [check_dimensions] Found ${violations.length} dimension token violation(s):',
+    );
     stderr.writeln('');
     for (final v in violations) {
       stderr.writeln('  ${v.filePath}:${v.lineNumber}');
@@ -48,8 +50,12 @@ void main(List<String> args) {
       stderr.writeln('    Suggest:  ${v.suggestion}');
       stderr.writeln('');
     }
-    stderr.writeln('Fix violations using AppGaps, AppSpacing, AppRadius, or AppEdgeInsets from AppTokens.');
-    stderr.writeln('To whitelist an intentional exception, append `// allow-magic-dimension` to the line.');
+    stderr.writeln(
+      'Fix violations using AppGaps, AppSpacing, AppRadius, or AppEdgeInsets from AppTokens.',
+    );
+    stderr.writeln(
+      'To whitelist an intentional exception, append `// allow-magic-dimension` to the line.',
+    );
     exit(1);
   }
 }
@@ -75,15 +81,22 @@ void _scanFile(File file, List<DimensionViolation> violations) {
   final path = file.path.replaceAll(r'\', '/');
 
   // Regex patterns for magic dimensions
-  final sizedBoxGapPattern = RegExp(r'SizedBox\s*\(\s*(height|width)\s*:\s*(\d+(?:\.\d+)?)\s*\)');
-  final edgeInsetsAllPattern = RegExp(r'EdgeInsets\.all\s*\(\s*(\d+(?:\.\d+)?)\s*\)');
-  final borderRadiusCircularPattern = RegExp(r'BorderRadius\.circular\s*\(\s*(\d+(?:\.\d+)?)\s*\)');
+  final sizedBoxGapPattern = RegExp(
+    r'SizedBox\s*\(\s*(height|width)\s*:\s*(\d+(?:\.\d+)?)\s*\)',
+  );
+  final edgeInsetsAllPattern = RegExp(
+    r'EdgeInsets\.all\s*\(\s*(\d+(?:\.\d+)?)\s*\)',
+  );
+  final borderRadiusCircularPattern = RegExp(
+    r'BorderRadius\.circular\s*\(\s*(\d+(?:\.\d+)?)\s*\)',
+  );
 
   for (int i = 0; i < lines.length; i++) {
     final line = lines[i];
 
     // Whitelist comments
-    if (line.contains('// allow-magic-dimension') || line.trim().startsWith('//')) {
+    if (line.contains('// allow-magic-dimension') ||
+        line.trim().startsWith('//')) {
       continue;
     }
 
@@ -100,7 +113,8 @@ void _scanFile(File file, List<DimensionViolation> violations) {
           lineNumber: i + 1,
           lineContent: line,
           message: 'Raw SizedBox($property: $val) used.',
-          suggestion: 'Use AppGaps.$prefix$val or const SizedBox($property: AppSpacing.*).',
+          suggestion:
+              'Use AppGaps.$prefix$val or const SizedBox($property: AppSpacing.*).',
         ),
       );
     }
@@ -115,7 +129,8 @@ void _scanFile(File file, List<DimensionViolation> violations) {
           lineNumber: i + 1,
           lineContent: line,
           message: 'Raw EdgeInsets.all($val) used.',
-          suggestion: 'Use AppEdgeInsets.all$val or EdgeInsets.all(AppSpacing.*).',
+          suggestion:
+              'Use AppEdgeInsets.all$val or EdgeInsets.all(AppSpacing.*).',
         ),
       );
     }

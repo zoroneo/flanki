@@ -1,7 +1,9 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../providers/study_session_notifier.dart';
 
 class StudyFinishedView extends StatelessWidget {
@@ -57,10 +59,9 @@ class StudyFinishedView extends StatelessWidget {
                     color: AppColors.success.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    LucideIcons.checkCheck,
+                  child: const FlankiAnimatedEmoji(
+                    emoji: AnimatedEmojis.partyPopper,
                     size: 64,
-                    color: AppColors.success,
                   ),
                 ),
               ),

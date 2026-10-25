@@ -1,6 +1,8 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../models/exam_models.dart';
 
 class ExamScoreSummaryCard extends StatelessWidget {
@@ -28,6 +30,13 @@ class ExamScoreSummaryCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
         children: [
+          FlankiAnimatedEmoji(
+            emoji: isPassed
+                ? AnimatedEmojis.confettiBall
+                : AnimatedEmojis.thinkingFace,
+            size: 64.0,
+          ),
+          AppGaps.v12,
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,

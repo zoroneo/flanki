@@ -31,7 +31,9 @@ void main(List<String> args) async {
 
   if (modifiedTracked.isNotEmpty) {
     if (dryRun) {
-      _warning('There are uncommitted changes in tracked files (ignored for dry-run):');
+      _warning(
+        'There are uncommitted changes in tracked files (ignored for dry-run):',
+      );
       for (final line in modifiedTracked) {
         print('    $line');
       }
@@ -40,8 +42,12 @@ void main(List<String> args) async {
       for (final line in modifiedTracked) {
         print('    $line');
       }
-      _error('Release requires a clean working tree to switch and merge branches.');
-      _error('Please commit or stash your changes before running make release.');
+      _error(
+        'Release requires a clean working tree to switch and merge branches.',
+      );
+      _error(
+        'Please commit or stash your changes before running make release.',
+      );
       exit(1);
     }
   }
@@ -53,7 +59,9 @@ void main(List<String> args) async {
 
   if (currentBranch != 'dev' && currentBranch != 'main') {
     _warning('You are currently on branch "$currentBranch".');
-    _warning('Standard release workflow requires releasing from "dev" or "main".');
+    _warning(
+      'Standard release workflow requires releasing from "dev" or "main".',
+    );
     if (!dryRun) {
       stdout.write('\x1B[33mDo you want to proceed anyway? [y/N]: \x1B[0m');
       final answer = stdin.readLineSync()?.trim().toLowerCase();
@@ -72,11 +80,16 @@ void main(List<String> args) async {
   }
 
   final pubspecContent = pubspecFile.readAsStringSync();
-  final versionRegex = RegExp(r'^version:\s*([0-9]+)\.([0-9]+)\.([0-9]+)\+([0-9]+)', multiLine: true);
+  final versionRegex = RegExp(
+    r'^version:\s*([0-9]+)\.([0-9]+)\.([0-9]+)\+([0-9]+)',
+    multiLine: true,
+  );
   final match = versionRegex.firstMatch(pubspecContent);
 
   if (match == null) {
-    _error('Could not parse version in pubspec.yaml (expected format: X.Y.Z+B).');
+    _error(
+      'Could not parse version in pubspec.yaml (expected format: X.Y.Z+B).',
+    );
     exit(1);
   }
 
@@ -118,13 +131,17 @@ void main(List<String> args) async {
 
     final validSemver = RegExp(r'^[0-9]+\.[0-9]+\.[0-9]+$');
     if (!validSemver.hasMatch(newSemver)) {
-      _error('Invalid version "$targetArg". Expected format: X.Y.Z, vX.Y.Z, or patch/minor/major');
+      _error(
+        'Invalid version "$targetArg". Expected format: X.Y.Z, vX.Y.Z, or patch/minor/major',
+      );
       exit(1);
     }
   }
 
   final newFullVersion = '$newSemver+$newBuildNumber';
-  print('Target release:  \x1B[1;32mv$newFullVersion (Tag: v$newSemver)\x1B[0m\n');
+  print(
+    'Target release:  \x1B[1;32mv$newFullVersion (Tag: v$newSemver)\x1B[0m\n',
+  );
 
   // 5. Run tests and static checks
   if (!skipTests) {
@@ -157,8 +174,12 @@ void main(List<String> args) async {
     }
     print('  4. Update files on main:');
     print('     - pubspec.yaml -> version: $newFullVersion');
-    print('     - lib/core/config/app_config.dart -> version: $newSemver, buildNumber: $newBuildNumber');
-    print('     - packaging/windows/inno_setup.iss -> MyAppVersion: $newSemver');
+    print(
+      '     - lib/core/config/app_config.dart -> version: $newSemver, buildNumber: $newBuildNumber',
+    );
+    print(
+      '     - packaging/windows/inno_setup.iss -> MyAppVersion: $newSemver',
+    );
     print('  5. git commit -m "chore(release): bump version to v$newSemver"');
     print('  6. git tag -a v$newSemver -m "Release v$newSemver"');
     if (currentBranch == 'dev') {
@@ -285,7 +306,9 @@ void main(List<String> args) async {
     exit(1);
   }
 
-  print('\x1B[32m✔ Successfully committed and tagged v$newSemver on main\x1B[0m\n');
+  print(
+    '\x1B[32m✔ Successfully committed and tagged v$newSemver on main\x1B[0m\n',
+  );
 
   // 9. If started from dev, switch back to dev and sync release commit
   if (isDev) {
@@ -296,7 +319,9 @@ void main(List<String> args) async {
       if (code == 0) {
         print('\x1B[32m✔ dev is now up-to-date with main.\x1B[0m\n');
       } else {
-        _warning('Could not automatically merge main back to dev. Please run: git merge main');
+        _warning(
+          'Could not automatically merge main back to dev. Please run: git merge main',
+        );
       }
     }
   }
@@ -304,7 +329,9 @@ void main(List<String> args) async {
   // 10. Push to remote
   bool doPush = autoPush;
   if (!doPush) {
-    stdout.write('\x1B[1;33mPush commits (main, dev) and tag (v$newSemver) to origin now? [y/N]: \x1B[0m');
+    stdout.write(
+      '\x1B[1;33mPush commits (main, dev) and tag (v$newSemver) to origin now? [y/N]: \x1B[0m',
+    );
     final answer = stdin.readLineSync()?.trim().toLowerCase();
     doPush = (answer == 'y' || answer == 'yes');
   }
@@ -327,22 +354,32 @@ void main(List<String> args) async {
       }
     }
 
-    final pushTagCode = await _runCommand('git', ['push', 'origin', 'v$newSemver']);
+    final pushTagCode = await _runCommand('git', [
+      'push',
+      'origin',
+      'v$newSemver',
+    ]);
     if (pushTagCode != 0) {
       _error('Failed to push tag v$newSemver to origin.');
       _printManualPushInstructions(newSemver, isDev: isDev);
       exit(1);
     }
-    print('\x1B[32m✔ Pushed main, ${isDev ? 'dev, ' : ''}and tag v$newSemver to origin!\x1B[0m');
+    print(
+      '\x1B[32m✔ Pushed main, ${isDev ? 'dev, ' : ''}and tag v$newSemver to origin!\x1B[0m',
+    );
     print('\x1B[1;35m🚀 GitHub Actions workflow has been triggered.\x1B[0m');
-    print('Track release progress: https://github.com/zoroneo/flanki/actions\n');
+    print(
+      'Track release progress: https://github.com/zoroneo/flanki/actions\n',
+    );
   } else {
     _printManualPushInstructions(newSemver, isDev: isDev);
   }
 }
 
 void _printManualPushInstructions(String semver, {required bool isDev}) {
-  print('\n\x1B[33mRelease commit and tag v$semver are created locally. To push and trigger CI/CD, run:\x1B[0m');
+  print(
+    '\n\x1B[33mRelease commit and tag v$semver are created locally. To push and trigger CI/CD, run:\x1B[0m',
+  );
   print('  git push origin main');
   if (isDev) {
     print('  git push origin dev');

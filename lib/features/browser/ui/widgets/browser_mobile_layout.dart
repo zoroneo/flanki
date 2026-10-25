@@ -1,9 +1,11 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
@@ -215,11 +217,7 @@ class BrowserMobileLayout extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                LucideIcons.searchX,
-                size: AppSpacing.xxxl,
-                color: theme.colorScheme.mutedForeground,
-              ),
+              const FlankiAnimatedEmoji(emoji: AnimatedEmojis.eyes, size: 48.0),
               AppGaps.v12,
               Text(
                 l10n.noCardsFound,

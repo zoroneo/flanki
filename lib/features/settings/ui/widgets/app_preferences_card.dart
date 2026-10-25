@@ -22,34 +22,22 @@ class AppPreferencesCard extends ConsumerWidget {
     final isEn = currentLocale?.languageCode == 'en';
     final isSystem = currentLocale == null;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.appPreferences,
-          style: theme.typography.xSmall.copyWith(
-            color: theme.colorScheme.mutedForeground,
-          ),
-        ),
-        AppGaps.v8,
-        Card(
-          padding: AppEdgeInsets.all16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildLanguageHeader(theme, l10n),
-              AppGaps.v12,
-              _buildLanguageOptions(l10n, localeNotifier, isVi, isEn, isSystem),
-              AppGaps.v16,
-              const Divider(),
-              AppGaps.v16,
-              _buildAppearanceHeader(theme, l10n),
-              AppGaps.v12,
-              _buildThemeOptions(l10n, themeMode, themeNotifier),
-            ],
-          ),
-        ),
-      ],
+    return Card(
+      padding: AppEdgeInsets.all16,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildLanguageHeader(theme, l10n),
+          AppGaps.v12,
+          _buildLanguageOptions(l10n, localeNotifier, isVi, isEn, isSystem),
+          AppGaps.v16,
+          const Divider(),
+          AppGaps.v16,
+          _buildAppearanceHeader(theme, l10n),
+          AppGaps.v12,
+          _buildThemeOptions(l10n, themeMode, themeNotifier),
+        ],
+      ),
     );
   }
 
@@ -83,32 +71,35 @@ class AppPreferencesCard extends ConsumerWidget {
     bool isEn,
     bool isSystem,
   ) {
-    return Row(
-      children: [
-        Expanded(
-          child: LanguageOptionButton(
-            label: l10n.languageVietnamese,
-            isSelected: isVi,
-            onTap: () => localeNotifier.setLocale(const Locale('vi')),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: LanguageOptionButton(
+              label: l10n.languageVietnamese,
+              isSelected: isVi,
+              onTap: () => localeNotifier.setLocale(const Locale('vi')),
+            ),
           ),
-        ),
-        AppGaps.h8,
-        Expanded(
-          child: LanguageOptionButton(
-            label: l10n.languageEnglish,
-            isSelected: isEn,
-            onTap: () => localeNotifier.setLocale(const Locale('en')),
+          AppGaps.h8,
+          Expanded(
+            child: LanguageOptionButton(
+              label: l10n.languageEnglish,
+              isSelected: isEn,
+              onTap: () => localeNotifier.setLocale(const Locale('en')),
+            ),
           ),
-        ),
-        AppGaps.h8,
-        Expanded(
-          child: LanguageOptionButton(
-            label: l10n.languageSystem,
-            isSelected: isSystem,
-            onTap: () => localeNotifier.setLocale(null),
+          AppGaps.h8,
+          Expanded(
+            child: LanguageOptionButton(
+              label: l10n.languageSystem,
+              isSelected: isSystem,
+              onTap: () => localeNotifier.setLocale(null),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -140,32 +131,35 @@ class AppPreferencesCard extends ConsumerWidget {
     ThemeMode themeMode,
     ThemeNotifier themeNotifier,
   ) {
-    return Row(
-      children: [
-        Expanded(
-          child: LanguageOptionButton(
-            label: l10n.themeLight,
-            isSelected: themeMode == ThemeMode.light,
-            onTap: () => themeNotifier.setThemeMode(ThemeMode.light),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: LanguageOptionButton(
+              label: l10n.themeLight,
+              isSelected: themeMode == ThemeMode.light,
+              onTap: () => themeNotifier.setThemeMode(ThemeMode.light),
+            ),
           ),
-        ),
-        AppGaps.h8,
-        Expanded(
-          child: LanguageOptionButton(
-            label: l10n.themeDark,
-            isSelected: themeMode == ThemeMode.dark,
-            onTap: () => themeNotifier.setThemeMode(ThemeMode.dark),
+          AppGaps.h8,
+          Expanded(
+            child: LanguageOptionButton(
+              label: l10n.themeDark,
+              isSelected: themeMode == ThemeMode.dark,
+              onTap: () => themeNotifier.setThemeMode(ThemeMode.dark),
+            ),
           ),
-        ),
-        AppGaps.h8,
-        Expanded(
-          child: LanguageOptionButton(
-            label: l10n.themeSystem,
-            isSelected: themeMode == ThemeMode.system,
-            onTap: () => themeNotifier.setThemeMode(ThemeMode.system),
+          AppGaps.h8,
+          Expanded(
+            child: LanguageOptionButton(
+              label: l10n.themeSystem,
+              isSelected: themeMode == ThemeMode.system,
+              onTap: () => themeNotifier.setThemeMode(ThemeMode.system),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

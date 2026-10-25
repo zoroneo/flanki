@@ -1,8 +1,10 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../../../router/app_router.dart';
 import '../../providers/card_browser_notifier.dart';
 import 'card_browser_filter_bar.dart';
@@ -183,11 +185,18 @@ class BrowserDesktopLayout extends StatelessWidget {
   Widget _buildCardList() {
     if (filteredCards.isEmpty) {
       return Center(
-        child: Text(
-          l10n.noCardsFound,
-          style: theme.typography.small.copyWith(
-            color: theme.colorScheme.mutedForeground,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const FlankiAnimatedEmoji(emoji: AnimatedEmojis.eyes, size: 36.0),
+            AppGaps.v8,
+            Text(
+              l10n.noCardsFound,
+              style: theme.typography.small.copyWith(
+                color: theme.colorScheme.mutedForeground,
+              ),
+            ),
+          ],
         ),
       );
     }

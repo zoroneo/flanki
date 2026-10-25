@@ -63,11 +63,27 @@ class CardContentParser {
 
     cleanHtml = cleanHtml.replaceAll(curlyTagsRegex, '').trim();
 
+    // Prevent orphan punctuation dropping to next line by anchoring it inside closing inline tags
+    cleanHtml = cleanHtml.replaceAllMapped(
+      RegExp(r'(</(?:mark|span|b|strong|i|em|u|code)>)\s*([:;,!?.])'),
+      (m) => '${m.group(2)}${m.group(1)}',
+    );
+
+    // Eliminate abnormal whitespace before punctuation (e.g. "tag ," -> "tag,")
+    cleanHtml = cleanHtml.replaceAllMapped(
+      RegExp(r'\s+([,;:!?.])'),
+      (m) => m.group(1)!,
+    );
+
+    // Convert markdown tables before linebreaks
+    cleanHtml = convertMarkdownTables(cleanHtml);
+
     if (cleanHtml.contains('\n') &&
         !cleanHtml.contains('<br') &&
         !cleanHtml.contains('<p>') &&
         !cleanHtml.contains('<p ') &&
-        !cleanHtml.contains('<div')) {
+        !cleanHtml.contains('<div') &&
+        !cleanHtml.contains('<table')) {
       cleanHtml = cleanHtml.replaceAll('\r\n', '\n').replaceAll('\n', '<br/>');
     }
 
@@ -76,6 +92,88 @@ class CardContentParser {
       hasTypeInput: containsType,
       soundFiles: soundFiles,
     );
+  }
+
+  /// Converts Markdown tables into HTML tables supported by HtmlWidget.
+  /// Handles both standard pipe-separated tables and <br/>-separated pseudo tables.
+  static String convertMarkdownTables(String text) {
+    if (!text.contains('|')) return text;
+
+    final lines = text.split(RegExp(r'\r?\n'));
+    final output = <String>[];
+    var i = 0;
+
+    while (i < lines.length) {
+      final line = lines[i].trim();
+      if (line.startsWith('|') && line.endsWith('|') && i + 1 < lines.length) {
+        final nextLine = lines[i + 1].trim();
+        final isBrDelim = RegExp(r':?-{3,}:?(?:<br\s*/?>:?-{3,}:?)+')
+            .hasMatch(nextLine);
+        final isPipeDelim = RegExp(r'\|?\s*:?-{3,}:?\s*\|').hasMatch(nextLine);
+
+        if (isBrDelim || isPipeDelim) {
+          final tableLines = <String>[];
+          while (i < lines.length &&
+              lines[i].trim().startsWith('|') &&
+              lines[i].trim().endsWith('|')) {
+            tableLines.add(lines[i].trim());
+            i++;
+          }
+
+          if (tableLines.length >= 2) {
+            final delimRaw = tableLines[1]
+                .substring(1, tableLines[1].length - 1)
+                .trim();
+            final useBr =
+                isBrDelim ||
+                (delimRaw.contains('<br') && !delimRaw.contains('|'));
+
+            List<String> splitCells(String r) {
+              final raw = r.substring(1, r.length - 1).trim();
+              if (useBr) {
+                return raw
+                    .split(RegExp(r'<br\s*/?>'))
+                    .map((c) => c.trim())
+                    .toList();
+              } else {
+                return raw.split('|').map((c) => c.trim()).toList();
+              }
+            }
+
+            final headers = splitCells(tableLines[0]);
+            final buffer = StringBuffer();
+            buffer.write(
+              '<table class="grammar-table" style="width:100%; border-collapse:collapse; margin:8px 0;">',
+            );
+            buffer.write('<thead><tr>');
+            for (final h in headers) {
+              buffer.write(
+                '<th style="border:1px solid rgba(128,128,128,0.3); padding:6px 8px; font-weight:bold; background:rgba(128,128,128,0.1);">$h</th>',
+              );
+            }
+            buffer.write('</tr></thead><tbody>');
+
+            for (var r = 2; r < tableLines.length; r++) {
+              final cells = splitCells(tableLines[r]);
+              buffer.write('<tr>');
+              for (final c in cells) {
+                buffer.write(
+                  '<td style="border:1px solid rgba(128,128,128,0.25); padding:6px 8px;">$c</td>',
+                );
+              }
+              buffer.write('</tr>');
+            }
+            buffer.write('</tbody></table>');
+            output.add(buffer.toString());
+            continue;
+          }
+        }
+      }
+      output.add(lines[i]);
+      i++;
+    }
+
+    return output.join('\n');
   }
 
   static String adaptDarkModeHtml(String html) {

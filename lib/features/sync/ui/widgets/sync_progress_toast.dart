@@ -1,7 +1,9 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/config/app_config.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 
 class SyncProgressStatus {
   final String title;
@@ -71,9 +73,8 @@ class SyncProgressToast extends StatelessWidget {
                       size: AppIconSize.md,
                     )
                   else if (status.isCompleted)
-                    Icon(
-                      LucideIcons.cloud,
-                      color: context.colors.success,
+                    const FlankiAnimatedEmoji(
+                      emoji: AnimatedEmojis.sparkles,
                       size: AppIconSize.md,
                     )
                   else

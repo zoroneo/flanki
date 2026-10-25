@@ -175,6 +175,7 @@ class DecksScreen extends HookConsumerWidget {
                                 DeckEmptyState(
                                   l10n: l10n,
                                   onAddDeck: openCreateDeckModal,
+                                  showAddButton: !isMobile,
                                 ),
                             ],
                           ),

@@ -47,7 +47,7 @@
   "appearanceSubtitle": "Theme and visual customization",
   "themeDark": "Dark",
   "themeLight": "Light",
-  "themeSystem": "System Default",
+  "themeSystem": "System",
   "spacedRepetitionAlgorithm": "SPACED REPETITION ENGINE",
   "enableFsrs": "Enable FSRS v5",
   "fsrsSubtitle": "Optimized retention algorithm based on Difficulty, Stability, and Retrievability.",
@@ -237,7 +237,7 @@
   "reversedNoteSubtitle": "Two-way card",
   "clozeTextLabel": "TEXT",
   "frontPlaceholder": "Enter question, vocabulary or concept...",
-  "clozePlaceholder": "The capital of France is '{{'c1::Paris'}}'.",
+  "clozePlaceholder": "The capital of France is ｛｛c1::Paris｝｝.",
   "backPlaceholder": "Enter explanation, examples...",
   "authScreenTitle": "AnkiWeb Account",
   "authHeaderTitle": "AnkiWeb Sync",
@@ -1155,6 +1155,148 @@
   "continueWithApple": "Continue with Apple",
   "@continueWithApple": {
     "description": "Button label for Apple Sign In"
+  },
+  "authAppleInDevelopment": "Feature in Progress",
+  "@authAppleInDevelopment": {
+    "description": "Toast title for Apple Sign In under development"
+  },
+  "authAppleInDevelopmentDesc": "Sign in with Apple is currently under development and will be available in a future update.",
+  "@authAppleInDevelopmentDesc": {
+    "description": "Toast subtitle for Apple Sign In under development"
+  },
+  "authWaitingBrowser": "Waiting for authentication in browser...",
+  "@authWaitingBrowser": {
+    "description": "Status text while waiting for OAuth completion in external browser"
+  },
+  "syncCycleLog": "Pushed: {pushed} | Pulled: {pulled} | Media: {media}",
+  "@syncCycleLog": {
+    "description": "Telemetry log summary for successful sync",
+    "placeholders": {
+      "pushed": {
+        "type": "int"
+      },
+      "pulled": {
+        "type": "int"
+      },
+      "media": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarReadDetailedTheory": "Read detailed theory ({count} sections)",
+  "@grammarReadDetailedTheory": {
+    "description": "Button to expand full grammar theory details",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarQuickContrastTitle": "Quick Contrast Matrix",
+  "@grammarQuickContrastTitle": {
+    "description": "Header title for quick contrast matrix between tenses"
+  },
+  "grammarNatureLabel": "Core Nature:",
+  "@grammarNatureLabel": {
+    "description": "Label for core nature in contrast matrix"
+  },
+  "grammarContrastExampleLabel": "Contrast Example:",
+  "@grammarContrastExampleLabel": {
+    "description": "Label for contrast example in contrast matrix"
+  },
+  "grammarExamplePrefix": "Example: \"{example}\"",
+  "@grammarExamplePrefix": {
+    "description": "Example sentence display with quotes",
+    "placeholders": {
+      "example": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarNuancePrefix": "→ Nuance: {nuance}",
+  "@grammarNuancePrefix": {
+    "description": "Nuance explainer prefix",
+    "placeholders": {
+      "nuance": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarPastStation": "PAST",
+  "@grammarPastStation": {
+    "description": "Label for past point on timeline"
+  },
+  "grammarNowStation": "NOW",
+  "@grammarNowStation": {
+    "description": "Label for now point on timeline"
+  },
+  "grammarFutureStation": "FUTURE",
+  "@grammarFutureStation": {
+    "description": "Label for future point on timeline"
+  },
+  "grammarPresentSimple": "Present Simple",
+  "@grammarPresentSimple": {
+    "description": "Present Simple tense label"
+  },
+  "grammarPresentContinuous": "Present Continuous",
+  "@grammarPresentContinuous": {
+    "description": "Present Continuous tense label"
+  },
+  "grammarPresentSimpleNature": "Static • Fixed • Permanent",
+  "@grammarPresentSimpleNature": {
+    "description": "Nature of Present Simple"
+  },
+  "grammarPresentContinuousNature": "Dynamic • Temporary • In-progress",
+  "@grammarPresentContinuousNature": {
+    "description": "Nature of Present Continuous"
+  },
+  "grammarPresentSimpleMeaning": "Permanent residence / hometown",
+  "@grammarPresentSimpleMeaning": {
+    "description": "Meaning explanation for live in simple tense"
+  },
+  "grammarPresentContinuousMeaning": "Temporary stay / liable to change",
+  "@grammarPresentContinuousMeaning": {
+    "description": "Meaning explanation for live in continuous tense"
+  },
+  "grammarQuickCheckTitle": "Quick Reaction Challenge",
+  "@grammarQuickCheckTitle": {
+    "description": "Title for quick reaction check CCQ"
+  },
+  "grammarQuickCheckPrompt": "🎯 Scenario: You are on a 3-week business trip in Da Nang. Which sentence would you say to a new colleague?",
+  "@grammarQuickCheckPrompt": {
+    "description": "Scenario prompt for tense quick check"
+  },
+  "grammarQuickCheckIncorrectFeedback": "Incorrect! \"I live in Da Nang\" implies permanent residence. Because you are only on a 3-week business trip (temporary), use Present Continuous: \"I am living in Da Nang\".",
+  "@grammarQuickCheckIncorrectFeedback": {
+    "description": "Feedback for incorrect choice in quick check"
+  },
+  "grammarQuickCheckCorrectFeedback": "Correct! Because a 3-week business trip is a short-term temporary situation, native speakers always use Present Continuous (\"am living\") instead of Present Simple.",
+  "@grammarQuickCheckCorrectFeedback": {
+    "description": "Feedback for correct choice in quick check"
+  },
+  "grammarTenseLabTitle": "Tense Lab: Live Experiment",
+  "@grammarTenseLabTitle": {
+    "description": "Title for interactive tense lab"
+  },
+  "grammarDragToShiftTime": "Drag slider to shift time",
+  "@grammarDragToShiftTime": {
+    "description": "Instruction hint for timeline slider"
+  },
+  "grammarSimplePermanent": "Simple (Permanent)",
+  "@grammarSimplePermanent": {
+    "description": "Button label for simple tense in lab"
+  },
+  "grammarContinuousTemporary": "Continuous (Temporary)",
+  "@grammarContinuousTemporary": {
+    "description": "Button label for continuous tense in lab"
+  },
+  "grammarDynamicAspect": "⚡ Dynamic",
+  "@grammarDynamicAspect": {
+    "description": "Badge for dynamic aspect"
+  },
+  "grammarStativeAspect": "🛡️ Stative",
+  "@grammarStativeAspect": {
+    "description": "Badge for stative aspect"
   },
   "orContinueWithEmail": "Or continue with email",
   "@orContinueWithEmail": {

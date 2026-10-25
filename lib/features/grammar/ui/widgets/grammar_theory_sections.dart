@@ -3,6 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
+import 'grammar_key_beautifier.dart';
 
 export 'grammar_traps_guides_cards.dart';
 
@@ -90,7 +91,6 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final colors = context.colors;
 
     return Card(
       padding: isMobile ? AppEdgeInsets.h12v8 : AppEdgeInsets.all20,
@@ -102,7 +102,7 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
               Icon(
                 LucideIcons.sigma,
                 size: isMobile ? AppIconSize.sm : AppIconSize.md,
-                color: colors.info,
+                color: theme.colorScheme.primary,
               ),
               isMobile ? AppGaps.h8 : AppGaps.h12,
               Expanded(
@@ -137,7 +137,7 @@ class GrammarTheoryFormulasCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    entry.key,
+                    GrammarKeyBeautifier.format(entry.key),
                     style: TextStyle(
                       fontSize: isMobile ? 12 : 13.5,
                       fontWeight: FontWeight.bold,

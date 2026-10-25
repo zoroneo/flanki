@@ -1,6 +1,8 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../models/stats_state.dart';
 
 class StatsRetentionCard extends StatelessWidget {
@@ -54,15 +56,27 @@ class StatsRetentionCard extends StatelessWidget {
                             .withValues(alpha: 0.15),
                     borderRadius: AppRadius.borderSm,
                   ),
-                  child: Text(
-                    isTargetReached
-                        ? l10n.targetReached
-                        : l10n.targetNotReached,
-                    style: context.textStyles.captionBold.copyWith(
-                      color: isTargetReached
-                          ? context.colors.success
-                          : context.colors.warning,
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (isTargetReached) ...[
+                        const FlankiAnimatedEmoji(
+                          emoji: AnimatedEmojis.sparkles,
+                          size: 14.0,
+                        ),
+                        AppGaps.h4,
+                      ],
+                      Text(
+                        isTargetReached
+                            ? l10n.targetReached
+                            : l10n.targetNotReached,
+                        style: context.textStyles.captionBold.copyWith(
+                          color: isTargetReached
+                              ? context.colors.success
+                              : context.colors.warning,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
             ],

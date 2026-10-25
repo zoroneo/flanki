@@ -9,14 +9,10 @@ import '../../../sync/ui/widgets/sync_diagnostics_sheet.dart';
 import 'anki_web_card.dart';
 
 class AccountSyncCard extends ConsumerWidget {
-  final ValueNotifier<bool> isSyncing;
-  final Future<void> Function() onSync;
+  final ValueNotifier<bool>? isSyncing;
+  final Future<void> Function()? onSync;
 
-  const AccountSyncCard({
-    super.key,
-    required this.isSyncing,
-    required this.onSync,
-  });
+  const AccountSyncCard({super.key, this.isSyncing, this.onSync});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,15 +27,6 @@ class AccountSyncCard extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section Title
-        Text(
-          l10n.accountAndSync,
-          style: theme.typography.xSmall.copyWith(
-            color: theme.colorScheme.mutedForeground,
-          ),
-        ),
-        AppGaps.v8,
-
         // --- 1. Primary Card: Flanki Cloud Sync ---
         Card(
           padding: AppEdgeInsets.all16,

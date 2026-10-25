@@ -1,8 +1,10 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../../../router/app_router.dart';
 
 class DeckStatsBar extends StatelessWidget {
@@ -54,10 +56,10 @@ class DeckStatsBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(
-              LucideIcons.flame,
-              color: context.colors.streakFlame,
+            const FlankiAnimatedEmoji(
+              emoji: AnimatedEmojis.fire,
               size: AppIconSize.lg,
+              interactive: true,
             ),
             AppGaps.h8,
             Text(

@@ -329,7 +329,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeSystem.
   ///
   /// In en, this message translates to:
-  /// **'System Default'**
+  /// **'System'**
   String get themeSystem;
 
   /// No description provided for @spacedRepetitionAlgorithm.
@@ -935,7 +935,7 @@ abstract class AppLocalizations {
   /// No description provided for @clozePlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'The capital of France is \'{{\'c1::Paris\'}}\'.'**
+  /// **'The capital of France is ｛｛c1::Paris｝｝.'**
   String get clozePlaceholder;
 
   /// No description provided for @backPlaceholder.
@@ -3253,6 +3253,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue with Apple'**
   String get continueWithApple;
+
+  /// Toast title for Apple Sign In under development
+  ///
+  /// In en, this message translates to:
+  /// **'Feature in Progress'**
+  String get authAppleInDevelopment;
+
+  /// Toast subtitle for Apple Sign In under development
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Apple is currently under development and will be available in a future update.'**
+  String get authAppleInDevelopmentDesc;
+
+  /// Status text while waiting for OAuth completion in external browser
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for authentication in browser...'**
+  String get authWaitingBrowser;
+
+  /// Telemetry log summary for successful sync
+  ///
+  /// In en, this message translates to:
+  /// **'Pushed: {pushed} | Pulled: {pulled} | Media: {media}'**
+  String syncCycleLog(int pushed, int pulled, int media);
+
+  /// Button to expand full grammar theory details
+  ///
+  /// In en, this message translates to:
+  /// **'Read detailed theory ({count} sections)'**
+  String grammarReadDetailedTheory(int count);
+
+  /// Header title for quick contrast matrix between tenses
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Contrast Matrix'**
+  String get grammarQuickContrastTitle;
+
+  /// Label for core nature in contrast matrix
+  ///
+  /// In en, this message translates to:
+  /// **'Core Nature:'**
+  String get grammarNatureLabel;
+
+  /// Label for contrast example in contrast matrix
+  ///
+  /// In en, this message translates to:
+  /// **'Contrast Example:'**
+  String get grammarContrastExampleLabel;
+
+  /// Example sentence display with quotes
+  ///
+  /// In en, this message translates to:
+  /// **'Example: \"{example}\"'**
+  String grammarExamplePrefix(String example);
+
+  /// Nuance explainer prefix
+  ///
+  /// In en, this message translates to:
+  /// **'→ Nuance: {nuance}'**
+  String grammarNuancePrefix(String nuance);
+
+  /// Label for past point on timeline
+  ///
+  /// In en, this message translates to:
+  /// **'PAST'**
+  String get grammarPastStation;
+
+  /// Label for now point on timeline
+  ///
+  /// In en, this message translates to:
+  /// **'NOW'**
+  String get grammarNowStation;
+
+  /// Label for future point on timeline
+  ///
+  /// In en, this message translates to:
+  /// **'FUTURE'**
+  String get grammarFutureStation;
+
+  /// Present Simple tense label
+  ///
+  /// In en, this message translates to:
+  /// **'Present Simple'**
+  String get grammarPresentSimple;
+
+  /// Present Continuous tense label
+  ///
+  /// In en, this message translates to:
+  /// **'Present Continuous'**
+  String get grammarPresentContinuous;
+
+  /// Nature of Present Simple
+  ///
+  /// In en, this message translates to:
+  /// **'Static • Fixed • Permanent'**
+  String get grammarPresentSimpleNature;
+
+  /// Nature of Present Continuous
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic • Temporary • In-progress'**
+  String get grammarPresentContinuousNature;
+
+  /// Meaning explanation for live in simple tense
+  ///
+  /// In en, this message translates to:
+  /// **'Permanent residence / hometown'**
+  String get grammarPresentSimpleMeaning;
+
+  /// Meaning explanation for live in continuous tense
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary stay / liable to change'**
+  String get grammarPresentContinuousMeaning;
+
+  /// Title for quick reaction check CCQ
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Reaction Challenge'**
+  String get grammarQuickCheckTitle;
+
+  /// Scenario prompt for tense quick check
+  ///
+  /// In en, this message translates to:
+  /// **'🎯 Scenario: You are on a 3-week business trip in Da Nang. Which sentence would you say to a new colleague?'**
+  String get grammarQuickCheckPrompt;
+
+  /// Feedback for incorrect choice in quick check
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect! \"I live in Da Nang\" implies permanent residence. Because you are only on a 3-week business trip (temporary), use Present Continuous: \"I am living in Da Nang\".'**
+  String get grammarQuickCheckIncorrectFeedback;
+
+  /// Feedback for correct choice in quick check
+  ///
+  /// In en, this message translates to:
+  /// **'Correct! Because a 3-week business trip is a short-term temporary situation, native speakers always use Present Continuous (\"am living\") instead of Present Simple.'**
+  String get grammarQuickCheckCorrectFeedback;
+
+  /// Title for interactive tense lab
+  ///
+  /// In en, this message translates to:
+  /// **'Tense Lab: Live Experiment'**
+  String get grammarTenseLabTitle;
+
+  /// Instruction hint for timeline slider
+  ///
+  /// In en, this message translates to:
+  /// **'Drag slider to shift time'**
+  String get grammarDragToShiftTime;
+
+  /// Button label for simple tense in lab
+  ///
+  /// In en, this message translates to:
+  /// **'Simple (Permanent)'**
+  String get grammarSimplePermanent;
+
+  /// Button label for continuous tense in lab
+  ///
+  /// In en, this message translates to:
+  /// **'Continuous (Temporary)'**
+  String get grammarContinuousTemporary;
+
+  /// Badge for dynamic aspect
+  ///
+  /// In en, this message translates to:
+  /// **'⚡ Dynamic'**
+  String get grammarDynamicAspect;
+
+  /// Badge for stative aspect
+  ///
+  /// In en, this message translates to:
+  /// **'🛡️ Stative'**
+  String get grammarStativeAspect;
 
   /// Divider text separating social auth and email form
   ///

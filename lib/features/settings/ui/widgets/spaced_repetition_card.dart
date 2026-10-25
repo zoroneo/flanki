@@ -16,57 +16,45 @@ class SpacedRepetitionCard extends ConsumerWidget {
     final studySettingsNotifier = ref.read(studySettingsProvider.notifier);
     final isFsrsEnabled = studySettings.fsrsEnabled;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.spacedRepetitionAlgorithm,
-          style: theme.typography.xSmall.copyWith(
-            color: theme.colorScheme.mutedForeground,
+    return Card(
+      padding: AppEdgeInsets.all16,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildAlgorithmSwitch(
+            theme,
+            l10n,
+            isFsrsEnabled,
+            studySettings,
+            studySettingsNotifier,
           ),
-        ),
-        AppGaps.v8,
-        Card(
-          padding: AppEdgeInsets.all16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildAlgorithmSwitch(
-                theme,
-                l10n,
-                isFsrsEnabled,
-                studySettings,
-                studySettingsNotifier,
-              ),
-              if (isFsrsEnabled) ...[
-                AppGaps.v16,
-                _buildRetentionRates(
-                  theme,
-                  l10n,
-                  studySettings,
-                  studySettingsNotifier,
-                ),
-              ],
-              AppGaps.v16,
-              const Divider(),
-              AppGaps.v12,
-              _buildNewCardsPerDay(
-                theme,
-                l10n,
-                studySettings,
-                studySettingsNotifier,
-              ),
-              AppGaps.v16,
-              _buildMaxReviewsPerDay(
-                theme,
-                l10n,
-                studySettings,
-                studySettingsNotifier,
-              ),
-            ],
+          if (isFsrsEnabled) ...[
+            AppGaps.v16,
+            _buildRetentionRates(
+              theme,
+              l10n,
+              studySettings,
+              studySettingsNotifier,
+            ),
+          ],
+          AppGaps.v16,
+          const Divider(),
+          AppGaps.v12,
+          _buildNewCardsPerDay(
+            theme,
+            l10n,
+            studySettings,
+            studySettingsNotifier,
           ),
-        ),
-      ],
+          AppGaps.v16,
+          _buildMaxReviewsPerDay(
+            theme,
+            l10n,
+            studySettings,
+            studySettingsNotifier,
+          ),
+        ],
+      ),
     );
   }
 
@@ -121,26 +109,38 @@ class SpacedRepetitionCard extends ConsumerWidget {
           '${l10n.targetRetentionRate('${(studySettings.desiredRetention * 100).toInt()}%')} (FSRS)',
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
+        AppGaps.v4,
+        Text(
+          '85% - 90% recommended for optimal retention vs. review load',
+          style: theme.typography.xSmall.copyWith(
+            color: theme.colorScheme.mutedForeground,
+          ),
+        ),
         AppGaps.v8,
-        Row(
-          children: [0.80, 0.85, 0.90, 0.95].map((rate) {
-            final isSelected =
-                (studySettings.desiredRetention - rate).abs() < 0.001;
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs),
-                child: LanguageOptionButton(
-                  label: '${(rate * 100).toInt()}%',
-                  isSelected: isSelected,
-                  onTap: () {
-                    studySettingsNotifier.updateSettings(
-                      studySettings.copyWith(desiredRetention: rate),
-                    );
-                  },
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [0.80, 0.85, 0.90, 0.95].map((rate) {
+              final isSelected =
+                  (studySettings.desiredRetention - rate).abs() < 0.001;
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xxs,
+                  ),
+                  child: LanguageOptionButton(
+                    label: '${(rate * 100).toInt()}%',
+                    isSelected: isSelected,
+                    onTap: () {
+                      studySettingsNotifier.updateSettings(
+                        studySettings.copyWith(desiredRetention: rate),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );
@@ -160,24 +160,29 @@ class SpacedRepetitionCard extends ConsumerWidget {
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
         AppGaps.v8,
-        Row(
-          children: [10, 20, 30, 50].map((count) {
-            final isSelected = studySettings.newCardsPerDay == count;
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs),
-                child: LanguageOptionButton(
-                  label: '$count',
-                  isSelected: isSelected,
-                  onTap: () {
-                    studySettingsNotifier.updateSettings(
-                      studySettings.copyWith(newCardsPerDay: count),
-                    );
-                  },
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [10, 20, 30, 50].map((count) {
+              final isSelected = studySettings.newCardsPerDay == count;
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xxs,
+                  ),
+                  child: LanguageOptionButton(
+                    label: '$count',
+                    isSelected: isSelected,
+                    onTap: () {
+                      studySettingsNotifier.updateSettings(
+                        studySettings.copyWith(newCardsPerDay: count),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );
@@ -197,24 +202,29 @@ class SpacedRepetitionCard extends ConsumerWidget {
           style: theme.typography.small.copyWith(fontWeight: FontWeight.w600),
         ),
         AppGaps.v8,
-        Row(
-          children: [50, 100, 200, 500].map((count) {
-            final isSelected = studySettings.maxReviewsPerDay == count;
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs),
-                child: LanguageOptionButton(
-                  label: '$count',
-                  isSelected: isSelected,
-                  onTap: () {
-                    studySettingsNotifier.updateSettings(
-                      studySettings.copyWith(maxReviewsPerDay: count),
-                    );
-                  },
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [50, 100, 200, 500].map((count) {
+              final isSelected = studySettings.maxReviewsPerDay == count;
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xxs,
+                  ),
+                  child: LanguageOptionButton(
+                    label: '$count',
+                    isSelected: isSelected,
+                    onTap: () {
+                      studySettingsNotifier.updateSettings(
+                        studySettings.copyWith(maxReviewsPerDay: count),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );

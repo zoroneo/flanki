@@ -70,6 +70,7 @@ dependencies:
   riverpod_annotation: ^4.0.7
   json_annotation: ^4.12.0
   crypto: ^3.0.7
+  animated_emoji: ^3.3.0
 
 dev_dependencies:
   flutter_test:
@@ -109,6 +110,17 @@ flutter:
     - assets/fonts/
     - assets/data/grammar/
     - assets/data/exams/
+    - packages/animated_emoji/lottie/partyPopper.json
+    - packages/animated_emoji/lottie/trophy.json
+    - packages/animated_emoji/lottie/fire.json
+    - packages/animated_emoji/lottie/star.json
+    - packages/animated_emoji/lottie/confettiBall.json
+    - packages/animated_emoji/lottie/thinkingFace.json
+    - packages/animated_emoji/lottie/sunglassesFace.json
+    - packages/animated_emoji/lottie/books.json
+    - packages/animated_emoji/lottie/eyes.json
+    - packages/animated_emoji/lottie/sparkles.json
+    - packages/animated_emoji/lottie/rocket.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

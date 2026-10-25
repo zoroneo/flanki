@@ -1,15 +1,19 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 
 class DeckEmptyState extends StatelessWidget {
   final dynamic l10n;
   final VoidCallback onAddDeck;
+  final bool showAddButton;
 
   const DeckEmptyState({
     super.key,
     required this.l10n,
     required this.onAddDeck,
+    this.showAddButton = true,
   });
 
   @override
@@ -21,10 +25,9 @@ class DeckEmptyState extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Icon(
-              LucideIcons.searchX,
-              size: AppSpacing.xxxl,
-              color: theme.colorScheme.mutedForeground,
+            FlankiAnimatedEmoji(
+              emoji: showAddButton ? AnimatedEmojis.books : AnimatedEmojis.eyes,
+              size: 48.0,
             ),
             AppGaps.v12,
             Text(
@@ -33,13 +36,15 @@ class DeckEmptyState extends StatelessWidget {
                 color: theme.colorScheme.mutedForeground,
               ),
             ),
-            AppGaps.v16,
-            PrimaryButton(
-              alignment: Alignment.center,
-              onPressed: onAddDeck,
-              leading: const Icon(LucideIcons.plus, size: AppIconSize.sm),
-              child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
-            ),
+            if (showAddButton) ...[
+              AppGaps.v16,
+              PrimaryButton(
+                alignment: Alignment.center,
+                onPressed: onAddDeck,
+                leading: const Icon(LucideIcons.plus, size: AppIconSize.sm),
+                child: Text(l10n.addNewDeck, maxLines: 1, softWrap: false),
+              ),
+            ],
           ],
         ),
       ),

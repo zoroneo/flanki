@@ -1,8 +1,5 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/stable",
-  "dart.flutterSdkPaths": [
-    ".fvm/versions"
-  ],
+  "dart.flutterSdkPath": ".fvm/flutter_sdk",
   "search.exclude": {
     "**/.fvm": true,
     "**/build": true,
@@ -15,6 +12,9 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "Dart-Code.dart-code",
+  "arb-editor.suppressedWarnings": [
+    "missing_metadata_for_key"
+  ],
   "[dart]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": true,

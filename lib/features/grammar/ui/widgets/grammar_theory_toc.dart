@@ -102,7 +102,6 @@ class GrammarTheoryTocCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final colors = context.colors;
 
     return Card(
       padding: AppEdgeInsets.all16,
@@ -114,7 +113,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
               Icon(
                 LucideIcons.listTree,
                 size: AppIconSize.sm,
-                color: theme.colorScheme.primary,
+                color: theme.colorScheme.foreground,
               ),
               AppGaps.h8,
               Text(
@@ -128,7 +127,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
           AppGaps.v12,
           GrammarTocItem(
             icon: LucideIcons.lightbulb,
-            iconColor: colors.cramAmber,
+            iconColor: theme.colorScheme.foreground,
             title: l10n.grammarCoreConceptTitle,
             onTap: onScrollToConcept,
           ),
@@ -136,7 +135,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
             AppGaps.v2,
             GrammarTocItem(
               icon: LucideIcons.sigma,
-              iconColor: colors.info,
+              iconColor: theme.colorScheme.foreground,
               title: l10n.grammarFormulasTitle,
               onTap: onScrollToFormulas!,
             ),
@@ -145,7 +144,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
             AppGaps.v2,
             GrammarTocItem(
               icon: LucideIcons.triangleAlert,
-              iconColor: colors.warning,
+              iconColor: theme.colorScheme.foreground,
               title: l10n.grammarCommonTrapsTitle,
               onTap: onScrollToTraps!,
             ),
@@ -154,7 +153,7 @@ class GrammarTheoryTocCard extends StatelessWidget {
             AppGaps.v2,
             GrammarTocItem(
               icon: LucideIcons.bookOpen,
-              iconColor: colors.accentPurple,
+              iconColor: theme.colorScheme.foreground,
               title: l10n.grammarExtraGuidesTitle,
               onTap: onScrollToGuides!,
             ),

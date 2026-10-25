@@ -129,7 +129,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get themeLight => 'Sáng';
 
   @override
-  String get themeSystem => 'Theo hệ thống';
+  String get themeSystem => 'Hệ thống';
 
   @override
   String get spacedRepetitionAlgorithm => 'THUẬT TOÁN HỌC TẬP';
@@ -462,7 +462,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get frontPlaceholder => 'Nhập câu hỏi, từ vựng hoặc khái niệm...';
 
   @override
-  String get clozePlaceholder => 'The capital of France is {{c1::Paris}}.';
+  String get clozePlaceholder => 'The capital of France is ｛｛c1::Paris｝｝.';
 
   @override
   String get backPlaceholder => 'Nhập giải nghĩa chi tiết, ví dụ minh họa...';
@@ -1803,6 +1803,107 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get continueWithApple => 'Tiếp tục với Apple';
+
+  @override
+  String get authAppleInDevelopment => 'Tính năng đang phát triển';
+
+  @override
+  String get authAppleInDevelopmentDesc =>
+      'Đăng nhập với Apple đang được hoàn thiện và sẽ sớm ra mắt trong bản cập nhật tới.';
+
+  @override
+  String get authWaitingBrowser => 'Đang chờ xác thực từ trình duyệt...';
+
+  @override
+  String syncCycleLog(int pushed, int pulled, int media) {
+    return 'Đã đẩy: $pushed | Đã kéo: $pulled | Media: $media';
+  }
+
+  @override
+  String grammarReadDetailedTheory(int count) {
+    return 'Đọc chi tiết lý thuyết ($count mục)';
+  }
+
+  @override
+  String get grammarQuickContrastTitle =>
+      'Bảng so sánh đối đầu (Quick Contrast)';
+
+  @override
+  String get grammarNatureLabel => 'Bản chất:';
+
+  @override
+  String get grammarContrastExampleLabel => 'Ví dụ đối chiếu:';
+
+  @override
+  String grammarExamplePrefix(String example) {
+    return 'Ví dụ: \"$example\"';
+  }
+
+  @override
+  String grammarNuancePrefix(String nuance) {
+    return '→ Sắc thái: $nuance';
+  }
+
+  @override
+  String get grammarPastStation => 'QUÁ KHỨ';
+
+  @override
+  String get grammarNowStation => 'HIỆN TẠI (NOW)';
+
+  @override
+  String get grammarFutureStation => 'TƯƠNG LAI';
+
+  @override
+  String get grammarPresentSimple => 'Hiện tại đơn';
+
+  @override
+  String get grammarPresentContinuous => 'Hiện tại tiếp diễn';
+
+  @override
+  String get grammarPresentSimpleNature => 'Tĩnh • Cố định • Lâu dài';
+
+  @override
+  String get grammarPresentContinuousNature => 'Động • Tạm thời • Đang dở';
+
+  @override
+  String get grammarPresentSimpleMeaning => 'Định cư lâu dài, quê hương';
+
+  @override
+  String get grammarPresentContinuousMeaning =>
+      'Ở trọ vài tháng, có xu hướng đổi';
+
+  @override
+  String get grammarQuickCheckTitle => 'Thử thách phản xạ vi mô (Quick Check)';
+
+  @override
+  String get grammarQuickCheckPrompt =>
+      '🎯 Tình huống: Bạn đi công tác tại Đà Nẵng trong 3 tuần. Bạn sẽ nói câu nào với đồng nghiệp mới gặp?';
+
+  @override
+  String get grammarQuickCheckIncorrectFeedback =>
+      'Chưa chính xác! \"I live in Da Nang\" mang nghĩa bạn coi Đà Nẵng là nơi cư trú vĩnh viễn/lâu dài. Vì bạn chỉ đi công tác 3 tuần (tạm thời), hãy dùng thì Hiện tại tiếp diễn: \"I am living in Da Nang\".';
+
+  @override
+  String get grammarQuickCheckCorrectFeedback =>
+      'Chính xác! Vì đi công tác 3 tuần là một tình huống tạm thời ngắn hạn, người bản xứ luôn dùng thì Hiện tại tiếp diễn (\"am living\") thay vì Hiện tại đơn.';
+
+  @override
+  String get grammarTenseLabTitle => 'Tense Lab: Thử nghiệm thì';
+
+  @override
+  String get grammarDragToShiftTime => 'Kéo con trượt để chuyển dịch thời gian';
+
+  @override
+  String get grammarSimplePermanent => 'Đơn (Permanent)';
+
+  @override
+  String get grammarContinuousTemporary => 'Tiếp diễn (Temporary)';
+
+  @override
+  String get grammarDynamicAspect => '⚡ Động (Dynamic)';
+
+  @override
+  String get grammarStativeAspect => '🛡️ Tĩnh (Stative)';
 
   @override
   String get orContinueWithEmail => 'Hoặc tiếp tục với email';

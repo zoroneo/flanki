@@ -1,34 +1,21 @@
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../core/theme/app_tokens.dart';
-import '../../sync/ui/sync_flow_coordinator.dart';
 import 'widgets/about_info_card.dart';
 import 'widgets/account_sync_card.dart';
 import 'widgets/cloud_backup_card.dart';
 import 'widgets/app_preferences_card.dart';
+import 'widgets/settings_section.dart';
 import 'widgets/spaced_repetition_card.dart';
 import 'widgets/study_reminders_card.dart';
-import 'widgets/tools_navigation_card.dart';
 
-class SettingsScreen extends HookConsumerWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final isSyncing = useState(false);
-
-    Future<void> handleSync() async {
-      await SyncFlowCoordinator.runSyncFlow(
-        context: context,
-        ref: ref,
-        l10n: l10n,
-        isSyncing: isSyncing,
-      );
-    }
 
     return ResponsiveBuilder(
       builder: (context, sizingInfo) {
@@ -37,6 +24,38 @@ class SettingsScreen extends HookConsumerWidget {
         final horizontalPadding = isMobile
             ? AppSpacing.pageMobile
             : AppSpacing.pageDesktop;
+
+        // Semantic Group 1: Đồng bộ & Dữ liệu
+        final syncAndDataSection = SettingsSection(
+          icon: LucideIcons.cloud,
+          title: l10n.accountAndSync,
+          children: const [AccountSyncCard(), AppGaps.v16, CloudBackupCard()],
+        );
+
+        // Semantic Group 2: Thuật toán & Nhắc nhở
+        final learningSection = SettingsSection(
+          icon: LucideIcons.brain,
+          title: l10n.spacedRepetitionAlgorithm,
+          children: const [
+            SpacedRepetitionCard(),
+            AppGaps.v16,
+            StudyRemindersCard(),
+          ],
+        );
+
+        // Semantic Group 3: Giao diện & Hệ thống
+        final preferencesSection = SettingsSection(
+          icon: LucideIcons.slidersHorizontal,
+          title: l10n.appPreferences,
+          children: const [AppPreferencesCard()],
+        );
+
+        // Semantic Group 4: Thông tin ứng dụng & Bản quyền
+        final aboutSection = SettingsSection(
+          icon: LucideIcons.info,
+          title: l10n.aboutSection,
+          children: const [AboutInfoCard()],
+        );
 
         return Scaffold(
           headers: [
@@ -50,30 +69,53 @@ class SettingsScreen extends HookConsumerWidget {
               ),
             ),
           ],
-          child: Center(
+          child: Align(
+            alignment: Alignment.topCenter,
             child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: AppDimensions.contentMaxWidth,
-              ),
+              constraints: const BoxConstraints(maxWidth: 1000),
               child: ListView(
                 padding: EdgeInsets.symmetric(
                   horizontal: horizontalPadding,
                   vertical: AppSpacing.md,
                 ),
                 children: [
-                  AccountSyncCard(isSyncing: isSyncing, onSync: handleSync),
-                  AppGaps.v24,
-                  const CloudBackupCard(),
-                  AppGaps.v24,
-                  const ToolsNavigationCard(),
-                  AppGaps.v24,
-                  const AppPreferencesCard(),
-                  AppGaps.v24,
-                  const SpacedRepetitionCard(),
-                  AppGaps.v24,
-                  const StudyRemindersCard(),
-                  AppGaps.v24,
-                  const AboutInfoCard(),
+                  if (isMobile) ...[
+                    syncAndDataSection,
+                    AppGaps.v24,
+                    learningSection,
+                    AppGaps.v24,
+                    preferencesSection,
+                    AppGaps.v24,
+                    aboutSection,
+                  ] else ...[
+                    // Responsive Desktop / Tablet: 2-Column Balanced Grid
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              syncAndDataSection,
+                              AppGaps.v24,
+                              preferencesSection,
+                            ],
+                          ),
+                        ),
+                        AppGaps.h24,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              learningSection,
+                              AppGaps.v24,
+                              aboutSection,
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                   SizedBox(height: isMobile ? 110 : 40),
                 ],
               ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -38,12 +40,85 @@ class SupabaseAuthSheet extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final obscurePassword = useState(true);
     final localError = useState<String?>(null);
+    final isWaitingOAuth = useState(false);
+    final isEmailSubmitting = useState(false);
+    final oauthTimeoutTimer = useRef<Timer?>(null);
+
+    void cancelOAuthWaiting() {
+      oauthTimeoutTimer.value?.cancel();
+      isWaitingOAuth.value = false;
+      authNotifier.resetStatus();
+    }
 
     // Clear local error when switching tabs
     useEffect(() {
       localError.value = null;
       return null;
     }, [isSignUp.value]);
+
+    // Reset hanging auth loading status and cleanup timers when sheet is disposed
+    // Also auto-cancel OAuth wait when user returns to app (e.g. closed browser)
+    useEffect(() {
+      final listener = AppLifecycleListener(
+        onResume: () {
+          if (isWaitingOAuth.value) {
+            // Give a 2-second grace period for deep link token exchange to complete
+            Future.delayed(const Duration(seconds: 2), () {
+              if (context.mounted &&
+                  !ref.read(supabaseAuthNotifierProvider).isAuthenticated) {
+                cancelOAuthWaiting();
+              }
+            });
+          }
+        },
+      );
+      return () {
+        listener.dispose();
+        oauthTimeoutTimer.value?.cancel();
+        authNotifier.resetStatus();
+      };
+    }, const []);
+
+    // Listen to auth changes (auto-close & notify on OAuth or Email login success)
+    ref.listen<SupabaseAuthState>(supabaseAuthNotifierProvider, (
+      previous,
+      next,
+    ) {
+      if (next.isAuthenticated &&
+          (previous == null || !previous.isAuthenticated)) {
+        oauthTimeoutTimer.value?.cancel();
+        isWaitingOAuth.value = false;
+        ref.read(syncStateNotifierProvider.notifier).syncNow();
+
+        if (context.mounted && Navigator.of(context).canPop()) {
+          Navigator.of(context).pop(true);
+
+          showToast(
+            context: context,
+            builder: (context, overlay) {
+              return SurfaceCard(
+                child: Basic(
+                  title: Text(l10n.authSuccess),
+                  subtitle: Text(
+                    isSignUp.value
+                        ? l10n.authSuccessSubtitle
+                        : l10n.syncConnecting,
+                  ),
+                  leading: Icon(
+                    LucideIcons.circleCheck,
+                    color: context.colors.success,
+                  ),
+                  trailing: IconButton.ghost(
+                    icon: const Icon(LucideIcons.x),
+                    onPressed: () => overlay.close(),
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      }
+    });
 
     Future<void> handleSubmit() async {
       final email = emailController.text.trim();
@@ -61,41 +136,21 @@ class SupabaseAuthSheet extends HookConsumerWidget {
         return;
       }
 
-      final success = isSignUp.value
-          ? await authNotifier.signUp(email, password)
-          : await authNotifier.signIn(email, password);
+      isEmailSubmitting.value = true;
+      try {
+        final success = isSignUp.value
+            ? await authNotifier.signUp(email, password)
+            : await authNotifier.signIn(email, password);
 
-      if (!context.mounted) return;
+        if (!context.mounted) return;
 
-      if (success) {
-        // Trigger initial sync cycle
-        ref.read(syncStateNotifierProvider.notifier).syncNow();
-
-        Navigator.of(context).pop(true);
-
-        showToast(
-          context: context,
-          builder: (context, overlay) {
-            return SurfaceCard(
-              child: Basic(
-                title: Text(l10n.authSuccess),
-                subtitle: Text(
-                  isSignUp.value
-                      ? l10n.authSuccessSubtitle
-                      : l10n.syncConnecting,
-                ),
-                leading: Icon(
-                  LucideIcons.circleCheck,
-                  color: context.colors.success,
-                ),
-                trailing: IconButton.ghost(
-                  icon: const Icon(LucideIcons.x),
-                  onPressed: () => overlay.close(),
-                ),
-              ),
-            );
-          },
-        );
+        if (success && Navigator.of(context).canPop()) {
+          Navigator.of(context).pop(true);
+        }
+      } finally {
+        if (context.mounted) {
+          isEmailSubmitting.value = false;
+        }
       }
     }
 
@@ -145,16 +200,96 @@ class SupabaseAuthSheet extends HookConsumerWidget {
 
             // Social Authentication Buttons (Google & Apple OAuth)
             SocialAuthButtons(
-              isLoading: authState.isLoading,
+              isLoading: isEmailSubmitting.value || isWaitingOAuth.value,
               onGooglePressed: () async {
                 localError.value = null;
-                await authNotifier.signInWithGoogle();
+                isWaitingOAuth.value = true;
+                oauthTimeoutTimer.value?.cancel();
+                oauthTimeoutTimer.value = Timer(
+                  const Duration(seconds: 60),
+                  () {
+                    if (context.mounted &&
+                        !ref
+                            .read(supabaseAuthNotifierProvider)
+                            .isAuthenticated) {
+                      cancelOAuthWaiting();
+                    }
+                  },
+                );
+                final initiated = await authNotifier.signInWithGoogle();
+                if (!initiated && context.mounted) {
+                  cancelOAuthWaiting();
+                }
               },
-              onApplePressed: () async {
-                localError.value = null;
-                await authNotifier.signInWithApple();
+              onApplePressed: () {
+                showToast(
+                  context: context,
+                  builder: (context, overlay) {
+                    return SurfaceCard(
+                      child: Basic(
+                        leading: Icon(
+                          LucideIcons.info,
+                          color: theme.colorScheme.primary,
+                        ),
+                        title: Text(l10n.authAppleInDevelopment),
+                        subtitle: Text(l10n.authAppleInDevelopmentDesc),
+                        trailing: IconButton.ghost(
+                          density: ButtonDensity.compact,
+                          icon: const Icon(LucideIcons.x),
+                          onPressed: () => overlay.close(),
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             ),
+
+            // OAuth waiting status banner with cancel button
+            if (isWaitingOAuth.value) ...[
+              Container(
+                padding: AppEdgeInsets.all8,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.muted.withValues(alpha: 0.3),
+                  borderRadius: AppRadius.borderMd,
+                  border: Border.all(
+                    color: theme.colorScheme.border.withValues(alpha: 0.5),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(
+                        strokeWidth: AppDimensions.spinnerStrokeWidth,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    AppGaps.h8,
+                    Expanded(
+                      child: Text(
+                        l10n.authWaitingBrowser,
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colorScheme.foreground,
+                        ),
+                      ),
+                    ),
+                    Button.ghost(
+                      onPressed: cancelOAuthWaiting,
+                      child: Text(
+                        l10n.cancel,
+                        style: theme.typography.xSmall.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              AppGaps.v12,
+            ],
 
             // Error Message Banner
             if (displayedError != null) ...[
@@ -197,11 +332,24 @@ class SupabaseAuthSheet extends HookConsumerWidget {
               ),
             ),
             AppGaps.v6,
-            TextField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              autocorrect: false,
-              placeholder: Text(l10n.authEmailPlaceholder),
+            SizedBox(
+              height: AppDimensions.buttonHeightStandard,
+              child: TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                placeholder: Text(l10n.authEmailPlaceholder),
+                padding: AppEdgeInsets.textField,
+                features: [
+                  InputFeature.leading(
+                    Icon(
+                      LucideIcons.mail,
+                      size: AppIconSize.sm,
+                      color: theme.colorScheme.mutedForeground,
+                    ),
+                  ),
+                ],
+              ),
             ),
             AppGaps.v12,
 
@@ -213,43 +361,68 @@ class SupabaseAuthSheet extends HookConsumerWidget {
               ),
             ),
             AppGaps.v6,
-            TextField(
-              controller: passwordController,
-              obscureText: obscurePassword.value,
-              placeholder: Text(l10n.authPasswordDots),
-              features: [
-                InputFeature.trailing(
-                  IconButton.ghost(
-                    icon: Icon(
-                      obscurePassword.value
-                          ? LucideIcons.eye
-                          : LucideIcons.eyeOff,
+            SizedBox(
+              height: AppDimensions.buttonHeightStandard,
+              child: TextField(
+                controller: passwordController,
+                obscureText: obscurePassword.value,
+                placeholder: Text(l10n.authPasswordDots),
+                padding: AppEdgeInsets.textField,
+                features: [
+                  InputFeature.leading(
+                    Icon(
+                      LucideIcons.lock,
                       size: AppIconSize.sm,
+                      color: theme.colorScheme.mutedForeground,
                     ),
-                    onPressed: () {
-                      obscurePassword.value = !obscurePassword.value;
-                    },
                   ),
-                ),
-              ],
+                  InputFeature.trailing(
+                    IconButton.ghost(
+                      density: ButtonDensity.compact,
+                      icon: Icon(
+                        obscurePassword.value
+                            ? LucideIcons.eye
+                            : LucideIcons.eyeOff,
+                        size: AppIconSize.sm,
+                        color: theme.colorScheme.mutedForeground,
+                      ),
+                      onPressed: () {
+                        obscurePassword.value = !obscurePassword.value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
             AppGaps.v20,
 
             // Submit Button
-            PrimaryButton(
-              onPressed: authState.isLoading ? null : handleSubmit,
-              child: authState.isLoading
-                  ? const SizedBox(
-                      width: AppSpacing.md,
-                      height: AppSpacing.md,
-                      child: CircularProgressIndicator(
-                        strokeWidth: AppDimensions.spinnerStrokeWidth,
-                      ),
-                    )
-                  : Text(
-                      isSignUp.value ? l10n.signUpCloud : l10n.authLoginButton,
-                      style: context.textStyles.bodySemiBold,
-                    ),
+            SizedBox(
+              height: AppDimensions.buttonHeightStandard,
+              child: PrimaryButton(
+                alignment: Alignment.center,
+                onPressed: isEmailSubmitting.value ? null : handleSubmit,
+                child: Center(
+                  child: isEmailSubmitting.value
+                      ? SizedBox(
+                          width: AppSpacing.md,
+                          height: AppSpacing.md,
+                          child: CircularProgressIndicator(
+                            strokeWidth: AppDimensions.spinnerStrokeWidth,
+                            color: theme.colorScheme.primaryForeground,
+                          ),
+                        )
+                      : Text(
+                          isSignUp.value
+                              ? l10n.signUpCloud
+                              : l10n.authLoginButton,
+                          textAlign: TextAlign.center,
+                          style: context.textStyles.bodySemiBold.copyWith(
+                            color: theme.colorScheme.primaryForeground,
+                          ),
+                        ),
+                ),
+              ),
             ),
           ],
         ),

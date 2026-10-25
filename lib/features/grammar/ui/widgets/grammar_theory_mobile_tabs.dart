@@ -86,59 +86,65 @@ class GrammarTheoryMobileTabs extends HookWidget {
         AppSpacing.md,
         0,
       ),
-      padding: AppEdgeInsets.h12v8,
+      padding: AppEdgeInsets.all12,
       decoration: BoxDecoration(
-        color: theme.colorScheme.muted.withValues(alpha: 0.3),
+        color: theme.colorScheme.card,
         borderRadius: AppRadius.borderMd,
         border: Border.all(
-          color: theme.colorScheme.border.withValues(alpha: 0.5),
+          color: theme.colorScheme.border.withValues(alpha: 0.7),
         ),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            padding: AppEdgeInsets.h8v4,
-            decoration: BoxDecoration(
-              color: levelColor.withValues(alpha: 0.12),
-              borderRadius: AppRadius.borderSm,
-              border: Border.all(color: levelColor.withValues(alpha: 0.3)),
-            ),
-            child: Text(
-              levelLabel,
-              style: TextStyle(
-                fontSize: AppTypography.caption,
-                fontWeight: FontWeight.bold,
-                color: levelColor,
+          Row(
+            children: [
+              Container(
+                padding: AppEdgeInsets.h8v2,
+                decoration: BoxDecoration(
+                  color: levelColor.withValues(alpha: 0.12),
+                  borderRadius: AppRadius.borderSm,
+                  border: Border.all(color: levelColor.withValues(alpha: 0.3)),
+                ),
+                child: Text(
+                  levelLabel,
+                  style: TextStyle(
+                    fontSize: AppTypography.caption,
+                    fontWeight: FontWeight.bold,
+                    color: levelColor,
+                  ),
+                ),
               ),
-            ),
+              AppGaps.h8,
+              Container(
+                padding: AppEdgeInsets.h8v2,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.muted.withValues(alpha: 0.5),
+                  borderRadius: AppRadius.borderSm,
+                  border: Border.all(
+                    color: theme.colorScheme.border.withValues(alpha: 0.5),
+                  ),
+                ),
+                child: Text(
+                  unit.category.code.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: AppTypography.caption,
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.mutedForeground,
+                  ),
+                ),
+              ),
+            ],
           ),
-          AppGaps.h8,
-          Container(
-            padding: AppEdgeInsets.h8v4,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.background,
-              borderRadius: AppRadius.borderSm,
-              border: Border.all(color: theme.colorScheme.border),
-            ),
-            child: Text(
-              unit.category.code.toUpperCase(),
-              style: const TextStyle(
-                fontSize: AppTypography.caption,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          AppGaps.h8,
-          Expanded(
-            child: Text(
-              unit.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: AppTypography.nav,
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.foreground,
-              ),
+          AppGaps.v8,
+          Text(
+            unit.title,
+            style: TextStyle(
+              fontSize: AppTypography.navPlus,
+              fontWeight: FontWeight.w700,
+              height: 1.3,
+              color: theme.colorScheme.foreground,
             ),
           ),
         ],
@@ -154,84 +160,93 @@ class GrammarTheoryMobileTabs extends HookWidget {
     ValueChanged<int> onSelect,
   ) {
     return Container(
-      height: AppDimensions.horizontalTabsHeight,
-      padding: AppEdgeInsets.h16,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: availableTabs.length,
-        separatorBuilder: (_, _) => AppGaps.h8,
-        itemBuilder: (context, index) {
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.s3),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.muted.withValues(alpha: 0.35),
+        borderRadius: AppRadius.borderMd,
+      ),
+      child: Row(
+        children: availableTabs.asMap().entries.map((entry) {
+          final index = entry.key;
+          final tabType = entry.value;
           final isSelected = activeIndex == index;
-          final tabType = availableTabs[index];
-          final colors = context.colors;
-          final (IconData icon, String label, Color color) = switch (tabType) {
+          final (IconData icon, String label) = switch (tabType) {
             GrammarTheoryTabType.concept => (
               LucideIcons.lightbulb,
               l10n.grammarTabConcept,
-              colors.cramAmber,
             ),
             GrammarTheoryTabType.formulas => (
               LucideIcons.sigma,
               l10n.grammarTabFormulas,
-              colors.info,
             ),
             GrammarTheoryTabType.traps => (
               LucideIcons.triangleAlert,
               l10n.grammarTabTraps,
-              colors.warning,
             ),
             GrammarTheoryTabType.guides => (
               LucideIcons.bookOpen,
               l10n.grammarTabGuides,
-              colors.accentPurple,
             ),
           };
 
-          return GestureDetector(
-            onTap: () => onSelect(index),
-            behavior: HitTestBehavior.opaque,
-            child: AnimatedContainer(
-              duration: AppDurations.short,
-              padding: AppEdgeInsets.h12v8,
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.muted.withValues(alpha: 0.4),
-                borderRadius: AppRadius.borderSm,
-                border: Border.all(
+          return Expanded(
+            child: GestureDetector(
+              onTap: () => onSelect(index),
+              behavior: HitTestBehavior.opaque,
+              child: AnimatedContainer(
+                duration: AppDurations.short,
+                padding: const EdgeInsets.symmetric(vertical: 7),
+                decoration: BoxDecoration(
                   color: isSelected
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.border.withValues(alpha: 0.6),
+                      ? theme.colorScheme.card
+                      : Colors.transparent,
+                  borderRadius: AppRadius.borderSm,
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: theme.colorScheme.foreground.withValues(
+                              alpha: 0.06,
+                            ),
+                            blurRadius: 3,
+                            offset: const Offset(0, 1),
+                          ),
+                        ]
+                      : null,
                 ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    icon,
-                    size: AppIconSize.xs,
-                    color: isSelected
-                        ? theme.colorScheme.primaryForeground
-                        : color,
-                  ),
-                  AppGaps.h4,
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: AppTypography.xSmall,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.w500,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      size: AppIconSize.xs,
                       color: isSelected
-                          ? theme.colorScheme.primaryForeground
-                          : theme.colorScheme.foreground,
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.mutedForeground,
                     ),
-                  ),
-                ],
+                    AppGaps.h4,
+                    Flexible(
+                      child: Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: AppTypography.xSmall,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.w500,
+                          color: isSelected
+                              ? theme.colorScheme.foreground
+                              : theme.colorScheme.mutedForeground,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
-        },
+        }).toList(),
       ),
     );
   }

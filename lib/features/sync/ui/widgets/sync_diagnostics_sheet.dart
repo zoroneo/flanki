@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../../core/extensions/responsive_extensions.dart';
 import '../../../../core/sync/sync_telemetry_service.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/adaptive_modal.dart';
@@ -11,13 +12,17 @@ import 'sync_diagnostics_metrics_grid.dart';
 /// Modal bottom sheet displaying real-time telemetry metrics, circuit breaker status,
 /// and recent sync logs.
 class SyncDiagnosticsSheet extends ConsumerWidget {
-  const SyncDiagnosticsSheet({super.key});
+  final bool? isDesktop;
+
+  const SyncDiagnosticsSheet({super.key, this.isDesktop});
 
   /// Presents the diagnostics sheet in an adaptive modal/sheet.
   static Future<void> show(BuildContext context) {
     return showAdaptiveModal<void>(
       context: context,
-      builder: (context, isDesktop) => const SyncDiagnosticsSheet(),
+      desktopMaxWidth: 600,
+      builder: (context, isDesktop) =>
+          SyncDiagnosticsSheet(isDesktop: isDesktop),
     );
   }
 
@@ -25,6 +30,7 @@ class SyncDiagnosticsSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final isDesktopMode = isDesktop ?? !context.isMobile;
     final telemetry = ref.watch(syncTelemetryNotifierProvider);
     final telemetryNotifier = ref.read(syncTelemetryNotifierProvider.notifier);
 
@@ -33,22 +39,51 @@ class SyncDiagnosticsSheet extends ConsumerWidget {
         maxHeight: AppDimensions.diagnosticsSheetMaxHeight,
       ),
       padding: AppEdgeInsets.all16,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.background,
+        borderRadius: isDesktopMode
+            ? AppRadius.borderXl
+            : const BorderRadius.vertical(top: Radius.circular(AppSpacing.lg)),
+        border: isDesktopMode
+            ? Border.all(
+                color: theme.colorScheme.border,
+                width: AppDimensions.hairline,
+              )
+            : Border(
+                top: BorderSide(
+                  color: theme.colorScheme.border,
+                  width: AppDimensions.hairline,
+                ),
+              ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withValues(
+              alpha: isDesktopMode ? 0.2 : 0.15,
+            ),
+            blurRadius: isDesktopMode ? 24 : 16,
+            offset: isDesktopMode ? const Offset(0, 8) : const Offset(0, -4),
+          ),
+        ],
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Drag handle
-          Center(
-            child: Container(
-              width: AppDimensions.modalGrabHandleWidth,
-              height: AppDimensions.modalGrabHandleHeight,
-              margin: const EdgeInsets.only(bottom: AppSpacing.md),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.mutedForeground.withValues(alpha: 0.3),
-                borderRadius: AppRadius.borderXs,
+          if (!isDesktopMode)
+            Center(
+              child: Container(
+                width: AppDimensions.modalGrabHandleWidth,
+                height: AppDimensions.modalGrabHandleHeight,
+                margin: const EdgeInsets.only(bottom: AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.mutedForeground.withValues(
+                    alpha: 0.3,
+                  ),
+                  borderRadius: AppRadius.borderXs,
+                ),
               ),
             ),
-          ),
 
           // Header
           Row(

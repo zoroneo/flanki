@@ -105,5 +105,18 @@
 			</dict>
 		</dict>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>flanki</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>flanki</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

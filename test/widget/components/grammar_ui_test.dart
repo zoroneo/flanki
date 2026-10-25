@@ -11,6 +11,9 @@ import 'package:flanki/features/grammar/ui/widgets/error_id_question_widget.dart
 import 'package:flanki/features/grammar/ui/widgets/explanation_sheet.dart';
 import 'package:flanki/features/grammar/ui/grammar_catalog_screen.dart';
 import 'package:flanki/features/grammar/ui/grammar_theory_screen.dart';
+import 'package:flanki/features/grammar/ui/widgets/grammar_concept_card_view.dart';
+import 'package:flanki/features/grammar/ui/widgets/grammar_isometric_timeline_25d.dart';
+import 'package:flanki/features/grammar/ui/widgets/grammar_key_beautifier.dart';
 import 'package:flanki/core/widgets/rich_card_content.dart';
 import 'package:drift/native.dart';
 import 'package:flanki/core/database/app_database.dart';
@@ -293,7 +296,8 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('Present Simple vs Continuous'), findsOneWidget);
-        expect(findRichText('Hiện tại đơn'), findsOneWidget);
+        expect(findRichText('Hiện tại đơn diễn tả chân lý'), findsOneWidget);
+        expect(findRichText('Hiện tại đơn (Present Simple)'), findsOneWidget);
         expect(find.byType(RichCardContent), findsWidgets);
       },
     );
@@ -437,8 +441,198 @@ void main() {
         expect(trapsTab, findsOneWidget);
         await tester.tap(trapsTab);
         await tester.pumpAndSettle();
+      },
+    );
 
-        expect(findRichText('Bẫy thi thường gặp'), findsOneWidget);
+    testWidgets(
+      'GrammarConceptCardView renders multi-part concepts into structured cards',
+      (tester) async {
+        const unit = GrammarUnit(
+          unitId: 'test_structured_concept',
+          title: 'Unit 01: Present Simple vs. Present Continuous',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept: 'Tư duy cốt lõi về tính bền vững.\n\n1. Hiện tại đơn: Fact / Permanent\n- Chân lý\n\n2. Hiện tại tiếp diễn: Temporary\n- Đang diễn ra\n\n3. Sự đối lập bản chất: So sánh hai thì',
+          formulas: {},
+          commonTraps: [],
+          extraGuides: {},
+          exercises: [],
+        );
+
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const SingleChildScrollView(
+              child: GrammarConceptCardView(unit: unit, isMobile: true),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          find.byWidgetPredicate(
+            (w) =>
+                w is Text &&
+                (w.data == 'Core Native Mindset' ||
+                    w.data == 'Tư Duy Bản Xứ Cốt Lõi'),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          findRichText('Tư duy cốt lõi về tính bền vững.'),
+          findsOneWidget,
+        );
+
+        // Verify pedagogical interactive components exist
+        expect(find.text('Tense Lab: Thử nghiệm thì'), findsOneWidget);
+        expect(
+          find.text('Bảng so sánh đối đầu (Quick Contrast)'),
+          findsOneWidget,
+        );
+        expect(
+          find.text('Thử thách phản xạ vi mô (Quick Check)'),
+          findsOneWidget,
+        );
+
+        // Sections are hidden inside collapsed accordion by default to eliminate text wall
+        final accordionButton = find.text('Đọc chi tiết lý thuyết (3 mục)');
+        expect(accordionButton, findsOneWidget);
+        expect(findRichText('1. Hiện tại đơn: Fact / Permanent'), findsNothing);
+
+        // Scroll into view and tap the accordion button reveals the detailed theory sections
+        await tester.scrollUntilVisible(accordionButton, 300);
+        await tester.pumpAndSettle();
+        await tester.tap(accordionButton);
+        await tester.pumpAndSettle();
+
+        expect(
+          findRichText('1. Hiện tại đơn: Fact / Permanent'),
+          findsOneWidget,
+        );
+        expect(
+          findRichText('2. Hiện tại tiếp diễn: Temporary'),
+          findsOneWidget,
+        );
+        expect(
+          findRichText('3. Sự đối lập bản chất: So sánh hai thì'),
+          findsOneWidget,
+        );
+      },
+    );
+
+    test('CardContentParser anchors punctuation inside tags and strips spaces before punctuation', () {
+      const input =
+          '<mark>GÓC NHÌN VỀ TÍNH BỀN VỮNG</mark>: và <mark>CHUYỂN TIẾP</mark> , <mark>TẠM THỜI</mark> .';
+      final parsed = CardContentParser.parse(input);
+      expect(
+        parsed.cleanHtml.contains('<mark>GÓC NHÌN VỀ TÍNH BỀN VỮNG:</mark>'),
+        isTrue,
+      );
+      expect(parsed.cleanHtml.contains('<mark>CHUYỂN TIẾP,</mark>'), isTrue);
+      expect(parsed.cleanHtml.contains('<mark>TẠM THỜI.</mark>'), isTrue);
+      expect(parsed.cleanHtml.contains(' ,'), isFalse);
+      expect(parsed.cleanHtml.contains(' .'), isFalse);
+    });
+
+    test('CardContentParser converts markdown tables and pseudo <br/> tables to HTML tables', () {
+      const standardTable = '''
+| Tiêu chí | Quá khứ đơn | Hiện tại hoàn thành |
+| :--- | :--- | :--- |
+| Thời gian | Đã đóng | Còn mở |
+''';
+      final parsedStandard = CardContentParser.parse(standardTable);
+      expect(
+        parsedStandard.cleanHtml.contains('<table class="grammar-table"'),
+        isTrue,
+      );
+      expect(parsedStandard.cleanHtml.contains('>Tiêu chí</th>'), isTrue);
+      expect(parsedStandard.cleanHtml.contains('>Đã đóng</td>'), isTrue);
+
+      const pseudoTable = '''
+| Ký tự<br/>Phân loại<br/>Ví dụ |
+| :---<br/>:---<br/>:--- |
+| O<br/>Opinion<br/>lovely |
+''';
+      final parsedPseudo = CardContentParser.parse(pseudoTable);
+      expect(
+        parsedPseudo.cleanHtml.contains('<table class="grammar-table"'),
+        isTrue,
+      );
+      expect(parsedPseudo.cleanHtml.contains('>Phân loại</th>'), isTrue);
+      expect(parsedPseudo.cleanHtml.contains('>lovely</td>'), isTrue);
+    });
+
+    test('GrammarKeyBeautifier formats mapped keys and unmapped camelCase keys properly', () {
+      expect(
+        GrammarKeyBeautifier.format('whenWhileRules'),
+        'Quy tắc kết hợp liên từ When, While & As',
+      );
+      expect(
+        GrammarKeyBeautifier.format('pastHabitsAndStative'),
+        'Thói quen quá khứ (Used to / Would) & Động từ trạng thái',
+      );
+      expect(
+        GrammarKeyBeautifier.format('pyramidTimeAndPlace'),
+        'Kim tự tháp không gian & thời gian (In - On - At)',
+      );
+      expect(
+        GrammarKeyBeautifier.format('unmappedSpecialSyntaxRule'),
+        'Unmapped Special Syntax Rule',
+      );
+    });
+
+    testWidgets(
+      'GrammarConceptCardView does not render Unit 1 interactive widgets for other units',
+      (tester) async {
+        const unit02 = GrammarUnit(
+          unitId: 'unit-02-past-simple-vs-continuous',
+          title: 'Unit 02: Past Simple vs. Past Continuous',
+          category: GrammarCategory.tenses,
+          level: GrammarLevel.foundation,
+          coreConcept: 'Tư duy cốt lõi về tính trọn vẹn.\n\n1. Quá khứ đơn: Completed\n- Đã xong\n\n2. Quá khứ tiếp diễn: In progress\n- Đang diễn ra',
+          formulas: {},
+          commonTraps: [],
+          extraGuides: {},
+          exercises: [],
+        );
+
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const SingleChildScrollView(
+              child: GrammarConceptCardView(unit: unit02, isMobile: true),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          find.byWidgetPredicate(
+            (w) =>
+                w is Text &&
+                (w.data == 'Core Native Mindset' ||
+                    w.data == 'Tư Duy Bản Xứ Cốt Lõi'),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          findRichText('Tư duy cốt lõi về tính trọn vẹn.'),
+          findsOneWidget,
+        );
+
+        // Crucial check: Unit 1 widgets MUST NOT appear on Unit 02!
+        expect(find.text('Tense Lab: Thử nghiệm thì'), findsNothing);
+        // Unit 02 now benefits from shared Quick Contrast Matrix:
+        expect(
+          find.text('Bảng so sánh đối đầu (Quick Contrast)'),
+          findsOneWidget,
+        );
+        expect(
+          find.text('Thử thách phản xạ vi mô (Quick Check)'),
+          findsNothing,
+        );
+
+        // Theory accordion remains functional
+        final accordionButton = find.text('Đọc chi tiết lý thuyết (2 mục)');
+        expect(accordionButton, findsOneWidget);
       },
     );
 
@@ -816,6 +1010,42 @@ void main() {
         expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
         expect(find.text('Câu Tiếp Theo'), findsOneWidget);
         expect(findRichText('Tôi đã về nhà hôm qua.'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'GrammarIsometricTimeline25D renders and toggles between Simple and Continuous 3D modes',
+      (tester) async {
+        await tester.pumpWidget(
+          wrapWithTheme(
+            const GrammarIsometricTimeline25D(
+              isMobile: true,
+              enableLoop: false,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('Tense Lab: Thử nghiệm thì'), findsOneWidget);
+        expect(find.text('Đơn (Permanent)'), findsOneWidget);
+        expect(find.text('Tiếp diễn (Temporary)'), findsOneWidget);
+
+        // Initially in Simple mode
+        expect(find.text('Hiện tại đơn (Present Simple)'), findsOneWidget);
+        expect(find.text('Ví dụ: "I live in Hanoi."'), findsOneWidget);
+
+        // Toggle to Continuous mode
+        await tester.tap(find.text('Tiếp diễn (Temporary)'));
+        await tester.pumpAndSettle();
+
+        expect(
+          find.text('Hiện tại tiếp diễn (Present Continuous)'),
+          findsOneWidget,
+        );
+        expect(
+          find.text('Ví dụ: "I am living in Hanoi right now."'),
+          findsOneWidget,
+        );
       },
     );
   });

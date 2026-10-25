@@ -129,7 +129,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get themeLight => 'Light';
 
   @override
-  String get themeSystem => 'System Default';
+  String get themeSystem => 'System';
 
   @override
   String get spacedRepetitionAlgorithm => 'SPACED REPETITION ENGINE';
@@ -467,7 +467,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get frontPlaceholder => 'Enter question, vocabulary or concept...';
 
   @override
-  String get clozePlaceholder => 'The capital of France is {{c1::Paris}}.';
+  String get clozePlaceholder => 'The capital of France is ｛｛c1::Paris｝｝.';
 
   @override
   String get backPlaceholder => 'Enter explanation, examples...';
@@ -1807,6 +1807,107 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueWithApple => 'Continue with Apple';
+
+  @override
+  String get authAppleInDevelopment => 'Feature in Progress';
+
+  @override
+  String get authAppleInDevelopmentDesc =>
+      'Sign in with Apple is currently under development and will be available in a future update.';
+
+  @override
+  String get authWaitingBrowser => 'Waiting for authentication in browser...';
+
+  @override
+  String syncCycleLog(int pushed, int pulled, int media) {
+    return 'Pushed: $pushed | Pulled: $pulled | Media: $media';
+  }
+
+  @override
+  String grammarReadDetailedTheory(int count) {
+    return 'Read detailed theory ($count sections)';
+  }
+
+  @override
+  String get grammarQuickContrastTitle => 'Quick Contrast Matrix';
+
+  @override
+  String get grammarNatureLabel => 'Core Nature:';
+
+  @override
+  String get grammarContrastExampleLabel => 'Contrast Example:';
+
+  @override
+  String grammarExamplePrefix(String example) {
+    return 'Example: \"$example\"';
+  }
+
+  @override
+  String grammarNuancePrefix(String nuance) {
+    return '→ Nuance: $nuance';
+  }
+
+  @override
+  String get grammarPastStation => 'PAST';
+
+  @override
+  String get grammarNowStation => 'NOW';
+
+  @override
+  String get grammarFutureStation => 'FUTURE';
+
+  @override
+  String get grammarPresentSimple => 'Present Simple';
+
+  @override
+  String get grammarPresentContinuous => 'Present Continuous';
+
+  @override
+  String get grammarPresentSimpleNature => 'Static • Fixed • Permanent';
+
+  @override
+  String get grammarPresentContinuousNature =>
+      'Dynamic • Temporary • In-progress';
+
+  @override
+  String get grammarPresentSimpleMeaning => 'Permanent residence / hometown';
+
+  @override
+  String get grammarPresentContinuousMeaning =>
+      'Temporary stay / liable to change';
+
+  @override
+  String get grammarQuickCheckTitle => 'Quick Reaction Challenge';
+
+  @override
+  String get grammarQuickCheckPrompt =>
+      '🎯 Scenario: You are on a 3-week business trip in Da Nang. Which sentence would you say to a new colleague?';
+
+  @override
+  String get grammarQuickCheckIncorrectFeedback =>
+      'Incorrect! \"I live in Da Nang\" implies permanent residence. Because you are only on a 3-week business trip (temporary), use Present Continuous: \"I am living in Da Nang\".';
+
+  @override
+  String get grammarQuickCheckCorrectFeedback =>
+      'Correct! Because a 3-week business trip is a short-term temporary situation, native speakers always use Present Continuous (\"am living\") instead of Present Simple.';
+
+  @override
+  String get grammarTenseLabTitle => 'Tense Lab: Live Experiment';
+
+  @override
+  String get grammarDragToShiftTime => 'Drag slider to shift time';
+
+  @override
+  String get grammarSimplePermanent => 'Simple (Permanent)';
+
+  @override
+  String get grammarContinuousTemporary => 'Continuous (Temporary)';
+
+  @override
+  String get grammarDynamicAspect => '⚡ Dynamic';
+
+  @override
+  String get grammarStativeAspect => '🛡️ Stative';
 
   @override
   String get orContinueWithEmail => 'Or continue with email';

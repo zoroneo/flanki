@@ -1,6 +1,8 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 
 class StatsHeatmapGrid extends StatelessWidget {
   final List<List<int>> levels;
@@ -33,11 +35,22 @@ class StatsHeatmapGrid extends StatelessWidget {
                 ),
               ),
               AppGaps.h8,
-              Text(
-                l10n.streakDays(streakDays),
-                style: theme.typography.xSmall.copyWith(
-                  color: theme.colorScheme.mutedForeground,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const FlankiAnimatedEmoji(
+                    emoji: AnimatedEmojis.fire,
+                    size: 18.0,
+                    interactive: true,
+                  ),
+                  AppGaps.h4,
+                  Text(
+                    l10n.streakDays(streakDays),
+                    style: theme.typography.xSmall.copyWith(
+                      color: theme.colorScheme.mutedForeground,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

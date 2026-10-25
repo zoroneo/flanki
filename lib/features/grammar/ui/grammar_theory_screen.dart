@@ -8,6 +8,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../router/app_router.dart';
 import '../data/grammar_service.dart';
 import '../models/grammar_models.dart';
+import 'widgets/grammar_concept_card_view.dart';
 import 'widgets/grammar_theory_mobile_tabs.dart';
 import 'widgets/grammar_theory_sections.dart';
 import 'widgets/grammar_theory_toc.dart';
@@ -182,11 +183,9 @@ class GrammarTheoryScreen extends HookConsumerWidget {
                     children: [
                       KeyedSubtree(
                         key: conceptKey,
-                        child: GrammarTheorySectionCard(
-                          icon: LucideIcons.lightbulb,
-                          iconColor: AppColors.warning,
-                          title: l10n.grammarCoreConceptTitle,
-                          content: unit.coreConcept,
+                        child: GrammarConceptCardView(
+                          unit: unit,
+                          isMobile: false,
                         ),
                       ),
                       AppGaps.v20,

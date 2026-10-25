@@ -3,6 +3,9 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
 import '../../models/grammar_models.dart';
+import 'grammar_concept_card_view.dart';
+import 'grammar_key_beautifier.dart';
+export 'grammar_concept_card_view.dart';
 export 'grammar_theory_extra_tab_views.dart';
 
 class GrammarConceptTabView extends StatelessWidget {
@@ -12,10 +15,6 @@ class GrammarConceptTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-    final colors = context.colors;
-
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.md,
@@ -23,27 +22,7 @@ class GrammarConceptTabView extends StatelessWidget {
         AppSpacing.md,
         AppSpacing.lg,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GrammarTabSectionHeader(
-            icon: LucideIcons.lightbulb,
-            iconColor: colors.cramAmber,
-            title: l10n.grammarCoreConceptTitle,
-          ),
-          AppGaps.v8,
-          RichCardContent(
-            content: unit.coreConcept,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            textAlign: TextAlign.start,
-            textStyle: TextStyle(
-              fontSize: AppTypography.navPlus,
-              height: 1.5,
-              color: theme.colorScheme.foreground,
-            ),
-          ),
-        ],
-      ),
+      child: GrammarConceptCardView(unit: unit, isMobile: true),
     );
   }
 }
@@ -90,7 +69,7 @@ class GrammarFormulasTabView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    entry.key,
+                    GrammarKeyBeautifier.format(entry.key),
                     style: TextStyle(
                       fontSize: AppTypography.xSmallPlus,
                       fontWeight: FontWeight.bold,

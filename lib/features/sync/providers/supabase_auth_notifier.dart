@@ -20,19 +20,22 @@ final supabaseAuthNotifierProvider =
     );
 
 class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
-  late final SupabaseAuthService _authService;
+  SupabaseAuthService? _authServiceInstance;
+  SupabaseAuthService get _authService =>
+      _authServiceInstance ?? ref.read(supabaseAuthServiceProvider);
   StreamSubscription<AuthState>? _sub;
 
   @override
   SupabaseAuthState build() {
-    _authService = ref.read(supabaseAuthServiceProvider);
+    _authServiceInstance = ref.read(supabaseAuthServiceProvider);
+    final auth = _authService;
 
-    final currentUser = _authService.currentUser;
+    final currentUser = auth.currentUser;
     final initialStatus = currentUser != null
         ? SupabaseAuthStatus.authenticated
         : SupabaseAuthStatus.unauthenticated;
 
-    _sub = _authService.authStateChanges.listen((data) {
+    _sub = auth.authStateChanges.listen((data) {
       final sessionUser = data.session?.user;
       if (sessionUser != null) {
         state = SupabaseAuthState(
@@ -111,6 +114,13 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
     state = state.copyWith(status: SupabaseAuthStatus.loading);
     try {
       final initiated = await _authService.signInWithOAuth(provider);
+      // Reset loading state after browser launches; deep link or listener will emit on authStateChanges
+      state = SupabaseAuthState(
+        status: _authService.isAuthenticated
+            ? SupabaseAuthStatus.authenticated
+            : SupabaseAuthStatus.unauthenticated,
+        user: _authService.currentUser,
+      );
       if (!initiated) {
         state = const SupabaseAuthState(
           status: SupabaseAuthStatus.error,
@@ -136,6 +146,20 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
   Future<bool> signInWithGoogle() => signInWithOAuth(OAuthProvider.google);
 
   Future<bool> signInWithApple() => signInWithOAuth(OAuthProvider.apple);
+
+  void resetStatus() {
+    if (state.status != SupabaseAuthStatus.authenticated) {
+      final isAuth =
+          state.user != null ||
+          (_authServiceInstance?.isAuthenticated ?? false);
+      state = SupabaseAuthState(
+        status: isAuth
+            ? SupabaseAuthStatus.authenticated
+            : SupabaseAuthStatus.unauthenticated,
+        user: state.user ?? _authServiceInstance?.currentUser,
+      );
+    }
+  }
 
   Future<void> signOut() async {
     await _authService.signOut();

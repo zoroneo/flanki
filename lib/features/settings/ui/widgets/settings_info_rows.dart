@@ -1,6 +1,8 @@
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../core/widgets/flanki_animated_emoji.dart';
 import '../../providers/update_notifier.dart';
 import '../../data/desktop_update_service.dart';
 
@@ -24,6 +26,8 @@ class LanguageOptionButton extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: AppDurations.short,
+        alignment: Alignment.center,
+        constraints: const BoxConstraints(minHeight: 38.0),
         padding: const EdgeInsets.symmetric(
           vertical: AppSpacing.s10,
           horizontal: AppSpacing.s6,
@@ -40,22 +44,21 @@ class LanguageOptionButton extends StatelessWidget {
             width: AppDimensions.hairline,
           ),
         ),
-        child: Center(
-          child: Text(
-            label,
-            overflow: TextOverflow.visible,
-            style:
-                (isSelected
-                        ? context.textStyles.xSmallSemiBold
-                        : context.textStyles.xSmall)
-                    .copyWith(
-                      height: 1.2,
-                      leadingDistribution: TextLeadingDistribution.even,
-                      color: isSelected
-                          ? theme.colorScheme.primaryForeground
-                          : theme.colorScheme.foreground,
-                    ),
-          ),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.visible,
+          style:
+              (isSelected
+                      ? context.textStyles.xSmallSemiBold
+                      : context.textStyles.xSmall)
+                  .copyWith(
+                    height: 1.2,
+                    leadingDistribution: TextLeadingDistribution.even,
+                    color: isSelected
+                        ? theme.colorScheme.primaryForeground
+                        : theme.colorScheme.foreground,
+                  ),
         ),
       ),
     );
@@ -140,6 +143,12 @@ class VersionInfoRow extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                const FlankiAnimatedEmoji(
+                  emoji: AnimatedEmojis.rocket,
+                  size: 18.0,
+                  interactive: true,
+                ),
+                AppGaps.h6,
                 Text(
                   version,
                   style: theme.typography.small.copyWith(

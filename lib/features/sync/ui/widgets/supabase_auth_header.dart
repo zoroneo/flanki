@@ -76,23 +76,40 @@ class SupabaseAuthHeader extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () => onTabChanged(false),
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: AppDurations.short,
                     padding: AppEdgeInsets.v8,
                     decoration: BoxDecoration(
                       color: !isSignUp
                           ? theme.colorScheme.background
                           : AppColors.transparent,
                       borderRadius: AppRadius.borderSm,
+                      boxShadow: !isSignUp
+                          ? [
+                              BoxShadow(
+                                color: theme.colorScheme.foreground.withValues(
+                                  alpha: 0.05,
+                                ),
+                                blurRadius: 4,
+                                offset: const Offset(0, 1),
+                              ),
+                            ]
+                          : null,
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       l10n.authLoginButton,
-                      style: !isSignUp
-                          ? context.textStyles.nav
-                          : context.textStyles.nav.copyWith(
-                              fontWeight: FontWeight.normal,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
+                      style:
+                          (!isSignUp
+                                  ? context.textStyles.nav
+                                  : context.textStyles.nav.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                    ))
+                              .copyWith(
+                                color: !isSignUp
+                                    ? theme.colorScheme.foreground
+                                    : theme.colorScheme.mutedForeground,
+                              ),
                     ),
                   ),
                 ),
@@ -100,23 +117,40 @@ class SupabaseAuthHeader extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () => onTabChanged(true),
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: AppDurations.short,
                     padding: AppEdgeInsets.v8,
                     decoration: BoxDecoration(
                       color: isSignUp
                           ? theme.colorScheme.background
                           : AppColors.transparent,
                       borderRadius: AppRadius.borderSm,
+                      boxShadow: isSignUp
+                          ? [
+                              BoxShadow(
+                                color: theme.colorScheme.foreground.withValues(
+                                  alpha: 0.05,
+                                ),
+                                blurRadius: 4,
+                                offset: const Offset(0, 1),
+                              ),
+                            ]
+                          : null,
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       l10n.signUpCloud,
-                      style: isSignUp
-                          ? context.textStyles.nav
-                          : context.textStyles.nav.copyWith(
-                              fontWeight: FontWeight.normal,
-                              color: theme.colorScheme.mutedForeground,
-                            ),
+                      style:
+                          (isSignUp
+                                  ? context.textStyles.nav
+                                  : context.textStyles.nav.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                    ))
+                              .copyWith(
+                                color: isSignUp
+                                    ? theme.colorScheme.foreground
+                                    : theme.colorScheme.mutedForeground,
+                              ),
                     ),
                   ),
                 ),

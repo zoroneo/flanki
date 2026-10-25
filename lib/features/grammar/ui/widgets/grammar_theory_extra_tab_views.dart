@@ -3,6 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../core/widgets/rich_card_content.dart';
 import '../../models/grammar_models.dart';
+import 'grammar_key_beautifier.dart';
 import 'grammar_theory_tab_views.dart';
 
 class GrammarTrapsTabView extends StatelessWidget {
@@ -144,7 +145,7 @@ class GrammarGuidesTabView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    entry.key,
+                    GrammarKeyBeautifier.format(entry.key),
                     style: TextStyle(
                       fontSize: AppTypography.xSmallPlus,
                       fontWeight: FontWeight.bold,
