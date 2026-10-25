@@ -28,6 +28,7 @@ class DeckEmptyState extends StatelessWidget {
             FlankiAnimatedEmoji(
               emoji: showAddButton ? AnimatedEmojis.books : AnimatedEmojis.eyes,
               size: 48.0,
+              repeat: true,
             ),
             AppGaps.v12,
             Text(

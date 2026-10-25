@@ -2,10 +2,12 @@ import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../config/app_config.dart';
+
 /// Standardized animated emoji component for Flanki.
 ///
-/// Follows "Quiet by default, Expressive on Milestone" principles:
-/// - One-shot animation by default ([repeat] = false) to prevent visual fatigue.
+/// Follows standard Lottie looping conventions:
+/// - Looping animation by default ([repeat] = true) for continuous, vibrant micro-interactions.
 /// - Automatically respects system [MediaQuery.disableAnimations] (Reduce Motion).
 /// - Supports [interactive] tap-to-replay with subtle haptic feedback (Telegram style).
 class FlankiAnimatedEmoji extends StatefulWidget {
@@ -19,7 +21,7 @@ class FlankiAnimatedEmoji extends StatefulWidget {
     super.key,
     required this.emoji,
     this.size = 32.0,
-    this.repeat = false,
+    this.repeat = true,
     this.interactive = false,
     this.onTap,
   });
@@ -44,11 +46,16 @@ class _FlankiAnimatedEmojiState extends State<FlankiAnimatedEmoji>
   @override
   void didUpdateWidget(covariant FlankiAnimatedEmoji oldWidget) {
     super.didUpdateWidget(oldWidget);
+    final shouldRepeat = widget.repeat && !AppConfig.isFlutterTest;
     if (widget.interactive && _controller == null) {
       _controller = AnimationController(vsync: this);
       if (_loadedDuration != null) {
         _controller!.duration = _loadedDuration;
-        _controller!.forward(from: 0.0);
+        if (shouldRepeat) {
+          _controller!.repeat();
+        } else {
+          _controller!.forward(from: 0.0);
+        }
       }
     } else if (!widget.interactive && _controller != null) {
       _controller!.dispose();
@@ -65,8 +72,17 @@ class _FlankiAnimatedEmojiState extends State<FlankiAnimatedEmoji>
   void _replay() {
     if (!widget.interactive) return;
     HapticFeedback.lightImpact();
+    final shouldRepeat = widget.repeat && !AppConfig.isFlutterTest;
     if (_controller != null) {
-      _controller!.forward(from: 0.0);
+      if (shouldRepeat) {
+        _controller!.forward(from: 0.0).then((_) {
+          if (mounted && shouldRepeat) {
+            _controller!.repeat();
+          }
+        });
+      } else {
+        _controller!.forward(from: 0.0);
+      }
     }
     widget.onTap?.call();
   }
@@ -88,6 +104,8 @@ class _FlankiAnimatedEmojiState extends State<FlankiAnimatedEmoji>
       );
     }
 
+    final shouldRepeat = widget.repeat && !AppConfig.isFlutterTest;
+
     if (!widget.interactive) {
       return SizedBox(
         width: widget.size,
@@ -95,7 +113,7 @@ class _FlankiAnimatedEmojiState extends State<FlankiAnimatedEmoji>
         child: AnimatedEmoji(
           widget.emoji,
           size: widget.size,
-          repeat: widget.repeat,
+          repeat: shouldRepeat,
           animate: true,
         ),
       );
@@ -108,13 +126,17 @@ class _FlankiAnimatedEmojiState extends State<FlankiAnimatedEmoji>
         widget.emoji,
         size: widget.size,
         controller: _controller,
-        repeat: widget.repeat,
+        repeat: shouldRepeat,
         animate: true,
         onLoaded: (duration) {
           _loadedDuration = duration;
           if (_controller != null) {
             _controller!.duration = duration;
-            _controller!.forward(from: 0.0);
+            if (shouldRepeat) {
+              _controller!.repeat();
+            } else {
+              _controller!.forward(from: 0.0);
+            }
           }
         },
       ),

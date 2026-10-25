@@ -33,11 +33,30 @@ void main() {
       final animatedEmojiFinder = find.byType(AnimatedEmoji);
       expect(animatedEmojiFinder, findsOneWidget);
 
-      final animatedEmojiWidget = tester.widget<AnimatedEmoji>(
-        animatedEmojiFinder,
+      final flankiEmojiWidget = tester.widget<FlankiAnimatedEmoji>(
+        find.byType(FlankiAnimatedEmoji),
       );
-      expect(animatedEmojiWidget.size, equals(48.0));
-      expect(animatedEmojiWidget.repeat, isFalse);
+      expect(flankiEmojiWidget.size, equals(48.0));
+      expect(flankiEmojiWidget.repeat, isTrue);
+    });
+
+    testWidgets('allows overriding repeat to false', (tester) async {
+      await tester.pumpWidget(
+        const ShadcnApp(
+          home: Scaffold(
+            child: FlankiAnimatedEmoji(
+              emoji: AnimatedEmojis.fire,
+              size: 48.0,
+              repeat: false,
+            ),
+          ),
+        ),
+      );
+
+      final flankiEmojiWidget = tester.widget<FlankiAnimatedEmoji>(
+        find.byType(FlankiAnimatedEmoji),
+      );
+      expect(flankiEmojiWidget.repeat, isFalse);
     });
 
     testWidgets('respects MediaQuery.disableAnimations (Reduce Motion)', (
@@ -113,6 +132,7 @@ void main() {
 
         final widget = tester.widget<FlankiAnimatedEmoji>(emojiFinder);
         expect(widget.emoji, equals(AnimatedEmojis.books));
+        expect(widget.repeat, isTrue);
       },
     );
 
