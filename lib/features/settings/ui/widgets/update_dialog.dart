@@ -24,7 +24,7 @@ class UpdateDialog extends ConsumerWidget {
       await m.showDialog(
         context: context,
         builder: (context) => m.Dialog(
-          backgroundColor: m.Colors.transparent,
+          backgroundColor: AppColors.transparent,
           child: UpdateDialog(updateInfo: info),
         ),
       );

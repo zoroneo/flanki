@@ -19,7 +19,6 @@ class StatsScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final stats = ref.watch(statsNotifierProvider);
     final desiredRetention = ref.watch(
       studySettingsProvider.select((s) => s.desiredRetention),
     );
@@ -82,43 +81,75 @@ class StatsScreen extends HookConsumerWidget {
                   vertical: AppSpacing.md,
                 ),
                 children: [
-                  // Retention & FSRS Overview Card
-                  StatsRetentionCard(
-                    stats: stats,
-                    desiredRetention: desiredRetention,
-                    l10n: l10n,
+                  // Retention & FSRS Overview Card (Isolated)
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final stats = ref.watch(statsNotifierProvider);
+                      return StatsRetentionCard(
+                        stats: stats,
+                        desiredRetention: desiredRetention,
+                        l10n: l10n,
+                      );
+                    },
                   ),
                   AppGaps.v16,
 
-                  // 2 Metric Cards Grid
+                  // 2 Metric Cards Grid (Surgically isolated)
                   Row(
                     children: [
                       Expanded(
-                        child: StatsMetricCard(
-                          label: l10n.reviewedToday,
-                          value: '${stats.reviewedToday}',
-                          subtitle: l10n.reviewedDiff,
-                          icon: LucideIcons.checkCheck,
+                        child: Consumer(
+                          builder: (context, ref, _) {
+                            final reviewedToday = ref.watch(
+                              statsNotifierProvider.select(
+                                (s) => s.reviewedToday,
+                              ),
+                            );
+                            return StatsMetricCard(
+                              label: l10n.reviewedToday,
+                              value: '$reviewedToday',
+                              subtitle: l10n.reviewedDiff,
+                              icon: LucideIcons.checkCheck,
+                            );
+                          },
                         ),
                       ),
                       AppGaps.h12,
                       Expanded(
-                        child: StatsMetricCard(
-                          label: l10n.studyTime,
-                          value: l10n.studyMinutesUnit(stats.studyTimeMinutes),
-                          subtitle: l10n.studyTimePerCard,
-                          icon: LucideIcons.timer,
+                        child: Consumer(
+                          builder: (context, ref, _) {
+                            final studyTimeMinutes = ref.watch(
+                              statsNotifierProvider.select(
+                                (s) => s.studyTimeMinutes,
+                              ),
+                            );
+                            return StatsMetricCard(
+                              label: l10n.studyTime,
+                              value: l10n.studyMinutesUnit(studyTimeMinutes),
+                              subtitle: l10n.studyTimePerCard,
+                              icon: LucideIcons.timer,
+                            );
+                          },
                         ),
                       ),
                     ],
                   ),
                   AppGaps.v20,
 
-                  // Study Activity Heatmap (GitHub / Anki style)
-                  StatsHeatmapGrid(
-                    levels: stats.heatmapLevels,
-                    streakDays: stats.streakDays,
-                    l10n: l10n,
+                  // Study Activity Heatmap (GitHub / Anki style - Isolated)
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final (levels, streakDays) = ref.watch(
+                        statsNotifierProvider.select(
+                          (s) => (s.heatmapLevels, s.streakDays),
+                        ),
+                      );
+                      return StatsHeatmapGrid(
+                        levels: levels,
+                        streakDays: streakDays,
+                        l10n: l10n,
+                      );
+                    },
                   ),
                 ],
               ),

@@ -10,10 +10,12 @@ export '../extensions/l10n_extension.dart';
 /// Flanki Spacing Tokens (Dựa trên 8-pt grid với 4-pt half-steps).
 abstract final class AppSpacing {
   static const double none = 0;
+  static const double s1_5 = 1.5;
   static const double xxs = 2;
   static const double s3 = 3;
   static const double xs = 4;
   static const double s6 = 6;
+  static const double s7 = 7;
   static const double sm = 8;
   static const double s10 = 10;
   static const double smPlus = 12;
@@ -399,7 +401,20 @@ abstract final class AppDurations {
 
   // Time-based intervals & calendar offsets
   static const Duration second1 = Duration(seconds: 1);
+  static const Duration seconds2 = Duration(seconds: 2);
+  static const Duration seconds60 = Duration(seconds: 60);
   static const Duration day1 = Duration(days: 1);
+}
+
+/// Centralized keyboard shortcut label definitions.
+abstract final class AppKeyboardShortcuts {
+  static const String navDecks = 'Ctrl+1';
+  static const String navBrowser = 'Ctrl+2';
+  static const String navGrammar = 'Ctrl+3';
+  static const String navExams = 'Ctrl+4';
+  static const String navStats = 'Ctrl+5';
+  static const String navSettings = 'Ctrl+6';
+  static const String saveNote = 'Ctrl/⌘ + ↵';
 }
 
 /// Flanki Display Limits & Overflows.

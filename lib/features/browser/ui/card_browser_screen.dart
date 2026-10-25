@@ -40,17 +40,20 @@ class CardBrowserScreen extends HookConsumerWidget {
 
     final searchController = useTextEditingController(text: searchQuery);
 
-    // Desktop selected card ID state
-    final selectedCardId = useState<String?>(null);
+    // Desktop selected card ID state (isolated ValueNotifier so list rows do not rebuild entire screen)
+    final selectedCardId = useMemoized(() => ValueNotifier<String?>(null));
+    useEffect(() => selectedCardId.dispose, [selectedCardId]);
 
-    // Auto-select first card if selection is invalid or null on desktop
-    if (filteredCards.isNotEmpty &&
-        (selectedCardId.value == null ||
-            !filteredCards.any((c) => c.id == selectedCardId.value))) {
-      selectedCardId.value = filteredCards.first.id;
-    } else if (filteredCards.isEmpty) {
-      selectedCardId.value = null;
-    }
+    useEffect(() {
+      if (filteredCards.isNotEmpty &&
+          (selectedCardId.value == null ||
+              !filteredCards.any((c) => c.id == selectedCardId.value))) {
+        selectedCardId.value = filteredCards.first.id;
+      } else if (filteredCards.isEmpty) {
+        selectedCardId.value = null;
+      }
+      return null;
+    }, [filteredCards]);
 
     const pageSize = 30;
     final displayedCount = useState(pageSize);

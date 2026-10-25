@@ -37,11 +37,6 @@ class BrowserDesktopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentSelectedCard = filteredCards.cast<CardModel?>().firstWhere(
-      (c) => c?.id == selectedCardId.value,
-      orElse: () => filteredCards.isNotEmpty ? filteredCards.first : null,
-    );
-
     return Scaffold(
       child: Row(
         children: [
@@ -59,16 +54,29 @@ class BrowserDesktopLayout extends StatelessWidget {
             ),
           ),
           const VerticalDivider(width: AppDimensions.hairline),
-          // Right Column: Detail / Preview Pane
+          // Right Column: Detail / Preview Pane (isolated ValueListenableBuilder)
           Expanded(
-            child: currentSelectedCard != null
-                ? DesktopCardDetailPane(
-                    key: ValueKey(currentSelectedCard.id),
-                    card: currentSelectedCard,
-                    deckTitle: deckMap[currentSelectedCard.deckId],
-                    browserNotifier: browserNotifier,
-                  )
-                : _buildEmptyPreview(),
+            child: ValueListenableBuilder<String?>(
+              valueListenable: selectedCardId,
+              builder: (context, selectedId, _) {
+                final currentSelectedCard = filteredCards
+                    .cast<CardModel?>()
+                    .firstWhere(
+                      (c) => c?.id == selectedId,
+                      orElse: () =>
+                          filteredCards.isNotEmpty ? filteredCards.first : null,
+                    );
+
+                return currentSelectedCard != null
+                    ? DesktopCardDetailPane(
+                        key: ValueKey(currentSelectedCard.id),
+                        card: currentSelectedCard,
+                        deckTitle: deckMap[currentSelectedCard.deckId],
+                        browserNotifier: browserNotifier,
+                      )
+                    : _buildEmptyPreview();
+              },
+            ),
           ),
         ],
       ),
@@ -206,13 +214,18 @@ class BrowserDesktopLayout extends StatelessWidget {
       itemCount: filteredCards.length,
       itemBuilder: (context, index) {
         final card = filteredCards[index];
-        final isSelected = card.id == selectedCardId.value;
 
-        return DesktopCardRowItem(
+        return ValueListenableBuilder<String?>(
           key: ValueKey(card.id),
-          card: card,
-          isSelected: isSelected,
-          onTap: () => selectedCardId.value = card.id,
+          valueListenable: selectedCardId,
+          builder: (context, selectedId, _) {
+            final isSelected = card.id == selectedId;
+            return DesktopCardRowItem(
+              card: card,
+              isSelected: isSelected,
+              onTap: () => selectedCardId.value = card.id,
+            );
+          },
         );
       },
     );

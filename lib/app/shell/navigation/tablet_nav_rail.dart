@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart' as m;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/config/app_config.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
+import 'package:flanki/features/decks/providers/deck_notifier.dart';
+import 'package:flanki/features/sync/providers/auth_notifier.dart';
 
-class TabletNavRail extends StatelessWidget {
+class TabletNavRail extends ConsumerWidget {
   final int currentIndex;
-  final int totalDue;
-  final bool isAuthenticated;
   final AppLocalizations l10n;
   final ValueChanged<int> onSelectTab;
 
   const TabletNavRail({
     super.key,
     required this.currentIndex,
-    required this.totalDue,
-    required this.isAuthenticated,
     required this.l10n,
     required this.onSelectTab,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final totalDue = ref.watch(totalDueCountProvider);
+    final isAuthenticated = ref.watch(
+      authNotifierProvider.select((s) => s.isAuthenticated),
+    );
 
     return Container(
       width: AppDimensions.navRailWidth,
@@ -31,9 +34,9 @@ class TabletNavRail extends StatelessWidget {
           _buildBrandIcon(theme),
           const Divider(height: AppDimensions.hairline),
           AppGaps.v12,
-          _buildNavItems(context, theme),
+          _buildNavItems(context, theme, totalDue, isAuthenticated),
           const Spacer(),
-          _buildSyncIndicator(context, theme),
+          _buildSyncIndicator(context, theme, isAuthenticated),
         ],
       ),
     );
@@ -64,14 +67,19 @@ class TabletNavRail extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItems(BuildContext context, ThemeData theme) {
+  Widget _buildNavItems(
+    BuildContext context,
+    ThemeData theme,
+    int totalDue,
+    bool isAuthenticated,
+  ) {
     return Column(
       children: [
         NavRailItem(
           icon: LucideIcons.layers,
           activeIcon: LucideIcons.layers2,
           label: l10n.navDecks,
-          shortcutHint: 'Ctrl+1',
+          shortcutHint: AppKeyboardShortcuts.navDecks,
           isSelected: currentIndex == AppNavIndex.decks,
           badgeCount: totalDue > 0 ? totalDue : null,
           onTap: () => onSelectTab(AppNavIndex.decks),
@@ -81,7 +89,7 @@ class TabletNavRail extends StatelessWidget {
           icon: LucideIcons.search,
           activeIcon: LucideIcons.fileSearch,
           label: l10n.navBrowser,
-          shortcutHint: 'Ctrl+2',
+          shortcutHint: AppKeyboardShortcuts.navBrowser,
           isSelected: currentIndex == AppNavIndex.browser,
           onTap: () => onSelectTab(AppNavIndex.browser),
         ),
@@ -90,7 +98,7 @@ class TabletNavRail extends StatelessWidget {
           icon: LucideIcons.bookOpenText,
           activeIcon: LucideIcons.bookOpen,
           label: l10n.navGrammar,
-          shortcutHint: 'Ctrl+3',
+          shortcutHint: AppKeyboardShortcuts.navGrammar,
           isSelected: currentIndex == AppNavIndex.grammar,
           onTap: () => onSelectTab(AppNavIndex.grammar),
         ),
@@ -99,7 +107,7 @@ class TabletNavRail extends StatelessWidget {
           icon: LucideIcons.graduationCap,
           activeIcon: LucideIcons.graduationCap,
           label: l10n.navExams,
-          shortcutHint: 'Ctrl+4',
+          shortcutHint: AppKeyboardShortcuts.navExams,
           isSelected: currentIndex == AppNavIndex.exams,
           onTap: () => onSelectTab(AppNavIndex.exams),
         ),
@@ -108,7 +116,7 @@ class TabletNavRail extends StatelessWidget {
           icon: LucideIcons.chartColumn,
           activeIcon: LucideIcons.chartNoAxesCombined,
           label: l10n.navStats,
-          shortcutHint: 'Ctrl+5',
+          shortcutHint: AppKeyboardShortcuts.navStats,
           isSelected: currentIndex == AppNavIndex.stats,
           onTap: () => onSelectTab(AppNavIndex.stats),
         ),
@@ -117,7 +125,7 @@ class TabletNavRail extends StatelessWidget {
           icon: LucideIcons.settings,
           activeIcon: LucideIcons.settings2,
           label: l10n.navSettings,
-          shortcutHint: 'Ctrl+6',
+          shortcutHint: AppKeyboardShortcuts.navSettings,
           isSelected: currentIndex == AppNavIndex.settings,
           indicatorColor: isAuthenticated ? context.colors.success : null,
           onTap: () => onSelectTab(AppNavIndex.settings),
@@ -126,7 +134,11 @@ class TabletNavRail extends StatelessWidget {
     );
   }
 
-  Widget _buildSyncIndicator(BuildContext context, ThemeData theme) {
+  Widget _buildSyncIndicator(
+    BuildContext context,
+    ThemeData theme,
+    bool isAuthenticated,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Tooltip(

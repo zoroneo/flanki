@@ -41,19 +41,19 @@ class StorageBreakdownGrid extends StatelessWidget {
             theme,
             LucideIcons.layers,
             l10n.databaseStorage,
-            '$cardCount cards ($dbSize)',
+            l10n.storageBreakdownCards(cardCount, dbSize),
           ),
           _statPill(
             theme,
             LucideIcons.music,
             l10n.mediaStorage,
-            '$mediaCount files ($mediaSize)',
+            l10n.storageBreakdownFiles(mediaCount, mediaSize),
           ),
           _statPill(
             theme,
             LucideIcons.cloud,
             l10n.backupStorage,
-            '$backupCount files ($backupSize)',
+            l10n.storageBreakdownFiles(backupCount, backupSize),
           ),
           _statPill(
             theme,

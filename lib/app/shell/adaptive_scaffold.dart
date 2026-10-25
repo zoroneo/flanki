@@ -9,7 +9,6 @@ import 'package:flanki/features/decks/providers/deck_notifier.dart';
 import 'package:flanki/features/browser/providers/card_browser_notifier.dart';
 import 'package:flanki/features/exam/providers/exam_catalog_notifier.dart';
 import 'package:flanki/features/stats/providers/stats_notifier.dart';
-import 'package:flanki/features/sync/providers/auth_notifier.dart';
 
 import 'navigation/desktop_sidebar.dart';
 import 'navigation/mobile_bottom_nav_bar.dart';
@@ -40,16 +39,7 @@ class AdaptiveScaffold extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final totalDue = ref.watch(
-      deckListProvider.select(
-        (decks) => decks.fold<int>(0, (sum, d) => sum + d.dueCount),
-      ),
-    );
-    final isAuthenticated = ref.watch(
-      authNotifierProvider.select((s) => s.isAuthenticated),
-    );
     final l10n = context.l10n;
-
     final currentIndex = navigationShell.currentIndex;
 
     return PopScope(
@@ -66,22 +56,16 @@ class AdaptiveScaffold extends HookConsumerWidget {
             mobile: (context) => _buildMobileLayout(
               theme: theme,
               currentIndex: currentIndex,
-              totalDue: totalDue,
-              isAuthenticated: isAuthenticated,
               l10n: l10n,
               ref: ref,
             ),
             tablet: (context) => _buildTabletLayout(
               currentIndex: currentIndex,
-              totalDue: totalDue,
-              isAuthenticated: isAuthenticated,
               l10n: l10n,
               ref: ref,
             ),
             desktop: (context) => _buildDesktopLayout(
               currentIndex: currentIndex,
-              totalDue: totalDue,
-              isAuthenticated: isAuthenticated,
               l10n: l10n,
               ref: ref,
             ),
@@ -111,8 +95,6 @@ class AdaptiveScaffold extends HookConsumerWidget {
   Widget _buildMobileLayout({
     required ThemeData theme,
     required int currentIndex,
-    required int totalDue,
-    required bool isAuthenticated,
     required dynamic l10n,
     required WidgetRef ref,
   }) {
@@ -131,8 +113,6 @@ class AdaptiveScaffold extends HookConsumerWidget {
             MobileBottomNavBar(
               theme: theme,
               currentIndex: currentIndex,
-              totalDue: totalDue,
-              isAuthenticated: isAuthenticated,
               l10n: l10n,
               onTap: (index) => _onTap(index, ref),
             ),
@@ -143,8 +123,6 @@ class AdaptiveScaffold extends HookConsumerWidget {
 
   Widget _buildTabletLayout({
     required int currentIndex,
-    required int totalDue,
-    required bool isAuthenticated,
     required dynamic l10n,
     required WidgetRef ref,
   }) {
@@ -153,8 +131,6 @@ class AdaptiveScaffold extends HookConsumerWidget {
         children: [
           TabletNavRail(
             currentIndex: currentIndex,
-            totalDue: totalDue,
-            isAuthenticated: isAuthenticated,
             l10n: l10n,
             onSelectTab: (index) => _onTap(index, ref),
           ),
@@ -167,8 +143,6 @@ class AdaptiveScaffold extends HookConsumerWidget {
 
   Widget _buildDesktopLayout({
     required int currentIndex,
-    required int totalDue,
-    required bool isAuthenticated,
     required dynamic l10n,
     required WidgetRef ref,
   }) {
@@ -177,8 +151,6 @@ class AdaptiveScaffold extends HookConsumerWidget {
         children: [
           DesktopSidebar(
             currentIndex: currentIndex,
-            totalDue: totalDue,
-            isAuthenticated: isAuthenticated,
             l10n: l10n,
             onSelectTab: (index) => _onTap(index, ref),
           ),

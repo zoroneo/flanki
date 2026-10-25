@@ -13,7 +13,9 @@ class StudyRemindersCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final studySettings = ref.watch(studySettingsProvider);
+    final reminderEnabled = ref.watch(
+      studySettingsProvider.select((s) => s.reminderEnabled),
+    );
     final studySettingsNotifier = ref.read(studySettingsProvider.notifier);
 
     return Card(
@@ -24,45 +26,78 @@ class StudyRemindersCard extends ConsumerWidget {
           _buildDailyReminderToggle(
             theme,
             l10n,
-            studySettings,
+            reminderEnabled,
             studySettingsNotifier,
           ),
-          if (studySettings.reminderEnabled) ...[
+          if (reminderEnabled) ...[
             AppGaps.v16,
-            _buildReminderTimes(
-              theme,
-              l10n,
-              studySettings,
-              studySettingsNotifier,
+            Consumer(
+              builder: (context, ref, _) {
+                final (hour, min) = ref.watch(
+                  studySettingsProvider.select(
+                    (s) => (s.reminderHour, s.reminderMinute),
+                  ),
+                );
+                return _buildReminderTimes(
+                  theme,
+                  l10n,
+                  hour,
+                  min,
+                  studySettingsNotifier,
+                );
+              },
             ),
             AppGaps.v16,
             const Divider(),
             AppGaps.v12,
-            _buildStreakSaverToggle(
-              context,
-              theme,
-              l10n,
-              studySettings,
-              studySettingsNotifier,
+            Consumer(
+              builder: (context, ref, _) {
+                final streakSaverEnabled = ref.watch(
+                  studySettingsProvider.select((s) => s.streakSaverEnabled),
+                );
+                return _buildStreakSaverToggle(
+                  context,
+                  theme,
+                  l10n,
+                  streakSaverEnabled,
+                  studySettingsNotifier,
+                );
+              },
             ),
             if (DesktopWindowService.isDesktop) ...[
               AppGaps.v16,
               const Divider(),
               AppGaps.v12,
-              _buildMinimizeToTrayToggle(
-                theme,
-                l10n,
-                studySettings,
-                studySettingsNotifier,
+              Consumer(
+                builder: (context, ref, _) {
+                  final minimizeToTray = ref.watch(
+                    studySettingsProvider.select(
+                      (s) => s.minimizeToTrayOnClose,
+                    ),
+                  );
+                  return _buildMinimizeToTrayToggle(
+                    theme,
+                    l10n,
+                    minimizeToTray,
+                    studySettingsNotifier,
+                  );
+                },
               ),
               AppGaps.v16,
               const Divider(),
               AppGaps.v12,
-              _buildLaunchAtStartupToggle(
-                theme,
-                l10n,
-                studySettings,
-                studySettingsNotifier,
+              Consumer(
+                builder: (context, ref, _) {
+                  final launchAtStartup = ref.watch(
+                    studySettingsProvider.select((s) => s.launchAtStartup),
+                  );
+                  return _buildLaunchAtStartupToggle(
+                    theme,
+                    l10n,
+                    launchAtStartup,
+                    studySettingsNotifier,
+                  );
+                },
               ),
             ],
           ],
@@ -74,7 +109,7 @@ class StudyRemindersCard extends ConsumerWidget {
   Widget _buildDailyReminderToggle(
     ThemeData theme,
     dynamic l10n,
-    StudySettings studySettings,
+    bool reminderEnabled,
     StudySettingsNotifier studySettingsNotifier,
   ) {
     return Row(
@@ -100,7 +135,7 @@ class StudyRemindersCard extends ConsumerWidget {
         ),
         AppGaps.h12,
         Switch(
-          value: studySettings.reminderEnabled,
+          value: reminderEnabled,
           onChanged: studySettingsNotifier.toggleReminder,
         ),
       ],
@@ -110,7 +145,8 @@ class StudyRemindersCard extends ConsumerWidget {
   Widget _buildReminderTimes(
     ThemeData theme,
     dynamic l10n,
-    StudySettings studySettings,
+    int selectedHour,
+    int selectedMin,
     StudySettingsNotifier studySettingsNotifier,
   ) {
     return Column(
@@ -135,9 +171,7 @@ class StudyRemindersCard extends ConsumerWidget {
                   final min = time[1];
                   final label =
                       '${hour.toString().padLeft(2, '0')}:${min.toString().padLeft(2, '0')}';
-                  final isSelected =
-                      studySettings.reminderHour == hour &&
-                      studySettings.reminderMinute == min;
+                  final isSelected = selectedHour == hour && selectedMin == min;
                   return Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -162,7 +196,7 @@ class StudyRemindersCard extends ConsumerWidget {
     BuildContext context,
     ThemeData theme,
     dynamic l10n,
-    StudySettings studySettings,
+    bool streakSaverEnabled,
     StudySettingsNotifier studySettingsNotifier,
   ) {
     return Row(
@@ -189,7 +223,7 @@ class StudyRemindersCard extends ConsumerWidget {
         ),
         AppGaps.h12,
         Switch(
-          value: studySettings.streakSaverEnabled,
+          value: streakSaverEnabled,
           onChanged: studySettingsNotifier.toggleStreakSaver,
         ),
       ],
@@ -199,7 +233,7 @@ class StudyRemindersCard extends ConsumerWidget {
   Widget _buildMinimizeToTrayToggle(
     ThemeData theme,
     dynamic l10n,
-    StudySettings studySettings,
+    bool minimizeToTray,
     StudySettingsNotifier studySettingsNotifier,
   ) {
     return Row(
@@ -225,7 +259,7 @@ class StudyRemindersCard extends ConsumerWidget {
         ),
         AppGaps.h12,
         Switch(
-          value: studySettings.minimizeToTrayOnClose,
+          value: minimizeToTray,
           onChanged: studySettingsNotifier.toggleMinimizeToTray,
         ),
       ],
@@ -235,7 +269,7 @@ class StudyRemindersCard extends ConsumerWidget {
   Widget _buildLaunchAtStartupToggle(
     ThemeData theme,
     dynamic l10n,
-    StudySettings studySettings,
+    bool launchAtStartup,
     StudySettingsNotifier studySettingsNotifier,
   ) {
     return Row(
@@ -261,8 +295,10 @@ class StudyRemindersCard extends ConsumerWidget {
         ),
         AppGaps.h12,
         Switch(
-          value: studySettings.launchAtStartup,
-          onChanged: studySettingsNotifier.toggleLaunchAtStartup,
+          value: launchAtStartup,
+          onChanged: (val) {
+            studySettingsNotifier.toggleLaunchAtStartup(val);
+          },
         ),
       ],
     );

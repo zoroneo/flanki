@@ -160,7 +160,7 @@ class ExamQuestionResultCard extends StatelessWidget {
                   borderRadius: AppRadius.borderSm,
                 ),
                 child: Text(
-                  '${l10n.explanationPrefix} ${question.explanation}',
+                  l10n.explanationPrefix(question.explanation),
                   style: theme.typography.xSmall.copyWith(
                     color: theme.colorScheme.mutedForeground,
                     fontStyle: FontStyle.italic,

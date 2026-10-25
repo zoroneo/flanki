@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart' as m;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flanki/core/theme/app_tokens.dart';
+import 'package:flanki/features/decks/providers/deck_notifier.dart';
+import 'package:flanki/features/sync/providers/auth_notifier.dart';
 
-class MobileBottomNavBar extends StatelessWidget {
+class MobileBottomNavBar extends ConsumerWidget {
   final ThemeData theme;
   final int currentIndex;
-  final int totalDue;
-  final bool isAuthenticated;
   final AppLocalizations l10n;
   final ValueChanged<int> onTap;
 
@@ -14,14 +15,16 @@ class MobileBottomNavBar extends StatelessWidget {
     super.key,
     required this.theme,
     required this.currentIndex,
-    required this.totalDue,
-    required this.isAuthenticated,
     required this.l10n,
     required this.onTap,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final totalDue = ref.watch(totalDueCountProvider);
+    final isAuthenticated = ref.watch(
+      authNotifierProvider.select((s) => s.isAuthenticated),
+    );
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.background,

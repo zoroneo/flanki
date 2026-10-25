@@ -118,7 +118,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: const EdgeInsets.only(top: AppSpacing.xxs),
             child: Icon(
               LucideIcons.x,
               size: AppIconSize.xs,
@@ -164,7 +164,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: const EdgeInsets.only(top: AppSpacing.xxs),
             child: Icon(
               LucideIcons.check,
               size: AppIconSize.xs,
@@ -197,7 +197,7 @@ class GrammarTheoryTrapsCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 1.5),
+          padding: const EdgeInsets.only(top: AppSpacing.s1_5),
           child: Icon(
             LucideIcons.info,
             size: AppIconSize.xs,

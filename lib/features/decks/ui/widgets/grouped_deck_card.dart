@@ -175,7 +175,7 @@ class GroupedDeckCard extends HookWidget {
                             borderRadius: AppRadius.borderSm,
                           ),
                           child: Text(
-                            '$totalDue ${l10n.dueCards}',
+                            l10n.dueCardsCount(totalDue),
                             style: context.textStyles.sub.copyWith(
                               fontWeight: FontWeight.w700,
                               color: theme.colorScheme.destructive,
@@ -192,7 +192,7 @@ class GroupedDeckCard extends HookWidget {
                             borderRadius: AppRadius.borderSm,
                           ),
                           child: Text(
-                            '$totalNew ${l10n.newCards}',
+                            l10n.newCardsCount(totalNew),
                             style: context.textStyles.sub.copyWith(
                               fontWeight: FontWeight.w700,
                               color: theme.colorScheme.primary,

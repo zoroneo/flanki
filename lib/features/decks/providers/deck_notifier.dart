@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/config/app_config.dart';
@@ -7,6 +8,16 @@ import '../../../core/database/data_change_bus.dart';
 import '../../../core/database/database_service.dart';
 
 part 'deck_notifier.g.dart';
+
+/// Provider exposing total due count across all decks.
+/// Isolated so app shell navigation does not re-render full layouts.
+final totalDueCountProvider = Provider<int>((ref) {
+  return ref.watch(
+    deckListProvider.select(
+      (decks) => decks.fold<int>(0, (sum, d) => sum + d.dueCount),
+    ),
+  );
+});
 
 class DeckTreeNode {
   final DeckModel deck;

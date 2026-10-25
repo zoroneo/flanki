@@ -11,6 +11,7 @@ import 'widgets/exam_questions_sheet.dart';
 import 'widgets/exam_section_header.dart';
 import 'widgets/exam_taking_dialogs.dart';
 import 'widgets/exam_taking_toolbar.dart';
+import 'widgets/exam_time_progress_bar.dart';
 import 'widgets/exam_timer_badge.dart';
 
 class ExamTakingScreen extends HookConsumerWidget {
@@ -88,13 +89,6 @@ class ExamTakingScreen extends HookConsumerWidget {
     final paperTitle = ref.watch(
       examSessionProvider.select((s) => s.paper?.title),
     );
-    final remainingSec = ref.watch(
-      examSessionProvider.select((s) => s.remainingSeconds),
-    );
-    final timeElapsedRatio = ref.watch(
-      examSessionProvider.select((s) => s.timeElapsedRatio),
-    );
-    final isUrgent = remainingSec < ExamConstants.urgentTimerSeconds;
     final selectedAnswer = ref.watch(
       examSessionProvider.select((s) => s.selectedAnswers[question.id]),
     );
@@ -169,20 +163,8 @@ class ExamTakingScreen extends HookConsumerWidget {
                 ),
               ),
             ),
-            // Progress indicator bar attached to the bottom of the AppBar
-            SizedBox(
-              width: double.infinity,
-              child: LinearProgressIndicator(
-                value: timeElapsedRatio,
-                minHeight: 3,
-                color: isUrgent
-                    ? theme.colorScheme.destructive
-                    : theme.colorScheme.primary,
-                backgroundColor: theme.colorScheme.muted.withValues(
-                  alpha: 0.35,
-                ),
-              ),
-            ),
+            // Progress indicator bar attached to the bottom of the AppBar (isolated rebuild)
+            const ExamTimeProgressBar(),
           ],
         ),
       ],

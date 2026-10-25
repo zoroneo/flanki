@@ -137,7 +137,7 @@ class DeckCard extends StatelessWidget {
                     borderRadius: AppRadius.borderSm,
                   ),
                   child: Text(
-                    '$dueCount ${l10n.dueCards}',
+                    l10n.dueCardsCount(dueCount),
                     style: context.textStyles.sub.copyWith(
                       fontWeight: FontWeight.w700,
                       color: theme.colorScheme.destructive,
@@ -152,7 +152,7 @@ class DeckCard extends StatelessWidget {
                     borderRadius: AppRadius.borderSm,
                   ),
                   child: Text(
-                    '$newCount ${l10n.newCards}',
+                    l10n.newCardsCount(newCount),
                     style: context.textStyles.sub.copyWith(
                       fontWeight: FontWeight.w700,
                       color: theme.colorScheme.primary,

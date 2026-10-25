@@ -52,7 +52,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dueCards => 'Due';
 
   @override
+  String dueCardsCount(int count) {
+    return '$count Due';
+  }
+
+  @override
   String get newCards => 'New';
+
+  @override
+  String newCardsCount(int count) {
+    return '$count New';
+  }
+
+  @override
+  String navDecksWithCount(int count) {
+    return 'Decks ($count)';
+  }
+
+  @override
+  String browserCardsCount(int count) {
+    return '($count)';
+  }
+
+  @override
+  String get settingsRetentionRecommendation =>
+      '85% - 90% recommended for optimal retention vs. review load';
+
+  @override
+  String storageBreakdownCards(int count, String size) {
+    return '$count cards ($size)';
+  }
+
+  @override
+  String storageBreakdownFiles(int count, String size) {
+    return '$count files ($size)';
+  }
 
   @override
   String get totalCards => 'Total Cards';

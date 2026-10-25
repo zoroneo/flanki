@@ -135,7 +135,7 @@ class BrowserMobileLayout extends StatelessWidget {
           ),
           AppGaps.h8,
           Text(
-            '(${filteredCards.length})',
+            l10n.browserCardsCount(filteredCards.length),
             style: theme.typography.xSmall.copyWith(
               color: theme.colorScheme.mutedForeground,
               fontWeight: FontWeight.w500,

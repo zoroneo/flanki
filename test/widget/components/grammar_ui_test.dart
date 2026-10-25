@@ -12,7 +12,6 @@ import 'package:flanki/features/grammar/ui/widgets/explanation_sheet.dart';
 import 'package:flanki/features/grammar/ui/grammar_catalog_screen.dart';
 import 'package:flanki/features/grammar/ui/grammar_theory_screen.dart';
 import 'package:flanki/features/grammar/ui/widgets/grammar_concept_card_view.dart';
-import 'package:flanki/features/grammar/ui/widgets/grammar_isometric_timeline_25d.dart';
 import 'package:flanki/features/grammar/ui/widgets/grammar_key_beautifier.dart';
 import 'package:flanki/core/widgets/rich_card_content.dart';
 import 'package:drift/native.dart';
@@ -482,15 +481,16 @@ void main() {
           findsOneWidget,
         );
 
-        // Verify pedagogical interactive components exist
-        expect(find.text('Tense Lab: Thử nghiệm thì'), findsOneWidget);
+        // Contrast Matrix is present for unit-01
         expect(
           find.text('Bảng so sánh đối đầu (Quick Contrast)'),
           findsOneWidget,
         );
+        // Hardcoded experimental widgets are cleanly removed
+        expect(find.text('Tense Lab: Thử nghiệm thì'), findsNothing);
         expect(
           find.text('Thử thách phản xạ vi mô (Quick Check)'),
-          findsOneWidget,
+          findsNothing,
         );
 
         // Sections are hidden inside collapsed accordion by default to eliminate text wall
@@ -581,7 +581,7 @@ void main() {
     });
 
     testWidgets(
-      'GrammarConceptCardView does not render Unit 1 interactive widgets for other units',
+      'GrammarConceptCardView does not render hardcoded interactive widgets for any units',
       (tester) async {
         const unit02 = GrammarUnit(
           unitId: 'unit-02-past-simple-vs-continuous',
@@ -618,16 +618,16 @@ void main() {
           findsOneWidget,
         );
 
-        // Crucial check: Unit 1 widgets MUST NOT appear on Unit 02!
+        // Crucial check: Obsolete interactive widgets do not exist!
         expect(find.text('Tense Lab: Thử nghiệm thì'), findsNothing);
-        // Unit 02 now benefits from shared Quick Contrast Matrix:
-        expect(
-          find.text('Bảng so sánh đối đầu (Quick Contrast)'),
-          findsOneWidget,
-        );
         expect(
           find.text('Thử thách phản xạ vi mô (Quick Check)'),
           findsNothing,
+        );
+        // Unit 02 benefits from shared Quick Contrast Matrix:
+        expect(
+          find.text('Bảng so sánh đối đầu (Quick Contrast)'),
+          findsOneWidget,
         );
 
         // Theory accordion remains functional
@@ -1010,42 +1010,6 @@ void main() {
         expect(find.text('Chính xác! Rất tốt!'), findsOneWidget);
         expect(find.text('Câu Tiếp Theo'), findsOneWidget);
         expect(findRichText('Tôi đã về nhà hôm qua.'), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      'GrammarIsometricTimeline25D renders and toggles between Simple and Continuous 3D modes',
-      (tester) async {
-        await tester.pumpWidget(
-          wrapWithTheme(
-            const GrammarIsometricTimeline25D(
-              isMobile: true,
-              enableLoop: false,
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-
-        expect(find.text('Tense Lab: Thử nghiệm thì'), findsOneWidget);
-        expect(find.text('Đơn (Permanent)'), findsOneWidget);
-        expect(find.text('Tiếp diễn (Temporary)'), findsOneWidget);
-
-        // Initially in Simple mode
-        expect(find.text('Hiện tại đơn (Present Simple)'), findsOneWidget);
-        expect(find.text('Ví dụ: "I live in Hanoi."'), findsOneWidget);
-
-        // Toggle to Continuous mode
-        await tester.tap(find.text('Tiếp diễn (Temporary)'));
-        await tester.pumpAndSettle();
-
-        expect(
-          find.text('Hiện tại tiếp diễn (Present Continuous)'),
-          findsOneWidget,
-        );
-        expect(
-          find.text('Ví dụ: "I am living in Hanoi right now."'),
-          findsOneWidget,
-        );
       },
     );
   });

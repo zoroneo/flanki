@@ -196,11 +196,11 @@ class GrammarTheoryMobileTabs extends HookWidget {
               behavior: HitTestBehavior.opaque,
               child: AnimatedContainer(
                 duration: AppDurations.short,
-                padding: const EdgeInsets.symmetric(vertical: 7),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.s7),
                 decoration: BoxDecoration(
                   color: isSelected
                       ? theme.colorScheme.card
-                      : Colors.transparent,
+                      : AppColors.transparent,
                   borderRadius: AppRadius.borderSm,
                   boxShadow: isSelected
                       ? [

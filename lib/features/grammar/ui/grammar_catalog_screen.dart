@@ -26,6 +26,33 @@ class GrammarCatalogScreen extends HookConsumerWidget {
     final selectedLevel = useState<GrammarLevel?>(null);
     final searchQuery = useState<String>('');
 
+    final allUnits = grammarAsync.value ?? const <GrammarUnit>[];
+    final filteredUnits = useMemoized(() {
+      if (allUnits.isEmpty) return const <GrammarUnit>[];
+      return allUnits.where((u) {
+        if (selectedLevel.value != null && u.level != selectedLevel.value) {
+          return false;
+        }
+        if (searchQuery.value.isNotEmpty) {
+          final query = searchQuery.value.toLowerCase();
+          final matchesTitle = u.title.toLowerCase().contains(query);
+          final matchesCatName = u.category.displayName.toLowerCase().contains(
+            query,
+          );
+          final matchesLocalizedCat = u.category
+              .getLocalizedName(l10n)
+              .toLowerCase()
+              .contains(query);
+          final matchesCatCode = u.category.code.toLowerCase().contains(query);
+          return matchesTitle ||
+              matchesCatName ||
+              matchesLocalizedCat ||
+              matchesCatCode;
+        }
+        return true;
+      }).toList();
+    }, [allUnits, selectedLevel.value, searchQuery.value, l10n]);
+
     useEffect(() {
       repo.init();
       return null;
@@ -71,34 +98,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
             AsyncError(:final error) => Center(
               child: Text(l10n.grammarErrorLoadCatalog(error.toString())),
             ),
-            AsyncData(:final value) => () {
-              final units = value;
-              final filteredUnits = units.where((u) {
-                if (selectedLevel.value != null &&
-                    u.level != selectedLevel.value) {
-                  return false;
-                }
-                if (searchQuery.value.isNotEmpty) {
-                  final query = searchQuery.value.toLowerCase();
-                  final matchesTitle = u.title.toLowerCase().contains(query);
-                  final matchesCatName = u.category.displayName
-                      .toLowerCase()
-                      .contains(query);
-                  final matchesLocalizedCat = u.category
-                      .getLocalizedName(l10n)
-                      .toLowerCase()
-                      .contains(query);
-                  final matchesCatCode = u.category.code.toLowerCase().contains(
-                    query,
-                  );
-                  return matchesTitle ||
-                      matchesCatName ||
-                      matchesLocalizedCat ||
-                      matchesCatCode;
-                }
-                return true;
-              }).toList();
-
+            AsyncData() => () {
               return Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(

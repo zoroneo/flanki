@@ -52,7 +52,41 @@ class AppLocalizationsVi extends AppLocalizations {
   String get dueCards => 'Cần ôn';
 
   @override
+  String dueCardsCount(int count) {
+    return '$count Cần ôn';
+  }
+
+  @override
   String get newCards => 'Mới';
+
+  @override
+  String newCardsCount(int count) {
+    return '$count Mới';
+  }
+
+  @override
+  String navDecksWithCount(int count) {
+    return 'Bộ thẻ ($count)';
+  }
+
+  @override
+  String browserCardsCount(int count) {
+    return '($count)';
+  }
+
+  @override
+  String get settingsRetentionRecommendation =>
+      'Khuyến nghị 85% - 90% để cân bằng tối ưu giữa khả năng ghi nhớ và số lượng ôn tập';
+
+  @override
+  String storageBreakdownCards(int count, String size) {
+    return '$count thẻ ($size)';
+  }
+
+  @override
+  String storageBreakdownFiles(int count, String size) {
+    return '$count tệp ($size)';
+  }
 
   @override
   String get totalCards => 'Tổng số thẻ';

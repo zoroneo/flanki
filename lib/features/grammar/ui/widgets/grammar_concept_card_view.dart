@@ -5,21 +5,17 @@ import '../../../../core/widgets/rich_card_content.dart';
 import '../../models/grammar_models.dart';
 
 import 'grammar_contrast_matrix.dart';
-import 'grammar_isometric_timeline_25d.dart';
-import 'grammar_micro_check.dart';
 
 /// Structured, card-based presentation for grammar unit core concepts.
 /// Transforms long walls of text into distinct, scannable educational cards.
 class GrammarConceptCardView extends StatelessWidget {
   final GrammarUnit unit;
   final bool isMobile;
-  final bool enableLoop;
 
   const GrammarConceptCardView({
     super.key,
     required this.unit,
     this.isMobile = true,
-    this.enableLoop = false,
   });
 
   @override
@@ -27,9 +23,6 @@ class GrammarConceptCardView extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = context.colors;
     final l10n = context.l10n;
-    final isUnit01 =
-        unit.unitId == 'unit-01-present-simple-vs-continuous' ||
-        unit.unitId == 'test_structured_concept';
 
     final raw = unit.coreConcept;
     final normalized = raw.replaceAll(RegExp(r'<br\s*/?>'), '\n');
@@ -53,17 +46,6 @@ class GrammarConceptCardView extends StatelessWidget {
               ),
             ),
           ),
-          if (isUnit01) ...[
-            AppGaps.v12,
-            GrammarIsometricTimeline25D(
-              isMobile: isMobile,
-              enableLoop: enableLoop,
-            ),
-            AppGaps.v12,
-            GrammarContrastMatrix(isMobile: isMobile),
-            AppGaps.v12,
-            GrammarMicroCheck(isMobile: isMobile),
-          ],
         ],
       );
     }
@@ -89,15 +71,6 @@ class GrammarConceptCardView extends StatelessWidget {
           theme: theme,
           colors: colors,
         ),
-        if (isUnit01) ...[
-          AppGaps.v16,
-          GrammarIsometricTimeline25D(
-            isMobile: isMobile,
-            enableLoop: enableLoop,
-          ),
-          AppGaps.v12,
-          GrammarMicroCheck(isMobile: isMobile),
-        ],
       ],
     );
   }

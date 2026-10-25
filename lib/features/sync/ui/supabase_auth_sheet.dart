@@ -63,7 +63,7 @@ class SupabaseAuthSheet extends HookConsumerWidget {
         onResume: () {
           if (isWaitingOAuth.value) {
             // Give a 2-second grace period for deep link token exchange to complete
-            Future.delayed(const Duration(seconds: 2), () {
+            Future.delayed(AppDurations.seconds2, () {
               if (context.mounted &&
                   !ref.read(supabaseAuthNotifierProvider).isAuthenticated) {
                 cancelOAuthWaiting();
@@ -205,17 +205,12 @@ class SupabaseAuthSheet extends HookConsumerWidget {
                 localError.value = null;
                 isWaitingOAuth.value = true;
                 oauthTimeoutTimer.value?.cancel();
-                oauthTimeoutTimer.value = Timer(
-                  const Duration(seconds: 60),
-                  () {
-                    if (context.mounted &&
-                        !ref
-                            .read(supabaseAuthNotifierProvider)
-                            .isAuthenticated) {
-                      cancelOAuthWaiting();
-                    }
-                  },
-                );
+                oauthTimeoutTimer.value = Timer(AppDurations.seconds60, () {
+                  if (context.mounted &&
+                      !ref.read(supabaseAuthNotifierProvider).isAuthenticated) {
+                    cancelOAuthWaiting();
+                  }
+                });
                 final initiated = await authNotifier.signInWithGoogle();
                 if (!initiated && context.mounted) {
                   cancelOAuthWaiting();

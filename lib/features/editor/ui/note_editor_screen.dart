@@ -240,7 +240,7 @@ class NoteEditorScreen extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(right: AppSpacing.smPlus),
             child: Text(
-              'Ctrl/⌘ + ↵',
+              AppKeyboardShortcuts.saveNote,
               style: theme.typography.xSmall.copyWith(
                 color: theme.colorScheme.mutedForeground,
               ),

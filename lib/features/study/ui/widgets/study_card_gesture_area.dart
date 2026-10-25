@@ -5,7 +5,7 @@ import '../../../../core/models/card.dart';
 import '../../../../core/theme/app_tokens.dart';
 import 'study_card_flipper.dart';
 
-class StudyCardGestureArea extends StatelessWidget {
+class StudyCardGestureArea extends StatefulWidget {
   final CardModel? currentCard;
   final bool isFlipped;
   final bool isWhiteboardOpen;
@@ -14,9 +14,6 @@ class StudyCardGestureArea extends StatelessWidget {
   final ValueChanged<String> onAnswerChanged;
   final VoidCallback onSubmitAnswer;
   final double cardHorizontalPadding;
-  final double dragOffset;
-  final ValueChanged<double> onDragOffsetDelta;
-  final ValueChanged<double> onDragOffsetReset;
   final ValueChanged<ReviewRating> onSwipeRate;
   final Offset? quickFocusTagOffset;
   final ValueChanged<Offset> onQuickFocusTagOffsetChanged;
@@ -31,30 +28,46 @@ class StudyCardGestureArea extends StatelessWidget {
     required this.onAnswerChanged,
     required this.onSubmitAnswer,
     required this.cardHorizontalPadding,
-    required this.dragOffset,
-    required this.onDragOffsetDelta,
-    required this.onDragOffsetReset,
     required this.onSwipeRate,
     required this.quickFocusTagOffset,
     required this.onQuickFocusTagOffsetChanged,
   });
 
   @override
+  State<StudyCardGestureArea> createState() => _StudyCardGestureAreaState();
+}
+
+class _StudyCardGestureAreaState extends State<StudyCardGestureArea> {
+  double _dragOffset = 0.0;
+
+  @override
+  void didUpdateWidget(covariant StudyCardGestureArea oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentCard?.id != widget.currentCard?.id) {
+      _dragOffset = 0.0;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        if (isFlipped && !isWhiteboardOpen) {
-          onDragOffsetDelta(details.primaryDelta ?? 0);
+        if (widget.isFlipped && !widget.isWhiteboardOpen) {
+          setState(() {
+            _dragOffset += details.primaryDelta ?? 0;
+          });
         }
       },
       onHorizontalDragEnd: (details) {
-        if (isFlipped && !isWhiteboardOpen) {
-          if (dragOffset < -80) {
-            onSwipeRate(ReviewRating.again);
-          } else if (dragOffset > 80) {
-            onSwipeRate(ReviewRating.good);
+        if (widget.isFlipped && !widget.isWhiteboardOpen) {
+          if (_dragOffset < -80) {
+            setState(() => _dragOffset = 0.0);
+            widget.onSwipeRate(ReviewRating.again);
+          } else if (_dragOffset > 80) {
+            setState(() => _dragOffset = 0.0);
+            widget.onSwipeRate(ReviewRating.good);
           } else {
-            onDragOffsetReset(0.0);
+            setState(() => _dragOffset = 0.0);
           }
         }
       },
@@ -72,18 +85,18 @@ class StudyCardGestureArea extends StatelessWidget {
           );
         },
         child: KeyedSubtree(
-          key: AppWidgetKeys.card(currentCard?.id),
+          key: AppWidgetKeys.card(widget.currentCard?.id),
           child: StudyCardFlipper(
-            flipController: flipController,
-            currentCard: currentCard,
-            isFlipped: isFlipped,
-            typedAnswer: typedAnswer,
-            onAnswerChanged: onAnswerChanged,
-            onSubmitAnswer: onSubmitAnswer,
-            cardHorizontalPadding: cardHorizontalPadding,
-            dragOffset: dragOffset,
-            quickFocusTagOffset: quickFocusTagOffset,
-            onQuickFocusTagOffsetChanged: onQuickFocusTagOffsetChanged,
+            flipController: widget.flipController,
+            currentCard: widget.currentCard,
+            isFlipped: widget.isFlipped,
+            typedAnswer: widget.typedAnswer,
+            onAnswerChanged: widget.onAnswerChanged,
+            onSubmitAnswer: widget.onSubmitAnswer,
+            cardHorizontalPadding: widget.cardHorizontalPadding,
+            dragOffset: _dragOffset,
+            quickFocusTagOffset: widget.quickFocusTagOffset,
+            onQuickFocusTagOffsetChanged: widget.onQuickFocusTagOffsetChanged,
           ),
         ),
       ),

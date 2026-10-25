@@ -48,46 +48,57 @@ class DecksScreen extends HookConsumerWidget {
       return null;
     }, const []);
 
-    final filteredDecks = decks.where((d) {
-      if (searchQuery.value.isEmpty) return true;
-      return d.title.toLowerCase().contains(searchQuery.value.toLowerCase()) ||
-          d.description.toLowerCase().contains(searchQuery.value.toLowerCase());
-    }).toList();
+    final (groupedEntries, standaloneDecks, filteredDecksCount) = useMemoized(
+      () {
+        final filtered = decks.where((d) {
+          if (searchQuery.value.isEmpty) return true;
+          return d.title.toLowerCase().contains(
+                searchQuery.value.toLowerCase(),
+              ) ||
+              d.description.toLowerCase().contains(
+                searchQuery.value.toLowerCase(),
+              );
+        }).toList();
 
-    // Filter unique decks by title to avoid duplicates in UI
-    final Map<String, DeckModel> uniqueTitleDecks = {};
-    for (final d in filteredDecks) {
-      final key = d.title.trim().toLowerCase();
-      if (!uniqueTitleDecks.containsKey(key) ||
-          (d.totalCount > (uniqueTitleDecks[key]?.totalCount ?? 0))) {
-        uniqueTitleDecks[key] = d;
-      }
-    }
-    final deduplicatedFilteredDecks = uniqueTitleDecks.values.toList();
+        // Filter unique decks by title to avoid duplicates in UI
+        final Map<String, DeckModel> uniqueTitleDecks = {};
+        for (final d in filtered) {
+          final key = d.title.trim().toLowerCase();
+          if (!uniqueTitleDecks.containsKey(key) ||
+              (d.totalCount > (uniqueTitleDecks[key]?.totalCount ?? 0))) {
+            uniqueTitleDecks[key] = d;
+          }
+        }
+        final deduplicated = uniqueTitleDecks.values.toList();
 
-    // Group hierarchical decks (e.g. "Parent::Child")
-    final Map<String, List<DeckModel>> groupedMap = {};
-    final List<DeckModel> standaloneDecks = [];
+        // Group hierarchical decks (e.g. "Parent::Child")
+        final Map<String, List<DeckModel>> grouped = {};
+        final List<DeckModel> standalone = [];
 
-    for (final deck in deduplicatedFilteredDecks) {
-      if (deck.title.contains(AppConfig.deckHierarchyDelimiter)) {
-        final parts = deck.title.split(AppConfig.deckHierarchyDelimiter);
-        final parentName = parts
-            .sublist(0, parts.length - 1)
-            .join(AppConfig.deckHierarchyBreadcrumbSeparator);
-        groupedMap.putIfAbsent(parentName, () => []).add(deck);
-      } else {
-        standaloneDecks.add(deck);
-      }
-    }
+        for (final deck in deduplicated) {
+          if (deck.title.contains(AppConfig.deckHierarchyDelimiter)) {
+            final parts = deck.title.split(AppConfig.deckHierarchyDelimiter);
+            final parentName = parts
+                .sublist(0, parts.length - 1)
+                .join(AppConfig.deckHierarchyBreadcrumbSeparator);
+            grouped.putIfAbsent(parentName, () => []).add(deck);
+          } else {
+            standalone.add(deck);
+          }
+        }
 
-    for (final parent in groupedMap.keys) {
-      standaloneDecks.removeWhere((d) => d.title == parent);
-    }
+        for (final parent in grouped.keys) {
+          standalone.removeWhere((d) => d.title == parent);
+        }
 
-    final totalDue = decks.fold<int>(0, (sum, d) => sum + d.dueCount);
-    final totalNew = decks.fold<int>(0, (sum, d) => sum + d.newCount);
-    final groupedEntries = groupedMap.entries.toList(growable: false);
+        return (
+          grouped.entries.toList(growable: false),
+          standalone,
+          filtered.length,
+        );
+      },
+      [decks, searchQuery.value],
+    );
 
     Future<void> handleSyncTap() async {
       await SyncFlowCoordinator.runSyncFlow(
@@ -149,6 +160,17 @@ class DecksScreen extends HookConsumerWidget {
                                       (s) => s.desiredRetention,
                                     ),
                                   );
+                                  final totalDue = ref.watch(
+                                    totalDueCountProvider,
+                                  );
+                                  final totalNew = ref.watch(
+                                    deckListProvider.select(
+                                      (decks) => decks.fold<int>(
+                                        0,
+                                        (sum, d) => sum + d.newCount,
+                                      ),
+                                    ),
+                                  );
                                   return DeckStatsBar(
                                     totalDue: totalDue,
                                     totalNew: totalNew,
@@ -167,11 +189,11 @@ class DecksScreen extends HookConsumerWidget {
                               ),
                               AppGaps.v20,
                               Text(
-                                '${l10n.navDecks} (${filteredDecks.length})',
+                                l10n.navDecksWithCount(filteredDecksCount),
                                 style: theme.typography.semiBold,
                               ),
                               AppGaps.v12,
-                              if (filteredDecks.isEmpty)
+                              if (filteredDecksCount == 0)
                                 DeckEmptyState(
                                   l10n: l10n,
                                   onAddDeck: openCreateDeckModal,
@@ -181,7 +203,7 @@ class DecksScreen extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      if (filteredDecks.isNotEmpty)
+                      if (filteredDecksCount > 0)
                         ...DeckSlivers.buildList(
                           context: context,
                           groupedEntries: groupedEntries,

@@ -67,7 +67,6 @@ class StudySessionScreen extends HookConsumerWidget {
     final flipController = useAnimationController(
       duration: AppDurations.medium,
     );
-    final dragOffset = useState<double>(0.0);
     final isWhiteboardOpen = useState<bool>(false);
     final userTypedAnswer = useRef<String>('');
     final quickFocusTagOffset = useState<Offset?>(null);
@@ -98,7 +97,6 @@ class StudySessionScreen extends HookConsumerWidget {
     void handleRate(ReviewRating rating) {
       HapticFeedback.mediumImpact();
       DatabaseService.instance.recordDeckStudyProgress(deckId);
-      dragOffset.value = 0.0;
       CardAudioService.instance.stop();
       flipController.value = 0.0;
       sessionNotifier.rateCard(rating);
@@ -239,9 +237,6 @@ class StudySessionScreen extends HookConsumerWidget {
                       onAnswerChanged: (v) => userTypedAnswer.value = v,
                       onSubmitAnswer: handleFlip,
                       cardHorizontalPadding: cardPadding,
-                      dragOffset: dragOffset.value,
-                      onDragOffsetDelta: (delta) => dragOffset.value += delta,
-                      onDragOffsetReset: (val) => dragOffset.value = val,
                       onSwipeRate: handleRate,
                       quickFocusTagOffset: quickFocusTagOffset.value,
                       onQuickFocusTagOffsetChanged: (offset) =>

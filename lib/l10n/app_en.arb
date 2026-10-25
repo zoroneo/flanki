@@ -14,7 +14,62 @@
   "syncAnkiWeb": "Sync AnkiWeb",
   "sync": "Sync",
   "dueCards": "Due",
+  "dueCardsCount": "{count} Due",
+  "@dueCardsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "newCards": "New",
+  "newCardsCount": "{count} New",
+  "@newCardsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "navDecksWithCount": "Decks ({count})",
+  "@navDecksWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "browserCardsCount": "({count})",
+  "@browserCardsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsRetentionRecommendation": "85% - 90% recommended for optimal retention vs. review load",
+  "storageBreakdownCards": "{count} cards ({size})",
+  "@storageBreakdownCards": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "storageBreakdownFiles": "{count} files ({size})",
+  "@storageBreakdownFiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
   "totalCards": "Total Cards",
   "noDecksFound": "No decks found. Create one or import from AnkiWeb!",
   "syncing": "Syncing...",

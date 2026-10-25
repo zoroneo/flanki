@@ -182,11 +182,53 @@ abstract class AppLocalizations {
   /// **'Due'**
   String get dueCards;
 
+  /// No description provided for @dueCardsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Due'**
+  String dueCardsCount(int count);
+
   /// No description provided for @newCards.
   ///
   /// In en, this message translates to:
   /// **'New'**
   String get newCards;
+
+  /// No description provided for @newCardsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} New'**
+  String newCardsCount(int count);
+
+  /// No description provided for @navDecksWithCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Decks ({count})'**
+  String navDecksWithCount(int count);
+
+  /// No description provided for @browserCardsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'({count})'**
+  String browserCardsCount(int count);
+
+  /// No description provided for @settingsRetentionRecommendation.
+  ///
+  /// In en, this message translates to:
+  /// **'85% - 90% recommended for optimal retention vs. review load'**
+  String get settingsRetentionRecommendation;
+
+  /// No description provided for @storageBreakdownCards.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cards ({size})'**
+  String storageBreakdownCards(int count, String size);
+
+  /// No description provided for @storageBreakdownFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} files ({size})'**
+  String storageBreakdownFiles(int count, String size);
 
   /// No description provided for @totalCards.
   ///

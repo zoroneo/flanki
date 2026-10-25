@@ -111,7 +111,7 @@ class SpacedRepetitionCard extends ConsumerWidget {
         ),
         AppGaps.v4,
         Text(
-          '85% - 90% recommended for optimal retention vs. review load',
+          l10n.settingsRetentionRecommendation,
           style: theme.typography.xSmall.copyWith(
             color: theme.colorScheme.mutedForeground,
           ),
