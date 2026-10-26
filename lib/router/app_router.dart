@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../core/logging/breadcrumb_tracker.dart';
 import '../features/grammar/models/grammar_models.dart';
 import '../features/exam/ui/exam_catalog_screen.dart';
 import '../features/exam/ui/exam_taking_screen.dart';
@@ -60,6 +61,7 @@ GoRouter appRouter(Ref ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: AppRoutes.decks,
+    observers: [LoggingNavigatorObserver()],
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -209,4 +211,31 @@ GoRouter appRouter(Ref ref) {
       ),
     ],
   );
+}
+
+/// Observer that records navigation transitions to the circular breadcrumb buffer.
+class LoggingNavigatorObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    final to = route.settings.name ?? route.settings.arguments?.toString() ?? 'route';
+    final from = previousRoute?.settings.name ?? previousRoute?.settings.arguments?.toString() ?? 'initial';
+    BreadcrumbTracker.instance.addNavigation(from, to);
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    final from = route.settings.name ?? 'route';
+    final to = previousRoute?.settings.name ?? 'previous';
+    BreadcrumbTracker.instance.addNavigation(from, to);
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    final from = oldRoute?.settings.name ?? 'route';
+    final to = newRoute?.settings.name ?? 'replacement';
+    BreadcrumbTracker.instance.addNavigation(from, to);
+  }
 }

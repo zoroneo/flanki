@@ -21,11 +21,55 @@ import 'app/lifecycle/app_lifecycle_manager.dart';
 
 import 'core/database/database_service.dart';
 import 'core/database/media_storage_service.dart';
+import 'core/logging/error_logger.dart';
+import 'core/logging/error_severity.dart';
+import 'core/logging/riverpod_error_observer.dart';
 import 'core/services/card_audio_service.dart';
 import 'core/storage/supabase_secure_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 0. Initialize production error logging and global crash interceptors
+  await ErrorLogger.instance.init();
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    ErrorLogger.instance.captureException(
+      details.exception,
+      stackTrace: details.stack,
+      context: 'FlutterError: ${details.library}',
+      severity: ErrorSeverity.error,
+    );
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    ErrorLogger.instance.captureException(
+      error,
+      stackTrace: stack,
+      context: 'PlatformDispatcher.onError',
+      fatal: true,
+    );
+    return true;
+  };
+
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    if (kReleaseMode) {
+      return const m.Material(
+        child: m.Center(
+          child: m.Padding(
+            padding: m.EdgeInsets.all(24.0),
+            child: m.Text(
+              AppConfig.defaultErrorFallbackMessage,
+              textAlign: m.TextAlign.center,
+              style: m.TextStyle(fontSize: 14, color: m.Colors.grey),
+            ),
+          ),
+        ),
+      );
+    }
+    return ErrorWidget(details.exception);
+  };
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
     const ScreenBreakpoints(
       desktop: AppConfig.desktopBreakpoint,
@@ -82,7 +126,12 @@ SOFTWARE.''',
   }
 
   // 2. Render UI immediately to establish window focus and dismiss splash
-  runApp(const ProviderScope(child: FlankiApp()));
+  runApp(
+    const ProviderScope(
+      observers: [RiverpodErrorObserver()],
+      child: FlankiApp(),
+    ),
+  );
 
   // 3. Initialize background / secondary platform services post-frame
   WidgetsBinding.instance.addPostFrameCallback((_) {

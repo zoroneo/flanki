@@ -87,6 +87,7 @@ class SupabaseConfig {
   static const String tableReviewLogs = 'review_logs';
   static const String tableGrammarProgress = 'grammar_progress';
   static const String tableUserMedia = 'user_media';
+  static const String tableAppErrorLogs = 'app_error_logs';
 
   /// Tables subscribed by default for Realtime push synchronization.
   static const List<String> realtimeSubscribedTables = [

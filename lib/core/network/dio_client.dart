@@ -3,6 +3,11 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../logging/breadcrumb_tracker.dart';
+import '../logging/error_logger.dart';
+import '../logging/error_sanitizer.dart';
+import '../logging/error_severity.dart';
+
 /// Lightweight retry interceptor supporting exponential backoff for transient network errors.
 class RetryInterceptor extends Interceptor {
   static const int defaultMaxRetries = 3;
@@ -104,12 +109,58 @@ class DioClient {
     if (enableRetry) {
       dio.interceptors.add(RetryInterceptor(dio: dio));
     }
+    dio.interceptors.add(DioLoggingInterceptor());
 
     return dio;
   }
 
   static Dio? _defaultInstance;
   static Dio get defaultInstance => _defaultInstance ??= createDefaultDio();
+}
+
+/// Interceptor tracking HTTP requests as breadcrumbs and capturing server errors.
+class DioLoggingInterceptor extends Interceptor {
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    final method = response.requestOptions.method;
+    final path = ErrorSanitizer.sanitize(response.requestOptions.path);
+    BreadcrumbTracker.instance.addNetwork(
+      method,
+      path,
+      statusCode: response.statusCode,
+    );
+    handler.next(response);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    final method = err.requestOptions.method;
+    final path = ErrorSanitizer.sanitize(err.requestOptions.path);
+    final statusCode = err.response?.statusCode;
+
+    BreadcrumbTracker.instance.addNetwork(
+      method,
+      path,
+      statusCode: statusCode,
+      error: err.message,
+    );
+
+    // If server 5xx error or connection error, capture diagnostic warning
+    if (statusCode != null && statusCode >= 500) {
+      ErrorLogger.instance.captureException(
+        err,
+        context: 'DioHTTP $statusCode: $method $path',
+        severity: ErrorSeverity.warning,
+        extra: {
+          'method': method,
+          'path': path,
+          'status_code': statusCode,
+        },
+      );
+    }
+
+    handler.next(err);
+  }
 }
 
 /// Global Riverpod provider for the shared Dio HTTP client.

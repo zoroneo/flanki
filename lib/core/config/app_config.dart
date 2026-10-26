@@ -225,6 +225,18 @@ class AppConfig {
   static const String logSupabaseInitFailedPrefix =
       'Failed to initialize Supabase: ';
 
+  /// Production Error Logging & Crash Monitoring constants
+  static const String offlineErrorLogsFileName = 'flanki_pending_error_logs.json';
+  static const String defaultErrorFallbackMessage =
+      'Đã có sự cố hiển thị. Vui lòng tải lại trang.';
+  static const int errorLogDeduplicationWindowSeconds = 60;
+  static const int errorLogBatchIntervalSeconds = 5;
+  static const int errorLogMaxBatchCapacity = 10;
+  static const int errorLogMaxOfflineQueueCapacity = 100;
+  static const int breadcrumbDefaultCapacity = 20;
+  static const int errorLogMaxErrorMessageLength = 2048;
+  static const int errorLogMaxStackTraceLength = 8192;
+
   /// Local Drift Database schema and defaults
   static const int currentDatabaseSchemaVersion = 6;
   static const String defaultNoteType = 'basic';
