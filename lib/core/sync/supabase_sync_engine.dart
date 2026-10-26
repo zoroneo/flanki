@@ -1,4 +1,8 @@
 import 'dart:async';
+
+import '../logging/error_severity.dart';
+import '../logging/error_logger.dart';
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -455,9 +459,15 @@ class SupabaseSyncEngine {
       return SyncResult.offline();
     } on TimeoutException {
       return SyncResult.offline();
-    } on AuthException catch (e) {
+    } on AuthException catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SupabaseSyncEngine.sync (AuthException)',
+        severity: ErrorSeverity.warning,
+      );
       return SyncResult.failure('${SupabaseConfig.errAuthPrefix}${e.message}');
-    } catch (e) {
+    } catch (e, st) {
       final errStr = e.toString().toLowerCase();
       if (errStr.contains('socket') ||
           errStr.contains('network') ||
@@ -466,6 +476,12 @@ class SupabaseSyncEngine {
           errStr.contains('clientexception')) {
         return SyncResult.offline();
       }
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SupabaseSyncEngine.sync (Unexpected failure)',
+        severity: ErrorSeverity.error,
+      );
       return SyncResult.failure(e.toString());
     }
   }

@@ -23,9 +23,7 @@ class ErrorSanitizer {
     r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
   );
 
-  static final RegExp _macUserPathPattern = RegExp(
-    r'(/Users/)[^/\s]+',
-  );
+  static final RegExp _macUserPathPattern = RegExp(r'(/Users/)[^/\s]+');
 
   static final RegExp _winUserPathPattern = RegExp(
     r'([A-Za-z]:\\Users\\)[^\\]+',
@@ -41,7 +39,10 @@ class ErrorSanitizer {
     result = result.replaceAll(_jwtPattern, '[REDACTED_JWT]');
 
     // 2. Redact Bearer headers
-    result = result.replaceAllMapped(_bearerPattern, (m) => '${m.group(1)}[REDACTED_TOKEN]');
+    result = result.replaceAllMapped(
+      _bearerPattern,
+      (m) => '${m.group(1)}[REDACTED_TOKEN]',
+    );
 
     // 3. Redact key-value secrets (e.g. password=..., apikey: ...)
     result = result.replaceAllMapped(_authHeaderPattern, (m) {
@@ -64,8 +65,14 @@ class ErrorSanitizer {
     });
 
     // 5. Sanitize local user home paths for privacy
-    result = result.replaceAllMapped(_macUserPathPattern, (m) => '${m.group(1)}[USER]');
-    result = result.replaceAllMapped(_winUserPathPattern, (m) => '${m.group(1)}[USER]');
+    result = result.replaceAllMapped(
+      _macUserPathPattern,
+      (m) => '${m.group(1)}[USER]',
+    );
+    result = result.replaceAllMapped(
+      _winUserPathPattern,
+      (m) => '${m.group(1)}[USER]',
+    );
 
     return result;
   }
@@ -97,4 +104,3 @@ class ErrorSanitizer {
     return data;
   }
 }
-

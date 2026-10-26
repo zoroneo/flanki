@@ -226,7 +226,8 @@ class AppConfig {
       'Failed to initialize Supabase: ';
 
   /// Production Error Logging & Crash Monitoring constants
-  static const String offlineErrorLogsFileName = 'flanki_pending_error_logs.json';
+  static const String offlineErrorLogsFileName =
+      'flanki_pending_error_logs.json';
   static const String defaultErrorFallbackMessage =
       'Đã có sự cố hiển thị. Vui lòng tải lại trang.';
   static const int errorLogDeduplicationWindowSeconds = 60;

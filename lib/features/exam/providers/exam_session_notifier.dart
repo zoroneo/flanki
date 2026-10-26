@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import '../../../core/logging/error_severity.dart';
+import '../../../core/logging/error_logger.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_config.dart';
@@ -72,7 +75,13 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
       );
 
       _startTimer();
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'ExamSessionNotifier.startExam',
+        severity: ErrorSeverity.error,
+      );
       state = state.copyWith(isLoading: false, error: '$errExamLoadPrefix$e');
     }
   }
@@ -200,7 +209,13 @@ class ExamSessionNotifier extends Notifier<ExamSessionState> {
         submission: submission,
         wrongQuestions: wrongList,
       );
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'ExamSessionNotifier.submitExam',
+        severity: ErrorSeverity.error,
+      );
       state = state.copyWith(
         isSubmitting: false,
         error: '$errExamSubmitPrefix$e',

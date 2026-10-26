@@ -30,12 +30,16 @@ void main() {
       const raw =
           'Error connecting with Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abc123';
       final sanitized = ErrorSanitizer.sanitize(raw);
-      expect(sanitized.contains('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'), isFalse);
+      expect(
+        sanitized.contains('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'),
+        isFalse,
+      );
       expect(sanitized, contains('[REDACTED_JWT]'));
     });
 
     test('sanitizes passwords, keys, and authorization patterns', () {
-      const raw = 'Failed at url: https://api.example.com?apiKey=secret123&password="supersecret"';
+      const raw =
+          'Failed at url: https://api.example.com?apiKey=secret123&password="supersecret"';
       final sanitized = ErrorSanitizer.sanitize(raw);
       expect(sanitized, contains('password: [REDACTED]'));
       expect(sanitized.contains('supersecret'), isFalse);
@@ -73,7 +77,8 @@ void main() {
         },
       };
 
-      final sanitized = ErrorSanitizer.sanitizeData(input) as Map<String, dynamic>;
+      final sanitized =
+          ErrorSanitizer.sanitizeData(input) as Map<String, dynamic>;
       expect(sanitized['status'], 401);
       expect(sanitized['accessToken'], ErrorSanitizer.redactedPlaceholder);
       expect(sanitized['auth_header'], ErrorSanitizer.redactedPlaceholder);
@@ -134,7 +139,9 @@ void main() {
 
     test('deduplicates identical exceptions within the 60s window', () async {
       final error = StateError('Deck ID cannot be empty');
-      final stack = StackTrace.fromString('#0 _checkDeck (deck_service.dart:42)\n#1 main (main.dart:10)');
+      final stack = StackTrace.fromString(
+        '#0 _checkDeck (deck_service.dart:42)\n#1 main (main.dart:10)',
+      );
 
       // Capture same exception 3 times
       await logger.captureException(error, stackTrace: stack);
@@ -155,10 +162,7 @@ void main() {
     test('fatal error triggers immediate flush to offline file', () async {
       final fatalError = Exception('Critical SQLite database corruption');
 
-      await logger.captureException(
-        fatalError,
-        fatal: true,
-      );
+      await logger.captureException(fatalError, fatal: true);
 
       // Should have flushed immediately without calling flush() manually
       expect(await testOfflineFile.exists(), isTrue);
@@ -180,4 +184,3 @@ void main() {
     });
   });
 }
-

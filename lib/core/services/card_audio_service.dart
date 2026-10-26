@@ -1,4 +1,8 @@
 import 'dart:async';
+
+import '../logging/error_severity.dart';
+import '../logging/error_logger.dart';
+
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -114,6 +118,12 @@ class CardAudioService {
       await _player.play(DeviceFileSource(file.path));
     } catch (e, st) {
       debugPrint('[CardAudioService] Error playing ${file.path}: $e\n$st');
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'CardAudioService.playFile',
+        severity: ErrorSeverity.warning,
+      );
       _playingFilenameNotifier.value = null;
     }
   }

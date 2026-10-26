@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import '../logging/error_severity.dart';
+import '../logging/error_logger.dart';
+
 import 'package:flutter/widgets.dart';
 
 import '../config/app_config.dart';
@@ -184,10 +187,16 @@ class SyncReplicator {
       );
 
       return result;
-    } catch (e) {
+    } catch (e, st) {
       stopwatch.stop();
       _circuitBreaker.recordFailure();
       _backoffStrategy.recordFailure();
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SyncReplicator.syncNow',
+        severity: ErrorSeverity.error,
+      );
       final errorResult = SyncResult.failure(e.toString());
       onStatusChanged?.call(SyncStatus.error, errorResult);
 

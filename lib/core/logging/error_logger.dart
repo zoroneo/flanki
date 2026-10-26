@@ -77,7 +77,8 @@ class ErrorLogItem {
       platform: json['platform'] as String? ?? 'unknown',
       appVersion: json['app_version'] as String? ?? AppConfig.defaultVersion,
       deviceInfo: (json['device_info'] as Map?)?.cast<String, dynamic>() ?? {},
-      breadcrumbs: (json['breadcrumbs'] as List?)
+      breadcrumbs:
+          (json['breadcrumbs'] as List?)
               ?.map((e) => (e as Map).cast<String, dynamic>())
               .toList() ??
           [],
@@ -94,10 +95,15 @@ class ErrorLogger {
   static final ErrorLogger instance = ErrorLogger._();
 
   static const String offlineCacheFileName = AppConfig.offlineErrorLogsFileName;
-  static const Duration batchInterval = Duration(seconds: AppConfig.errorLogBatchIntervalSeconds);
-  static const Duration deduplicationWindow = Duration(seconds: AppConfig.errorLogDeduplicationWindowSeconds);
+  static const Duration batchInterval = Duration(
+    seconds: AppConfig.errorLogBatchIntervalSeconds,
+  );
+  static const Duration deduplicationWindow = Duration(
+    seconds: AppConfig.errorLogDeduplicationWindowSeconds,
+  );
   static const int maxBatchCapacity = AppConfig.errorLogMaxBatchCapacity;
-  static const int maxOfflineQueueCapacity = AppConfig.errorLogMaxOfflineQueueCapacity;
+  static const int maxOfflineQueueCapacity =
+      AppConfig.errorLogMaxOfflineQueueCapacity;
 
   bool _isInitialized = false;
   bool _isFlushing = false;
@@ -114,7 +120,10 @@ class ErrorLogger {
   ErrorLogger._();
 
   /// Visible for testing to instantiate isolated logger instances.
-  factory ErrorLogger.forTesting({SupabaseClient? supabaseClient, File? offlineFile}) {
+  factory ErrorLogger.forTesting({
+    SupabaseClient? supabaseClient,
+    File? offlineFile,
+  }) {
     final logger = ErrorLogger._();
     logger._injectedClient = supabaseClient;
     logger._offlineFile = offlineFile;
@@ -184,7 +193,8 @@ class ErrorLogger {
     _cleanupExpiredDedupeEntries(now);
 
     final existingDedupe = _recentFingerprints[fingerprint];
-    if (existingDedupe != null && now.difference(existingDedupe.timestamp) < deduplicationWindow) {
+    if (existingDedupe != null &&
+        now.difference(existingDedupe.timestamp) < deduplicationWindow) {
       existingDedupe.occurrences += 1;
       // Increment count on already queued batch item if still in memory
       for (final item in _batchQueue) {
@@ -196,18 +206,26 @@ class ErrorLogger {
       return;
     }
 
-    _recentFingerprints[fingerprint] = _DedupeEntry(timestamp: now, occurrences: 1);
+    _recentFingerprints[fingerprint] = _DedupeEntry(
+      timestamp: now,
+      occurrences: 1,
+    );
 
     // 2. Build error log item
     final breadcrumbsSnapshot = BreadcrumbTracker.instance.toJsonList();
     final deviceInfo = _collectDeviceInfo(extra);
     final userId = _resolveCurrentUserId();
 
-    final truncatedMessage = sanitizedMessage.length > AppConfig.errorLogMaxErrorMessageLength
+    final truncatedMessage =
+        sanitizedMessage.length > AppConfig.errorLogMaxErrorMessageLength
         ? sanitizedMessage.substring(0, AppConfig.errorLogMaxErrorMessageLength)
         : sanitizedMessage;
-    final truncatedStackTrace = sanitizedStackTrace.length > AppConfig.errorLogMaxStackTraceLength
-        ? sanitizedStackTrace.substring(0, AppConfig.errorLogMaxStackTraceLength)
+    final truncatedStackTrace =
+        sanitizedStackTrace.length > AppConfig.errorLogMaxStackTraceLength
+        ? sanitizedStackTrace.substring(
+            0,
+            AppConfig.errorLogMaxStackTraceLength,
+          )
         : sanitizedStackTrace;
 
     final logItem = ErrorLogItem(
@@ -252,7 +270,9 @@ class ErrorLogger {
       }
 
       try {
-        final payload = itemsToFlush.map((item) => item.toSupabaseMap()).toList();
+        final payload = itemsToFlush
+            .map((item) => item.toSupabaseMap())
+            .toList();
         await client.from(SupabaseConfig.tableAppErrorLogs).insert(payload);
       } catch (e) {
         debugPrint('[ErrorLogger] Failed to push error logs to Supabase: $e');
@@ -356,7 +376,11 @@ class ErrorLogger {
         final content = await file.readAsString();
         if (content.isNotEmpty) {
           final decoded = jsonDecode(content) as List;
-          existing.addAll(decoded.map((e) => ErrorLogItem.fromJson(e as Map<String, dynamic>)));
+          existing.addAll(
+            decoded.map(
+              (e) => ErrorLogItem.fromJson(e as Map<String, dynamic>),
+            ),
+          );
         }
       }
 
@@ -408,4 +432,3 @@ class _DedupeEntry {
 
   _DedupeEntry({required this.timestamp, required this.occurrences});
 }
-

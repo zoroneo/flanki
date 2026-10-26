@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import '../logging/error_severity.dart';
+import '../logging/error_logger.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -148,8 +151,14 @@ class SupabaseMediaSyncService {
               );
               await _dbService.markMediaUploaded(item.filename);
               return true;
-            } catch (e) {
+            } catch (e, st) {
               debugPrint('$_logTag Failed to upload ${item.filename}: $e');
+              ErrorLogger.instance.captureException(
+                e,
+                stackTrace: st,
+                context: 'SupabaseMediaSyncService: upload ${item.filename}',
+                severity: ErrorSeverity.warning,
+              );
             }
           }
           return false;
@@ -197,8 +206,14 @@ class SupabaseMediaSyncService {
               await _mediaStorage.saveMediaFile(item.filename, bytes);
               return true;
             }
-          } catch (e) {
+          } catch (e, st) {
             debugPrint('$_logTag Failed to download ${item.filename}: $e');
+            ErrorLogger.instance.captureException(
+              e,
+              stackTrace: st,
+              context: 'SupabaseMediaSyncService: download ${item.filename}',
+              severity: ErrorSeverity.warning,
+            );
           }
           return false;
         }),

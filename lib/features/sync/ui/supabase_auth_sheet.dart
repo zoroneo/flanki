@@ -84,6 +84,12 @@ class SupabaseAuthSheet extends HookConsumerWidget {
       previous,
       next,
     ) {
+      if (next.status == SupabaseAuthStatus.error) {
+        if (isWaitingOAuth.value) {
+          cancelOAuthWaiting();
+        }
+        localError.value = next.getLocalizedError(l10n);
+      }
       if (next.isAuthenticated &&
           (previous == null || !previous.isAuthenticated)) {
         oauthTimeoutTimer.value?.cancel();
@@ -209,11 +215,43 @@ class SupabaseAuthSheet extends HookConsumerWidget {
                   if (context.mounted &&
                       !ref.read(supabaseAuthNotifierProvider).isAuthenticated) {
                     cancelOAuthWaiting();
+                    localError.value = l10n.networkUnavailable;
                   }
                 });
                 final initiated = await authNotifier.signInWithGoogle();
                 if (!initiated && context.mounted) {
                   cancelOAuthWaiting();
+                  final currentError =
+                      ref
+                          .read(supabaseAuthNotifierProvider)
+                          .getLocalizedError(l10n) ??
+                      ref.read(supabaseAuthNotifierProvider).errorMessage ??
+                      l10n.authUnknownError('Google OAuth initiation failed');
+                  localError.value = currentError;
+                  showToast(
+                    context: context,
+                    builder: (context, overlay) {
+                      return SurfaceCard(
+                        child: Basic(
+                          title: Text(
+                            l10n
+                                .authUnknownError('')
+                                .replaceAll('()', '')
+                                .trim(),
+                          ),
+                          subtitle: Text(currentError),
+                          leading: const Icon(
+                            LucideIcons.circleAlert,
+                            color: AppColors.error,
+                          ),
+                          trailing: IconButton.ghost(
+                            icon: const Icon(LucideIcons.x),
+                            onPressed: () => overlay.close(),
+                          ),
+                        ),
+                      );
+                    },
+                  );
                 }
               },
               onApplePressed: () {

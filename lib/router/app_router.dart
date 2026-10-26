@@ -1,3 +1,6 @@
+import '../core/logging/error_logger.dart';
+import '../core/logging/error_severity.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -62,6 +65,13 @@ GoRouter appRouter(Ref ref) {
     navigatorKey: rootNavigatorKey,
     initialLocation: AppRoutes.decks,
     observers: [LoggingNavigatorObserver()],
+    onException: (context, state, router) {
+      ErrorLogger.instance.captureException(
+        state.error ?? Exception('GoRouter routing error: ${state.uri}'),
+        context: 'GoRouter: ${state.uri}',
+        severity: ErrorSeverity.warning,
+      );
+    },
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -218,8 +228,12 @@ class LoggingNavigatorObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
-    final to = route.settings.name ?? route.settings.arguments?.toString() ?? 'route';
-    final from = previousRoute?.settings.name ?? previousRoute?.settings.arguments?.toString() ?? 'initial';
+    final to =
+        route.settings.name ?? route.settings.arguments?.toString() ?? 'route';
+    final from =
+        previousRoute?.settings.name ??
+        previousRoute?.settings.arguments?.toString() ??
+        'initial';
     BreadcrumbTracker.instance.addNavigation(from, to);
   }
 

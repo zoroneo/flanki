@@ -62,7 +62,7 @@ CREATE POLICY "Users can view their own reported errors"
 -- ------------------------------------------------------------------------------
 -- 4. AGGREGATED SUMMARY VIEW
 -- ------------------------------------------------------------------------------
-CREATE OR REPLACE VIEW public.app_error_summary AS
+CREATE OR REPLACE VIEW public.app_error_summary WITH (security_invoker = true) AS
 SELECT
     fingerprint,
     severity,
@@ -97,4 +97,9 @@ BEGIN
     RETURN deleted_count;
 END;
 $$;
+
+-- Restrict cleanup function execution to service_role only
+REVOKE EXECUTE ON FUNCTION public.cleanup_old_error_logs(INT) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.cleanup_old_error_logs(INT) TO service_role;
+
 

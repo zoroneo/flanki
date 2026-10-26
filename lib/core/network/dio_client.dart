@@ -151,11 +151,7 @@ class DioLoggingInterceptor extends Interceptor {
         err,
         context: 'DioHTTP $statusCode: $method $path',
         severity: ErrorSeverity.warning,
-        extra: {
-          'method': method,
-          'path': path,
-          'status_code': statusCode,
-        },
+        extra: {'method': method, 'path': path, 'status_code': statusCode},
       );
     }
 

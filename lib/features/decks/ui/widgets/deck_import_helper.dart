@@ -1,4 +1,8 @@
 import 'package:file_picker/file_picker.dart';
+
+import '../../../../core/logging/error_severity.dart';
+import '../../../../core/logging/error_logger.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -135,7 +139,13 @@ class DeckImportHelper {
           },
         );
       }
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'DeckImportHelper.pickAndImportApkg',
+        severity: ErrorSeverity.error,
+      );
       if (context.mounted) {
         final errorSubtitle = e is FormatException
             ? l10n.importApkgInvalidFormat

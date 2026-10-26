@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import '../../../core/logging/error_severity.dart';
+import '../../../core/logging/error_logger.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/database/data_change_bus.dart';
@@ -103,7 +106,13 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
       final backups = await _backupService.listCloudSnapshots();
       final stats = await _statsService.getStats();
       state = state.copyWith(backups: backups, stats: stats);
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'CloudBackupNotifier.refresh',
+        severity: ErrorSeverity.warning,
+      );
       state = state.copyWith(error: e.toString());
     }
   }
@@ -146,7 +155,13 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
         progress: null,
       );
       return true;
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'CloudBackupNotifier.createCloudBackup',
+        severity: ErrorSeverity.error,
+      );
       state = state.copyWith(
         isLoading: false,
         operation: CloudBackupOp.none,
@@ -185,7 +200,13 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
         progress: null,
       );
       return true;
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'CloudBackupNotifier.restoreFromCloud',
+        severity: ErrorSeverity.error,
+      );
       state = state.copyWith(
         isLoading: false,
         operation: CloudBackupOp.none,
@@ -201,7 +222,13 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
     try {
       await _backupService.deleteCloudSnapshot(cloudPath);
       await refresh();
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'CloudBackupNotifier.deleteCloudBackup',
+        severity: ErrorSeverity.warning,
+      );
       state = state.copyWith(error: e.toString());
     }
   }
@@ -222,7 +249,13 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
         statusMessage: null,
       );
       return file;
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'CloudBackupNotifier.exportLocalBackup',
+        severity: ErrorSeverity.error,
+      );
       state = state.copyWith(
         isLoading: false,
         operation: CloudBackupOp.none,
@@ -250,7 +283,13 @@ class CloudBackupNotifier extends Notifier<CloudBackupState> {
         statusMessage: null,
       );
       return true;
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'CloudBackupNotifier.restoreLocalBackup',
+        severity: ErrorSeverity.error,
+      );
       state = state.copyWith(
         isLoading: false,
         operation: CloudBackupOp.none,

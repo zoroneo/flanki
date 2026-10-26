@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/supabase_config.dart';
+import '../../../core/logging/breadcrumb_tracker.dart';
+import '../../../core/logging/error_logger.dart';
+import '../../../core/logging/error_severity.dart';
 import '../data/supabase_auth_service.dart';
 
 import '../models/supabase_auth_state.dart';
@@ -58,6 +61,9 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
 
   Future<bool> signIn(String email, String password) async {
     state = state.copyWith(status: SupabaseAuthStatus.loading);
+    BreadcrumbTracker.instance.add(
+      Breadcrumb(category: 'auth', message: 'Attempting email sign-in'),
+    );
     try {
       final res = await _authService.signInWithEmail(
         email: email,
@@ -67,14 +73,32 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
         status: SupabaseAuthStatus.authenticated,
         user: res.user,
       );
+      BreadcrumbTracker.instance.add(
+        Breadcrumb(
+          category: 'auth',
+          message: 'Email sign-in successful: ${res.user?.id}',
+        ),
+      );
       return true;
-    } on AuthException catch (e) {
+    } on AuthException catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SupabaseAuthNotifier.signIn (AuthException)',
+        severity: ErrorSeverity.warning,
+      );
       state = SupabaseAuthState(
         status: SupabaseAuthStatus.error,
         errorMessage: e.message,
       );
       return false;
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SupabaseAuthNotifier.signIn (Unexpected)',
+        severity: ErrorSeverity.error,
+      );
       state = SupabaseAuthState(
         status: SupabaseAuthStatus.error,
         errorMessage: e.toString(),
@@ -85,6 +109,9 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
 
   Future<bool> signUp(String email, String password) async {
     state = state.copyWith(status: SupabaseAuthStatus.loading);
+    BreadcrumbTracker.instance.add(
+      Breadcrumb(category: 'auth', message: 'Attempting email sign-up'),
+    );
     try {
       final res = await _authService.signUpWithEmail(
         email: email,
@@ -94,14 +121,32 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
         status: SupabaseAuthStatus.authenticated,
         user: res.user,
       );
+      BreadcrumbTracker.instance.add(
+        Breadcrumb(
+          category: 'auth',
+          message: 'Email sign-up successful: ${res.user?.id}',
+        ),
+      );
       return true;
-    } on AuthException catch (e) {
+    } on AuthException catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SupabaseAuthNotifier.signUp (AuthException)',
+        severity: ErrorSeverity.warning,
+      );
       state = SupabaseAuthState(
         status: SupabaseAuthStatus.error,
         errorMessage: e.message,
       );
       return false;
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SupabaseAuthNotifier.signUp (Unexpected)',
+        severity: ErrorSeverity.error,
+      );
       state = SupabaseAuthState(
         status: SupabaseAuthStatus.error,
         errorMessage: e.toString(),
@@ -112,6 +157,12 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
 
   Future<bool> signInWithOAuth(OAuthProvider provider) async {
     state = state.copyWith(status: SupabaseAuthStatus.loading);
+    BreadcrumbTracker.instance.add(
+      Breadcrumb(
+        category: 'auth',
+        message: 'Initiating OAuth sign-in with ${provider.name}',
+      ),
+    );
     try {
       final initiated = await _authService.signInWithOAuth(provider);
       // Reset loading state after browser launches; deep link or listener will emit on authStateChanges
@@ -122,19 +173,39 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
         user: _authService.currentUser,
       );
       if (!initiated) {
+        ErrorLogger.instance.captureException(
+          StateError(SupabaseConfig.errOAuthInitiationFailed),
+          context:
+              'SupabaseAuthNotifier.signInWithOAuth(${provider.name}) returned false',
+          severity: ErrorSeverity.warning,
+        );
         state = const SupabaseAuthState(
           status: SupabaseAuthStatus.error,
           errorMessage: SupabaseConfig.errOAuthInitiationFailed,
         );
       }
       return initiated;
-    } on AuthException catch (e) {
+    } on AuthException catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context:
+            'SupabaseAuthNotifier.signInWithOAuth(${provider.name}) AuthException',
+        severity: ErrorSeverity.error,
+      );
       state = SupabaseAuthState(
         status: SupabaseAuthStatus.error,
         errorMessage: e.message,
       );
       return false;
-    } catch (e) {
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context:
+            'SupabaseAuthNotifier.signInWithOAuth(${provider.name}) Unexpected',
+        severity: ErrorSeverity.error,
+      );
       state = SupabaseAuthState(
         status: SupabaseAuthStatus.error,
         errorMessage: e.toString(),
@@ -162,7 +233,27 @@ class SupabaseAuthNotifier extends Notifier<SupabaseAuthState> {
   }
 
   Future<void> signOut() async {
-    await _authService.signOut();
-    state = const SupabaseAuthState(status: SupabaseAuthStatus.unauthenticated);
+    try {
+      BreadcrumbTracker.instance.add(
+        Breadcrumb(
+          category: 'auth',
+          message: 'Signing out user: ${state.user?.id}',
+        ),
+      );
+      await _authService.signOut();
+      state = const SupabaseAuthState(
+        status: SupabaseAuthStatus.unauthenticated,
+      );
+    } catch (e, st) {
+      ErrorLogger.instance.captureException(
+        e,
+        stackTrace: st,
+        context: 'SupabaseAuthNotifier.signOut',
+        severity: ErrorSeverity.warning,
+      );
+      state = const SupabaseAuthState(
+        status: SupabaseAuthStatus.unauthenticated,
+      );
+    }
   }
 }
