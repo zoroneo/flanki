@@ -113,22 +113,26 @@ class DeckImportHelper {
       }
 
       if (context.mounted) {
+        final hasFailedMedia = importResult.failedMediaFiles.isNotEmpty;
+        final baseDesc = l10n.importApkgSuccessDesc(
+          importResult.decks.length,
+          importResult.cards.length,
+          importResult.mediaCount,
+        );
+        final subtitleDesc = hasFailedMedia
+            ? '$baseDesc (${importResult.failedMediaFiles.length} media skipped)'
+            : baseDesc;
+
         showToast(
           context: context,
           builder: (context, overlay) {
             return SurfaceCard(
               child: Basic(
                 title: Text(l10n.importApkgSuccess),
-                subtitle: Text(
-                  l10n.importApkgSuccessDesc(
-                    importResult.decks.length,
-                    importResult.cards.length,
-                    importResult.mediaCount,
-                  ),
-                ),
-                leading: const Icon(
-                  LucideIcons.circleCheck,
-                  color: AppColors.success,
+                subtitle: Text(subtitleDesc),
+                leading: Icon(
+                  hasFailedMedia ? LucideIcons.alertTriangle : LucideIcons.circleCheck,
+                  color: hasFailedMedia ? AppColors.warning : AppColors.success,
                 ),
                 trailing: IconButton.ghost(
                   icon: const Icon(LucideIcons.x),

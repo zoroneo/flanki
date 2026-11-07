@@ -325,4 +325,17 @@ void main() {
       },
     );
   });
+
+  group('ApkgImporterService Hardening Tests', () {
+    test('ApkgImportResult tracks failedMediaFiles without breaking existing callers', () {
+      const result = ApkgImportResult(
+        decks: [],
+        cards: [],
+        mediaCount: 2,
+        failedMediaFiles: ['corrupt_audio.mp3'],
+      );
+      expect(result.mediaCount, 2);
+      expect(result.failedMediaFiles, contains('corrupt_audio.mp3'));
+    });
+  });
 }

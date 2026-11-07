@@ -11,6 +11,7 @@ import '../models/card.dart';
 import '../models/deck.dart';
 import '../database/database_service.dart';
 import '../database/media_storage_service.dart';
+import '../logging/error_logger.dart';
 import 'anki_template_engine.dart';
 
 class ApkgImportResult {
@@ -18,12 +19,14 @@ class ApkgImportResult {
   final List<CardModel> cards;
   final List<ReviewLogModel> reviewLogs;
   final int mediaCount;
+  final List<String> failedMediaFiles;
 
   const ApkgImportResult({
     required this.decks,
     required this.cards,
     this.reviewLogs = const [],
     required this.mediaCount,
+    this.failedMediaFiles = const [],
   });
 }
 
@@ -77,30 +80,50 @@ class ApkgImporterService {
     }
 
     int mediaCount = 0;
+    final failedMediaFiles = <String>[];
     if (mediaFile != null) {
+      Map<String, dynamic>? mediaMap;
       try {
         final content = utf8.decode(mediaFile.content as List<int>);
-        final mediaMap = jsonDecode(content) as Map<String, dynamic>;
-        mediaCount = mediaMap.length;
+        mediaMap = jsonDecode(content) as Map<String, dynamic>;
+      } catch (e, stack) {
+        ErrorLogger.instance.captureException(
+          e,
+          stackTrace: stack,
+          context: 'ApkgImporterService.importApkgPath:parseMediaManifest',
+        );
+      }
 
+      if (mediaMap != null) {
         // Extract and stream media assets directly to disk without storing in heap
         for (final entry in mediaMap.entries) {
           final archiveIndex = entry.key;
           final targetFilename = entry.value as String;
           final af = archiveFilesMap[archiveIndex];
-          if (af != null) {
-            final targetPath = MediaStorageService.instance.getMediaFilePath(
-              targetFilename,
+          if (af == null) {
+            failedMediaFiles.add(targetFilename);
+            continue;
+          }
+
+          final targetPath = MediaStorageService.instance.getMediaFilePath(
+            targetFilename,
+          );
+          final output = OutputFileStream(targetPath);
+          try {
+            af.writeContent(output);
+            mediaCount++;
+          } catch (e, stack) {
+            failedMediaFiles.add(targetFilename);
+            ErrorLogger.instance.captureException(
+              e,
+              stackTrace: stack,
+              context: 'ApkgImporterService.importApkgPath:extractMediaFile:$targetFilename',
             );
-            final output = OutputFileStream(targetPath);
-            try {
-              af.writeContent(output);
-            } finally {
-              await output.close();
-            }
+          } finally {
+            await output.close();
           }
         }
-      } catch (_) {}
+      }
     }
 
     if (colFile == null) {
@@ -129,6 +152,7 @@ class ApkgImporterService {
       tempDbFile,
       tempDir,
       mediaCount,
+      failedMediaFiles: failedMediaFiles,
       defaultDeckDescription: defaultDeckDescription,
     );
   }
@@ -167,25 +191,47 @@ class ApkgImporterService {
     }
 
     int mediaCount = 0;
+    final failedMediaFiles = <String>[];
     if (mediaFile != null) {
+      Map<String, dynamic>? mediaMap;
       try {
         final content = utf8.decode(mediaFile.content as List<int>);
-        final mediaMap = jsonDecode(content) as Map<String, dynamic>;
-        mediaCount = mediaMap.length;
+        mediaMap = jsonDecode(content) as Map<String, dynamic>;
+      } catch (e, stack) {
+        ErrorLogger.instance.captureException(
+          e,
+          stackTrace: stack,
+          context: 'ApkgImporterService.importApkgBytes:parseMediaManifest',
+        );
+      }
 
+      if (mediaMap != null) {
         // Extract and persist all media assets (images, audio)
         for (final entry in mediaMap.entries) {
           final archiveIndex = entry.key;
           final targetFilename = entry.value as String;
           final af = archiveFilesMap[archiveIndex];
-          if (af != null) {
+          if (af == null) {
+            failedMediaFiles.add(targetFilename);
+            continue;
+          }
+
+          try {
             MediaStorageService.instance.saveMediaFileSync(
               targetFilename,
               af.content as List<int>,
             );
+            mediaCount++;
+          } catch (e, stack) {
+            failedMediaFiles.add(targetFilename);
+            ErrorLogger.instance.captureException(
+              e,
+              stackTrace: stack,
+              context: 'ApkgImporterService.importApkgBytes:saveMediaFile:$targetFilename',
+            );
           }
         }
-      } catch (_) {}
+      }
     }
 
     if (colFile == null) {
@@ -197,6 +243,7 @@ class ApkgImporterService {
     return _parseWithTempDb(
       dbBytes,
       mediaCount,
+      failedMediaFiles: failedMediaFiles,
       defaultDeckDescription: defaultDeckDescription,
     );
   }
@@ -204,6 +251,7 @@ class ApkgImporterService {
   ApkgImportResult _parseWithTempDb(
     Uint8List dbBytes,
     int mediaCount, {
+    List<String> failedMediaFiles = const [],
     String? defaultDeckDescription,
   }) {
     final tempDir = Directory.systemTemp.createTempSync('flanki_apkg_');
@@ -213,6 +261,7 @@ class ApkgImporterService {
       tempDbFile,
       tempDir,
       mediaCount,
+      failedMediaFiles: failedMediaFiles,
       defaultDeckDescription: defaultDeckDescription,
     );
   }
@@ -221,6 +270,7 @@ class ApkgImporterService {
     File tempDbFile,
     Directory tempDir,
     int mediaCount, {
+    List<String> failedMediaFiles = const [],
     String? defaultDeckDescription,
   }) {
     final db = sqlite3.open(tempDbFile.path);
@@ -277,13 +327,27 @@ class ApkgImporterService {
         try {
           final modelsMap = jsonDecode(modelsJson) as Map<String, dynamic>;
           for (final entry in modelsMap.entries) {
-            final m = AnkiModel.fromJson(
-              entry.key,
-              entry.value as Map<String, dynamic>,
-            );
-            ankiModels[m.id] = m;
+            try {
+              final m = AnkiModel.fromJson(
+                entry.key,
+                entry.value as Map<String, dynamic>,
+              );
+              ankiModels[m.id] = m;
+            } catch (e, stack) {
+              ErrorLogger.instance.captureException(
+                e,
+                stackTrace: stack,
+                context: 'ApkgImporterService.parseModel:${entry.key}',
+              );
+            }
           }
-        } catch (_) {}
+        } catch (e, stack) {
+          ErrorLogger.instance.captureException(
+            e,
+            stackTrace: stack,
+            context: 'ApkgImporterService.parseModelsJson',
+          );
+        }
       }
 
       // 2. Parse notes
@@ -478,12 +542,19 @@ class ApkgImporterService {
         cards: cards,
         reviewLogs: reviewLogs,
         mediaCount: mediaCount,
+        failedMediaFiles: failedMediaFiles,
       );
     } finally {
       db.close();
       try {
         tempDir.deleteSync(recursive: true);
-      } catch (_) {}
+      } catch (e, stack) {
+        ErrorLogger.instance.captureException(
+          e,
+          stackTrace: stack,
+          context: 'ApkgImporterService.cleanupTempDir:${tempDir.path}',
+        );
+      }
     }
   }
 
