@@ -19,6 +19,7 @@ const String _kReminderMinuteKey = AppConfig.storageKeyReminderMinute;
 const String _kStreakSaverEnabledKey = AppConfig.storageKeyStreakSaverEnabled;
 const String _kMinimizeToTrayKey = AppConfig.storageKeyMinimizeToTray;
 const String _kLaunchAtStartupKey = AppConfig.storageKeyLaunchAtStartup;
+const String _kGlobalHotkeyEnabledKey = 'desktop_global_hotkey_enabled';
 
 @Riverpod(keepAlive: true, name: 'studySettingsProvider')
 class StudySettingsNotifier extends _$StudySettingsNotifier {
@@ -42,11 +43,13 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
       final streakSaverVal = await _storage.read(key: _kStreakSaverEnabledKey);
       final minTrayVal = await _storage.read(key: _kMinimizeToTrayKey);
       final launchStartupVal = await _storage.read(key: _kLaunchAtStartupKey);
+      final hotkeyVal = await _storage.read(key: _kGlobalHotkeyEnabledKey);
 
       final minTray = minTrayVal != null ? minTrayVal == 'true' : true;
       final launchStartup = launchStartupVal != null
           ? launchStartupVal == 'true'
           : false;
+      final globalHotkey = hotkeyVal != null ? hotkeyVal == 'true' : true;
 
       state = StudySettings(
         fsrsEnabled: fsrsVal != null ? fsrsVal == 'true' : true,
@@ -75,6 +78,7 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
 
       DesktopWindowService.instance.minimizeToTrayOnClose = minTray;
       await DesktopWindowService.instance.setAutoStart(launchStartup);
+      await DesktopWindowService.instance.setGlobalHotkeyEnabled(globalHotkey);
     } catch (_) {}
   }
 
@@ -172,6 +176,16 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
     try {
       await _storage.write(
         key: _kLaunchAtStartupKey,
+        value: enabled ? 'true' : 'false',
+      );
+    } catch (_) {}
+  }
+
+  Future<void> toggleGlobalHotkey(bool enabled) async {
+    await DesktopWindowService.instance.setGlobalHotkeyEnabled(enabled);
+    try {
+      await _storage.write(
+        key: _kGlobalHotkeyEnabledKey,
         value: enabled ? 'true' : 'false',
       );
     } catch (_) {}

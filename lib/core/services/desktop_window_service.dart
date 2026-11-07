@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
@@ -67,6 +69,24 @@ class DesktopWindowService with WindowListener, TrayListener {
       await updateTrayMenu(localeCode: localeCode);
     } catch (e) {
       debugPrint('[DesktopWindowService] trayManager init error: $e');
+    }
+
+    // 4. Hotkey Manager
+    try {
+      await hotKeyManager.unregisterAll();
+      _reviewHotKey = HotKey(
+        key: PhysicalKeyboardKey.space,
+        modifiers: [
+          Platform.isMacOS ? KeyModifier.meta : KeyModifier.control,
+          KeyModifier.alt,
+        ],
+        scope: HotKeyScope.system,
+      );
+      if (globalHotkeyEnabled) {
+        await _registerReviewHotKey();
+      }
+    } catch (e) {
+      debugPrint('[DesktopWindowService] hotkeyManager init error: $e');
     }
 
     _isInitialized = true;
@@ -154,6 +174,35 @@ class DesktopWindowService with WindowListener, TrayListener {
     }
   }
 
+  Future<void> _registerReviewHotKey() async {
+    if (!isDesktop || _reviewHotKey == null) return;
+    try {
+      await hotKeyManager.register(
+        _reviewHotKey!,
+        keyDownHandler: (hotKey) async {
+          await showAndFocus();
+          _onOpenStudy?.call();
+        },
+      );
+    } catch (e) {
+      debugPrint('[DesktopWindowService] register hotkey error: $e');
+    }
+  }
+
+  Future<void> setGlobalHotkeyEnabled(bool enabled) async {
+    if (!isDesktop) return;
+    globalHotkeyEnabled = enabled;
+    try {
+      if (enabled) {
+        await _registerReviewHotKey();
+      } else if (_reviewHotKey != null) {
+        await hotKeyManager.unregister(_reviewHotKey!);
+      }
+    } catch (e) {
+      debugPrint('[DesktopWindowService] setGlobalHotkeyEnabled error: $e');
+    }
+  }
+
   Future<bool> isAutoStartEnabled() async {
     if (!isDesktop) return false;
     try {
@@ -176,6 +225,9 @@ class DesktopWindowService with WindowListener, TrayListener {
 
   Future<void> destroy() async {
     try {
+      if (isDesktop) {
+        await hotKeyManager.unregisterAll();
+      }
       trayManager.removeListener(this);
       windowManager.removeListener(this);
       await trayManager.destroy();

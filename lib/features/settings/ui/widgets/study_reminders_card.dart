@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -96,6 +97,24 @@ class StudyRemindersCard extends ConsumerWidget {
                     l10n,
                     launchAtStartup,
                     studySettingsNotifier,
+                  );
+                },
+              ),
+              AppGaps.v16,
+              const Divider(),
+              AppGaps.v12,
+              StatefulBuilder(
+                builder: (context, setState) {
+                  final globalHotkey =
+                      DesktopWindowService.instance.globalHotkeyEnabled;
+                  return _buildGlobalHotkeyToggle(
+                    theme,
+                    l10n,
+                    globalHotkey,
+                    (val) async {
+                      await studySettingsNotifier.toggleGlobalHotkey(val);
+                      setState(() {});
+                    },
                   );
                 },
               ),
@@ -299,6 +318,44 @@ class StudyRemindersCard extends ConsumerWidget {
           onChanged: (val) {
             studySettingsNotifier.toggleLaunchAtStartup(val);
           },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGlobalHotkeyToggle(
+    ThemeData theme,
+    dynamic l10n,
+    bool globalHotkeyEnabled,
+    ValueChanged<bool> onChanged,
+  ) {
+    final shortcutText =
+        Platform.isMacOS ? 'Cmd + Opt + Space' : 'Ctrl + Alt + Space';
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Phím tắt toàn cục ($shortcutText)',
+                style: theme.typography.semiBold,
+              ),
+              AppGaps.v2,
+              Text(
+                'Bấm tổ hợp phím ở bất kỳ đâu để mở nhanh thẻ ôn tập.',
+                style: theme.typography.xSmall.copyWith(
+                  color: theme.colorScheme.mutedForeground,
+                ),
+              ),
+            ],
+          ),
+        ),
+        AppGaps.h12,
+        Switch(
+          value: globalHotkeyEnabled,
+          onChanged: onChanged,
         ),
       ],
     );
