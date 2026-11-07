@@ -90,3 +90,87 @@ final class GrammarUnitsProvider
 }
 
 String _$grammarUnitsHash() => r'b56e45e1033b642d605553b12d2cbdf1f7da526c';
+
+/// Targeted single-unit provider for instant loading without waiting for all 36 units.
+
+@ProviderFor(grammarUnit)
+final grammarUnitProvider = GrammarUnitFamily._();
+
+/// Targeted single-unit provider for instant loading without waiting for all 36 units.
+
+final class GrammarUnitProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<GrammarUnit?>,
+          GrammarUnit?,
+          FutureOr<GrammarUnit?>
+        >
+    with $FutureModifier<GrammarUnit?>, $FutureProvider<GrammarUnit?> {
+  /// Targeted single-unit provider for instant loading without waiting for all 36 units.
+  GrammarUnitProvider._({
+    required GrammarUnitFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'grammarUnitProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$grammarUnitHash();
+
+  @override
+  String toString() {
+    return r'grammarUnitProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<GrammarUnit?> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<GrammarUnit?> create(Ref ref) {
+    final argument = this.argument as String;
+    return grammarUnit(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GrammarUnitProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$grammarUnitHash() => r'152edb92dd258edcc9ec8b708133d14fb2e71b11';
+
+/// Targeted single-unit provider for instant loading without waiting for all 36 units.
+
+final class GrammarUnitFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<GrammarUnit?>, String> {
+  GrammarUnitFamily._()
+    : super(
+        retry: null,
+        name: r'grammarUnitProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
+
+  /// Targeted single-unit provider for instant loading without waiting for all 36 units.
+
+  GrammarUnitProvider call(String unitId) =>
+      GrammarUnitProvider._(argument: unitId, from: this);
+
+  @override
+  String toString() => r'grammarUnitProvider';
+}

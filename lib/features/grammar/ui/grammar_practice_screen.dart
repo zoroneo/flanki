@@ -30,6 +30,8 @@ class GrammarPracticeScreen extends ConsumerStatefulWidget {
 
 class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
   bool _initialized = false;
+  bool _ready = false;
+  bool _loadFailed = false;
   DraggableScrollableController _sheetController =
       DraggableScrollableController();
   String? _lastExerciseId;
@@ -72,10 +74,23 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
       if (ghostExercises.isNotEmpty) {
         notifier.startGhostSession(ghostExercises);
       }
+      if (mounted) setState(() => _ready = true);
     } else {
-      final unit = await grammarService.getUnit(widget.unitId);
-      if (unit != null) {
-        notifier.startUnitSession(unit);
+      final session = ref.read(grammarSessionNotifierProvider);
+      if (session.unit?.unitId != widget.unitId || session.isFinished) {
+        try {
+          final unit = await grammarService.getUnit(widget.unitId);
+          if (unit != null && mounted) {
+            notifier.startUnitSession(unit);
+            setState(() => _ready = true);
+          } else if (mounted) {
+            setState(() => _loadFailed = true);
+          }
+        } catch (_) {
+          if (mounted) setState(() => _loadFailed = true);
+        }
+      } else {
+        if (mounted) setState(() => _ready = true);
       }
     }
   }
@@ -84,6 +99,59 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    if (_loadFailed) {
+      return Scaffold(
+        headers: [
+          AppBar(
+            leading: [
+              IconButton.ghost(
+                icon: const Icon(LucideIcons.x, size: AppIconSize.md),
+                onPressed: () => context.pop(),
+              ),
+            ],
+            title: Text(l10n.grammarPracticeScreenTitle),
+          ),
+        ],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l10n.grammarUnitNotFound),
+              const SizedBox(height: 16),
+              Button.outline(
+                onPressed: () => context.pop(),
+                child: Text(l10n.backButton),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (!_ready) {
+      return Scaffold(
+        headers: [
+          AppBar(
+            leading: [
+              IconButton.ghost(
+                icon: const Icon(LucideIcons.x, size: AppIconSize.md),
+                onPressed: () => context.pop(),
+              ),
+            ],
+            title: Text(
+              l10n.grammarPracticeScreenTitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.typography.base.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     final notifier = ref.read(grammarSessionNotifierProvider.notifier);
     final isFinished = ref.watch(
       grammarSessionNotifierProvider.select((s) => s.isFinished),

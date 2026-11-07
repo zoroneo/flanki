@@ -21,7 +21,7 @@ class GrammarTheoryScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final grammarAsync = ref.watch(grammarUnitsProvider);
+    final unitAsync = ref.watch(grammarUnitProvider(unitId));
 
     final conceptKey = useMemoized(() => GlobalKey());
     final formulasKey = useMemoized(() => GlobalKey());
@@ -44,16 +44,13 @@ class GrammarTheoryScreen extends HookConsumerWidget {
 
         return Scaffold(
           headers: [_buildAppBar(context, l10n, isMobile)],
-          child: switch (grammarAsync) {
+          child: switch (unitAsync) {
             AsyncLoading() => const Center(child: CircularProgressIndicator()),
             AsyncError(:final error) => Center(
               child: Text(l10n.grammarErrorLoadUnit(error.toString())),
             ),
             AsyncData(:final value) => () {
-              final unit = value.cast<GrammarUnit?>().firstWhere(
-                (u) => u?.unitId == unitId,
-                orElse: () => null,
-              );
+              final unit = value;
 
               if (unit == null) {
                 return Center(child: Text(l10n.grammarUnitNotFound));
