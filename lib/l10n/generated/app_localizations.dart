@@ -3847,6 +3847,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default Weights'**
   String get fsrsWeightsDefaultBadge;
+
+  /// No description provided for @closeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get closeButton;
+
+  /// No description provided for @defaultLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultLabel;
 }
 
 class _AppLocalizationsDelegate

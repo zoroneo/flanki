@@ -657,5 +657,7 @@
   "fsrsGroupForget": "Hệ số ổn định khi quên",
   "fsrsGroupDecay": "Hệ số phạt/thưởng & Tốc độ quên",
   "fsrsWeightsCustomBadge": "Trọng số cá nhân",
-  "fsrsWeightsDefaultBadge": "Trọng số mặc định"
+  "fsrsWeightsDefaultBadge": "Trọng số mặc định",
+  "closeButton": "Đóng",
+  "defaultLabel": "Mặc định"
 }

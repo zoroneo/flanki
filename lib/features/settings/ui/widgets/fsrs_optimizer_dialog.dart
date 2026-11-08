@@ -6,7 +6,8 @@ import '../../../../core/database/database_service.dart';
 import '../../../../core/fsrs/fsrs_optimizer_service.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../providers/settings_notifier.dart';
-import 'fsrs_parameter_matrix_view.dart';
+import 'fsrs_optimizer_progress_card.dart';
+import 'fsrs_optimizer_result_view.dart';
 
 class FsrsOptimizerDialog extends ConsumerStatefulWidget {
   const FsrsOptimizerDialog({super.key});
@@ -35,19 +36,22 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final studySettings = ref.watch(studySettingsProvider);
+
+    // Narrow reactive rebuild scope strictly to custom parameters existence
+    final hasCustomWeights = ref.watch(
+      studySettingsProvider.select((s) => s.fsrsCustomParameters != null),
+    );
     final studySettingsNotifier = ref.read(studySettingsProvider.notifier);
 
     final logs = DatabaseService.instance.getAllReviewLogs();
     final totalReviews = logs.length;
     final canOptimize = FsrsOptimizerService.canOptimize(totalReviews);
-    final hasCustomWeights = studySettings.fsrsCustomParameters != null;
 
     return ModalContainer(
       child: Container(
         constraints: const BoxConstraints(
-          maxWidth: 520,
-          maxHeight: 650,
+          maxWidth: AppDimensions.modalDesktopMaxWidth,
+          maxHeight: AppDimensions.diagnosticsSheetMaxHeight,
         ),
         padding: AppEdgeInsets.all20,
         child: Column(
@@ -61,7 +65,12 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
                 child: _isOptimizing
                     ? _buildLoadingState(theme, l10n)
                     : _result != null
-                        ? _buildResultView(theme, l10n, _result!)
+                        ? FsrsOptimizerResultView(
+                            result: _result!,
+                            logLossTitle: l10n.fsrsMetricsLogLoss,
+                            rmseTitle: l10n.fsrsMetricsRmse,
+                            defaultLabel: l10n.defaultLabel,
+                          )
                         : _buildInitialView(
                             theme,
                             l10n,
@@ -76,7 +85,6 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
               l10n,
               canOptimize,
               hasCustomWeights,
-              studySettings,
               studySettingsNotifier,
               logs,
             ),
@@ -163,7 +171,6 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
     bool canOptimize,
   ) {
     const minReviews = FsrsOptimizerService.minRequiredReviews;
-    final progress = (totalReviews / minReviews).clamp(0.0, 1.0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,47 +182,14 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
           ),
         ),
         AppGaps.v16,
-        SurfaceCard(
-          padding: AppEdgeInsets.all16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    canOptimize
-                        ? l10n.fsrsOptimizerReady(totalReviews)
-                        : l10n.fsrsOptimizerMinReviewsRequired(
-                            minReviews,
-                            totalReviews,
-                          ),
-                    style: theme.typography.small.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: canOptimize
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.foreground,
-                    ),
-                  ),
-                  Text(
-                    '$totalReviews / $minReviews',
-                    style: theme.typography.small.copyWith(
-                      fontFamily: 'monospace',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              AppGaps.v8,
-              m.LinearProgressIndicator(
-                value: progress,
-                backgroundColor: theme.colorScheme.muted,
-                color: canOptimize
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.destructive,
-                minHeight: 6,
-              ),
-            ],
+        FsrsOptimizerProgressCard(
+          totalReviews: totalReviews,
+          minReviews: minReviews,
+          canOptimize: canOptimize,
+          readyMessage: l10n.fsrsOptimizerReady(totalReviews),
+          notReadyMessage: l10n.fsrsOptimizerMinReviewsRequired(
+            minReviews,
+            totalReviews,
           ),
         ),
         if (_errorMessage != null) ...[
@@ -231,104 +205,11 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
     );
   }
 
-  Widget _buildResultView(
-    ThemeData theme,
-    dynamic l10n,
-    FsrsOptimizationResult result,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: _buildMetricCard(
-                theme,
-                title: l10n.fsrsMetricsLogLoss,
-                baseline: result.baselineLogLoss,
-                optimized: result.optimizedLogLoss,
-                gainPercent: result.logLossImprovementPercent,
-              ),
-            ),
-            AppGaps.h12,
-            Expanded(
-              child: _buildMetricCard(
-                theme,
-                title: l10n.fsrsMetricsRmse,
-                baseline: result.baselineRmse,
-                optimized: result.optimizedRmse,
-                gainPercent: result.rmseImprovementPercent,
-              ),
-            ),
-          ],
-        ),
-        AppGaps.v16,
-        FsrsParameterMatrixView(
-          baseline: result.baselineParameters,
-          candidate: result.optimizedParameters,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMetricCard(
-    ThemeData theme, {
-    required String title,
-    required double baseline,
-    required double optimized,
-    required double gainPercent,
-  }) {
-    return SurfaceCard(
-      padding: AppEdgeInsets.all12,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: theme.typography.xSmall.copyWith(
-              fontWeight: FontWeight.w600,
-              color: theme.colorScheme.mutedForeground,
-            ),
-          ),
-          AppGaps.v6,
-          Row(
-            children: [
-              Text(
-                optimized.toStringAsFixed(4),
-                style: theme.typography.large.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              AppGaps.h6,
-              Text(
-                '(${gainPercent >= 0 ? '-' : '+'}${gainPercent.abs().toStringAsFixed(1)}%)',
-                style: theme.typography.xSmall.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: gainPercent >= 0
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.destructive,
-                ),
-              ),
-            ],
-          ),
-          AppGaps.v2,
-          Text(
-            'Mặc định: ${baseline.toStringAsFixed(4)}',
-            style: theme.typography.xSmall.copyWith(
-              color: theme.colorScheme.mutedForeground,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildActionFooter(
     ThemeData theme,
     dynamic l10n,
     bool canOptimize,
     bool hasCustomWeights,
-    dynamic studySettings,
     StudySettingsNotifier notifier,
     dynamic logs,
   ) {
@@ -336,31 +217,26 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
       return const SizedBox.shrink();
     }
 
+    Future<void> handleReset() async {
+      await notifier.resetFsrsParameters();
+      if (!mounted) return;
+      _showToast(l10n.fsrsOptimizerResetToast, LucideIcons.rotateCcw);
+      Navigator.of(context).pop();
+    }
+
+    final closeButton = Button.ghost(
+      onPressed: () => Navigator.of(context).pop(),
+      child: Text(l10n.closeButton),
+    );
+
     if (_result != null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Button.ghost(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Đóng'),
-          ),
+          closeButton,
           AppGaps.h8,
           Button.outline(
-            onPressed: () async {
-              await notifier.resetFsrsParameters();
-              if (mounted) {
-                showToast(
-                  context: context,
-                  builder: (context, overlay) => SurfaceCard(
-                    child: Basic(
-                      title: Text(l10n.fsrsOptimizerResetToast),
-                      leading: const Icon(LucideIcons.rotateCcw),
-                    ),
-                  ),
-                );
-                Navigator.of(context).pop();
-              }
-            },
+            onPressed: handleReset,
             child: Text(l10n.fsrsOptimizerReset),
           ),
           AppGaps.h8,
@@ -369,18 +245,9 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
               await notifier.saveFsrsCustomParameters(
                 _result!.optimizedParameters,
               );
-              if (mounted) {
-                showToast(
-                  context: context,
-                  builder: (context, overlay) => SurfaceCard(
-                    child: Basic(
-                      title: Text(l10n.fsrsOptimizerSuccessToast),
-                      leading: const Icon(LucideIcons.check),
-                    ),
-                  ),
-                );
-                Navigator.of(context).pop();
-              }
+              if (!mounted) return;
+              _showToast(l10n.fsrsOptimizerSuccessToast, LucideIcons.check);
+              Navigator.of(context).pop();
             },
             child: Text(l10n.fsrsOptimizerApply),
           ),
@@ -391,63 +258,60 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Button.ghost(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Đóng'),
-        ),
+        closeButton,
         if (hasCustomWeights) ...[
           AppGaps.h8,
           Button.outline(
-            onPressed: () async {
-              await notifier.resetFsrsParameters();
-              if (mounted) {
-                showToast(
-                  context: context,
-                  builder: (context, overlay) => SurfaceCard(
-                    child: Basic(
-                      title: Text(l10n.fsrsOptimizerResetToast),
-                      leading: const Icon(LucideIcons.rotateCcw),
-                    ),
-                  ),
-                );
-                Navigator.of(context).pop();
-              }
-            },
+            onPressed: handleReset,
             child: Text(l10n.fsrsOptimizerReset),
           ),
         ],
         AppGaps.h8,
         Button.primary(
-          onPressed: canOptimize
-              ? () async {
-                  setState(() {
-                    _isOptimizing = true;
-                    _errorMessage = null;
-                  });
-                  try {
-                    final res = await FsrsOptimizerService.optimizeAsync(
-                      logs,
-                      currentWeights: studySettings.fsrsCustomParameters,
-                    );
-                    if (mounted) {
-                      setState(() {
-                        _isOptimizing = false;
-                        _result = res;
-                      });
-                    }
-                  } catch (e) {
-                    if (mounted) {
-                      setState(() {
-                        _isOptimizing = false;
-                        _errorMessage = e.toString();
-                      });
-                    }
-                  }
-                }
-              : null,
+          onPressed: canOptimize ? () => _runOptimization(logs) : null,
           child: Text(l10n.fsrsOptimizerStart),
         ),
       ],
     );
+  }
+
+  void _showToast(String title, IconData icon) {
+    showToast(
+      context: context,
+      builder: (context, overlay) => SurfaceCard(
+        child: Basic(
+          title: Text(title),
+          leading: Icon(icon),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _runOptimization(dynamic logs) async {
+    setState(() {
+      _isOptimizing = true;
+      _errorMessage = null;
+    });
+    try {
+      final currentParams =
+          ref.read(studySettingsProvider).fsrsCustomParameters;
+      final res = await FsrsOptimizerService.optimizeAsync(
+        logs,
+        currentWeights: currentParams,
+      );
+      if (mounted) {
+        setState(() {
+          _isOptimizing = false;
+          _result = res;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isOptimizing = false;
+          _errorMessage = e.toString();
+        });
+      }
+    }
   }
 }

@@ -2148,4 +2148,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fsrsWeightsDefaultBadge => 'Default Weights';
+
+  @override
+  String get closeButton => 'Close';
+
+  @override
+  String get defaultLabel => 'Default';
 }

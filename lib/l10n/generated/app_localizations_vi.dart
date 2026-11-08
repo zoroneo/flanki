@@ -2145,4 +2145,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get fsrsWeightsDefaultBadge => 'Trọng số mặc định';
+
+  @override
+  String get closeButton => 'Đóng';
+
+  @override
+  String get defaultLabel => 'Mặc định';
 }

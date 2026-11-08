@@ -1573,5 +1573,7 @@
   "fsrsGroupForget": "Forget Stability Factors",
   "fsrsGroupDecay": "Adjustments & Decay",
   "fsrsWeightsCustomBadge": "Custom Weights",
-  "fsrsWeightsDefaultBadge": "Default Weights"
+  "fsrsWeightsDefaultBadge": "Default Weights",
+  "closeButton": "Close",
+  "defaultLabel": "Default"
 }
