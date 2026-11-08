@@ -11,10 +11,7 @@ class FsrsTrainingSequence {
   final String cardId;
   final List<ReviewLogModel> reviews;
 
-  const FsrsTrainingSequence({
-    required this.cardId,
-    required this.reviews,
-  });
+  const FsrsTrainingSequence({required this.cardId, required this.reviews});
 }
 
 /// Evaluation metrics (Binary Cross-Entropy Log-Loss and RMSE).
@@ -85,7 +82,8 @@ class FsrsOptimizerService {
 
   /// Organizes review logs chronologically by card ID, filtering cards with < 2 reviews.
   static List<FsrsTrainingSequence> extractSequences(
-      List<ReviewLogModel> logs) {
+    List<ReviewLogModel> logs,
+  ) {
     if (logs.isEmpty) return const [];
 
     final map = <String, List<ReviewLogModel>>{};
@@ -98,10 +96,9 @@ class FsrsOptimizerService {
       final reviews = entry.value;
       if (reviews.length >= 2) {
         reviews.sort((a, b) => a.reviewTime.compareTo(b.reviewTime));
-        sequences.add(FsrsTrainingSequence(
-          cardId: entry.key,
-          reviews: reviews,
-        ));
+        sequences.add(
+          FsrsTrainingSequence(cardId: entry.key, reviews: reviews),
+        );
       }
     }
 
@@ -139,10 +136,9 @@ class FsrsOptimizerService {
         parameters[firstRatingVal - 1],
         fsrs.stabilityMin,
       );
-      double difficulty = (parameters[4] -
-              math.exp(parameters[5] * (firstRatingVal - 1)) +
-              1.0)
-          .clamp(fsrs.minDifficulty, fsrs.maxDifficulty);
+      double difficulty =
+          (parameters[4] - math.exp(parameters[5] * (firstRatingVal - 1)) + 1.0)
+              .clamp(fsrs.minDifficulty, fsrs.maxDifficulty);
       DateTime lastReviewTime = first.reviewTime;
 
       // 2. Sequential transitions
@@ -167,8 +163,9 @@ class FsrsOptimizerService {
 
         // Evaluate prediction only for inter-day reviews (elapsedDays >= 1)
         if (elapsedDays >= 1) {
-          final sampleLoss = -(outcome * math.log(retrievability) +
-              (1.0 - outcome) * math.log(1.0 - retrievability));
+          final sampleLoss =
+              -(outcome * math.log(retrievability) +
+                  (1.0 - outcome) * math.log(1.0 - retrievability));
           final se = math.pow(outcome - retrievability, 2).toDouble();
 
           totalLogLoss += sampleLoss;
@@ -181,20 +178,22 @@ class FsrsOptimizerService {
         final deltaDifficulty = -(parameters[6] * (ratingVal - 3));
         final dampedDifficulty =
             difficulty + (10.0 - difficulty) * deltaDifficulty / 9.0;
-        final initEasyDiff = (parameters[4] -
-                math.exp(parameters[5] * (fsrs.Rating.easy.value - 1)) +
-                1.0)
-            .clamp(fsrs.minDifficulty, fsrs.maxDifficulty);
-        final nextDifficulty = (parameters[7] * initEasyDiff +
-                (1.0 - parameters[7]) * dampedDifficulty)
-            .clamp(fsrs.minDifficulty, fsrs.maxDifficulty);
+        final initEasyDiff =
+            (parameters[4] -
+                    math.exp(parameters[5] * (fsrs.Rating.easy.value - 1)) +
+                    1.0)
+                .clamp(fsrs.minDifficulty, fsrs.maxDifficulty);
+        final nextDifficulty =
+            (parameters[7] * initEasyDiff +
+                    (1.0 - parameters[7]) * dampedDifficulty)
+                .clamp(fsrs.minDifficulty, fsrs.maxDifficulty);
 
         // Next stability
         double nextStability;
         if (elapsedDays < 1) {
           // Short-term stability
-          var shortTermIncrease = math.exp(
-                  parameters[17] * (ratingVal - 3 + parameters[18])) *
+          var shortTermIncrease =
+              math.exp(parameters[17] * (ratingVal - 3 + parameters[18])) *
               math.pow(stability, -parameters[19]);
           if (ratingVal >= 3) {
             shortTermIncrease = math.max(shortTermIncrease, 1.0);
@@ -202,7 +201,8 @@ class FsrsOptimizerService {
           nextStability = stability * shortTermIncrease;
         } else if (ratingVal == 1) {
           // Forget stability
-          final longTerm = parameters[11] *
+          final longTerm =
+              parameters[11] *
               math.pow(nextDifficulty, -parameters[12]) *
               (math.pow(stability + 1.0, parameters[13]) - 1.0) *
               math.exp((1.0 - retrievability) * parameters[14]);
@@ -213,7 +213,8 @@ class FsrsOptimizerService {
           // Recall stability
           final hardPenalty = ratingVal == 2 ? parameters[15] : 1.0;
           final easyBonus = ratingVal == 4 ? parameters[16] : 1.0;
-          nextStability = stability *
+          nextStability =
+              stability *
               (1.0 +
                   math.exp(parameters[8]) *
                       (11.0 - nextDifficulty) *
@@ -280,7 +281,9 @@ class FsrsOptimizerService {
 
     final sequences = extractSequences(logs);
     if (sequences.isEmpty) {
-      throw StateError('No multi-review card sequences available for training.');
+      throw StateError(
+        'No multi-review card sequences available for training.',
+      );
     }
 
     final baseline = List<double>.from(fsrs.defaultParameters);
@@ -310,12 +313,16 @@ class FsrsOptimizerService {
         final stepH = 1e-4 * math.max(0.1, w[j].abs());
 
         final wPlus = List<double>.from(w);
-        wPlus[j] = (w[j] + stepH)
-            .clamp(fsrs.lowerBoundsParameters[j], fsrs.upperBoundsParameters[j]);
+        wPlus[j] = (w[j] + stepH).clamp(
+          fsrs.lowerBoundsParameters[j],
+          fsrs.upperBoundsParameters[j],
+        );
 
         final wMinus = List<double>.from(w);
-        wMinus[j] = (w[j] - stepH)
-            .clamp(fsrs.lowerBoundsParameters[j], fsrs.upperBoundsParameters[j]);
+        wMinus[j] = (w[j] - stepH).clamp(
+          fsrs.lowerBoundsParameters[j],
+          fsrs.upperBoundsParameters[j],
+        );
 
         final fPlus = _computeObjective(
           sequences: sequences,
@@ -338,8 +345,10 @@ class FsrsOptimizerService {
         final mHat = m[j] / (1.0 - math.pow(beta1, t));
         final vHat = v[j] / (1.0 - math.pow(beta2, t));
 
-        w[j] = (w[j] - alpha * (mHat / (math.sqrt(vHat) + adamEps)))
-            .clamp(fsrs.lowerBoundsParameters[j], fsrs.upperBoundsParameters[j]);
+        w[j] = (w[j] - alpha * (mHat / (math.sqrt(vHat) + adamEps))).clamp(
+          fsrs.lowerBoundsParameters[j],
+          fsrs.upperBoundsParameters[j],
+        );
       }
 
       final epochLoss = _computeObjective(
@@ -376,11 +385,7 @@ class FsrsOptimizerService {
     int epochs = 35,
   }) async {
     return await Isolate.run(
-      () => optimizeSync(
-        logs,
-        currentWeights: currentWeights,
-        epochs: epochs,
-      ),
+      () => optimizeSync(logs, currentWeights: currentWeights, epochs: epochs),
     );
   }
 }

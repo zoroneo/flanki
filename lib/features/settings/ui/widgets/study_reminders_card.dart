@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -107,15 +108,12 @@ class StudyRemindersCard extends ConsumerWidget {
                 builder: (context, setState) {
                   final globalHotkey =
                       DesktopWindowService.instance.globalHotkeyEnabled;
-                  return _buildGlobalHotkeyToggle(
-                    theme,
-                    l10n,
-                    globalHotkey,
-                    (val) async {
-                      await studySettingsNotifier.toggleGlobalHotkey(val);
-                      setState(() {});
-                    },
-                  );
+                  return _buildGlobalHotkeyToggle(theme, l10n, globalHotkey, (
+                    val,
+                  ) async {
+                    await studySettingsNotifier.toggleGlobalHotkey(val);
+                    setState(() {});
+                  });
                 },
               ),
             ],
@@ -329,8 +327,9 @@ class StudyRemindersCard extends ConsumerWidget {
     bool globalHotkeyEnabled,
     ValueChanged<bool> onChanged,
   ) {
-    final shortcutText =
-        Platform.isMacOS ? 'Cmd + Opt + Space' : 'Ctrl + Alt + Space';
+    final shortcutText = Platform.isMacOS
+        ? 'Cmd + Opt + Space'
+        : 'Ctrl + Alt + Space';
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -353,10 +352,7 @@ class StudyRemindersCard extends ConsumerWidget {
           ),
         ),
         AppGaps.h12,
-        Switch(
-          value: globalHotkeyEnabled,
-          onChanged: onChanged,
-        ),
+        Switch(value: globalHotkeyEnabled, onChanged: onChanged),
       ],
     );
   }

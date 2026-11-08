@@ -117,7 +117,8 @@ class ApkgImporterService {
             ErrorLogger.instance.captureException(
               e,
               stackTrace: stack,
-              context: 'ApkgImporterService.importApkgPath:extractMediaFile:$targetFilename',
+              context:
+                  'ApkgImporterService.importApkgPath:extractMediaFile:$targetFilename',
             );
           } finally {
             await output.close();
@@ -227,7 +228,8 @@ class ApkgImporterService {
             ErrorLogger.instance.captureException(
               e,
               stackTrace: stack,
-              context: 'ApkgImporterService.importApkgBytes:saveMediaFile:$targetFilename',
+              context:
+                  'ApkgImporterService.importApkgBytes:saveMediaFile:$targetFilename',
             );
           }
         }

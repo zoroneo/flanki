@@ -140,8 +140,7 @@ class FsrsParameterMatrixView extends StatelessWidget {
                 style: theme.typography.xSmall.copyWith(
                   fontFamily: 'monospace',
                   color: theme.colorScheme.mutedForeground,
-                  decoration:
-                      isModified ? TextDecoration.lineThrough : null,
+                  decoration: isModified ? TextDecoration.lineThrough : null,
                 ),
               ),
               if (isModified) ...[

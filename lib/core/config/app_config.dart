@@ -276,7 +276,8 @@ class AppConfig {
       'settings_streak_saver_enabled';
   static const String storageKeyMinimizeToTray = 'settings_minimize_to_tray';
   static const String storageKeyLaunchAtStartup = 'settings_launch_at_startup';
-  static const String storageKeyFsrsCustomWeights = 'settings_fsrs_custom_weights';
+  static const String storageKeyFsrsCustomWeights =
+      'settings_fsrs_custom_weights';
 
   /// Anki Reverse-Engineering and parser heuristics
   static const int ankiDueEpochThreshold = 1000000000;

@@ -65,18 +65,13 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
                 child: _isOptimizing
                     ? _buildLoadingState(theme, l10n)
                     : _result != null
-                        ? FsrsOptimizerResultView(
-                            result: _result!,
-                            logLossTitle: l10n.fsrsMetricsLogLoss,
-                            rmseTitle: l10n.fsrsMetricsRmse,
-                            defaultLabel: l10n.defaultLabel,
-                          )
-                        : _buildInitialView(
-                            theme,
-                            l10n,
-                            totalReviews,
-                            canOptimize,
-                          ),
+                    ? FsrsOptimizerResultView(
+                        result: _result!,
+                        logLossTitle: l10n.fsrsMetricsLogLoss,
+                        rmseTitle: l10n.fsrsMetricsRmse,
+                        defaultLabel: l10n.defaultLabel,
+                      )
+                    : _buildInitialView(theme, l10n, totalReviews, canOptimize),
               ),
             ),
             AppGaps.v16,
@@ -94,11 +89,7 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
     );
   }
 
-  Widget _buildHeader(
-    ThemeData theme,
-    dynamic l10n,
-    bool hasCustomWeights,
-  ) {
+  Widget _buildHeader(ThemeData theme, dynamic l10n, bool hasCustomWeights) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -121,10 +112,11 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
         Container(
           padding: AppEdgeInsets.h8v2,
           decoration: BoxDecoration(
-            color: (hasCustomWeights
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.muted)
-                .withValues(alpha: 0.15),
+            color:
+                (hasCustomWeights
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.muted)
+                    .withValues(alpha: 0.15),
             borderRadius: AppRadius.borderSm,
           ),
           child: Text(
@@ -279,10 +271,7 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
     showToast(
       context: context,
       builder: (context, overlay) => SurfaceCard(
-        child: Basic(
-          title: Text(title),
-          leading: Icon(icon),
-        ),
+        child: Basic(title: Text(title), leading: Icon(icon)),
       ),
     );
   }
@@ -293,8 +282,9 @@ class _FsrsOptimizerDialogState extends ConsumerState<FsrsOptimizerDialog> {
       _errorMessage = null;
     });
     try {
-      final currentParams =
-          ref.read(studySettingsProvider).fsrsCustomParameters;
+      final currentParams = ref
+          .read(studySettingsProvider)
+          .fsrsCustomParameters;
       final res = await FsrsOptimizerService.optimizeAsync(
         logs,
         currentWeights: currentParams,

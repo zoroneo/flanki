@@ -68,7 +68,9 @@ class GrammarService {
           }
           throw FormatException('Invalid JSON map in $path');
         } catch (e) {
-          throw Exception('${AppConfig.errFailedLoadGrammarUnitPrefix}$path: $e');
+          throw Exception(
+            '${AppConfig.errFailedLoadGrammarUnitPrefix}$path: $e',
+          );
         }
       }),
     );

@@ -275,10 +275,11 @@ class SpacedRepetitionCard extends ConsumerWidget {
                     Container(
                       padding: AppEdgeInsets.h8v2,
                       decoration: BoxDecoration(
-                        color: (hasCustomWeights
-                                ? theme.colorScheme.primary
-                                : theme.colorScheme.muted)
-                            .withValues(alpha: 0.15),
+                        color:
+                            (hasCustomWeights
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.muted)
+                                .withValues(alpha: 0.15),
                         borderRadius: AppRadius.borderSm,
                       ),
                       child: Text(

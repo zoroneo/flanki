@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fsrs/fsrs.dart' as fsrs;
 import 'package:flanki/core/fsrs/fsrs_optimizer_service.dart';
@@ -14,36 +13,42 @@ void main() {
       expect(FsrsOptimizerService.canOptimize(500), isTrue);
     });
 
-    test('groupLogsByCard chronologically groups and ignores single reviews', () {
-      final now = DateTime.utc(2026, 1, 1);
-      final logs = [
-        ReviewLogModel(
-          id: 1,
-          cardId: 'card_1',
-          rating: ReviewRating.good,
-          reviewTime: now.add(const Duration(days: 4)),
-        ),
-        ReviewLogModel(
-          id: 2,
-          cardId: 'card_1',
-          rating: ReviewRating.good,
-          reviewTime: now,
-        ),
-        ReviewLogModel(
-          id: 3,
-          cardId: 'card_single',
-          rating: ReviewRating.good,
-          reviewTime: now,
-        ),
-      ];
+    test(
+      'groupLogsByCard chronologically groups and ignores single reviews',
+      () {
+        final now = DateTime.utc(2026, 1, 1);
+        final logs = [
+          ReviewLogModel(
+            id: 1,
+            cardId: 'card_1',
+            rating: ReviewRating.good,
+            reviewTime: now.add(const Duration(days: 4)),
+          ),
+          ReviewLogModel(
+            id: 2,
+            cardId: 'card_1',
+            rating: ReviewRating.good,
+            reviewTime: now,
+          ),
+          ReviewLogModel(
+            id: 3,
+            cardId: 'card_single',
+            rating: ReviewRating.good,
+            reviewTime: now,
+          ),
+        ];
 
-      final sequences = FsrsOptimizerService.extractSequences(logs);
-      expect(sequences.length, 1);
-      expect(sequences.first.cardId, 'card_1');
-      expect(sequences.first.reviews.length, 2);
-      expect(sequences.first.reviews[0].reviewTime, now);
-      expect(sequences.first.reviews[1].reviewTime, now.add(const Duration(days: 4)));
-    });
+        final sequences = FsrsOptimizerService.extractSequences(logs);
+        expect(sequences.length, 1);
+        expect(sequences.first.cardId, 'card_1');
+        expect(sequences.first.reviews.length, 2);
+        expect(sequences.first.reviews[0].reviewTime, now);
+        expect(
+          sequences.first.reviews[1].reviewTime,
+          now.add(const Duration(days: 4)),
+        );
+      },
+    );
 
     test('evaluateMetrics returns non-zero baseline log-loss and rmse on valid data', () {
       final now = DateTime.utc(2026, 1, 1);
@@ -53,20 +58,24 @@ void main() {
       for (int c = 0; c < 25; c++) {
         final cardId = 'card_$c';
         var t = now;
-        logs.add(ReviewLogModel(
-          id: logs.length + 1,
-          cardId: cardId,
-          rating: ReviewRating.good,
-          reviewTime: t,
-        ));
-        for (int step = 1; step < 8; step++) {
-          t = t.add(Duration(days: step * 3));
-          logs.add(ReviewLogModel(
+        logs.add(
+          ReviewLogModel(
             id: logs.length + 1,
             cardId: cardId,
-            rating: (step % 5 == 0) ? ReviewRating.again : ReviewRating.good,
+            rating: ReviewRating.good,
             reviewTime: t,
-          ));
+          ),
+        );
+        for (int step = 1; step < 8; step++) {
+          t = t.add(Duration(days: step * 3));
+          logs.add(
+            ReviewLogModel(
+              id: logs.length + 1,
+              cardId: cardId,
+              rating: (step % 5 == 0) ? ReviewRating.again : ReviewRating.good,
+              reviewTime: t,
+            ),
+          );
         }
       }
 
@@ -92,20 +101,24 @@ void main() {
       for (int c = 0; c < 40; c++) {
         final cardId = 'user_card_$c';
         var t = now;
-        logs.add(ReviewLogModel(
-          id: logs.length + 1,
-          cardId: cardId,
-          rating: ReviewRating.easy,
-          reviewTime: t,
-        ));
-        for (int step = 1; step < 6; step++) {
-          t = t.add(Duration(days: step * 5));
-          logs.add(ReviewLogModel(
+        logs.add(
+          ReviewLogModel(
             id: logs.length + 1,
             cardId: cardId,
             rating: ReviewRating.easy,
             reviewTime: t,
-          ));
+          ),
+        );
+        for (int step = 1; step < 6; step++) {
+          t = t.add(Duration(days: step * 5));
+          logs.add(
+            ReviewLogModel(
+              id: logs.length + 1,
+              cardId: cardId,
+              rating: ReviewRating.easy,
+              reviewTime: t,
+            ),
+          );
         }
       }
 
@@ -131,8 +144,14 @@ void main() {
       }
 
       // Verify optimization improved or kept stable loss
-      expect(result.optimizedLogLoss, lessThanOrEqualTo(result.baselineLogLoss + 1e-4));
-      expect(result.optimizedRmse, lessThanOrEqualTo(result.baselineRmse + 1e-4));
+      expect(
+        result.optimizedLogLoss,
+        lessThanOrEqualTo(result.baselineLogLoss + 1e-4),
+      );
+      expect(
+        result.optimizedRmse,
+        lessThanOrEqualTo(result.baselineRmse + 1e-4),
+      );
     });
 
     test('optimize throws StateError when reviews < 200', () {
