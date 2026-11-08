@@ -26,8 +26,10 @@ class GrammarUnitCard extends StatelessWidget {
     final levelColor = unit.level.color;
     final levelText = unit.level.getLocalizedName(l10n);
 
-    return Card(
-      child: Padding(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => context.push(AppRoutes.grammarTheory(unit.unitId)),
+      child: Card(
         padding: isMobile ? AppEdgeInsets.all12 : AppEdgeInsets.all16,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,6 +208,7 @@ class GrammarUnitCard extends StatelessWidget {
   ) {
     final theoryButton = OutlineButton(
       size: ButtonSize.small,
+      alignment: Alignment.center,
       onPressed: () => context.push(AppRoutes.grammarTheory(unit.unitId)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -226,6 +229,7 @@ class GrammarUnitCard extends StatelessWidget {
 
     final practiceButton = PrimaryButton(
       size: ButtonSize.small,
+      alignment: Alignment.center,
       onPressed: () => context.push(AppRoutes.grammarPractice(unit.unitId)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

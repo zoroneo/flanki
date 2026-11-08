@@ -11,6 +11,7 @@ import 'package:flanki/main.dart';
 import 'package:flanki/features/grammar/models/grammar_models.dart';
 import 'package:flanki/features/grammar/data/grammar_service.dart';
 import 'package:flanki/core/localization/locale_notifier.dart';
+import 'package:flanki/features/grammar/ui/grammar_theory_screen.dart';
 
 class TestVietnameseLocaleNotifier extends LocaleNotifier {
   @override
@@ -166,5 +167,100 @@ void main() {
     await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
     await tester.pumpAndSettle();
     expect(find.text('Thì Hiện Tại & Quá Khứ Cơ Bản'), findsOneWidget);
+  });
+
+  testWidgets('Mobile: Tapping Lý Thuyết navigates to GrammarTheoryScreen', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(400, 800);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    const mockUnit = GrammarUnit(
+      unitId: 'unit-01-present-simple-vs-continuous',
+      title: 'Thì Hiện Tại & Quá Khứ Cơ Bản',
+      category: GrammarCategory.tenses,
+      level: GrammarLevel.foundation,
+      coreConcept: 'Khái niệm thì',
+      formulas: {},
+      commonTraps: [],
+      exercises: [],
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          grammarUnitsProvider.overrideWith((ref) async => [mockUnit]),
+          grammarUnitProvider('unit-01-present-simple-vs-continuous')
+              .overrideWith((ref) async => mockUnit),
+          localeNotifierProvider.overrideWith(TestVietnameseLocaleNotifier.new),
+        ],
+        child: const FlankiApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Ngữ pháp').first);
+    await tester.pumpAndSettle();
+
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+
+    final theoryButton = find.text('Lý Thuyết');
+    expect(theoryButton, findsOneWidget);
+    await tester.tap(theoryButton);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(GrammarTheoryScreen), findsOneWidget);
+  });
+
+  testWidgets('Mobile: Tapping card body navigates to GrammarTheoryScreen', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(400, 800);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    const mockUnit = GrammarUnit(
+      unitId: 'unit-01-present-simple-vs-continuous',
+      title: 'Thì Hiện Tại & Quá Khứ Cơ Bản',
+      category: GrammarCategory.tenses,
+      level: GrammarLevel.foundation,
+      coreConcept: 'Khái niệm thì',
+      formulas: {},
+      commonTraps: [],
+      exercises: [],
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          grammarUnitsProvider.overrideWith((ref) async => [mockUnit]),
+          grammarUnitProvider('unit-01-present-simple-vs-continuous')
+              .overrideWith((ref) async => mockUnit),
+          localeNotifierProvider.overrideWith(TestVietnameseLocaleNotifier.new),
+        ],
+        child: const FlankiApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Ngữ pháp').first);
+    await tester.pumpAndSettle();
+
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+
+    // Tap on the card title directly
+    await tester.tap(find.text('Thì Hiện Tại & Quá Khứ Cơ Bản'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(GrammarTheoryScreen), findsOneWidget);
   });
 }

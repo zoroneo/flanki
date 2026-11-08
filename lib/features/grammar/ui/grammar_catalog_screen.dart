@@ -79,7 +79,7 @@ class GrammarCatalogScreen extends HookConsumerWidget {
         );
         final mainAxisExtent = getValueForScreenType<double>(
           context: context,
-          mobile: 165.0,
+          mobile: 185.0,
           tablet: 220.0,
           desktop: 230.0,
         );

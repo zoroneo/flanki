@@ -25,6 +25,10 @@ import 'core/database/database_service.dart';
 import 'core/database/media_storage_service.dart';
 import 'core/logging/error_logger.dart';
 import 'core/logging/error_severity.dart';
+
+import 'dart:isolate';
+
+import 'core/logging/interaction_watcher.dart';
 import 'core/logging/riverpod_error_observer.dart';
 import 'core/services/card_audio_service.dart';
 import 'core/storage/supabase_secure_storage.dart';
@@ -37,10 +41,13 @@ void main() async {
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
+    final contextDesc = details.context?.toDescription() ?? '';
+    final summaryDesc = details.summary.toDescription();
     ErrorLogger.instance.captureException(
       details.exception,
       stackTrace: details.stack,
-      context: 'FlutterError: ${details.library}',
+      context: 'FlutterError [${details.library}]: $contextDesc'.trim(),
+      extra: {'summary': summaryDesc, 'library': details.library},
       severity: ErrorSeverity.error,
     );
   };
@@ -55,7 +62,33 @@ void main() async {
     return true;
   };
 
+  if (!kIsWeb) {
+    final isolatePort = RawReceivePort((dynamic pair) {
+      final isolateError = pair as List<dynamic>;
+      final error = isolateError.first;
+      final stack = isolateError.length > 1 && isolateError[1] != null
+          ? StackTrace.fromString(isolateError[1].toString())
+          : null;
+      ErrorLogger.instance.captureException(
+        error,
+        stackTrace: stack,
+        context: 'Isolate.uncaughtError',
+        fatal: true,
+      );
+    });
+    Isolate.current.addErrorListener(isolatePort.sendPort);
+  }
+
   ErrorWidget.builder = (FlutterErrorDetails details) {
+    ErrorLogger.instance.captureException(
+      details.exception,
+      stackTrace: details.stack,
+      context: 'ErrorWidgetFallback: ${details.summary.toDescription()}',
+      severity: ErrorSeverity.fatal,
+      fatal: true,
+    );
+    unawaited(ErrorLogger.instance.flush());
+
     if (kReleaseMode) {
       return const m.Material(
         child: m.Center(
@@ -256,6 +289,10 @@ class FlankiApp extends ConsumerWidget {
                 child: Listener(
                   behavior: HitTestBehavior.translucent,
                   onPointerDown: (event) {
+                    InteractionWatcher.instance.onPointerDown(
+                      event,
+                      currentRoute: LoggingNavigatorObserver.currentRouteName,
+                    );
                     final currentFocus = FocusManager.instance.primaryFocus;
                     if (currentFocus != null && currentFocus.hasFocus) {
                       final renderBox =

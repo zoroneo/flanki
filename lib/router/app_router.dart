@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../core/logging/breadcrumb_tracker.dart';
+import '../core/logging/interaction_watcher.dart';
 import '../features/grammar/models/grammar_models.dart';
 import '../features/exam/ui/exam_catalog_screen.dart';
 import '../features/exam/ui/exam_taking_screen.dart';
@@ -225,6 +226,8 @@ GoRouter appRouter(Ref ref) {
 
 /// Observer that records navigation transitions to the circular breadcrumb buffer.
 class LoggingNavigatorObserver extends NavigatorObserver {
+  static String currentRouteName = 'root';
+
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
@@ -234,7 +237,9 @@ class LoggingNavigatorObserver extends NavigatorObserver {
         previousRoute?.settings.name ??
         previousRoute?.settings.arguments?.toString() ??
         'initial';
+    currentRouteName = to;
     BreadcrumbTracker.instance.addNavigation(from, to);
+    InteractionWatcher.instance.notifyNavigationOccurred();
   }
 
   @override
@@ -242,7 +247,9 @@ class LoggingNavigatorObserver extends NavigatorObserver {
     super.didPop(route, previousRoute);
     final from = route.settings.name ?? 'route';
     final to = previousRoute?.settings.name ?? 'previous';
+    currentRouteName = to;
     BreadcrumbTracker.instance.addNavigation(from, to);
+    InteractionWatcher.instance.notifyNavigationOccurred();
   }
 
   @override
@@ -250,6 +257,8 @@ class LoggingNavigatorObserver extends NavigatorObserver {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
     final from = oldRoute?.settings.name ?? 'route';
     final to = newRoute?.settings.name ?? 'replacement';
+    currentRouteName = to;
     BreadcrumbTracker.instance.addNavigation(from, to);
+    InteractionWatcher.instance.notifyNavigationOccurred();
   }
 }
