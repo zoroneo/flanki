@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -120,6 +122,8 @@ SOFTWARE.''',
           authFlowType: AuthFlowType.pkce,
         ),
       );
+      // Flush any queued error logs now that Supabase is ready
+      unawaited(ErrorLogger.instance.flushOfflineLogs());
     } catch (e) {
       debugPrint('${AppConfig.logSupabaseInitFailedPrefix}$e');
     }

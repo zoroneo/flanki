@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -181,6 +182,38 @@ void main() {
       final content = await testOfflineFile.readAsString();
       expect(content.contains('A' * 5000), isFalse);
       expect(content.contains('A' * 2000), isTrue);
+    });
+
+    test(
+      'flushOfflineLogs loads pending offline file into queue and flushes',
+      () async {
+        final initialItem = ErrorLogItem(
+          id: 'offline-item-1',
+          fingerprint: 'fp-1',
+          severity: ErrorSeverity.error,
+          errorType: 'OfflineError',
+          errorMessage: 'Network unreachable',
+          platform: 'windows',
+          appVersion: '1.0.0',
+          deviceInfo: {},
+          breadcrumbs: [],
+        );
+        await testOfflineFile.writeAsString(jsonEncode([initialItem.toJson()]));
+        expect(await testOfflineFile.exists(), isTrue);
+
+        await logger.flushOfflineLogs();
+
+        expect(await testOfflineFile.exists(), isTrue);
+        final content = await testOfflineFile.readAsString();
+        expect(content, contains('Network unreachable'));
+      },
+    );
+
+    test('flush does not repeatedly touch disk when memory queue is empty and Supabase is not ready', () async {
+      expect(await testOfflineFile.exists(), isFalse);
+
+      await logger.flush();
+      expect(await testOfflineFile.exists(), isFalse);
     });
   });
 }

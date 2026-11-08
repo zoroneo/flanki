@@ -253,15 +253,24 @@ class ErrorLogger {
 
   /// Flushes current queued errors to Supabase, falling back to local offline cache on failure.
   Future<void> flush() async {
-    if (_isFlushing || _batchQueue.isEmpty) return;
+    if (_isFlushing) return;
+
+    final client = _resolveSupabaseClient();
+    final isSupabaseReady =
+        client != null &&
+        (_injectedClient != null || SupabaseConfig.isConfigured);
+
+    // Self-healing: if memory queue is empty and Supabase is ready, drain offline cache
+    if (_batchQueue.isEmpty && isSupabaseReady) {
+      await _loadPendingOfflineLogs();
+    }
+    if (_batchQueue.isEmpty) return;
+
     _isFlushing = true;
 
     try {
       final itemsToFlush = List<ErrorLogItem>.from(_batchQueue);
       _batchQueue.clear();
-
-      final client = _resolveSupabaseClient();
-      final isSupabaseReady = client != null && SupabaseConfig.isConfigured;
 
       if (!isSupabaseReady) {
         // Store in offline cache
@@ -281,6 +290,14 @@ class ErrorLogger {
       }
     } finally {
       _isFlushing = false;
+    }
+  }
+
+  /// Explicitly loads and flushes any pending offline logs.
+  Future<void> flushOfflineLogs() async {
+    await _loadPendingOfflineLogs();
+    if (_batchQueue.isNotEmpty) {
+      await flush();
     }
   }
 
