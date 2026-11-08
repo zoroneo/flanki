@@ -131,7 +131,7 @@ class DeckImportHelper {
                 title: Text(l10n.importApkgSuccess),
                 subtitle: Text(subtitleDesc),
                 leading: Icon(
-                  hasFailedMedia ? LucideIcons.alertTriangle : LucideIcons.circleCheck,
+                  hasFailedMedia ? LucideIcons.triangleAlert : LucideIcons.circleCheck,
                   color: hasFailedMedia ? AppColors.warning : AppColors.success,
                 ),
                 trailing: IconButton.ghost(
