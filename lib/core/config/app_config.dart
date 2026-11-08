@@ -34,8 +34,8 @@ class AppConfig {
     return appMediaBaseDirectory;
   }
 
-  static const String defaultVersion = '1.1.8';
-  static const int defaultBuildNumber = 17;
+  static const String defaultVersion = '1.1.9';
+  static const int defaultBuildNumber = 18;
 
   /// Centralized supported locales and default fallback
   static const String localeCodeVi = 'vi';
