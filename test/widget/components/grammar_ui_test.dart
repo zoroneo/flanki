@@ -286,6 +286,7 @@ void main() {
           ProviderScope(
             overrides: [
               grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarUnitProvider(unit.unitId).overrideWith((ref) async => unit),
             ],
             child: wrapWithTheme(
               const GrammarTheoryScreen(unitId: 'test_unit_01'),
@@ -327,6 +328,7 @@ void main() {
           ProviderScope(
             overrides: [
               grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarUnitProvider(unit.unitId).overrideWith((ref) async => unit),
             ],
             child: wrapWithTheme(
               const GrammarTheoryScreen(unitId: 'test_unit_01'),
@@ -368,6 +370,7 @@ void main() {
         ProviderScope(
           overrides: [
             grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarUnitProvider(unit.unitId).overrideWith((ref) async => unit),
           ],
           child: wrapWithTheme(
             const GrammarTheoryScreen(unitId: 'test_unit_01'),
@@ -416,6 +419,7 @@ void main() {
           ProviderScope(
             overrides: [
               grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarUnitProvider(unit.unitId).overrideWith((ref) async => unit),
             ],
             child: wrapWithTheme(
               const GrammarTheoryScreen(unitId: 'test_unit_tabs'),
@@ -661,6 +665,7 @@ void main() {
           ProviderScope(
             overrides: [
               grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarUnitProvider(unit.unitId).overrideWith((ref) async => unit),
               grammarRepositoryProvider.overrideWithValue(repo),
             ],
             child: wrapWithTheme(const GrammarCatalogScreen()),
@@ -707,6 +712,7 @@ void main() {
         ProviderScope(
           overrides: [
             grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarUnitProvider(unit.unitId).overrideWith((ref) async => unit),
             grammarRepositoryProvider.overrideWithValue(repo),
           ],
           child: wrapWithTheme(const GrammarCatalogScreen()),
@@ -747,6 +753,7 @@ void main() {
         ProviderScope(
           overrides: [
             grammarUnitsProvider.overrideWith((ref) async => [unit]),
+              grammarUnitProvider(unit.unitId).overrideWith((ref) async => unit),
             grammarRepositoryProvider.overrideWithValue(repo),
           ],
           child: wrapWithTheme(const GrammarCatalogScreen()),
