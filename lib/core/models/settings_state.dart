@@ -20,6 +20,7 @@ abstract class StudySettings with _$StudySettings {
     @Default(true) bool streakSaverEnabled,
     @Default(true) bool minimizeToTrayOnClose,
     @Default(false) bool launchAtStartup,
+    List<double>? fsrsCustomParameters,
   }) = _StudySettings;
 
   factory StudySettings.fromJson(Map<String, dynamic> json) =>

@@ -33,6 +33,8 @@ class DesktopWindowService with WindowListener, TrayListener {
       !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
 
   bool minimizeToTrayOnClose = true;
+  bool globalHotkeyEnabled = true;
+  HotKey? _reviewHotKey;
   VoidCallback? _onOpenStudy;
   bool _isInitialized = false;
 
@@ -77,8 +79,8 @@ class DesktopWindowService with WindowListener, TrayListener {
       _reviewHotKey = HotKey(
         key: PhysicalKeyboardKey.space,
         modifiers: [
-          Platform.isMacOS ? KeyModifier.meta : KeyModifier.control,
-          KeyModifier.alt,
+          Platform.isMacOS ? HotKeyModifier.meta : HotKeyModifier.control,
+          HotKeyModifier.alt,
         ],
         scope: HotKeyScope.system,
       );

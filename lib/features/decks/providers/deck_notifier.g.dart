@@ -41,7 +41,7 @@ final class DeckNotifierProvider
   }
 }
 
-String _$deckNotifierHash() => r'038542e2d2021997ae78e3198e6bbe265469d19a';
+String _$deckNotifierHash() => r'1bbdb2d676aa1680b1d9b1a449303a6596879465';
 
 abstract class _$DeckNotifier extends $Notifier<List<DeckModel>> {
   List<DeckModel> build();

@@ -162,6 +162,7 @@ class AppConfig {
   static const int defaultNewCardsPerDay = 20;
   static const int defaultReviewsPerDay = 100;
   static const int defaultCramLimit = 50;
+  static const int minReviewLogsForFsrsOptimization = 200;
   static const double defaultDesiredRetention = 0.90;
   static const double minDesiredRetention = 0.70;
   static const double maxDesiredRetention = 0.97;
@@ -275,6 +276,7 @@ class AppConfig {
       'settings_streak_saver_enabled';
   static const String storageKeyMinimizeToTray = 'settings_minimize_to_tray';
   static const String storageKeyLaunchAtStartup = 'settings_launch_at_startup';
+  static const String storageKeyFsrsCustomWeights = 'settings_fsrs_custom_weights';
 
   /// Anki Reverse-Engineering and parser heuristics
   static const int ankiDueEpochThreshold = 1000000000;

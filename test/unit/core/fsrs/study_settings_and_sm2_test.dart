@@ -159,6 +159,15 @@ void main() {
         expect(fromDecoded.launchAtStartup, isTrue);
       },
     );
+
+    test('StudySettings handles fsrsCustomParameters roundtrip', () {
+      final customWeights = List<double>.generate(21, (i) => 0.1 * (i + 1));
+      final settings = StudySettings(fsrsCustomParameters: customWeights);
+      expect(settings.fsrsCustomParameters, equals(customWeights));
+      final map = settings.toMap();
+      final restored = StudySettings.fromMap(map);
+      expect(restored.fsrsCustomParameters, equals(customWeights));
+    });
   });
 
   group('AnkiWebConfig Centralization Tests', () {

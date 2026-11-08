@@ -42,7 +42,7 @@ final class StudySessionNotifierProvider
 }
 
 String _$studySessionNotifierHash() =>
-    r'aa19bbffb1a78cbed8f1c02c327352451cff65a9';
+    r'c06cafd3ad57a2d55bca56cb342ffe3793aff7ce';
 
 abstract class _$StudySessionNotifier extends $Notifier<StudySessionState> {
   StudySessionState build();

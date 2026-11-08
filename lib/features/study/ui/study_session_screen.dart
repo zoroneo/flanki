@@ -53,8 +53,10 @@ class StudySessionScreen extends HookConsumerWidget {
       ),
     );
     final sessionNotifier = ref.read(studySessionProvider.notifier);
-    final (fsrsEnabled, desiredRetention) = ref.watch(
-      studySettingsProvider.select((s) => (s.fsrsEnabled, s.desiredRetention)),
+    final (fsrsEnabled, desiredRetention, fsrsParameters) = ref.watch(
+      studySettingsProvider.select(
+        (s) => (s.fsrsEnabled, s.desiredRetention, s.fsrsCustomParameters),
+      ),
     );
 
     useEffect(() {
@@ -157,7 +159,10 @@ class StudySessionScreen extends HookConsumerWidget {
       () {
         if (currentCard == null) return <ReviewRating, String>{};
         if (fsrsEnabled) {
-          final engine = FsrsEngineService(desiredRetention: desiredRetention);
+          final engine = FsrsEngineService(
+            desiredRetention: desiredRetention,
+            parameters: fsrsParameters,
+          );
           return engine.previewIntervals(currentCard, l10n: l10n);
         } else {
           const engine = Sm2EngineService();
@@ -172,6 +177,7 @@ class StudySessionScreen extends HookConsumerWidget {
         currentCard?.intervalDays,
         fsrsEnabled,
         desiredRetention,
+        fsrsParameters,
         l10n,
       ],
     );

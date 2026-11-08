@@ -2079,4 +2079,70 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get themeZinc => 'Chủ đề Zinc';
+
+  @override
+  String get fsrsOptimizerTitle => 'Tối ưu hóa thuật toán FSRS';
+
+  @override
+  String get fsrsOptimizerSubtitle =>
+      'Huấn luyện 21 trọng số cá nhân hóa từ lịch sử ôn tập';
+
+  @override
+  String fsrsOptimizerMinReviewsRequired(int min, int count) {
+    return 'Cần tối thiểu $min lượt ôn tập (Hiện có: $count)';
+  }
+
+  @override
+  String fsrsOptimizerReady(int count) {
+    return 'Sẵn sàng tối ưu ($count lượt ôn tập khả dụng)';
+  }
+
+  @override
+  String get fsrsOptimizerStart => 'Bắt đầu tối ưu';
+
+  @override
+  String get fsrsOptimizerOptimizing =>
+      'Đang mô phỏng lịch sử ôn tập & huấn luyện...';
+
+  @override
+  String get fsrsOptimizerApply => 'Áp dụng trọng số mới';
+
+  @override
+  String get fsrsOptimizerReset => 'Khôi phục mặc định';
+
+  @override
+  String get fsrsOptimizerSuccessToast =>
+      'Đã lưu và áp dụng trọng số FSRS tối ưu thành công!';
+
+  @override
+  String get fsrsOptimizerResetToast =>
+      'Đã khôi phục trọng số FSRS về mặc định ban đầu.';
+
+  @override
+  String get fsrsMetricsLogLoss => 'Hàm mất mát (Log-Loss)';
+
+  @override
+  String get fsrsMetricsRmse => 'Sai số dự đoán (RMSE)';
+
+  @override
+  String get fsrsGroupInitialStability =>
+      'Độ ổn định ban đầu (Again / Hard / Good / Easy)';
+
+  @override
+  String get fsrsGroupDifficulty => 'Động lực độ khó';
+
+  @override
+  String get fsrsGroupRecall => 'Hệ số ổn định khi nhớ';
+
+  @override
+  String get fsrsGroupForget => 'Hệ số ổn định khi quên';
+
+  @override
+  String get fsrsGroupDecay => 'Hệ số phạt/thưởng & Tốc độ quên';
+
+  @override
+  String get fsrsWeightsCustomBadge => 'Trọng số cá nhân';
+
+  @override
+  String get fsrsWeightsDefaultBadge => 'Trọng số mặc định';
 }

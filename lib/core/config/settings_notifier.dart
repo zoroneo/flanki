@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,6 +21,7 @@ const String _kStreakSaverEnabledKey = AppConfig.storageKeyStreakSaverEnabled;
 const String _kMinimizeToTrayKey = AppConfig.storageKeyMinimizeToTray;
 const String _kLaunchAtStartupKey = AppConfig.storageKeyLaunchAtStartup;
 const String _kGlobalHotkeyEnabledKey = 'desktop_global_hotkey_enabled';
+const String _kFsrsCustomWeightsKey = AppConfig.storageKeyFsrsCustomWeights;
 
 @Riverpod(keepAlive: true, name: 'studySettingsProvider')
 class StudySettingsNotifier extends _$StudySettingsNotifier {
@@ -44,6 +46,15 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
       final minTrayVal = await _storage.read(key: _kMinimizeToTrayKey);
       final launchStartupVal = await _storage.read(key: _kLaunchAtStartupKey);
       final hotkeyVal = await _storage.read(key: _kGlobalHotkeyEnabledKey);
+      final weightsVal = await _storage.read(key: _kFsrsCustomWeightsKey);
+
+      List<double>? customWeights;
+      if (weightsVal != null && weightsVal.isNotEmpty) {
+        try {
+          final decoded = jsonDecode(weightsVal) as List;
+          customWeights = decoded.map((e) => (e as num).toDouble()).toList();
+        } catch (_) {}
+      }
 
       final minTray = minTrayVal != null ? minTrayVal == 'true' : true;
       final launchStartup = launchStartupVal != null
@@ -74,6 +85,7 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
             : true,
         minimizeToTrayOnClose: minTray,
         launchAtStartup: launchStartup,
+        fsrsCustomParameters: customWeights,
       );
 
       DesktopWindowService.instance.minimizeToTrayOnClose = minTray;
@@ -237,6 +249,31 @@ class StudySettingsNotifier extends _$StudySettingsNotifier {
         key: _kLaunchAtStartupKey,
         value: settings.launchAtStartup ? 'true' : 'false',
       );
+      if (settings.fsrsCustomParameters != null) {
+        await _storage.write(
+          key: _kFsrsCustomWeightsKey,
+          value: jsonEncode(settings.fsrsCustomParameters),
+        );
+      } else {
+        await _storage.delete(key: _kFsrsCustomWeightsKey);
+      }
+    } catch (_) {}
+  }
+
+  Future<void> saveFsrsCustomParameters(List<double> weights) async {
+    state = state.copyWith(fsrsCustomParameters: weights);
+    try {
+      await _storage.write(
+        key: _kFsrsCustomWeightsKey,
+        value: jsonEncode(weights),
+      );
+    } catch (_) {}
+  }
+
+  Future<void> resetFsrsParameters() async {
+    state = state.copyWith(fsrsCustomParameters: null);
+    try {
+      await _storage.delete(key: _kFsrsCustomWeightsKey);
     } catch (_) {}
   }
 }

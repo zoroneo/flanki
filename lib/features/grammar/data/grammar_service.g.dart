@@ -151,7 +151,7 @@ final class GrammarUnitProvider
   }
 }
 
-String _$grammarUnitHash() => r'152edb92dd258edcc9ec8b708133d14fb2e71b11';
+String _$grammarUnitHash() => r'3864c06788db9b2b7a6a9d5235f3525f922010cb';
 
 /// Targeted single-unit provider for instant loading without waiting for all 36 units.
 

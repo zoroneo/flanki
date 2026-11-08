@@ -42,7 +42,7 @@ final class CardBrowserNotifierProvider
 }
 
 String _$cardBrowserNotifierHash() =>
-    r'523e8e49a7f1f70ecc98f98f2c4598469850b037';
+    r'81318a7f0436c814f33f560552152968df6579e4';
 
 abstract class _$CardBrowserNotifier extends $Notifier<CardBrowserState> {
   CardBrowserState build();

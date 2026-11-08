@@ -24,9 +24,11 @@ class FsrsEngineService {
   FsrsEngineService({
     double desiredRetention = AppConfig.defaultDesiredRetention,
     bool enableFuzzing = false, // deterministic intervals for UI preview
+    List<double>? parameters,
   }) : scheduler = fsrs.Scheduler(
          desiredRetention: desiredRetention,
          enableFuzzing: enableFuzzing,
+         parameters: parameters ?? fsrs.defaultParameters,
        );
 
   /// Convert Flanki's CardModel to fsrs.Card

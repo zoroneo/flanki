@@ -28,6 +28,9 @@ _StudySettings _$StudySettingsFromJson(Map<String, dynamic> json) =>
       streakSaverEnabled: json['streakSaverEnabled'] as bool? ?? true,
       minimizeToTrayOnClose: json['minimizeToTrayOnClose'] as bool? ?? true,
       launchAtStartup: json['launchAtStartup'] as bool? ?? false,
+      fsrsCustomParameters: (json['fsrsCustomParameters'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList(),
     );
 
 Map<String, dynamic> _$StudySettingsToJson(_StudySettings instance) =>
@@ -42,4 +45,5 @@ Map<String, dynamic> _$StudySettingsToJson(_StudySettings instance) =>
       'streakSaverEnabled': instance.streakSaverEnabled,
       'minimizeToTrayOnClose': instance.minimizeToTrayOnClose,
       'launchAtStartup': instance.launchAtStartup,
+      'fsrsCustomParameters': instance.fsrsCustomParameters,
     };

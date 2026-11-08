@@ -5,6 +5,8 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../providers/settings_notifier.dart';
 import 'settings_info_rows.dart';
 
+import 'fsrs_optimizer_dialog.dart';
+
 class SpacedRepetitionCard extends ConsumerWidget {
   const SpacedRepetitionCard({super.key});
 
@@ -36,6 +38,8 @@ class SpacedRepetitionCard extends ConsumerWidget {
               studySettings,
               studySettingsNotifier,
             ),
+            AppGaps.v16,
+            _buildFsrsOptimizerTile(context, theme, l10n, studySettings),
           ],
           AppGaps.v16,
           const Divider(),
@@ -227,6 +231,93 @@ class SpacedRepetitionCard extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildFsrsOptimizerTile(
+    BuildContext context,
+    ThemeData theme,
+    dynamic l10n,
+    StudySettings studySettings,
+  ) {
+    final hasCustomWeights = studySettings.fsrsCustomParameters != null;
+
+    return SurfaceCard(
+      padding: AppEdgeInsets.all12,
+      child: Row(
+        children: [
+          Container(
+            padding: AppEdgeInsets.all8,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+              borderRadius: AppRadius.borderSm,
+            ),
+            child: Icon(
+              LucideIcons.sparkles,
+              size: AppIconSize.md,
+              color: theme.colorScheme.primary,
+            ),
+          ),
+          AppGaps.h12,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      l10n.fsrsOptimizerTitle,
+                      style: theme.typography.small.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    AppGaps.h8,
+                    Container(
+                      padding: AppEdgeInsets.h8v2,
+                      decoration: BoxDecoration(
+                        color: (hasCustomWeights
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.muted)
+                            .withValues(alpha: 0.15),
+                        borderRadius: AppRadius.borderSm,
+                      ),
+                      child: Text(
+                        hasCustomWeights
+                            ? l10n.fsrsWeightsCustomBadge
+                            : l10n.fsrsWeightsDefaultBadge,
+                        style: theme.typography.xSmall.copyWith(
+                          color: hasCustomWeights
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.mutedForeground,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                AppGaps.v2,
+                Text(
+                  l10n.fsrsOptimizerSubtitle,
+                  style: theme.typography.xSmall.copyWith(
+                    color: theme.colorScheme.mutedForeground,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          AppGaps.h8,
+          Button.outline(
+            onPressed: () => FsrsOptimizerDialog.show(context),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(l10n.fsrsOptimizerStart),
+                AppGaps.h4,
+                const Icon(LucideIcons.chevronRight, size: AppIconSize.xs),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

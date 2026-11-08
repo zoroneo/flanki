@@ -3733,6 +3733,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Zinc Theme'**
   String get themeZinc;
+
+  /// No description provided for @fsrsOptimizerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FSRS Algorithm Optimizer'**
+  String get fsrsOptimizerTitle;
+
+  /// No description provided for @fsrsOptimizerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Train personal weights from review history'**
+  String get fsrsOptimizerSubtitle;
+
+  /// No description provided for @fsrsOptimizerMinReviewsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires at least {min} review logs (Current: {count})'**
+  String fsrsOptimizerMinReviewsRequired(int min, int count);
+
+  /// No description provided for @fsrsOptimizerReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to optimize ({count} review logs available)'**
+  String fsrsOptimizerReady(int count);
+
+  /// No description provided for @fsrsOptimizerStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Optimization'**
+  String get fsrsOptimizerStart;
+
+  /// No description provided for @fsrsOptimizerOptimizing.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulating review history & training weights...'**
+  String get fsrsOptimizerOptimizing;
+
+  /// No description provided for @fsrsOptimizerApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Optimized Weights'**
+  String get fsrsOptimizerApply;
+
+  /// No description provided for @fsrsOptimizerReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Defaults'**
+  String get fsrsOptimizerReset;
+
+  /// No description provided for @fsrsOptimizerSuccessToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized FSRS weights applied successfully!'**
+  String get fsrsOptimizerSuccessToast;
+
+  /// No description provided for @fsrsOptimizerResetToast.
+  ///
+  /// In en, this message translates to:
+  /// **'FSRS weights restored to factory defaults.'**
+  String get fsrsOptimizerResetToast;
+
+  /// No description provided for @fsrsMetricsLogLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Log-Loss (Cross-Entropy)'**
+  String get fsrsMetricsLogLoss;
+
+  /// No description provided for @fsrsMetricsRmse.
+  ///
+  /// In en, this message translates to:
+  /// **'RMSE (Prediction Error)'**
+  String get fsrsMetricsRmse;
+
+  /// No description provided for @fsrsGroupInitialStability.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial Stabilities (Again / Hard / Good / Easy)'**
+  String get fsrsGroupInitialStability;
+
+  /// No description provided for @fsrsGroupDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty Dynamics'**
+  String get fsrsGroupDifficulty;
+
+  /// No description provided for @fsrsGroupRecall.
+  ///
+  /// In en, this message translates to:
+  /// **'Recall Stability Factors'**
+  String get fsrsGroupRecall;
+
+  /// No description provided for @fsrsGroupForget.
+  ///
+  /// In en, this message translates to:
+  /// **'Forget Stability Factors'**
+  String get fsrsGroupForget;
+
+  /// No description provided for @fsrsGroupDecay.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjustments & Decay'**
+  String get fsrsGroupDecay;
+
+  /// No description provided for @fsrsWeightsCustomBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Weights'**
+  String get fsrsWeightsCustomBadge;
+
+  /// No description provided for @fsrsWeightsDefaultBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Weights'**
+  String get fsrsWeightsDefaultBadge;
 }
 
 class _AppLocalizationsDelegate

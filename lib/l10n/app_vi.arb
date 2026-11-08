@@ -621,5 +621,41 @@
   "syncHistoryTitle": "Nhật ký các phiên đồng bộ gần nhất",
   "noSyncHistory": "Chưa có phiên đồng bộ nào được ghi nhận.",
   "appTitle": "Flanki",
-  "themeZinc": "Chủ đề Zinc"
+  "themeZinc": "Chủ đề Zinc",
+  "fsrsOptimizerTitle": "Tối ưu hóa thuật toán FSRS",
+  "fsrsOptimizerSubtitle": "Huấn luyện 21 trọng số cá nhân hóa từ lịch sử ôn tập",
+  "fsrsOptimizerMinReviewsRequired": "Cần tối thiểu {min} lượt ôn tập (Hiện có: {count})",
+  "@fsrsOptimizerMinReviewsRequired": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fsrsOptimizerReady": "Sẵn sàng tối ưu ({count} lượt ôn tập khả dụng)",
+  "@fsrsOptimizerReady": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fsrsOptimizerStart": "Bắt đầu tối ưu",
+  "fsrsOptimizerOptimizing": "Đang mô phỏng lịch sử ôn tập & huấn luyện...",
+  "fsrsOptimizerApply": "Áp dụng trọng số mới",
+  "fsrsOptimizerReset": "Khôi phục mặc định",
+  "fsrsOptimizerSuccessToast": "Đã lưu và áp dụng trọng số FSRS tối ưu thành công!",
+  "fsrsOptimizerResetToast": "Đã khôi phục trọng số FSRS về mặc định ban đầu.",
+  "fsrsMetricsLogLoss": "Hàm mất mát (Log-Loss)",
+  "fsrsMetricsRmse": "Sai số dự đoán (RMSE)",
+  "fsrsGroupInitialStability": "Độ ổn định ban đầu (Again / Hard / Good / Easy)",
+  "fsrsGroupDifficulty": "Động lực độ khó",
+  "fsrsGroupRecall": "Hệ số ổn định khi nhớ",
+  "fsrsGroupForget": "Hệ số ổn định khi quên",
+  "fsrsGroupDecay": "Hệ số phạt/thưởng & Tốc độ quên",
+  "fsrsWeightsCustomBadge": "Trọng số cá nhân",
+  "fsrsWeightsDefaultBadge": "Trọng số mặc định"
 }

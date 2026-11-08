@@ -42,7 +42,7 @@ final class StudySettingsNotifierProvider
 }
 
 String _$studySettingsNotifierHash() =>
-    r'0e2af72eb0dea232b002ef4c362f505bcac4bc88';
+    r'457b87ae9d90842dd1ce78089909260e4d72e967';
 
 abstract class _$StudySettingsNotifier extends $Notifier<StudySettings> {
   StudySettings build();

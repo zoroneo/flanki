@@ -2082,4 +2082,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeZinc => 'Zinc Theme';
+
+  @override
+  String get fsrsOptimizerTitle => 'FSRS Algorithm Optimizer';
+
+  @override
+  String get fsrsOptimizerSubtitle =>
+      'Train personal weights from review history';
+
+  @override
+  String fsrsOptimizerMinReviewsRequired(int min, int count) {
+    return 'Requires at least $min review logs (Current: $count)';
+  }
+
+  @override
+  String fsrsOptimizerReady(int count) {
+    return 'Ready to optimize ($count review logs available)';
+  }
+
+  @override
+  String get fsrsOptimizerStart => 'Start Optimization';
+
+  @override
+  String get fsrsOptimizerOptimizing =>
+      'Simulating review history & training weights...';
+
+  @override
+  String get fsrsOptimizerApply => 'Apply Optimized Weights';
+
+  @override
+  String get fsrsOptimizerReset => 'Reset to Defaults';
+
+  @override
+  String get fsrsOptimizerSuccessToast =>
+      'Personalized FSRS weights applied successfully!';
+
+  @override
+  String get fsrsOptimizerResetToast =>
+      'FSRS weights restored to factory defaults.';
+
+  @override
+  String get fsrsMetricsLogLoss => 'Log-Loss (Cross-Entropy)';
+
+  @override
+  String get fsrsMetricsRmse => 'RMSE (Prediction Error)';
+
+  @override
+  String get fsrsGroupInitialStability =>
+      'Initial Stabilities (Again / Hard / Good / Easy)';
+
+  @override
+  String get fsrsGroupDifficulty => 'Difficulty Dynamics';
+
+  @override
+  String get fsrsGroupRecall => 'Recall Stability Factors';
+
+  @override
+  String get fsrsGroupForget => 'Forget Stability Factors';
+
+  @override
+  String get fsrsGroupDecay => 'Adjustments & Decay';
+
+  @override
+  String get fsrsWeightsCustomBadge => 'Custom Weights';
+
+  @override
+  String get fsrsWeightsDefaultBadge => 'Default Weights';
 }

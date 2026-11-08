@@ -117,7 +117,7 @@ class _GrammarPracticeScreenState extends ConsumerState<GrammarPracticeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(l10n.grammarUnitNotFound),
-              const SizedBox(height: 16),
+              AppGaps.v16,
               Button.outline(
                 onPressed: () => context.pop(),
                 child: Text(l10n.backButton),

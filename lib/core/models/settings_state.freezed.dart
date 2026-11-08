@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$StudySettings {
 
- bool get fsrsEnabled; double get desiredRetention; int get newCardsPerDay; int get maxReviewsPerDay; bool get reminderEnabled; int get reminderHour; int get reminderMinute; bool get streakSaverEnabled; bool get minimizeToTrayOnClose; bool get launchAtStartup;
+ bool get fsrsEnabled; double get desiredRetention; int get newCardsPerDay; int get maxReviewsPerDay; bool get reminderEnabled; int get reminderHour; int get reminderMinute; bool get streakSaverEnabled; bool get minimizeToTrayOnClose; bool get launchAtStartup; List<double>? get fsrsCustomParameters;
 /// Create a copy of StudySettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $StudySettingsCopyWith<StudySettings> get copyWith => _$StudySettingsCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as StudySettings;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StudySettings&&(identical(other.fsrsEnabled, _this.fsrsEnabled) || other.fsrsEnabled == _this.fsrsEnabled)&&(identical(other.desiredRetention, _this.desiredRetention) || other.desiredRetention == _this.desiredRetention)&&(identical(other.newCardsPerDay, _this.newCardsPerDay) || other.newCardsPerDay == _this.newCardsPerDay)&&(identical(other.maxReviewsPerDay, _this.maxReviewsPerDay) || other.maxReviewsPerDay == _this.maxReviewsPerDay)&&(identical(other.reminderEnabled, _this.reminderEnabled) || other.reminderEnabled == _this.reminderEnabled)&&(identical(other.reminderHour, _this.reminderHour) || other.reminderHour == _this.reminderHour)&&(identical(other.reminderMinute, _this.reminderMinute) || other.reminderMinute == _this.reminderMinute)&&(identical(other.streakSaverEnabled, _this.streakSaverEnabled) || other.streakSaverEnabled == _this.streakSaverEnabled)&&(identical(other.minimizeToTrayOnClose, _this.minimizeToTrayOnClose) || other.minimizeToTrayOnClose == _this.minimizeToTrayOnClose)&&(identical(other.launchAtStartup, _this.launchAtStartup) || other.launchAtStartup == _this.launchAtStartup));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StudySettings&&(identical(other.fsrsEnabled, _this.fsrsEnabled) || other.fsrsEnabled == _this.fsrsEnabled)&&(identical(other.desiredRetention, _this.desiredRetention) || other.desiredRetention == _this.desiredRetention)&&(identical(other.newCardsPerDay, _this.newCardsPerDay) || other.newCardsPerDay == _this.newCardsPerDay)&&(identical(other.maxReviewsPerDay, _this.maxReviewsPerDay) || other.maxReviewsPerDay == _this.maxReviewsPerDay)&&(identical(other.reminderEnabled, _this.reminderEnabled) || other.reminderEnabled == _this.reminderEnabled)&&(identical(other.reminderHour, _this.reminderHour) || other.reminderHour == _this.reminderHour)&&(identical(other.reminderMinute, _this.reminderMinute) || other.reminderMinute == _this.reminderMinute)&&(identical(other.streakSaverEnabled, _this.streakSaverEnabled) || other.streakSaverEnabled == _this.streakSaverEnabled)&&(identical(other.minimizeToTrayOnClose, _this.minimizeToTrayOnClose) || other.minimizeToTrayOnClose == _this.minimizeToTrayOnClose)&&(identical(other.launchAtStartup, _this.launchAtStartup) || other.launchAtStartup == _this.launchAtStartup)&&const DeepCollectionEquality().equals(other.fsrsCustomParameters, _this.fsrsCustomParameters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as StudySettings;
-  return Object.hash(runtimeType,_this.fsrsEnabled,_this.desiredRetention,_this.newCardsPerDay,_this.maxReviewsPerDay,_this.reminderEnabled,_this.reminderHour,_this.reminderMinute,_this.streakSaverEnabled,_this.minimizeToTrayOnClose,_this.launchAtStartup);
+  return Object.hash(runtimeType,_this.fsrsEnabled,_this.desiredRetention,_this.newCardsPerDay,_this.maxReviewsPerDay,_this.reminderEnabled,_this.reminderHour,_this.reminderMinute,_this.streakSaverEnabled,_this.minimizeToTrayOnClose,_this.launchAtStartup,const DeepCollectionEquality().hash(_this.fsrsCustomParameters));
 }
 
 @override
 String toString() {
   final _this = this as StudySettings;
-  return 'StudySettings(fsrsEnabled: ${_this.fsrsEnabled}, desiredRetention: ${_this.desiredRetention}, newCardsPerDay: ${_this.newCardsPerDay}, maxReviewsPerDay: ${_this.maxReviewsPerDay}, reminderEnabled: ${_this.reminderEnabled}, reminderHour: ${_this.reminderHour}, reminderMinute: ${_this.reminderMinute}, streakSaverEnabled: ${_this.streakSaverEnabled}, minimizeToTrayOnClose: ${_this.minimizeToTrayOnClose}, launchAtStartup: ${_this.launchAtStartup})';
+  return 'StudySettings(fsrsEnabled: ${_this.fsrsEnabled}, desiredRetention: ${_this.desiredRetention}, newCardsPerDay: ${_this.newCardsPerDay}, maxReviewsPerDay: ${_this.maxReviewsPerDay}, reminderEnabled: ${_this.reminderEnabled}, reminderHour: ${_this.reminderHour}, reminderMinute: ${_this.reminderMinute}, streakSaverEnabled: ${_this.streakSaverEnabled}, minimizeToTrayOnClose: ${_this.minimizeToTrayOnClose}, launchAtStartup: ${_this.launchAtStartup}, fsrsCustomParameters: ${_this.fsrsCustomParameters})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $StudySettingsCopyWith<$Res>  {
   factory $StudySettingsCopyWith(StudySettings value, $Res Function(StudySettings) _then) = _$StudySettingsCopyWithImpl;
 @useResult
 $Res call({
- bool fsrsEnabled, double desiredRetention, int newCardsPerDay, int maxReviewsPerDay, bool reminderEnabled, int reminderHour, int reminderMinute, bool streakSaverEnabled, bool minimizeToTrayOnClose, bool launchAtStartup
+ bool fsrsEnabled, double desiredRetention, int newCardsPerDay, int maxReviewsPerDay, bool reminderEnabled, int reminderHour, int reminderMinute, bool streakSaverEnabled, bool minimizeToTrayOnClose, bool launchAtStartup, List<double>? fsrsCustomParameters
 });
 
 
@@ -71,7 +71,7 @@ class _$StudySettingsCopyWithImpl<$Res>
 
 /// Create a copy of StudySettings
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? fsrsEnabled = null,Object? desiredRetention = null,Object? newCardsPerDay = null,Object? maxReviewsPerDay = null,Object? reminderEnabled = null,Object? reminderHour = null,Object? reminderMinute = null,Object? streakSaverEnabled = null,Object? minimizeToTrayOnClose = null,Object? launchAtStartup = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? fsrsEnabled = null,Object? desiredRetention = null,Object? newCardsPerDay = null,Object? maxReviewsPerDay = null,Object? reminderEnabled = null,Object? reminderHour = null,Object? reminderMinute = null,Object? streakSaverEnabled = null,Object? minimizeToTrayOnClose = null,Object? launchAtStartup = null,Object? fsrsCustomParameters = freezed,}) {
   return _then(StudySettings(
 fsrsEnabled: null == fsrsEnabled ? _self.fsrsEnabled : fsrsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,desiredRetention: null == desiredRetention ? _self.desiredRetention : desiredRetention // ignore: cast_nullable_to_non_nullable
@@ -83,7 +83,8 @@ as int,reminderMinute: null == reminderMinute ? _self.reminderMinute : reminderM
 as int,streakSaverEnabled: null == streakSaverEnabled ? _self.streakSaverEnabled : streakSaverEnabled // ignore: cast_nullable_to_non_nullable
 as bool,minimizeToTrayOnClose: null == minimizeToTrayOnClose ? _self.minimizeToTrayOnClose : minimizeToTrayOnClose // ignore: cast_nullable_to_non_nullable
 as bool,launchAtStartup: null == launchAtStartup ? _self.launchAtStartup : launchAtStartup // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,fsrsCustomParameters: freezed == fsrsCustomParameters ? _self.fsrsCustomParameters : fsrsCustomParameters // ignore: cast_nullable_to_non_nullable
+as List<double>?,
   ));
 }
 
@@ -168,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool fsrsEnabled,  double desiredRetention,  int newCardsPerDay,  int maxReviewsPerDay,  bool reminderEnabled,  int reminderHour,  int reminderMinute,  bool streakSaverEnabled,  bool minimizeToTrayOnClose,  bool launchAtStartup)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool fsrsEnabled,  double desiredRetention,  int newCardsPerDay,  int maxReviewsPerDay,  bool reminderEnabled,  int reminderHour,  int reminderMinute,  bool streakSaverEnabled,  bool minimizeToTrayOnClose,  bool launchAtStartup,  List<double>? fsrsCustomParameters)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StudySettings() when $default != null:
-return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_that.maxReviewsPerDay,_that.reminderEnabled,_that.reminderHour,_that.reminderMinute,_that.streakSaverEnabled,_that.minimizeToTrayOnClose,_that.launchAtStartup);case _:
+return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_that.maxReviewsPerDay,_that.reminderEnabled,_that.reminderHour,_that.reminderMinute,_that.streakSaverEnabled,_that.minimizeToTrayOnClose,_that.launchAtStartup,_that.fsrsCustomParameters);case _:
   return orElse();
 
 }
@@ -189,10 +190,10 @@ return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool fsrsEnabled,  double desiredRetention,  int newCardsPerDay,  int maxReviewsPerDay,  bool reminderEnabled,  int reminderHour,  int reminderMinute,  bool streakSaverEnabled,  bool minimizeToTrayOnClose,  bool launchAtStartup)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool fsrsEnabled,  double desiredRetention,  int newCardsPerDay,  int maxReviewsPerDay,  bool reminderEnabled,  int reminderHour,  int reminderMinute,  bool streakSaverEnabled,  bool minimizeToTrayOnClose,  bool launchAtStartup,  List<double>? fsrsCustomParameters)  $default,) {final _that = this;
 switch (_that) {
 case _StudySettings():
-return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_that.maxReviewsPerDay,_that.reminderEnabled,_that.reminderHour,_that.reminderMinute,_that.streakSaverEnabled,_that.minimizeToTrayOnClose,_that.launchAtStartup);case _:
+return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_that.maxReviewsPerDay,_that.reminderEnabled,_that.reminderHour,_that.reminderMinute,_that.streakSaverEnabled,_that.minimizeToTrayOnClose,_that.launchAtStartup,_that.fsrsCustomParameters);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +210,10 @@ return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool fsrsEnabled,  double desiredRetention,  int newCardsPerDay,  int maxReviewsPerDay,  bool reminderEnabled,  int reminderHour,  int reminderMinute,  bool streakSaverEnabled,  bool minimizeToTrayOnClose,  bool launchAtStartup)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool fsrsEnabled,  double desiredRetention,  int newCardsPerDay,  int maxReviewsPerDay,  bool reminderEnabled,  int reminderHour,  int reminderMinute,  bool streakSaverEnabled,  bool minimizeToTrayOnClose,  bool launchAtStartup,  List<double>? fsrsCustomParameters)?  $default,) {final _that = this;
 switch (_that) {
 case _StudySettings() when $default != null:
-return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_that.maxReviewsPerDay,_that.reminderEnabled,_that.reminderHour,_that.reminderMinute,_that.streakSaverEnabled,_that.minimizeToTrayOnClose,_that.launchAtStartup);case _:
+return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_that.maxReviewsPerDay,_that.reminderEnabled,_that.reminderHour,_that.reminderMinute,_that.streakSaverEnabled,_that.minimizeToTrayOnClose,_that.launchAtStartup,_that.fsrsCustomParameters);case _:
   return null;
 
 }
@@ -224,7 +225,7 @@ return $default(_that.fsrsEnabled,_that.desiredRetention,_that.newCardsPerDay,_t
 @JsonSerializable()
 
 class _StudySettings extends StudySettings {
-  const _StudySettings({this.fsrsEnabled = true, this.desiredRetention = AppConfig.defaultDesiredRetention, this.newCardsPerDay = AppConfig.defaultNewCardsPerDay, this.maxReviewsPerDay = AppConfig.defaultReviewsPerDay, this.reminderEnabled = true, this.reminderHour = AppConfig.defaultReminderHour, this.reminderMinute = AppConfig.defaultReminderMinute, this.streakSaverEnabled = true, this.minimizeToTrayOnClose = true, this.launchAtStartup = false}): super._();
+  const _StudySettings({this.fsrsEnabled = true, this.desiredRetention = AppConfig.defaultDesiredRetention, this.newCardsPerDay = AppConfig.defaultNewCardsPerDay, this.maxReviewsPerDay = AppConfig.defaultReviewsPerDay, this.reminderEnabled = true, this.reminderHour = AppConfig.defaultReminderHour, this.reminderMinute = AppConfig.defaultReminderMinute, this.streakSaverEnabled = true, this.minimizeToTrayOnClose = true, this.launchAtStartup = false,  List<double>? fsrsCustomParameters}): _fsrsCustomParameters = fsrsCustomParameters,super._();
   factory _StudySettings.fromJson(Map<String, dynamic> json) => _$StudySettingsFromJson(json);
 
 @override@JsonKey() final  bool fsrsEnabled;
@@ -237,6 +238,15 @@ class _StudySettings extends StudySettings {
 @override@JsonKey() final  bool streakSaverEnabled;
 @override@JsonKey() final  bool minimizeToTrayOnClose;
 @override@JsonKey() final  bool launchAtStartup;
+ final  List<double>? _fsrsCustomParameters;
+@override List<double>? get fsrsCustomParameters {
+  final value = _fsrsCustomParameters;
+  if (value == null) return null;
+  if (_fsrsCustomParameters is EqualUnmodifiableListView) return _fsrsCustomParameters;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of StudySettings
 /// with the given fields replaced by the non-null parameter values.
@@ -251,18 +261,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StudySettings&&(identical(other.fsrsEnabled, fsrsEnabled) || other.fsrsEnabled == fsrsEnabled)&&(identical(other.desiredRetention, desiredRetention) || other.desiredRetention == desiredRetention)&&(identical(other.newCardsPerDay, newCardsPerDay) || other.newCardsPerDay == newCardsPerDay)&&(identical(other.maxReviewsPerDay, maxReviewsPerDay) || other.maxReviewsPerDay == maxReviewsPerDay)&&(identical(other.reminderEnabled, reminderEnabled) || other.reminderEnabled == reminderEnabled)&&(identical(other.reminderHour, reminderHour) || other.reminderHour == reminderHour)&&(identical(other.reminderMinute, reminderMinute) || other.reminderMinute == reminderMinute)&&(identical(other.streakSaverEnabled, streakSaverEnabled) || other.streakSaverEnabled == streakSaverEnabled)&&(identical(other.minimizeToTrayOnClose, minimizeToTrayOnClose) || other.minimizeToTrayOnClose == minimizeToTrayOnClose)&&(identical(other.launchAtStartup, launchAtStartup) || other.launchAtStartup == launchAtStartup));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StudySettings&&(identical(other.fsrsEnabled, fsrsEnabled) || other.fsrsEnabled == fsrsEnabled)&&(identical(other.desiredRetention, desiredRetention) || other.desiredRetention == desiredRetention)&&(identical(other.newCardsPerDay, newCardsPerDay) || other.newCardsPerDay == newCardsPerDay)&&(identical(other.maxReviewsPerDay, maxReviewsPerDay) || other.maxReviewsPerDay == maxReviewsPerDay)&&(identical(other.reminderEnabled, reminderEnabled) || other.reminderEnabled == reminderEnabled)&&(identical(other.reminderHour, reminderHour) || other.reminderHour == reminderHour)&&(identical(other.reminderMinute, reminderMinute) || other.reminderMinute == reminderMinute)&&(identical(other.streakSaverEnabled, streakSaverEnabled) || other.streakSaverEnabled == streakSaverEnabled)&&(identical(other.minimizeToTrayOnClose, minimizeToTrayOnClose) || other.minimizeToTrayOnClose == minimizeToTrayOnClose)&&(identical(other.launchAtStartup, launchAtStartup) || other.launchAtStartup == launchAtStartup)&&const DeepCollectionEquality().equals(other.fsrsCustomParameters, _fsrsCustomParameters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,fsrsEnabled,desiredRetention,newCardsPerDay,maxReviewsPerDay,reminderEnabled,reminderHour,reminderMinute,streakSaverEnabled,minimizeToTrayOnClose,launchAtStartup);
+    return Object.hash(runtimeType,fsrsEnabled,desiredRetention,newCardsPerDay,maxReviewsPerDay,reminderEnabled,reminderHour,reminderMinute,streakSaverEnabled,minimizeToTrayOnClose,launchAtStartup,const DeepCollectionEquality().hash(_fsrsCustomParameters));
 }
 
 @override
 String toString() {
-    return 'StudySettings(fsrsEnabled: $fsrsEnabled, desiredRetention: $desiredRetention, newCardsPerDay: $newCardsPerDay, maxReviewsPerDay: $maxReviewsPerDay, reminderEnabled: $reminderEnabled, reminderHour: $reminderHour, reminderMinute: $reminderMinute, streakSaverEnabled: $streakSaverEnabled, minimizeToTrayOnClose: $minimizeToTrayOnClose, launchAtStartup: $launchAtStartup)';
+    return 'StudySettings(fsrsEnabled: $fsrsEnabled, desiredRetention: $desiredRetention, newCardsPerDay: $newCardsPerDay, maxReviewsPerDay: $maxReviewsPerDay, reminderEnabled: $reminderEnabled, reminderHour: $reminderHour, reminderMinute: $reminderMinute, streakSaverEnabled: $streakSaverEnabled, minimizeToTrayOnClose: $minimizeToTrayOnClose, launchAtStartup: $launchAtStartup, fsrsCustomParameters: $fsrsCustomParameters)';
 }
 
 
@@ -273,7 +283,7 @@ abstract mixin class _$StudySettingsCopyWith<$Res> implements $StudySettingsCopy
   factory _$StudySettingsCopyWith(_StudySettings value, $Res Function(_StudySettings) _then) = __$StudySettingsCopyWithImpl;
 @override @useResult
 $Res call({
- bool fsrsEnabled, double desiredRetention, int newCardsPerDay, int maxReviewsPerDay, bool reminderEnabled, int reminderHour, int reminderMinute, bool streakSaverEnabled, bool minimizeToTrayOnClose, bool launchAtStartup
+ bool fsrsEnabled, double desiredRetention, int newCardsPerDay, int maxReviewsPerDay, bool reminderEnabled, int reminderHour, int reminderMinute, bool streakSaverEnabled, bool minimizeToTrayOnClose, bool launchAtStartup, List<double>? fsrsCustomParameters
 });
 
 
@@ -290,7 +300,7 @@ class __$StudySettingsCopyWithImpl<$Res>
 
 /// Create a copy of StudySettings
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? fsrsEnabled = null,Object? desiredRetention = null,Object? newCardsPerDay = null,Object? maxReviewsPerDay = null,Object? reminderEnabled = null,Object? reminderHour = null,Object? reminderMinute = null,Object? streakSaverEnabled = null,Object? minimizeToTrayOnClose = null,Object? launchAtStartup = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? fsrsEnabled = null,Object? desiredRetention = null,Object? newCardsPerDay = null,Object? maxReviewsPerDay = null,Object? reminderEnabled = null,Object? reminderHour = null,Object? reminderMinute = null,Object? streakSaverEnabled = null,Object? minimizeToTrayOnClose = null,Object? launchAtStartup = null,Object? fsrsCustomParameters = freezed,}) {
   return _then(_StudySettings(
 fsrsEnabled: null == fsrsEnabled ? _self.fsrsEnabled : fsrsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,desiredRetention: null == desiredRetention ? _self.desiredRetention : desiredRetention // ignore: cast_nullable_to_non_nullable
@@ -302,7 +312,8 @@ as int,reminderMinute: null == reminderMinute ? _self.reminderMinute : reminderM
 as int,streakSaverEnabled: null == streakSaverEnabled ? _self.streakSaverEnabled : streakSaverEnabled // ignore: cast_nullable_to_non_nullable
 as bool,minimizeToTrayOnClose: null == minimizeToTrayOnClose ? _self.minimizeToTrayOnClose : minimizeToTrayOnClose // ignore: cast_nullable_to_non_nullable
 as bool,launchAtStartup: null == launchAtStartup ? _self.launchAtStartup : launchAtStartup // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,fsrsCustomParameters: freezed == fsrsCustomParameters ? _self._fsrsCustomParameters : fsrsCustomParameters // ignore: cast_nullable_to_non_nullable
+as List<double>?,
   ));
 }
 

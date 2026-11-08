@@ -64,6 +64,7 @@ class StudySessionNotifier extends _$StudySessionNotifier {
     if (settings.fsrsEnabled) {
       final fsrsService = FsrsEngineService(
         desiredRetention: settings.desiredRetention,
+        parameters: settings.fsrsCustomParameters,
       );
       scheduledCard = fsrsService.scheduleReview(current, rating);
     } else {

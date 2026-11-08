@@ -1537,5 +1537,41 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  "themeZinc": "Zinc Theme"
+  "themeZinc": "Zinc Theme",
+  "fsrsOptimizerTitle": "FSRS Algorithm Optimizer",
+  "fsrsOptimizerSubtitle": "Train personal weights from review history",
+  "fsrsOptimizerMinReviewsRequired": "Requires at least {min} review logs (Current: {count})",
+  "@fsrsOptimizerMinReviewsRequired": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fsrsOptimizerReady": "Ready to optimize ({count} review logs available)",
+  "@fsrsOptimizerReady": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fsrsOptimizerStart": "Start Optimization",
+  "fsrsOptimizerOptimizing": "Simulating review history & training weights...",
+  "fsrsOptimizerApply": "Apply Optimized Weights",
+  "fsrsOptimizerReset": "Reset to Defaults",
+  "fsrsOptimizerSuccessToast": "Personalized FSRS weights applied successfully!",
+  "fsrsOptimizerResetToast": "FSRS weights restored to factory defaults.",
+  "fsrsMetricsLogLoss": "Log-Loss (Cross-Entropy)",
+  "fsrsMetricsRmse": "RMSE (Prediction Error)",
+  "fsrsGroupInitialStability": "Initial Stabilities (Again / Hard / Good / Easy)",
+  "fsrsGroupDifficulty": "Difficulty Dynamics",
+  "fsrsGroupRecall": "Recall Stability Factors",
+  "fsrsGroupForget": "Forget Stability Factors",
+  "fsrsGroupDecay": "Adjustments & Decay",
+  "fsrsWeightsCustomBadge": "Custom Weights",
+  "fsrsWeightsDefaultBadge": "Default Weights"
 }
